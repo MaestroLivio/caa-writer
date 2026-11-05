@@ -66,6 +66,16 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
   risincronizza sull'unità reale invece di mostrare una copia vecchia.
 - Build: ProseMirror separato in un chunk dedicato (nessun avviso di dimensione).
 
+### Windows x64
+
+- Installer NSIS `CAA-Writer_0.5.1_windows-x64-setup.exe` (776 MiB) prodotto
+  con cross-compilazione sperimentale: `cargo-xwin` 0.23.1, LLVM di Homebrew e
+  `makensis`. Include `caa-writer.exe` (PE32+ x86-64), il runtime llama.cpp
+  Windows e il modello; 14.163 file.
+- Installer non firmato e **non eseguito su Windows**: la verifica è statica
+  (contenuto NSIS) più un avvio sotto Wine che si ferma sul bootstrapper
+  WebView2, assente in Wine. Nessun `.msi` (WiX richiede Windows).
+
 ### Test
 
 - 154 test Rust, 23 frontend.

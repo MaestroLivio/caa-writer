@@ -6,7 +6,7 @@
 |---|---|---|
 | macOS arm64 | **sì**, non firmato, avviato | `npm run tauri:build:mac-arm -- --bundles app,dmg` |
 | macOS x86-64 | **sì**, non firmato, avviato con Rosetta | `npm run tauri:build:mac-intel -- --bundles app,dmg` |
-| Windows x64 | no su questa macchina | workflow `.github/workflows/release.yml` su `windows-latest` |
+| Windows x64 | **sì**, cross-compilato e non firmato; non eseguito su Windows | `cargo-xwin` + LLVM + `makensis` su macOS (NSIS) |
 | Linux x64 | no su questa macchina | workflow `.github/workflows/release.yml` su `ubuntu-22.04` |
 | Android / ChromeOS | no | richiede SDK/NDK e `tauri android init` |
 
@@ -17,10 +17,16 @@ CAA-Writer_0.5.1_macos-arm64.dmg       786,75 MiB
 CAA-Writer_0.5.1_macos-arm64.app.zip   795,76 MiB
 CAA-Writer_0.5.1_macos-x64.dmg         787,15 MiB
 CAA-Writer_0.5.1_macos-x64.app.zip     796,19 MiB
+CAA-Writer_0.5.1_windows-x64-setup.exe 775,76 MiB (NSIS)
 SHA256SUMS-macos.txt
+SHA256SUMS-windows.txt
 ```
 
-I due bundle sono stati aperti: Apple Silicon nativamente, Intel tramite Rosetta 2. La dimensione
+I due bundle macOS sono stati aperti: Apple Silicon nativamente, Intel tramite Rosetta 2.
+L'installer Windows è stato controllato staticamente con 7-Zip: contiene `caa-writer.exe`
+(PE32+ x86-64), il runtime llama.cpp Windows, il modello e tutte le risorse (14.163 file).
+Non è stato eseguito su Windows: un tentativo sotto Wine si ferma sul bootstrapper WebView2.
+Non è prodotto il `.msi` perché WiX richiede un host Windows. La dimensione
 dipende dal modello GGUF in `resources/ai/`. Gli artefatti **non sono firmati né notarizzati**: al
 primo avvio macOS può richiedere «Apri comunque» dal menu contestuale del Finder.
 
