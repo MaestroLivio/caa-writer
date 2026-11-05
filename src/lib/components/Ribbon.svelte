@@ -12,6 +12,8 @@
     quickOptions: { id: string; label: string }[];
     quickAccess: string[];
     onToggleQuick: (id: string) => void;
+    quickLabels: boolean;
+    onToggleQuickLabels: () => void;
     onHome: () => void;
     docTitle: string;
     docPath: string | null;
@@ -19,6 +21,10 @@
     savedAt: string;
     mode: RibbonMode;
     onMode: (mode: RibbonMode) => void;
+    pinned: boolean;
+    onTogglePin: () => void;
+    topbarMinimized: boolean;
+    onToggleTopbar: () => void;
   }
 
   let {
@@ -30,6 +36,8 @@
     quickOptions,
     quickAccess,
     onToggleQuick,
+    quickLabels,
+    onToggleQuickLabels,
     onHome,
     docTitle,
     docPath,
@@ -37,6 +45,10 @@
     savedAt,
     mode,
     onMode,
+    pinned,
+    onTogglePin,
+    topbarMinimized,
+    onToggleTopbar,
   }: Props = $props();
 
   let root: HTMLElement | undefined = $state();
@@ -57,8 +69,12 @@
   // nasconde, ma le schede restano e un clic le riapre temporaneamente.
   const autoCompact = $derived(width < 1200);
   const autoHidden = $derived(width < 980);
+  const overlaid = $derived(
+    (mode === "hidden" && (temporaryExpanded || pinned)) ||
+      (mode === "compact" && autoHidden && temporaryExpanded)
+  );
   const effectiveMode = $derived(
-    temporaryExpanded
+    overlaid
       ? "full"
       : mode === "full" && autoCompact
         ? "compact"
@@ -71,6 +87,18 @@
     onTab(id);
     if (effectiveMode === "hidden") temporaryExpanded = true;
   }
+
+  // In modalità minimizzata il corpo è sovrapposto: un clic nel documento lo
+  // chiude, senza spostare il contenuto. Se l'utente ha bloccato il Ribbon con
+  // il doppio clic, resta aperto.
+  $effect(() => {
+    if (!overlaid || pinned) return;
+    const onDown = (event: MouseEvent) => {
+      if (root && !root.contains(event.target as Node)) temporaryExpanded = false;
+    };
+    window.addEventListener("mousedown", onDown);
+    return () => window.removeEventListener("mousedown", onDown);
+  });
 
   function run(command: RibbonCommand) {
     if (command.enabled === false) return;
@@ -133,7 +161,37 @@
   {/if}
 {/snippet}
 
-<div class="ribbon" bind:this={root} data-mode={effectiveMode}>
+<div
+  class="ribbon"
+  class:ribbon--overlay={overlaid}
+  bind:this={root}
+  data-mode={effectiveMode}
+  data-quick-labels={quickLabels ? "true" : "false"}
+>
+  {#if topbarMinimized}
+    <div
+      class="ribbon__slim"
+      role="toolbar"
+      aria-label="Barra superiore minimizzata"
+      tabindex="0"
+      ondblclick={onToggleTopbar}
+      title="Barra superiore minimizzata: doppio clic per ripristinarla"
+    >
+      <button
+        class="btn btn--ghost"
+        aria-label="Ripristina la barra superiore"
+        title="Ripristina la barra superiore"
+        onclick={onToggleTopbar}>⌄</button
+      >
+      <strong>{tabs.find((tab) => tab.id === activeTab)?.label ?? "CAA Writer"}</strong>
+      <div class="ribbon__quick" role="group" aria-label="Accesso rapido">
+        {#each quickCommands as command (command.id)}
+          {@render commandButton({ ...command, emphasis: "secondary" })}
+        {/each}
+      </div>
+      <button class="ribbon__slim-show" onclick={onToggleTopbar}>Mostra barra</button>
+    </div>
+  {:else}
   <div class="ribbon__docbar">
     <button class="btn btn--ghost ribbon__home" onclick={onHome} title="Torna alla schermata iniziale" aria-label="Torna alla schermata iniziale">⌂</button>
     <div class="ribbon__docmeta">
@@ -160,6 +218,10 @@
         </summary>
         <div class="ribbon__customize-panel">
           <p>Comandi sempre disponibili</p>
+          <label>
+            <input type="checkbox" checked={quickLabels} onchange={onToggleQuickLabels} />
+            Mostra le etichette
+          </label>
           {#each quickOptions as option (option.id)}
             <label>
               <input
@@ -196,6 +258,12 @@
         title="Nascondi il Ribbon"
         onclick={() => { temporaryExpanded = false; onMode("hidden"); }}>▦</button
       >
+      <button
+        class="btn btn--ghost"
+        title="Minimizza l'intera barra superiore"
+        aria-label="Minimizza l'intera barra superiore"
+        onclick={onToggleTopbar}>⌃</button
+      >
     </div>
   </div>
 
@@ -208,6 +276,11 @@
         class:ribbon__tab--contextual={tab.contextual}
         aria-selected={activeTab === tab.id}
         onclick={() => selectTab(tab.id)}
+        ondblclick={(event) => {
+          event.preventDefault();
+          onTogglePin();
+        }}
+        title={`${tab.label} · doppio clic per bloccare o sbloccare il Ribbon`}
       >{tab.label}</button>
     {/each}
     {#if effectiveMode === "hidden"}
@@ -236,5 +309,6 @@
         {/each}
       {/each}
     </div>
+  {/if}
   {/if}
 </div>

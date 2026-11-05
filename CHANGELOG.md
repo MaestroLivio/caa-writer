@@ -4,6 +4,51 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.4.0 — 2026-11-05
+
+### Workspace adattivo
+
+- Nuovo `WorkspaceLayoutManager` (`src/lib/workspace/layout.ts`): unico stato
+  reattivo e persistito con versione (`caa.workspace.v1`).
+- Ribbon completo, compatto e minimizzato; in minimizzato il corpo si apre
+  sovrapposto al documento e si chiude tornando a scrivere. Doppio clic sulla
+  scheda per bloccare/sbloccare, `Ctrl/Cmd+F1` per comprimere, preferenza
+  persistita.
+- Barra di accesso rapido personalizzabile, con opzione per mostrare solo le
+  icone o anche le etichette.
+- Pannello laterale ancorato, sovrapposto o ridotto a una barra verticale di
+  icone (Alternative, Ricerca, Impostazioni/IA, Studio). Larghezza 260–640 px,
+  trascinamento, frecce da tastiera, pulsanti comprimi/ancora e memoria della
+  larghezza.
+- Su finestre sotto 1100 px il pannello ancorato diventa temporaneamente
+  sovrapposto senza cambiare la preferenza; il binario delle icone è
+  sovrapposto e non riduce il documento.
+- Area documento realmente espandibile: la griglia si ricalcola, il foglio A4
+  mantiene le sue dimensioni, zoom e scorrimento vengono conservati.
+- Modalità **Concentrazione** distinta dallo schermo intero: nasconde Ribbon e
+  pannelli, lascia il documento centrale, mantiene scorciatoie e una barra
+  temporanea in alto; si esce con Esc o dal pulsante.
+- Preset incorporati: Scrittura, Ricerca pittogrammi, Impaginazione,
+  Presentazione, Concentrazione. Preset personalizzati salvabili e riapplicabili.
+- `Ctrl/Cmd+Shift+F` attiva/disattiva la concentrazione; lo schermo intero usa
+  le API native Tauri.
+
+### Test
+
+- 13 test frontend (selezione + workspace: limiti, persistenza, preset).
+- 151 test Rust invariati; build 0 errori/0 avvisi.
+- Verifica nel mock: compressione/espansione Ribbon, apertura temporanea,
+  doppio clic, pannello a icona, overlay, chiusura con ritorno al documento,
+  concentrazione ed Esc, preset, personalizzazione accesso rapido, persistenza
+  dopo ricarica.
+
+### Limiti
+
+- I pannelli flottanti liberamente spostabili non sono inclusi in questa
+  versione: sono coperti i modi ancorato, sovrapposto e compresso.
+- Pannelli flottanti, verifica con screen reader reali e build Windows/Linux
+  restano attività aperte.
+
 ## 0.3.0 — 2026-11-05
 
 ### Interfaccia Ribbon

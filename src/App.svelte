@@ -5,10 +5,12 @@
   import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
   import CaaEditor from "./lib/editor/CaaEditor.svelte";
   import SidePanel from "./lib/components/SidePanel.svelte";
+  import SidebarRail from "./lib/components/SidebarRail.svelte";
   import SettingsDialog from "./lib/components/SettingsDialog.svelte";
   import Ribbon from "./lib/components/Ribbon.svelte";
   import FindReplace from "./lib/components/FindReplace.svelte";
   import ReportDialog from "./lib/components/ReportDialog.svelte";
+  import PresetDialog from "./lib/components/PresetDialog.svelte";
   import LayoutPreview from "./lib/components/LayoutPreview.svelte";
   import Communicator from "./lib/components/Communicator.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
@@ -20,6 +22,18 @@
   import type { FormattingState } from "./lib/editor/formatting";
   import { emptyFormatting } from "./lib/editor/formatting";
   import type { RibbonCommand, RibbonGroup, RibbonMode, RibbonTab } from "./lib/ribbon/types";
+  import {
+    applyPreset as applyStoredWorkspacePreset,
+    clampSidebarWidth,
+    customPresets,
+    defaultQuickAccess,
+    presetNames,
+    resetWorkspace,
+    saveCurrentPreset,
+    updateWorkspace,
+    workspace,
+    type WorkspacePanel,
+  } from "./lib/workspace/layout";
   import {
     defaultSettings,
     type AiConfig,
@@ -94,47 +108,33 @@
   // Le impostazioni sono una finestra modale autonoma: non dipendono più
   // dall'apertura del pannello laterale, che restava chiuso o vuoto.
   let settingsOpen = $state(false);
-  // Larghezza del pannello laterale scelta dall'utente (280-680 px), ricordata
-  // tra le sessioni: il foglio si adatta allo spazio rimasto.
-  let panelWidth = $state(
-    typeof localStorage !== "undefined"
-      ? Math.min(680, Math.max(280, Number(localStorage.getItem("ui.panelWidth")) || 372))
-      : 372
-  );
   let sideIntent = $state<SideIntent | null>(null);
   let intentSeq = 0;
 
   let formatState = $state<FormattingState>({ ...emptyFormatting });
   let ribbonTab = $state("home");
-  let ribbonMode = $state<RibbonMode>(
-    typeof localStorage !== "undefined"
-      ? ((localStorage.getItem("ui.ribbonMode") as RibbonMode) ?? "full")
-      : "full"
-  );
-  let panelClosed = $state(false);
   let findOpen = $state(false);
   let report = $state<{ title: string; lines: string[] } | null>(null);
-  let zoom = $state(1);
-  let fullscreen = $state(false);
+  let focusBarVisible = $state(false);
+  let presetDialogOpen = $state(false);
+
+  const zoom = $derived($workspace.zoom);
+  const fullscreen = $derived($workspace.fullscreen);
+  const ribbonMode = $derived($workspace.ribbonMode);
+  const panelClosed = $derived($workspace.sidebarMode === "collapsed");
+  let windowWidth = $state(typeof window === "undefined" ? 1440 : window.innerWidth);
+  // Su finestre medie il pannello ancorato diventa temporaneamente sovrapposto,
+  // senza modificare la preferenza salvata.
+  const effectiveSidebarMode = $derived(
+    windowWidth < 1100 && $workspace.sidebarMode === "docked"
+      ? "overlay"
+      : $workspace.sidebarMode
+  );
   // Se la scheda contestuale non è più pertinente, si torna a Home.
   $effect(() => {
     const ids = ribbonTabs().map((tab) => tab.id);
     if (!ids.includes(ribbonTab)) ribbonTab = "home";
   });
-
-  const defaultQuickAccess = ["save", "undo", "redo", "search", "listen", "export"];
-  let quickAccess = $state<string[]>(
-    typeof localStorage !== "undefined"
-      ? (() => {
-          try {
-            const stored = JSON.parse(localStorage.getItem("ui.quickAccess") ?? "null");
-            return Array.isArray(stored) && stored.length ? (stored as string[]) : defaultQuickAccess;
-          } catch {
-            return defaultQuickAccess;
-          }
-        })()
-      : defaultQuickAccess
-  );
 
   // La modalità CAA automatica è attiva per impostazione predefinita: con
   // l'interruttore spento le associazioni restano memorizzate ma non si vedono.
@@ -240,6 +240,11 @@
 
   onMount(() => {
     if (!native) return;
+    if ($workspace.fullscreen) {
+      void getCurrentWindow()
+        .setFullscreen(true)
+        .catch(() => updateWorkspace({ fullscreen: false }));
+    }
     void (async () => {
       try {
         appInfo = await api.appInfo();
@@ -275,13 +280,37 @@
     })();
 
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && findOpen) {
-        findOpen = false;
-        return;
+      if (event.key === "Escape") {
+        if (findOpen) {
+          findOpen = false;
+          return;
+        }
+        if ($workspace.focusMode) {
+          updateWorkspace({ focusMode: false });
+          return;
+        }
       }
       const meta = event.metaKey || event.ctrlKey;
       if (!meta) return;
       const key = event.key.toLowerCase();
+      if (event.key === "F1") {
+        event.preventDefault();
+        if (event.shiftKey) {
+          withStageScroll(() =>
+            updateWorkspace({ topbarMinimized: !$workspace.topbarMinimized })
+          );
+        } else {
+          updateWorkspace({
+            ribbonMode: $workspace.ribbonMode === "hidden" ? "full" : "hidden",
+          });
+        }
+        return;
+      }
+      if (event.shiftKey && key === "f") {
+        event.preventDefault();
+        updateWorkspace({ focusMode: !$workspace.focusMode });
+        return;
+      }
       if (key === "s") {
         event.preventDefault();
         void saveDocument(event.shiftKey);
@@ -299,8 +328,13 @@
         printDocument();
       }
     };
+    const onResize = () => (windowWidth = window.innerWidth);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+    };
   });
 
   // ---------- Documento ----------
@@ -349,21 +383,11 @@
     settingsOpen = true;
   }
 
-  function clampPanel(width: number): number {
-    return Math.min(680, Math.max(280, width));
-  }
-
-  function rememberPanelWidth() {
-    try {
-      localStorage.setItem("ui.panelWidth", String(panelWidth));
-    } catch {
-      // Archiviazione non disponibile: la larghezza vale solo per questa sessione.
-    }
-  }
-
   function resizePanelBy(delta: number) {
-    panelWidth = clampPanel(panelWidth + delta);
-    rememberPanelWidth();
+    updateWorkspace({
+      sidebarWidth: clampSidebarWidth($workspace.sidebarWidth + delta),
+      sidebarMode: $workspace.sidebarMode === "collapsed" ? "docked" : $workspace.sidebarMode,
+    });
   }
 
   /// Trascinamento del bordo del pannello: nessuna operazione sul documento e
@@ -371,14 +395,16 @@
   function startPanelResize(event: PointerEvent) {
     event.preventDefault();
     const startX = event.clientX;
-    const startWidth = panelWidth;
+    const startWidth = $workspace.sidebarWidth;
     const move = (moveEvent: PointerEvent) => {
-      panelWidth = clampPanel(startWidth - (moveEvent.clientX - startX));
+      updateWorkspace({
+        sidebarWidth: clampSidebarWidth(startWidth - (moveEvent.clientX - startX)),
+        sidebarMode: "docked",
+      });
     };
     const stop = () => {
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerup", stop);
-      rememberPanelWidth();
     };
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", stop);
@@ -745,6 +771,8 @@
       // override bloccato, quindi la rianalisi la rispetta e aggiorna il resto.
       editor?.refreshParagraph(pid);
       toast(`Pittogramma impostato per «${token.surface}».`, "info");
+      // Il pannello sovrapposto è temporaneo: dopo la scelta torna al documento.
+      if (get(workspace).sidebarMode === "overlay") closeSidebar();
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
@@ -1170,16 +1198,72 @@
     ribbonTab = tab;
   }
 
+  /// I cambi di layout non devono far saltare lo scorrimento del documento.
+  function withStageScroll(action: () => void) {
+    const stage = document.querySelector(".stage") as HTMLElement | null;
+    const top = stage?.scrollTop ?? 0;
+    const left = stage?.scrollLeft ?? 0;
+    action();
+    if (stage) {
+      requestAnimationFrame(() => {
+        stage.scrollTop = top;
+        stage.scrollLeft = left;
+      });
+    }
+  }
+
   function setRibbonMode(mode: RibbonMode) {
-    ribbonMode = mode;
-    localStorage.setItem("ui.ribbonMode", mode);
+    withStageScroll(() => updateWorkspace({ ribbonMode: mode, ribbonPinned: false }));
   }
 
   function toggleQuickAccess(id: string) {
-    quickAccess = quickAccess.includes(id)
-      ? quickAccess.filter((item) => item !== id)
-      : [...quickAccess, id];
-    localStorage.setItem("ui.quickAccess", JSON.stringify(quickAccess));
+    const current = $workspace.quickAccess;
+    updateWorkspace({
+      quickAccess: current.includes(id)
+        ? current.filter((item) => item !== id)
+        : [...current, id],
+    });
+  }
+
+  function toggleQuickLabels() {
+    updateWorkspace({ quickLabels: !$workspace.quickLabels });
+  }
+
+  function openSidebar(tab: WorkspacePanel = $workspace.activeSidebarPanel) {
+    withStageScroll(() =>
+      updateWorkspace({
+        activeSidebarPanel: tab,
+        sidebarMode: $workspace.sidebarMode === "collapsed" ? "overlay" : $workspace.sidebarMode,
+      })
+    );
+    sideIntent = { tab, nonce: ++intentSeq };
+  }
+
+  function closeSidebar() {
+    withStageScroll(() => updateWorkspace({ sidebarMode: "collapsed" }));
+    editor?.focus();
+  }
+
+  function toggleSidebarDock() {
+    if (windowWidth < 1100) {
+      withStageScroll(() => updateWorkspace({ sidebarMode: "docked" }));
+      toast("Finestra stretta: il pannello resta sovrapposto finché non allarghi la finestra.", "info");
+      return;
+    }
+    withStageScroll(() =>
+      updateWorkspace({ sidebarMode: $workspace.sidebarMode === "docked" ? "overlay" : "docked" })
+    );
+  }
+
+  function toggleFocusMode() {
+    withStageScroll(() => updateWorkspace({ focusMode: !$workspace.focusMode }));
+  }
+
+  function applyWorkspacePreset(name: string) {
+    if (!name) return;
+    withStageScroll(() => applyStoredWorkspacePreset(name));
+    sideIntent = { tab: get(workspace).activeSidebarPanel, nonce: ++intentSeq };
+    toast(`Area di lavoro «${name}» applicata.`, "info");
   }
 
   function quickCatalog(): RibbonCommand[] {
@@ -1198,7 +1282,7 @@
       cmd("export", "Esporta PDF", "printer", printDocument),
       cmd("find-replace", "Trova e sostituisci", "replace", openFind),
       cmd("word-count", "Conteggio parole", "calculator", showWordCount),
-      cmd("panel", "Pannello laterale", "panel-right", () => (panelClosed = !panelClosed)),
+      cmd("panel", "Pannello laterale", "panel-right", () => (panelClosed ? openSidebar() : closeSidebar())),
       cmd("touch", "Modalità touch", "touchpad", () => patchSettings({ touch_mode: !settings.touch_mode }), {
         active: settings.touch_mode,
       }),
@@ -1209,6 +1293,9 @@
         active: settings.auto_caa,
       }),
       cmd("refresh", "Rivaluta documento", "refresh", () => editor?.refreshAll()),
+      cmd("focus", "Concentrazione", "eye", toggleFocusMode, {
+        active: $workspace.focusMode,
+      }),
     ];
   }
 
@@ -1229,18 +1316,19 @@
       { id: "fullscreen", label: "Schermo intero" },
       { id: "auto-caa", label: "CAA automatica" },
       { id: "refresh", label: "Rivaluta documento" },
+      { id: "focus", label: "Concentrazione" },
     ];
   }
 
   function quickCommands(): RibbonCommand[] {
     const catalog = new Map(quickCatalog().map((command) => [command.id, command]));
-    return quickAccess
+    return $workspace.quickAccess
       .map((id) => catalog.get(id))
       .filter((command): command is RibbonCommand => Boolean(command));
   }
 
   function setZoom(value: number) {
-    zoom = Math.min(1.8, Math.max(0.5, Math.round(value * 100) / 100));
+    updateWorkspace({ zoom: Math.min(1.8, Math.max(0.5, Math.round(value * 100) / 100)) });
   }
 
   function fitWidth() {
@@ -1257,7 +1345,7 @@
       const current = getCurrentWindow();
       const next = !(await current.isFullscreen());
       await current.setFullscreen(next);
-      fullscreen = next;
+      updateWorkspace({ fullscreen: next });
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
@@ -1269,12 +1357,18 @@
       toast("Seleziona una parola nel testo, poi cerca un pittogramma.", "warn");
       return;
     }
-    panelClosed = false;
+    updateWorkspace({
+      activeSidebarPanel: "cerca",
+      sidebarMode: $workspace.sidebarMode === "collapsed" ? "overlay" : $workspace.sidebarMode,
+    });
     sideIntent = { tab: "cerca", search: word, ai, nonce: ++intentSeq };
   }
 
   function openPanelTab(tab: SideTab) {
-    panelClosed = false;
+    updateWorkspace({
+      activeSidebarPanel: tab,
+      sidebarMode: $workspace.sidebarMode === "collapsed" ? "overlay" : $workspace.sidebarMode,
+    });
     sideIntent = { tab, nonce: ++intentSeq };
   }
 
@@ -2023,9 +2117,41 @@
           ]),
           group("panels", "Pannelli", [
             toggle("panel-toggle", "Pannello laterale", "panel-right", !panelClosed, () =>
-              (panelClosed = !panelClosed)
+              (panelClosed ? openSidebar() : closeSidebar())
             ),
             cmd("panel-settings", "Proprietà", "settings", () => openPanelTab("impostazioni")),
+          ]),
+          group("workspace", "Area di lavoro", [
+            select(
+              "workspace-preset",
+              "Preset",
+              $workspace.preset,
+              [
+                { value: "", label: "Personalizzato" },
+                ...(() => {
+                  void $customPresets;
+                  return presetNames().map((name) => ({ value: name, label: name }));
+                })(),
+              ],
+              (value) => applyWorkspacePreset(value),
+              { width: "170px" }
+            ),
+            cmd("save-workspace", "Salva preset", "save", () => (presetDialogOpen = true)),
+            cmd("reset-workspace", "Reimposta area", "refresh", () => {
+              resetWorkspace();
+              toast("Area di lavoro ripristinata.", "info");
+            }),
+            toggle("focus-mode", "Concentrazione", "eye", $workspace.focusMode, toggleFocusMode, {
+              shortcut: "Ctrl+Shift+F",
+            }),
+            toggle(
+              "topbar-minimized",
+              "Minimizza barra superiore",
+              "chevron-up",
+              $workspace.topbarMinimized,
+              () => withStageScroll(() => updateWorkspace({ topbarMinimized: !$workspace.topbarMinimized })),
+              { shortcut: "Ctrl+Shift+F1" }
+            ),
           ]),
           group("modes", "Modalità", [
             toggle("touch-mode", "Modalità touch", "touchpad", settings.touch_mode, () =>
@@ -2131,7 +2257,22 @@
     onExit={() => (view = "home")}
   />
 {:else}
-<div class="app">
+<div class="app" class:app--focus={$workspace.focusMode}>
+  {#if $workspace.focusMode}
+    <div class="focus-zone" role="presentation" onmouseenter={() => (focusBarVisible = true)}>
+      {#if focusBarVisible}
+        <div class="focus-bar" role="toolbar" aria-label="Comandi modalità concentrazione">
+          <span>Concentrazione</span>
+          <button class="btn" onclick={() => void saveDocument(false)}>Salva</button>
+          <button class="btn" onclick={speakParagraph}>Ascolta</button>
+          <button class="btn" onclick={() => (findOpen = true)}>Cerca</button>
+          <button class="btn" onclick={() => (view = "home")}>Esci</button>
+          <button class="btn btn--solid" onclick={toggleFocusMode}>Esci da concentrazione (Esc)</button>
+          <button class="btn btn--ghost" aria-label="Nascondi la barra" onclick={() => (focusBarVisible = false)}>×</button>
+        </div>
+      {/if}
+    </div>
+  {/if}
   <Ribbon
     tabs={ribbonTabs()}
     activeTab={ribbonTab}
@@ -2139,8 +2280,10 @@
     fileCommands={fileCommands()}
     quickCommands={quickCommands()}
     quickOptions={quickOptions()}
-    quickAccess={quickAccess}
+    quickAccess={$workspace.quickAccess}
     onToggleQuick={toggleQuickAccess}
+    quickLabels={$workspace.quickLabels}
+    onToggleQuickLabels={toggleQuickLabels}
     onHome={() => (view = "home")}
     docTitle={docTitle}
     docPath={docPath}
@@ -2148,6 +2291,10 @@
     savedAt={autoSavedAt ?? ""}
     mode={ribbonMode}
     onMode={setRibbonMode}
+    pinned={$workspace.ribbonPinned}
+    onTogglePin={() => updateWorkspace({ ribbonPinned: !$workspace.ribbonPinned })}
+    topbarMinimized={$workspace.topbarMinimized}
+    onToggleTopbar={() => withStageScroll(() => updateWorkspace({ topbarMinimized: !$workspace.topbarMinimized }))}
   />
   {#if findOpen}
     <FindReplace
@@ -2308,52 +2455,68 @@
       />
     {/if}
 
-    <div class="panel-wrap" style={`width:${panelWidth}px`}>
-      <button
-        type="button"
-        class="panel-resizer"
-        aria-label="Ridimensiona il pannello laterale con le frecce"
-        title="Trascina per ridimensionare il pannello (frecce con la tastiera)"
-        onpointerdown={startPanelResize}
-        onkeydown={(event) => {
-          if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            resizePanelBy(16);
-          } else if (event.key === "ArrowRight") {
-            event.preventDefault();
-            resizePanelBy(-16);
-          }
-        }}
-      ></button>
-      <SidePanel
-        bind:closed={panelClosed}
-        {selected}
-      {settings}
-      {appInfo}
-      {stats}
-      {packs}
-      {voices}
-      {aiStatus}
-      {preferences}
-      {templates}
-      intent={sideIntent}
-      onSwitchTab={() => {}}
-      onApplyAlternative={applyAlternative}
-      onSaveGlobalPreference={(alternative) => savePreference(alternative, null)}
-      onSaveContextPreference={(alternative, context) => savePreference(alternative, context)}
-      onResetUnit={resetUnit}
-      onUpdateSettings={patchSettings}
-      onImportSvg={importSvg}
-      onSpeak={speak}
-      onSetAiConfig={setAiConfig}
-      onStatusChange={refreshAiStatus}
-      onGenerateResource={generateResource}
-      onPrintResource={printResource}
-      onToast={toast}
-      onClearHistory={clearHistory}
-      onSetUnitState={(patch) => void setUnitState(patch)}
-    />
-    </div>
+    {#if effectiveSidebarMode === "collapsed"}
+      <SidebarRail
+        activePanel={$workspace.activeSidebarPanel}
+        onOpen={(panel) => openSidebar(panel)}
+      />
+    {:else}
+      {#if effectiveSidebarMode === "overlay"}
+        <button class="panel-backdrop" aria-label="Chiudi pannello laterale" onclick={closeSidebar}></button>
+      {/if}
+      <div
+        class="panel-wrap"
+        class:panel-wrap--overlay={effectiveSidebarMode === "overlay"}
+        style={`width:${$workspace.sidebarWidth}px`}
+      >
+        <button
+          type="button"
+          class="panel-resizer"
+          aria-label="Ridimensiona il pannello laterale con le frecce"
+          title="Trascina per ridimensionare il pannello (frecce con la tastiera)"
+          onpointerdown={startPanelResize}
+          onkeydown={(event) => {
+            if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              resizePanelBy(16);
+            } else if (event.key === "ArrowRight") {
+              event.preventDefault();
+              resizePanelBy(-16);
+            }
+          }}
+        ></button>
+        <SidePanel
+          {selected}
+          {settings}
+          {appInfo}
+          {stats}
+          {packs}
+          {voices}
+          {aiStatus}
+          {preferences}
+          {templates}
+          intent={sideIntent}
+          overlay={effectiveSidebarMode === "overlay"}
+          onCollapse={closeSidebar}
+          onToggleDock={toggleSidebarDock}
+          onSwitchTab={(tab) => updateWorkspace({ activeSidebarPanel: tab })}
+          onApplyAlternative={applyAlternative}
+          onSaveGlobalPreference={(alternative) => savePreference(alternative, null)}
+          onSaveContextPreference={(alternative, context) => savePreference(alternative, context)}
+          onResetUnit={resetUnit}
+          onUpdateSettings={patchSettings}
+          onImportSvg={importSvg}
+          onSpeak={speak}
+          onSetAiConfig={setAiConfig}
+          onStatusChange={refreshAiStatus}
+          onGenerateResource={generateResource}
+          onPrintResource={printResource}
+          onToast={toast}
+          onClearHistory={clearHistory}
+          onSetUnitState={(patch) => void setUnitState(patch)}
+        />
+      </div>
+    {/if}
   </div>
 
 </div>
@@ -2397,6 +2560,16 @@
     onClearHistory={clearHistory}
     onToast={toast}
     onClose={() => (settingsOpen = false)}
+  />
+{/if}
+
+{#if presetDialogOpen}
+  <PresetDialog
+    onSave={(name) => {
+      saveCurrentPreset(name);
+      toast(`Preset «${name}» salvato.`, "info");
+    }}
+    onClose={() => (presetDialogOpen = false)}
   />
 {/if}
 

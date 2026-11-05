@@ -15,5 +15,11 @@ export default defineConfig({
     target: "es2021",
     sourcemap: false,
     outDir: "dist",
+    // Le icone sono molte: separarle evita un unico chunk oltre i 500 kB.
+    rollupOptions: {
+      output: {
+        manualChunks: { icons: ["lucide"] },
+      },
+    },
   },
 });

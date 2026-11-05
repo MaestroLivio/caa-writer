@@ -108,6 +108,23 @@ dell'app. Tipi di controllo: pulsante, `select`, `color`; stati `active`, `enabl
 - Un comando non implementato non va aggiunto come pulsante attivo: va omesso oppure disabilitato
   con `tooltip` esplicativo.
 
+### 4.0.1 WorkspaceLayoutManager
+
+`src/lib/workspace/layout.ts` è l'unica fonte per la disposizione dell'ambiente:
+`ribbonMode`, `ribbonPinned`, `sidebarMode` (`docked`/`overlay`/`collapsed`),
+`sidebarWidth`/`sidebarLastWidth`, pannello attivo, `focusMode`, `fullscreen`,
+accesso rapido, zoom e preset. È uno store Svelte persistito con chiave
+`caa.workspace.v1`; un formato con `version: 1` permette migrazioni esplicite.
+I preset personalizzati stanno in `caa.workspace.presets.v1`.
+
+- Il pannello laterale usa 260–640 px; il separatore è un `button` con frecce
+  da tastiera. Larghezza e modalità sopravvivono al riavvio.
+- Sotto 1100 px il pannello ancorato è reso sovrapposto solo visivamente; la
+  preferenza salvata non cambia. Lo stesso vale per il Ribbon sotto 1200/980 px.
+- La modalità Concentrazione è distinta dallo schermo intero: nasconde Ribbon e
+  pannelli, mantiene l'editor e le scorciatoie, esce con Esc.
+- I pannelli flottanti liberamente spostabili non sono implementati.
+
 ### 4.1 Affinità della parola (`word_affinities`)
 
 `Engine::word_affinities(word, pack_id, commercial_only)` risponde alla domanda «quali pittogrammi

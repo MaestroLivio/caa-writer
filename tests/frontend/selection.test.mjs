@@ -8,7 +8,7 @@ import {
   tokenAtOffset,
   tokenForSelection,
   tokenInRange,
-} from "../../.test-build/selection.js";
+} from "../../.test-build/editor/selection.js";
 
 const tokens = [
   { index: 0, surface: "Io", start: 0, end: 2 },
