@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { tick } from "svelte";
   import RibbonIcon from "./RibbonIcon.svelte";
   import { ribbonIcons } from "../ribbon/icons";
-  import type { RibbonCommand, RibbonMode, RibbonTab } from "../ribbon/types";
+  import type { RibbonCommand, RibbonGroup, RibbonMode, RibbonTab } from "../ribbon/types";
 
   interface Props {
     tabs: RibbonTab[];
@@ -54,6 +55,12 @@
   let root: HTMLElement | undefined = $state();
   let width = $state(1440);
   let temporaryExpanded = $state(false);
+  let bodyEl: HTMLDivElement | undefined = $state();
+  let scrollLeft = $state(0);
+  let bodyWidth = $state(0);
+  let bodyScrollWidth = $state(0);
+  let openGroup = $state<RibbonGroup | null>(null);
+  let menuStyle = $state("");
 
   $effect(() => {
     if (!root) return;
@@ -83,8 +90,12 @@
           : mode
   );
 
+  let switching = $state(false);
+
   function selectTab(id: string) {
     onTab(id);
+    switching = true;
+    window.setTimeout(() => (switching = false), 220);
     if (effectiveMode === "hidden") temporaryExpanded = true;
   }
 
@@ -104,6 +115,72 @@
     if (command.enabled === false) return;
     command.execute?.();
   }
+
+  function visibleCount(group: RibbonGroup): number {
+    const requested = group.visible ?? (effectiveMode === "compact" ? 3 : 5);
+    return effectiveMode === "compact" ? Math.min(requested, 3) : requested;
+  }
+
+  function visibleCommands(group: RibbonGroup): RibbonCommand[] {
+    return group.commands.slice(0, visibleCount(group));
+  }
+
+  function overflowCommands(group: RibbonGroup): RibbonCommand[] {
+    return group.commands.slice(visibleCount(group));
+  }
+
+  function updateScroll() {
+    if (!bodyEl) return;
+    scrollLeft = bodyEl.scrollLeft;
+    bodyWidth = bodyEl.clientWidth;
+    bodyScrollWidth = bodyEl.scrollWidth;
+  }
+
+  function scrollBy(delta: number) {
+    bodyEl?.scrollBy({ left: delta, behavior: "smooth" });
+  }
+
+  function openMenu(group: RibbonGroup, event: MouseEvent) {
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const menuWidth = 300;
+    const left = Math.max(8, Math.min(window.innerWidth - menuWidth - 8, rect.left));
+    const top = Math.min(window.innerHeight - 80, rect.bottom + 4);
+    menuStyle = `left:${Math.round(left)}px; top:${Math.round(top)}px; width:${menuWidth}px`;
+    openGroup = group;
+    void tick().then(() => {
+      const first = document.querySelector<HTMLElement>(".ribbon-menu button, .ribbon-menu select");
+      first?.focus();
+    });
+  }
+
+  function closeMenu() {
+    openGroup = null;
+  }
+
+  const canScrollLeft = $derived(scrollLeft > 2);
+  const canScrollRight = $derived(scrollLeft + bodyWidth < bodyScrollWidth - 2);
+
+  $effect(() => {
+    // Ricalcola la disponibilità di scorrimento quando cambiano scheda,
+    // modalità, larghezza o numero di comandi.
+    void activeTab;
+    void effectiveMode;
+    void width;
+    void tabs;
+    requestAnimationFrame(updateScroll);
+  });
+
+  $effect(() => {
+    if (!openGroup) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMenu();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 </script>
 
 {#snippet commandButton(command: RibbonCommand)}
@@ -295,18 +372,107 @@
   </div>
 
   {#if effectiveMode !== "hidden"}
-    <div class="ribbon__body">
-      {#each tabs.filter((tab) => tab.id === activeTab) as tab (tab.id)}
-        {#each tab.groups as group (group.id)}
-          <section class="ribbon-group" aria-label={group.label}>
-            <div class="ribbon-group__commands">
-              {#each group.commands as command (command.id)}
-                {@render control(command)}
-              {/each}
-            </div>
-            <div class="ribbon-group__label">{group.label}</div>
-          </section>
+    <div class="ribbon__bodywrap">
+      {#if canScrollLeft}
+        <button
+          class="ribbon__scroll ribbon__scroll--left"
+          aria-label="Scorri il Ribbon a sinistra"
+          title="Scorri a sinistra"
+          onclick={() => scrollBy(-180)}>‹</button
+        >
+      {/if}
+      <div
+        class="ribbon__body"
+        class:ribbon__body--switch={switching}
+        bind:this={bodyEl}
+        onscroll={updateScroll}
+        onwheel={(event) => {
+          if (bodyScrollWidth <= bodyWidth) return;
+          const delta = event.deltaX || event.deltaY;
+          if (delta) {
+            event.preventDefault();
+            bodyEl!.scrollLeft += delta;
+          }
+        }}
+        onkeydown={(event) => {
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            scrollBy(-120);
+          } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            scrollBy(120);
+          } else if (event.key === "Home") {
+            event.preventDefault();
+            bodyEl?.scrollTo({ left: 0, behavior: "smooth" });
+          } else if (event.key === "End") {
+            event.preventDefault();
+            bodyEl?.scrollTo({ left: bodyScrollWidth, behavior: "smooth" });
+          }
+        }}
+        tabindex="0"
+        role="toolbar"
+        aria-label="Comandi della scheda attiva"
+      >
+        {#each tabs.filter((tab) => tab.id === activeTab) as tab (tab.id)}
+          {#each tab.groups as group (group.id)}
+            <section class="ribbon-group" aria-label={group.label}>
+              <div class="ribbon-group__commands">
+                {#each visibleCommands(group) as command (command.id)}
+                  {@render control(command)}
+                {/each}
+                {#if overflowCommands(group).length > 0}
+                  <button
+                    class="ribbon-btn ribbon-btn--more"
+                    aria-label={`Altri comandi: ${group.label}`}
+                    title={`Altri comandi di ${group.label} (${overflowCommands(group).length})`}
+                    aria-haspopup="menu"
+                    onclick={(event) => openMenu(group, event)}
+                  >
+                    <RibbonIcon node={ribbonIcons.ellipsis} size={17} />
+                    <span class="ribbon-btn__label">Altri</span>
+                  </button>
+                {/if}
+              </div>
+              <div class="ribbon-group__label">{group.label}</div>
+            </section>
+          {/each}
         {/each}
+      </div>
+      {#if canScrollRight}
+        <button
+          class="ribbon__scroll ribbon__scroll--right"
+          aria-label="Scorri il Ribbon a destra"
+          title="Scorri a destra"
+          onclick={() => scrollBy(180)}>›</button
+        >
+      {/if}
+    </div>
+  {/if}
+  {#if openGroup}
+    <button class="ribbon-menu-backdrop" aria-label="Chiudi il menu" onclick={closeMenu}></button>
+    <div class="ribbon-menu" style={menuStyle} role="menu" aria-label={`Altri comandi: ${openGroup.label}`}>
+      <p class="ribbon-menu__title">{openGroup.label}</p>
+      {#each overflowCommands(openGroup) as command (command.id)}
+        {#if command.kind === "select" || command.kind === "color"}
+          {@render control(command)}
+        {:else}
+          {@const Icon = command.icon ? ribbonIcons[command.icon as keyof typeof ribbonIcons] : null}
+          <button
+            type="button"
+            class="ribbon-menu__item"
+            role="menuitem"
+            disabled={command.enabled === false}
+            title={command.tooltip ?? command.label}
+            onclick={() => {
+              run(command);
+              closeMenu();
+            }}
+          >
+            {#if Icon}<RibbonIcon node={Icon} size={16} />{/if}
+            <span>{command.label}</span>
+            {#if command.shortcut}<span class="ribbon-menu__shortcut">{command.shortcut}</span>{/if}
+          </button>
+        {/if}
       {/each}
     </div>
   {/if}

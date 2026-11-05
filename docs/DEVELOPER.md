@@ -108,6 +108,32 @@ dell'app. Tipi di controllo: pulsante, `select`, `color`; stati `active`, `enabl
 - Un comando non implementato non va aggiunto come pulsante attivo: va omesso oppure disabilitato
   con `tooltip` esplicativo.
 
+### 4.0.2 Associazioni dei pittogrammi
+
+`SidePanel` espone l'ambito in `WorkspaceLayout.associationScope`:
+`occurrence` (predefinito), `document`, `global`. `App.svelte` applica il simbolo
+con un unico percorso: `set_document_override` per l'occorrenza, override per
+tutte le unità equivalenti per `document`, `set_preference` con chiave
+`concept:<id>` per `global`. `src/lib/association/scope.ts` decide le occorrenze
+equivalenti: concetto se noto, altrimenti lemma; le unità bloccate non vengono
+toccate.
+
+La preferenza globale viene cercata in `Engine::preferences_for` con la chiave
+`concept:<id>` prima della preferenza globale generica, così «penna» strumento e
+«penna» piuma restano distinti. L'applicazione aggiorna subito i token e poi
+chiama `refreshParagraph`, che rilegge l'override dal database. Dopo
+un'applicazione `Ctrl/Cmd+Z` annulla l'ultima associazione (e
+`Ctrl/Cmd+Shift+Z` la riapplica) finché non si modifica il testo; una modifica
+del testo riporta l'annullamento a ProseMirror.
+
+### 4.0.3 Animazioni
+
+`settings.animations` (`full`/`reduced`/`off`) imposta `data-animations` su
+`<html>`. Le durate sono variabili CSS (`--anim-hover`, `--anim-menu`,
+`--anim-tab`, `--anim-panel`, `--anim-chip`) e `prefers-reduced-motion` le
+riduce. Il chip appena applicato riceve `caa-chip--applied`; la digitazione
+normale non anima i chip.
+
 ### 4.0.1 WorkspaceLayoutManager
 
 `src/lib/workspace/layout.ts` è l'unica fonte per la disposizione dell'ambiente:

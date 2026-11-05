@@ -1321,6 +1321,19 @@ impl Engine {
             }
         }
 
+        // Preferenza legata al concetto: «penna» strumento e «penna» piuma
+        // restano associazioni distinte. La chiave usa il concetto, non solo
+        // la stringa del lemma.
+        for concept_id in &token.concepts {
+            let key = format!("concept:{concept_id}");
+            if let Some(pref) = db
+                .preference("global", &lemma, &key)
+                .map_err(|e| e.to_string())?
+            {
+                return Ok(Some(pref));
+            }
+        }
+
         db.preference("global", &lemma, "")
             .map_err(|e| e.to_string())
     }
@@ -2837,6 +2850,46 @@ mod tests {
                 .map(|candidate| candidate.symbol.label.as_str())
                 .collect::<Vec<_>>()
         );
+    }
+
+    #[test]
+    fn concept_specific_preference_applies_only_to_that_concept() {
+        let engine = test_engine();
+        {
+            let db = engine.db().unwrap();
+            db.upsert_preference(&Preference {
+                scope: "global".to_string(),
+                lemma: "capire".to_string(),
+                context_key: Some("concept:action.understand".to_string()),
+                symbol_id: "arasaac.picto.16659".to_string(),
+                concept_id: Some("action.understand".to_string()),
+                locked: false,
+                created_at: now_iso(),
+            })
+            .unwrap();
+            db.upsert_preference(&Preference {
+                scope: "global".to_string(),
+                lemma: "capire".to_string(),
+                context_key: Some("concept:other.meaning".to_string()),
+                symbol_id: "core.action.eat".to_string(),
+                concept_id: Some("other.meaning".to_string()),
+                locked: false,
+                created_at: now_iso(),
+            })
+            .unwrap();
+        }
+        let opts = SymbolizeOptions {
+            paragraph_id: "p1".to_string(),
+            ..Default::default()
+        };
+        let result = engine.symbolize("Vorrei capire.", &opts).unwrap();
+        let token = result
+            .tokens
+            .iter()
+            .find(|token| token.surface.eq_ignore_ascii_case("capire"))
+            .expect("token capire");
+        assert_eq!(token.symbol_id.as_deref(), Some("arasaac.picto.16659"));
+        assert_ne!(token.symbol_id.as_deref(), Some("core.action.eat"));
     }
 
     #[test]

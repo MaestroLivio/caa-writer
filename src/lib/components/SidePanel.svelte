@@ -1,6 +1,7 @@
 <script lang="ts">
   import { api, isTauri } from "../api";
   import ModelManager from "./ModelManager.svelte";
+  import type { AssociationScope } from "../workspace/layout";
   import type {
     AiConfig,
     AiStatus,
@@ -46,6 +47,9 @@
     overlay?: boolean;
     onCollapse?: () => void;
     onToggleDock?: () => void;
+    /// Ambito scelto per il prossimo pittogramma applicato.
+    associationScope: AssociationScope;
+    onAssociationScope: (scope: AssociationScope) => void;
     onSwitchTab: (tab: Tab) => void;
     onApplyAlternative: (alternative: Alternative) => Promise<void>;
     onSaveGlobalPreference: (alternative: Alternative) => Promise<void>;
@@ -82,6 +86,8 @@
     overlay = false,
     onCollapse,
     onToggleDock,
+    associationScope,
+    onAssociationScope,
     onSwitchTab,
     onApplyAlternative,
     onSaveGlobalPreference,
@@ -436,6 +442,28 @@
   {/if}
 {/snippet}
 
+{#snippet scopeChoice()}
+  <div class="scope-choice">
+    <label for="association-scope">Applica il pittogramma a:</label>
+    <select
+      id="association-scope"
+      value={associationScope}
+      onchange={(event) => onAssociationScope((event.currentTarget as HTMLSelectElement).value as AssociationScope)}
+    >
+      <option value="occurrence">Solo questa occorrenza</option>
+      <option value="document">Tutte le occorrenze equivalenti nel documento</option>
+      <option value="global">Ricorda questa associazione per i documenti futuri</option>
+    </select>
+    <p class="hint">
+      {associationScope === "occurrence"
+        ? "La scelta vale solo per la parola selezionata."
+        : associationScope === "document"
+          ? "La scelta vale per le altre occorrenze dello stesso concetto nel documento; le associazioni bloccate non vengono toccate."
+          : "La scelta entra nel dizionario personale e verrà considerata nei prossimi documenti per lo stesso concetto."}
+    </p>
+  </div>
+{/snippet}
+
 <aside class:closed class="sidepanel" class:sidepanel--closed={closed} aria-label="Pannello strumenti">
   <div class="sidepanel__tabs" role="tablist" aria-label="Sezioni del pannello">
     <button
@@ -500,6 +528,7 @@
 
           <section class="panel-section">
             <h3>Alternative disponibili</h3>
+            {@render scopeChoice()}
             {#if selected.token.alternatives.length === 0}
               <p class="hint">
                 Nessuna alternativa automatica. Qui sotto ci sono i gruppi di affinità della parola;
@@ -690,6 +719,7 @@
             suggerimenti approssimativi da verificare. I gruppi di affinità distinguono parola esatta,
             forma base, varianti, sinonimi, concetto generale e affini.
           </p>
+          {@render scopeChoice()}
           {#if affinityMatchesSearch}
             {@render affinityBlock()}
           {/if}
@@ -808,6 +838,46 @@
               type="checkbox"
               checked={settings.touch_mode}
               onchange={(event) => onUpdateSettings({ touch_mode: (event.currentTarget as HTMLInputElement).checked })}
+            />
+          </div>
+          <div class="settings-row">
+            <label for="animations-select">Animazioni</label>
+            <select
+              id="animations-select"
+              value={settings.animations}
+              onchange={(event) =>
+                onUpdateSettings({ animations: (event.currentTarget as HTMLSelectElement).value as never })}
+            >
+              <option value="full">Complete</option>
+              <option value="reduced">Ridotte</option>
+              <option value="off">Disattivate</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <label for="typing-sound">Suoni di interfaccia</label>
+            <input
+              id="typing-sound"
+              type="checkbox"
+              checked={settings.typing_sound}
+              onchange={(event) => onUpdateSettings({ typing_sound: (event.currentTarget as HTMLInputElement).checked })}
+            />
+          </div>
+          <div class="settings-row">
+            <label for="speak-words">Pronuncia la parola (spazio/Invio)</label>
+            <input
+              id="speak-words"
+              type="checkbox"
+              checked={settings.speak_words}
+              onchange={(event) => onUpdateSettings({ speak_words: (event.currentTarget as HTMLInputElement).checked })}
+            />
+          </div>
+          <div class="settings-row">
+            <label for="speak-sentences">Leggi la frase completata</label>
+            <input
+              id="speak-sentences"
+              type="checkbox"
+              checked={settings.speak_sentences}
+              onchange={(event) => onUpdateSettings({ speak_sentences: (event.currentTarget as HTMLInputElement).checked })}
             />
           </div>
           <div class="settings-row">

@@ -6,6 +6,7 @@ import { get, writable } from "svelte/store";
 export type WorkspaceRibbonMode = "full" | "compact" | "hidden";
 export type WorkspaceSidebarMode = "docked" | "overlay" | "collapsed";
 export type WorkspacePanel = "alternative" | "cerca" | "impostazioni" | "studio";
+export type AssociationScope = "occurrence" | "document" | "global";
 
 export interface WorkspaceLayout {
   version: 1;
@@ -22,6 +23,7 @@ export interface WorkspaceLayout {
   fullscreen: boolean;
   quickAccess: string[];
   quickLabels: boolean;
+  associationScope: AssociationScope;
   zoom: number;
   preset: string;
 }
@@ -46,6 +48,7 @@ export const defaultWorkspace: WorkspaceLayout = {
   fullscreen: false,
   quickAccess: defaultQuickAccess,
   quickLabels: false,
+  associationScope: "occurrence",
   zoom: 1,
   preset: "",
 };

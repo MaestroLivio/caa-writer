@@ -64,6 +64,8 @@
     /// Stato di formattazione della selezione: serve al Ribbon per mostrare
     /// i pulsanti attivi (grassetto, corsivo, allineamento, tabella...).
     onFormattingChange?: (state: FormattingState) => void;
+    /// Vero quando il testo del documento cambia (non le sole associazioni).
+    onDocChanged?: () => void;
   }
 
   let {
@@ -85,6 +87,7 @@
     onError,
     onAnalyzed,
     onFormattingChange,
+    onDocChanged,
   }: Props = $props();
 
   let host: HTMLDivElement;
@@ -154,6 +157,9 @@
       if (selectedUnit && selectedUnit.pid === pid && selectedUnit.index === token.index) {
         button.classList.add("caa-chip--selected");
         button.setAttribute("aria-current", "true");
+      }
+      if (appliedKey === `${pid}:${token.index}`) {
+        button.classList.add("caa-chip--applied");
       }
       button.dataset.index = String(token.index);
       // Segnalazione discreta: il modello ha proposto simboli affini per questa
@@ -374,6 +380,20 @@
   // Si sincronizza solo dopo un gesto dell'utente (mouseup o frecce), mai a
   // ogni tasto: altrimenti il pannello cambierebbe durante la digitazione.
   let lastTextSelectionKey = "";
+  // Solo il pittogramma appena applicato riceve l'animazione di comparsa:
+  // la digitazione normale non deve animare ogni chip.
+  let appliedKey = "";
+
+  function flashApplied(pid: string, index: number) {
+    const key = `${pid}:${index}`;
+    appliedKey = key;
+    window.setTimeout(() => {
+      if (appliedKey === key) {
+        appliedKey = "";
+        refreshStrips();
+      }
+    }, 240);
+  }
 
   let lastFormatting = "";
 
@@ -671,6 +691,7 @@
         if (transaction.docChanged) {
           const withIds = ensurePids(view!.state);
           if (withIds !== view!.state) view!.updateState(withIds);
+          onDocChanged?.();
           schedule();
         }
         reportFormatting();
@@ -841,10 +862,65 @@
     // La firma non corrisponde più al risultato mostrato: la prossima analisi
     // deve rileggere il paragrafo dal motore.
     analyzedSignature.delete(pid);
+    flashApplied(pid, index);
     refreshStrips();
     onAnalyzed(new Map(tokensByPid));
     onSelectToken(pid, updated);
     return true;
+  }
+
+  /// Applica lo stesso pittogramma a più unità in un solo aggiornamento:
+  /// usato per l'ambito «tutte le occorrenze nel documento». Restituisce
+  /// quante unità sono state aggiornate.
+  export function applyTokenSymbols(
+    entries: {
+      pid: string;
+      index: number;
+      alternative: {
+        symbol_id: string;
+        svg: string | null;
+        label: string;
+        meaning: string;
+        concept_id: string | null;
+        approximate: boolean;
+      };
+    }[]
+  ): number {
+    let count = 0;
+    let selectedUpdate: { pid: string; token: CaaToken } | null = null;
+    for (const entry of entries) {
+      const tokens = tokensByPid.get(entry.pid);
+      if (!tokens) continue;
+      const current = tokens.find((token) => token.index === entry.index);
+      if (!current) continue;
+      const updated: CaaToken = {
+        ...current,
+        symbol_id: entry.alternative.symbol_id,
+        svg: entry.alternative.svg,
+        caption: current.surface,
+        symbol_label: entry.alternative.label,
+        concept_id: entry.alternative.concept_id ?? current.concept_id,
+        concept_label: entry.alternative.label,
+        meaning: entry.alternative.meaning,
+        strategy: "manual",
+        approximate: entry.alternative.approximate,
+        locked: true,
+      };
+      tokensByPid.set(
+        entry.pid,
+        tokens.map((token) => (token.index === entry.index ? updated : token))
+      );
+      analyzedSignature.delete(entry.pid);
+      selectedUpdate = { pid: entry.pid, token: updated };
+      count += 1;
+    }
+    if (count > 0) {
+      if (selectedUpdate) flashApplied(selectedUpdate.pid, selectedUpdate.token.index);
+      refreshStrips();
+      onAnalyzed(new Map(tokensByPid));
+      if (selectedUpdate) onSelectToken(selectedUpdate.pid, selectedUpdate.token);
+    }
+    return count;
   }
 
   /// Aggiorna sul posto blocco, visibilità e modificatori dell'unità: il foglio
@@ -930,6 +1006,27 @@
     if (!view) return "";
     const { from, to } = view.state.selection;
     return view.state.doc.textBetween(from, to, "\n");
+  }
+
+  /// Testo dall'inizio del blocco al cursore, usato dalla lettura durante la
+  /// digitazione. Non modifica il documento.
+  export function textBeforeCursor(): string {
+    if (!view) return "";
+    const { from } = view.state.selection;
+    const start = view.state.selection.$from.start();
+    return view.state.doc.textBetween(start, from, " ");
+  }
+
+  export function wordBeforeCursor(): string {
+    const text = textBeforeCursor();
+    const match = text.match(/[\p{L}\p{N}][\p{L}\p{N}'’\-]*\s*$/u);
+    return match ? match[0].trim() : "";
+  }
+
+  export function sentenceBeforeCursor(): string {
+    const text = textBeforeCursor();
+    const match = text.match(/[^.!?:;\n]*[.!?:;\n]\s*$/u);
+    return match ? match[0].trim() : "";
   }
 
   export function deleteSelection() {

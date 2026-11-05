@@ -4,6 +4,64 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.5.0 — 2026-11-05
+
+### Ribbon orizzontale
+
+- Il corpo del Ribbon è una fascia orizzontale a altezza fissa (86 px full,
+  62 px compatto, 104 px touch): i gruppi non vanno più a capo e non
+  sottraggono righe al documento.
+- Ogni gruppo mostra i comandi principali; gli altri sono in un menu a
+  comparsa «Altri», ancorato al pulsante, con chiusura su Esc/click esterno e
+  navigazione da tastiera.
+- Scorrimento orizzontale solo quando la larghezza non basta, con pulsanti
+  laterali discreti, rotella/trackpad, frecce da tastiera e scrollbar nascosta.
+- Stili con selettore compatto; menu di overflow per Appunti, Carattere,
+  Paragrafo, Gestione, ecc.
+- Modalità completa, compatta e minimizzata; in minimizzato il corpo è
+  sovrapposto e non sposta il documento. Restano doppio clic per bloccare,
+  `Ctrl/Cmd+F1` e la barra superiore minimizzabile con `Ctrl/Cmd+Shift+F1`.
+
+### Associazioni dei pittogrammi
+
+- Clic su un risultato applica subito il pittogramma; non serve una seconda
+  conferma.
+- Tre ambiti espliciti, mostrati prima dell'applicazione:
+  - solo questa occorrenza (predefinito);
+  - tutte le occorrenze equivalenti nel documento, per concetto/lemma, senza
+    toccare le associazioni bloccate;
+  - preferenza per i documenti futuri, legata al concetto (`concept:<id>`),
+    così significati diversi dello stesso lemma non si contaminano.
+- La verifica della selezione non blocca più l'applicazione se la rianalisi ha
+  sostituito l'oggetto token: l'override per indice viene salvato e applicato
+  appena possibile.
+- Undo/redo delle associazioni: dopo un'applicazione, `Ctrl/Cmd+Z` annulla e
+  `Ctrl/Cmd+Shift+Z` riapplica; un'eventuale modifica del testo riporta
+  l'annullamento a ProseMirror. Comandi dedicati nel gruppo Gestione.
+- Toast solo dopo il completamento; conferma «Associazione annullata» dopo
+  l'undo.
+
+### Animazioni e accessibilità
+
+- Microanimazioni per menu, cambio scheda, pannelli, toast, pulsanti e
+  comparsa del pittogramma appena applicato; la digitazione normale non anima
+  i chip.
+- Preferenza Animazioni complete / ridotte / disattivate; rispetto di
+  `prefers-reduced-motion`.
+- Suoni di interfaccia facoltativi, lettura della parola premendo spazio o
+  Invio e lettura della frase completata (punto, punto e virgola, due punti,
+  ritorno a capo), disattivati per default.
+
+### Test
+
+- 152 test Rust (incluso il test delle preferenze legate al concetto).
+- 16 test frontend (selezione, workspace, equivalenza delle occorrenze).
+- Build 0 errori/0 avvisi.
+- Verifica Tauri: applicazione immediata di «comprendere» su «capire», seconda
+  occorrenza invariata nell'ambito «solo questa», undo con Cmd+Z; Ribbon
+  orizzontale con menu «Altri».
+- Verifica mock: menu, overflow, altezza fissa, ambito documento, persistenza.
+
 ## 0.4.0 — 2026-11-05
 
 ### Workspace adattivo

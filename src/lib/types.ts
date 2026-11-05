@@ -460,6 +460,10 @@ export interface DocumentSettings {
   font_size: number;
   show_captions: boolean;
   border_style: BorderStyle;
+  animations: "full" | "reduced" | "off";
+  typing_sound: boolean;
+  speak_words: boolean;
+  speak_sentences: boolean;
   touch_mode: boolean;
   theme: "chiaro" | "scuro" | "contrasto";
   page: "a4" | "a4-orizzontale" | "a3" | "a5";
@@ -502,6 +506,10 @@ export const defaultSettings: DocumentSettings = {
   show_captions: false,
   // Bordo attorno a immagine e testo: è l'aspetto storico dei chip.
   border_style: "immagine_testo",
+  animations: "full",
+  typing_sound: false,
+  speak_words: false,
+  speak_sentences: false,
   touch_mode: false,
   theme: "chiaro",
   page: "a4",

@@ -19,6 +19,7 @@
   import { api, isTauri } from "./lib/api";
   import { rasterizeSymbols } from "./lib/raster";
   import { getCurrentWindow } from "@tauri-apps/api/window";
+  import { equivalentTargets } from "./lib/association/scope";
   import type { FormattingState } from "./lib/editor/formatting";
   import { emptyFormatting } from "./lib/editor/formatting";
   import type { RibbonCommand, RibbonGroup, RibbonMode, RibbonTab } from "./lib/ribbon/types";
@@ -32,6 +33,7 @@
     saveCurrentPreset,
     updateWorkspace,
     workspace,
+    type AssociationScope,
     type WorkspacePanel,
   } from "./lib/workspace/layout";
   import {
@@ -117,6 +119,41 @@
   let report = $state<{ title: string; lines: string[] } | null>(null);
   let focusBarVisible = $state(false);
   let presetDialogOpen = $state(false);
+  let clickAudio: AudioContext | null = null;
+
+  function playClick() {
+    try {
+      clickAudio ??= new AudioContext();
+      const oscillator = clickAudio.createOscillator();
+      const gain = clickAudio.createGain();
+      oscillator.frequency.value = 880;
+      gain.gain.value = 0.025;
+      oscillator.connect(gain);
+      gain.connect(clickAudio.destination);
+      oscillator.start();
+      oscillator.stop(clickAudio.currentTime + 0.018);
+    } catch {
+      /* audio non disponibile: nessun errore bloccante */
+    }
+  }
+
+  type AssociationItem = {
+    pid: string;
+    index: number;
+    unitKey: string;
+    previousSymbol: string | null;
+    previousConcept: string | null;
+    previousLocked: boolean;
+    newSymbol: string;
+    newConcept: string | null;
+  };
+  type AssociationAction = {
+    items: AssociationItem[];
+    global: { lemma: string; contextKey: string | null } | null;
+  };
+  let associationUndo = $state<AssociationAction[]>([]);
+  let associationRedo = $state<AssociationAction[]>([]);
+  let associationPending = $state(false);
 
   const zoom = $derived($workspace.zoom);
   const fullscreen = $derived($workspace.fullscreen);
@@ -207,6 +244,7 @@
     root.dataset.theme = settings.theme;
     root.dataset.touch = String(settings.touch_mode);
     root.dataset.mono = String(settings.mono);
+    root.dataset.animations = settings.animations;
     root.style.setProperty("--text-size", `${settings.font_size}px`);
     root.style.setProperty(
       "--symbol-size",
@@ -293,6 +331,18 @@
       const meta = event.metaKey || event.ctrlKey;
       if (!meta) return;
       const key = event.key.toLowerCase();
+      if (associationPending && key === "z" && associationUndo.length > 0 && !event.shiftKey) {
+        event.preventDefault();
+        event.stopPropagation();
+        void undoAssociation();
+        return;
+      }
+      if (associationPending && key === "z" && associationRedo.length > 0 && event.shiftKey) {
+        event.preventDefault();
+        event.stopPropagation();
+        void redoAssociation();
+        return;
+      }
       if (event.key === "F1") {
         event.preventDefault();
         if (event.shiftKey) {
@@ -328,11 +378,35 @@
         printDocument();
       }
     };
+    const onTypingKey = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target?.closest(".ProseMirror")) return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (!native) return;
+      if (event.key === "Enter" || event.key === " " || [".", "!", ":", ";"].includes(event.key)) {
+        if (settings.speak_sentences && ["Enter", ".", "!", ":", ";"].includes(event.key)) {
+          const sentence = editor?.sentenceBeforeCursor();
+          if (sentence) void speak(sentence);
+        } else if (settings.speak_words && ["Enter", " "].includes(event.key)) {
+          const word = editor?.wordBeforeCursor();
+          if (word) void speak(word);
+        }
+      }
+    };
+    const onClick = (event: MouseEvent) => {
+      if (!settings.typing_sound) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("button, summary, .ribbon__tab, .tab")) playClick();
+    };
     const onResize = () => (windowWidth = window.innerWidth);
-    window.addEventListener("keydown", onKey);
+    window.addEventListener("keydown", onKey, true);
+    window.addEventListener("keydown", onTypingKey);
+    window.addEventListener("click", onClick, true);
     window.addEventListener("resize", onResize);
     return () => {
-      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("keydown", onKey, true);
+      window.removeEventListener("keydown", onTypingKey);
+      window.removeEventListener("click", onClick, true);
       window.removeEventListener("resize", onResize);
     };
   });
@@ -740,7 +814,7 @@
 
   async function applyAlternative(alternative: Alternative) {
     if (!selected) {
-      toast("Seleziona prima un pittogramma nel documento, poi scegli il simbolo.", "warn");
+      toast("Seleziona prima una parola nel documento, poi scegli il simbolo.", "warn");
       return;
     }
     if (!native) {
@@ -748,31 +822,172 @@
       return;
     }
     const { pid, token } = selected;
-    // La selezione può essere invecchiata dopo una rianalisi o una modifica
-    // del testo: applicare il simbolo all'indice sbagliato sarebbe peggio che
-    // chiedere di selezionare di nuovo.
+    // Se la rianalisi ha già sostituito l'oggetto token, la superficie resta
+    // il riferimento stabile. Se manca del tutto, l'override per indice viene
+    // comunque salvato e la rianalisi lo applica appena possibile.
     const current = editor?.tokenAt(pid, token.index);
-    if (!current || current.surface !== token.surface) {
+    if (current && current.surface !== token.surface) {
       selected = null;
       toast("La parola selezionata è cambiata: selezionala di nuovo.", "warn");
       return;
     }
+
+    const scope: AssociationScope = get(workspace).associationScope;
+    const conceptId = alternative.concept_id ?? token.concept_id ?? null;
+    const effective: Alternative = {
+      ...alternative,
+      concept_id: conceptId,
+    };
+
+    const targets =
+      scope === "document"
+        ? equivalentTargets(token, conceptId, pid, editor?.getTokens() ?? tokensByParagraph)
+        : [{ pid, token }];
+    const items: AssociationItem[] = targets.map((target) => ({
+      pid: target.pid,
+      index: target.token.index,
+      unitKey: unitKey(target.pid, target.token.index),
+      previousSymbol: target.token.symbol_id ?? null,
+      previousConcept: target.token.concept_id ?? null,
+      previousLocked: target.token.locked,
+      newSymbol: alternative.symbol_id,
+      newConcept: conceptId,
+    }));
+    const globalInfo =
+      scope === "global"
+        ? {
+            lemma: token.lemma ?? token.surface.toLocaleLowerCase(),
+            contextKey: conceptId ? `concept:${conceptId}` : null,
+          }
+        : null;
+
     try {
-      await api.setDocumentOverride(
-        docKey,
-        unitKey(pid, token.index),
-        alternative.symbol_id,
-        alternative.concept_id
+      await Promise.all(
+        targets.map((target) =>
+          api.setDocumentOverride(
+            docKey,
+            unitKey(target.pid, target.token.index),
+            alternative.symbol_id,
+            conceptId
+          )
+        )
       );
-      // Aggiornamento immediato dello stato dell'editor: il foglio cambia nello
-      // stesso istante della scelta, senza dipendere da una rianalisi.
-      editor?.applyTokenSymbol(pid, token.index, alternative);
-      // Poi il paragrafo viene riletto dal motore: la scelta è salvata come
-      // override bloccato, quindi la rianalisi la rispetta e aggiorna il resto.
-      editor?.refreshParagraph(pid);
-      toast(`Pittogramma impostato per «${token.surface}».`, "info");
+      editor?.applyTokenSymbols(
+        targets.map((target) => ({
+          pid: target.pid,
+          index: target.token.index,
+          alternative: effective,
+        }))
+      );
+      for (const affected of new Set(targets.map((target) => target.pid))) {
+        editor?.refreshParagraph(affected);
+      }
+
+      if (globalInfo) {
+        await api.setPreference({
+          scope: "global",
+          lemma: globalInfo.lemma,
+          context_key: globalInfo.contextKey,
+          symbol_id: alternative.symbol_id,
+          concept_id: conceptId,
+          locked: false,
+          created_at: "",
+        });
+        preferences = await api.listPreferences();
+      }
+
+      associationUndo = [...associationUndo, { items, global: globalInfo }].slice(-20);
+      associationRedo = [];
+      associationPending = true;
+      if (scope === "document" && targets.length > 1) {
+        toast(`Pittogramma applicato a ${targets.length} occorrenze.`, "info");
+      } else if (scope === "global") {
+        toast(
+          `Associazione salvata per «${token.surface}»: verrà considerata nei prossimi documenti.`,
+          "info"
+        );
+      } else {
+        toast("Pittogramma applicato a questa parola.", "info");
+      }
       // Il pannello sovrapposto è temporaneo: dopo la scelta torna al documento.
       if (get(workspace).sidebarMode === "overlay") closeSidebar();
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function restoreAssociation(action: AssociationAction) {
+    await Promise.all(
+      action.items.map((item) =>
+        item.previousLocked && item.previousSymbol
+          ? api.setDocumentOverride(
+              docKey,
+              item.unitKey,
+              item.previousSymbol,
+              item.previousConcept
+            )
+          : api.clearDocumentOverride(docKey, item.unitKey)
+      )
+    );
+    if (action.global) {
+      await api.deletePreference("global", action.global.lemma, action.global.contextKey ?? "");
+    }
+    editor?.refreshAll();
+  }
+
+  function syncSelectedSnapshot() {
+    if (!selected) return;
+    const { pid, token } = selected;
+    const current = editor?.tokenAt(pid, token.index);
+    selected = current ? { pid, token: current } : null;
+  }
+
+  function syncSelectedSoon() {
+    window.setTimeout(syncSelectedSnapshot, 260);
+  }
+
+  async function undoAssociation() {
+    const action = associationUndo[associationUndo.length - 1];
+    if (!action) return;
+    try {
+      await restoreAssociation(action);
+      associationUndo = associationUndo.slice(0, -1);
+      associationRedo = [...associationRedo, action].slice(-20);
+      associationPending = true;
+      syncSelectedSoon();
+      toast("Associazione annullata.", "info");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function redoAssociation() {
+    const action = associationRedo[associationRedo.length - 1];
+    if (!action) return;
+    try {
+      await Promise.all(
+        action.items.map((item) =>
+          api.setDocumentOverride(docKey, item.unitKey, item.newSymbol, item.newConcept)
+        )
+      );
+      if (action.global) {
+        const first = action.items[0];
+        await api.setPreference({
+          scope: "global",
+          lemma: action.global.lemma,
+          context_key: action.global.contextKey,
+          symbol_id: first.newSymbol,
+          concept_id: first.newConcept,
+          locked: false,
+          created_at: "",
+        });
+      }
+      associationRedo = associationRedo.slice(0, -1);
+      associationUndo = [...associationUndo, action].slice(-20);
+      associationPending = true;
+      editor?.refreshAll();
+      syncSelectedSoon();
+      toast("Associazione riapplicata.", "info");
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
@@ -1148,8 +1363,13 @@
     return { id, label, kind: "color", value, onChange, ...extra };
   }
 
-  function group(id: string, label: string, commands: RibbonCommand[]): RibbonGroup {
-    return { id, label, commands };
+  function group(
+    id: string,
+    label: string,
+    commands: RibbonCommand[],
+    visible?: number
+  ): RibbonGroup {
+    return { id, label, commands, visible };
   }
 
   function selectedWord(): string {
@@ -1586,7 +1806,7 @@
             cmd("paste-plain", "Incolla solo testo", "clipboard-type", () => void pasteClipboard()),
             cmd("copy-format", "Copia formattazione", "paintbrush", () => editor?.copyFormatting()),
             cmd("paste-format", "Incolla formattazione", "paintbrush", () => editor?.applyCopiedFormatting()),
-          ]),
+          ], 3),
           group("font", "Carattere", [
             select(
               "font-family",
@@ -1642,7 +1862,7 @@
               patchSettings({ uppercase: !settings.uppercase })
             ),
             cmd("clear-format", "Cancella formattazione", "eraser", () => editor?.clearFormatting()),
-          ]),
+          ], 9),
           group("paragraph", "Paragrafo", [
             toggle("align-left", "Allinea a sinistra", "align-left", formatState.align === "left", () =>
               editor?.applyAlignment("left")
@@ -1695,8 +1915,32 @@
             toggle("paragraph-border", "Bordi paragrafo", "square", formatState.paragraphBorder, () =>
               editor?.applyParagraphAttr({ border: !formatState.paragraphBorder })
             ),
-          ]),
+          ], 6),
           group("styles", "Stili", [
+            select(
+              "style-select",
+              "Stile",
+              formatState.heading ? `h${formatState.heading}` : "normal",
+              [
+                { value: "normal", label: "Normale" },
+                { value: "h1", label: "Titolo 1" },
+                { value: "h2", label: "Titolo 2" },
+                { value: "h3", label: "Titolo 3" },
+                { value: "caa", label: "Testo CAA" },
+                { value: "readable", label: "Alta leggibilità" },
+              ],
+              (value) => {
+                if (value === "normal") editor?.applyHeading(null);
+                else if (value === "caa") patchSettings({ mode: "sopra", intensity: "media", auto_caa: true });
+                else if (value === "readable")
+                  patchSettings({
+                    font_family: "OpenDyslexic, Atkinson Hyperlegible, sans-serif",
+                    font_size: 18,
+                  });
+                else editor?.applyHeading(Number(value.slice(1)));
+              },
+              { width: "150px" }
+            ),
             cmd("style-normal", "Normale", "pilcrow", () => editor?.applyHeading(null)),
             cmd("style-title", "Titolo", "heading1", () => editor?.applyHeading(1)),
             cmd("style-subtitle", "Sottotitolo", "heading2", () => editor?.applyHeading(2)),
@@ -1711,14 +1955,14 @@
                 font_size: 18,
               })
             ),
-          ]),
+          ], 1),
           group("edit", "Modifica", [
             cmd("find", "Trova", "search", openFind, { shortcut: "Ctrl+F" }),
             cmd("replace", "Sostituisci", "replace", openFind, { shortcut: "Ctrl+H" }),
             cmd("select-all", "Seleziona tutto", "check-check", () => editor?.selectAllText(), {
               shortcut: "Ctrl+A",
             }),
-          ]),
+          ], 3),
         ],
       },
       {
@@ -1953,6 +2197,12 @@
             cmd("remember", "Ricorda associazione", "badge-check", rememberSelected, {
               enabled: Boolean(token?.symbol_id),
               ...unavailable("Serve un pittogramma già associato."),
+            }),
+            cmd("undo-association", "Annulla associazione", "undo", () => void undoAssociation(), {
+              enabled: associationUndo.length > 0,
+            }),
+            cmd("redo-association", "Ripeti associazione", "redo", () => void redoAssociation(), {
+              enabled: associationRedo.length > 0,
             }),
           ]),
           group("modifiers", "Modificatori", [
@@ -2361,6 +2611,7 @@
           onError={(message) => toast(message, "error")}
           onAnalyzed={onAnalyzed}
           onFormattingChange={(state) => (formatState = state)}
+          onDocChanged={() => (associationPending = false)}
         />
       </div>
 
@@ -2499,6 +2750,8 @@
           overlay={effectiveSidebarMode === "overlay"}
           onCollapse={closeSidebar}
           onToggleDock={toggleSidebarDock}
+          associationScope={$workspace.associationScope}
+          onAssociationScope={(scope) => updateWorkspace({ associationScope: scope })}
           onSwitchTab={(tab) => updateWorkspace({ activeSidebarPanel: tab })}
           onApplyAlternative={applyAlternative}
           onSaveGlobalPreference={(alternative) => savePreference(alternative, null)}

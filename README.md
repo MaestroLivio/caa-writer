@@ -17,6 +17,8 @@ Sintesi onesta di ciò che esiste nel codice:
 | Editor ProseMirror con formattazione, elenchi, tabelle, annulla/ripristina | implementato |
 | Interfaccia Ribbon a schede (Home, Inserisci, Layout, Pittogrammi, Revisione, Strumenti IA, Visualizza) | implementato |
 | Workspace adattivo: Ribbon minimizzabile, pannello a icone/overlay, concentrazione, preset | implementato |
+| Ribbon orizzontale compatto con menu di overflow e scorrimento controllato | implementato |
+| Applicazione immediata dei pittogrammi con ambito occorrenza/documento/globale | implementato |
 | Selezione di qualsiasi parola e aggiunta di un pittogramma senza simbolo preesistente | implementato |
 | Pittogramma + testo digitato, senza didascalia duplicata (didascalie opzionali) | implementato |
 | Stili di bordo del pittogramma (nessuno, immagine, immagine+testo, separato, divisore) | implementato |

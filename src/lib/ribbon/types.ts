@@ -33,6 +33,8 @@ export interface RibbonGroup {
   id: string;
   label: string;
   commands: RibbonCommand[];
+  /** Quanti comandi restano visibili prima del menu di overflow. */
+  visible?: number;
 }
 
 export interface RibbonTab {

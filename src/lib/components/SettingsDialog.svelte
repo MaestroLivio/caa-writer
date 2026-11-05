@@ -298,6 +298,45 @@
             onchange={(event) => onUpdateSettings({ touch_mode: (event.currentTarget as HTMLInputElement).checked })}
           />
         </div>
+        <div class="row">
+          <label for="dlg-animations">Animazioni</label>
+          <select
+            id="dlg-animations"
+            value={settings.animations}
+            onchange={(event) => onUpdateSettings({ animations: (event.currentTarget as HTMLSelectElement).value as never })}
+          >
+            <option value="full">Complete</option>
+            <option value="reduced">Ridotte</option>
+            <option value="off">Disattivate</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="dlg-typing-sound">Suoni di interfaccia</label>
+          <input
+            id="dlg-typing-sound"
+            type="checkbox"
+            checked={settings.typing_sound}
+            onchange={(event) => onUpdateSettings({ typing_sound: (event.currentTarget as HTMLInputElement).checked })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-speak-words">Pronuncia la parola premendo spazio o Invio</label>
+          <input
+            id="dlg-speak-words"
+            type="checkbox"
+            checked={settings.speak_words}
+            onchange={(event) => onUpdateSettings({ speak_words: (event.currentTarget as HTMLInputElement).checked })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-speak-sentences">Leggi la frase completata</label>
+          <input
+            id="dlg-speak-sentences"
+            type="checkbox"
+            checked={settings.speak_sentences}
+            onchange={(event) => onUpdateSettings({ speak_sentences: (event.currentTarget as HTMLInputElement).checked })}
+          />
+        </div>
       </section>
 
       <section class="block">
