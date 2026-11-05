@@ -6,6 +6,9 @@
   import CaaEditor from "./lib/editor/CaaEditor.svelte";
   import SidePanel from "./lib/components/SidePanel.svelte";
   import SettingsDialog from "./lib/components/SettingsDialog.svelte";
+  import Ribbon from "./lib/components/Ribbon.svelte";
+  import FindReplace from "./lib/components/FindReplace.svelte";
+  import ReportDialog from "./lib/components/ReportDialog.svelte";
   import LayoutPreview from "./lib/components/LayoutPreview.svelte";
   import Communicator from "./lib/components/Communicator.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
@@ -13,6 +16,10 @@
   import { recordRecent } from "./lib/recent";
   import { api, isTauri } from "./lib/api";
   import { rasterizeSymbols } from "./lib/raster";
+  import { getCurrentWindow } from "@tauri-apps/api/window";
+  import type { FormattingState } from "./lib/editor/formatting";
+  import { emptyFormatting } from "./lib/editor/formatting";
+  import type { RibbonCommand, RibbonGroup, RibbonMode, RibbonTab } from "./lib/ribbon/types";
   import {
     defaultSettings,
     type AiConfig,
@@ -74,7 +81,14 @@
   let aiConfig = $state<AiConfig | null>(null);
 
   type SideTab = "alternative" | "cerca" | "impostazioni" | "studio";
-  type SideIntent = { tab: SideTab; prompt?: string; templateId?: string | null; nonce: number };
+  type SideIntent = {
+    tab: SideTab;
+    prompt?: string;
+    templateId?: string | null;
+    search?: string;
+    ai?: boolean;
+    nonce: number;
+  };
 
   let view = $state<"home" | "editor" | "board">("home");
   // Le impostazioni sono una finestra modale autonoma: non dipendono più
@@ -89,6 +103,38 @@
   );
   let sideIntent = $state<SideIntent | null>(null);
   let intentSeq = 0;
+
+  let formatState = $state<FormattingState>({ ...emptyFormatting });
+  let ribbonTab = $state("home");
+  let ribbonMode = $state<RibbonMode>(
+    typeof localStorage !== "undefined"
+      ? ((localStorage.getItem("ui.ribbonMode") as RibbonMode) ?? "full")
+      : "full"
+  );
+  let panelClosed = $state(false);
+  let findOpen = $state(false);
+  let report = $state<{ title: string; lines: string[] } | null>(null);
+  let zoom = $state(1);
+  let fullscreen = $state(false);
+  // Se la scheda contestuale non è più pertinente, si torna a Home.
+  $effect(() => {
+    const ids = ribbonTabs().map((tab) => tab.id);
+    if (!ids.includes(ribbonTab)) ribbonTab = "home";
+  });
+
+  const defaultQuickAccess = ["save", "undo", "redo", "search", "listen", "export"];
+  let quickAccess = $state<string[]>(
+    typeof localStorage !== "undefined"
+      ? (() => {
+          try {
+            const stored = JSON.parse(localStorage.getItem("ui.quickAccess") ?? "null");
+            return Array.isArray(stored) && stored.length ? (stored as string[]) : defaultQuickAccess;
+          } catch {
+            return defaultQuickAccess;
+          }
+        })()
+      : defaultQuickAccess
+  );
 
   // La modalità CAA automatica è attiva per impostazione predefinita: con
   // l'interruttore spento le associazioni restano memorizzate ma non si vedono.
@@ -162,7 +208,34 @@
     root.dataset.touch = String(settings.touch_mode);
     root.dataset.mono = String(settings.mono);
     root.style.setProperty("--text-size", `${settings.font_size}px`);
-    root.style.setProperty("--symbol-size", settings.touch_mode ? "76px" : "56px");
+    root.style.setProperty(
+      "--symbol-size",
+      settings.touch_mode ? `${Math.max(64, settings.symbol_size + 16)}px` : `${settings.symbol_size}px`
+    );
+    root.style.setProperty("--symbol-gap", `${settings.symbol_gap}px`);
+    root.style.setProperty("--chip-border-color", settings.chip_border_color || "var(--border)");
+    root.style.setProperty("--chip-border-width", `${settings.chip_border_width}px`);
+    root.style.setProperty("--chip-border-style", settings.chip_border_style);
+    root.style.setProperty("--chip-radius", `${settings.chip_radius}px`);
+    root.style.setProperty("--chip-padding", `${settings.chip_padding}px`);
+    root.style.setProperty("--chip-bg", settings.chip_background || "var(--surface)");
+    root.style.setProperty("--page-bg", settings.page_color);
+    root.style.setProperty(
+      "--strip-justify",
+      settings.pictogram_align === "center"
+        ? "center"
+        : settings.pictogram_align === "right"
+          ? "flex-end"
+          : "flex-start"
+    );
+    root.style.setProperty(
+      "--page-margin",
+      settings.page_margin === "stretto"
+        ? "24px 30px 32px"
+        : settings.page_margin === "ampio"
+          ? "56px 72px 72px"
+          : "40px 48px 56px"
+    );
   });
 
   onMount(() => {
@@ -202,12 +275,19 @@
     })();
 
     const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && findOpen) {
+        findOpen = false;
+        return;
+      }
       const meta = event.metaKey || event.ctrlKey;
       if (!meta) return;
       const key = event.key.toLowerCase();
       if (key === "s") {
         event.preventDefault();
-        void saveDocument(false);
+        void saveDocument(event.shiftKey);
+      } else if (key === "f" || key === "h") {
+        event.preventDefault();
+        findOpen = true;
       } else if (key === "o") {
         event.preventDefault();
         void openDocument();
@@ -993,6 +1073,1040 @@
     }, 20000);
     return () => clearTimeout(timer);
   });
+
+  // ---------------------------------------------------------------------
+  // Ribbon: comandi realmente operativi, raggruppati per scheda.
+  // ---------------------------------------------------------------------
+
+  function cmd(
+    id: string,
+    label: string,
+    icon: string,
+    execute: () => void,
+    extra: Partial<RibbonCommand> = {}
+  ): RibbonCommand {
+    return { id, label, icon, execute, ...extra };
+  }
+
+  function toggle(
+    id: string,
+    label: string,
+    icon: string,
+    active: boolean,
+    execute: () => void,
+    extra: Partial<RibbonCommand> = {}
+  ): RibbonCommand {
+    return { ...cmd(id, label, icon, execute, extra), active };
+  }
+
+  function select(
+    id: string,
+    label: string,
+    value: string,
+    options: { value: string; label: string }[],
+    onChange: (value: string) => void,
+    extra: Partial<RibbonCommand> = {}
+  ): RibbonCommand {
+    return { id, label, kind: "select", value, options, onChange, ...extra };
+  }
+
+  function color(
+    id: string,
+    label: string,
+    value: string,
+    onChange: (value: string) => void,
+    extra: Partial<RibbonCommand> = {}
+  ): RibbonCommand {
+    return { id, label, kind: "color", value, onChange, ...extra };
+  }
+
+  function group(id: string, label: string, commands: RibbonCommand[]): RibbonGroup {
+    return { id, label, commands };
+  }
+
+  function selectedWord(): string {
+    return (
+      selected?.token.surface ??
+      editor?.getSelectedText().trim() ??
+      ""
+    );
+  }
+
+  function requireToken(): boolean {
+    if (selected) return true;
+    toast("Seleziona prima una parola o un pittogramma nel documento.", "warn");
+    return false;
+  }
+
+  async function copySelection(cut = false) {
+    const text = editor?.getSelectedText() ?? "";
+    if (!text.trim()) {
+      toast("Seleziona il testo da copiare.", "warn");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      if (cut) editor?.deleteSelection();
+      toast(cut ? "Testo tagliato." : "Testo copiato.", "info");
+    } catch {
+      toast("Gli appunti non sono disponibili in questa finestra.", "warn");
+    }
+  }
+
+  async function pasteClipboard() {
+    try {
+      const text = await navigator.clipboard.readText();
+      editor?.insertTextAtSelection(text);
+    } catch {
+      toast("La lettura degli appunti non è disponibile: usa Ctrl+V nell'editor.", "warn");
+    }
+  }
+
+  function openFind() {
+    findOpen = true;
+  }
+
+  function moveRibbonTab(tab: string) {
+    ribbonTab = tab;
+  }
+
+  function setRibbonMode(mode: RibbonMode) {
+    ribbonMode = mode;
+    localStorage.setItem("ui.ribbonMode", mode);
+  }
+
+  function toggleQuickAccess(id: string) {
+    quickAccess = quickAccess.includes(id)
+      ? quickAccess.filter((item) => item !== id)
+      : [...quickAccess, id];
+    localStorage.setItem("ui.quickAccess", JSON.stringify(quickAccess));
+  }
+
+  function quickCatalog(): RibbonCommand[] {
+    return [
+      cmd("save", "Salva", "save", () => void saveDocument(false), { shortcut: "Ctrl+S" }),
+      cmd("undo", "Annulla", "undo", () => editor?.undoAction(), {
+        shortcut: "Ctrl+Z",
+        enabled: formatState.canUndo,
+      }),
+      cmd("redo", "Ripristina", "redo", () => editor?.redoAction(), {
+        shortcut: "Ctrl+Shift+Z",
+        enabled: formatState.canRedo,
+      }),
+      cmd("search", "Cerca", "search", openFind, { shortcut: "Ctrl+F" }),
+      cmd("listen", "Ascolta", "headphones", speakParagraph),
+      cmd("export", "Esporta PDF", "printer", printDocument),
+      cmd("find-replace", "Trova e sostituisci", "replace", openFind),
+      cmd("word-count", "Conteggio parole", "calculator", showWordCount),
+      cmd("panel", "Pannello laterale", "panel-right", () => (panelClosed = !panelClosed)),
+      cmd("touch", "Modalità touch", "touchpad", () => patchSettings({ touch_mode: !settings.touch_mode }), {
+        active: settings.touch_mode,
+      }),
+      cmd("zoom-in", "Zoom avanti", "zoom-in", () => setZoom(zoom + 0.1)),
+      cmd("zoom-out", "Zoom indietro", "zoom-out", () => setZoom(zoom - 0.1)),
+      cmd("fullscreen", "Schermo intero", "fullscreen", () => void toggleFullscreen()),
+      cmd("auto-caa", "CAA automatica", "sparkles", () => patchSettings({ auto_caa: !settings.auto_caa }), {
+        active: settings.auto_caa,
+      }),
+      cmd("refresh", "Rivaluta documento", "refresh", () => editor?.refreshAll()),
+    ];
+  }
+
+  function quickOptions() {
+    return [
+      { id: "save", label: "Salva" },
+      { id: "undo", label: "Annulla" },
+      { id: "redo", label: "Ripristina" },
+      { id: "search", label: "Cerca" },
+      { id: "listen", label: "Ascolta" },
+      { id: "export", label: "Esporta PDF" },
+      { id: "find-replace", label: "Trova e sostituisci" },
+      { id: "word-count", label: "Conteggio parole" },
+      { id: "panel", label: "Pannello laterale" },
+      { id: "touch", label: "Modalità touch" },
+      { id: "zoom-in", label: "Zoom avanti" },
+      { id: "zoom-out", label: "Zoom indietro" },
+      { id: "fullscreen", label: "Schermo intero" },
+      { id: "auto-caa", label: "CAA automatica" },
+      { id: "refresh", label: "Rivaluta documento" },
+    ];
+  }
+
+  function quickCommands(): RibbonCommand[] {
+    const catalog = new Map(quickCatalog().map((command) => [command.id, command]));
+    return quickAccess
+      .map((id) => catalog.get(id))
+      .filter((command): command is RibbonCommand => Boolean(command));
+  }
+
+  function setZoom(value: number) {
+    zoom = Math.min(1.8, Math.max(0.5, Math.round(value * 100) / 100));
+  }
+
+  function fitWidth() {
+    const stage = document.querySelector(".stage") as HTMLElement | null;
+    const paper = document.querySelector(".paper") as HTMLElement | null;
+    if (!stage || !paper) return;
+    const available = stage.clientWidth - 48;
+    if (available > 0) setZoom(available / paper.offsetWidth);
+  }
+
+  async function toggleFullscreen() {
+    if (!native) return;
+    try {
+      const current = getCurrentWindow();
+      const next = !(await current.isFullscreen());
+      await current.setFullscreen(next);
+      fullscreen = next;
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  function openSearchForSelected(ai = false) {
+    const word = selectedWord();
+    if (!word) {
+      toast("Seleziona una parola nel testo, poi cerca un pittogramma.", "warn");
+      return;
+    }
+    panelClosed = false;
+    sideIntent = { tab: "cerca", search: word, ai, nonce: ++intentSeq };
+  }
+
+  function openPanelTab(tab: SideTab) {
+    panelClosed = false;
+    sideIntent = { tab, nonce: ++intentSeq };
+  }
+
+  function showWordCount() {
+    const text = editor?.getPlainText() ?? "";
+    const words = text.match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu)?.length ?? 0;
+    report = {
+      title: "Conteggio parole",
+      lines: [
+        `Parole: ${words}`,
+        `Caratteri (spazi inclusi): ${text.length}`,
+        `Caratteri (senza spazi): ${text.replace(/\s/g, "").length}`,
+        `Paragrafi: ${editor?.getParagraphs().length ?? 0}`,
+      ],
+    };
+  }
+
+  function unitStats() {
+    let units = 0;
+    let symbolized = 0;
+    let missing = 0;
+    let approximate = 0;
+    let manual = 0;
+    let locked = 0;
+    let withModifiers = 0;
+    for (const tokens of tokensByParagraph.values()) {
+      for (const token of tokens) {
+        if (token.is_punct) continue;
+        units += 1;
+        if (token.symbol_id) symbolized += 1;
+        if (token.key && !token.symbol_id) missing += 1;
+        if (token.approximate) approximate += 1;
+        if (token.strategy === "manual") manual += 1;
+        if (token.locked) locked += 1;
+        if (token.modifiers && Object.values(token.modifiers).some(Boolean)) withModifiers += 1;
+      }
+    }
+    return { units, symbolized, missing, approximate, manual, locked, withModifiers };
+  }
+
+  function showReviewReport(kind: "semantic" | "coverage" | "modifiers") {
+    const stats = unitStats();
+    if (kind === "semantic") {
+      report = {
+        title: "Analisi semantica",
+        lines: [
+          `Unità nel documento: ${stats.units}`,
+          `Unità con pittogramma: ${stats.symbolized}`,
+          `Unità senza pittogramma: ${stats.missing}`,
+          `Pittogrammi approssimativi: ${stats.approximate}`,
+          `Associazioni manuali: ${stats.manual}`,
+          `Unità bloccate: ${stats.locked}`,
+        ],
+      };
+    } else if (kind === "coverage") {
+      report = {
+        title: "Copertura CAA",
+        lines: [
+          `Parole senza simbolo: ${stats.missing}`,
+          `Associazioni manuali: ${stats.manual}`,
+          `Pittogrammi bloccati: ${stats.locked}`,
+          `Pittogrammi approssimativi: ${stats.approximate}`,
+        ],
+      };
+    } else {
+      report = {
+        title: "Verifica modificatori",
+        lines: [
+          `Unità con modificatori attivi: ${stats.withModifiers}`,
+          `Unità bloccate: ${stats.locked}`,
+          "I modificatori manuali non vengono sovrascritti dalla rivalutazione.",
+        ],
+      };
+    }
+  }
+
+  function applyPreset(preset: string) {
+    if (preset === "essenziale") {
+      patchSettings({
+        mode: "sopra",
+        intensity: "minima",
+        border_style: "nessuno",
+        symbol_size: 44,
+        symbol_gap: 4,
+        show_captions: false,
+      });
+    } else if (preset === "classico") {
+      patchSettings({
+        mode: "sotto",
+        intensity: "media",
+        border_style: "immagine_testo",
+        symbol_size: 56,
+        symbol_gap: 6,
+        show_captions: true,
+      });
+    } else if (preset === "contrasto") {
+      patchSettings({
+        theme: "contrasto",
+        border_style: "immagine",
+        chip_border_color: "#000000",
+        chip_border_width: 2,
+        chip_background: "#ffffff",
+      });
+    } else if (preset === "grandi") {
+      patchSettings({ mode: "sopra", symbol_size: 80, symbol_gap: 10, show_captions: false });
+    } else if (preset === "schede") {
+      patchSettings({
+        mode: "solo_simboli",
+        symbol_size: 72,
+        symbol_gap: 8,
+        border_style: "divisore",
+        show_captions: true,
+      });
+    } else if (preset === "illustrato") {
+      patchSettings({
+        mode: "sopra",
+        symbol_size: 40,
+        symbol_gap: 6,
+        border_style: "nessuno",
+        show_captions: false,
+      });
+    }
+  }
+
+  function rememberSelected() {
+    const symbolId = selected?.token.symbol_id;
+    if (!symbolId) {
+      toast("La parola selezionata non ha ancora un pittogramma.", "warn");
+      return;
+    }
+    const token = selected!.token;
+    void savePreference(
+      {
+        symbol_id: symbolId,
+        concept_id: token.concept_id,
+        label: token.symbol_label ?? token.surface,
+        meaning: token.meaning ?? "",
+        pack_id: token.pack_id ?? "",
+        pack_name: "",
+        format: "svg",
+        svg: null,
+        approximate: token.approximate,
+        license: "",
+        source_url: null,
+        author: null,
+      },
+      null
+    );
+  }
+
+  async function runAiReport(tool: string, title: string, input?: string) {
+    if (!native) {
+      toast("Gli strumenti IA richiedono l'app desktop.", "warn");
+      return;
+    }
+    try {
+      const value = input ?? editor?.getPlainText() ?? "";
+      if (!value.trim()) {
+        toast("Scrivi o seleziona del testo da elaborare.", "warn");
+        return;
+      }
+      const outcome = await api.aiRunTool(tool, { text: value });
+      const lines = [`Origine: ${outcome.source}`];
+      const result =
+        typeof outcome.result === "string"
+          ? outcome.result
+          : JSON.stringify(outcome.result, null, 2);
+      lines.push(...result.split("\n").slice(0, 80));
+      lines.push(...outcome.notes);
+      report = { title, lines };
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function createResource(kind: "grid" | "schedule" | "social" | "sequence" | "teaching") {
+    const prompts = {
+      grid: "Crea una tabella di comunicazione con 20 parole utili per la scuola primaria.",
+      schedule: "Crea un'agenda visiva della giornata scolastica con le attività principali.",
+      social: "Crea una storia sociale in quattro passaggi per prepararsi ad andare a scuola.",
+      sequence: "Crea una sequenza visiva per preparare lo zaino prima di uscire.",
+      teaching: "Crea un materiale didattico con una breve attività e i pittogrammi necessari.",
+    };
+    const template =
+      kind === "grid" ? "communication_grid" : kind === "schedule" ? "visual_schedule" : null;
+    const plan = await generateResource(prompts[kind], template);
+    if (plan) toast("Materiale creato: controlla l'anteprima prima di stampare.", "info");
+  }
+
+  function fileCommands(): RibbonCommand[] {
+    return [
+      cmd("new", "Nuovo", "file-plus", () => newDocument(), { shortcut: "Ctrl+N" }),
+      cmd("open", "Apri", "folder-open", () => void openDocument(), { shortcut: "Ctrl+O" }),
+      cmd("save", "Salva", "save", () => void saveDocument(false), { shortcut: "Ctrl+S" }),
+      cmd("save-as", "Salva con nome", "save-all", () => void saveDocument(true)),
+      cmd("import", "Importa", "import", () => void importDocument()),
+    ];
+  }
+
+  function ribbonTabs(): RibbonTab[] {
+    const disabled = (reason: string) => ({ enabled: false, tooltip: reason });
+    const unavailable = (reason: string) => ({ tooltip: reason });
+    const hasToken = Boolean(selected);
+    const token = selected?.token;
+
+    const tabs: RibbonTab[] = [
+      {
+        id: "home",
+        label: "Home",
+        groups: [
+          group("clipboard", "Appunti", [
+            cmd("cut", "Taglia", "scissors", () => void copySelection(true), { shortcut: "Ctrl+X" }),
+            cmd("copy", "Copia", "copy", () => void copySelection(false), { shortcut: "Ctrl+C" }),
+            cmd("paste", "Incolla", "clipboard-paste", () => void pasteClipboard(), { shortcut: "Ctrl+V" }),
+            cmd("paste-plain", "Incolla solo testo", "clipboard-type", () => void pasteClipboard()),
+            cmd("copy-format", "Copia formattazione", "paintbrush", () => editor?.copyFormatting()),
+            cmd("paste-format", "Incolla formattazione", "paintbrush", () => editor?.applyCopiedFormatting()),
+          ]),
+          group("font", "Carattere", [
+            select(
+              "font-family",
+              "Carattere",
+              settings.font_family,
+              [
+                { value: "", label: "Sistema" },
+                { value: "Arial, Helvetica, sans-serif", label: "Arial" },
+                { value: "Verdana, Geneva, sans-serif", label: "Verdana" },
+                { value: "Calibri, Carlito, sans-serif", label: "Calibri" },
+                {
+                  value: "OpenDyslexic, Atkinson Hyperlegible, sans-serif",
+                  label: "OpenDyslexic",
+                },
+              ],
+              (value) => patchSettings({ font_family: value }),
+              { width: "130px" }
+            ),
+            select(
+              "font-size",
+              "Dimensione",
+              formatState.fontSize ?? "",
+              [
+                { value: "", label: "Predefinita" },
+                { value: "12px", label: "12" },
+                { value: "14px", label: "14" },
+                { value: "16px", label: "16" },
+                { value: "20px", label: "20" },
+                { value: "28px", label: "28" },
+              ],
+              (value) => editor?.applyTextStyle(null, value || null),
+              { width: "92px" }
+            ),
+            cmd("font-grow", "Aumenta dimensione", "plus", () => editor?.adjustFontSize(1)),
+            cmd("font-shrink", "Riduci dimensione", "minus", () => editor?.adjustFontSize(-1)),
+            toggle("bold", "Grassetto", "bold", formatState.bold, () => editor?.toggleBold(), {
+              shortcut: "Ctrl+B",
+            }),
+            toggle("italic", "Corsivo", "italic", formatState.italic, () => editor?.toggleItalic(), {
+              shortcut: "Ctrl+I",
+            }),
+            toggle("underline", "Sottolineato", "underline", formatState.underline, () => editor?.toggleUnderline(), {
+              shortcut: "Ctrl+U",
+            }),
+            toggle("strike", "Barrato", "strikethrough", formatState.strike, () => editor?.toggleStrike()),
+            color("text-color", "Colore testo", formatState.color ?? "#1f2933", (value) =>
+              editor?.applyTextStyle(value, null)
+            ),
+            toggle("highlight", "Evidenziatore", "highlighter", formatState.highlight, () =>
+              editor?.toggleHighlight()
+            ),
+            toggle("uppercase", "TUTTO MAIUSCOLE", "case-upper", settings.uppercase, () =>
+              patchSettings({ uppercase: !settings.uppercase })
+            ),
+            cmd("clear-format", "Cancella formattazione", "eraser", () => editor?.clearFormatting()),
+          ]),
+          group("paragraph", "Paragrafo", [
+            toggle("align-left", "Allinea a sinistra", "align-left", formatState.align === "left", () =>
+              editor?.applyAlignment("left")
+            ),
+            toggle("align-center", "Centra", "align-center", formatState.align === "center", () =>
+              editor?.applyAlignment("center")
+            ),
+            toggle("align-right", "Allinea a destra", "align-right", formatState.align === "right", () =>
+              editor?.applyAlignment("right")
+            ),
+            toggle("align-justify", "Giustifica", "align-justify", formatState.align === "justify", () =>
+              editor?.applyAlignment("justify")
+            ),
+            toggle("bullet-list", "Elenco puntato", "list", formatState.inList, () => editor?.toggleList("bullet")),
+            toggle("ordered-list", "Elenco numerato", "list-ordered", formatState.inList, () =>
+              editor?.toggleList("ordered")
+            ),
+            cmd("indent-more", "Aumenta rientro", "indent-increase", () =>
+              editor?.applyParagraphAttr({ indent: Math.min(6, formatState.indent + 1) })
+            ),
+            cmd("indent-less", "Riduci rientro", "indent-decrease", () =>
+              editor?.applyParagraphAttr({ indent: Math.max(0, formatState.indent - 1) })
+            ),
+            select(
+              "line-height",
+              "Interlinea",
+              formatState.lineHeight ?? "",
+              [
+                { value: "", label: "Predefinita" },
+                { value: "1.2", label: "1,2" },
+                { value: "1.5", label: "1,5" },
+                { value: "2", label: "2,0" },
+              ],
+              (value) => editor?.applyParagraphAttr({ line_height: value || null }),
+              { width: "100px" }
+            ),
+            select(
+              "space-after",
+              "Spaziatura",
+              "",
+              [
+                { value: "", label: "Predefinita" },
+                { value: "0", label: "Nessuna" },
+                { value: "6px", label: "6 pt" },
+                { value: "12px", label: "12 pt" },
+              ],
+              (value) => editor?.applyParagraphAttr({ space_after: value || null }),
+              { width: "100px" }
+            ),
+            toggle("paragraph-border", "Bordi paragrafo", "square", formatState.paragraphBorder, () =>
+              editor?.applyParagraphAttr({ border: !formatState.paragraphBorder })
+            ),
+          ]),
+          group("styles", "Stili", [
+            cmd("style-normal", "Normale", "pilcrow", () => editor?.applyHeading(null)),
+            cmd("style-title", "Titolo", "heading1", () => editor?.applyHeading(1)),
+            cmd("style-subtitle", "Sottotitolo", "heading2", () => editor?.applyHeading(2)),
+            cmd("style-h1", "Titolo 1", "heading1", () => editor?.applyHeading(1)),
+            cmd("style-h2", "Titolo 2", "heading2", () => editor?.applyHeading(2)),
+            cmd("style-caa", "Testo CAA", "book-open", () =>
+              patchSettings({ mode: "sopra", intensity: "media", auto_caa: true })
+            ),
+            cmd("style-readable", "Testo alta leggibilità", "accessibility", () =>
+              patchSettings({
+                font_family: "OpenDyslexic, Atkinson Hyperlegible, sans-serif",
+                font_size: 18,
+              })
+            ),
+          ]),
+          group("edit", "Modifica", [
+            cmd("find", "Trova", "search", openFind, { shortcut: "Ctrl+F" }),
+            cmd("replace", "Sostituisci", "replace", openFind, { shortcut: "Ctrl+H" }),
+            cmd("select-all", "Seleziona tutto", "check-check", () => editor?.selectAllText(), {
+              shortcut: "Ctrl+A",
+            }),
+          ]),
+        ],
+      },
+      {
+        id: "insert",
+        label: "Inserisci",
+        groups: [
+          group("pages", "Pagine e contenuti", [
+            cmd("page-break", "Interruzione di pagina", "file-text", () => editor?.insertPageBreak()),
+            cmd("insert-date", "Data", "calendar", () =>
+              editor?.insertTextAtSelection(new Intl.DateTimeFormat("it-IT").format(new Date()))
+            ),
+            cmd("insert-time", "Ora", "clock", () =>
+              editor?.insertTextAtSelection(
+                new Intl.DateTimeFormat("it-IT", { hour: "2-digit", minute: "2-digit" }).format(new Date())
+              )
+            ),
+          ]),
+          group("elements", "Elementi", [
+            cmd("insert-table", "Tabella", "table", () => editor?.insertTable(3, 3)),
+            cmd("insert-symbol", "Pittogramma", "image", () => openSearchForSelected()),
+          ]),
+          group("caa-insert", "CAA", [
+            cmd("symbol-word", "Pittogramma sulla parola", "image-plus", () => openSearchForSelected()),
+            cmd("symbol-selection", "Pittogramma sulla selezione", "scan-search", () => openSearchForSelected(), {
+              ...disabled("La selezione multipla non è ancora supportata: seleziona una parola."),
+            }),
+            cmd("visual-sequence", "Sequenza pittografica", "list-tree", () => void createResource("sequence")),
+            cmd("communication-table", "Tabella comunicativa", "table-properties", () =>
+              void createResource("grid")
+            ),
+            cmd("visual-strip", "Striscia visiva", "layout-template", () => void createResource("schedule")),
+          ]),
+          group("resources", "Risorse", [
+            cmd("library-arasaac", "Libreria ARASAAC", "library", () => openPanelTab("cerca")),
+            cmd("saved-templates", "Modelli salvati", "archive", () => (view = "home")),
+          ]),
+        ],
+      },
+      {
+        id: "layout",
+        label: "Layout",
+        groups: [
+          group("page", "Pagina", [
+            select(
+              "page-format",
+              "Formato",
+              settings.page,
+              [
+                { value: "a4", label: "A4" },
+                { value: "a4-orizzontale", label: "A4 orizzontale" },
+                { value: "a3", label: "A3" },
+                { value: "a5", label: "A5" },
+              ],
+              (value) => patchSettings({ page: value as never }),
+              { width: "130px" }
+            ),
+            select(
+              "page-margin",
+              "Margini",
+              settings.page_margin,
+              [
+                { value: "stretto", label: "Stretti" },
+                { value: "normale", label: "Normali" },
+                { value: "ampio", label: "Ampi" },
+              ],
+              (value) => patchSettings({ page_margin: value as never }),
+              { width: "110px" }
+            ),
+            color("page-color", "Colore pagina", settings.page_color, (value) =>
+              patchSettings({ page_color: value })
+            ),
+          ]),
+          group("pictograms-layout", "Pittogrammi", [
+            select(
+              "symbol-size",
+              "Dimensione",
+              String(settings.symbol_size),
+              ["40", "48", "56", "64", "72", "80"].map((value) => ({ value, label: value })),
+              (value) => patchSettings({ symbol_size: Number(value) }),
+              { width: "80px" }
+            ),
+            select(
+              "symbol-gap",
+              "Spaziatura",
+              String(settings.symbol_gap),
+              ["2", "4", "6", "8", "10", "12"].map((value) => ({ value, label: value })),
+              (value) => patchSettings({ symbol_gap: Number(value) }),
+              { width: "80px" }
+            ),
+            select(
+              "pictogram-align",
+              "Allineamento",
+              settings.pictogram_align,
+              [
+                { value: "left", label: "Sinistra" },
+                { value: "center", label: "Centro" },
+                { value: "right", label: "Destra" },
+              ],
+              (value) => patchSettings({ pictogram_align: value as never }),
+              { width: "105px" }
+            ),
+          ]),
+          group("caa-borders", "Bordi CAA", [
+            select(
+              "border-style",
+              "Bordo",
+              settings.border_style,
+              [
+                { value: "nessuno", label: "Nessuno" },
+                { value: "immagine", label: "Solo immagine" },
+                { value: "immagine_testo", label: "Immagine e testo" },
+                { value: "separato", label: "Separati" },
+                { value: "divisore", label: "Con divisore" },
+              ],
+              (value) => patchSettings({ border_style: value as never }),
+              { width: "140px" }
+            ),
+            color("border-color", "Colore", settings.chip_border_color || "#c9d3e2", (value) =>
+              patchSettings({ chip_border_color: value })
+            ),
+            select(
+              "border-width",
+              "Spessore",
+              String(settings.chip_border_width),
+              ["0", "1", "2", "3"].map((value) => ({ value, label: value })),
+              (value) => patchSettings({ chip_border_width: Number(value) }),
+              { width: "76px" }
+            ),
+            select(
+              "border-kind",
+              "Stile",
+              settings.chip_border_style,
+              [
+                { value: "solid", label: "Continuo" },
+                { value: "dashed", label: "Tratteggio" },
+                { value: "dotted", label: "Punti" },
+              ],
+              (value) => patchSettings({ chip_border_style: value as never }),
+              { width: "110px" }
+            ),
+            select(
+              "border-radius",
+              "Arrotondamento",
+              String(settings.chip_radius),
+              ["0", "4", "8", "12", "16"].map((value) => ({ value, label: value })),
+              (value) => patchSettings({ chip_radius: Number(value) }),
+              { width: "90px" }
+            ),
+            select(
+              "border-padding",
+              "Padding",
+              String(settings.chip_padding),
+              ["0", "2", "4", "6", "8"].map((value) => ({ value, label: value })),
+              (value) => patchSettings({ chip_padding: Number(value) }),
+              { width: "82px" }
+            ),
+            color("chip-background", "Sfondo", settings.chip_background || "#ffffff", (value) =>
+              patchSettings({ chip_background: value })
+            ),
+          ]),
+          group("presets", "Layout predefiniti", [
+            cmd("preset-essential", "Essenziale", "layout-template", () => applyPreset("essenziale")),
+            cmd("preset-classic", "Classico CAA", "layout-template", () => applyPreset("classico")),
+            cmd("preset-contrast", "Alto contrasto", "contrast", () => applyPreset("contrasto")),
+            cmd("preset-large", "Grandi pittogrammi", "maximize", () => applyPreset("grandi")),
+            cmd("preset-cards", "Schede comunicative", "layout-grid", () => applyPreset("schede")),
+            cmd("preset-illustrated", "Testo illustrato", "book-open", () => applyPreset("illustrato")),
+          ]),
+        ],
+      },
+      {
+        id: "pictograms",
+        label: "Pittogrammi",
+        groups: [
+          group("symbolization", "Simbolizzazione", [
+            toggle("auto-caa", "CAA automatica", "sparkles", settings.auto_caa, () =>
+              patchSettings({ auto_caa: !settings.auto_caa })
+            ),
+            toggle("intensity-min", "Essenziale", "minus", settings.intensity === "minima", () =>
+              patchSettings({ intensity: "minima" })
+            ),
+            toggle("intensity-max", "Estesa", "plus", settings.intensity === "completa", () =>
+              patchSettings({ intensity: "completa" })
+            ),
+            toggle("mode-symbols", "Solo pittogrammi", "image", settings.mode === "solo_simboli", () =>
+              patchSettings({ mode: "solo_simboli" })
+            ),
+            toggle("mode-text", "Pittogrammi e testo", "book-open", settings.mode === "sopra", () =>
+              patchSettings({ mode: "sopra" })
+            ),
+            cmd("refresh-sentence", "Rivaluta frase", "refresh", () => {
+              if (selected) editor?.refreshParagraph(selected.pid);
+              else editor?.refreshAll();
+            }),
+            cmd("refresh-document", "Rivaluta documento", "refresh", () => editor?.refreshAll()),
+          ]),
+          group("search", "Ricerca", [
+            cmd("search-symbol", "Cerca pittogramma", "search", () => openSearchForSelected()),
+            cmd("search-affinity", "Cerca per affinità", "network", () => openSearchForSelected()),
+            cmd("search-ai", "Cerca con IA", "sparkles", () => openSearchForSelected(true)),
+            cmd("search-manual", "Inserisci manualmente", "scan-search", () => openSearchForSelected()),
+            cmd("show-alternatives", "Mostra alternative", "list", () => openPanelTab("alternative"), {
+              enabled: hasToken,
+              ...unavailable("Seleziona una parola nel documento."),
+            }),
+          ]),
+          group("manage", "Gestione", [
+            cmd("change-symbol", "Cambia pittogramma", "image-plus", () => openSearchForSelected(), {
+              enabled: hasToken,
+              ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("lock", "Blocca", "lock", () => void setUnitState({ locked: true }), {
+              enabled: hasToken,
+              ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("unlock", "Sblocca", "lock-open", () => void setUnitState({ locked: false }), {
+              enabled: hasToken,
+              ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("hide", "Nascondi", "eye-off", () => void setUnitState({ hidden: true }), {
+              enabled: hasToken,
+              ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("show", "Mostra", "eye", () => void setUnitState({ hidden: false }), {
+              enabled: hasToken,
+              ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("forget", "Elimina associazione", "eraser", () => void resetUnit(), {
+              enabled: hasToken,
+              ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("remember", "Ricorda associazione", "badge-check", rememberSelected, {
+              enabled: Boolean(token?.symbol_id),
+              ...unavailable("Serve un pittogramma già associato."),
+            }),
+          ]),
+          group("modifiers", "Modificatori", [
+            toggle("mod-plural", "Plurale", "type", Boolean(token?.modifiers?.plural), () =>
+              toggleModifier("plural")
+            ),
+            toggle("mod-negation", "Negazione", "minus", Boolean(token?.modifiers?.negation), () =>
+              toggleModifier("negation")
+            ),
+            toggle("mod-past", "Passato", "clock", Boolean(token?.modifiers?.past), () =>
+              toggleModifier("past")
+            ),
+            toggle("mod-future", "Futuro", "calendar", Boolean(token?.modifiers?.future), () =>
+              toggleModifier("future")
+            ),
+            cmd("mod-auto", "Automatici", "refresh", () => {
+              if (!selected) return;
+              void setUnitState({ modifiers: { ...noModifiers, manual: false } });
+            }),
+            cmd("mod-manual", "Manuali", "sliders", () => {
+              if (!selected) return;
+              void setUnitState({
+                modifiers: { ...(selected.token.modifiers ?? noModifiers), manual: true },
+              });
+            }),
+          ]),
+          group("grammar", "Parole grammaticali", [
+            toggle("grammar-articles", "Articoli", "type", settings.symbolize_articles, () =>
+              patchSettings({ symbolize_articles: !settings.symbolize_articles })
+            ),
+            toggle("grammar-prepositions", "Preposizioni", "link", settings.symbolize_prepositions, () =>
+              patchSettings({ symbolize_prepositions: !settings.symbolize_prepositions })
+            ),
+            toggle("grammar-conjunctions", "Congiunzioni", "combine", settings.symbolize_conjunctions, () =>
+              patchSettings({ symbolize_conjunctions: !settings.symbolize_conjunctions })
+            ),
+            { ...cmd("grammar-pronouns", "Pronomi", "message-square", () => {}), ...disabled("Categoria non ancora implementata.") },
+            { ...cmd("grammar-adverbs", "Avverbi", "type", () => {}), ...disabled("Categoria non ancora implementata.") },
+          ]),
+          group("packs", "Repertori", [
+            select(
+              "pack",
+              "Repertorio",
+              settings.pack_id ?? "",
+              [{ value: "", label: "Tutti" }, ...packs.map((pack) => ({ value: pack.id, label: pack.name }))],
+              (value) => patchSettings({ pack_id: value || null }),
+              { width: "150px" }
+            ),
+            cmd("manage-packs", "Gestione librerie", "settings", () => openSettingsPanel()),
+          ]),
+        ],
+      },
+      {
+        id: "review",
+        label: "Revisione",
+        groups: [
+          group("review-text", "Testo", [
+            cmd("review-find", "Trova e sostituisci", "replace", openFind),
+            cmd("word-count", "Conteggio parole", "calculator", showWordCount),
+          ]),
+          group("review-semantic", "Semantica", [
+            cmd("analyze-sentence", "Analizza frase", "scan-search", () => {
+              if (selected) editor?.refreshParagraph(selected.pid);
+              else editor?.refreshAll();
+            }),
+            cmd("analyze-document", "Analizza documento", "refresh", () => editor?.refreshAll()),
+            cmd("show-units", "Mostra unità semantiche", "list-tree", () => openPanelTab("alternative")),
+            cmd("show-concepts", "Mostra concetti", "book-open", () => showReviewReport("semantic")),
+            cmd("show-ambiguous", "Evidenzia ambiguità", "triangle-alert", () => showReviewReport("semantic")),
+            cmd("show-approx", "Mostra approssimativi", "circle-help", () => showReviewReport("coverage")),
+          ]),
+          group("review-coverage", "Copertura CAA", [
+            cmd("coverage-missing", "Parole senza simbolo", "search", () => showReviewReport("coverage")),
+            cmd("coverage-manual", "Associazioni manuali", "badge-check", () => showReviewReport("coverage")),
+            cmd("coverage-locked", "Simboli bloccati", "lock", () => showReviewReport("coverage")),
+            cmd("coverage-modifiers", "Verifica modificatori", "sliders", () => showReviewReport("modifiers")),
+          ]),
+          group("review-a11y", "Accessibilità", [
+            cmd("check-symbol-size", "Verifica dimensioni", "maximize", () =>
+              report = {
+                title: "Dimensioni dei pittogrammi",
+                lines: [
+                  `Dimensione attuale: ${settings.symbol_size} px`,
+                  `Spaziatura: ${settings.symbol_gap} px`,
+                  settings.touch_mode ? "Modalità touch attiva." : "Modalità touch disattivata.",
+                ],
+              }
+            ),
+            cmd("accessible-preview", "Anteprima accessibile", "printer", printDocument),
+          ]),
+        ],
+      },
+      {
+        id: "ai",
+        label: "Strumenti IA",
+        groups: [
+          group("ai-understanding", "Comprensione", [
+            cmd("ai-clarity", "Analizza chiarezza", "brain", () =>
+              void runAiReport("analyse_text_clarity", "Chiarezza del testo")
+            ),
+            cmd("ai-affinity", "Cerca concetti affini", "network", () => openSearchForSelected(true)),
+            cmd("ai-refine", "Rivaluta con il modello", "refresh", () => editor?.refreshAll(), {
+              enabled: neuralConfigured,
+              ...unavailable("Nessun modello neurale configurato."),
+            }),
+          ]),
+          group("ai-writing", "Scrittura", [
+            cmd("ai-simplify", "Semplifica testo", "wand", () =>
+              void runAiReport(
+                "simplify_sentence",
+                "Semplificazione",
+                editor?.getSelectedText().trim() || editor?.getPlainText()
+              )
+            ),
+            cmd("ai-alternatives", "Suggerisci alternative", "sparkles", () => openSearchForSelected(true)),
+          ]),
+          group("ai-symbols", "Pittogrammi", [
+            cmd("ai-missing", "Trova simboli mancanti", "search", () => showReviewReport("coverage")),
+            cmd("ai-equivalents", "Cerca equivalenti", "network", () => openSearchForSelected()),
+            cmd("ai-recheck", "Rivaluta frase", "refresh", () => {
+              if (selected) editor?.refreshParagraph(selected.pid);
+              else editor?.refreshAll();
+            }),
+          ]),
+          group("ai-create", "Creazione", [
+            cmd("create-grid", "Tabella comunicativa", "table", () => void createResource("grid")),
+            cmd("create-schedule", "Agenda", "calendar", () => void createResource("schedule")),
+            cmd("create-social", "Storia sociale", "book-open", () => void createResource("social")),
+            cmd("create-sequence", "Sequenza visiva", "list-tree", () => void createResource("sequence")),
+            cmd("create-teaching", "Materiale didattico", "layout-grid", () => void createResource("teaching")),
+          ]),
+          group("ai-model", "Modello neurale", [
+            cmd("ai-status", "Stato del modello", "badge-check", () =>
+              report = {
+                title: "Modello neurale",
+                lines: [
+                  aiStatus
+                    ? `Stato: ${aiStatus.enabled ? "attivo" : "disattivato"}`
+                    : "Stato non disponibile.",
+                  aiStatus?.active_model
+                    ? `Modello attivo: ${aiStatus.active_model}`
+                    : "Nessun modello attivo.",
+                  aiStatus?.note ?? "Nessuna nota dal servizio.",
+                  `Ultimo errore: ${aiStatus?.last_error ?? "nessuno"}`,
+                ],
+              }
+            ),
+            cmd("ai-manage", "Gestione modelli", "settings", () => openSettingsPanel()),
+            cmd("ai-settings", "Impostazioni IA", "sliders", () => openSettingsPanel()),
+          ]),
+        ],
+      },
+      {
+        id: "view",
+        label: "Visualizza",
+        groups: [
+          group("zoom", "Zoom", [
+            cmd("zoom-in", "Zoom avanti", "zoom-in", () => setZoom(zoom + 0.1)),
+            cmd("zoom-out", "Zoom indietro", "zoom-out", () => setZoom(zoom - 0.1)),
+            cmd("zoom-100", "100%", "maximize", () => setZoom(1)),
+            cmd("zoom-fit", "Adatta larghezza", "minimize", fitWidth),
+          ]),
+          group("panels", "Pannelli", [
+            toggle("panel-toggle", "Pannello laterale", "panel-right", !panelClosed, () =>
+              (panelClosed = !panelClosed)
+            ),
+            cmd("panel-settings", "Proprietà", "settings", () => openPanelTab("impostazioni")),
+          ]),
+          group("modes", "Modalità", [
+            toggle("touch-mode", "Modalità touch", "touchpad", settings.touch_mode, () =>
+              patchSettings({ touch_mode: !settings.touch_mode })
+            ),
+            toggle("fullscreen", "Schermo intero", "fullscreen", fullscreen, () =>
+              void toggleFullscreen()
+            ),
+          ]),
+          group("preview", "Anteprima", [
+            cmd("print-preview", "Anteprima di stampa / PDF", "printer", printDocument),
+            cmd("caa-preview", "Anteprima CAA", "eye", () =>
+              patchSettings({ mode: "sopra", show_captions: true })
+            ),
+            cmd("toggle-borders", "Mostra/nascondi bordi", "frame", () =>
+              patchSettings({
+                border_style: settings.border_style === "nessuno" ? "immagine_testo" : "nessuno",
+              })
+            ),
+          ]),
+        ],
+      },
+    ];
+
+    if (selected) {
+      tabs.push({
+        id: "pictogram",
+        label: "Pittogramma",
+        contextual: true,
+        groups: [
+          group("pictogram-format", "Formato pittogramma", [
+            cmd("pictogram-change", "Cambia immagine", "image-plus", () => openSearchForSelected()),
+            cmd("pictogram-size", "Dimensioni", "maximize", () => (ribbonTab = "layout")),
+            cmd("pictogram-border", "Bordi", "frame", () => (ribbonTab = "layout")),
+            cmd("pictogram-align", "Allineamento", "align-center", () => (ribbonTab = "layout")),
+            cmd("pictogram-lock", selected.token.locked ? "Sblocca" : "Blocca", "lock", () =>
+              void setUnitState({ locked: !selected!.token.locked })
+            ),
+            cmd("pictogram-hide", selected.token.hidden ? "Mostra" : "Nascondi", "eye-off", () =>
+              void setUnitState({ hidden: !selected!.token.hidden })
+            ),
+            cmd("pictogram-text", "Testo associato", "type", () => editor?.focus()),
+          ]),
+          group("pictogram-modifiers", "Modificatori", [
+            toggle("pictogram-plural", "Plurale", "type", Boolean(selected.token.modifiers?.plural), () =>
+              toggleModifier("plural")
+            ),
+            toggle("pictogram-negation", "Negazione", "minus", Boolean(selected.token.modifiers?.negation), () =>
+              toggleModifier("negation")
+            ),
+            toggle("pictogram-past", "Passato", "clock", Boolean(selected.token.modifiers?.past), () =>
+              toggleModifier("past")
+            ),
+            toggle("pictogram-future", "Futuro", "calendar", Boolean(selected.token.modifiers?.future), () =>
+              toggleModifier("future")
+            ),
+          ]),
+        ],
+      });
+    }
+
+    if (formatState.inTable) {
+      tabs.push({
+        id: "table",
+        label: "Tabella",
+        contextual: true,
+        groups: [
+          group("table-structure", "Struttura tabella", [
+            cmd("table-row", "Inserisci riga", "rows2", () => editor?.tableAction("addRowAfter")),
+            cmd("table-column", "Inserisci colonna", "columns-2", () => editor?.tableAction("addColumnAfter")),
+            cmd("table-delete-row", "Elimina riga", "minus", () => editor?.tableAction("deleteRow")),
+            cmd("table-delete-column", "Elimina colonna", "x", () => editor?.tableAction("deleteColumn")),
+            cmd("table-merge", "Unisci celle", "combine", () => editor?.tableAction("mergeCells")),
+            cmd("table-split", "Dividi celle", "split", () => editor?.tableAction("splitCell")),
+          ]),
+        ],
+      });
+    }
+
+    return tabs;
+  }
 </script>
 
 <svelte:head>
@@ -1018,147 +2132,39 @@
   />
 {:else}
 <div class="app">
-  <header class="topbar no-print">
-    <div class="topbar__brand">
-      <button class="btn btn--ghost" onclick={() => (view = "home")} title="Torna alla schermata iniziale" aria-label="Torna alla schermata iniziale">⌂</button>
-      <span class="topbar__title">CAA Writer</span>
-      <span class="topbar__doc" title={docPath ?? docTitle}>{docTitle}{dirty ? " •" : ""}</span>
-    </div>
-
-    <div class="topbar__group" role="group" aria-label="Documento">
-      <button class="btn" onclick={() => newDocument()} title="Nuovo documento (Ctrl+N)">Nuovo</button>
-      <button class="btn" onclick={() => void openDocument()} title="Apri (Ctrl+O)">Apri</button>
-      <button class="btn btn--solid" onclick={() => void saveDocument(false)} title="Salva (Ctrl+S)">Salva</button>
-      <button class="btn" onclick={() => void saveDocument(true)} title="Salva con nome">Salva con nome</button>
-      <button class="btn" onclick={() => void importDocument()}>Importa</button>
-    </div>
-
-    <div class="topbar__group" role="group" aria-label="Formattazione">
-      <button class="btn" onclick={() => editor?.undoAction()} aria-label="Annulla">↶</button>
-      <button class="btn" onclick={() => editor?.redoAction()} aria-label="Ripristina">↷</button>
-      <button class="btn" onclick={() => editor?.toggleBold()} aria-label="Grassetto"><strong>B</strong></button>
-      <button class="btn" onclick={() => editor?.toggleItalic()} aria-label="Corsivo"><em>I</em></button>
-      <button class="btn" onclick={() => editor?.toggleUnderline()} aria-label="Sottolineato"><u>U</u></button>
-      <button class="btn" onclick={() => editor?.applyHeading(1)} aria-label="Titolo">H1</button>
-      <button class="btn" onclick={() => editor?.applyHeading(null)} aria-label="Paragrafo normale">¶</button>
-      <button class="btn" onclick={() => editor?.applyAlignment("left")} aria-label="Allinea a sinistra">⯇</button>
-      <button class="btn" onclick={() => editor?.applyAlignment("center")} aria-label="Centra">≡</button>
-      <button class="btn" onclick={() => editor?.applyAlignment(null)} aria-label="Allineamento predefinito">⟲</button>
-      <button class="btn" onclick={() => editor?.toggleList("bullet")} aria-label="Elenco puntato">•</button>
-      <button class="btn" onclick={() => editor?.toggleList("ordered")} aria-label="Elenco numerato">1.</button>
-      <button class="btn" onclick={() => editor?.insertTable(2, 2)} aria-label="Inserisci tabella">▦</button>
-      <input
-        type="color"
-        aria-label="Colore del testo"
-        title="Colore del testo"
-        style="width:34px;height:30px;padding:2px"
-        onchange={(event) => editor?.applyTextStyle((event.currentTarget as HTMLInputElement).value, null)}
-      />
-      <select
-        aria-label="Carattere del documento"
-        title="Carattere del documento (salvato con il documento)"
-        value={settings.font_family}
-        onchange={(event) => patchSettings({ font_family: (event.currentTarget as HTMLSelectElement).value })}
-      >
-        <option value="">Carattere di sistema</option>
-        <option value="Arial, Helvetica, sans-serif">Arial</option>
-        <option value="Verdana, Geneva, sans-serif">Verdana</option>
-        <option value="Calibri, Carlito, sans-serif">Calibri</option>
-        <option value="OpenDyslexic, Atkinson Hyperlegible, sans-serif">OpenDyslexic</option>
-      </select>
-      <button
-        class="btn"
-        class:btn--solid={settings.uppercase}
-        aria-pressed={settings.uppercase}
-        title="Mostra il testo in maiuscolo: cambia solo la visualizzazione, non il significato né i pittogrammi"
-        onclick={() => patchSettings({ uppercase: !settings.uppercase })}>AA</button
-      >
-      <select
-        aria-label="Dimensione carattere"
-        onchange={(event) => {
-          const value = (event.currentTarget as HTMLSelectElement).value;
-          editor?.applyTextStyle(null, value || null);
-        }}
-      >
-        <option value="">Dimensione</option>
-        <option value="12px">12</option>
-        <option value="14px">14</option>
-        <option value="16px">16</option>
-        <option value="20px">20</option>
-        <option value="28px">28</option>
-      </select>
-    </div>
-
-    <div class="topbar__group" role="group" aria-label="Rappresentazione CAA">
-      <button
-        class="btn"
-        class:btn--solid={settings.auto_caa}
-        aria-pressed={settings.auto_caa}
-        title={settings.auto_caa
-          ? "CAA automatica attiva: i pittogrammi si aggiornano mentre scrivi"
-          : "CAA automatica disattivata: le associazioni restano memorizzate e ricompaiono attivandola"}
-        onclick={() => patchSettings({ auto_caa: !settings.auto_caa })}>
-        CAA automatica: {settings.auto_caa ? "Attiva" : "Disattiva"}
-      </button>
-      <select
-        aria-label="Disposizione dei pittogrammi"
-        value={settings.mode}
-        disabled={!settings.auto_caa}
-        onchange={(event) => patchSettings({ mode: (event.currentTarget as HTMLSelectElement).value as never })}
-      >
-        <option value="testo">A · Testo</option>
-        <option value="sopra">B · Simboli sopra</option>
-        <option value="sotto">C · Didascalia sotto</option>
-        <option value="solo_simboli">D · Solo simboli</option>
-        <option value="semplificata">E · Semplificata</option>
-      </select>
-      <select
-        aria-label="Livello di simbolizzazione"
-        value={settings.intensity}
-        onchange={(event) => patchSettings({ intensity: (event.currentTarget as HTMLSelectElement).value as never })}
-      >
-        <option value="minima">Essenziale</option>
-        <option value="media">Bilanciata</option>
-        <option value="completa">Estesa</option>
-      </select>
-      <button
-        class="btn"
-        class:btn--solid={neuralConfigured && settings.neural_context}
-        aria-pressed={settings.neural_context}
-        title={neuralConfigured
-          ? `Analisi contestuale neurale attiva${aiStatus?.active_model ? ` (${aiStatus.active_model})` : ""}: propone simboli affini durante la scrittura e può correggere le scelte incerte`
-          : "Modello linguistico locale non configurato: resta attivo il motore lessicale. Puoi scaricarne uno in Impostazioni → Gestione modelli"}
-        onclick={() => patchSettings({ neural_context: !settings.neural_context })}>
-        Analisi neurale: {settings.neural_context ? (neuralConfigured ? "Attiva" : "non configurata") : "Disattiva"}
-      </button>
-      <button
-        class="btn"
-        title="Apre il pannello laterale sulla scheda Impostazioni"
-        onclick={() => openSettingsPanel()}>Impostazioni</button
-      >
-    </div>
-
-    <div class="topbar__group" role="group" aria-label="Esportazione">
-      <button class="btn" onclick={printDocument} title="Stampa o salva come PDF (Ctrl+P)">PDF</button>
-      <button class="btn" onclick={() => void exportDocx()}>DOCX</button>
-      <button class="btn" onclick={() => void exportHtml()}>HTML</button>
-      <button class="btn" onclick={() => void exportAttributions()} title="Registro delle licenze dei simboli usati">Licenze</button>
-    </div>
-
-    <button class="btn" onclick={speakParagraph} title="Leggi il paragrafo o il documento">🔊 Ascolta</button>
-    <button
-      class="btn"
-      onclick={() => (communicatorOpen = true)}
-      disabled={!resourceLayout}
-      title={resourceLayout
-        ? "Apri la tabella come comunicatore interattivo"
-        : "Genera o apri una tabella per usare il comunicatore"}
-    >
-      Comunicatore
-    </button>
-    <div class="topbar__spacer"></div>
-    <span class="hint" aria-live="polite">{autoSavedAt ? `Bozza salvata alle ${autoSavedAt}` : ""}</span>
-  </header>
+  <Ribbon
+    tabs={ribbonTabs()}
+    activeTab={ribbonTab}
+    onTab={moveRibbonTab}
+    fileCommands={fileCommands()}
+    quickCommands={quickCommands()}
+    quickOptions={quickOptions()}
+    quickAccess={quickAccess}
+    onToggleQuick={toggleQuickAccess}
+    onHome={() => (view = "home")}
+    docTitle={docTitle}
+    docPath={docPath}
+    dirty={dirty}
+    savedAt={autoSavedAt ?? ""}
+    mode={ribbonMode}
+    onMode={setRibbonMode}
+  />
+  {#if findOpen}
+    <FindReplace
+      onFind={(query, forward) => {
+        if (!editor?.findNext(query, forward)) toast("Nessuna occorrenza trovata.", "warn");
+      }}
+      onReplace={(query, replacement) => {
+        if (!editor?.replaceCurrent(query, replacement)) toast("Nessuna occorrenza trovata.", "warn");
+      }}
+      onReplaceAll={(query, replacement) => {
+        const count = editor?.replaceAll(query, replacement) ?? 0;
+        toast(count ? `${count} occorrenze sostituite.` : "Nessuna occorrenza trovata.", count ? "info" : "warn");
+      }}
+      countMatches={(query) => editor?.countMatches(query) ?? 0}
+      onClose={() => (findOpen = false)}
+    />
+  {/if}
 
   {#if !native}
     <div class="banner banner--demo" role="status">
@@ -1184,8 +2190,9 @@
         class="paper"
         class:paper--a4-orizzontale={settings.page === "a4-orizzontale"}
         class:paper--a3={settings.page === "a3"}
+        class:paper--a5={settings.page === "a5"}
         data-uppercase={settings.uppercase ? "true" : "false"}
-        style={settings.font_family ? `font-family:${settings.font_family}` : ""}
+        style={`${settings.font_family ? `font-family:${settings.font_family};` : ""}zoom:${zoom}`}
       >
         <CaaEditor
           bind:this={editor}
@@ -1206,6 +2213,7 @@
           onSelectToken={(pid, token) => (selected = { pid, token })}
           onError={(message) => toast(message, "error")}
           onAnalyzed={onAnalyzed}
+          onFormattingChange={(state) => (formatState = state)}
         />
       </div>
 
@@ -1318,6 +2326,7 @@
         }}
       ></button>
       <SidePanel
+        bind:closed={panelClosed}
         {selected}
       {settings}
       {appInfo}
@@ -1389,6 +2398,10 @@
     onToast={toast}
     onClose={() => (settingsOpen = false)}
   />
+{/if}
+
+{#if report}
+  <ReportDialog title={report.title} lines={report.lines} onClose={() => (report = null)} />
 {/if}
 
 <div class="toast-area" aria-live="polite" aria-atomic="false">

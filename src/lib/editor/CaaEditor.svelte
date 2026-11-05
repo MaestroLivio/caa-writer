@@ -1,13 +1,28 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { EditorState, Plugin } from "prosemirror-state";
+  import { EditorState, Plugin, TextSelection } from "prosemirror-state";
   import type { Transaction } from "prosemirror-state";
   import { EditorView } from "prosemirror-view";
   import type { NodeView, ViewMutationRecord } from "prosemirror-view";
-  import type { Node as PMNode } from "prosemirror-model";
-  import { history, undo, redo } from "prosemirror-history";
+  import type { Mark, Node as PMNode } from "prosemirror-model";
+  import { history, redoDepth, undo, redo, undoDepth } from "prosemirror-history";
   import { keymap } from "prosemirror-keymap";
-  import { baseKeymap, setBlockType, splitBlock, toggleMark } from "prosemirror-commands";
+  import {
+    baseKeymap,
+    selectAll,
+    setBlockType,
+    splitBlock,
+    toggleMark,
+  } from "prosemirror-commands";
+  import {
+    addColumnAfter,
+    addRowAfter,
+    deleteColumn,
+    deleteRow,
+    isInTable,
+    mergeCells,
+    splitCell,
+  } from "prosemirror-tables";
   import {
     liftListItem,
     sinkListItem,
@@ -16,6 +31,7 @@
   } from "prosemirror-schema-list";
   import { schema } from "./schema";
   import { tokenForSelection } from "./selection";
+  import type { FormattingState } from "./formatting";
   import { api, demoAnalyze, isTauri } from "../api";
   import type { CaaMode, CaaToken, Intensity } from "../types";
 
@@ -45,6 +61,9 @@
     onTokenMenu: (pid: string, token: CaaToken, at: { x: number; y: number }) => void;
     onError: (message: string) => void;
     onAnalyzed: (byParagraph: Map<string, CaaToken[]>) => void;
+    /// Stato di formattazione della selezione: serve al Ribbon per mostrare
+    /// i pulsanti attivi (grassetto, corsivo, allineamento, tabella...).
+    onFormattingChange?: (state: FormattingState) => void;
   }
 
   let {
@@ -65,6 +84,7 @@
     onTokenMenu,
     onError,
     onAnalyzed,
+    onFormattingChange,
   }: Props = $props();
 
   let host: HTMLDivElement;
@@ -255,8 +275,27 @@
     }
 
     private applyAttrs() {
-      const align = this.node.attrs.align as string | null;
-      this.contentDOM.style.textAlign = align ?? "";
+      const attrs = this.node.attrs;
+      const indent = Number(attrs.indent ?? 0);
+      this.contentDOM.style.textAlign = (attrs.align as string | null) ?? "";
+      this.contentDOM.style.paddingLeft = indent > 0 ? `${indent * 24}px` : "";
+      this.contentDOM.style.lineHeight = (attrs.line_height as string | null) ?? "";
+      this.contentDOM.style.marginTop = (attrs.space_before as string | null) ?? "";
+      this.contentDOM.style.marginBottom = (attrs.space_after as string | null) ?? "";
+      if (attrs.border) {
+        this.contentDOM.style.border = "1px solid var(--border)";
+        this.contentDOM.style.borderRadius = "6px";
+        this.contentDOM.style.paddingTop = "6px";
+        this.contentDOM.style.paddingBottom = "6px";
+        this.contentDOM.style.paddingRight = "10px";
+      } else {
+        this.contentDOM.style.border = "";
+        this.contentDOM.style.borderRadius = "";
+        this.contentDOM.style.paddingTop = "";
+        this.contentDOM.style.paddingBottom = "";
+        this.contentDOM.style.paddingRight = "";
+      }
+      this.dom.classList.toggle("caa-block--break", Boolean(attrs.page_break));
       this.dom.dataset.pid = this.pid;
       this.contentDOM.setAttribute("data-pid", this.pid);
     }
@@ -336,7 +375,48 @@
   // ogni tasto: altrimenti il pannello cambierebbe durante la digitazione.
   let lastTextSelectionKey = "";
 
+  let lastFormatting = "";
+
+  function reportFormatting() {
+    if (!view || !onFormattingChange) return;
+    const state = view.state;
+    const marks = state.storedMarks ?? state.selection.$from.marks();
+    const has = (name: string) => marks.some((mark) => mark.type.name === name);
+    const style = marks.find((mark) => mark.type.name === "text_style");
+    const parent = state.selection.$from.parent;
+    let inList = false;
+    for (let depth = state.selection.$from.depth; depth > 0; depth -= 1) {
+      const node = state.selection.$from.node(depth);
+      if (node.type.name === "bullet_list" || node.type.name === "ordered_list") {
+        inList = true;
+      }
+    }
+    const next = {
+      bold: has("strong"),
+      italic: has("em"),
+      underline: has("underline"),
+      strike: has("strike"),
+      highlight: has("highlight"),
+      color: style?.attrs.color ?? null,
+      fontSize: style?.attrs.font_size ?? null,
+      align: (parent.attrs.align as string | null) ?? null,
+      heading: parent.type.name === "heading" ? Number(parent.attrs.level) : null,
+      indent: Number(parent.attrs.indent ?? 0),
+      lineHeight: (parent.attrs.line_height as string | null) ?? null,
+      paragraphBorder: Boolean(parent.attrs.border),
+      inTable: isInTable(state),
+      inList,
+      canUndo: undoDepth(state) > 0,
+      canRedo: redoDepth(state) > 0,
+    };
+    const signature = JSON.stringify(next);
+    if (signature === lastFormatting) return;
+    lastFormatting = signature;
+    onFormattingChange(next);
+  }
+
   function selectionFromView(current: EditorView) {
+    reportFormatting();
     const { from, to } = current.state.selection;
     const resolved = current.state.doc.resolve(from);
     let depth = resolved.depth;
@@ -549,22 +629,33 @@
     return splitBlock(state, dispatch);
   }
 
+  /// Plugin comuni a tutti gli stati dell'editor: caricare un documento o
+  /// importare testo non deve perdere scorciatoie e sincronizzazione selezione.
+  function editorPlugins() {
+    return [
+      history(),
+      selectionSyncPlugin,
+      keymap({
+        "Mod-z": undo,
+        "Mod-y": redo,
+        "Shift-Mod-z": redo,
+        "Mod-b": toggleMark(schema.marks.strong),
+        "Mod-i": toggleMark(schema.marks.em),
+        "Mod-u": toggleMark(schema.marks.underline),
+        "Mod-Shift-x": toggleMark(schema.marks.strike),
+        "Mod-a": selectAll,
+        Enter: splitBlockOrList,
+        Tab: sinkListItem(schema.nodes.list_item),
+        "Shift-Tab": liftListItem(schema.nodes.list_item),
+      }),
+      keymap(baseKeymap),
+    ];
+  }
+
   onMount(() => {
     let state = EditorState.create({
       doc: initialDoc(),
-      plugins: [
-        history(),
-        selectionSyncPlugin,
-        keymap({
-          "Mod-z": undo,
-          "Mod-y": redo,
-          "Shift-Mod-z": redo,
-          Enter: splitBlockOrList,
-          Tab: sinkListItem(schema.nodes.list_item),
-          "Shift-Tab": liftListItem(schema.nodes.list_item),
-        }),
-        keymap(baseKeymap),
-      ],
+      plugins: editorPlugins(),
     });
     state = ensurePids(state);
 
@@ -582,6 +673,7 @@
           if (withIds !== view!.state) view!.updateState(withIds);
           schedule();
         }
+        reportFormatting();
       },
       attributes: {
         class: "ProseMirror editor",
@@ -592,6 +684,7 @@
       },
     });
 
+    reportFormatting();
     schedule(30);
     return () => {
       view?.destroy();
@@ -644,7 +737,7 @@
     }
     if (!doc) doc = schema.node("doc", null, [schema.node("paragraph", { pid: newPid() }, [])]);
     const state = ensurePids(
-      EditorState.create({ doc, plugins: [history(), selectionSyncPlugin] })
+      EditorState.create({ doc, plugins: editorPlugins() })
     );
     paragraphViews.clear();
     view.updateState(state);
@@ -652,6 +745,7 @@
     refinedSignature.clear();
     tokensByPid.clear();
     void plain;
+    reportFormatting();
     schedule(40);
   }
 
@@ -671,10 +765,11 @@
       );
     const doc = schema.node("doc", null, paragraphs.length ? paragraphs : [schema.node("paragraph", { pid: newPid() }, [])]);
     paragraphViews.clear();
-    view.updateState(EditorState.create({ doc, plugins: [history()] }));
+    view.updateState(EditorState.create({ doc, plugins: editorPlugins() }));
     analyzedSignature.clear();
     refinedSignature.clear();
     tokensByPid.clear();
+    reportFormatting();
     schedule(40);
     view.focus();
   }
@@ -804,6 +899,199 @@
     if (!view) return;
     toggleMark(schema.marks.underline)(view.state, view.dispatch);
     view.focus();
+  }
+
+  export function toggleStrike() {
+    if (!view) return;
+    toggleMark(schema.marks.strike)(view.state, view.dispatch);
+    view.focus();
+  }
+
+  export function toggleHighlight() {
+    if (!view) return;
+    toggleMark(schema.marks.highlight, { color: "#fff59d" })(view.state, view.dispatch);
+    view.focus();
+  }
+
+  export function clearFormatting() {
+    if (!view) return;
+    const { from, to } = view.state.selection;
+    view.dispatch(view.state.tr.removeMark(from, to));
+    view.focus();
+  }
+
+  export function selectAllText() {
+    if (!view) return;
+    selectAll(view.state, view.dispatch);
+    view.focus();
+  }
+
+  export function getSelectedText(): string {
+    if (!view) return "";
+    const { from, to } = view.state.selection;
+    return view.state.doc.textBetween(from, to, "\n");
+  }
+
+  export function deleteSelection() {
+    if (!view || view.state.selection.empty) return;
+    view.dispatch(view.state.tr.deleteSelection());
+    view.focus();
+  }
+
+  export function insertTextAtSelection(text: string) {
+    if (!view || !text) return;
+    view.dispatch(view.state.tr.insertText(text));
+    view.focus();
+  }
+
+  export function insertPageBreak() {
+    if (!view) return;
+    const node = schema.nodes.paragraph.create({ pid: newPid(), page_break: true });
+    view.dispatch(view.state.tr.replaceSelectionWith(node));
+    view.focus();
+  }
+
+  export function applyParagraphAttr(patch: Record<string, unknown>) {
+    if (!view) return;
+    const { from, to } = view.state.selection;
+    const tr = view.state.tr;
+    view.state.doc.nodesBetween(from, to, (node, pos) => {
+      if (node.type.name === "paragraph" || node.type.name === "heading") {
+        tr.setNodeMarkup(pos, null, { ...node.attrs, ...patch });
+      }
+    });
+    if (tr.docChanged) view.dispatch(tr);
+    view.focus();
+  }
+
+  export function adjustFontSize(delta: number) {
+    if (!view) return;
+    const state = view.state;
+    const marks = state.storedMarks ?? state.selection.$from.marks();
+    const style = marks.find((mark) => mark.type.name === "text_style");
+    const current = Number.parseFloat(style?.attrs.font_size ?? "15") || 15;
+    const size = Math.min(48, Math.max(8, Math.round(current + delta)));
+    const mark = schema.marks.text_style.create({
+      color: style?.attrs.color ?? null,
+      font_size: `${size}px`,
+    });
+    const { from, to, empty } = state.selection;
+    const tr = state.tr;
+    if (empty) {
+      tr.addStoredMark(mark);
+    } else {
+      tr.removeMark(from, to, schema.marks.text_style).addMark(from, to, mark);
+    }
+    view.dispatch(tr);
+    view.focus();
+  }
+
+  let copiedMarks: Mark[] = [];
+
+  export function copyFormatting() {
+    if (!view) return;
+    const marks = view.state.storedMarks ?? view.state.selection.$from.marks();
+    copiedMarks = marks.map((mark) => mark.type.create(mark.attrs));
+  }
+
+  export function applyCopiedFormatting() {
+    if (!view || copiedMarks.length === 0) return;
+    const { from, to, empty } = view.state.selection;
+    const tr = view.state.tr;
+    if (empty) {
+      tr.setStoredMarks(copiedMarks.map((mark) => mark.type.create(mark.attrs)));
+    } else {
+      for (const mark of copiedMarks) {
+        tr.addMark(from, to, mark.type.create(mark.attrs));
+      }
+    }
+    view.dispatch(tr);
+    view.focus();
+  }
+
+  function textMatches(query: string): { from: number; to: number }[] {
+    if (!view || !query) return [];
+    const matches: { from: number; to: number }[] = [];
+    view.state.doc.descendants((node, pos) => {
+      if (!node.isText || !node.text) return;
+      let index = 0;
+      while (index <= node.text.length) {
+        const found = node.text.indexOf(query, index);
+        if (found < 0) break;
+        matches.push({ from: pos + found, to: pos + found + query.length });
+        index = found + Math.max(1, query.length);
+      }
+    });
+    return matches;
+  }
+
+  export function countMatches(query: string): number {
+    return textMatches(query).length;
+  }
+
+  export function findNext(query: string, forward = true): boolean {
+    if (!view || !query) return false;
+    const matches = textMatches(query);
+    if (matches.length === 0) return false;
+    const anchor = view.state.selection.from;
+    let match = forward
+      ? matches.find((item) => item.from >= anchor)
+      : [...matches].reverse().find((item) => item.to <= anchor);
+    if (!match) match = forward ? matches[0] : matches[matches.length - 1];
+    const tr = view.state.tr
+      .setSelection(TextSelection.create(view.state.doc, match.from, match.to))
+      .scrollIntoView();
+    view.dispatch(tr);
+    view.focus();
+    return true;
+  }
+
+  export function replaceCurrent(query: string, replacement: string): boolean {
+    if (!view || !query) return false;
+    const { from, to } = view.state.selection;
+    if (view.state.doc.textBetween(from, to) !== query) {
+      if (!findNext(query)) return false;
+    }
+    if (view.state.doc.textBetween(view.state.selection.from, view.state.selection.to) !== query) {
+      return false;
+    }
+    view.dispatch(view.state.tr.insertText(replacement));
+    findNext(query);
+    return true;
+  }
+
+  export function replaceAll(query: string, replacement: string): number {
+    if (!view || !query) return 0;
+    const matches = textMatches(query);
+    if (matches.length === 0) return 0;
+    const tr = view.state.tr;
+    for (const match of [...matches].reverse()) {
+      tr.insertText(replacement, match.from, match.to);
+    }
+    view.dispatch(tr);
+    view.focus();
+    return matches.length;
+  }
+
+  export function selectionInTable(): boolean {
+    return view ? isInTable(view.state) : false;
+  }
+
+  export function tableAction(
+    action: "addRowAfter" | "addColumnAfter" | "deleteRow" | "deleteColumn" | "mergeCells" | "splitCell"
+  ): boolean {
+    if (!view) return false;
+    const commands = {
+      addRowAfter,
+      addColumnAfter,
+      deleteRow,
+      deleteColumn,
+      mergeCells,
+      splitCell,
+    };
+    const executed = commands[action](view.state, view.dispatch);
+    if (executed) view.focus();
+    return executed;
   }
 
   export function applyTextStyle(color: string | null, fontSize: string | null) {

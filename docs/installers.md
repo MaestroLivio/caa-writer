@@ -1,6 +1,6 @@
 # Release e installer
 
-## Stato reale (versione 0.2.0, 5 novembre 2026)
+## Stato reale (versione 0.3.0, 5 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
@@ -13,10 +13,10 @@
 Artefatti macOS prodotti (in `dist-release/`, esclusa da Git):
 
 ```
-CAA-Writer_0.2.0_macos-arm64.dmg       786,78 MiB
-CAA-Writer_0.2.0_macos-arm64.app.zip   795,6 MiB
-CAA-Writer_0.2.0_macos-x64.dmg         787,13 MiB
-CAA-Writer_0.2.0_macos-x64.app.zip     795,6 MiB
+CAA-Writer_0.3.0_macos-arm64.dmg       786,80 MiB
+CAA-Writer_0.3.0_macos-arm64.app.zip   795,6 MiB
+CAA-Writer_0.3.0_macos-x64.dmg         787,15 MiB
+CAA-Writer_0.3.0_macos-x64.app.zip     795,6 MiB
 SHA256SUMS-macos.txt
 ```
 

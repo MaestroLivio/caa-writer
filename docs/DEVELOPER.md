@@ -89,6 +89,25 @@ SQLite con FTS5 (`unicode61 remove_diacritics 2`). Tabelle principali: `symbols`
   ereditano `is_function` dalla prima parola e aggiornano `normalized`: «non so»
   e «da sole» sono unità lessicali, non negazioni o preposizioni.
 
+### 4.0 Ribbon
+
+`src/lib/components/Ribbon.svelte` rende un registro dichiarativo
+(`src/lib/ribbon/types.ts`): schede → gruppi → comandi. I comandi sono costruiti in
+`App.svelte` (`ribbonTabs()`, `fileCommands()`, `quickCatalog()`) con le stesse azioni del resto
+dell'app. Tipi di controllo: pulsante, `select`, `color`; stati `active`, `enabled`, `shortcut`,
+`tooltip`.
+
+- Sette schede: Home, Inserisci, Layout, Pittogrammi, Revisione, Strumenti IA, Visualizza.
+- Schede contestuali: Pittogramma (selezione nel testo) e Tabella (`isInTable`).
+- Accesso rapido in `localStorage` (`ui.quickAccess`); modalità `ui.ribbonMode`.
+- Sotto 1200 px il Ribbon completo diventa compatto; sotto 980 px si nasconde, le schede restano e
+  un clic riapre il corpo. In compatto le etichette si nascondono ma restano i tooltip; in touch
+  restano visibili.
+- Le icone sono nodi SVG del pacchetto `lucide` (ISC), resi da `RibbonIcon.svelte`. Non usare
+  `lucide-svelte`: non è compatibile con `compilerOptions.runes = true`.
+- Un comando non implementato non va aggiunto come pulsante attivo: va omesso oppure disabilitato
+  con `tooltip` esplicativo.
+
 ### 4.1 Affinità della parola (`word_affinities`)
 
 `Engine::word_affinities(word, pack_id, commercial_only)` risponde alla domanda «quali pittogrammi

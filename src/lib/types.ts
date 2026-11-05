@@ -462,7 +462,18 @@ export interface DocumentSettings {
   border_style: BorderStyle;
   touch_mode: boolean;
   theme: "chiaro" | "scuro" | "contrasto";
-  page: "a4" | "a4-orizzontale" | "a3";
+  page: "a4" | "a4-orizzontale" | "a3" | "a5";
+  page_margin: "stretto" | "normale" | "ampio";
+  page_color: string;
+  symbol_size: number;
+  symbol_gap: number;
+  chip_border_color: string;
+  chip_border_width: number;
+  chip_border_style: "solid" | "dashed" | "dotted";
+  chip_radius: number;
+  chip_padding: number;
+  chip_background: string;
+  pictogram_align: "left" | "center" | "right";
   mono: boolean;
   color_coding: boolean;
   /// Simbolizzazione automatica durante la digitazione (predefinita: attiva).
@@ -494,6 +505,17 @@ export const defaultSettings: DocumentSettings = {
   touch_mode: false,
   theme: "chiaro",
   page: "a4",
+  page_margin: "normale",
+  page_color: "#ffffff",
+  symbol_size: 56,
+  symbol_gap: 6,
+  chip_border_color: "",
+  chip_border_width: 1,
+  chip_border_style: "solid",
+  chip_radius: 10,
+  chip_padding: 4,
+  chip_background: "",
+  pictogram_align: "left",
   mono: false,
   color_coding: true,
   auto_caa: true,

@@ -4,6 +4,55 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.3.0 — 2026-11-05
+
+### Interfaccia Ribbon
+
+- Nuova barra superiore a quattro aree: barra del documento, schede, Ribbon dei
+  comandi, area di lavoro. Sostituisce la vecchia sequenza piatta di pulsanti.
+- Sette schede: Home, Inserisci, Layout, Pittogrammi, Revisione, Strumenti IA,
+  Visualizza. I comandi sono raggruppati con etichette e icone Lucide.
+- Barra di accesso rapido con Salva, Annulla, Ripristina, Cerca, Ascolta,
+  Esporta; personalizzabile e persistita in `localStorage`.
+- Modalità Ribbon completo, compatto e nascosto; riduzione automatica sotto i
+  1200 px e schede sempre raggiungibili. La modalità touch mostra etichette e
+  bersagli più grandi.
+- Schede contestuali «Pittogramma» (quando è selezionata una parola) e
+  «Tabella» (quando il cursore è in una tabella).
+- Comandi realmente operativi: formattazione, elenchi, rientri, interlinea,
+  bordi di paragrafo, tabelle, interruzione di pagina, data/ora, Trova e
+  sostituisci, conteggio parole, report semantici e di copertura, strumenti IA,
+  zoom, pannello, touch, schermo intero, stampa/PDF.
+- I comandi non ancora disponibili sono omessi oppure disabilitati con una
+  spiegazione (selezione multipla, pronomi, avverbi).
+
+### Editor e formattazione
+
+- Nuovi mark ProseMirror `strike` e `highlight`.
+- Attributi di paragrafo per rientro, interlinea, spaziatura, bordo e
+  interruzione di pagina, serializzati nel documento.
+- Scorciatoie `Ctrl+B/I/U`, `Ctrl+Shift+X`, `Ctrl+A`, `Ctrl+F`, `Ctrl+H`,
+  `Ctrl+S`, `Ctrl+Shift+S`, `Ctrl+O`, `Ctrl+N`, `Ctrl+P`.
+- Trova e sostituisci con conteggio, precedente/successivo, sostituzione
+  singola e globale.
+- Copia/taglia/incolla testo e copia/incolla formattazione.
+- Layout: formato A4/A5/A3, margini, colore pagina, dimensione e spaziatura dei
+  pittogrammi, allineamento, cinque stili di bordo con colore/spessore/stile/
+  raggio/padding/sfondo, sei layout predefiniti.
+- Didascalie spente per default; il testo digitato resta sotto il pittogramma.
+
+### Dipendenze
+
+- Aggiunto `lucide` (icone SVG, licenza ISC) e rimosso `lucide-svelte`, non
+  compatibile con la modalità runes forzata dal progetto.
+
+### Test
+
+- 151 test Rust, 7 test Node della selezione, build 0 errori/0 avvisi.
+- Verifica manuale nella finestra Tauri: schede, comandi del corpo, stato
+  attivo, barra di accesso rapido, modalità compatta/nascosta, touch e scheda
+  contestuale del pittogramma.
+
 ## 0.2.0 — 2026-11-05
 
 ### Editor e selezione

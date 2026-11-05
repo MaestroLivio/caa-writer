@@ -30,8 +30,18 @@
     aiStatus: AiStatus | null;
     preferences: Preference[];
     templates: TemplateInfo[];
-    /// Richiesta di apertura di una scheda specifica, inviata dalla schermata iniziale.
-    intent: { tab: Tab; prompt?: string; templateId?: string | null; nonce: number } | null;
+    /// Richiesta di apertura di una scheda specifica, inviata dalla schermata iniziale
+    /// o dal Ribbon. `search` apre la ricerca sulla parola, `ai` usa gli affini IA.
+    intent: {
+      tab: Tab;
+      prompt?: string;
+      templateId?: string | null;
+      search?: string;
+      ai?: boolean;
+      nonce: number;
+    } | null;
+    /// Il pannello può essere aperto/chiuso anche dal Ribbon.
+    closed?: boolean;
     onSwitchTab: (tab: Tab) => void;
     onApplyAlternative: (alternative: Alternative) => Promise<void>;
     onSaveGlobalPreference: (alternative: Alternative) => Promise<void>;
@@ -64,6 +74,7 @@
     preferences,
     templates,
     intent,
+    closed = $bindable(false),
     onSwitchTab,
     onApplyAlternative,
     onSaveGlobalPreference,
@@ -82,7 +93,6 @@
   }: Props = $props();
 
   let tab = $state<Tab>("alternative");
-  let closed = $state(false);
   let searchQuery = $state("");
   let searchResults = $state<Alternative[]>([]);
   let searchBusy = $state(false);
@@ -210,6 +220,12 @@
     closed = false;
     if (typeof intent.prompt === "string") studioPrompt = intent.prompt;
     if (intent.templateId !== undefined) templateChoice = intent.templateId;
+    if (typeof intent.search === "string" && intent.search.trim()) {
+      searchQuery = intent.search;
+      tab = "cerca";
+      void runSearch();
+      if (intent.ai) void runRelatedSearch();
+    }
   });
 
   function selectTab(next: Tab) {
