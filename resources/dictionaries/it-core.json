@@ -1,0 +1,3764 @@
+{
+  "version": 3,
+  "language": "it",
+  "description": "Lessico italiano per CAA Writer. Un concetto = un significato; un lemma può avere più concetti. Le 'cues' guidano la disambiguazione deterministica (Livello 3) e servono da contesto per il reranking LLM opzionale.",
+  "domains": {
+    "scuola": [
+      "scuola",
+      "classe",
+      "aula",
+      "maestra",
+      "maestro",
+      "insegnante",
+      "compiti",
+      "quaderno",
+      "banco",
+      "lavagna",
+      "intervallo",
+      "lezione",
+      "alunno",
+      "compagno",
+      "zaino",
+      "gita",
+      "ricreazione",
+      "dettato",
+      "lettura"
+    ],
+    "casa": [
+      "casa",
+      "cucina",
+      "camera",
+      "soggiorno",
+      "letto",
+      "divano",
+      "porta",
+      "finestra",
+      "bagno",
+      "giardino",
+      "salotto"
+    ],
+    "cibo": [
+      "mangiare",
+      "mangia",
+      "pranzo",
+      "cena",
+      "colazione",
+      "merenda",
+      "piatto",
+      "forchetta",
+      "bicchiere",
+      "frutta",
+      "pane",
+      "pasta",
+      "mela",
+      "pesca",
+      "gelato",
+      "bevo",
+      "bere"
+    ],
+    "fuori": [
+      "strada",
+      "parco",
+      "mare",
+      "fiume",
+      "lago",
+      "bosco",
+      "montagna",
+      "spiaggia",
+      "campo",
+      "cortile",
+      "passeggiata"
+    ],
+    "corpo": [
+      "mano",
+      "mani",
+      "denti",
+      "testa",
+      "pancia",
+      "gambe",
+      "braccia",
+      "occhi",
+      "naso",
+      "bocca",
+      "piede"
+    ],
+    "tempo": [
+      "oggi",
+      "domani",
+      "ieri",
+      "mattina",
+      "pomeriggio",
+      "sera",
+      "notte",
+      "ora",
+      "adesso",
+      "dopo",
+      "prima",
+      "settimana",
+      "mese",
+      "anno"
+    ],
+    "sport": [
+      "giocare",
+      "palla",
+      "partita",
+      "squadra",
+      "corsa",
+      "nuoto",
+      "bici",
+      "gara",
+      "allenamento"
+    ],
+    "salute": [
+      "medico",
+      "dottore",
+      "ospedale",
+      "farmacia",
+      "malato",
+      "febbre",
+      "medicina",
+      "visita",
+      "infermiere"
+    ]
+  },
+  "concepts": [
+    {
+      "id": "fruit.peach",
+      "label": "pesca",
+      "meaning": "il frutto del pesco, dolce e con il nocciolo",
+      "category": "alimenti",
+      "broader": "food.fruit",
+      "pos": "noun",
+      "symbol": "svg/fruit.peach.svg",
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "mangia",
+          "mangio",
+          "mangiato",
+          "frutto",
+          "frutta",
+          "albero",
+          "pesco",
+          "succosa",
+          "matura",
+          "nocciolo",
+          "dolce",
+          "fragola",
+          "banana",
+          "mercato"
+        ],
+        "avoid": [
+          "andare",
+          "vado",
+          "va",
+          "fiume",
+          "lago",
+          "mare",
+          "rete",
+          "canna",
+          "barca",
+          "nonno",
+          "cappello",
+          "tranquilla"
+        ]
+      }
+    },
+    {
+      "id": "activity.fishing",
+      "label": "pesca",
+      "meaning": "l'attività di catturare pesci",
+      "category": "attivita",
+      "broader": "activity.leisure",
+      "pos": "noun",
+      "symbol": "svg/activity.fishing.svg",
+      "cues": {
+        "prefer": [
+          "andare",
+          "vado",
+          "va",
+          "fiume",
+          "lago",
+          "mare",
+          "rete",
+          "canna",
+          "barca",
+          "nonno",
+          "pescatore",
+          "pesci",
+          "tranquilla",
+          "domenica"
+        ],
+        "avoid": [
+          "mangiare",
+          "mangia",
+          "frutto",
+          "nocciolo",
+          "succosa",
+          "albero",
+          "dolce"
+        ]
+      }
+    },
+    {
+      "id": "obj.pen",
+      "label": "penna",
+      "meaning": "strumento per scrivere con l'inchiostro",
+      "category": "oggetti",
+      "broader": "obj.stationery",
+      "pos": "noun",
+      "symbol": "svg/obj.pen.svg",
+      "cues": {
+        "prefer": [
+          "scrivere",
+          "scrive",
+          "scrivo",
+          "quaderno",
+          "foglio",
+          "astuccio",
+          "inchiostro",
+          "blu",
+          "rossa",
+          "compiti",
+          "disegnare"
+        ],
+        "avoid": [
+          "uccello",
+          "piume",
+          "colorata",
+          "vola",
+          "coda",
+          "ala",
+          "nido",
+          "pavone"
+        ]
+      }
+    },
+    {
+      "id": "animal.feather",
+      "label": "penna",
+      "meaning": "la piuma di un uccello",
+      "category": "natura",
+      "broader": "animal.part",
+      "pos": "noun",
+      "symbol": "svg/animal.feather.svg",
+      "cues": {
+        "prefer": [
+          "uccello",
+          "piume",
+          "colorata",
+          "vola",
+          "coda",
+          "ala",
+          "nido",
+          "pavone",
+          "gallina",
+          "soffice"
+        ],
+        "avoid": [
+          "scrivere",
+          "scrive",
+          "quaderno",
+          "astuccio",
+          "inchiostro",
+          "compiti"
+        ]
+      }
+    },
+    {
+      "id": "furniture.school_desk",
+      "label": "banco",
+      "meaning": "il banco di scuola dove si siede l'alunno",
+      "category": "scuola",
+      "broader": "furniture.desk",
+      "pos": "noun",
+      "symbol": "svg/furniture.school_desk.svg",
+      "cues": {
+        "prefer": [
+          "scuola",
+          "classe",
+          "alunno",
+          "maestra",
+          "sedersi",
+          "siede",
+          "compiti",
+          "quaderno",
+          "aula",
+          "compagno",
+          "lezione"
+        ],
+        "avoid": [
+          "soldi",
+          "banca",
+          "sportello",
+          "prelievo",
+          "conto",
+          "versare"
+        ]
+      }
+    },
+    {
+      "id": "finance.bank",
+      "label": "banca",
+      "meaning": "l'istituto dove si tengono e si prelevano i soldi",
+      "category": "luoghi",
+      "broader": "place.service",
+      "pos": "noun",
+      "symbol": "svg/finance.bank.svg",
+      "cues": {
+        "prefer": [
+          "soldi",
+          "versare",
+          "versato",
+          "prelievo",
+          "conto",
+          "sportello",
+          "impiegato",
+          "carta",
+          "pagare",
+          "risparmi"
+        ],
+        "avoid": [
+          "scuola",
+          "alunno",
+          "classe",
+          "sedersi",
+          "aula"
+        ]
+      }
+    },
+    {
+      "id": "obj.paper_sheet",
+      "label": "foglio",
+      "meaning": "un foglio di carta",
+      "category": "oggetti",
+      "broader": "obj.stationery",
+      "pos": "noun",
+      "symbol": "svg/obj.paper_sheet.svg",
+      "cues": {
+        "prefer": [
+          "scrivere",
+          "disegnare",
+          "carta",
+          "stampare"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.door",
+      "label": "porta",
+      "meaning": "la porta di una stanza o di un edificio",
+      "category": "casa",
+      "broader": "place.part",
+      "pos": "noun",
+      "symbol": "svg/place.door.svg",
+      "cues": {
+        "prefer": [
+          "aprire",
+          "apre",
+          "chiudere",
+          "chiave",
+          "entrare",
+          "uscire",
+          "casa",
+          "aula",
+          "maniglia"
+        ],
+        "avoid": [
+          "portare",
+          "porto",
+          "porta i",
+          "zaino",
+          "libri",
+          "borsa"
+        ]
+      }
+    },
+    {
+      "id": "action.carry",
+      "label": "portare",
+      "meaning": "prendere qualcosa e portarlo con sé",
+      "category": "azioni",
+      "broader": "activity.act",
+      "pos": "verb",
+      "symbol": "svg/action.carry.svg",
+      "cues": {
+        "prefer": [
+          "zaino",
+          "libri",
+          "borsa",
+          "a",
+          "scuola",
+          "nonna",
+          "pacchetto",
+          "peso"
+        ],
+        "avoid": [
+          "aprire",
+          "chiudere",
+          "chiave",
+          "maniglia"
+        ]
+      }
+    },
+    {
+      "id": "action.eat",
+      "label": "mangiare",
+      "meaning": "mettere il cibo in bocca e nutrirsi",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.eat.svg",
+      "cues": {
+        "prefer": [
+          "cibo",
+          "piatto",
+          "pranzo",
+          "cena",
+          "pasta",
+          "pane",
+          "mela",
+          "merenda",
+          "fame"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.drink",
+      "label": "bere",
+      "meaning": "mandare giù un liquido",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.drink.svg",
+      "cues": {
+        "prefer": [
+          "acqua",
+          "bicchiere",
+          "sete",
+          "succo",
+          "latte",
+          "bottiglia"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.write",
+      "label": "scrivere",
+      "meaning": "tracciare parole con una penna o una matita",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.write.svg",
+      "cues": {
+        "prefer": [
+          "penna",
+          "matita",
+          "quaderno",
+          "foglio",
+          "compiti",
+          "lettera",
+          "nome"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.run",
+      "label": "correre",
+      "meaning": "muoversi velocemente con le gambe",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.run.svg",
+      "cues": {
+        "prefer": [
+          "veloce",
+          "parco",
+          "partita",
+          "gambe",
+          "fretta",
+          "gara"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.walk",
+      "label": "camminare",
+      "meaning": "procedere a piedi con calma",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.walk.svg",
+      "cues": {
+        "prefer": [
+          "piedi",
+          "passeggiata",
+          "parco",
+          "insieme",
+          "piano"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.play",
+      "label": "giocare",
+      "meaning": "fare un gioco per divertimento",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.play.svg",
+      "cues": {
+        "prefer": [
+          "palla",
+          "parco",
+          "insieme",
+          "bambini",
+          "divertente",
+          "gioco",
+          "carte"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.sleep",
+      "label": "dormire",
+      "meaning": "riposare con gli occhi chiusi",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.sleep.svg",
+      "cues": {
+        "prefer": [
+          "letto",
+          "notte",
+          "camera",
+          "stanco",
+          "cuscino",
+          "buonanotte"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.read",
+      "label": "leggere",
+      "meaning": "capire un testo scritto",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.read.svg",
+      "cues": {
+        "prefer": [
+          "libro",
+          "storia",
+          "quaderno",
+          "insieme",
+          "pagina"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.listen",
+      "label": "ascoltare",
+      "meaning": "fare attenzione ai suoni o a chi parla",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.listen.svg",
+      "cues": {
+        "prefer": [
+          "musica",
+          "maestra",
+          "orecchie",
+          "canzone",
+          "storia",
+          "attento"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.speak",
+      "label": "parlare",
+      "meaning": "dire parole con la voce",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.speak.svg",
+      "cues": {
+        "prefer": [
+          "voce",
+          "bocca",
+          "insieme",
+          "maestra",
+          "amico",
+          "raccontare"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.help",
+      "label": "aiutare",
+      "meaning": "fare qualcosa per facilitare il lavoro di un altro",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.help.svg",
+      "cues": {
+        "prefer": [
+          "mano",
+          "insieme",
+          "difficile",
+          "maestra",
+          "compagno",
+          "bisogno"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.want",
+      "label": "volere",
+      "meaning": "desiderare qualcosa",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.want.svg",
+      "cues": {
+        "prefer": [
+          "per favore",
+          "desiderare",
+          "voglia"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.go",
+      "label": "andare",
+      "meaning": "spostarsi verso un luogo",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.go.svg",
+      "cues": {
+        "prefer": [
+          "scuola",
+          "casa",
+          "parco",
+          "insieme",
+          "piedi",
+          "autobus",
+          "dove"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "hygiene.wash_hands",
+      "label": "lavarsi le mani",
+      "meaning": "pulire le mani con acqua e sapone",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/hygiene.wash_hands.svg",
+      "cues": {
+        "prefer": [
+          "bagno",
+          "sapone",
+          "acqua",
+          "pulito",
+          "prima",
+          "mangiare"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "hygiene.brush_teeth",
+      "label": "lavarsi i denti",
+      "meaning": "pulire i denti con lo spazzolino",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/hygiene.brush_teeth.svg",
+      "cues": {
+        "prefer": [
+          "spazzolino",
+          "denti",
+          "bagno",
+          "dentifricio",
+          "mattina",
+          "sera"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "person.child",
+      "label": "bambino",
+      "meaning": "una persona di giovane età",
+      "category": "persone",
+      "pos": "noun",
+      "symbol": "svg/person.child.svg",
+      "cues": {
+        "prefer": [
+          "gioca",
+          "scuola",
+          "piccolo",
+          "mamma",
+          "papà"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "person.girl",
+      "label": "bambina",
+      "meaning": "una bambina",
+      "category": "persone",
+      "pos": "noun",
+      "symbol": "svg/person.girl.svg",
+      "cues": {
+        "prefer": [
+          "lei",
+          "gioca",
+          "scuola",
+          "codini"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "person.boy",
+      "label": "bambino",
+      "meaning": "un bambino di sesso maschile",
+      "category": "persone",
+      "pos": "noun",
+      "symbol": "svg/person.boy.svg",
+      "cues": {
+        "prefer": [
+          "lui",
+          "gioca",
+          "scuola"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "person.teacher",
+      "label": "maestra",
+      "meaning": "la persona che insegna a scuola",
+      "category": "persone",
+      "pos": "noun",
+      "symbol": "svg/person.teacher.svg",
+      "cues": {
+        "prefer": [
+          "scuola",
+          "classe",
+          "lezione",
+          "lavagna",
+          "spiega",
+          "alunni"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "person.doctor",
+      "label": "medico",
+      "meaning": "la persona che cura le persone malate",
+      "category": "persone",
+      "pos": "noun",
+      "symbol": "svg/person.doctor.svg",
+      "cues": {
+        "prefer": [
+          "malato",
+          "ospedale",
+          "visita",
+          "febbre",
+          "medicina",
+          "dottore"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "person.family",
+      "label": "famiglia",
+      "meaning": "le persone legate da parentela",
+      "category": "persone",
+      "pos": "noun",
+      "symbol": "svg/person.family.svg",
+      "cues": {
+        "prefer": [
+          "mamma",
+          "papà",
+          "insieme",
+          "casa",
+          "nonni"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "animal.dog",
+      "label": "cane",
+      "meaning": "un cane domestico",
+      "category": "animali",
+      "pos": "noun",
+      "symbol": "svg/animal.dog.svg",
+      "cues": {
+        "prefer": [
+          "abbaia",
+          "guinzaglio",
+          "cucciolo",
+          "zampe",
+          "coda"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "animal.cat",
+      "label": "gatto",
+      "meaning": "un gatto domestico",
+      "category": "animali",
+      "pos": "noun",
+      "symbol": "svg/animal.cat.svg",
+      "cues": {
+        "prefer": [
+          "miao",
+          "miagola",
+          "baffi",
+          "graffia"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "animal.bird",
+      "label": "uccello",
+      "meaning": "un animale con le ali che vola",
+      "category": "animali",
+      "pos": "noun",
+      "symbol": "svg/animal.bird.svg",
+      "cues": {
+        "prefer": [
+          "vola",
+          "nido",
+          "ali",
+          "canta",
+          "piume"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "breed.dachshund",
+      "label": "bassotto",
+      "meaning": "una razza di cane con le zampe corte",
+      "category": "animali",
+      "broader": "animal.dog",
+      "pos": "noun",
+      "cues": {
+        "prefer": [
+          "cane",
+          "razza",
+          "zampe",
+          "corto"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.house",
+      "label": "casa",
+      "meaning": "l'edificio dove si abita",
+      "category": "luoghi",
+      "pos": "noun",
+      "symbol": "svg/place.house.svg",
+      "cues": {
+        "prefer": [
+          "abitare",
+          "tornare",
+          "mamma",
+          "porta",
+          "letto",
+          "famiglia"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.school",
+      "label": "scuola",
+      "meaning": "l'edificio e l'attività scolastica",
+      "category": "luoghi",
+      "pos": "noun",
+      "symbol": "svg/place.school.svg",
+      "cues": {
+        "prefer": [
+          "andare",
+          "classe",
+          "maestra",
+          "compiti",
+          "alunni",
+          "intervallo"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.park",
+      "label": "parco",
+      "meaning": "uno spazio verde pubblico",
+      "category": "luoghi",
+      "pos": "noun",
+      "symbol": "svg/place.park.svg",
+      "cues": {
+        "prefer": [
+          "alberi",
+          "giocare",
+          "erba",
+          "panchina",
+          "passeggiata"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.toilet",
+      "label": "bagno",
+      "meaning": "la stanza con il water e il lavandino",
+      "category": "luoghi",
+      "pos": "noun",
+      "symbol": "svg/place.toilet.svg",
+      "cues": {
+        "prefer": [
+          "pipì",
+          "water",
+          "lavandino",
+          "sapone",
+          "bisogno"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.kitchen",
+      "label": "cucina",
+      "meaning": "la stanza dove si cucina",
+      "category": "luoghi",
+      "pos": "noun",
+      "symbol": "svg/place.kitchen.svg",
+      "cues": {
+        "prefer": [
+          "cucinare",
+          "pentola",
+          "fornello",
+          "piatto"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.ball",
+      "label": "palla",
+      "meaning": "un oggetto rotondo con cui si gioca",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.ball.svg",
+      "cues": {
+        "prefer": [
+          "giocare",
+          "calcio",
+          "rotonda",
+          "lancia",
+          "partita"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.book",
+      "label": "libro",
+      "meaning": "un insieme di pagine da leggere",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.book.svg",
+      "cues": {
+        "prefer": [
+          "leggere",
+          "storia",
+          "pagine",
+          "biblioteca"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.pencil",
+      "label": "matita",
+      "meaning": "strumento di legno per scrivere e disegnare",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.pencil.svg",
+      "cues": {
+        "prefer": [
+          "disegnare",
+          "scrivere",
+          "temperare",
+          "gomma"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.scissors",
+      "label": "forbici",
+      "meaning": "strumento per tagliare la carta",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.scissors.svg",
+      "cues": {
+        "prefer": [
+          "tagliare",
+          "carta",
+          "colla",
+          "ritagliare"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.glue",
+      "label": "colla",
+      "meaning": "sostanza per incollare",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.glue.svg",
+      "cues": {
+        "prefer": [
+          "incollare",
+          "carta",
+          "lavoretto"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.backpack",
+      "label": "zaino",
+      "meaning": "la borsa che si porta sulle spalle",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.backpack.svg",
+      "cues": {
+        "prefer": [
+          "scuola",
+          "spalle",
+          "libri",
+          "astuccio"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.money",
+      "label": "soldi",
+      "meaning": "il denaro",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.money.svg",
+      "cues": {
+        "prefer": [
+          "comprare",
+          "pagare",
+          "banca",
+          "euro",
+          "moneta"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.phone",
+      "label": "telefono",
+      "meaning": "un apparecchio per telefonare",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.phone.svg",
+      "cues": {
+        "prefer": [
+          "chiamare",
+          "squilla",
+          "mamma",
+          "numero"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.clock",
+      "label": "orologio",
+      "meaning": "strumento che misura il tempo",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.clock.svg",
+      "cues": {
+        "prefer": [
+          "ora",
+          "tempo",
+          "tardi",
+          "puntuale"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.chair",
+      "label": "sedia",
+      "meaning": "il mobile su cui ci si siede",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.chair.svg",
+      "cues": {
+        "prefer": [
+          "sedersi",
+          "tavolo",
+          "classe"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.table",
+      "label": "tavolo",
+      "meaning": "mobile con piano orizzontale e gambe",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.table.svg",
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "sedia",
+          "cucina",
+          "apparecchiare"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.glass",
+      "label": "bicchiere",
+      "meaning": "recipiente per bere",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.glass.svg",
+      "cues": {
+        "prefer": [
+          "bere",
+          "acqua",
+          "tavolo"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.plate",
+      "label": "piatto",
+      "meaning": "recipiente per mangiare",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.plate.svg",
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "pasta",
+          "tavolo",
+          "pranzo"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.hat",
+      "label": "cappello",
+      "meaning": "indumento che si mette in testa",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.hat.svg",
+      "cues": {
+        "prefer": [
+          "testa",
+          "sole",
+          "freddo",
+          "indossare"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.shoes",
+      "label": "scarpe",
+      "meaning": "indumento per i piedi",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.shoes.svg",
+      "cues": {
+        "prefer": [
+          "piedi",
+          "mettersi",
+          "allacciare",
+          "camminare"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.pillow",
+      "label": "cuscino",
+      "meaning": "oggetto morbido su cui si appoggia la testa",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/object.pillow.svg",
+      "cues": {
+        "prefer": [
+          "letto",
+          "dormire",
+          "testa",
+          "morbido"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "furniture.bed",
+      "label": "letto",
+      "meaning": "il mobile su cui si dorme",
+      "category": "oggetti",
+      "pos": "noun",
+      "symbol": "svg/furniture.bed.svg",
+      "cues": {
+        "prefer": [
+          "dormire",
+          "camera",
+          "notte",
+          "cuscino"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "nature.sun",
+      "label": "sole",
+      "meaning": "la stella che illumina e scalda la Terra",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/nature.sun.svg",
+      "cues": {
+        "prefer": [
+          "caldo",
+          "cielo",
+          "giorno",
+          "luce",
+          "estate"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "nature.water",
+      "label": "acqua",
+      "meaning": "il liquido che si beve",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/nature.water.svg",
+      "cues": {
+        "prefer": [
+          "bere",
+          "bicchiere",
+          "mare",
+          "fiume",
+          "sapone"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "nature.rain",
+      "label": "pioggia",
+      "meaning": "acqua che cade dalle nuvole",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/nature.rain.svg",
+      "cues": {
+        "prefer": [
+          "ombrello",
+          "nuvola",
+          "bagnato",
+          "fuori"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "nature.tree",
+      "label": "albero",
+      "meaning": "una pianta alta con foglie e rami",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/nature.tree.svg",
+      "cues": {
+        "prefer": [
+          "foglie",
+          "parco",
+          "legno",
+          "bosco",
+          "sale"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "nature.flower",
+      "label": "fiore",
+      "meaning": "la parte colorata di una pianta",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/nature.flower.svg",
+      "cues": {
+        "prefer": [
+          "colorato",
+          "giardino",
+          "regalare",
+          "profumo"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "nature.moon",
+      "label": "luna",
+      "meaning": "il satellite della Terra",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/nature.moon.svg",
+      "cues": {
+        "prefer": [
+          "notte",
+          "cielo",
+          "buonanotte",
+          "stelle"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "vehicle.car",
+      "label": "macchina",
+      "meaning": "un veicolo a quattro ruote per trasporto",
+      "category": "trasporti",
+      "pos": "noun",
+      "symbol": "svg/vehicle.car.svg",
+      "cues": {
+        "prefer": [
+          "guidare",
+          "ruote",
+          "papà",
+          "viaggio",
+          "strada",
+          "parcheggio"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "vehicle.bus",
+      "label": "autobus",
+      "meaning": "un grande veicolo pubblico",
+      "category": "trasporti",
+      "pos": "noun",
+      "symbol": "svg/vehicle.bus.svg",
+      "cues": {
+        "prefer": [
+          "scuola",
+          "fermata",
+          "gita",
+          "biglietto"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "vehicle.bike",
+      "label": "bicicletta",
+      "meaning": "un veicolo a due ruote con i pedali",
+      "category": "trasporti",
+      "pos": "noun",
+      "symbol": "svg/vehicle.bike.svg",
+      "cues": {
+        "prefer": [
+          "pedali",
+          "casco",
+          "ruote",
+          "parco"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "vehicle.electric_scooter",
+      "label": "monopattino elettrico",
+      "meaning": "un monopattino con motore elettrico",
+      "category": "trasporti",
+      "pos": "noun",
+      "cues": {
+        "prefer": [
+          "elettrico",
+          "batteria",
+          "strada",
+          "città"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "vehicle.scooter",
+      "label": "monopattino",
+      "meaning": "una tavola con le ruote e il manubrio",
+      "category": "trasporti",
+      "pos": "noun",
+      "symbol": "svg/vehicle.scooter.svg",
+      "cues": {
+        "prefer": [
+          "ruote",
+          "manubrio",
+          "spingere",
+          "parco"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "energy.electricity",
+      "label": "elettricità",
+      "meaning": "l'energia che fa funzionare gli apparecchi",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/energy.electricity.svg",
+      "cues": {
+        "prefer": [
+          "luce",
+          "batteria",
+          "presa",
+          "motore"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "emotion.happy",
+      "label": "felice",
+      "meaning": "prova gioia",
+      "category": "emozioni",
+      "pos": "adj",
+      "symbol": "svg/emotion.happy.svg",
+      "cues": {
+        "prefer": [
+          "sorride",
+          "contento",
+          "bene",
+          "gioia"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "emotion.sad",
+      "label": "triste",
+      "meaning": "prova dolore o dispiacere",
+      "category": "emozioni",
+      "pos": "adj",
+      "symbol": "svg/emotion.sad.svg",
+      "cues": {
+        "prefer": [
+          "piange",
+          "dispiaciuto",
+          "male"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "emotion.angry",
+      "label": "arrabbiato",
+      "meaning": "prova rabbia",
+      "category": "emozioni",
+      "pos": "adj",
+      "symbol": "svg/emotion.angry.svg",
+      "cues": {
+        "prefer": [
+          "rabbia",
+          "grida",
+          "furioso"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "emotion.afraid",
+      "label": "paura",
+      "meaning": "sentimento di spavento",
+      "category": "emozioni",
+      "pos": "noun",
+      "symbol": "svg/emotion.afraid.svg",
+      "cues": {
+        "prefer": [
+          "spaventato",
+          "buio",
+          "tremare",
+          "aiuto"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "emotion.tired",
+      "label": "stanco",
+      "meaning": "che ha bisogno di riposo",
+      "category": "emozioni",
+      "pos": "adj",
+      "symbol": "svg/emotion.tired.svg",
+      "cues": {
+        "prefer": [
+          "riposo",
+          "dormire",
+          "notte",
+          "sforzo"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "time.now",
+      "label": "adesso",
+      "meaning": "in questo momento",
+      "category": "tempo",
+      "pos": "adv",
+      "symbol": "svg/time.now.svg",
+      "cues": {
+        "prefer": [
+          "momento",
+          "ora"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "time.night",
+      "label": "notte",
+      "meaning": "il periodo buio tra un giorno e l'altro",
+      "category": "tempo",
+      "pos": "noun",
+      "symbol": "svg/time.night.svg",
+      "cues": {
+        "prefer": [
+          "buio",
+          "dormire",
+          "luna",
+          "buonanotte"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "time.morning",
+      "label": "mattina",
+      "meaning": "la prima parte del giorno",
+      "category": "tempo",
+      "pos": "noun",
+      "symbol": "svg/time.morning.svg",
+      "cues": {
+        "prefer": [
+          "sveglia",
+          "colazione",
+          "scuola",
+          "sole"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "time.day",
+      "label": "giorno",
+      "meaning": "un periodo di ventiquattro ore",
+      "category": "tempo",
+      "pos": "noun",
+      "symbol": "svg/time.day.svg",
+      "cues": {
+        "prefer": [
+          "oggi",
+          "domani",
+          "settimana"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "time.clock_time",
+      "label": "tempo",
+      "meaning": "il tempo che passa",
+      "category": "tempo",
+      "pos": "noun",
+      "cues": {
+        "prefer": [
+          "passa",
+          "ora",
+          "minuti",
+          "orologio"
+        ],
+        "avoid": [
+          "piove",
+          "sole",
+          "nuvola",
+          "freddo",
+          "caldo",
+          "meteo"
+        ]
+      }
+    },
+    {
+      "id": "weather.conditions",
+      "label": "tempo",
+      "meaning": "le condizioni atmosferiche (meteo)",
+      "category": "natura",
+      "pos": "noun",
+      "cues": {
+        "prefer": [
+          "piove",
+          "sole",
+          "nuvola",
+          "freddo",
+          "caldo",
+          "meteo",
+          "neve",
+          "vento"
+        ],
+        "avoid": [
+          "passa",
+          "minuti",
+          "orologio"
+        ]
+      }
+    },
+    {
+      "id": "food.bread",
+      "label": "pane",
+      "meaning": "alimento di farina cotto al forno",
+      "category": "alimenti",
+      "pos": "noun",
+      "symbol": "svg/food.bread.svg",
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "forno",
+          "fetta",
+          "colazione"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "food.apple",
+      "label": "mela",
+      "meaning": "il frutto del melo",
+      "category": "alimenti",
+      "pos": "noun",
+      "symbol": "svg/food.apple.svg",
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "frutto",
+          "frutta",
+          "rossa",
+          "succosa"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "food.fruit",
+      "label": "frutta",
+      "meaning": "l'insieme dei frutti commestibili",
+      "category": "alimenti",
+      "pos": "noun",
+      "symbol": "svg/food.fruit.svg",
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "mercato",
+          "dolce"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "food.pasta",
+      "label": "pasta",
+      "meaning": "alimento di farina e acqua, cotto in acqua",
+      "category": "alimenti",
+      "pos": "noun",
+      "symbol": "svg/food.pasta.svg",
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "piatto",
+          "pranzo",
+          "sugo"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "food.ice_cream",
+      "label": "gelato",
+      "meaning": "dolce freddo a base di latte",
+      "category": "alimenti",
+      "pos": "noun",
+      "symbol": "svg/food.ice_cream.svg",
+      "cues": {
+        "prefer": [
+          "freddo",
+          "dolce",
+          "estate",
+          "cono"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "food.apple_juice",
+      "label": "succo di mela",
+      "meaning": "bevanda ottenuta dalle mele",
+      "category": "alimenti",
+      "pos": "noun",
+      "cues": {
+        "prefer": [
+          "bere",
+          "bicchiere",
+          "mela"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "activity.leisure",
+      "label": "tempo libero",
+      "meaning": "il tempo in cui si fa ciò che piace",
+      "category": "attivita",
+      "pos": "noun",
+      "cues": {
+        "prefer": [
+          "giocare",
+          "riposo",
+          "vacanza"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "school.arrival",
+      "label": "entrata a scuola",
+      "meaning": "il momento in cui si entra a scuola",
+      "category": "scuola",
+      "pos": "noun",
+      "symbol": "svg/school.arrival.svg",
+      "cues": {
+        "prefer": [
+          "scuola",
+          "mattina",
+          "entrare",
+          "campanella"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "school.break",
+      "label": "intervallo",
+      "meaning": "la pausa tra le lezioni",
+      "category": "scuola",
+      "pos": "noun",
+      "symbol": "svg/school.break.svg",
+      "cues": {
+        "prefer": [
+          "ricreazione",
+          "merenda",
+          "giocare",
+          "campanella"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "school.lunch",
+      "label": "pranzo",
+      "meaning": "il pasto di mezzogiorno",
+      "category": "alimenti",
+      "pos": "noun",
+      "symbol": "svg/school.lunch.svg",
+      "cues": {
+        "prefer": [
+          "mensa",
+          "mangiare",
+          "mezzogiorno",
+          "piatto"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "school.classwork",
+      "label": "lavoro in classe",
+      "meaning": "l'attività didattica svolta in classe",
+      "category": "scuola",
+      "pos": "noun",
+      "symbol": "svg/school.classwork.svg",
+      "cues": {
+        "prefer": [
+          "compiti",
+          "quaderno",
+          "maestra",
+          "esercizio"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "person.friend",
+      "label": "amico",
+      "meaning": "una persona con cui si ha affetto",
+      "category": "persone",
+      "pos": "noun",
+      "symbol": "svg/person.friend.svg",
+      "cues": {
+        "prefer": [
+          "insieme",
+          "giocare",
+          "compagno"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.ask_help",
+      "label": "chiedere aiuto",
+      "meaning": "domandare l'aiuto di qualcuno",
+      "category": "azioni",
+      "pos": "verb",
+      "cues": {
+        "prefer": [
+          "aiuto",
+          "difficile",
+          "per favore"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.finish",
+      "label": "finire",
+      "meaning": "arrivare alla fine di qualcosa",
+      "category": "azioni",
+      "pos": "verb",
+      "symbol": "svg/action.finish.svg",
+      "cues": {
+        "prefer": [
+          "fine",
+          "completato",
+          "fatto"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "object.star",
+      "label": "stella",
+      "meaning": "un corpo luminoso del cielo notturno",
+      "category": "natura",
+      "pos": "noun",
+      "symbol": "svg/object.star.svg",
+      "cues": {
+        "prefer": [
+          "cielo",
+          "notte",
+          "brilla"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "activity.act",
+      "label": "fare",
+      "meaning": "un'azione generica",
+      "category": "azioni",
+      "pos": "verb",
+      "cues": {
+        "prefer": [],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.cook",
+      "label": "cucinare",
+      "meaning": "preparare il cibo con il calore",
+      "category": "azioni",
+      "pos": "verb",
+      "broader": "activity.act",
+      "cues": {
+        "prefer": [
+          "pentola",
+          "fornello",
+          "cena",
+          "pranzo",
+          "ricetta"
+        ],
+        "avoid": [
+          "stanza",
+          "tavolo",
+          "cucina di casa"
+        ]
+      }
+    },
+    {
+      "id": "animal.part",
+      "label": "parte di animale",
+      "meaning": "una parte del corpo di un animale",
+      "category": "animali",
+      "pos": "noun",
+      "cues": {
+        "prefer": [],
+        "avoid": []
+      }
+    },
+    {
+      "id": "furniture.desk",
+      "label": "scrivania",
+      "meaning": "un mobile con piano di lavoro",
+      "category": "oggetti",
+      "pos": "noun",
+      "cues": {
+        "prefer": [],
+        "avoid": []
+      }
+    },
+    {
+      "id": "obj.stationery",
+      "label": "cancelleria",
+      "meaning": "oggetti per scrivere e disegnare",
+      "category": "oggetti",
+      "pos": "noun",
+      "cues": {
+        "prefer": [],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.part",
+      "label": "parte di un luogo",
+      "meaning": "una parte di un edificio o di un luogo",
+      "category": "luoghi",
+      "pos": "noun",
+      "cues": {
+        "prefer": [],
+        "avoid": []
+      }
+    },
+    {
+      "id": "place.service",
+      "label": "servizio",
+      "meaning": "un luogo dove si offre un servizio",
+      "category": "luoghi",
+      "pos": "noun",
+      "cues": {
+        "prefer": [],
+        "avoid": []
+      }
+    },
+    {
+      "id": "concept.unknown",
+      "label": "simbolo mancante",
+      "meaning": "nessuna rappresentazione adeguata disponibile",
+      "category": "sistema",
+      "pos": "noun",
+      "cues": {
+        "prefer": [],
+        "avoid": []
+      }
+    },
+    {
+      "id": "state.alone",
+      "label": "da solo",
+      "meaning": "senza accompagnatori",
+      "category": "azioni",
+      "pos": "adj",
+      "cues": {
+        "prefer": [
+          "solo",
+          "sola",
+          "soli",
+          "sole",
+          "autonomia"
+        ],
+        "avoid": [
+          "stella",
+          "cielo",
+          "giorno"
+        ]
+      }
+    },
+    {
+      "id": "action.understand",
+      "label": "comprendere",
+      "meaning": "capire il significato di qualcosa",
+      "category": "azioni",
+      "pos": "verb",
+      "cues": {
+        "prefer": [
+          "capire",
+          "significato",
+          "mente",
+          "domanda"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "action.taste",
+      "label": "assaggiare",
+      "meaning": "provare un cibo in piccola quantità",
+      "category": "azioni",
+      "broader": "action.eat",
+      "pos": "verb",
+      "cues": {
+        "prefer": [
+          "cibo",
+          "gusto",
+          "bocca",
+          "piccolo"
+        ],
+        "avoid": []
+      }
+    },
+    {
+      "id": "state.uncertain",
+      "label": "non so",
+      "meaning": "esprimere incertezza o dubbio",
+      "category": "emozioni",
+      "pos": "mwe",
+      "cues": {
+        "prefer": [
+          "dubbio",
+          "forse",
+          "incerto"
+        ],
+        "avoid": []
+      }
+    }
+  ],
+  "lemmas": [
+    {
+      "lemma": "il",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "lo",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "la",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "i",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "gli",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "le",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "un",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "uno",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "una",
+      "pos": "art",
+      "concepts": []
+    },
+    {
+      "lemma": "di",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "a",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "da",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "in",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "con",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "su",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "per",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "tra",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "fra",
+      "pos": "prep",
+      "concepts": []
+    },
+    {
+      "lemma": "e",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "ed",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "o",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "ma",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "perché",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "che",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "se",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "quando",
+      "pos": "conj",
+      "concepts": []
+    },
+    {
+      "lemma": "non",
+      "pos": "neg",
+      "concepts": []
+    },
+    {
+      "lemma": "molto",
+      "pos": "adv",
+      "concepts": []
+    },
+    {
+      "lemma": "poco",
+      "pos": "adv",
+      "concepts": []
+    },
+    {
+      "lemma": "più",
+      "pos": "adv",
+      "concepts": []
+    },
+    {
+      "lemma": "anche",
+      "pos": "adv",
+      "concepts": []
+    },
+    {
+      "lemma": "ancora",
+      "pos": "adv",
+      "concepts": []
+    },
+    {
+      "lemma": "poi",
+      "pos": "adv",
+      "concepts": []
+    },
+    {
+      "lemma": "adesso",
+      "pos": "adv",
+      "concepts": [
+        "time.now"
+      ]
+    },
+    {
+      "lemma": "ora",
+      "pos": "adv",
+      "concepts": [
+        "time.now"
+      ]
+    },
+    {
+      "lemma": "qui",
+      "pos": "adv",
+      "concepts": []
+    },
+    {
+      "lemma": "io",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "tu",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "lui",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "lei",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "noi",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "voi",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "loro",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "questo",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "quello",
+      "pos": "pron",
+      "concepts": []
+    },
+    {
+      "lemma": "essere",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "avere",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "fare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "andare",
+      "pos": "verb",
+      "concepts": [
+        "action.go"
+      ]
+    },
+    {
+      "lemma": "venire",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "stare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "potere",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "dovere",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "volere",
+      "pos": "verb",
+      "concepts": [
+        "action.want"
+      ]
+    },
+    {
+      "lemma": "mangiare",
+      "pos": "verb",
+      "concepts": [
+        "action.eat"
+      ]
+    },
+    {
+      "lemma": "bere",
+      "pos": "verb",
+      "concepts": [
+        "action.drink"
+      ]
+    },
+    {
+      "lemma": "scrivere",
+      "pos": "verb",
+      "concepts": [
+        "action.write"
+      ]
+    },
+    {
+      "lemma": "leggere",
+      "pos": "verb",
+      "concepts": [
+        "action.read"
+      ]
+    },
+    {
+      "lemma": "correre",
+      "pos": "verb",
+      "concepts": [
+        "action.run"
+      ]
+    },
+    {
+      "lemma": "camminare",
+      "pos": "verb",
+      "concepts": [
+        "action.walk"
+      ]
+    },
+    {
+      "lemma": "giocare",
+      "pos": "verb",
+      "concepts": [
+        "action.play"
+      ]
+    },
+    {
+      "lemma": "dormire",
+      "pos": "verb",
+      "concepts": [
+        "action.sleep"
+      ]
+    },
+    {
+      "lemma": "ascoltare",
+      "pos": "verb",
+      "concepts": [
+        "action.listen"
+      ]
+    },
+    {
+      "lemma": "parlare",
+      "pos": "verb",
+      "concepts": [
+        "action.speak"
+      ]
+    },
+    {
+      "lemma": "aiutare",
+      "pos": "verb",
+      "concepts": [
+        "action.help"
+      ]
+    },
+    {
+      "lemma": "portare",
+      "pos": "verb",
+      "concepts": [
+        "action.carry"
+      ]
+    },
+    {
+      "lemma": "finire",
+      "pos": "verb",
+      "concepts": [
+        "action.finish"
+      ]
+    },
+    {
+      "lemma": "lavorare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "sedersi",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "vedere",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "guardare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "disegnare",
+      "pos": "verb",
+      "concepts": [
+        "action.write"
+      ]
+    },
+    {
+      "lemma": "tagliare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "incollare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "cucinare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "comprare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "pagare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "chiamare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "entrare",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "uscire",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "aprire",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "chiudere",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "svegliarsi",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "lavarsi",
+      "pos": "verb",
+      "concepts": []
+    },
+    {
+      "lemma": "pesca",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "fruit.peach",
+        "activity.fishing"
+      ]
+    },
+    {
+      "lemma": "penna",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "obj.pen",
+        "animal.feather"
+      ]
+    },
+    {
+      "lemma": "banco",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "furniture.school_desk"
+      ]
+    },
+    {
+      "lemma": "banca",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "finance.bank"
+      ]
+    },
+    {
+      "lemma": "foglio",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "obj.paper_sheet"
+      ]
+    },
+    {
+      "lemma": "porta",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "place.door"
+      ]
+    },
+    {
+      "lemma": "tempo",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "time.clock_time",
+        "weather.conditions"
+      ]
+    },
+    {
+      "lemma": "bambino",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "person.boy",
+        "person.child"
+      ]
+    },
+    {
+      "lemma": "bambina",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "person.girl"
+      ]
+    },
+    {
+      "lemma": "bambini",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "person.child"
+      ]
+    },
+    {
+      "lemma": "maestra",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "person.teacher"
+      ]
+    },
+    {
+      "lemma": "maestro",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "person.teacher"
+      ]
+    },
+    {
+      "lemma": "insegnante",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "person.teacher"
+      ]
+    },
+    {
+      "lemma": "medico",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "person.doctor"
+      ]
+    },
+    {
+      "lemma": "dottore",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "person.doctor"
+      ]
+    },
+    {
+      "lemma": "famiglia",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "person.family"
+      ]
+    },
+    {
+      "lemma": "amico",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "person.friend"
+      ]
+    },
+    {
+      "lemma": "amica",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "person.friend"
+      ]
+    },
+    {
+      "lemma": "cane",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "animal.dog"
+      ]
+    },
+    {
+      "lemma": "gatto",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "animal.cat"
+      ]
+    },
+    {
+      "lemma": "uccello",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "animal.bird"
+      ]
+    },
+    {
+      "lemma": "bassotto",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "breed.dachshund"
+      ]
+    },
+    {
+      "lemma": "casa",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "place.house"
+      ]
+    },
+    {
+      "lemma": "scuola",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "place.school"
+      ]
+    },
+    {
+      "lemma": "parco",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "place.park"
+      ]
+    },
+    {
+      "lemma": "bagno",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "place.toilet"
+      ]
+    },
+    {
+      "lemma": "cucina",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "place.kitchen",
+        "action.cook"
+      ]
+    },
+    {
+      "lemma": "palla",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "object.ball"
+      ]
+    },
+    {
+      "lemma": "libro",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.book"
+      ]
+    },
+    {
+      "lemma": "matita",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "object.pencil"
+      ]
+    },
+    {
+      "lemma": "forbici",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "object.scissors"
+      ]
+    },
+    {
+      "lemma": "colla",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "object.glue"
+      ]
+    },
+    {
+      "lemma": "zaino",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.backpack"
+      ]
+    },
+    {
+      "lemma": "soldi",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.money"
+      ]
+    },
+    {
+      "lemma": "telefono",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.phone"
+      ]
+    },
+    {
+      "lemma": "orologio",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.clock"
+      ]
+    },
+    {
+      "lemma": "sedia",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "object.chair"
+      ]
+    },
+    {
+      "lemma": "tavolo",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.table"
+      ]
+    },
+    {
+      "lemma": "bicchiere",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.glass"
+      ]
+    },
+    {
+      "lemma": "piatto",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.plate"
+      ]
+    },
+    {
+      "lemma": "cappello",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.hat"
+      ]
+    },
+    {
+      "lemma": "scarpe",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "object.shoes"
+      ]
+    },
+    {
+      "lemma": "cuscino",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "object.pillow"
+      ]
+    },
+    {
+      "lemma": "letto",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "furniture.bed"
+      ]
+    },
+    {
+      "lemma": "sole",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "nature.sun"
+      ]
+    },
+    {
+      "lemma": "acqua",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "nature.water"
+      ]
+    },
+    {
+      "lemma": "pioggia",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "nature.rain"
+      ]
+    },
+    {
+      "lemma": "albero",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "nature.tree"
+      ]
+    },
+    {
+      "lemma": "fiore",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "nature.flower"
+      ]
+    },
+    {
+      "lemma": "luna",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "nature.moon"
+      ]
+    },
+    {
+      "lemma": "stella",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "object.star"
+      ]
+    },
+    {
+      "lemma": "macchina",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "vehicle.car"
+      ]
+    },
+    {
+      "lemma": "automobile",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "vehicle.car"
+      ]
+    },
+    {
+      "lemma": "auto",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "vehicle.car"
+      ]
+    },
+    {
+      "lemma": "autobus",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "vehicle.bus"
+      ]
+    },
+    {
+      "lemma": "pullman",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "vehicle.bus"
+      ]
+    },
+    {
+      "lemma": "bicicletta",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "vehicle.bike"
+      ]
+    },
+    {
+      "lemma": "bici",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "vehicle.bike"
+      ]
+    },
+    {
+      "lemma": "monopattino",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "vehicle.scooter"
+      ]
+    },
+    {
+      "lemma": "elettrico",
+      "pos": "adj",
+      "gender": "m",
+      "concepts": [
+        "energy.electricity"
+      ]
+    },
+    {
+      "lemma": "elettricità",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "energy.electricity"
+      ]
+    },
+    {
+      "lemma": "felice",
+      "pos": "adj",
+      "concepts": [
+        "emotion.happy"
+      ]
+    },
+    {
+      "lemma": "contento",
+      "pos": "adj",
+      "concepts": [
+        "emotion.happy"
+      ]
+    },
+    {
+      "lemma": "triste",
+      "pos": "adj",
+      "concepts": [
+        "emotion.sad"
+      ]
+    },
+    {
+      "lemma": "arrabbiato",
+      "pos": "adj",
+      "concepts": [
+        "emotion.angry"
+      ]
+    },
+    {
+      "lemma": "paura",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "emotion.afraid"
+      ]
+    },
+    {
+      "lemma": "stanco",
+      "pos": "adj",
+      "concepts": [
+        "emotion.tired"
+      ]
+    },
+    {
+      "lemma": "notte",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "time.night"
+      ]
+    },
+    {
+      "lemma": "mattina",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "time.morning"
+      ]
+    },
+    {
+      "lemma": "giorno",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "time.day"
+      ]
+    },
+    {
+      "lemma": "pane",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "food.bread"
+      ]
+    },
+    {
+      "lemma": "mela",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "food.apple"
+      ]
+    },
+    {
+      "lemma": "frutta",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "food.fruit"
+      ]
+    },
+    {
+      "lemma": "pasta",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "food.pasta"
+      ]
+    },
+    {
+      "lemma": "gelato",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "food.ice_cream"
+      ]
+    },
+    {
+      "lemma": "intervallo",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "school.break"
+      ]
+    },
+    {
+      "lemma": "ricreazione",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "school.break"
+      ]
+    },
+    {
+      "lemma": "pranzo",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "school.lunch"
+      ]
+    },
+    {
+      "lemma": "compito",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "school.classwork"
+      ]
+    },
+    {
+      "lemma": "compiti",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "school.classwork"
+      ]
+    },
+    {
+      "lemma": "bello",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "grande",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "piccolo",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "buono",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "difficile",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "facile",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "rosso",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "blu",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "verde",
+      "pos": "adj",
+      "concepts": []
+    },
+    {
+      "lemma": "nome",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": []
+    },
+    {
+      "lemma": "mamma",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": []
+    },
+    {
+      "lemma": "papà",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": []
+    },
+    {
+      "lemma": "nonno",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": []
+    },
+    {
+      "lemma": "nonna",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": []
+    },
+    {
+      "lemma": "capire",
+      "pos": "verb",
+      "concepts": [
+        "action.understand"
+      ]
+    },
+    {
+      "lemma": "comprendere",
+      "pos": "verb",
+      "concepts": [
+        "action.understand"
+      ]
+    },
+    {
+      "lemma": "assaggiare",
+      "pos": "verb",
+      "concepts": [
+        "action.taste"
+      ]
+    }
+  ],
+  "mwe": [
+    {
+      "form": "lavarsi i denti",
+      "variants": [
+        "lavo i denti",
+        "lavi i denti",
+        "lava i denti",
+        "laviamo i denti",
+        "lavate i denti",
+        "lavano i denti",
+        "lavarmi i denti",
+        "lavati i denti",
+        "spazzolare i denti",
+        "spazzolino"
+      ],
+      "concept": "hygiene.brush_teeth"
+    },
+    {
+      "form": "lavarsi le mani",
+      "variants": [
+        "lavo le mani",
+        "lavi le mani",
+        "lava le mani",
+        "laviamo le mani",
+        "lavate le mani",
+        "lavano le mani",
+        "lavarmi le mani",
+        "lavati le mani"
+      ],
+      "concept": "hygiene.wash_hands"
+    },
+    {
+      "form": "andare a scuola",
+      "variants": [
+        "vado a scuola",
+        "vai a scuola",
+        "va a scuola",
+        "andiamo a scuola",
+        "andate a scuola",
+        "vanno a scuola",
+        "andato a scuola"
+      ],
+      "concept": "place.school"
+    },
+    {
+      "form": "avere paura",
+      "variants": [
+        "ho paura",
+        "hai paura",
+        "ha paura",
+        "abbiamo paura",
+        "avete paura",
+        "hanno paura",
+        "aveva paura"
+      ],
+      "concept": "emotion.afraid"
+    },
+    {
+      "form": "fare colazione",
+      "variants": [
+        "faccio colazione",
+        "fai colazione",
+        "fa colazione",
+        "facciamo colazione",
+        "fate colazione",
+        "fanno colazione"
+      ],
+      "concept": "school.lunch"
+    },
+    {
+      "form": "dare una mano",
+      "variants": [
+        "do una mano",
+        "dai una mano",
+        "dà una mano",
+        "diamo una mano",
+        "date una mano",
+        "danno una mano"
+      ],
+      "concept": "action.help"
+    },
+    {
+      "form": "mettersi le scarpe",
+      "variants": [
+        "metto le scarpe",
+        "metti le scarpe",
+        "mette le scarpe",
+        "mettiamo le scarpe",
+        "mettete le scarpe",
+        "mettono le scarpe"
+      ],
+      "concept": "object.shoes"
+    },
+    {
+      "form": "chiedere aiuto",
+      "variants": [
+        "chiedo aiuto",
+        "chiedi aiuto",
+        "chiede aiuto",
+        "chiediamo aiuto",
+        "chiedete aiuto",
+        "chiedono aiuto"
+      ],
+      "concept": "action.ask_help"
+    },
+    {
+      "form": "monopattino elettrico",
+      "variants": [
+        "monopattini elettrici",
+        "scooter elettrico"
+      ],
+      "concept": "vehicle.electric_scooter"
+    },
+    {
+      "form": "succo di mela",
+      "variants": [
+        "succo di mele",
+        "succo mela"
+      ],
+      "concept": "food.apple_juice"
+    },
+    {
+      "form": "lavoro in classe",
+      "variants": [
+        "lavoro di classe",
+        "attività in classe"
+      ],
+      "concept": "school.classwork"
+    },
+    {
+      "form": "entrata a scuola",
+      "variants": [
+        "entrare a scuola",
+        "entriamo a scuola"
+      ],
+      "concept": "school.arrival"
+    },
+    {
+      "form": "da solo",
+      "variants": [
+        "da sola",
+        "da soli",
+        "da sole",
+        "tutto solo",
+        "tutta sola",
+        "tutti soli",
+        "tutte sole",
+        "senza accompagnatori"
+      ],
+      "concept": "state.alone"
+    },
+    {
+      "form": "non so",
+      "variants": [
+        "io non so",
+        "non lo so",
+        "non sapere"
+      ],
+      "concept": "state.uncertain"
+    }
+  ],
+  "compositions": {
+    "vehicle.electric_scooter": [
+      "vehicle.scooter",
+      "energy.electricity"
+    ],
+    "food.apple_juice": [
+      "food.apple",
+      "nature.water"
+    ]
+  },
+  "relations": [
+    {
+      "from": "weather.conditions",
+      "to": "nature.rain",
+      "kind": "related",
+      "weight": 1.0
+    },
+    {
+      "from": "time.clock_time",
+      "to": "object.clock",
+      "kind": "related",
+      "weight": 1.0
+    },
+    {
+      "from": "activity.leisure",
+      "to": "object.ball",
+      "kind": "related",
+      "weight": 0.8
+    },
+    {
+      "from": "emotion.afraid",
+      "to": "emotion.sad",
+      "kind": "related",
+      "weight": 0.6
+    },
+    {
+      "from": "school.classwork",
+      "to": "action.write",
+      "kind": "related",
+      "weight": 0.9
+    },
+    {
+      "from": "action.taste",
+      "to": "action.eat",
+      "kind": "related",
+      "weight": 0.9
+    }
+  ],
+  "irregular": {
+    "vado": "andare",
+    "vai": "andare",
+    "va": "andare",
+    "andiamo": "andare",
+    "andate": "andare",
+    "vanno": "andare",
+    "sono": "essere",
+    "sei": "essere",
+    "è": "essere",
+    "siamo": "essere",
+    "siete": "essere",
+    "e`": "essere",
+    "ho": "avere",
+    "hai": "avere",
+    "ha": "avere",
+    "abbiamo": "avere",
+    "avete": "avere",
+    "hanno": "avere",
+    "faccio": "fare",
+    "fai": "fare",
+    "fa": "fare",
+    "facciamo": "fare",
+    "fate": "fare",
+    "fanno": "fare",
+    "bevo": "bere",
+    "bevi": "bere",
+    "beve": "bere",
+    "beviamo": "bere",
+    "bevete": "bere",
+    "bevono": "bere",
+    "bevuto": "bere",
+    "bevuta": "bere",
+    "bevuti": "bere",
+    "bevute": "bere",
+    "bevendo": "bere",
+    "esco": "uscire",
+    "esci": "uscire",
+    "esce": "uscire",
+    "usciamo": "uscire",
+    "uscite": "uscire",
+    "escono": "uscire",
+    "voglio": "volere",
+    "vuoi": "volere",
+    "vuole": "volere",
+    "vogliamo": "volere",
+    "volete": "volere",
+    "vogliono": "volere",
+    "posso": "potere",
+    "puoi": "potere",
+    "può": "potere",
+    "possiamo": "potere",
+    "potete": "potere",
+    "possono": "potere",
+    "devo": "dovere",
+    "devi": "dovere",
+    "deve": "dovere",
+    "dobbiamo": "dovere",
+    "dovete": "dovere",
+    "devono": "dovere",
+    "mi siedo": "sedersi",
+    "ti siedi": "sedersi",
+    "si siede": "sedersi",
+    "ci sediamo": "sedersi",
+    "vedo": "vedere",
+    "vedi": "vedere",
+    "vede": "vedere",
+    "vediamo": "vedere",
+    "vedono": "vedere"
+  },
+  "function_words": [
+    "il",
+    "lo",
+    "la",
+    "i",
+    "gli",
+    "le",
+    "un",
+    "uno",
+    "una",
+    "di",
+    "a",
+    "da",
+    "in",
+    "con",
+    "su",
+    "per",
+    "tra",
+    "fra",
+    "e",
+    "ed",
+    "o",
+    "ma",
+    "che",
+    "se",
+    "quando",
+    "non",
+    "che",
+    "cui",
+    "del",
+    "dello",
+    "della",
+    "dei",
+    "degli",
+    "delle",
+    "al",
+    "allo",
+    "alla",
+    "ai",
+    "agli",
+    "alle",
+    "dal",
+    "dallo",
+    "dalla",
+    "dai",
+    "dagli",
+    "dalle",
+    "nel",
+    "nello",
+    "nella",
+    "nei",
+    "negli",
+    "nelle",
+    "sul",
+    "sullo",
+    "sulla",
+    "sui",
+    "sugli",
+    "sulle",
+    "col",
+    "coi"
+  ],
+  "synonyms": [
+    {
+      "term": "macchina",
+      "concepts": [
+        "vehicle.car"
+      ]
+    },
+    {
+      "term": "auto",
+      "concepts": [
+        "vehicle.car"
+      ]
+    },
+    {
+      "term": "automobile",
+      "concepts": [
+        "vehicle.car"
+      ]
+    },
+    {
+      "term": "bici",
+      "concepts": [
+        "vehicle.bike"
+      ]
+    },
+    {
+      "term": "bicicletta",
+      "concepts": [
+        "vehicle.bike"
+      ]
+    },
+    {
+      "term": "dottore",
+      "concepts": [
+        "person.doctor"
+      ]
+    },
+    {
+      "term": "medico",
+      "concepts": [
+        "person.doctor"
+      ]
+    },
+    {
+      "term": "maestro",
+      "concepts": [
+        "person.teacher"
+      ]
+    },
+    {
+      "term": "insegnante",
+      "concepts": [
+        "person.teacher"
+      ]
+    },
+    {
+      "term": "piuma",
+      "concepts": [
+        "animal.feather"
+      ]
+    },
+    {
+      "term": "piume",
+      "concepts": [
+        "animal.feather"
+      ]
+    },
+    {
+      "term": "denaro",
+      "concepts": [
+        "object.money"
+      ]
+    },
+    {
+      "term": "moneta",
+      "concepts": [
+        "object.money"
+      ]
+    },
+    {
+      "term": "borsa",
+      "concepts": [
+        "object.backpack"
+      ]
+    },
+    {
+      "term": "contento",
+      "concepts": [
+        "emotion.happy"
+      ]
+    },
+    {
+      "term": "felice",
+      "concepts": [
+        "emotion.happy"
+      ]
+    },
+    {
+      "term": "ricreazione",
+      "concepts": [
+        "school.break"
+      ]
+    },
+    {
+      "term": "mensa",
+      "concepts": [
+        "school.lunch"
+      ]
+    },
+    {
+      "term": "pullman",
+      "concepts": [
+        "vehicle.bus"
+      ]
+    },
+    {
+      "term": "cellulare",
+      "concepts": [
+        "object.phone"
+      ]
+    },
+    {
+      "term": "smarphone",
+      "concepts": [
+        "object.phone"
+      ]
+    },
+    {
+      "term": "capire",
+      "concepts": [
+        "action.understand"
+      ]
+    },
+    {
+      "term": "comprendere",
+      "concepts": [
+        "action.understand"
+      ]
+    },
+    {
+      "term": "io non so",
+      "concepts": [
+        "state.uncertain"
+      ]
+    },
+    {
+      "term": "dubbio",
+      "concepts": [
+        "state.uncertain"
+      ]
+    },
+    {
+      "term": "solo",
+      "concepts": [
+        "state.alone"
+      ]
+    },
+    {
+      "term": "sola",
+      "concepts": [
+        "state.alone"
+      ]
+    }
+  ]
+}

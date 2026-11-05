@@ -1,0 +1,59 @@
+# --- Project memory: MUST stay local (spec §2.4) ---
+/Contesto.md
+
+# --- Log di sviluppo locale ---
+/.tauri-dev.log
+
+# --- Node / frontend ---
+node_modules/
+dist/
+.vite/
+*.local
+.env
+.env.*
+!.env.example
+
+# --- Rust / Tauri ---
+src-tauri/target/
+target/
+**/*.rs.bk
+gen/schemas/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Local user data / caches (never commit) ---
+/cache/
+/scratch/
+*.caadoc.local
+/benchmark-output/
+/tests/last_report.json
+
+# Le icone sono input di build: versionate (152 KB) per non richiedere
+# Python/Pillow a ogni clone. Si rigenerano con scripts/generate_icons.py.
+
+# --- Models (large binaries, never in git) ---
+resources/models/*.gguf
+resources/models/*.bin
+
+# --- Runtime IA e catalogo ARASAAC: scaricati, non versionati ---
+# Il modello GGUF (491 MB) supera i limiti di GitHub; il catalogo ARASAAC
+# (439 MB) si ricostruisce con scripts/fetch_arasaac.py.
+/resources/ai/
+/resources/symbol-packs/arasaac/
+
+# --- Test TypeScript compilati ---
+/.test-build/
+
+# --- Artefatti di release locali (non versionati) ---
+/dist-release/
+
+# --- Symbol packs that are downloaded, not authored ---
+resources/symbol-packs/downloaded/
+/scripts/.cache/
+
+# Motore vocale locale: runtime e voce non versionati
+/.voice-venv/
+/resources/voice/

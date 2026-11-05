@@ -1,0 +1,222 @@
+// Ponte tipizzato verso il backend Rust.
+//
+// In anteprima browser (senza Tauri) le funzioni che richiedono il motore
+// nativo lanciano un errore esplicito: nessuna funzione è simulata.
+// `demoAnalyze` serve solo a mostrare l'interfaccia e produce token SENZA
+// pittogrammi, dichiarandolo nell'interfaccia.
+
+import { invoke } from "@tauri-apps/api/core";
+import { noModifiers } from "./types";
+import type {
+  AiConfig,
+  LayoutDocument,
+  LayoutEditResult,
+  LayoutOperation,
+  LayoutSpecification,
+  AiStatus,
+  BenchmarkResult,
+  InstallStatus,
+  ModelEntry,
+  ToolOutcome,
+  Alternative,
+  AppInfo,
+  AttributionEntry,
+  CaaToken,
+  DocumentPayload,
+  ExportDoc,
+  ExportResult,
+  LibraryStats,
+  LoadedDocument,
+  PackInfo,
+  ParagraphResult,
+  Preference,
+  ResourcePlan,
+  SearchResultPage,
+  SymbolizeOptions,
+  TemplateInfo,
+  UnitModifiers,
+  VoiceInfo,
+  WordAffinity,
+} from "./types";
+
+export const isTauri = (): boolean =>
+  typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+
+async function call<T>(command: string, args?: Record<string, unknown>): Promise<T> {
+  if (!isTauri()) {
+    throw new Error(
+      "Anteprima browser: il motore nativo non è disponibile. Avvia l'app desktop con `npm run tauri dev`."
+    );
+  }
+  return invoke<T>(command, args);
+}
+
+export const api = {
+  appInfo: () => call<AppInfo>("app_info"),
+  libraryStats: () => call<LibraryStats>("library_stats"),
+  listPacks: () => call<PackInfo[]>("list_packs"),
+
+  symbolizeParagraph: (text: string, options: SymbolizeOptions) =>
+    call<ParagraphResult>("symbolize_paragraph", { text, options }),
+  refineParagraph: (text: string, options: SymbolizeOptions) =>
+    call<ParagraphResult>("refine_paragraph", { text, options }),
+
+  searchSymbols: (
+    query: string,
+    limit = 40,
+    offset = 0,
+    packId: string | null = null,
+    commercialOnly = false
+  ) =>
+    call<SearchResultPage>("search_symbols", {
+      query,
+      limit,
+      offset,
+      packId,
+      commercialOnly,
+    }),
+  conceptAlternatives: (conceptId: string, packId: string | null = null) =>
+    call<Alternative[]>("concept_alternatives", { conceptId, packId }),
+  wordAffinities: (word: string, packId: string | null = null, commercialOnly = false) =>
+    call<WordAffinity>("word_affinities", { word, packId, commercialOnly }),
+  suggestSymbols: (text: string, commercialOnly = false) =>
+    call<Alternative[]>("suggest_symbols", { text, commercialOnly }),
+
+  setPreference: (preference: Preference) => call<void>("set_preference", { preference }),
+  deletePreference: (scope: string, lemma: string, contextKey: string | null) =>
+    call<void>("delete_preference", { scope, lemma, contextKey }),
+  listPreferences: () => call<Preference[]>("list_preferences"),
+  setDocumentOverride: (
+    documentKey: string,
+    unitKey: string,
+    symbolId: string | null,
+    conceptId: string | null
+  ) =>
+    call<void>("set_document_override", {
+      documentKey,
+      unitKey,
+      symbolId,
+      conceptId,
+    }),
+  clearDocumentOverride: (documentKey: string, unitKey: string) =>
+    call<void>("clear_document_override", { documentKey, unitKey }),
+  setUnitState: (
+    documentKey: string,
+    unitKey: string,
+    locked: boolean,
+    hidden: boolean,
+    modifiers: UnitModifiers
+  ) =>
+    call<void>("set_unit_state", {
+      documentKey,
+      unitKey,
+      locked,
+      hidden,
+      modifiers,
+    }),
+
+  saveDocument: (path: string, payload: DocumentPayload) =>
+    call<ExportResult>("save_document", { path, payload }),
+  loadDocument: (path: string) => call<LoadedDocument>("load_document", { path }),
+  importDocumentText: (path: string) => call<string>("import_document_text", { path }),
+
+  exportHtml: (path: string, doc: ExportDoc) => call<ExportResult>("export_html", { path, doc }),
+  exportDocx: (path: string, doc: ExportDoc) => call<ExportResult>("export_docx", { path, doc }),
+  exportAttributions: (path: string) =>
+    call<ExportResult>("export_attributions", { path }),
+  attributions: () => call<AttributionEntry[]>("attributions"),
+
+  listVoices: () => call<VoiceInfo[]>("list_voices"),
+  speak: (text: string, voice: string | null, rate: number, language: string | null = null) =>
+    call<void>("speak", { text, voice, rate }),
+
+  aiStatus: () => call<AiStatus>("ai_status"),
+  setAiConfig: (config: AiConfig) => call<AiStatus>("set_ai_config", { config }),
+  aiModels: () => call<ModelEntry[]>("ai_models"),
+  aiInstallModel: (modelId: string) => call<InstallStatus>("ai_install_model", { modelId }),
+  aiInstallStatus: () => call<InstallStatus>("ai_install_status"),
+  aiCancelModelInstall: () => call<InstallStatus>("ai_cancel_model_install"),
+  aiRemoveModel: (modelId: string) => call<AiStatus>("ai_remove_model", { modelId }),
+  aiImportModel: (path: string) => call<AiStatus>("ai_import_model", { path }),
+  aiRelatedSymbols: (text: string) => call<Alternative[]>("ai_related_symbols", { text }),
+  aiSelectModel: (modelId: string) => call<AiStatus>("ai_select_model", { modelId }),
+  aiBenchmark: () => call<BenchmarkResult>("ai_benchmark"),
+  aiRunTool: (tool: string, input: unknown) => call<ToolOutcome>("ai_run_tool", { tool, input }),
+
+  listTemplates: () => call<TemplateInfo[]>("list_templates"),
+  planResource: (prompt: string, templateId: string | null) =>
+    call<ResourcePlan>("plan_resource", { prompt, templateId }),
+  buildLayout: (spec: LayoutSpecification) =>
+    call<LayoutDocument>("build_layout", { spec }),
+  editLayout: (
+    spec: LayoutSpecification,
+    prompt: string | null,
+    operations: LayoutOperation[] | null = null
+  ) => call<LayoutEditResult>("edit_layout", { spec, prompt, operations }),
+
+  importSvgSymbol: (
+    name: string,
+    svg: string,
+    lemma: string,
+    meaning: string | null,
+    conceptId: string | null
+  ) => call<string>("import_svg_symbol", { name, svg, lemma, meaning, conceptId }),
+  hideSymbol: (symbolId: string, hide: boolean) =>
+    call<void>("hide_symbol", { symbolId, hide }),
+
+  clearHistory: () => call<void>("clear_history"),
+  getSetting: (key: string) => call<string | null>("get_setting", { key }),
+  setSetting: (key: string, value: string) => call<void>("set_setting", { key, value }),
+};
+
+/// Token dimostrativi per l'anteprima browser: nessun pittogramma, solo testo.
+/// Serve a valutare layout e accessibilità dell'interfaccia, non il motore.
+export function demoAnalyze(text: string, paragraphId: string): ParagraphResult {
+  const tokens: CaaToken[] = [];
+  const regex = /[\p{L}\p{N}']+|[.,!?;:]/gu;
+  let match: RegExpExecArray | null;
+  let index = 0;
+  while ((match = regex.exec(text)) !== null) {
+    const surface = match[0];
+    const isPunct = /^[.,!?;:]$/.test(surface);
+    tokens.push({
+      index: index++,
+      surface,
+      start: match.index,
+      end: match.index + surface.length,
+      lemma: isPunct ? null : surface.toLowerCase(),
+      pos: isPunct ? "punct" : "noun",
+      concept_id: null,
+      concept_label: null,
+      meaning: null,
+      category: null,
+      symbol_id: null,
+      pack_id: null,
+      caption: surface,
+      svg: null,
+      composition: [],
+      strategy: "none",
+      confidence: 0,
+      approximate: false,
+      locked: false,
+      negated: false,
+      key: !isPunct,
+      is_punct: isPunct,
+      is_function: false,
+      span: 1,
+      sentence_index: 0,
+      hidden: false,
+      modifiers: { ...noModifiers },
+      alternatives: [],
+    });
+  }
+  return {
+    paragraph_id: paragraphId,
+    tokens,
+    domains: [],
+    symbolized: 0,
+    approximate: 0,
+    missing: tokens.filter((t) => !t.is_punct).length,
+    elapsed_ms: 0,
+  };
+}

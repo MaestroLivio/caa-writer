@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Permessi minimi: dialoghi di apertura/salvataggio, nient'altro.","local":true,"windows":["main"],"permissions":["core:default","core:window:allow-start-dragging","dialog:allow-open","dialog:allow-save","dialog:allow-message"]}}

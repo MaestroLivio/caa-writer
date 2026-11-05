@@ -1,0 +1,41 @@
+CAA Writer
+Copyright (c) 2026 CAA Writer contributors
+
+Il codice originale, la documentazione, i template e i pittogrammi originali
+inclusi in questo repository sono distribuiti, salvo diversa indicazione,
+secondo la licenza
+
+  Creative Commons Attribuzione - Non commerciale - Condividi allo stesso modo 4.0
+  Internazionale (CC BY-NC-SA 4.0)
+  https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+Nota importante sulle licenze (vedere anche LICENSES/README.md):
+
+1. CC BY-NC-SA 4.0 è applicata alle componenti originali di questo progetto
+   (codice, documentazione, template, pittogrammi originali del pacchetto
+   "core" e del Visual Resource Studio). La clausola non commerciale e la
+   condivisione allo stesso modo valgono per l'intera distribuzione.
+2. Creative Commons non raccomanda le proprie licenze per il software.
+   Il committente ha scelto CC BY-NC-SA 4.0 per il progetto: la scelta è qui
+   rispettata e documentata.
+3. I pittogrammi ARASAAC sono inclusi nel pacchetto `arasaac` e mantengono la
+   loro licenza CC BY-NC-SA 4.0 (autore Sergio Palao, titolare dei diritti
+   ARASAAC — Governo di Aragona). L'attribuzione è riportata in
+   `resources/symbol-packs/arasaac/manifest.json`, in `LICENSES/README.md` e
+   nella scheda «Informazioni» dell'applicazione. I PNG ufficiali sono
+   incorporati in contenitori SVG: la modifica è dichiarata.
+4. I pittogrammi di altri repertori di terzi (Mulberry, OpenSymbols, Global
+   Symbols, Sclera, OpenMoji, Tawasol) NON sono inclusi e mantengono la
+   licenza della fonte quando l'utente li importa localmente.
+5. Il modello linguistico incluso (`resources/ai/model.gguf`, Qwen2.5-0.5B-
+   Instruct GGUF) è distribuito con licenza Apache-2.0 dal suo autore e
+   mantiene tale licenza. Il runtime llama.cpp è software di terzi (MIT).
+6. Le dipendenze software mantengono le proprie licenze (vedi LICENSES/).
+
+Attribution / Attribuzione:
+  "CAA Writer — https://github.com/caa-writer/caa-writer — CC BY-NC-SA 4.0"
+  "Pittogrammi ARASAAC — Sergio Palao / ARASAAC (Governo di Aragona) —
+   CC BY-NC-SA 4.0 — https://arasaac.org"
+
+Il testo completo della licenza è disponibile all'indirizzo
+https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode

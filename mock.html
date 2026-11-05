@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CAA Writer — prova con backend simulato</title>
+    <!--
+      File di sviluppo: NON è parte dell'applicazione distribuita.
+      Serve solo a esercitare il frontend reale (editor, strisce, pannelli)
+      con un backend finto, quando non è possibile avviare la finestra Tauri.
+      Aprire con: npm run dev → http://127.0.0.1:1420/mock.html
+    -->
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const COLORS = ["#2f6fed", "#e0663a", "#2f9e6f", "#8a5bd6", "#c9a227"];
+      const svgFor = (label, i) =>
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="33" fill="${COLORS[i % COLORS.length]}"/><rect x="30" y="44" width="40" height="12" rx="6" fill="#fff"/></svg>`;
+
+      const LEXICON = {
+        il: null, la: null, lo: null, una: null, un: null, di: null, a: null, con: null, e: null,
+        bambino: "person.child", bambina: "person.child", mamma: "person.mother",
+        mangia: "action.eat", mangio: "action.eat", beve: "action.drink",
+        mela: "food.apple", pane: "food.bread", acqua: "drink.water",
+        cane: "animal.dog", gatto: "animal.cat", scuola: "place.school",
+        casa: "place.home", penna: "obj.pen", libro: "obj.book",
+        corre: "action.run", gioca: "action.play",
+      };
+      const LABELS = {
+        "person.child": "bambino", "person.mother": "mamma", "action.eat": "mangiare",
+        "action.drink": "bere", "food.apple": "mela", "food.bread": "pane",
+        "drink.water": "acqua", "animal.dog": "cane", "animal.cat": "gatto",
+        "place.school": "scuola", "place.home": "casa", "obj.pen": "penna",
+        "obj.book": "libro", "action.run": "correre", "action.play": "giocare",
+      };
+
+      function tokensFor(text, pid) {
+        const tokens = [];
+        const regex = /[\p{L}\p{N}']+|[.,!?;:]/gu;
+        let match;
+        let index = 0;
+        while ((match = regex.exec(text)) !== null) {
+          const surface = match[0];
+          const isPunct = /^[.,!?;:]$/.test(surface);
+          const lemma = surface.toLowerCase();
+          const concept = isPunct ? null : LEXICON[lemma] ?? null;
+          tokens.push({
+            index: index++,
+            surface,
+            start: match.index,
+            end: match.index + surface.length,
+            lemma: isPunct ? null : lemma,
+            pos: isPunct ? "punct" : "noun",
+            concept_id: concept,
+            concept_label: concept ? LABELS[concept] ?? null : null,
+            meaning: concept ? LABELS[concept] ?? null : null,
+            category: null,
+            symbol_id: concept ? `core:${concept}` : null,
+            pack_id: concept ? "core" : null,
+            caption: isPunct ? surface : LABELS[concept] ?? surface,
+            svg: concept ? svgFor(LABELS[concept] ?? surface, index) : null,
+            composition: [],
+            strategy: concept ? "exact" : "none",
+            confidence: concept ? 0.9 : 0,
+            approximate: false,
+            locked: false,
+            negated: false,
+            key: !isPunct && !["il", "la", "lo", "una", "un", "di", "a", "con", "e"].includes(lemma),
+            is_punct: isPunct,
+            is_function: ["il", "la", "lo", "una", "un", "di", "a", "con", "e"].includes(lemma),
+            span: 1,
+            sentence_index: 0,
+            alternatives: [],
+          });
+        }
+        return {
+          paragraph_id: pid,
+          tokens,
+          domains: [],
+          symbolized: tokens.filter((t) => t.symbol_id).length,
+          approximate: 0,
+          missing: tokens.filter((t) => t.key && !t.symbol_id).length,
+          elapsed_ms: 1,
+        };
+      }
+
+      const emptyStats = { symbols: 88, concepts: 102, lemmas: 178, packs: 1, expressions: 12, packs_detail: [] };
+      const packs = [
+        { id: "core", name: "Repertorio CAA Writer", version: "1.0.0", license: "CC BY 4.0", license_url: null, source_url: null, author: "CAA Writer", commercial_ok: true, symbol_count: 88, description: null },
+      ];
+
+      window.__TAURI_INTERNALS__ = {
+        metadata: { currentWindow: { label: "main" }, currentWebview: { windowLabel: "main", label: "main" } },
+        transformCallback: (cb) => cb,
+        invoke: async (cmd, args) => {
+          switch (cmd) {
+            case "app_info":
+              return { version: "0.1.0", schema_version: 4, lexicon_concepts: 102, lexicon_lemmas: 178, data_dir: "/tmp", resources_dir: "/tmp", warnings: [], platform: "simulato" };
+            case "library_stats":
+              return emptyStats;
+            case "list_packs":
+              return packs;
+            case "list_voices":
+              return [{ id: "v1", name: "Voce di prova", language: "it" }];
+            case "ai_status":
+              return { enabled: false, binary_present: false, model_present: false, binary_path: "", model_path: "", backend: "cpu", threads: 2, context_size: 1024, timeout_ms: 8000, last_error: null, note: "Backend simulato: nessun modello.", server_running: false, hardware: null, metrics: null };
+            case "ai_models":
+              return [];
+            case "list_preferences":
+              return [];
+            case "list_templates":
+              return [];
+            case "get_setting":
+              return null;
+            case "set_setting":
+              return null;
+            case "symbolize_paragraph":
+              return tokensFor(args.text, args.options.paragraph_id);
+            case "refine_paragraph":
+              return tokensFor(args.text, args.options.paragraph_id);
+            case "search_symbols":
+              return { items: [], total: 0, page: 0, page_size: 24 };
+            case "word_affinities": {
+              // Dato dimostrativo per provare la sola interfaccia dei gruppi.
+              // Il backend reale è verificato dai test Rust; qui il pittogramma
+              // è un segnaposto e il testo lo dichiara.
+              const word = String(args.word ?? "").trim().toLowerCase();
+              if (word === "principesse") {
+                const symbol = {
+                  symbol_id: "demo.principessa",
+                  concept_id: null,
+                  label: "principessa",
+                  meaning: "dato dimostrativo",
+                  pack_id: "demo",
+                  pack_name: "Repertorio simulato",
+                  format: "svg",
+                  svg: svgFor("principessa", 2),
+                  approximate: true,
+                  neural: false,
+                  license: "dimostrativo",
+                  source_url: null,
+                  author: null,
+                };
+                return {
+                  word,
+                  normalized: word,
+                  lemma: null,
+                  known: true,
+                  explanation:
+                    "Backend simulato: forma singolare ipotizzata dalla regola -esse e verificata nel repertorio.",
+                  groups: [
+                    {
+                      level: "variant",
+                      title: "Varianti della parola",
+                      approximate: true,
+                      candidates: [
+                        {
+                          symbol,
+                          score: 75,
+                          approximate: true,
+                          reason:
+                            "Forma singolare probabile «principessa» (plurale femminile in -esse), non confermata dal lessico.",
+                        },
+                      ],
+                    },
+                  ],
+                };
+              }
+              return {
+                word,
+                normalized: word,
+                lemma: null,
+                known: false,
+                explanation: "Backend simulato: nessun gruppo per questa parola.",
+                groups: [],
+              };
+            }
+            default:
+              return null;
+          }
+        },
+      };
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

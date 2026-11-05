@@ -1,0 +1,24 @@
+{
+  "id": "visual_schedule",
+  "name": "Agenda visiva della giornata",
+  "category": "Organizzazione",
+  "description": "Sequenza verticale di attività con pittogrammi, orari e casella di completamento. Utile per TEACCH e autonomie.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "grid": { "columns": 1, "rows": 8, "caption": true, "symbol": true, "border": false, "color_coding": "nessuna" },
+  "fields": [
+    { "key": "title", "label": "Titolo", "kind": "text", "default_value": "La mia giornata" },
+    { "key": "checkboxes", "label": "Caselle da completare", "kind": "boolean", "default_value": "true" }
+  ],
+  "items": [
+    { "label": "entrata a scuola", "concept": "school.arrival" },
+    { "label": "lavoro in classe", "concept": "school.classwork" },
+    { "label": "intervallo", "concept": "school.break" },
+    { "label": "pranzo", "concept": "school.lunch" },
+    { "label": "giocare", "concept": "action.play" },
+    { "label": "tornare a casa", "concept": "place.house" },
+    { "label": "lavarsi le mani", "concept": "hygiene.wash_hands" },
+    { "label": "dormire", "concept": "action.sleep" }
+  ]
+}

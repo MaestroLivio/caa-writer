@@ -1,0 +1,252 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag esistente da pubblicare (es. v0.2.0)"
+        required: true
+        type: string
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            python: python3
+          - os: windows-latest
+            python: python
+          - os: ubuntu-22.04
+            python: python3
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Dipendenze di sistema (Linux)
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev \
+            librsvg2-dev patchelf libgtk-3-dev libssl-dev rpm
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            resources/ai
+            resources/symbol-packs/arasaac
+          key: caa-assets-${{ runner.os }}-native-v1
+
+      - name: Dipendenze frontend
+        run: npm ci
+
+      # I test di affinità usano il catalogo ARASAAC completo; il modello
+      # serve alla prova live, che altrimenti si dichiara non eseguita.
+      - name: Asset di test (modello, runtime, catalogo)
+        run: ${{ matrix.python }} scripts/fetch_release_assets.py
+
+      - name: Controllo tipi e build frontend
+        run: npm run build
+
+      - name: Test TypeScript della selezione
+        run: npm run test:frontend
+
+      - name: Test Rust
+        working-directory: src-tauri
+        run: cargo test --all-targets -- --nocapture
+
+      - name: Report semantico
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-report-${{ runner.os }}
+          path: tests/last_report.json
+          if-no-files-found: ignore
+
+  build:
+    name: Bundle (${{ matrix.name }})
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            name: macos-arm64
+            target: aarch64-apple-darwin
+            bundles: app,dmg
+            python: python3
+            llama_asset: native
+          - os: macos-latest
+            name: macos-x64
+            target: x86_64-apple-darwin
+            bundles: app,dmg
+            python: python3
+            # Il runner è arm64: per la build Intel serve il runtime x64.
+            llama_asset: bin-macos-x64
+          - os: windows-latest
+            name: windows-x64
+            target: x86_64-pc-windows-msvc
+            bundles: nsis,msi
+            python: python
+            llama_asset: native
+          - os: ubuntu-22.04
+            name: linux-x64
+            target: x86_64-unknown-linux-gnu
+            bundles: deb,appimage,rpm
+            python: python3
+            llama_asset: native
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+          key: ${{ matrix.target }}
+
+      - name: Dipendenze di sistema (Linux)
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev \
+            librsvg2-dev patchelf libgtk-3-dev libssl-dev rpm
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            resources/ai
+            resources/symbol-packs/arasaac
+          key: caa-assets-${{ runner.os }}-${{ matrix.llama_asset }}-v1
+
+      - run: npm ci
+
+      - name: Asset di release
+        shell: bash
+        run: |
+          if [ "${{ matrix.llama_asset }}" = "native" ]; then
+            ${{ matrix.python }} scripts/fetch_release_assets.py
+          else
+            ${{ matrix.python }} scripts/fetch_release_assets.py \
+              --llama-asset "${{ matrix.llama_asset }}" --force-llama
+          fi
+
+      - name: Build bundle non firmato
+        shell: bash
+        run: npm run tauri -- build --target "${{ matrix.target }}" --bundles "${{ matrix.bundles }}"
+
+      - name: Raccogli artefatti e checksum
+        shell: bash
+        env:
+          ASSET_NAME: ${{ matrix.name }}
+        run: |
+          set -euo pipefail
+          VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          mkdir -p artifacts
+          BUNDLE="src-tauri/target/${{ matrix.target }}/release/bundle"
+          if [ -d "$BUNDLE/macos/CAA Writer.app" ]; then
+            ditto -c -k --sequesterRsrc --keepParent \
+              "$BUNDLE/macos/CAA Writer.app" \
+              "artifacts/CAA-Writer-${VERSION}-${ASSET_NAME}.app.zip"
+          fi
+          find "$BUNDLE" -type f \
+            \( -name '*.dmg' -o -name '*.exe' -o -name '*.msi' \
+               -o -name '*.deb' -o -name '*.AppImage' -o -name '*.rpm' \) \
+            -exec cp {} artifacts/ \;
+          if [ -z "$(find artifacts -type f -print -quit)" ]; then
+            echo "nessun artefatto prodotto" >&2
+            exit 1
+          fi
+          ${{ matrix.python }} - <<'PY'
+          import hashlib
+          import os
+          from pathlib import Path
+          files = sorted(p for p in Path("artifacts").iterdir() if p.is_file())
+          lines = []
+          for path in files:
+              digest = hashlib.sha256(path.read_bytes()).hexdigest()
+              lines.append(f"{digest}  {path.name}")
+          target = Path(f"artifacts/SHA256SUMS-{os.environ['ASSET_NAME']}.txt")
+          target.write_text("\n".join(lines) + "\n", encoding="utf-8")
+          print(target.read_text())
+          PY
+
+      - name: Carica artefatti
+        uses: actions/upload-artifact@v4
+        with:
+          name: caa-writer-${{ matrix.name }}
+          path: artifacts/*
+          if-no-files-found: error
+
+  publish:
+    name: Pubblica GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: release
+          merge-multiple: true
+
+      - name: Verifica tag e versione
+        env:
+          TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+        run: |
+          VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          if [ "$TAG" != "v$VERSION" ]; then
+            echo "Il tag $TAG non coincide con la versione $VERSION" >&2
+            exit 1
+          fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "La release $TAG esiste già: non viene sovrascritta." >&2
+            exit 1
+          fi
+
+      - name: Crea la release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+        run: |
+          cat CHANGELOG.md > release-notes.md
+          printf '\n' >> release-notes.md
+          cat docs/RELEASE_NOTES.md >> release-notes.md
+          gh release create "$TAG" release/* \
+            --title "CAA Writer $TAG" \
+            --notes-file release-notes.md

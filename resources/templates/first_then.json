@@ -1,0 +1,18 @@
+{
+  "id": "first_then",
+  "name": "Prima / Poi",
+  "category": "Organizzazione",
+  "description": "Due riquadri: cosa fare prima e cosa viene dopo. Struttura di transizione tra attività.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "grid": { "columns": 2, "rows": 1, "caption": true, "symbol": true, "border": true, "color_coding": "nessuna" },
+  "fields": [
+    { "key": "title", "label": "Titolo", "kind": "text", "default_value": "Prima e poi" },
+    { "key": "labels", "label": "Etichette", "kind": "text", "default_value": "PRIMA,POI" }
+  ],
+  "items": [
+    { "label": "lavoro in classe", "concept": "school.classwork" },
+    { "label": "giocare", "concept": "action.play" }
+  ]
+}

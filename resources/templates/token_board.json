@@ -1,0 +1,20 @@
+{
+  "id": "token_board",
+  "name": "Token board",
+  "category": "ABA",
+  "description": "Tabella di rinforzo con gettoni virtuali e obiettivo. Strumento di supporto, non di valutazione clinica.",
+  "kind": "tokens",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "grid": { "columns": 5, "rows": 1, "caption": true, "symbol": true, "border": true, "color_coding": "nessuna" },
+  "fields": [
+    { "key": "title", "label": "Titolo", "kind": "text", "default_value": "Il mio obiettivo" },
+    { "key": "tokens", "label": "Numero di gettoni", "kind": "number", "default_value": "5" },
+    { "key": "reward", "label": "Premio finale", "kind": "text", "default_value": "giocare" }
+  ],
+  "items": [
+    { "label": "lavorare", "concept": "school.classwork" },
+    { "label": "finito", "concept": "action.finish" },
+    { "label": "premio", "concept": "action.play" }
+  ]
+}

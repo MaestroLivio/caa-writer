@@ -1,0 +1,29 @@
+{
+  "id": "communication_grid",
+  "name": "Tabella di comunicazione",
+  "category": "Comunicazione",
+  "description": "Griglia di pittogrammi per scelte e richieste. Celle modificabili, stampabile in bianco e nero o a colori.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "grid": { "columns": 4, "rows": 3, "caption": true, "symbol": true, "border": true, "color_coding": "categorie" },
+  "fields": [
+    { "key": "title", "label": "Titolo", "kind": "text", "default_value": "Le mie scelte" },
+    { "key": "columns", "label": "Colonne", "kind": "number", "default_value": "4" },
+    { "key": "caption", "label": "Didascalia sotto il simbolo", "kind": "boolean", "default_value": "true" }
+  ],
+  "items": [
+    { "label": "voglio", "concept": "action.want" },
+    { "label": "mangiare", "concept": "action.eat" },
+    { "label": "bere", "concept": "action.drink" },
+    { "label": "bagno", "concept": "place.toilet" },
+    { "label": "aiuto", "concept": "action.ask_help" },
+    { "label": "giocare", "concept": "action.play" },
+    { "label": "dormire", "concept": "action.sleep" },
+    { "label": "casa", "concept": "place.house" },
+    { "label": "scuola", "concept": "place.school" },
+    { "label": "felice", "concept": "emotion.happy" },
+    { "label": "triste", "concept": "emotion.sad" },
+    { "label": "finito", "concept": "action.finish" }
+  ]
+}

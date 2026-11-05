@@ -1,0 +1,45 @@
+[package]
+name = "caa-writer"
+version = "0.2.0"
+description = "Word processor CAA offline con motore semantico locale"
+authors = ["CAA Writer contributors"]
+edition = "2021"
+rust-version = "1.77"
+license = "CC-BY-NC-SA-4.0"
+publish = false
+
+[lib]
+name = "caa_writer_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+rusqlite = { version = "0.37", features = ["bundled"] }
+base64 = "0.22"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+sha2 = "0.10"
+roxmltree = "0.20"
+unicode-normalization = "0.1"
+time = { version = "0.3", features = ["formatting", "macros"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[features]
+# The AI engine (llama.cpp CLI bridge) is always compiled, but stays inert
+# until the user configures a binary + GGUF model path in Impostazioni.
+default = []
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

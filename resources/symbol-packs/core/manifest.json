@@ -1,0 +1,637 @@
+{
+  "pack": {
+    "id": "core",
+    "name": "CAA Writer Core",
+    "version": "1.1.0",
+    "description": "Pittogrammi originali disegnati in SVG per CAA Writer. Geometrie vettoriali semplici, sfondo trasparente, leggibili a 48 px.",
+    "author": "CAA Writer contributors",
+    "rights_holder": "CAA Writer contributors",
+    "license": "CC BY-NC-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "source_url": "https://github.com/caa-writer/caa-writer",
+    "commercial_ok": false,
+    "share_alike": true,
+    "no_derivatives": false,
+    "constraints": "Attribuzione richiesta. Modifiche consentite con indicazione delle modifiche.",
+    "builtin": true
+  },
+  "symbols": [
+    {
+      "id": "core.fruit.peach",
+      "concept": "fruit.peach",
+      "label": "pesca",
+      "meaning": "frutto del pesco",
+      "file": "svg/fruit.peach.svg"
+    },
+    {
+      "id": "core.activity.fishing",
+      "concept": "activity.fishing",
+      "label": "pesca",
+      "meaning": "attività di pescare",
+      "file": "svg/activity.fishing.svg"
+    },
+    {
+      "id": "core.obj.pen",
+      "concept": "obj.pen",
+      "label": "penna",
+      "meaning": "strumento per scrivere",
+      "file": "svg/obj.pen.svg"
+    },
+    {
+      "id": "core.animal.feather",
+      "concept": "animal.feather",
+      "label": "penna",
+      "meaning": "piuma di uccello",
+      "file": "svg/animal.feather.svg"
+    },
+    {
+      "id": "core.furniture.school_desk",
+      "concept": "furniture.school_desk",
+      "label": "banco",
+      "meaning": "banco di scuola",
+      "file": "svg/furniture.school_desk.svg"
+    },
+    {
+      "id": "core.finance.bank",
+      "concept": "finance.bank",
+      "label": "banca",
+      "meaning": "istituto bancario",
+      "file": "svg/finance.bank.svg"
+    },
+    {
+      "id": "core.obj.paper_sheet",
+      "concept": "obj.paper_sheet",
+      "label": "foglio",
+      "meaning": "foglio di carta",
+      "file": "svg/obj.paper_sheet.svg"
+    },
+    {
+      "id": "core.place.door",
+      "concept": "place.door",
+      "label": "porta",
+      "meaning": "porta",
+      "file": "svg/place.door.svg"
+    },
+    {
+      "id": "core.action.carry",
+      "concept": "action.carry",
+      "label": "portare",
+      "meaning": "portare qualcosa",
+      "file": "svg/action.carry.svg"
+    },
+    {
+      "id": "core.action.eat",
+      "concept": "action.eat",
+      "label": "mangiare",
+      "meaning": "nutrirsi",
+      "file": "svg/action.eat.svg"
+    },
+    {
+      "id": "core.action.drink",
+      "concept": "action.drink",
+      "label": "bere",
+      "meaning": "bere",
+      "file": "svg/action.drink.svg"
+    },
+    {
+      "id": "core.action.write",
+      "concept": "action.write",
+      "label": "scrivere",
+      "meaning": "scrivere",
+      "file": "svg/action.write.svg"
+    },
+    {
+      "id": "core.action.run",
+      "concept": "action.run",
+      "label": "correre",
+      "meaning": "correre",
+      "file": "svg/action.run.svg"
+    },
+    {
+      "id": "core.action.walk",
+      "concept": "action.walk",
+      "label": "camminare",
+      "meaning": "camminare",
+      "file": "svg/action.walk.svg"
+    },
+    {
+      "id": "core.action.play",
+      "concept": "action.play",
+      "label": "giocare",
+      "meaning": "giocare",
+      "file": "svg/action.play.svg"
+    },
+    {
+      "id": "core.action.sleep",
+      "concept": "action.sleep",
+      "label": "dormire",
+      "meaning": "dormire",
+      "file": "svg/action.sleep.svg"
+    },
+    {
+      "id": "core.action.read",
+      "concept": "action.read",
+      "label": "leggere",
+      "meaning": "leggere",
+      "file": "svg/action.read.svg"
+    },
+    {
+      "id": "core.action.listen",
+      "concept": "action.listen",
+      "label": "ascoltare",
+      "meaning": "ascoltare",
+      "file": "svg/action.listen.svg"
+    },
+    {
+      "id": "core.action.speak",
+      "concept": "action.speak",
+      "label": "parlare",
+      "meaning": "parlare",
+      "file": "svg/action.speak.svg"
+    },
+    {
+      "id": "core.action.help",
+      "concept": "action.help",
+      "label": "aiutare",
+      "meaning": "aiutare",
+      "file": "svg/action.help.svg"
+    },
+    {
+      "id": "core.action.want",
+      "concept": "action.want",
+      "label": "volere",
+      "meaning": "desiderare",
+      "file": "svg/action.want.svg"
+    },
+    {
+      "id": "core.action.go",
+      "concept": "action.go",
+      "label": "andare",
+      "meaning": "andare",
+      "file": "svg/action.go.svg"
+    },
+    {
+      "id": "core.action.finish",
+      "concept": "action.finish",
+      "label": "finire",
+      "meaning": "finire",
+      "file": "svg/action.finish.svg"
+    },
+    {
+      "id": "core.hygiene.wash_hands",
+      "concept": "hygiene.wash_hands",
+      "label": "lavarsi le mani",
+      "meaning": "igiene delle mani",
+      "file": "svg/hygiene.wash_hands.svg"
+    },
+    {
+      "id": "core.hygiene.brush_teeth",
+      "concept": "hygiene.brush_teeth",
+      "label": "lavarsi i denti",
+      "meaning": "igiene dei denti",
+      "file": "svg/hygiene.brush_teeth.svg"
+    },
+    {
+      "id": "core.person.child",
+      "concept": "person.child",
+      "label": "bambino",
+      "meaning": "persona giovane",
+      "file": "svg/person.child.svg"
+    },
+    {
+      "id": "core.person.girl",
+      "concept": "person.girl",
+      "label": "bambina",
+      "meaning": "bambina",
+      "file": "svg/person.girl.svg"
+    },
+    {
+      "id": "core.person.boy",
+      "concept": "person.boy",
+      "label": "bambino",
+      "meaning": "bambino",
+      "file": "svg/person.boy.svg"
+    },
+    {
+      "id": "core.person.teacher",
+      "concept": "person.teacher",
+      "label": "maestra",
+      "meaning": "insegnante",
+      "file": "svg/person.teacher.svg"
+    },
+    {
+      "id": "core.person.doctor",
+      "concept": "person.doctor",
+      "label": "medico",
+      "meaning": "medico",
+      "file": "svg/person.doctor.svg"
+    },
+    {
+      "id": "core.person.family",
+      "concept": "person.family",
+      "label": "famiglia",
+      "meaning": "famiglia",
+      "file": "svg/person.family.svg"
+    },
+    {
+      "id": "core.person.friend",
+      "concept": "person.friend",
+      "label": "amico",
+      "meaning": "amico",
+      "file": "svg/person.friend.svg"
+    },
+    {
+      "id": "core.animal.dog",
+      "concept": "animal.dog",
+      "label": "cane",
+      "meaning": "cane",
+      "file": "svg/animal.dog.svg"
+    },
+    {
+      "id": "core.animal.cat",
+      "concept": "animal.cat",
+      "label": "gatto",
+      "meaning": "gatto",
+      "file": "svg/animal.cat.svg"
+    },
+    {
+      "id": "core.animal.bird",
+      "concept": "animal.bird",
+      "label": "uccello",
+      "meaning": "uccello",
+      "file": "svg/animal.bird.svg"
+    },
+    {
+      "id": "core.place.house",
+      "concept": "place.house",
+      "label": "casa",
+      "meaning": "abitazione",
+      "file": "svg/place.house.svg"
+    },
+    {
+      "id": "core.place.school",
+      "concept": "place.school",
+      "label": "scuola",
+      "meaning": "scuola",
+      "file": "svg/place.school.svg"
+    },
+    {
+      "id": "core.place.park",
+      "concept": "place.park",
+      "label": "parco",
+      "meaning": "parco",
+      "file": "svg/place.park.svg"
+    },
+    {
+      "id": "core.place.toilet",
+      "concept": "place.toilet",
+      "label": "bagno",
+      "meaning": "bagno",
+      "file": "svg/place.toilet.svg"
+    },
+    {
+      "id": "core.place.kitchen",
+      "concept": "place.kitchen",
+      "label": "cucina",
+      "meaning": "cucina",
+      "file": "svg/place.kitchen.svg"
+    },
+    {
+      "id": "core.object.ball",
+      "concept": "object.ball",
+      "label": "palla",
+      "meaning": "palla",
+      "file": "svg/object.ball.svg"
+    },
+    {
+      "id": "core.object.book",
+      "concept": "object.book",
+      "label": "libro",
+      "meaning": "libro",
+      "file": "svg/object.book.svg"
+    },
+    {
+      "id": "core.object.pencil",
+      "concept": "object.pencil",
+      "label": "matita",
+      "meaning": "matita",
+      "file": "svg/object.pencil.svg"
+    },
+    {
+      "id": "core.object.scissors",
+      "concept": "object.scissors",
+      "label": "forbici",
+      "meaning": "forbici",
+      "file": "svg/object.scissors.svg"
+    },
+    {
+      "id": "core.object.glue",
+      "concept": "object.glue",
+      "label": "colla",
+      "meaning": "colla",
+      "file": "svg/object.glue.svg"
+    },
+    {
+      "id": "core.object.backpack",
+      "concept": "object.backpack",
+      "label": "zaino",
+      "meaning": "zaino",
+      "file": "svg/object.backpack.svg"
+    },
+    {
+      "id": "core.object.money",
+      "concept": "object.money",
+      "label": "soldi",
+      "meaning": "denaro",
+      "file": "svg/object.money.svg"
+    },
+    {
+      "id": "core.object.phone",
+      "concept": "object.phone",
+      "label": "telefono",
+      "meaning": "telefono",
+      "file": "svg/object.phone.svg"
+    },
+    {
+      "id": "core.object.clock",
+      "concept": "object.clock",
+      "label": "orologio",
+      "meaning": "orologio",
+      "file": "svg/object.clock.svg"
+    },
+    {
+      "id": "core.object.chair",
+      "concept": "object.chair",
+      "label": "sedia",
+      "meaning": "sedia",
+      "file": "svg/object.chair.svg"
+    },
+    {
+      "id": "core.object.table",
+      "concept": "object.table",
+      "label": "tavolo",
+      "meaning": "tavolo",
+      "file": "svg/object.table.svg"
+    },
+    {
+      "id": "core.object.glass",
+      "concept": "object.glass",
+      "label": "bicchiere",
+      "meaning": "bicchiere",
+      "file": "svg/object.glass.svg"
+    },
+    {
+      "id": "core.object.plate",
+      "concept": "object.plate",
+      "label": "piatto",
+      "meaning": "piatto",
+      "file": "svg/object.plate.svg"
+    },
+    {
+      "id": "core.object.hat",
+      "concept": "object.hat",
+      "label": "cappello",
+      "meaning": "cappello",
+      "file": "svg/object.hat.svg"
+    },
+    {
+      "id": "core.object.shoes",
+      "concept": "object.shoes",
+      "label": "scarpe",
+      "meaning": "scarpe",
+      "file": "svg/object.shoes.svg"
+    },
+    {
+      "id": "core.object.pillow",
+      "concept": "object.pillow",
+      "label": "cuscino",
+      "meaning": "cuscino",
+      "file": "svg/object.pillow.svg"
+    },
+    {
+      "id": "core.furniture.bed",
+      "concept": "furniture.bed",
+      "label": "letto",
+      "meaning": "letto",
+      "file": "svg/furniture.bed.svg"
+    },
+    {
+      "id": "core.nature.sun",
+      "concept": "nature.sun",
+      "label": "sole",
+      "meaning": "sole",
+      "file": "svg/nature.sun.svg"
+    },
+    {
+      "id": "core.nature.water",
+      "concept": "nature.water",
+      "label": "acqua",
+      "meaning": "acqua",
+      "file": "svg/nature.water.svg"
+    },
+    {
+      "id": "core.nature.rain",
+      "concept": "nature.rain",
+      "label": "pioggia",
+      "meaning": "pioggia",
+      "file": "svg/nature.rain.svg"
+    },
+    {
+      "id": "core.nature.tree",
+      "concept": "nature.tree",
+      "label": "albero",
+      "meaning": "albero",
+      "file": "svg/nature.tree.svg"
+    },
+    {
+      "id": "core.nature.flower",
+      "concept": "nature.flower",
+      "label": "fiore",
+      "meaning": "fiore",
+      "file": "svg/nature.flower.svg"
+    },
+    {
+      "id": "core.nature.moon",
+      "concept": "nature.moon",
+      "label": "luna",
+      "meaning": "luna",
+      "file": "svg/nature.moon.svg"
+    },
+    {
+      "id": "core.object.star",
+      "concept": "object.star",
+      "label": "stella",
+      "meaning": "stella",
+      "file": "svg/object.star.svg"
+    },
+    {
+      "id": "core.vehicle.car",
+      "concept": "vehicle.car",
+      "label": "macchina",
+      "meaning": "automobile",
+      "file": "svg/vehicle.car.svg"
+    },
+    {
+      "id": "core.vehicle.bus",
+      "concept": "vehicle.bus",
+      "label": "autobus",
+      "meaning": "autobus",
+      "file": "svg/vehicle.bus.svg"
+    },
+    {
+      "id": "core.vehicle.bike",
+      "concept": "vehicle.bike",
+      "label": "bicicletta",
+      "meaning": "bicicletta",
+      "file": "svg/vehicle.bike.svg"
+    },
+    {
+      "id": "core.vehicle.scooter",
+      "concept": "vehicle.scooter",
+      "label": "monopattino",
+      "meaning": "monopattino",
+      "file": "svg/vehicle.scooter.svg"
+    },
+    {
+      "id": "core.energy.electricity",
+      "concept": "energy.electricity",
+      "label": "elettricità",
+      "meaning": "energia elettrica",
+      "file": "svg/energy.electricity.svg"
+    },
+    {
+      "id": "core.emotion.happy",
+      "concept": "emotion.happy",
+      "label": "felice",
+      "meaning": "gioia",
+      "file": "svg/emotion.happy.svg"
+    },
+    {
+      "id": "core.emotion.sad",
+      "concept": "emotion.sad",
+      "label": "triste",
+      "meaning": "tristezza",
+      "file": "svg/emotion.sad.svg"
+    },
+    {
+      "id": "core.emotion.angry",
+      "concept": "emotion.angry",
+      "label": "arrabbiato",
+      "meaning": "rabbia",
+      "file": "svg/emotion.angry.svg"
+    },
+    {
+      "id": "core.emotion.afraid",
+      "concept": "emotion.afraid",
+      "label": "paura",
+      "meaning": "paura",
+      "file": "svg/emotion.afraid.svg"
+    },
+    {
+      "id": "core.emotion.tired",
+      "concept": "emotion.tired",
+      "label": "stanco",
+      "meaning": "stanchezza",
+      "file": "svg/emotion.tired.svg"
+    },
+    {
+      "id": "core.time.now",
+      "concept": "time.now",
+      "label": "adesso",
+      "meaning": "in questo momento",
+      "file": "svg/time.now.svg"
+    },
+    {
+      "id": "core.time.night",
+      "concept": "time.night",
+      "label": "notte",
+      "meaning": "notte",
+      "file": "svg/time.night.svg"
+    },
+    {
+      "id": "core.time.morning",
+      "concept": "time.morning",
+      "label": "mattina",
+      "meaning": "mattina",
+      "file": "svg/time.morning.svg"
+    },
+    {
+      "id": "core.time.day",
+      "concept": "time.day",
+      "label": "giorno",
+      "meaning": "giorno",
+      "file": "svg/time.day.svg"
+    },
+    {
+      "id": "core.food.bread",
+      "concept": "food.bread",
+      "label": "pane",
+      "meaning": "pane",
+      "file": "svg/food.bread.svg"
+    },
+    {
+      "id": "core.food.apple",
+      "concept": "food.apple",
+      "label": "mela",
+      "meaning": "mela",
+      "file": "svg/food.apple.svg"
+    },
+    {
+      "id": "core.food.fruit",
+      "concept": "food.fruit",
+      "label": "frutta",
+      "meaning": "frutta",
+      "file": "svg/food.fruit.svg"
+    },
+    {
+      "id": "core.food.pasta",
+      "concept": "food.pasta",
+      "label": "pasta",
+      "meaning": "pasta",
+      "file": "svg/food.pasta.svg"
+    },
+    {
+      "id": "core.food.ice_cream",
+      "concept": "food.ice_cream",
+      "label": "gelato",
+      "meaning": "gelato",
+      "file": "svg/food.ice_cream.svg"
+    },
+    {
+      "id": "core.school.arrival",
+      "concept": "school.arrival",
+      "label": "entrata a scuola",
+      "meaning": "entrata a scuola",
+      "file": "svg/school.arrival.svg"
+    },
+    {
+      "id": "core.school.break",
+      "concept": "school.break",
+      "label": "intervallo",
+      "meaning": "pausa tra le lezioni",
+      "file": "svg/school.break.svg"
+    },
+    {
+      "id": "core.school.lunch",
+      "concept": "school.lunch",
+      "label": "pranzo",
+      "meaning": "pasto di mezzogiorno",
+      "file": "svg/school.lunch.svg"
+    },
+    {
+      "id": "core.school.classwork",
+      "concept": "school.classwork",
+      "label": "lavoro in classe",
+      "meaning": "attività didattica",
+      "file": "svg/school.classwork.svg"
+    },
+    {
+      "id": "core.concept.unknown",
+      "concept": "concept.unknown",
+      "label": "?",
+      "meaning": "simbolo non disponibile",
+      "file": "svg/concept.unknown.svg",
+      "status": "placeholder"
+    }
+  ]
+}
