@@ -2,7 +2,7 @@
   "pack": {
     "id": "core",
     "name": "CAA Writer Core",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Pittogrammi originali disegnati in SVG per CAA Writer. Geometrie vettoriali semplici, sfondo trasparente, leggibili a 48 px.",
     "author": "CAA Writer contributors",
     "rights_holder": "CAA Writer contributors",
@@ -632,6 +632,13 @@
       "meaning": "simbolo non disponibile",
       "file": "svg/concept.unknown.svg",
       "status": "placeholder"
+    },
+    {
+      "id": "core.object.laptop",
+      "concept": "object.laptop",
+      "label": "computer portatile",
+      "meaning": "computer trasportabile con schermo e tastiera",
+      "file": "svg/object.laptop.svg"
     }
   ]
 }

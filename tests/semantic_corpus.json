@@ -3,220 +3,2727 @@
   "language": "it",
   "description": "Corpus semantico annotato manualmente per CAA Writer. Ogni frase indica il concetto atteso per una parola: 'concepts' elenca le interpretazioni accettabili (la prima è la preferita). 'strategy' fissa la strategia di fallback attesa. 'no_symbol' indica che nessun pittogramma adeguato deve essere proposto. 'composition' elenca i concetti attesi nella composizione. Le annotazioni sono state scritte a mano; il motore non è stato usato per generarli.",
   "sentences": [
-    { "id": "001", "category": "omonimia", "text": "Luca mangia una pesca.", "targets": [{ "surface": "pesca", "concepts": ["fruit.peach"] }] },
-    { "id": "002", "category": "omonimia", "text": "Il nonno va a pesca al fiume.", "targets": [{ "surface": "pesca", "concepts": ["activity.fishing"] }] },
-    { "id": "003", "category": "omonimia", "text": "Il nonno va a pesca con la rete.", "targets": [{ "surface": "pesca", "concepts": ["activity.fishing"] }] },
-    { "id": "004", "category": "omonimia", "text": "La bambina scrive con la penna blu.", "targets": [{ "surface": "penna", "concepts": ["obj.pen"] }] },
-    { "id": "005", "category": "omonimia", "text": "La penna dell'uccello è colorata.", "targets": [{ "surface": "penna", "concepts": ["animal.feather"] }] },
-    { "id": "006", "category": "omonimia", "text": "Il bambino si siede al banco di scuola.", "targets": [{ "surface": "banco", "concepts": ["furniture.school_desk"] }] },
-    { "id": "007", "category": "omonimia", "text": "Ho versato i soldi in banca.", "targets": [{ "surface": "banca", "concepts": ["finance.bank"] }] },
-    { "id": "008", "category": "omonimia", "text": "Il tempo passa veloce.", "targets": [{ "surface": "tempo", "concepts": ["time.clock_time"] }] },
-    { "id": "009", "category": "omonimia", "text": "Oggi il tempo è brutto e piove.", "targets": [{ "surface": "tempo", "concepts": ["weather.conditions"] }] },
-    { "id": "010", "category": "omonimia", "text": "Il papà apre la porta di casa.", "targets": [{ "surface": "porta", "concepts": ["place.door"] }] },
-    { "id": "011", "category": "omonimia", "text": "La mamma porta lo zaino a scuola.", "targets": [{ "surface": "porta", "concepts": ["action.carry"] }] },
-    { "id": "012", "category": "omonimia", "text": "La porta del bagno è chiusa.", "targets": [{ "surface": "porta", "concepts": ["place.door"] }] },
-
-    { "id": "013", "category": "verbi_flessi", "text": "Io mangio la mela.", "targets": [{ "surface": "mangio", "concepts": ["action.eat"] }] },
-    { "id": "014", "category": "verbi_flessi", "text": "Loro mangiavano la pasta.", "targets": [{ "surface": "mangiavano", "concepts": ["action.eat"] }] },
-    { "id": "015", "category": "verbi_flessi", "text": "Abbiamo mangiato il pane.", "targets": [{ "surface": "mangiato", "concepts": ["action.eat"] }] },
-    { "id": "016", "category": "verbi_flessi", "text": "Il cane corre nel parco.", "targets": [{ "surface": "corre", "concepts": ["action.run"] }] },
-    { "id": "017", "category": "verbi_flessi", "text": "I bambini correvano veloci.", "targets": [{ "surface": "correvano", "concepts": ["action.run"] }] },
-    { "id": "018", "category": "verbi_flessi", "text": "Noi corriamo ogni mattina.", "targets": [{ "surface": "corriamo", "concepts": ["action.run"] }] },
-    { "id": "019", "category": "verbi_flessi", "text": "La maestra scrive alla lavagna.", "targets": [{ "surface": "scrive", "concepts": ["action.write"] }] },
-    { "id": "020", "category": "verbi_flessi", "text": "Io scrivevo una lettera.", "targets": [{ "surface": "scrivevo", "concepts": ["action.write"] }] },
-    { "id": "021", "category": "verbi_flessi", "text": "Leggo un libro alla sera.", "targets": [{ "surface": "leggo", "concepts": ["action.read"] }] },
-    { "id": "022", "category": "verbi_flessi", "text": "Loro leggevano la storia.", "targets": [{ "surface": "leggevano", "concepts": ["action.read"] }] },
-    { "id": "023", "category": "verbi_flessi", "text": "Il gatto dorme sul letto.", "targets": [{ "surface": "dorme", "concepts": ["action.sleep"] }] },
-    { "id": "024", "category": "verbi_flessi", "text": "I bambini dormivano.", "targets": [{ "surface": "dormivano", "concepts": ["action.sleep"] }] },
-    { "id": "025", "category": "verbi_flessi", "text": "Gioco con la palla.", "targets": [{ "surface": "gioco", "concepts": ["action.play"] }] },
-    { "id": "026", "category": "verbi_flessi", "text": "Giocavamo insieme al parco.", "targets": [{ "surface": "giocavamo", "concepts": ["action.play"] }] },
-    { "id": "027", "category": "verbi_flessi", "text": "Bevo un bicchiere d'acqua.", "targets": [{ "surface": "bevo", "concepts": ["action.drink"] }] },
-    { "id": "028", "category": "verbi_flessi", "text": "Bevi il succo con la cannuccia.", "targets": [{ "surface": "bevi", "concepts": ["action.drink"] }] },
-    { "id": "029", "category": "verbi_flessi", "text": "Ascolto la maestra in classe.", "targets": [{ "surface": "ascolto", "concepts": ["action.listen"] }] },
-    { "id": "030", "category": "verbi_flessi", "text": "Ascoltavamo la musica.", "targets": [{ "surface": "ascoltavamo", "concepts": ["action.listen"] }] },
-    { "id": "031", "category": "verbi_flessi", "text": "Parlo con il mio amico.", "targets": [{ "surface": "parlo", "concepts": ["action.speak"] }] },
-    { "id": "032", "category": "verbi_flessi", "text": "Parlavano insieme in cortile.", "targets": [{ "surface": "parlavano", "concepts": ["action.speak"] }] },
-    { "id": "033", "category": "verbi_flessi", "text": "Aiuto la maestra a distribuire i fogli.", "targets": [{ "surface": "aiuto", "concepts": ["action.help"] }] },
-    { "id": "034", "category": "verbi_flessi", "text": "Aiutiamo il compagno con i compiti.", "targets": [{ "surface": "aiutiamo", "concepts": ["action.help"] }] },
-    { "id": "035", "category": "verbi_flessi", "text": "Camminiamo nel parco.", "targets": [{ "surface": "camminiamo", "concepts": ["action.walk"] }] },
-    { "id": "036", "category": "verbi_flessi", "text": "Camminava piano verso casa.", "targets": [{ "surface": "camminava", "concepts": ["action.walk"] }] },
-    { "id": "037", "category": "verbi_flessi", "text": "Disegno un fiore sul foglio.", "targets": [{ "surface": "disegno", "concepts": ["action.write"] }] },
-    { "id": "038", "category": "verbi_flessi", "text": "Ho finito i compiti.", "targets": [{ "surface": "finito", "concepts": ["action.finish"] }] },
-    { "id": "039", "category": "verbi_flessi", "text": "Voglio un gelato.", "targets": [{ "surface": "voglio", "concepts": ["action.want"] }] },
-    { "id": "040", "category": "verbi_flessi", "text": "Porto lo zaino sulle spalle.", "targets": [{ "surface": "porto", "concepts": ["action.carry"] }] },
-
-    { "id": "041", "category": "sinonimi", "text": "L'auto è parcheggiata fuori.", "targets": [{ "surface": "auto", "concepts": ["vehicle.car"] }] },
-    { "id": "042", "category": "sinonimi", "text": "L'automobile è nuova.", "targets": [{ "surface": "automobile", "concepts": ["vehicle.car"] }] },
-    { "id": "043", "category": "sinonimi", "text": "Vado in bici al parco.", "targets": [{ "surface": "bici", "concepts": ["vehicle.bike"] }] },
-    { "id": "044", "category": "sinonimi", "text": "Il dottore visita il bambino.", "targets": [{ "surface": "dottore", "concepts": ["person.doctor"] }] },
-    { "id": "045", "category": "sinonimi", "text": "Il maestro spiega la lezione.", "targets": [{ "surface": "maestro", "concepts": ["person.teacher"] }] },
-    { "id": "046", "category": "sinonimi", "text": "Ho trovato una piuma nel prato.", "targets": [{ "surface": "piuma", "concepts": ["animal.feather"] }] },
-    { "id": "047", "category": "sinonimi", "text": "Ho pochi soldi in tasca.", "targets": [{ "surface": "soldi", "concepts": ["object.money"] }] },
-    { "id": "048", "category": "sinonimi", "text": "La ricreazione è finita.", "targets": [{ "surface": "ricreazione", "concepts": ["school.break"] }] },
-    { "id": "049", "category": "sinonimi", "text": "Il pullman arriva alle otto.", "targets": [{ "surface": "pullman", "concepts": ["vehicle.bus"] }] },
-    { "id": "050", "category": "sinonimi", "text": "L'insegnante legge la storia.", "targets": [{ "surface": "insegnante", "concepts": ["person.teacher"] }] },
-
-    { "id": "051", "category": "espressioni_composte", "text": "Mi lavo i denti ogni sera.", "targets": [{ "surface": "denti", "concepts": ["hygiene.brush_teeth"] }] },
-    { "id": "052", "category": "espressioni_composte", "text": "Lava le mani prima di mangiare.", "targets": [{ "surface": "mani", "concepts": ["hygiene.wash_hands"] }] },
-    { "id": "053", "category": "espressioni_composte", "text": "Vado a scuola con il papà.", "targets": [{ "surface": "scuola", "concepts": ["place.school"] }] },
-    { "id": "054", "category": "espressioni_composte", "text": "Ho paura del buio.", "targets": [{ "surface": "paura", "concepts": ["emotion.afraid"] }] },
-    { "id": "055", "category": "espressioni_composte", "text": "Faccio colazione con il pane.", "targets": [{ "surface": "colazione", "concepts": ["school.lunch"] }] },
-    { "id": "056", "category": "espressioni_composte", "text": "Mi dai una mano con la colla?", "targets": [{ "surface": "una mano", "concepts": ["action.help"] }] },
-    { "id": "057", "category": "espressioni_composte", "text": "Metto le scarpe prima di uscire.", "targets": [{ "surface": "scarpe", "concepts": ["object.shoes"] }] },
-    { "id": "058", "category": "espressioni_composte", "text": "Chiedo aiuto alla maestra.", "targets": [{ "surface": "aiuto", "concepts": ["action.ask_help"] }] },
-    { "id": "059", "category": "espressioni_composte", "text": "Il monopattino elettrico è veloce.", "targets": [{ "surface": "monopattino", "composition": ["vehicle.scooter", "energy.electricity"] }] },
-    { "id": "060", "category": "espressioni_composte", "text": "Bevo un succo di mela.", "targets": [{ "surface": "succo", "composition": ["food.apple", "nature.water"] }] },
-    { "id": "061", "category": "espressioni_composte", "text": "L'entrata a scuola è alle otto.", "targets": [{ "surface": "entrata", "concepts": ["school.arrival"] }] },
-    { "id": "062", "category": "espressioni_composte", "text": "Il lavoro in classe è finito.", "targets": [{ "surface": "classe", "concepts": ["school.classwork"] }] },
-
-    { "id": "063", "category": "negazioni", "text": "Non mangio la pasta.", "targets": [{ "surface": "pasta", "concepts": ["food.pasta"] }] },
-    { "id": "064", "category": "negazioni", "text": "Il bambino non dorme.", "targets": [{ "surface": "dorme", "concepts": ["action.sleep"] }] },
-    { "id": "065", "category": "negazioni", "text": "Non ho paura.", "targets": [{ "surface": "paura", "concepts": ["emotion.afraid"] }] },
-    { "id": "066", "category": "negazioni", "text": "Non voglio il gelato.", "targets": [{ "surface": "gelato", "concepts": ["food.ice_cream"] }] },
-    { "id": "067", "category": "negazioni", "text": "Il gatto non beve l'acqua.", "targets": [{ "surface": "acqua", "concepts": ["nature.water"] }] },
-    { "id": "068", "category": "negazioni", "text": "Non corre in classe.", "targets": [{ "surface": "corre", "concepts": ["action.run"] }] },
-    { "id": "069", "category": "negazioni", "text": "Non ho finito i compiti.", "targets": [{ "surface": "compiti", "concepts": ["school.classwork"] }] },
-    { "id": "070", "category": "negazioni", "text": "La maestra non parla.", "targets": [{ "surface": "parla", "concepts": ["action.speak"] }] },
-    { "id": "071", "category": "negazioni", "text": "Non vado al parco.", "targets": [{ "surface": "parco", "concepts": ["place.park"] }] },
-    { "id": "072", "category": "negazioni", "text": "Non lavo il piatto.", "targets": [{ "surface": "piatto", "concepts": ["object.plate"] }] },
-
-    { "id": "073", "category": "tempi_verbali", "text": "Avevo mangiato la mela.", "targets": [{ "surface": "mangiato", "concepts": ["action.eat"] }] },
-    { "id": "074", "category": "tempi_verbali", "text": "Sarà andato a casa.", "targets": [{ "surface": "casa", "concepts": ["place.house"] }] },
-    { "id": "075", "category": "tempi_verbali", "text": "Sto leggendo un libro.", "targets": [{ "surface": "leggendo", "concepts": ["action.read"] }] },
-    { "id": "076", "category": "tempi_verbali", "text": "Stavo scrivendo una lettera.", "targets": [{ "surface": "scrivendo", "concepts": ["action.write"] }] },
-    { "id": "077", "category": "tempi_verbali", "text": "Avrei voluto un gelato.", "targets": [{ "surface": "gelato", "concepts": ["food.ice_cream"] }] },
-    { "id": "078", "category": "tempi_verbali", "text": "Era stanco dopo la corsa.", "targets": [{ "surface": "stanco", "concepts": ["emotion.tired"] }] },
-    { "id": "079", "category": "tempi_verbali", "text": "Saremo felici.", "targets": [{ "surface": "felici", "concepts": ["emotion.happy"] }] },
-    { "id": "080", "category": "tempi_verbali", "text": "Hanno giocato insieme.", "targets": [{ "surface": "giocato", "concepts": ["action.play"] }] },
-    { "id": "081", "category": "tempi_verbali", "text": "Aveva bevuto l'acqua.", "targets": [{ "surface": "bevuto", "concepts": ["action.drink"] }] },
-    { "id": "082", "category": "tempi_verbali", "text": "Stanno ascoltando la storia.", "targets": [{ "surface": "ascoltando", "concepts": ["action.listen"] }] },
-
-    { "id": "083", "category": "astratti", "text": "L'elettricità accende la luce.", "targets": [{ "surface": "elettricità", "concepts": ["energy.electricity"] }] },
-    { "id": "084", "category": "astratti", "text": "La paura fa tremare.", "targets": [{ "surface": "paura", "concepts": ["emotion.afraid"] }] },
-    { "id": "085", "category": "astratti", "text": "La famiglia si vuole bene.", "targets": [{ "surface": "famiglia", "concepts": ["person.family"] }] },
-    { "id": "086", "category": "astratti", "text": "La tristezza passa.", "targets": [{ "surface": "tristezza", "no_symbol": true }] },
-    { "id": "087", "category": "astratti", "text": "L'amicizia è un dono.", "targets": [{ "surface": "amicizia", "no_symbol": true }] },
-    { "id": "088", "category": "astratti", "text": "La libertà è un diritto.", "targets": [{ "surface": "libertà", "no_symbol": true }] },
-
-    { "id": "089", "category": "scuola", "text": "Lo zaino è pesante.", "targets": [{ "surface": "zaino", "concepts": ["object.backpack"] }] },
-    { "id": "090", "category": "scuola", "text": "La matita è sul tavolo.", "targets": [{ "surface": "matita", "concepts": ["object.pencil"] }] },
-    { "id": "091", "category": "scuola", "text": "Uso le forbici per tagliare.", "targets": [{ "surface": "forbici", "concepts": ["object.scissors"] }] },
-    { "id": "092", "category": "scuola", "text": "La colla è finita.", "targets": [{ "surface": "colla", "concepts": ["object.glue"] }] },
-    { "id": "093", "category": "scuola", "text": "La maestra entra in classe.", "targets": [{ "surface": "maestra", "concepts": ["person.teacher"] }] },
-    { "id": "094", "category": "scuola", "text": "L'intervallo è alle dieci.", "targets": [{ "surface": "intervallo", "concepts": ["school.break"] }] },
-    { "id": "095", "category": "scuola", "text": "I compiti sono difficili.", "targets": [{ "surface": "compiti", "concepts": ["school.classwork"] }] },
-    { "id": "096", "category": "scuola", "text": "Il pranzo è alle dodici.", "targets": [{ "surface": "pranzo", "concepts": ["school.lunch"] }] },
-    { "id": "097", "category": "scuola", "text": "Il bambino siede sulla sedia.", "targets": [{ "surface": "sedia", "concepts": ["object.chair"] }] },
-    { "id": "098", "category": "scuola", "text": "Scrivo sul foglio.", "targets": [{ "surface": "foglio", "concepts": ["obj.paper_sheet"] }] },
-    { "id": "099", "category": "scuola", "text": "Il libro è nuovo.", "targets": [{ "surface": "libro", "concepts": ["object.book"] }] },
-    { "id": "100", "category": "scuola", "text": "Il quaderno è sul banco.", "targets": [{ "surface": "banco", "concepts": ["furniture.school_desk"] }] },
-    { "id": "101", "category": "scuola", "text": "La maestra spiega alla lavagna.", "targets": [{ "surface": "maestra", "concepts": ["person.teacher"] }] },
-    { "id": "102", "category": "scuola", "text": "I bambini entrano in aula.", "targets": [{ "surface": "bambini", "concepts": ["person.child"] }] },
-    { "id": "103", "category": "scuola", "text": "Porto i libri nello zaino.", "targets": [{ "surface": "zaino", "concepts": ["object.backpack"] }] },
-
-    { "id": "104", "category": "non_presenti", "text": "Il fiordo è profondo.", "targets": [{ "surface": "fiordo", "no_symbol": true }] },
-    { "id": "105", "category": "non_presenti", "text": "La trivella perfora il terreno.", "targets": [{ "surface": "trivella", "no_symbol": true }] },
-    { "id": "106", "category": "non_presenti", "text": "L'astrolabio misura le stelle.", "targets": [{ "surface": "astrolabio", "no_symbol": true }] },
-    { "id": "107", "category": "non_presenti", "text": "Suona la kalimba.", "targets": [{ "surface": "kalimba", "no_symbol": true }] },
-    { "id": "108", "category": "non_presenti", "text": "L'oboe è uno strumento a fiato.", "targets": [{ "surface": "oboe", "no_symbol": true }] },
-    { "id": "109", "category": "non_presenti", "text": "Il tartufo profuma molto.", "targets": [{ "surface": "tartufo", "no_symbol": true }] },
-    { "id": "110", "category": "non_presenti", "text": "Aggiungo l'origano alla pasta.", "targets": [{ "surface": "origano", "no_symbol": true }] },
-    { "id": "111", "category": "non_presenti", "text": "Il cammello attraversa il deserto.", "targets": [{ "surface": "cammello", "no_symbol": true }] },
-    { "id": "112", "category": "non_presenti", "text": "Il pinguino nuota nel mare.", "targets": [{ "surface": "pinguino", "no_symbol": true }] },
-    { "id": "113", "category": "non_presenti", "text": "Il vulcano è spento.", "targets": [{ "surface": "vulcano", "no_symbol": true }] },
-    { "id": "114", "category": "non_presenti", "text": "Il satellite gira intorno alla Terra.", "targets": [{ "surface": "satellite", "no_symbol": true }] },
-    { "id": "115", "category": "non_presenti", "text": "Il microscopio ingrandisce le cose.", "targets": [{ "surface": "microscopio", "no_symbol": true }] },
-    { "id": "116", "category": "non_presenti", "text": "Suona il trombone.", "targets": [{ "surface": "trombone", "no_symbol": true }] },
-    { "id": "117", "category": "non_presenti", "text": "Il canguro salta nel prato.", "targets": [{ "surface": "canguro", "no_symbol": true }] },
-    { "id": "118", "category": "non_presenti", "text": "La zanzara mi ha punto.", "targets": [{ "surface": "zanzara", "no_symbol": true }] },
-
-    { "id": "119", "category": "fallback", "text": "Il bassotto abbaia.", "targets": [{ "surface": "bassotto", "concepts": ["animal.dog"], "strategy": "broader" }] },
-    { "id": "120", "category": "fallback", "text": "Il bassotto corre nel parco.", "targets": [{ "surface": "bassotto", "concepts": ["animal.dog"], "strategy": "broader" }] },
-    { "id": "121", "category": "fallback", "text": "Il monopattino elettrico è in cortile.", "targets": [{ "surface": "monopattino", "composition": ["vehicle.scooter", "energy.electricity"] }] },
-
-    { "id": "122", "category": "concreto", "text": "La mela è rossa.", "targets": [{ "surface": "mela", "concepts": ["food.apple"] }] },
-    { "id": "123", "category": "concreto", "text": "Il pane è fresco.", "targets": [{ "surface": "pane", "concepts": ["food.bread"] }] },
-    { "id": "124", "category": "concreto", "text": "La pasta è pronta.", "targets": [{ "surface": "pasta", "concepts": ["food.pasta"] }] },
-    { "id": "125", "category": "concreto", "text": "Il gelato è freddo.", "targets": [{ "surface": "gelato", "concepts": ["food.ice_cream"] }] },
-    { "id": "126", "category": "concreto", "text": "La frutta è dolce.", "targets": [{ "surface": "frutta", "concepts": ["food.fruit"] }] },
-    { "id": "127", "category": "concreto", "text": "Il gatto dorme sulla sedia.", "targets": [{ "surface": "gatto", "concepts": ["animal.cat"] }] },
-    { "id": "128", "category": "concreto", "text": "Il cane abbaia forte.", "targets": [{ "surface": "cane", "concepts": ["animal.dog"] }] },
-    { "id": "129", "category": "concreto", "text": "L'uccello vola nel cielo.", "targets": [{ "surface": "uccello", "concepts": ["animal.bird"] }] },
-    { "id": "130", "category": "concreto", "text": "Il sole splende.", "targets": [{ "surface": "sole", "concepts": ["nature.sun"] }] },
-    { "id": "131", "category": "concreto", "text": "La luna è alta.", "targets": [{ "surface": "luna", "concepts": ["nature.moon"] }] },
-    { "id": "132", "category": "concreto", "text": "L'acqua è fresca.", "targets": [{ "surface": "acqua", "concepts": ["nature.water"] }] },
-    { "id": "133", "category": "concreto", "text": "La pioggia cade forte.", "targets": [{ "surface": "pioggia", "concepts": ["nature.rain"] }] },
-    { "id": "134", "category": "concreto", "text": "L'albero è grande.", "targets": [{ "surface": "albero", "concepts": ["nature.tree"] }] },
-    { "id": "135", "category": "concreto", "text": "Il fiore profuma.", "targets": [{ "surface": "fiore", "concepts": ["nature.flower"] }] },
-    { "id": "136", "category": "concreto", "text": "La stella brilla nel cielo.", "targets": [{ "surface": "stella", "concepts": ["object.star"] }] },
-    { "id": "137", "category": "concreto", "text": "La macchina è rossa.", "targets": [{ "surface": "macchina", "concepts": ["vehicle.car"] }] },
-    { "id": "138", "category": "concreto", "text": "L'autobus è pieno.", "targets": [{ "surface": "autobus", "concepts": ["vehicle.bus"] }] },
-    { "id": "139", "category": "concreto", "text": "La bicicletta è nuova.", "targets": [{ "surface": "bicicletta", "concepts": ["vehicle.bike"] }] },
-    { "id": "140", "category": "concreto", "text": "Il telefono squilla.", "targets": [{ "surface": "telefono", "concepts": ["object.phone"] }] },
-    { "id": "141", "category": "concreto", "text": "L'orologio segna le tre.", "targets": [{ "surface": "orologio", "concepts": ["object.clock"] }] },
-    { "id": "142", "category": "concreto", "text": "Il tavolo è grande.", "targets": [{ "surface": "tavolo", "concepts": ["object.table"] }] },
-    { "id": "143", "category": "concreto", "text": "Il bicchiere è vuoto.", "targets": [{ "surface": "bicchiere", "concepts": ["object.glass"] }] },
-    { "id": "144", "category": "concreto", "text": "Il piatto è caldo.", "targets": [{ "surface": "piatto", "concepts": ["object.plate"] }] },
-    { "id": "145", "category": "concreto", "text": "Il cappello è nuovo.", "targets": [{ "surface": "cappello", "concepts": ["object.hat"] }] },
-    { "id": "146", "category": "concreto", "text": "Le scarpe sono nuove.", "targets": [{ "surface": "scarpe", "concepts": ["object.shoes"] }] },
-    { "id": "147", "category": "concreto", "text": "Il cuscino è morbido.", "targets": [{ "surface": "cuscino", "concepts": ["object.pillow"] }] },
-    { "id": "148", "category": "concreto", "text": "Il letto è fatto.", "targets": [{ "surface": "letto", "concepts": ["furniture.bed"] }] },
-    { "id": "149", "category": "concreto", "text": "La casa è grande.", "targets": [{ "surface": "casa", "concepts": ["place.house"] }] },
-    { "id": "150", "category": "concreto", "text": "La scuola è chiusa.", "targets": [{ "surface": "scuola", "concepts": ["place.school"] }] },
-    { "id": "151", "category": "concreto", "text": "Il parco è verde.", "targets": [{ "surface": "parco", "concepts": ["place.park"] }] },
-    { "id": "152", "category": "concreto", "text": "Il bagno è occupato.", "targets": [{ "surface": "bagno", "concepts": ["place.toilet"] }] },
-    { "id": "153", "category": "concreto", "text": "Il medico arriva.", "targets": [{ "surface": "medico", "concepts": ["person.doctor"] }] },
-    { "id": "154", "category": "concreto", "text": "La famiglia è a casa.", "targets": [{ "surface": "famiglia", "concepts": ["person.family"] }] },
-    { "id": "155", "category": "concreto", "text": "Il mio amico è qui.", "targets": [{ "surface": "amico", "concepts": ["person.friend"] }] },
-    { "id": "156", "category": "concreto", "text": "La bambina canta.", "targets": [{ "surface": "bambina", "concepts": ["person.girl"] }] },
-    { "id": "157", "category": "concreto", "text": "I soldi sono pochi.", "targets": [{ "surface": "soldi", "concepts": ["object.money"] }] },
-    { "id": "158", "category": "concreto", "text": "La sedia è di legno.", "targets": [{ "surface": "sedia", "concepts": ["object.chair"] }] },
-    { "id": "159", "category": "concreto", "text": "Il pane è sul tavolo.", "targets": [{ "surface": "pane", "concepts": ["food.bread"] }] },
-    { "id": "160", "category": "concreto", "text": "La mela è nel piatto.", "targets": [{ "surface": "mela", "concepts": ["food.apple"] }] },
-    { "id": "161", "category": "concreto", "text": "Il gatto beve il latte.", "targets": [{ "surface": "gatto", "concepts": ["animal.cat"] }] },
-    { "id": "162", "category": "concreto", "text": "Il cane corre nel cortile.", "targets": [{ "surface": "cane", "concepts": ["animal.dog"] }] },
-    { "id": "163", "category": "concreto", "text": "La pioggia bagna il parco.", "targets": [{ "surface": "parco", "concepts": ["place.park"] }] },
-    { "id": "164", "category": "concreto", "text": "Il sole scalda la strada.", "targets": [{ "surface": "sole", "concepts": ["nature.sun"] }] },
-    { "id": "165", "category": "concreto", "text": "L'acqua riempie il bicchiere.", "targets": [{ "surface": "acqua", "concepts": ["nature.water"] }] },
-    { "id": "166", "category": "concreto", "text": "Il fiore è nel vaso.", "targets": [{ "surface": "fiore", "concepts": ["nature.flower"] }] },
-    { "id": "167", "category": "concreto", "text": "L'albero ha le foglie.", "targets": [{ "surface": "albero", "concepts": ["nature.tree"] }] },
-    { "id": "168", "category": "concreto", "text": "La luna si vede di notte.", "targets": [{ "surface": "luna", "concepts": ["nature.moon"] }] },
-    { "id": "169", "category": "concreto", "text": "L'autobus porta i bambini a scuola.", "targets": [{ "surface": "autobus", "concepts": ["vehicle.bus"] }] },
-    { "id": "170", "category": "concreto", "text": "La macchina è nel parcheggio.", "targets": [{ "surface": "macchina", "concepts": ["vehicle.car"] }] },
-    { "id": "171", "category": "concreto", "text": "La bicicletta ha due ruote.", "targets": [{ "surface": "bicicletta", "concepts": ["vehicle.bike"] }] },
-    { "id": "172", "category": "concreto", "text": "Il libro è sul tavolo.", "targets": [{ "surface": "libro", "concepts": ["object.book"] }] },
-    { "id": "173", "category": "concreto", "text": "La matita è rossa.", "targets": [{ "surface": "matita", "concepts": ["object.pencil"] }] },
-    { "id": "174", "category": "concreto", "text": "Le forbici tagliano la carta.", "targets": [{ "surface": "forbici", "concepts": ["object.scissors"] }] },
-    { "id": "175", "category": "concreto", "text": "La colla incolla la carta.", "targets": [{ "surface": "colla", "concepts": ["object.glue"] }] },
-    { "id": "176", "category": "concreto", "text": "Lo zaino è sulla sedia.", "targets": [{ "surface": "zaino", "concepts": ["object.backpack"] }] },
-    { "id": "177", "category": "concreto", "text": "Il telefono è sul tavolo.", "targets": [{ "surface": "telefono", "concepts": ["object.phone"] }] },
-    { "id": "178", "category": "concreto", "text": "L'orologio è appeso al muro.", "targets": [{ "surface": "orologio", "concepts": ["object.clock"] }] },
-    { "id": "179", "category": "concreto", "text": "Il cuscino è sul letto.", "targets": [{ "surface": "letto", "concepts": ["furniture.bed"] }] },
-    { "id": "180", "category": "concreto", "text": "La porta è aperta.", "targets": [{ "surface": "porta", "concepts": ["place.door"] }] },
-    { "id": "181", "category": "concreto", "text": "Il bambino mangia il pane.", "targets": [{ "surface": "pane", "concepts": ["food.bread"] }] },
-    { "id": "182", "category": "concreto", "text": "La maestra legge il libro.", "targets": [{ "surface": "libro", "concepts": ["object.book"] }] },
-    { "id": "183", "category": "concreto", "text": "Il cane mangia la pasta.", "targets": [{ "surface": "pasta", "concepts": ["food.pasta"] }] },
-    { "id": "184", "category": "concreto", "text": "Bevo l'acqua dal bicchiere.", "targets": [{ "surface": "acqua", "concepts": ["nature.water"] }] },
-    { "id": "185", "category": "concreto", "text": "La mela è sul tavolo.", "targets": [{ "surface": "tavolo", "concepts": ["object.table"] }] },
-    { "id": "186", "category": "concreto", "text": "Il piatto è sul tavolo.", "targets": [{ "surface": "piatto", "concepts": ["object.plate"] }] },
-    { "id": "187", "category": "concreto", "text": "Il cappello è sulla sedia.", "targets": [{ "surface": "cappello", "concepts": ["object.hat"] }] },
-    { "id": "188", "category": "concreto", "text": "Le scarpe sono vicino alla porta.", "targets": [{ "surface": "scarpe", "concepts": ["object.shoes"] }] },
-    { "id": "189", "category": "concreto", "text": "La palla è rotonda.", "targets": [{ "surface": "palla", "concepts": ["object.ball"] }] },
-    { "id": "190", "category": "concreto", "text": "Il bambino gioca con la palla.", "targets": [{ "surface": "palla", "concepts": ["object.ball"] }] },
-    { "id": "191", "category": "concreto", "text": "La famiglia mangia insieme.", "targets": [{ "surface": "famiglia", "concepts": ["person.family"] }] },
-    { "id": "192", "category": "concreto", "text": "Il medico visita il nonno.", "targets": [{ "surface": "medico", "concepts": ["person.doctor"] }] },
-    { "id": "193", "category": "concreto", "text": "L'amico gioca con me.", "targets": [{ "surface": "amico", "concepts": ["person.friend"] }] },
-    { "id": "194", "category": "concreto", "text": "La bambina disegna un fiore.", "targets": [{ "surface": "fiore", "concepts": ["nature.flower"] }] },
-    { "id": "195", "category": "concreto", "text": "Il bambino beve il succo.", "targets": [{ "surface": "bambino", "concepts": ["person.child", "person.boy"] }] },
-    { "id": "196", "category": "concreto", "text": "La stella si vede di notte.", "targets": [{ "surface": "stella", "concepts": ["object.star"] }] },
-    { "id": "197", "category": "concreto", "text": "Il vento muove le foglie.", "targets": [{ "surface": "foglie", "no_symbol": true }] },
-    { "id": "198", "category": "concreto", "text": "La casa ha una porta rossa.", "targets": [{ "surface": "casa", "concepts": ["place.house"] }] },
-    { "id": "199", "category": "concreto", "text": "Il bagno ha il lavandino.", "targets": [{ "surface": "bagno", "concepts": ["place.toilet"] }] },
-    { "id": "200", "category": "concreto", "text": "La scuola ha un cortile grande.", "targets": [{ "surface": "scuola", "concepts": ["place.school"] }] },
-    { "id": "201", "category": "concreto", "text": "Gioco a palla con l'amico.", "targets": [{ "surface": "palla", "concepts": ["object.ball"] }] },
-    { "id": "202", "category": "concreto", "text": "La maestra aiuta il bambino.", "targets": [{ "surface": "aiuta", "concepts": ["action.help"] }] },
-    { "id": "203", "category": "concreto", "text": "Il gatto salta sulla sedia.", "targets": [{ "surface": "sedia", "concepts": ["object.chair"] }] },
-    { "id": "204", "category": "concreto", "text": "L'uccello canta sul ramo.", "targets": [{ "surface": "uccello", "concepts": ["animal.bird"] }] },
-    { "id": "205", "category": "concreto", "text": "La neve copre il parco.", "targets": [{ "surface": "neve", "no_symbol": true }] }
+    {
+      "id": "001",
+      "category": "omonimia",
+      "text": "Luca mangia una pesca.",
+      "targets": [
+        {
+          "surface": "pesca",
+          "concepts": [
+            "fruit.peach"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "002",
+      "category": "omonimia",
+      "text": "Il nonno va a pesca al fiume.",
+      "targets": [
+        {
+          "surface": "pesca",
+          "concepts": [
+            "activity.fishing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "003",
+      "category": "omonimia",
+      "text": "Il nonno va a pesca con la rete.",
+      "targets": [
+        {
+          "surface": "pesca",
+          "concepts": [
+            "activity.fishing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "004",
+      "category": "omonimia",
+      "text": "La bambina scrive con la penna blu.",
+      "targets": [
+        {
+          "surface": "penna",
+          "concepts": [
+            "obj.pen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "005",
+      "category": "omonimia",
+      "text": "La penna dell'uccello è colorata.",
+      "targets": [
+        {
+          "surface": "penna",
+          "concepts": [
+            "animal.feather"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "006",
+      "category": "omonimia",
+      "text": "Il bambino si siede al banco di scuola.",
+      "targets": [
+        {
+          "surface": "banco",
+          "concepts": [
+            "furniture.school_desk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "007",
+      "category": "omonimia",
+      "text": "Ho versato i soldi in banca.",
+      "targets": [
+        {
+          "surface": "banca",
+          "concepts": [
+            "finance.bank"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "008",
+      "category": "omonimia",
+      "text": "Il tempo passa veloce.",
+      "targets": [
+        {
+          "surface": "tempo",
+          "concepts": [
+            "time.clock_time"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "009",
+      "category": "omonimia",
+      "text": "Oggi il tempo è brutto e piove.",
+      "targets": [
+        {
+          "surface": "tempo",
+          "concepts": [
+            "weather.conditions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "010",
+      "category": "omonimia",
+      "text": "Il papà apre la porta di casa.",
+      "targets": [
+        {
+          "surface": "porta",
+          "concepts": [
+            "place.door"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "011",
+      "category": "omonimia",
+      "text": "La mamma porta lo zaino a scuola.",
+      "targets": [
+        {
+          "surface": "porta",
+          "concepts": [
+            "action.carry"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "012",
+      "category": "omonimia",
+      "text": "La porta del bagno è chiusa.",
+      "targets": [
+        {
+          "surface": "porta",
+          "concepts": [
+            "place.door"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "013",
+      "category": "verbi_flessi",
+      "text": "Io mangio la mela.",
+      "targets": [
+        {
+          "surface": "mangio",
+          "concepts": [
+            "action.eat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "014",
+      "category": "verbi_flessi",
+      "text": "Loro mangiavano la pasta.",
+      "targets": [
+        {
+          "surface": "mangiavano",
+          "concepts": [
+            "action.eat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "015",
+      "category": "verbi_flessi",
+      "text": "Abbiamo mangiato il pane.",
+      "targets": [
+        {
+          "surface": "mangiato",
+          "concepts": [
+            "action.eat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "016",
+      "category": "verbi_flessi",
+      "text": "Il cane corre nel parco.",
+      "targets": [
+        {
+          "surface": "corre",
+          "concepts": [
+            "action.run"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "017",
+      "category": "verbi_flessi",
+      "text": "I bambini correvano veloci.",
+      "targets": [
+        {
+          "surface": "correvano",
+          "concepts": [
+            "action.run"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "018",
+      "category": "verbi_flessi",
+      "text": "Noi corriamo ogni mattina.",
+      "targets": [
+        {
+          "surface": "corriamo",
+          "concepts": [
+            "action.run"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "019",
+      "category": "verbi_flessi",
+      "text": "La maestra scrive alla lavagna.",
+      "targets": [
+        {
+          "surface": "scrive",
+          "concepts": [
+            "action.write"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "020",
+      "category": "verbi_flessi",
+      "text": "Io scrivevo una lettera.",
+      "targets": [
+        {
+          "surface": "scrivevo",
+          "concepts": [
+            "action.write"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "021",
+      "category": "verbi_flessi",
+      "text": "Leggo un libro alla sera.",
+      "targets": [
+        {
+          "surface": "leggo",
+          "concepts": [
+            "action.read"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "022",
+      "category": "verbi_flessi",
+      "text": "Loro leggevano la storia.",
+      "targets": [
+        {
+          "surface": "leggevano",
+          "concepts": [
+            "action.read"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "023",
+      "category": "verbi_flessi",
+      "text": "Il gatto dorme sul letto.",
+      "targets": [
+        {
+          "surface": "dorme",
+          "concepts": [
+            "action.sleep"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "024",
+      "category": "verbi_flessi",
+      "text": "I bambini dormivano.",
+      "targets": [
+        {
+          "surface": "dormivano",
+          "concepts": [
+            "action.sleep"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "025",
+      "category": "verbi_flessi",
+      "text": "Gioco con la palla.",
+      "targets": [
+        {
+          "surface": "gioco",
+          "concepts": [
+            "action.play"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "026",
+      "category": "verbi_flessi",
+      "text": "Giocavamo insieme al parco.",
+      "targets": [
+        {
+          "surface": "giocavamo",
+          "concepts": [
+            "action.play"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "027",
+      "category": "verbi_flessi",
+      "text": "Bevo un bicchiere d'acqua.",
+      "targets": [
+        {
+          "surface": "bevo",
+          "concepts": [
+            "action.drink"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "028",
+      "category": "verbi_flessi",
+      "text": "Bevi il succo con la cannuccia.",
+      "targets": [
+        {
+          "surface": "bevi",
+          "concepts": [
+            "action.drink"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "029",
+      "category": "verbi_flessi",
+      "text": "Ascolto la maestra in classe.",
+      "targets": [
+        {
+          "surface": "ascolto",
+          "concepts": [
+            "action.listen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "030",
+      "category": "verbi_flessi",
+      "text": "Ascoltavamo la musica.",
+      "targets": [
+        {
+          "surface": "ascoltavamo",
+          "concepts": [
+            "action.listen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "031",
+      "category": "verbi_flessi",
+      "text": "Parlo con il mio amico.",
+      "targets": [
+        {
+          "surface": "parlo",
+          "concepts": [
+            "action.speak"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "032",
+      "category": "verbi_flessi",
+      "text": "Parlavano insieme in cortile.",
+      "targets": [
+        {
+          "surface": "parlavano",
+          "concepts": [
+            "action.speak"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "033",
+      "category": "verbi_flessi",
+      "text": "Aiuto la maestra a distribuire i fogli.",
+      "targets": [
+        {
+          "surface": "aiuto",
+          "concepts": [
+            "action.help"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "034",
+      "category": "verbi_flessi",
+      "text": "Aiutiamo il compagno con i compiti.",
+      "targets": [
+        {
+          "surface": "aiutiamo",
+          "concepts": [
+            "action.help"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "035",
+      "category": "verbi_flessi",
+      "text": "Camminiamo nel parco.",
+      "targets": [
+        {
+          "surface": "camminiamo",
+          "concepts": [
+            "action.walk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "036",
+      "category": "verbi_flessi",
+      "text": "Camminava piano verso casa.",
+      "targets": [
+        {
+          "surface": "camminava",
+          "concepts": [
+            "action.walk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "037",
+      "category": "verbi_flessi",
+      "text": "Disegno un fiore sul foglio.",
+      "targets": [
+        {
+          "surface": "disegno",
+          "concepts": [
+            "action.write"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "038",
+      "category": "verbi_flessi",
+      "text": "Ho finito i compiti.",
+      "targets": [
+        {
+          "surface": "finito",
+          "concepts": [
+            "action.finish"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "039",
+      "category": "verbi_flessi",
+      "text": "Voglio un gelato.",
+      "targets": [
+        {
+          "surface": "voglio",
+          "concepts": [
+            "action.want"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "040",
+      "category": "verbi_flessi",
+      "text": "Porto lo zaino sulle spalle.",
+      "targets": [
+        {
+          "surface": "porto",
+          "concepts": [
+            "action.carry"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "041",
+      "category": "sinonimi",
+      "text": "L'auto è parcheggiata fuori.",
+      "targets": [
+        {
+          "surface": "auto",
+          "concepts": [
+            "vehicle.car"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "042",
+      "category": "sinonimi",
+      "text": "L'automobile è nuova.",
+      "targets": [
+        {
+          "surface": "automobile",
+          "concepts": [
+            "vehicle.car"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "043",
+      "category": "sinonimi",
+      "text": "Vado in bici al parco.",
+      "targets": [
+        {
+          "surface": "bici",
+          "concepts": [
+            "vehicle.bike"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "044",
+      "category": "sinonimi",
+      "text": "Il dottore visita il bambino.",
+      "targets": [
+        {
+          "surface": "dottore",
+          "concepts": [
+            "person.doctor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "045",
+      "category": "sinonimi",
+      "text": "Il maestro spiega la lezione.",
+      "targets": [
+        {
+          "surface": "maestro",
+          "concepts": [
+            "person.teacher"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "046",
+      "category": "sinonimi",
+      "text": "Ho trovato una piuma nel prato.",
+      "targets": [
+        {
+          "surface": "piuma",
+          "concepts": [
+            "animal.feather"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "047",
+      "category": "sinonimi",
+      "text": "Ho pochi soldi in tasca.",
+      "targets": [
+        {
+          "surface": "soldi",
+          "concepts": [
+            "object.money"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "048",
+      "category": "sinonimi",
+      "text": "La ricreazione è finita.",
+      "targets": [
+        {
+          "surface": "ricreazione",
+          "concepts": [
+            "school.break"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "049",
+      "category": "sinonimi",
+      "text": "Il pullman arriva alle otto.",
+      "targets": [
+        {
+          "surface": "pullman",
+          "concepts": [
+            "vehicle.bus"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "050",
+      "category": "sinonimi",
+      "text": "L'insegnante legge la storia.",
+      "targets": [
+        {
+          "surface": "insegnante",
+          "concepts": [
+            "person.teacher"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "051",
+      "category": "espressioni_composte",
+      "text": "Mi lavo i denti ogni sera.",
+      "targets": [
+        {
+          "surface": "denti",
+          "concepts": [
+            "hygiene.brush_teeth"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "052",
+      "category": "espressioni_composte",
+      "text": "Lava le mani prima di mangiare.",
+      "targets": [
+        {
+          "surface": "mani",
+          "concepts": [
+            "hygiene.wash_hands"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "053",
+      "category": "espressioni_composte",
+      "text": "Vado a scuola con il papà.",
+      "targets": [
+        {
+          "surface": "scuola",
+          "concepts": [
+            "place.school"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "054",
+      "category": "espressioni_composte",
+      "text": "Ho paura del buio.",
+      "targets": [
+        {
+          "surface": "paura",
+          "concepts": [
+            "emotion.afraid"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "055",
+      "category": "espressioni_composte",
+      "text": "Faccio colazione con il pane.",
+      "targets": [
+        {
+          "surface": "colazione",
+          "concepts": [
+            "food.breakfast"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "056",
+      "category": "espressioni_composte",
+      "text": "Mi dai una mano con la colla?",
+      "targets": [
+        {
+          "surface": "una mano",
+          "concepts": [
+            "action.help"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "057",
+      "category": "espressioni_composte",
+      "text": "Metto le scarpe prima di uscire.",
+      "targets": [
+        {
+          "surface": "scarpe",
+          "concepts": [
+            "object.shoes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "058",
+      "category": "espressioni_composte",
+      "text": "Chiedo aiuto alla maestra.",
+      "targets": [
+        {
+          "surface": "aiuto",
+          "concepts": [
+            "action.ask_help"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "059",
+      "category": "espressioni_composte",
+      "text": "Il monopattino elettrico è veloce.",
+      "targets": [
+        {
+          "surface": "monopattino",
+          "composition": [
+            "vehicle.scooter",
+            "energy.electricity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "060",
+      "category": "espressioni_composte",
+      "text": "Bevo un succo di mela.",
+      "targets": [
+        {
+          "surface": "succo",
+          "composition": [
+            "food.apple",
+            "nature.water"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "061",
+      "category": "espressioni_composte",
+      "text": "L'entrata a scuola è alle otto.",
+      "targets": [
+        {
+          "surface": "entrata",
+          "concepts": [
+            "school.arrival"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "062",
+      "category": "espressioni_composte",
+      "text": "Il lavoro in classe è finito.",
+      "targets": [
+        {
+          "surface": "classe",
+          "concepts": [
+            "school.classwork"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "063",
+      "category": "negazioni",
+      "text": "Non mangio la pasta.",
+      "targets": [
+        {
+          "surface": "pasta",
+          "concepts": [
+            "food.pasta"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "064",
+      "category": "negazioni",
+      "text": "Il bambino non dorme.",
+      "targets": [
+        {
+          "surface": "dorme",
+          "concepts": [
+            "action.sleep"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "065",
+      "category": "negazioni",
+      "text": "Non ho paura.",
+      "targets": [
+        {
+          "surface": "paura",
+          "concepts": [
+            "emotion.afraid"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "066",
+      "category": "negazioni",
+      "text": "Non voglio il gelato.",
+      "targets": [
+        {
+          "surface": "gelato",
+          "concepts": [
+            "food.ice_cream"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "067",
+      "category": "negazioni",
+      "text": "Il gatto non beve l'acqua.",
+      "targets": [
+        {
+          "surface": "acqua",
+          "concepts": [
+            "nature.water"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "068",
+      "category": "negazioni",
+      "text": "Non corre in classe.",
+      "targets": [
+        {
+          "surface": "corre",
+          "concepts": [
+            "action.run"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "069",
+      "category": "negazioni",
+      "text": "Non ho finito i compiti.",
+      "targets": [
+        {
+          "surface": "compiti",
+          "concepts": [
+            "school.classwork"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "070",
+      "category": "negazioni",
+      "text": "La maestra non parla.",
+      "targets": [
+        {
+          "surface": "parla",
+          "concepts": [
+            "action.speak"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "071",
+      "category": "negazioni",
+      "text": "Non vado al parco.",
+      "targets": [
+        {
+          "surface": "parco",
+          "concepts": [
+            "place.park"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "072",
+      "category": "negazioni",
+      "text": "Non lavo il piatto.",
+      "targets": [
+        {
+          "surface": "piatto",
+          "concepts": [
+            "object.plate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "073",
+      "category": "tempi_verbali",
+      "text": "Avevo mangiato la mela.",
+      "targets": [
+        {
+          "surface": "mangiato",
+          "concepts": [
+            "action.eat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "074",
+      "category": "tempi_verbali",
+      "text": "Sarà andato a casa.",
+      "targets": [
+        {
+          "surface": "casa",
+          "concepts": [
+            "place.house"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "075",
+      "category": "tempi_verbali",
+      "text": "Sto leggendo un libro.",
+      "targets": [
+        {
+          "surface": "leggendo",
+          "concepts": [
+            "action.read"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "076",
+      "category": "tempi_verbali",
+      "text": "Stavo scrivendo una lettera.",
+      "targets": [
+        {
+          "surface": "scrivendo",
+          "concepts": [
+            "action.write"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "077",
+      "category": "tempi_verbali",
+      "text": "Avrei voluto un gelato.",
+      "targets": [
+        {
+          "surface": "gelato",
+          "concepts": [
+            "food.ice_cream"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "078",
+      "category": "tempi_verbali",
+      "text": "Era stanco dopo la corsa.",
+      "targets": [
+        {
+          "surface": "stanco",
+          "concepts": [
+            "emotion.tired"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "079",
+      "category": "tempi_verbali",
+      "text": "Saremo felici.",
+      "targets": [
+        {
+          "surface": "felici",
+          "concepts": [
+            "emotion.happy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "080",
+      "category": "tempi_verbali",
+      "text": "Hanno giocato insieme.",
+      "targets": [
+        {
+          "surface": "giocato",
+          "concepts": [
+            "action.play"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "081",
+      "category": "tempi_verbali",
+      "text": "Aveva bevuto l'acqua.",
+      "targets": [
+        {
+          "surface": "bevuto",
+          "concepts": [
+            "action.drink"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "082",
+      "category": "tempi_verbali",
+      "text": "Stanno ascoltando la storia.",
+      "targets": [
+        {
+          "surface": "ascoltando",
+          "concepts": [
+            "action.listen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "083",
+      "category": "astratti",
+      "text": "L'elettricità accende la luce.",
+      "targets": [
+        {
+          "surface": "elettricità",
+          "concepts": [
+            "energy.electricity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "084",
+      "category": "astratti",
+      "text": "La paura fa tremare.",
+      "targets": [
+        {
+          "surface": "paura",
+          "concepts": [
+            "emotion.afraid"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "085",
+      "category": "astratti",
+      "text": "La famiglia si vuole bene.",
+      "targets": [
+        {
+          "surface": "famiglia",
+          "concepts": [
+            "person.family"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "086",
+      "category": "astratti",
+      "text": "La tristezza passa.",
+      "targets": [
+        {
+          "surface": "tristezza",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "087",
+      "category": "astratti",
+      "text": "L'amicizia è un dono.",
+      "targets": [
+        {
+          "surface": "amicizia",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "088",
+      "category": "astratti",
+      "text": "La libertà è un diritto.",
+      "targets": [
+        {
+          "surface": "libertà",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "089",
+      "category": "scuola",
+      "text": "Lo zaino è pesante.",
+      "targets": [
+        {
+          "surface": "zaino",
+          "concepts": [
+            "object.backpack"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "090",
+      "category": "scuola",
+      "text": "La matita è sul tavolo.",
+      "targets": [
+        {
+          "surface": "matita",
+          "concepts": [
+            "object.pencil"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "091",
+      "category": "scuola",
+      "text": "Uso le forbici per tagliare.",
+      "targets": [
+        {
+          "surface": "forbici",
+          "concepts": [
+            "object.scissors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "092",
+      "category": "scuola",
+      "text": "La colla è finita.",
+      "targets": [
+        {
+          "surface": "colla",
+          "concepts": [
+            "object.glue"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "093",
+      "category": "scuola",
+      "text": "La maestra entra in classe.",
+      "targets": [
+        {
+          "surface": "maestra",
+          "concepts": [
+            "person.teacher"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "094",
+      "category": "scuola",
+      "text": "L'intervallo è alle dieci.",
+      "targets": [
+        {
+          "surface": "intervallo",
+          "concepts": [
+            "school.break"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "095",
+      "category": "scuola",
+      "text": "I compiti sono difficili.",
+      "targets": [
+        {
+          "surface": "compiti",
+          "concepts": [
+            "school.classwork"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "096",
+      "category": "scuola",
+      "text": "Il pranzo è alle dodici.",
+      "targets": [
+        {
+          "surface": "pranzo",
+          "concepts": [
+            "school.lunch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "097",
+      "category": "scuola",
+      "text": "Il bambino siede sulla sedia.",
+      "targets": [
+        {
+          "surface": "sedia",
+          "concepts": [
+            "object.chair"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "098",
+      "category": "scuola",
+      "text": "Scrivo sul foglio.",
+      "targets": [
+        {
+          "surface": "foglio",
+          "concepts": [
+            "obj.paper_sheet"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "099",
+      "category": "scuola",
+      "text": "Il libro è nuovo.",
+      "targets": [
+        {
+          "surface": "libro",
+          "concepts": [
+            "object.book"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "100",
+      "category": "scuola",
+      "text": "Il quaderno è sul banco.",
+      "targets": [
+        {
+          "surface": "banco",
+          "concepts": [
+            "furniture.school_desk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "101",
+      "category": "scuola",
+      "text": "La maestra spiega alla lavagna.",
+      "targets": [
+        {
+          "surface": "maestra",
+          "concepts": [
+            "person.teacher"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "102",
+      "category": "scuola",
+      "text": "I bambini entrano in aula.",
+      "targets": [
+        {
+          "surface": "bambini",
+          "concepts": [
+            "person.child"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "103",
+      "category": "scuola",
+      "text": "Porto i libri nello zaino.",
+      "targets": [
+        {
+          "surface": "zaino",
+          "concepts": [
+            "object.backpack"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "104",
+      "category": "non_presenti",
+      "text": "Il fiordo è profondo.",
+      "targets": [
+        {
+          "surface": "fiordo",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "105",
+      "category": "non_presenti",
+      "text": "La trivella perfora il terreno.",
+      "targets": [
+        {
+          "surface": "trivella",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "106",
+      "category": "non_presenti",
+      "text": "L'astrolabio misura le stelle.",
+      "targets": [
+        {
+          "surface": "astrolabio",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "107",
+      "category": "non_presenti",
+      "text": "Suona la kalimba.",
+      "targets": [
+        {
+          "surface": "kalimba",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "108",
+      "category": "non_presenti",
+      "text": "L'oboe è uno strumento a fiato.",
+      "targets": [
+        {
+          "surface": "oboe",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "109",
+      "category": "non_presenti",
+      "text": "Il tartufo profuma molto.",
+      "targets": [
+        {
+          "surface": "tartufo",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "110",
+      "category": "non_presenti",
+      "text": "Aggiungo l'origano alla pasta.",
+      "targets": [
+        {
+          "surface": "origano",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "111",
+      "category": "non_presenti",
+      "text": "Il cammello attraversa il deserto.",
+      "targets": [
+        {
+          "surface": "cammello",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "112",
+      "category": "non_presenti",
+      "text": "Il pinguino nuota nel mare.",
+      "targets": [
+        {
+          "surface": "pinguino",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "113",
+      "category": "non_presenti",
+      "text": "Il vulcano è spento.",
+      "targets": [
+        {
+          "surface": "vulcano",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "114",
+      "category": "non_presenti",
+      "text": "Il satellite gira intorno alla Terra.",
+      "targets": [
+        {
+          "surface": "satellite",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "115",
+      "category": "non_presenti",
+      "text": "Il microscopio ingrandisce le cose.",
+      "targets": [
+        {
+          "surface": "microscopio",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "116",
+      "category": "non_presenti",
+      "text": "Suona il trombone.",
+      "targets": [
+        {
+          "surface": "trombone",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "117",
+      "category": "non_presenti",
+      "text": "Il canguro salta nel prato.",
+      "targets": [
+        {
+          "surface": "canguro",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "118",
+      "category": "non_presenti",
+      "text": "La zanzara mi ha punto.",
+      "targets": [
+        {
+          "surface": "zanzara",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "119",
+      "category": "fallback",
+      "text": "Il bassotto abbaia.",
+      "targets": [
+        {
+          "surface": "bassotto",
+          "concepts": [
+            "animal.dog"
+          ],
+          "strategy": "broader"
+        }
+      ]
+    },
+    {
+      "id": "120",
+      "category": "fallback",
+      "text": "Il bassotto corre nel parco.",
+      "targets": [
+        {
+          "surface": "bassotto",
+          "concepts": [
+            "animal.dog"
+          ],
+          "strategy": "broader"
+        }
+      ]
+    },
+    {
+      "id": "121",
+      "category": "fallback",
+      "text": "Il monopattino elettrico è in cortile.",
+      "targets": [
+        {
+          "surface": "monopattino",
+          "composition": [
+            "vehicle.scooter",
+            "energy.electricity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "122",
+      "category": "concreto",
+      "text": "La mela è rossa.",
+      "targets": [
+        {
+          "surface": "mela",
+          "concepts": [
+            "food.apple"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "123",
+      "category": "concreto",
+      "text": "Il pane è fresco.",
+      "targets": [
+        {
+          "surface": "pane",
+          "concepts": [
+            "food.bread"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "124",
+      "category": "concreto",
+      "text": "La pasta è pronta.",
+      "targets": [
+        {
+          "surface": "pasta",
+          "concepts": [
+            "food.pasta"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "125",
+      "category": "concreto",
+      "text": "Il gelato è freddo.",
+      "targets": [
+        {
+          "surface": "gelato",
+          "concepts": [
+            "food.ice_cream"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "126",
+      "category": "concreto",
+      "text": "La frutta è dolce.",
+      "targets": [
+        {
+          "surface": "frutta",
+          "concepts": [
+            "food.fruit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "127",
+      "category": "concreto",
+      "text": "Il gatto dorme sulla sedia.",
+      "targets": [
+        {
+          "surface": "gatto",
+          "concepts": [
+            "animal.cat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "128",
+      "category": "concreto",
+      "text": "Il cane abbaia forte.",
+      "targets": [
+        {
+          "surface": "cane",
+          "concepts": [
+            "animal.dog"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "129",
+      "category": "concreto",
+      "text": "L'uccello vola nel cielo.",
+      "targets": [
+        {
+          "surface": "uccello",
+          "concepts": [
+            "animal.bird"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "130",
+      "category": "concreto",
+      "text": "Il sole splende.",
+      "targets": [
+        {
+          "surface": "sole",
+          "concepts": [
+            "nature.sun"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "131",
+      "category": "concreto",
+      "text": "La luna è alta.",
+      "targets": [
+        {
+          "surface": "luna",
+          "concepts": [
+            "nature.moon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "132",
+      "category": "concreto",
+      "text": "L'acqua è fresca.",
+      "targets": [
+        {
+          "surface": "acqua",
+          "concepts": [
+            "nature.water"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "133",
+      "category": "concreto",
+      "text": "La pioggia cade forte.",
+      "targets": [
+        {
+          "surface": "pioggia",
+          "concepts": [
+            "nature.rain"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "134",
+      "category": "concreto",
+      "text": "L'albero è grande.",
+      "targets": [
+        {
+          "surface": "albero",
+          "concepts": [
+            "nature.tree"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "135",
+      "category": "concreto",
+      "text": "Il fiore profuma.",
+      "targets": [
+        {
+          "surface": "fiore",
+          "concepts": [
+            "nature.flower"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "136",
+      "category": "concreto",
+      "text": "La stella brilla nel cielo.",
+      "targets": [
+        {
+          "surface": "stella",
+          "concepts": [
+            "object.star"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "137",
+      "category": "concreto",
+      "text": "La macchina è rossa.",
+      "targets": [
+        {
+          "surface": "macchina",
+          "concepts": [
+            "vehicle.car"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "138",
+      "category": "concreto",
+      "text": "L'autobus è pieno.",
+      "targets": [
+        {
+          "surface": "autobus",
+          "concepts": [
+            "vehicle.bus"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "139",
+      "category": "concreto",
+      "text": "La bicicletta è nuova.",
+      "targets": [
+        {
+          "surface": "bicicletta",
+          "concepts": [
+            "vehicle.bike"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "140",
+      "category": "concreto",
+      "text": "Il telefono squilla.",
+      "targets": [
+        {
+          "surface": "telefono",
+          "concepts": [
+            "object.phone"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "141",
+      "category": "concreto",
+      "text": "L'orologio segna le tre.",
+      "targets": [
+        {
+          "surface": "orologio",
+          "concepts": [
+            "object.clock"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "142",
+      "category": "concreto",
+      "text": "Il tavolo è grande.",
+      "targets": [
+        {
+          "surface": "tavolo",
+          "concepts": [
+            "object.table"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "143",
+      "category": "concreto",
+      "text": "Il bicchiere è vuoto.",
+      "targets": [
+        {
+          "surface": "bicchiere",
+          "concepts": [
+            "object.glass"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "144",
+      "category": "concreto",
+      "text": "Il piatto è caldo.",
+      "targets": [
+        {
+          "surface": "piatto",
+          "concepts": [
+            "object.plate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "145",
+      "category": "concreto",
+      "text": "Il cappello è nuovo.",
+      "targets": [
+        {
+          "surface": "cappello",
+          "concepts": [
+            "object.hat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "146",
+      "category": "concreto",
+      "text": "Le scarpe sono nuove.",
+      "targets": [
+        {
+          "surface": "scarpe",
+          "concepts": [
+            "object.shoes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "147",
+      "category": "concreto",
+      "text": "Il cuscino è morbido.",
+      "targets": [
+        {
+          "surface": "cuscino",
+          "concepts": [
+            "object.pillow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "148",
+      "category": "concreto",
+      "text": "Il letto è fatto.",
+      "targets": [
+        {
+          "surface": "letto",
+          "concepts": [
+            "furniture.bed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "149",
+      "category": "concreto",
+      "text": "La casa è grande.",
+      "targets": [
+        {
+          "surface": "casa",
+          "concepts": [
+            "place.house"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "150",
+      "category": "concreto",
+      "text": "La scuola è chiusa.",
+      "targets": [
+        {
+          "surface": "scuola",
+          "concepts": [
+            "place.school"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "151",
+      "category": "concreto",
+      "text": "Il parco è verde.",
+      "targets": [
+        {
+          "surface": "parco",
+          "concepts": [
+            "place.park"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "152",
+      "category": "concreto",
+      "text": "Il bagno è occupato.",
+      "targets": [
+        {
+          "surface": "bagno",
+          "concepts": [
+            "place.toilet"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "153",
+      "category": "concreto",
+      "text": "Il medico arriva.",
+      "targets": [
+        {
+          "surface": "medico",
+          "concepts": [
+            "person.doctor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "154",
+      "category": "concreto",
+      "text": "La famiglia è a casa.",
+      "targets": [
+        {
+          "surface": "famiglia",
+          "concepts": [
+            "person.family"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "155",
+      "category": "concreto",
+      "text": "Il mio amico è qui.",
+      "targets": [
+        {
+          "surface": "amico",
+          "concepts": [
+            "person.friend"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "156",
+      "category": "concreto",
+      "text": "La bambina canta.",
+      "targets": [
+        {
+          "surface": "bambina",
+          "concepts": [
+            "person.girl"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "157",
+      "category": "concreto",
+      "text": "I soldi sono pochi.",
+      "targets": [
+        {
+          "surface": "soldi",
+          "concepts": [
+            "object.money"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "158",
+      "category": "concreto",
+      "text": "La sedia è di legno.",
+      "targets": [
+        {
+          "surface": "sedia",
+          "concepts": [
+            "object.chair"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "159",
+      "category": "concreto",
+      "text": "Il pane è sul tavolo.",
+      "targets": [
+        {
+          "surface": "pane",
+          "concepts": [
+            "food.bread"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "160",
+      "category": "concreto",
+      "text": "La mela è nel piatto.",
+      "targets": [
+        {
+          "surface": "mela",
+          "concepts": [
+            "food.apple"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "161",
+      "category": "concreto",
+      "text": "Il gatto beve il latte.",
+      "targets": [
+        {
+          "surface": "gatto",
+          "concepts": [
+            "animal.cat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "162",
+      "category": "concreto",
+      "text": "Il cane corre nel cortile.",
+      "targets": [
+        {
+          "surface": "cane",
+          "concepts": [
+            "animal.dog"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "163",
+      "category": "concreto",
+      "text": "La pioggia bagna il parco.",
+      "targets": [
+        {
+          "surface": "parco",
+          "concepts": [
+            "place.park"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "164",
+      "category": "concreto",
+      "text": "Il sole scalda la strada.",
+      "targets": [
+        {
+          "surface": "sole",
+          "concepts": [
+            "nature.sun"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "165",
+      "category": "concreto",
+      "text": "L'acqua riempie il bicchiere.",
+      "targets": [
+        {
+          "surface": "acqua",
+          "concepts": [
+            "nature.water"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "166",
+      "category": "concreto",
+      "text": "Il fiore è nel vaso.",
+      "targets": [
+        {
+          "surface": "fiore",
+          "concepts": [
+            "nature.flower"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "167",
+      "category": "concreto",
+      "text": "L'albero ha le foglie.",
+      "targets": [
+        {
+          "surface": "albero",
+          "concepts": [
+            "nature.tree"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "168",
+      "category": "concreto",
+      "text": "La luna si vede di notte.",
+      "targets": [
+        {
+          "surface": "luna",
+          "concepts": [
+            "nature.moon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "169",
+      "category": "concreto",
+      "text": "L'autobus porta i bambini a scuola.",
+      "targets": [
+        {
+          "surface": "autobus",
+          "concepts": [
+            "vehicle.bus"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "170",
+      "category": "concreto",
+      "text": "La macchina è nel parcheggio.",
+      "targets": [
+        {
+          "surface": "macchina",
+          "concepts": [
+            "vehicle.car"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "171",
+      "category": "concreto",
+      "text": "La bicicletta ha due ruote.",
+      "targets": [
+        {
+          "surface": "bicicletta",
+          "concepts": [
+            "vehicle.bike"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "172",
+      "category": "concreto",
+      "text": "Il libro è sul tavolo.",
+      "targets": [
+        {
+          "surface": "libro",
+          "concepts": [
+            "object.book"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "173",
+      "category": "concreto",
+      "text": "La matita è rossa.",
+      "targets": [
+        {
+          "surface": "matita",
+          "concepts": [
+            "object.pencil"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "174",
+      "category": "concreto",
+      "text": "Le forbici tagliano la carta.",
+      "targets": [
+        {
+          "surface": "forbici",
+          "concepts": [
+            "object.scissors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "175",
+      "category": "concreto",
+      "text": "La colla incolla la carta.",
+      "targets": [
+        {
+          "surface": "colla",
+          "concepts": [
+            "object.glue"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "176",
+      "category": "concreto",
+      "text": "Lo zaino è sulla sedia.",
+      "targets": [
+        {
+          "surface": "zaino",
+          "concepts": [
+            "object.backpack"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "177",
+      "category": "concreto",
+      "text": "Il telefono è sul tavolo.",
+      "targets": [
+        {
+          "surface": "telefono",
+          "concepts": [
+            "object.phone"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "178",
+      "category": "concreto",
+      "text": "L'orologio è appeso al muro.",
+      "targets": [
+        {
+          "surface": "orologio",
+          "concepts": [
+            "object.clock"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "179",
+      "category": "concreto",
+      "text": "Il cuscino è sul letto.",
+      "targets": [
+        {
+          "surface": "letto",
+          "concepts": [
+            "furniture.bed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "180",
+      "category": "concreto",
+      "text": "La porta è aperta.",
+      "targets": [
+        {
+          "surface": "porta",
+          "concepts": [
+            "place.door"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "181",
+      "category": "concreto",
+      "text": "Il bambino mangia il pane.",
+      "targets": [
+        {
+          "surface": "pane",
+          "concepts": [
+            "food.bread"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "182",
+      "category": "concreto",
+      "text": "La maestra legge il libro.",
+      "targets": [
+        {
+          "surface": "libro",
+          "concepts": [
+            "object.book"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "183",
+      "category": "concreto",
+      "text": "Il cane mangia la pasta.",
+      "targets": [
+        {
+          "surface": "pasta",
+          "concepts": [
+            "food.pasta"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "184",
+      "category": "concreto",
+      "text": "Bevo l'acqua dal bicchiere.",
+      "targets": [
+        {
+          "surface": "acqua",
+          "concepts": [
+            "nature.water"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "185",
+      "category": "concreto",
+      "text": "La mela è sul tavolo.",
+      "targets": [
+        {
+          "surface": "tavolo",
+          "concepts": [
+            "object.table"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "186",
+      "category": "concreto",
+      "text": "Il piatto è sul tavolo.",
+      "targets": [
+        {
+          "surface": "piatto",
+          "concepts": [
+            "object.plate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "187",
+      "category": "concreto",
+      "text": "Il cappello è sulla sedia.",
+      "targets": [
+        {
+          "surface": "cappello",
+          "concepts": [
+            "object.hat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "188",
+      "category": "concreto",
+      "text": "Le scarpe sono vicino alla porta.",
+      "targets": [
+        {
+          "surface": "scarpe",
+          "concepts": [
+            "object.shoes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "189",
+      "category": "concreto",
+      "text": "La palla è rotonda.",
+      "targets": [
+        {
+          "surface": "palla",
+          "concepts": [
+            "object.ball"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "190",
+      "category": "concreto",
+      "text": "Il bambino gioca con la palla.",
+      "targets": [
+        {
+          "surface": "palla",
+          "concepts": [
+            "object.ball"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "191",
+      "category": "concreto",
+      "text": "La famiglia mangia insieme.",
+      "targets": [
+        {
+          "surface": "famiglia",
+          "concepts": [
+            "person.family"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "192",
+      "category": "concreto",
+      "text": "Il medico visita il nonno.",
+      "targets": [
+        {
+          "surface": "medico",
+          "concepts": [
+            "person.doctor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "193",
+      "category": "concreto",
+      "text": "L'amico gioca con me.",
+      "targets": [
+        {
+          "surface": "amico",
+          "concepts": [
+            "person.friend"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "194",
+      "category": "concreto",
+      "text": "La bambina disegna un fiore.",
+      "targets": [
+        {
+          "surface": "fiore",
+          "concepts": [
+            "nature.flower"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "195",
+      "category": "concreto",
+      "text": "Il bambino beve il succo.",
+      "targets": [
+        {
+          "surface": "bambino",
+          "concepts": [
+            "person.child",
+            "person.boy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "196",
+      "category": "concreto",
+      "text": "La stella si vede di notte.",
+      "targets": [
+        {
+          "surface": "stella",
+          "concepts": [
+            "object.star"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "197",
+      "category": "concreto",
+      "text": "Il vento muove le foglie.",
+      "targets": [
+        {
+          "surface": "foglie",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "198",
+      "category": "concreto",
+      "text": "La casa ha una porta rossa.",
+      "targets": [
+        {
+          "surface": "casa",
+          "concepts": [
+            "place.house"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "199",
+      "category": "concreto",
+      "text": "Il bagno ha il lavandino.",
+      "targets": [
+        {
+          "surface": "bagno",
+          "concepts": [
+            "place.toilet"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "200",
+      "category": "concreto",
+      "text": "La scuola ha un cortile grande.",
+      "targets": [
+        {
+          "surface": "scuola",
+          "concepts": [
+            "place.school"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "201",
+      "category": "concreto",
+      "text": "Gioco a palla con l'amico.",
+      "targets": [
+        {
+          "surface": "palla",
+          "concepts": [
+            "object.ball"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "202",
+      "category": "concreto",
+      "text": "La maestra aiuta il bambino.",
+      "targets": [
+        {
+          "surface": "aiuta",
+          "concepts": [
+            "action.help"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "203",
+      "category": "concreto",
+      "text": "Il gatto salta sulla sedia.",
+      "targets": [
+        {
+          "surface": "sedia",
+          "concepts": [
+            "object.chair"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "204",
+      "category": "concreto",
+      "text": "L'uccello canta sul ramo.",
+      "targets": [
+        {
+          "surface": "uccello",
+          "concepts": [
+            "animal.bird"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "205",
+      "category": "concreto",
+      "text": "La neve copre il parco.",
+      "targets": [
+        {
+          "surface": "neve",
+          "no_symbol": true
+        }
+      ]
+    },
+    {
+      "id": "206",
+      "category": "espressioni_composte",
+      "text": "La sintesi vocale legge il testo.",
+      "targets": [
+        {
+          "surface": "sintesi vocale",
+          "concepts": [
+            "device.speech_synthesis"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "207",
+      "category": "espressioni_composte",
+      "text": "Uso un computer portatile.",
+      "targets": [
+        {
+          "surface": "computer portatile",
+          "concepts": [
+            "object.laptop"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "208",
+      "category": "espressioni_composte",
+      "text": "Pago con la carta di credito.",
+      "targets": [
+        {
+          "surface": "carta di credito",
+          "concepts": [
+            "finance.credit_card"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "209",
+      "category": "espressioni_composte",
+      "text": "Non prendere in giro tuo fratello.",
+      "targets": [
+        {
+          "surface": "prendere in giro",
+          "concepts": [
+            "action.tease"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "210",
+      "category": "espressioni_composte",
+      "text": "Ho bisogno di aiuto.",
+      "targets": [
+        {
+          "surface": "ho bisogno di",
+          "concepts": [
+            "action.need"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "211",
+      "category": "espressioni_composte",
+      "text": "Siamo andate da sole.",
+      "targets": [
+        {
+          "surface": "da sole",
+          "concepts": [
+            "state.alone"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "212",
+      "category": "espressioni_composte",
+      "text": "Vado a dormire.",
+      "targets": [
+        {
+          "surface": "vado a dormire",
+          "concepts": [
+            "action.sleep"
+          ]
+        }
+      ]
+    }
   ]
 }

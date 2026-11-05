@@ -19,6 +19,9 @@ Sintesi onesta di ciò che esiste nel codice:
 | Workspace adattivo: Ribbon minimizzabile, pannello a icone/overlay, concentrazione, preset | implementato |
 | Ribbon orizzontale compatto con menu di overflow e scorrimento controllato | implementato |
 | Applicazione immediata dei pittogrammi con ambito occorrenza/documento/globale | implementato |
+| Unità multiparola automatiche (sintesi vocale, computer portatile, …) con un solo pittogramma | implementato |
+| Unione e separazione manuale delle unità CAA, persistenti e annullabili | implementato |
+| Lettura facoltativa di parola e frase durante la digitazione | implementato |
 | Selezione di qualsiasi parola e aggiunta di un pittogramma senza simbolo preesistente | implementato |
 | Pittogramma + testo digitato, senza didascalia duplicata (didascalie opzionali) | implementato |
 | Stili di bordo del pittogramma (nessuno, immagine, immagine+testo, separato, divisore) | implementato |

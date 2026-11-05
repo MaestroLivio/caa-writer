@@ -15,6 +15,11 @@ export type BorderStyle =
 /// Modalità di creazione scelte nella schermata iniziale.
 export type CreationMode = "word" | "grid" | "schedule" | "aba" | "teacch" | "smart" | "free";
 
+export interface ManualRange {
+  start: number;
+  end: number;
+}
+
 export interface SymbolizeOptions {
   intensity: Intensity;
   mode: CaaMode;
@@ -26,6 +31,10 @@ export interface SymbolizeOptions {
   symbolize_articles: boolean;
   symbolize_prepositions: boolean;
   symbolize_conjunctions: boolean;
+  /// Espressioni unite manualmente (offset UTF-16 nel paragrafo).
+  manual_units: ManualRange[];
+  /// Intervalli in cui non unire automaticamente un'espressione.
+  split_ranges: ManualRange[];
 }
 
 /// Modificatori grafici del pittogramma (stile ARASAAC).

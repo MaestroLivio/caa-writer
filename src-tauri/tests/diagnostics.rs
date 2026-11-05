@@ -40,6 +40,8 @@ fn first_start_diagnostics() {
         symbolize_articles: false,
         symbolize_prepositions: false,
         symbolize_conjunctions: false,
+        manual_units: Vec::new(),
+        split_ranges: Vec::new(),
     };
     let result = engine.symbolize("Luca mangia una pesca.", &opts).unwrap();
     for token in &result.tokens {

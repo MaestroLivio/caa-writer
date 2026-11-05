@@ -108,6 +108,8 @@ fn semantic_corpus_accuracy() {
             symbolize_articles: false,
             symbolize_prepositions: false,
             symbolize_conjunctions: false,
+            manual_units: Vec::new(),
+            split_ranges: Vec::new(),
         };
         let result = match engine.symbolize(&sentence.text, &options) {
             Ok(result) => result,

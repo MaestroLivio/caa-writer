@@ -22,6 +22,106 @@ use crate::util::now_iso;
 const CACHE_LIMIT: usize = 96;
 const MAX_ALTERNATIVES: usize = 12;
 
+/// Converte gli intervalli UTF-16 di ProseMirror in offset di caratteri,
+/// che sono le posizioni usate dal tokenizer.
+fn char_ranges(text: &str, ranges: &[ManualRange]) -> Vec<(usize, usize)> {
+    fn to_char(text: &str, utf16: usize) -> usize {
+        let mut units = 0usize;
+        let mut chars = 0usize;
+        for c in text.chars() {
+            if units >= utf16 {
+                break;
+            }
+            units += c.len_utf16();
+            chars += 1;
+        }
+        chars
+    }
+    ranges
+        .iter()
+        .map(|range| {
+            let start = to_char(text, range.start);
+            let end = to_char(text, range.end);
+            (start.min(end), start.max(end))
+        })
+        .filter(|(start, end)| start < end)
+        .collect()
+}
+
+/// Unisce le unità comprese negli intervalli scelti dall'utente. Il testo
+/// originale non cambia: la superficie dell'unità è lo stesso intervallo.
+fn apply_manual_units(
+    lexicon: &Lexicon,
+    text: &str,
+    ranges: &[(usize, usize)],
+    tokens: &mut [TokenAnalysis],
+) {
+    if ranges.is_empty() {
+        return;
+    }
+    let chars: Vec<char> = text.chars().collect();
+    let mut sorted = ranges.to_vec();
+    sorted.sort_by_key(|(start, _)| *start);
+    for (start, end) in sorted {
+        if end > chars.len() {
+            continue;
+        }
+        let indices: Vec<usize> = tokens
+            .iter()
+            .enumerate()
+            .filter(|(_, token)| {
+                token.is_word()
+                    && token.span > 0
+                    && token.start >= start
+                    && token.end <= end
+            })
+            .map(|(index, _)| index)
+            .collect();
+        if indices.len() < 2 {
+            continue;
+        }
+        let first = indices[0];
+        let last = *indices.last().unwrap();
+        // L'unità copre parole intere, anche se la selezione era parziale.
+        let unit_start = tokens[first].start;
+        let unit_end = tokens[last].end;
+        let surface = chars[unit_start..unit_end]
+            .iter()
+            .collect::<String>()
+            .trim()
+            .to_string();
+        let normalized = crate::linguistics::normalize::normalize_word(&surface);
+        let mut merged = tokens[first].clone();
+        merged.surface = surface;
+        merged.start = unit_start;
+        merged.end = unit_end;
+        merged.span = indices.len();
+        merged.key = true;
+        merged.pos = "mwe".to_string();
+        merged.is_function = false;
+        merged.is_punct = false;
+        merged.negated = false;
+        merged.normalized = normalized.clone();
+        merged.lemma = Some(normalized.clone());
+        merged.concepts = lexicon
+            .mwe
+            .get(&normalized)
+            .cloned()
+            .into_iter()
+            .collect();
+        merged.mwe_concept = merged.concepts.first().cloned();
+        tokens[first] = merged;
+        for index in indices.iter().skip(1) {
+            let token = &mut tokens[*index];
+            token.span = 0;
+            token.is_punct = true;
+            token.key = false;
+            token.concepts.clear();
+            token.mwe_concept = None;
+        }
+    }
+}
+
 /// Vero se l'etichetta corrisponde alla parola cercata: identica, oppure la
 /// contiene come parola intera («lavarsi le mani» per «mani»). Le etichette
 /// ARASAAC sono spesso frasi: la ricerca manuale le trovava, la simbolizzazione
@@ -212,14 +312,22 @@ impl Engine {
 
     fn cache_key(opts: &SymbolizeOptions, text: &str) -> String {
         format!(
-            "{}\u{1}{:?}\u{1}{:?}\u{1}{}\u{1}{}\u{1}{:?}\u{1}{}",
+            "{}\u{1}{:?}\u{1}{:?}\u{1}{}\u{1}{}\u{1}{:?}\u{1}{}\u{1}{:?}\u{1}{:?}",
             opts.paragraph_id,
             opts.intensity,
             opts.mode,
             opts.document_key,
             opts.commercial_only,
             opts.pack_id,
-            text
+            text,
+            opts.manual_units
+                .iter()
+                .map(|range| (range.start, range.end))
+                .collect::<Vec<_>>(),
+            opts.split_ranges
+                .iter()
+                .map(|range| (range.start, range.end))
+                .collect::<Vec<_>>()
         )
     }
 
@@ -250,7 +358,12 @@ impl Engine {
             }
         }
 
-        let analysis = Analyzer::new(&self.lexicon).analyze(text);
+        let split_ranges = char_ranges(text, &opts.split_ranges);
+        let manual_ranges = char_ranges(text, &opts.manual_units);
+        let mut analysis = Analyzer::with_skips(&self.lexicon, split_ranges).analyze(text);
+        for sentence in &mut analysis.sentences {
+            apply_manual_units(&self.lexicon, text, &manual_ranges, &mut sentence.tokens);
+        }
         let db = self.db.lock().map_err(|_| "database non disponibile".to_string())?;
         let filters = self.filters(opts);
         let mut svg_cache = self
@@ -2850,6 +2963,113 @@ mod tests {
                 .map(|candidate| candidate.symbol.label.as_str())
                 .collect::<Vec<_>>()
         );
+    }
+
+    #[test]
+    fn multiword_expressions_are_single_units_with_one_pictogram() {
+        let engine = test_engine();
+        let opts = SymbolizeOptions {
+            paragraph_id: "p1".to_string(),
+            ..Default::default()
+        };
+
+        // (testo, espressione attesa, concetto atteso, simbolo atteso)
+        // Il concetto effettivo può diventare il concetto più generale quando
+        // il repertorio non ha un pittogramma dedicato: «scuola primaria» usa
+        // il simbolo di «scuola». «non so» resta senza pittogramma dedicato.
+        let cases = [
+            ("La sintesi vocale legge il testo.", "sintesi vocale", Some("device.speech_synthesis"), true),
+            ("Uso un computer portatile.", "computer portatile", Some("object.laptop"), true),
+            ("Uso il telefono cellulare.", "telefono cellulare", Some("device.mobile_phone"), true),
+            ("Pago con la carta di credito.", "carta di credito", Some("finance.credit_card"), true),
+            ("I mezzi di trasporto sono fermi.", "mezzi di trasporto", Some("vehicle.transport"), true),
+            ("La sala da pranzo è grande.", "sala da pranzo", Some("place.dining_room"), true),
+            ("Ho una macchina fotografica.", "macchina fotografica", Some("object.camera"), true),
+            ("Vado alla scuola primaria.", "scuola primaria", None, true),
+            ("Faccio colazione alle otto.", "faccio colazione", Some("food.breakfast"), true),
+            ("Mi dai una mano?", "dai una mano", Some("action.help"), true),
+            ("Vado a dormire.", "vado a dormire", Some("action.sleep"), true),
+            ("Siamo andate da sole.", "da sole", Some("state.alone"), true),
+            ("Non so cosa fare.", "non so", None, false),
+            ("Sono in grado di leggere.", "sono in grado di", Some("ability.can"), true),
+            ("Ho bisogno di aiuto.", "ho bisogno di", Some("action.need"), true),
+            ("Non prendere in giro nessuno.", "prendere in giro", Some("action.tease"), true),
+        ];
+
+        for (text, surface, concept, has_symbol) in cases {
+            let result = engine.symbolize(text, &opts).unwrap();
+            let token = result
+                .tokens
+                .iter()
+                .find(|token| token.surface.eq_ignore_ascii_case(surface))
+                .unwrap_or_else(|| panic!("unità «{surface}» non trovata in «{text}»"));
+            assert_eq!(token.span, surface.split_whitespace().count(), "span di «{surface}»");
+            if let Some(concept) = concept {
+                assert_eq!(token.concept_id.as_deref(), Some(concept), "concetto di «{surface}»");
+            }
+            assert_eq!(token.caption, token.surface, "didascalia di «{surface}»");
+            assert_eq!(token.symbol_id.is_some(), has_symbol, "pittogramma di «{surface}»");
+            assert!(
+                result
+                    .tokens
+                    .iter()
+                    .filter(|other| other.span > 1 && other.surface == token.surface)
+                    .count()
+                    == 1,
+                "unità duplicata per «{surface}»"
+            );
+        }
+    }
+
+    #[test]
+    fn manual_units_merge_and_split_ranges_separate() {
+        let engine = test_engine();
+        let text = "Uso il computer portatile.";
+
+        // Unione manuale di un'espressione che il lessico non conosce.
+        let start = text.find("computer portatile").unwrap();
+        let end = start + "computer portatile".len();
+        let merged = engine
+            .symbolize(
+                text,
+                &SymbolizeOptions {
+                    paragraph_id: "p1".to_string(),
+                    manual_units: vec![ManualRange { start, end }],
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let unit = merged
+            .tokens
+            .iter()
+            .find(|token| token.surface == "computer portatile")
+            .expect("unità unita a mano");
+        assert_eq!(unit.span, 2);
+        assert_eq!(unit.caption, "computer portatile");
+
+        // Separazione manuale della stessa espressione automatica.
+        let split = engine
+            .symbolize(
+                "La sintesi vocale legge il testo.",
+                &SymbolizeOptions {
+                    paragraph_id: "p2".to_string(),
+                    split_ranges: vec![ManualRange {
+                        start: "La ".len(),
+                        end: "La sintesi vocale".len(),
+                    }],
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        assert!(
+            split
+                .tokens
+                .iter()
+                .all(|token| token.surface != "sintesi vocale"),
+            "l'unità separata non deve restare fusa"
+        );
+        assert!(split.tokens.iter().any(|token| token.surface == "sintesi"));
+        assert!(split.tokens.iter().any(|token| token.surface == "vocale"));
     }
 
     #[test]

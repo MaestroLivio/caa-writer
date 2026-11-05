@@ -18,7 +18,19 @@ export default defineConfig({
     // Le icone sono molte: separarle evita un unico chunk oltre i 500 kB.
     rollupOptions: {
       output: {
-        manualChunks: { icons: ["lucide"] },
+        manualChunks: {
+          icons: ["lucide"],
+          prosemirror: [
+            "prosemirror-state",
+            "prosemirror-view",
+            "prosemirror-model",
+            "prosemirror-schema-list",
+            "prosemirror-tables",
+            "prosemirror-history",
+            "prosemirror-keymap",
+            "prosemirror-commands",
+          ],
+        },
       },
     },
   },

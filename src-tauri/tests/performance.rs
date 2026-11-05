@@ -35,6 +35,8 @@ fn options(id: &str) -> SymbolizeOptions {
         symbolize_articles: false,
         symbolize_prepositions: false,
         symbolize_conjunctions: false,
+        manual_units: Vec::new(),
+        split_ranges: Vec::new(),
     }
 }
 

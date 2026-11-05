@@ -31,6 +31,7 @@
   } from "prosemirror-schema-list";
   import { schema } from "./schema";
   import { tokenForSelection } from "./selection";
+  import { completedSentenceBefore, lastSentence } from "./sentence";
   import type { FormattingState } from "./formatting";
   import { api, demoAnalyze, isTauri } from "../api";
   import type { CaaMode, CaaToken, Intensity } from "../types";
@@ -106,8 +107,16 @@
   const newPid = (): string =>
     `p${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
 
-  function signatureFor(text: string): string {
-    return `${text}\u0001${mode}\u0001${intensity}\u0001${commercialOnly}\u0001${packId ?? ""}\u0001${documentKey}\u0001${symbolizeArticles}\u0001${symbolizePrepositions}\u0001${symbolizeConjunctions}`;
+  interface ParagraphInfo {
+    pid: string;
+    text: string;
+    style: string;
+    merges: { start: number; end: number }[];
+    splits: { start: number; end: number }[];
+  }
+
+  function signatureFor(paragraph: ParagraphInfo): string {
+    return `${paragraph.text}\u0001${mode}\u0001${intensity}\u0001${commercialOnly}\u0001${packId ?? ""}\u0001${documentKey}\u0001${symbolizeArticles}\u0001${symbolizePrepositions}\u0001${symbolizeConjunctions}\u0001${JSON.stringify(paragraph.merges)}\u0001${JSON.stringify(paragraph.splits)}`;
   }
 
   function modifierList(token: CaaToken): string[] {
@@ -380,6 +389,9 @@
   // Si sincronizza solo dopo un gesto dell'utente (mouseup o frecce), mai a
   // ogni tasto: altrimenti il pannello cambierebbe durante la digitazione.
   let lastTextSelectionKey = "";
+  // Ultimo intervallo selezionato (offset nel blocco): serve ai comandi
+  // «Unisci» anche dopo che il focus è passato al Ribbon.
+  let lastBlockRange: { pid: string; from: number; to: number } | null = null;
   // Solo il pittogramma appena applicato riceve l'animazione di comparsa:
   // la digitazione normale non deve animare ogni chip.
   let appliedKey = "";
@@ -453,6 +465,7 @@
     if (!pid) return;
     const start = resolved.start(depth);
     const end = Math.min(to, resolved.end(depth));
+    lastBlockRange = { pid, from: from - start, to: end - start };
     const tokens = (tokensByPid.get(pid) ?? []).filter(
       (token) => !token.is_punct && token.span > 0
     );
@@ -515,32 +528,47 @@
     ]);
   }
 
-  function collectParagraphs(): { pid: string; text: string; style: string }[] {
+  function asRanges(value: unknown): { start: number; end: number }[] {
+    if (!Array.isArray(value)) return [];
+    return value
+      .filter((item) => item && typeof item === "object")
+      .map((item) => ({
+        start: Number((item as { start?: unknown }).start ?? 0),
+        end: Number((item as { end?: unknown }).end ?? 0),
+      }))
+      .filter((range) => range.start < range.end);
+  }
+
+  function collectParagraphs(): ParagraphInfo[] {
     if (!view) return [];
-    const out: { pid: string; text: string; style: string }[] = [];
+    const out: ParagraphInfo[] = [];
     view.state.doc.descendants((node) => {
       if (node.type.name === "paragraph" || node.type.name === "heading") {
         out.push({
           pid: String(node.attrs.pid ?? "detached"),
           text: node.textContent,
           style: node.type.name === "heading" ? "heading" : "paragraph",
+          merges: asRanges(node.attrs.caa_merges),
+          splits: asRanges(node.attrs.caa_splits),
         });
       }
     });
     return out;
   }
 
-  function options(pid: string) {
+  function options(paragraph: ParagraphInfo) {
     return {
       intensity,
       mode,
       document_key: documentKey,
       commercial_only: commercialOnly,
       pack_id: packId,
-      paragraph_id: pid,
+      paragraph_id: paragraph.pid,
       symbolize_articles: symbolizeArticles,
       symbolize_prepositions: symbolizePrepositions,
       symbolize_conjunctions: symbolizeConjunctions,
+      manual_units: paragraph.merges,
+      split_ranges: paragraph.splits,
     };
   }
 
@@ -569,12 +597,12 @@
           tokensByPid.set(paragraph.pid, []);
           continue;
         }
-        const signature = signatureFor(paragraph.text);
+        const signature = signatureFor(paragraph);
         if (analyzedSignature.get(paragraph.pid) === signature) continue;
         budget -= 1;
         try {
           const result = isTauri()
-            ? await api.symbolizeParagraph(paragraph.text, options(paragraph.pid))
+            ? await api.symbolizeParagraph(paragraph.text, options(paragraph))
             : demoAnalyze(paragraph.text, paragraph.pid);
           analyzedSignature.set(paragraph.pid, signature);
           tokensByPid.set(paragraph.pid, result.tokens);
@@ -624,13 +652,13 @@
       // Basta un testo con almeno tre parole: aspettare il punto finale
       // significava non vedere mai la correzione contestuale mentre si scrive.
       if (!text || text.split(/\s+/).filter(Boolean).length < 3) continue;
-      const signature = signatureFor(paragraph.text);
+      const signature = signatureFor(paragraph);
       if (refinedSignature.get(paragraph.pid) === signature) continue;
       try {
-        const result = await api.refineParagraph(paragraph.text, options(paragraph.pid));
+        const result = await api.refineParagraph(paragraph.text, options(paragraph));
         if (seq !== refineSeq) return;
         const current = collectParagraphs().find((item) => item.pid === paragraph.pid);
-        if (!current || signatureFor(current.text) !== signature) continue;
+        if (!current || signatureFor(current) !== signature) continue;
         refinedSignature.set(paragraph.pid, signature);
         tokensByPid.set(paragraph.pid, result.tokens);
         refreshStrips();
@@ -955,6 +983,124 @@
     schedule(0);
   }
 
+  function blockForPid(pid: string): { pos: number; node: PMNode } | null {
+    if (!view) return null;
+    let found: { pos: number; node: PMNode } | null = null;
+    view.state.doc.descendants((node, pos) => {
+      if (
+        !found &&
+        (node.type.name === "paragraph" || node.type.name === "heading") &&
+        String(node.attrs.pid ?? "") === pid
+      ) {
+        found = { pos, node };
+        return false;
+      }
+    });
+    return found;
+  }
+
+  function mergeRange(
+    list: { start: number; end: number }[],
+    range: { start: number; end: number }
+  ): { start: number; end: number }[] {
+    const sorted = [...list, range].sort((a, b) => a.start - b.start);
+    const out: { start: number; end: number }[] = [];
+    for (const item of sorted) {
+      const last = out[out.length - 1];
+      if (last && item.start <= last.end + 1) {
+        last.end = Math.max(last.end, item.end);
+      } else {
+        out.push({ ...item });
+      }
+    }
+    return out;
+  }
+
+  function overlaps(
+    a: { start: number; end: number },
+    b: { start: number; end: number }
+  ): boolean {
+    return a.start < b.end && a.end > b.start;
+  }
+
+  function setBlockRanges(
+    pid: string,
+    merges: { start: number; end: number }[],
+    splits: { start: number; end: number }[]
+  ): boolean {
+    const block = blockForPid(pid);
+    if (!view || !block) return false;
+    const tr = view.state.tr.setNodeMarkup(block.pos, null, {
+      ...block.node.attrs,
+      caa_merges: merges,
+      caa_splits: splits,
+    });
+    view.dispatch(tr);
+    analyzedSignature.delete(pid);
+    refinedSignature.delete(pid);
+    schedule(0);
+    return true;
+  }
+
+  /// Unisce in una sola unità CAA le parole della selezione corrente (o
+  /// dell'ultima selezione non vuota). L'operazione è una transazione
+  /// ProseMirror: entra nella cronologia e viene salvata nel documento.
+  export function mergeSelection(): boolean {
+    if (!view) return false;
+    const selection = view.state.selection;
+    let from = selection.from;
+    let to = selection.to;
+    const resolved = view.state.doc.resolve(from);
+    let depth = resolved.depth;
+    while (
+      depth > 0 &&
+      resolved.node(depth).type.name !== "paragraph" &&
+      resolved.node(depth).type.name !== "heading"
+    ) {
+      depth -= 1;
+    }
+    if (depth === 0) return false;
+    const block = resolved.node(depth);
+    const pid = String(block.attrs.pid ?? "");
+    if (!pid) return false;
+    const start = resolved.start(depth);
+    let relFrom = from - start;
+    let relTo = Math.min(to, resolved.end(depth)) - start;
+    if (relFrom === relTo && lastBlockRange?.pid === pid) {
+      relFrom = lastBlockRange.from;
+      relTo = lastBlockRange.to;
+    }
+    if (relTo <= relFrom) return false;
+
+    const tokens = (tokensByPid.get(pid) ?? []).filter(
+      (token) => !token.is_punct && token.span > 0
+    );
+    const covered = tokens.filter((token) => token.end > relFrom && token.start < relTo);
+    if (covered.length < 2) return false;
+    const range = {
+      start: Math.min(...covered.map((token) => token.start)),
+      end: Math.max(...covered.map((token) => token.end)),
+    };
+    const paragraph = collectParagraphs().find((item) => item.pid === pid);
+    if (!paragraph) return false;
+    const merges = mergeRange(paragraph.merges, range);
+    const splits = paragraph.splits.filter((item) => !overlaps(item, range));
+    return setBlockRanges(pid, merges, splits);
+  }
+
+  /// Separa l'unità indicata: le parole tornano unità distinte e il motore
+  /// non le rifonde automaticamente in questa occorrenza.
+  export function splitUnit(pid: string, index: number): boolean {
+    const token = (tokensByPid.get(pid) ?? []).find((item) => item.index === index);
+    if (!token || token.span < 2) return false;
+    const range = { start: token.start, end: token.end };
+    const paragraph = collectParagraphs().find((item) => item.pid === pid);
+    if (!paragraph) return false;
+    const merges = paragraph.merges.filter((item) => !overlaps(item, range));
+    const splits = mergeRange(paragraph.splits, range);
+    return setBlockRanges(pid, merges, splits);
+  }
+
   export function focus() {
     view?.focus();
   }
@@ -1017,16 +1163,27 @@
     return view.state.doc.textBetween(start, from, " ");
   }
 
+  export function currentBlockText(): string {
+    if (!view) return "";
+    return view.state.selection.$from.parent.textContent;
+  }
+
   export function wordBeforeCursor(): string {
     const text = textBeforeCursor();
     const match = text.match(/[\p{L}\p{N}][\p{L}\p{N}'’\-]*\s*$/u);
     return match ? match[0].trim() : "";
   }
 
+  /// Ultima frase già chiusa da punteggiatura prima del cursore. Da chiamare
+  /// dopo che il carattere è stato inserito nel documento.
   export function sentenceBeforeCursor(): string {
-    const text = textBeforeCursor();
-    const match = text.match(/[^.!?:;\n]*[.!?:;\n]\s*$/u);
-    return match ? match[0].trim() : "";
+    return completedSentenceBefore(textBeforeCursor());
+  }
+
+  /// Ultima frase del blocco corrente, utile su Invio prima che la divisione
+  /// del paragrafo cambi il contenuto.
+  export function currentSentenceText(): string {
+    return lastSentence(currentBlockText());
   }
 
   export function deleteSelection() {

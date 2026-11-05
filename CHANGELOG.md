@@ -4,6 +4,79 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.5.1 — 2026-11-05
+
+### Lettura automatica delle frasi
+
+- La frase veniva cercata durante `keydown`, quando il segno di
+  punteggiatura non era ancora nel documento: il testo risultava incompleto e
+  veniva scartato. Ora la lettura avviene subito dopo l'inserimento di
+  `. ! ? : ;` e usa l'ultima frase chiusa prima del cursore.
+- Su Invio si legge l'ultima frase del blocco corrente prima che ProseMirror
+  lo divida; non vengono ripetute le frasi precedenti dello stesso paragrafo.
+- L'ascolto degli eventi di digitazione è in fase di cattura, così Invio non
+  va perso se ProseMirror lo gestisce.
+- Se una frase viene chiusa con un segno e subito dopo si preme Invio, non
+  viene letta due volte; due frasi uguali digitate di seguito restano due
+  letture distinte.
+- Estrattori in `src/lib/editor/sentence.ts` con 7 test dedicati
+  (`tests/frontend/sentence.test.mjs`).
+
+### Verifica
+
+- Build 0 errori/0 avvisi; 23 test frontend passati.
+- Nella finestra Tauri di sviluppo, con «Leggi la frase completata» attivo e
+  la pronuncia delle singole parole disattivata, digitando «La sintesi vocale
+  legge il testo.» il processo `say` è partito subito dopo il punto ed è
+  rimasto attivo per circa 5 secondi.
+- La lettura su Invio è coperta dai test di estrazione della frase; la
+  pressione sintetica di Invio nel WebView non è risultata affidabile, quindi
+  non è dichiarata come prova manuale riuscita.
+
+### Unità semantiche multiparola
+
+- Nuovi concetti e espressioni: computer portatile, sintesi vocale, telefono
+  cellulare, carta di credito, mezzi di trasporto, sala da pranzo, macchina
+  fotografica, scuola primaria, fare colazione, dare una mano, andare a
+  dormire, da sole, non so, essere in grado di, avere bisogno di, prendere in
+  giro. Ogni espressione è una sola unità CAA con un solo pittogramma e la
+  didascalia è il testo scritto.
+- «Computer portatile» usa un nuovo pittogramma originale del pacchetto core
+  (`object.laptop`): ARASAAC non ha un simbolo laptop e «portatile» non viene
+  più interpretato come telefono.
+- I concetti con un simbolo ARASAAC esatto sono legati al pittogramma giusto
+  (sintesi vocale, cellulare, carta di credito, mezzi di trasporto, sala da
+  pranzo, macchina fotografica, far colazione, prendere in giro, bisogno,
+  potere, stare da solo). «Scuola primaria» usa il concetto generale «scuola»
+  con la nota dichiarata, perché il simbolo specifico non esiste.
+- «Fare colazione» non mostra più il pittogramma di «pranzo»: il concetto è
+  `food.breakfast`.
+- Comandi **Unisci in un'unica unità CAA** e **Separa unità CAA** nel gruppo
+  Gestione della scheda Pittogrammi. Unione e separazione sono transazioni
+  ProseMirror: entrano in undo/redo, vengono salvate nel `.caadoc` e
+  sopravvivono alla riapertura. La separazione manuale impedisce al motore di
+  rifondere automaticamente quella singola occorrenza.
+
+### Altre correzioni
+
+- Apertura di un documento dalla schermata iniziale o dai recenti: il
+  contenuto veniva impostato prima che l'editor fosse montato e il documento
+  appariva vuoto. Ora si passa alla vista documento e si attende il mount.
+- Dopo un'unione, una separazione o un annullamento il pannello si
+  risincronizza sull'unità reale invece di mostrare una copia vecchia.
+- Build: ProseMirror separato in un chunk dedicato (nessun avviso di dimensione).
+
+### Test
+
+- 154 test Rust, 23 frontend.
+- Corpus semantico esteso a 212 frasi: prima scelta 98,11% (208/212),
+  0 approssimazioni fuorvianti, 20/20 assenze rilevate; restano i 4 casi noti
+  su «porta», «monopattino» e «succo».
+- Verifica Tauri: «La sintesi vocale legge il testo. Uso un computer
+  portatile.» mostra un solo pittogramma per espressione; separazione manuale
+  di «sintesi vocale», unione di più parole, undo; salvataggio e riapertura
+  conservano la separazione e l'unità laptop.
+
 ## 0.5.0 — 2026-11-05
 
 ### Ribbon orizzontale

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { get } from "svelte/store";
   import { language } from "./lib/i18n";
   import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
@@ -383,11 +383,32 @@
       if (!target?.closest(".ProseMirror")) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
       if (!native) return;
-      if (event.key === "Enter" || event.key === " " || [".", "!", ":", ";"].includes(event.key)) {
-        if (settings.speak_sentences && ["Enter", ".", "!", ":", ";"].includes(event.key)) {
-          const sentence = editor?.sentenceBeforeCursor();
-          if (sentence) void speak(sentence);
-        } else if (settings.speak_words && ["Enter", " "].includes(event.key)) {
+      const sentenceTrigger = ["Enter", ".", "!", "?", ":", ";"].includes(event.key);
+      const wordTrigger = ["Enter", " "].includes(event.key);
+
+      if (settings.speak_sentences && sentenceTrigger) {
+        if (event.key === "Enter") {
+          // Invio può dividere il paragrafo: si legge l'ultima frase del
+          // blocco corrente prima che la transazione lo spezzi, senza
+          // ripetere le frasi precedenti già lette.
+          const sentence = editor?.currentSentenceText() ?? "";
+          speakSentence(sentence, "enter");
+        } else {
+          // Il segno di punteggiatura non è ancora nel documento durante
+          // keydown: si legge dopo l'inserimento, altrimenti la frase
+          // risulterebbe incompleta e verrebbe scartata.
+          window.setTimeout(() => {
+            speakSentence(editor?.sentenceBeforeCursor() ?? "", "punct");
+          }, 0);
+        }
+        return;
+      }
+      if (settings.speak_words && wordTrigger) {
+        if (event.key === "Enter") {
+          const text = editor?.currentBlockText() ?? "";
+          const match = text.match(/[\p{L}\p{N}][\p{L}\p{N}'’\-]*\s*$/u);
+          if (match) void speak(match[0].trim());
+        } else {
           const word = editor?.wordBeforeCursor();
           if (word) void speak(word);
         }
@@ -400,12 +421,12 @@
     };
     const onResize = () => (windowWidth = window.innerWidth);
     window.addEventListener("keydown", onKey, true);
-    window.addEventListener("keydown", onTypingKey);
+    window.addEventListener("keydown", onTypingKey, true);
     window.addEventListener("click", onClick, true);
     window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("keydown", onKey, true);
-      window.removeEventListener("keydown", onTypingKey);
+      window.removeEventListener("keydown", onTypingKey, true);
       window.removeEventListener("click", onClick, true);
       window.removeEventListener("resize", onResize);
     };
@@ -588,10 +609,14 @@
       if (loaded.settings && typeof loaded.settings === "object") {
         settings = { ...defaultSettings, ...(loaded.settings as Partial<DocumentSettings>) };
       }
+      // L'editor può non essere ancora montato (apertura dalla schermata
+      // iniziale): prima si passa alla vista documento, poi si inserisce il
+      // contenuto, altrimenti il documento apparirebbe vuoto.
+      selected = null;
+      view = "editor";
+      await tick();
       editor?.setDocJson(loaded.content, loaded.plain_text);
       dirty = false;
-      view = "editor";
-      selected = null;
       resourceLayout = null;
       layoutHistory = [];
       layoutRedo = [];
@@ -643,6 +668,15 @@
   function onAnalyzed(map: Map<string, CaaToken[]>) {
     tokensByParagraph = map;
     dirty = true;
+    // Dopo un'unione, una separazione o un annullamento l'indice può puntare a
+    // un'unità cambiata: il pannello deve mostrare lo stato reale, non una
+    // copia vecchia del token.
+    if (selected) {
+      const token = map
+        .get(selected.pid)
+        ?.find((item) => item.index === selected!.token.index);
+      selected = token ? { pid: selected.pid, token } : null;
+    }
   }
 
   function collectTokens(): CaaToken[] {
@@ -782,6 +816,33 @@
     window.addEventListener("afterprint", afterPrint);
     return () => window.removeEventListener("afterprint", afterPrint);
   });
+
+  // Punto e Invio possono chiudere la stessa frase: si evita di leggerla
+  // due volte di seguito, ma una frase diversa viene sempre letta.
+  let lastSpokenSentence = "";
+  let lastSpokenAt = 0;
+  let lastSentenceTrigger: "punct" | "enter" | null = null;
+
+  function speakSentence(text: string, trigger: "punct" | "enter") {
+    const sentence = text.trim();
+    if (!sentence) return;
+    const now = Date.now();
+    // Solo la coppia «punto seguito subito da Invio» è una ripetizione:
+    // due frasi uguali digitate di seguito vengono lette entrambe.
+    if (
+      trigger === "enter" &&
+      lastSentenceTrigger === "punct" &&
+      sentence === lastSpokenSentence &&
+      now - lastSpokenAt < 3000
+    ) {
+      lastSentenceTrigger = "enter";
+      return;
+    }
+    lastSpokenSentence = sentence;
+    lastSpokenAt = now;
+    lastSentenceTrigger = trigger;
+    void speak(sentence);
+  }
 
   async function speak(text: string) {
     if (!text.trim()) {
@@ -2173,6 +2234,25 @@
             cmd("change-symbol", "Cambia pittogramma", "image-plus", () => openSearchForSelected(), {
               enabled: hasToken,
               ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("merge-unit", "Unisci in un'unica unità CAA", "combine", () => {
+              if (editor?.mergeSelection()) {
+                toast("Parole unite in una sola unità CAA.", "info");
+                syncSelectedSoon();
+              } else {
+                toast("Seleziona almeno due parole consecutive nello stesso paragrafo.", "warn");
+              }
+            }),
+            cmd("split-unit", "Separa unità CAA", "split", () => {
+              if (selected && editor?.splitUnit(selected.pid, selected.token.index)) {
+                toast("Unità separata: ogni parola ha di nuovo il suo pittogramma.", "info");
+                syncSelectedSoon();
+              } else {
+                toast("Seleziona un'espressione composta da separare.", "warn");
+              }
+            }, {
+              enabled: Boolean(selected && selected.token.span > 1),
+              ...unavailable("Seleziona un'espressione composta."),
             }),
             cmd("lock", "Blocca", "lock", () => void setUnitState({ locked: true }), {
               enabled: hasToken,

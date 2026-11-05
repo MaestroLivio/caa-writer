@@ -56,11 +56,21 @@ pub struct Analysis {
 
 pub struct Analyzer<'a> {
     lexicon: &'a Lexicon,
+    /// Intervalli (caratteri) in cui non fondere le espressioni automatiche:
+    /// l'utente ha separato manualmente quell'occorrenza.
+    skip_mwe: Vec<(usize, usize)>,
 }
 
 impl<'a> Analyzer<'a> {
     pub fn new(lexicon: &'a Lexicon) -> Self {
-        Self { lexicon }
+        Self {
+            lexicon,
+            skip_mwe: Vec::new(),
+        }
+    }
+
+    pub fn with_skips(lexicon: &'a Lexicon, skip_mwe: Vec<(usize, usize)>) -> Self {
+        Self { lexicon, skip_mwe }
     }
 
     pub fn analyze(&self, text: &str) -> Analysis {
@@ -204,6 +214,15 @@ impl<'a> Analyzer<'a> {
                     .collect::<Vec<_>>()
                     .join(" ");
                 if let Some(concept) = self.lexicon.mwe.get(&phrase) {
+                    let span_start = tokens[words[i].0].start;
+                    let span_end = tokens[words[i + len - 1].0].end;
+                    let skipped = self
+                        .skip_mwe
+                        .iter()
+                        .any(|(start, end)| span_start < *end && span_end > *start);
+                    if skipped {
+                        continue;
+                    }
                     best = Some((len, concept.clone()));
                     break;
                 }

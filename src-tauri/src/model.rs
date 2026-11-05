@@ -63,6 +63,14 @@ impl UnitModifiers {
     }
 }
 
+/// Intervallo scelto manualmente nel paragrafo. Gli offset sono in unità
+/// UTF-16 (le posizioni di ProseMirror); il motore li converte in caratteri.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ManualRange {
+    pub start: usize,
+    pub end: usize,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SymbolizeOptions {
     #[serde(default)]
@@ -87,6 +95,12 @@ pub struct SymbolizeOptions {
     pub symbolize_prepositions: bool,
     #[serde(default = "default_true")]
     pub symbolize_conjunctions: bool,
+    /// Espressioni unite manualmente dall'utente: una sola unità CAA.
+    #[serde(default)]
+    pub manual_units: Vec<ManualRange>,
+    /// Intervalli in cui l'utente ha separato un'espressione automatica.
+    #[serde(default)]
+    pub split_ranges: Vec<ManualRange>,
 }
 
 impl Default for SymbolizeOptions {
@@ -101,6 +115,8 @@ impl Default for SymbolizeOptions {
             symbolize_articles: false,
             symbolize_prepositions: false,
             symbolize_conjunctions: false,
+            manual_units: Vec::new(),
+            split_ranges: Vec::new(),
         }
     }
 }

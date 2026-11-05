@@ -412,6 +412,18 @@ pub fn seed_core_pack(db: &mut Database, dictionary: &Path, pack_dir: &Path) -> 
         )?;
     }
 
+    // Legami concetto → pittogramma di repertorio dichiarati nel lessico.
+    // Il manifest ARASAAC non è versionato: senza questo passaggio i concetti
+    // con un simbolo esterno dipenderebbero da modifiche locali al pacchetto.
+    for concept in &lexicon.concepts {
+        if let Some(symbol_id) = &concept.symbol_ref {
+            tx.execute(
+                "UPDATE symbols SET concept_id = ?1 WHERE id = ?2",
+                params![concept.id, symbol_id],
+            )?;
+        }
+    }
+
     tx.execute(
         "INSERT INTO settings(key, value) VALUES ('seed.lexicon_version', ?1)
          ON CONFLICT(key) DO UPDATE SET value = excluded.value",

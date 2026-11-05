@@ -43,6 +43,9 @@ export const schema = new Schema({
         space_after: { default: null },
         border: { default: false },
         page_break: { default: false },
+        // Intervalli (offset UTF-16 nel paragrafo) uniti o separati a mano.
+        caa_merges: { default: [] },
+        caa_splits: { default: [] },
       },
       parseDOM: [
         {
@@ -87,6 +90,8 @@ export const schema = new Schema({
         space_after: { default: null },
         border: { default: false },
         page_break: { default: false },
+        caa_merges: { default: [] },
+        caa_splits: { default: [] },
       },
       parseDOM: [
         {

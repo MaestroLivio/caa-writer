@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 5,
   "language": "it",
   "description": "Lessico italiano per CAA Writer. Un concetto = un significato; un lemma può avere più concetti. Le 'cues' guidano la disambiguazione deterministica (Livello 3) e servono da contesto per il reranking LLM opzionale.",
   "domains": {
@@ -2011,7 +2011,8 @@
           "cielo",
           "giorno"
         ]
-      }
+      },
+      "symbol_ref": "arasaac.picto.27541"
     },
     {
       "id": "action.understand",
@@ -2060,6 +2061,293 @@
         ],
         "avoid": []
       }
+    },
+    {
+      "id": "object.laptop",
+      "label": "computer portatile",
+      "meaning": "computer trasportabile con schermo e tastiera",
+      "category": "oggetti",
+      "broader": "place.part",
+      "pos": "noun",
+      "symbol": "svg/object.laptop.svg",
+      "cues": {
+        "prefer": [
+          "computer",
+          "portatile",
+          "laptop",
+          "notebook",
+          "schermo",
+          "tastiera",
+          "lavoro",
+          "scrivere"
+        ],
+        "avoid": [
+          "telefono",
+          "cellulare",
+          "chiamare",
+          "scala"
+        ]
+      }
+    },
+    {
+      "id": "device.speech_synthesis",
+      "label": "sintesi vocale",
+      "meaning": "voce artificiale che legge il testo scritto",
+      "category": "tecnologia",
+      "broader": null,
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "voce",
+          "legge",
+          "lettura",
+          "ascoltare",
+          "parlare",
+          "computer",
+          "assistente"
+        ],
+        "avoid": [
+          "scrivere",
+          "silenzio"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.11685"
+    },
+    {
+      "id": "device.mobile_phone",
+      "label": "telefono cellulare",
+      "meaning": "telefono portatile per chiamare e scrivere",
+      "category": "tecnologia",
+      "broader": "object.phone",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "telefono",
+          "cellulare",
+          "chiamare",
+          "squillo",
+          "numero",
+          "portatile"
+        ],
+        "avoid": [
+          "computer",
+          "tastiera",
+          "scala"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.25269"
+    },
+    {
+      "id": "finance.credit_card",
+      "label": "carta di credito",
+      "meaning": "carta per pagare senza contanti",
+      "category": "oggetti",
+      "broader": "object.money",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "pagare",
+          "carta",
+          "credito",
+          "banca",
+          "soldi",
+          "negozio"
+        ],
+        "avoid": [
+          "scrivere",
+          "leggere"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.4751"
+    },
+    {
+      "id": "vehicle.transport",
+      "label": "mezzi di trasporto",
+      "meaning": "veicoli per spostarsi",
+      "category": "luoghi",
+      "broader": "place.part",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "andare",
+          "viaggiare",
+          "autobus",
+          "treno",
+          "macchina",
+          "bicicletta"
+        ],
+        "avoid": [
+          "restare",
+          "casa"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.10351"
+    },
+    {
+      "id": "place.dining_room",
+      "label": "sala da pranzo",
+      "meaning": "locale dove si mangia",
+      "category": "luoghi",
+      "broader": "place.house",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "pranzo",
+          "cena",
+          "tavolo",
+          "casa"
+        ],
+        "avoid": [
+          "dormire",
+          "letto"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.5970"
+    },
+    {
+      "id": "object.camera",
+      "label": "macchina fotografica",
+      "meaning": "apparecchio per scattare fotografie",
+      "category": "oggetti",
+      "broader": "place.part",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "foto",
+          "fotografia",
+          "scattare",
+          "immagine",
+          "macchina"
+        ],
+        "avoid": [
+          "guidare",
+          "strada"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.2680"
+    },
+    {
+      "id": "school.primary",
+      "label": "scuola primaria",
+      "meaning": "primo ciclo della scuola dell'obbligo",
+      "category": "scuola",
+      "broader": "place.school",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "scuola",
+          "elementare",
+          "primaria",
+          "bambini",
+          "maestra",
+          "classe"
+        ],
+        "avoid": [
+          "superiore",
+          "media"
+        ]
+      }
+    },
+    {
+      "id": "food.breakfast",
+      "label": "fare colazione",
+      "meaning": "il primo pasto della giornata",
+      "category": "alimenti",
+      "broader": "food.fruit",
+      "pos": "verb",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "mangiare",
+          "bere",
+          "mattina",
+          "latte",
+          "biscotti",
+          "caffè"
+        ],
+        "avoid": [
+          "cena",
+          "pranzo",
+          "sera"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.4625"
+    },
+    {
+      "id": "ability.can",
+      "label": "essere in grado di",
+      "meaning": "avere la capacità di fare qualcosa",
+      "category": "azioni",
+      "broader": null,
+      "pos": "verb",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "potere",
+          "riuscire",
+          "capace",
+          "bravo",
+          "sapere"
+        ],
+        "avoid": [
+          "non potere",
+          "difficile"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.11750"
+    },
+    {
+      "id": "action.need",
+      "label": "avere bisogno di",
+      "meaning": "richiedere qualcosa di necessario",
+      "category": "azioni",
+      "broader": "action.want",
+      "pos": "verb",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "bisogno",
+          "necessario",
+          "aiuto",
+          "serve"
+        ],
+        "avoid": [
+          "avere",
+          "possedere"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.37160"
+    },
+    {
+      "id": "action.tease",
+      "label": "prendere in giro",
+      "meaning": "canzonare qualcuno senza cattiveria",
+      "category": "azioni",
+      "broader": null,
+      "pos": "verb",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "giro",
+          "scherzo",
+          "ridere",
+          "canzonare",
+          "prendere"
+        ],
+        "avoid": [
+          "aiutare",
+          "serio"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.26704"
     }
   ],
   "lemmas": [
@@ -3321,9 +3609,11 @@
         "fa colazione",
         "facciamo colazione",
         "fate colazione",
-        "fanno colazione"
+        "fanno colazione",
+        "fatto colazione",
+        "far colazione"
       ],
-      "concept": "school.lunch"
+      "concept": "food.breakfast"
     },
     {
       "form": "dare una mano",
@@ -3333,7 +3623,8 @@
         "dà una mano",
         "diamo una mano",
         "date una mano",
-        "danno una mano"
+        "danno una mano",
+        "dato una mano"
       ],
       "concept": "action.help"
     },
@@ -3412,9 +3703,142 @@
       "variants": [
         "io non so",
         "non lo so",
-        "non sapere"
+        "non sapere",
+        "non sa",
+        "non sappiamo",
+        "non sanno"
       ],
       "concept": "state.uncertain"
+    },
+    {
+      "form": "computer portatile",
+      "variants": [
+        "computer portatili",
+        "pc portatile",
+        "laptop",
+        "notebook"
+      ],
+      "concept": "object.laptop"
+    },
+    {
+      "form": "sintesi vocale",
+      "variants": [
+        "sintesi vocali",
+        "voce sintetica",
+        "voce artificiale"
+      ],
+      "concept": "device.speech_synthesis"
+    },
+    {
+      "form": "telefono cellulare",
+      "variants": [
+        "telefoni cellulari",
+        "cellulare"
+      ],
+      "concept": "device.mobile_phone"
+    },
+    {
+      "form": "carta di credito",
+      "variants": [
+        "carte di credito"
+      ],
+      "concept": "finance.credit_card"
+    },
+    {
+      "form": "mezzi di trasporto",
+      "variants": [
+        "mezzo di trasporto"
+      ],
+      "concept": "vehicle.transport"
+    },
+    {
+      "form": "sala da pranzo",
+      "variants": [
+        "sale da pranzo"
+      ],
+      "concept": "place.dining_room"
+    },
+    {
+      "form": "macchina fotografica",
+      "variants": [
+        "macchine fotografiche",
+        "fotocamera",
+        "fotocamere"
+      ],
+      "concept": "object.camera"
+    },
+    {
+      "form": "scuola primaria",
+      "variants": [
+        "scuole primarie",
+        "scuola elementare",
+        "scuole elementari"
+      ],
+      "concept": "school.primary"
+    },
+    {
+      "form": "andare a dormire",
+      "variants": [
+        "vado a dormire",
+        "vai a dormire",
+        "va a dormire",
+        "andiamo a dormire",
+        "andate a dormire",
+        "vanno a dormire",
+        "andato a dormire",
+        "andata a dormire"
+      ],
+      "concept": "action.sleep"
+    },
+    {
+      "form": "da sole",
+      "variants": [
+        "da solo",
+        "da soli",
+        "da sola"
+      ],
+      "concept": "state.alone"
+    },
+    {
+      "form": "essere in grado di",
+      "variants": [
+        "sono in grado di",
+        "sei in grado di",
+        "è in grado di",
+        "siamo in grado di",
+        "siete in grado di",
+        "erano in grado di",
+        "era in grado di"
+      ],
+      "concept": "ability.can"
+    },
+    {
+      "form": "avere bisogno di",
+      "variants": [
+        "ho bisogno di",
+        "hai bisogno di",
+        "ha bisogno di",
+        "abbiamo bisogno di",
+        "avete bisogno di",
+        "hanno bisogno di",
+        "avevo bisogno di",
+        "aveva bisogno di"
+      ],
+      "concept": "action.need"
+    },
+    {
+      "form": "prendere in giro",
+      "variants": [
+        "prendo in giro",
+        "prendi in giro",
+        "prende in giro",
+        "prendiamo in giro",
+        "prendete in giro",
+        "prendono in giro",
+        "preso in giro",
+        "presa in giro"
+      ],
+      "concept": "action.tease"
     }
   ],
   "compositions": {

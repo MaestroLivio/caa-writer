@@ -126,6 +126,26 @@ un'applicazione `Ctrl/Cmd+Z` annulla l'ultima associazione (e
 `Ctrl/Cmd+Shift+Z` la riapplica) finché non si modifica il testo; una modifica
 del testo riporta l'annullamento a ProseMirror.
 
+### 4.0.4 Unità multiparola e unioni manuali
+
+Le espressioni del lessico (`mwe` in `resources/dictionaries/it-core.json`) vengono
+fuse da `Analyzer::merge_multiword` in un solo token con `span` maggiore di 1:
+la superficie resta il testo scritto, il concetto è quello dell'espressione e
+`resolve_token` produce un solo pittogramma. Per i concetti senza un simbolo
+dedicato si può legare un pittogramma ARASAAC aggiungendo `concept` alla voce
+del manifest; il pacchetto core contiene i simboli originali (per esempio
+`object.laptop`). «Scuola primaria» dichiara il concetto più generale «scuola»
+perché il repertorio non ha il simbolo specifico.
+
+Unioni e separazioni manuali sono attributi del paragrafo ProseMirror
+(`caa_merges`, `caa_splits`, offset UTF-16). `CaaEditor.mergeSelection` e
+`splitUnit` modificano gli attributi con una transazione (quindi undo/redo e
+salvataggio nel `.caadoc`); `symbolize_paragraph` riceve `manual_units` e
+`split_ranges`. Il motore converte gli offset in caratteri, salta la fusione
+automatica negli intervalli separati e applica le unioni manuali dopo l'analisi.
+L'intervallo manuale non altera il testo: viene usato solo per scegliere le
+parole dell'unità.
+
 ### 4.0.3 Animazioni
 
 `settings.animations` (`full`/`reduced`/`off`) imposta `data-animations` su

@@ -29,6 +29,10 @@ pub struct ConceptDef {
     pub pos: Option<String>,
     #[serde(default)]
     pub symbol: Option<String>,
+    /// Identificativo di un pittogramma di repertorio da legare al concetto
+    /// (per esempio una voce ARASAAC). Il legame viene applicato al seed.
+    #[serde(default)]
+    pub symbol_ref: Option<String>,
     #[serde(default)]
     pub cues: Cues,
 }
