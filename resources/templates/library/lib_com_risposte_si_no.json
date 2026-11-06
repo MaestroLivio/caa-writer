@@ -1,0 +1,52 @@
+{
+  "id": "lib_com_risposte_si_no",
+  "name": "Risposte: sì e no",
+  "category": "Tabelle comunicative",
+  "description": "Due sole risposte per una scelta rapida: sì e no. Versione essenziale a 2 celle, stampabile e interattiva.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 2,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Risposte: sì e no"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "sì",
+      "concept": null
+    },
+    {
+      "label": "no",
+      "concept": null
+    }
+  ]
+}

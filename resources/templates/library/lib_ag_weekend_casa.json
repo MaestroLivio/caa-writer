@@ -1,0 +1,68 @@
+{
+  "id": "lib_ag_weekend_casa",
+  "name": "Weekend a casa",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda del fine settimana a casa. 6 voci, tra cui sabato mattina, sabato pomeriggio, sabato sera, domenica mattina e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Weekend a casa"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "sabato mattina",
+      "concept": null
+    },
+    {
+      "label": "sabato pomeriggio",
+      "concept": null
+    },
+    {
+      "label": "sabato sera",
+      "concept": null
+    },
+    {
+      "label": "domenica mattina",
+      "concept": null
+    },
+    {
+      "label": "domenica pomeriggio",
+      "concept": null
+    },
+    {
+      "label": "domenica sera",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "id": "lib_did_consonanti",
+  "name": "Le consonanti",
+  "category": "Materiali didattici",
+  "description": "Scheda delle consonanti dell'alfabeto italiano. 16 voci, tra cui B, C, D, F e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 4,
+    "rows": 4,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Le consonanti"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "B",
+      "concept": null
+    },
+    {
+      "label": "C",
+      "concept": null
+    },
+    {
+      "label": "D",
+      "concept": null
+    },
+    {
+      "label": "F",
+      "concept": null
+    },
+    {
+      "label": "G",
+      "concept": null
+    },
+    {
+      "label": "H",
+      "concept": null
+    },
+    {
+      "label": "L",
+      "concept": null
+    },
+    {
+      "label": "M",
+      "concept": null
+    },
+    {
+      "label": "N",
+      "concept": null
+    },
+    {
+      "label": "P",
+      "concept": null
+    },
+    {
+      "label": "Q",
+      "concept": null
+    },
+    {
+      "label": "R",
+      "concept": null
+    },
+    {
+      "label": "S",
+      "concept": null
+    },
+    {
+      "label": "T",
+      "concept": null
+    },
+    {
+      "label": "V",
+      "concept": null
+    },
+    {
+      "label": "Z",
+      "concept": null
+    }
+  ]
+}

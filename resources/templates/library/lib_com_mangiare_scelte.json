@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_mangiare_scelte",
+  "name": "Mangiare: scelte",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per scegliere cibi e azioni del pasto. 9 voci, tra cui mangiare, pane, pasta, mela e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Mangiare: scelte"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "pane",
+      "concept": "food.bread"
+    },
+    {
+      "label": "pasta",
+      "concept": "food.pasta"
+    },
+    {
+      "label": "mela",
+      "concept": "food.apple"
+    },
+    {
+      "label": "frutta",
+      "concept": "food.fruit"
+    },
+    {
+      "label": "gelato",
+      "concept": "food.ice_cream"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "piatto",
+      "concept": "object.plate"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

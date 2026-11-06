@@ -1,0 +1,60 @@
+{
+  "id": "lib_tea_sequenza_tre",
+  "name": "Versare e bere: quattro passi",
+  "category": "Materiali TEACCH",
+  "description": "Ordinare una breve sequenza di azioni per bere. 4 voci, tra cui prendere il bicchiere, versare l'acqua, mettere il succo, bere.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 4,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Versare e bere: quattro passi"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "prendere il bicchiere",
+      "concept": null
+    },
+    {
+      "label": "versare l'acqua",
+      "concept": null
+    },
+    {
+      "label": "mettere il succo",
+      "concept": null
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    }
+  ]
+}

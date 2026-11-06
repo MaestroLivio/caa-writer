@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_bere_giornata",
+  "name": "Bere nella giornata",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per indicare quando bere durante la giornata. 6 voci, tra cui bere, acqua, bicchiere, mattina e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Bere nella giornata"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "bicchiere",
+      "concept": "object.glass"
+    },
+    {
+      "label": "mattina",
+      "concept": "time.morning"
+    },
+    {
+      "label": "pomeriggio",
+      "concept": null
+    },
+    {
+      "label": "sera",
+      "concept": null
+    }
+  ]
+}

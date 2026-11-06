@@ -1,0 +1,72 @@
+{
+  "id": "lib_sto_autobus",
+  "name": "Il viaggio in autobus",
+  "category": "Storie sociali",
+  "description": "Storia sociale sul viaggio in autobus. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Il viaggio in autobus"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "Per andare a scuola prendo l'autobus.",
+      "concept": null
+    },
+    {
+      "label": "Aspetto alla fermata.",
+      "concept": null
+    },
+    {
+      "label": "Controllo il numero dell'autobus.",
+      "concept": null
+    },
+    {
+      "label": "Salgo e convalido il biglietto.",
+      "concept": null
+    },
+    {
+      "label": "Resto seduto o mi tengo alla maniglia.",
+      "concept": null
+    },
+    {
+      "label": "Scendo alla mia fermata.",
+      "concept": null
+    },
+    {
+      "label": "Cammino fino a scuola.",
+      "concept": null
+    }
+  ]
+}

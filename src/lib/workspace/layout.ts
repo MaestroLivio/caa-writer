@@ -5,7 +5,7 @@ import { get, writable } from "svelte/store";
 
 export type WorkspaceRibbonMode = "full" | "compact" | "hidden";
 export type WorkspaceSidebarMode = "docked" | "overlay" | "collapsed";
-export type WorkspacePanel = "alternative" | "cerca" | "impostazioni" | "studio";
+export type WorkspacePanel = "alternative" | "cerca" | "collezioni" | "impostazioni" | "studio";
 export type AssociationScope = "occurrence" | "document" | "global";
 
 export interface WorkspaceLayout {

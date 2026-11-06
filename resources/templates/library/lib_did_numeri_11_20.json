@@ -1,0 +1,84 @@
+{
+  "id": "lib_did_numeri_11_20",
+  "name": "Numeri da 11 a 20",
+  "category": "Materiali didattici",
+  "description": "Scheda dei numeri da undici a venti. 10 voci, tra cui 11 undici, 12 dodici, 13 tredici, 14 quattordici e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 5,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Numeri da 11 a 20"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "11 undici",
+      "concept": null
+    },
+    {
+      "label": "12 dodici",
+      "concept": null
+    },
+    {
+      "label": "13 tredici",
+      "concept": null
+    },
+    {
+      "label": "14 quattordici",
+      "concept": null
+    },
+    {
+      "label": "15 quindici",
+      "concept": null
+    },
+    {
+      "label": "16 sedici",
+      "concept": null
+    },
+    {
+      "label": "17 diciassette",
+      "concept": null
+    },
+    {
+      "label": "18 diciotto",
+      "concept": null
+    },
+    {
+      "label": "19 diciannove",
+      "concept": null
+    },
+    {
+      "label": "20 venti",
+      "concept": null
+    }
+  ]
+}

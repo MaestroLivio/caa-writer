@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_riordinare_checklist",
+  "name": "Riordinare la stanza: checklist",
+  "category": "Sequenze e routine",
+  "description": "Checklist per riordinare la stanza. 6 voci, tra cui raccogliere i giochi, mettere i libri, buttare la carta, spolverare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Riordinare la stanza: checklist"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "checklist"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "raccogliere i giochi",
+      "concept": null
+    },
+    {
+      "label": "mettere i libri",
+      "concept": null
+    },
+    {
+      "label": "buttare la carta",
+      "concept": null
+    },
+    {
+      "label": "spolverare",
+      "concept": null
+    },
+    {
+      "label": "mettere a posto",
+      "concept": null
+    },
+    {
+      "label": "controllare",
+      "concept": null
+    }
+  ]
+}

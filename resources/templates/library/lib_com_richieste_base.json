@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_richieste_base",
+  "name": "Richieste di base",
+  "category": "Tabelle comunicative",
+  "description": "Celle per formulare le richieste più frequenti. 9 voci, tra cui volere, chiedere aiuto, bere, mangiare e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Richieste di base"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "volere",
+      "concept": "action.want"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "ancora",
+      "concept": null
+    },
+    {
+      "label": "pausa",
+      "concept": null
+    }
+  ]
+}

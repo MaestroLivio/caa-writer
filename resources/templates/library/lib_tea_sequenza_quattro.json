@@ -1,0 +1,60 @@
+{
+  "id": "lib_tea_sequenza_quattro",
+  "name": "Sequenza di quattro azioni",
+  "category": "Materiali TEACCH",
+  "description": "Ordinare una sequenza di quattro azioni. 4 voci, tra cui prendere il foglio, piegare, tagliare, incollare.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 4,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Sequenza di quattro azioni"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "prendere il foglio",
+      "concept": null
+    },
+    {
+      "label": "piegare",
+      "concept": null
+    },
+    {
+      "label": "tagliare",
+      "concept": null
+    },
+    {
+      "label": "incollare",
+      "concept": null
+    }
+  ]
+}

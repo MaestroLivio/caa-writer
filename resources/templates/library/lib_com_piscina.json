@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_piscina",
+  "name": "Piscina",
+  "category": "Tabelle comunicative",
+  "description": "Celle per comunicare durante l'attività in piscina. 9 voci, tra cui nuotare, acqua, giocare, finire e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Piscina"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "nuotare",
+      "concept": null
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "asciugamano",
+      "concept": null
+    },
+    {
+      "label": "costume",
+      "concept": null
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    }
+  ]
+}

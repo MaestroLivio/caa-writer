@@ -1,0 +1,68 @@
+{
+  "id": "lib_tea_piegatura",
+  "name": "Piegare un foglio",
+  "category": "Materiali TEACCH",
+  "description": "Compito strutturato di piegatura della carta. 6 voci, tra cui foglio aperto, prima piega, seconda piega, premere e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Piegare un foglio"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "foglio aperto",
+      "concept": null
+    },
+    {
+      "label": "prima piega",
+      "concept": null
+    },
+    {
+      "label": "seconda piega",
+      "concept": null
+    },
+    {
+      "label": "premere",
+      "concept": null
+    },
+    {
+      "label": "aprire",
+      "concept": null
+    },
+    {
+      "label": "finito",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "id": "lib_aba_scelta_due",
+  "name": "Tabella di scelta: due opzioni",
+  "category": "Materiali ABA e supporti visivi",
+  "description": "Supporto visivo per scegliere tra due attività. 4 voci, tra cui mangiare, giocare, bere, leggere.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Tabella di scelta: due opzioni"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    }
+  ]
+}

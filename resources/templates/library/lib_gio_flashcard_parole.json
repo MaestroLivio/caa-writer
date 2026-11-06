@@ -1,0 +1,76 @@
+{
+  "id": "lib_gio_flashcard_parole",
+  "name": "Flashcard delle parole",
+  "category": "Giochi e attività interattive",
+  "description": "Otto flashcard per nominare parole quotidiane. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Flashcard delle parole"
+    },
+    {
+      "key": "players",
+      "label": "Numero di giocatori",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "rules",
+      "label": "Regole",
+      "kind": "text",
+      "default_value": "Mostra una carta alla volta e nomina il simbolo."
+    }
+  ],
+  "items": [
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "scuola",
+      "concept": "place.school"
+    },
+    {
+      "label": "cane",
+      "concept": "animal.dog"
+    },
+    {
+      "label": "mela",
+      "concept": "food.apple"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "palla",
+      "concept": "object.ball"
+    },
+    {
+      "label": "maestra",
+      "concept": "person.teacher"
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    }
+  ]
+}

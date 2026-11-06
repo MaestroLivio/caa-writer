@@ -1,0 +1,92 @@
+{
+  "id": "lib_did_mesi",
+  "name": "I mesi dell'anno",
+  "category": "Materiali didattici",
+  "description": "Scheda per ordinare i dodici mesi. 12 voci, tra cui gennaio, febbraio, marzo, aprile e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "I mesi dell'anno"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "gennaio",
+      "concept": null
+    },
+    {
+      "label": "febbraio",
+      "concept": null
+    },
+    {
+      "label": "marzo",
+      "concept": null
+    },
+    {
+      "label": "aprile",
+      "concept": null
+    },
+    {
+      "label": "maggio",
+      "concept": null
+    },
+    {
+      "label": "giugno",
+      "concept": null
+    },
+    {
+      "label": "luglio",
+      "concept": null
+    },
+    {
+      "label": "agosto",
+      "concept": null
+    },
+    {
+      "label": "settembre",
+      "concept": null
+    },
+    {
+      "label": "ottobre",
+      "concept": null
+    },
+    {
+      "label": "novembre",
+      "concept": null
+    },
+    {
+      "label": "dicembre",
+      "concept": null
+    }
+  ]
+}

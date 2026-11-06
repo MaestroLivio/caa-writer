@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_comprensione_chi",
+  "name": "Comprensione: chi?",
+  "category": "Materiali didattici",
+  "description": "Domande di comprensione sul soggetto dell'azione. 6 voci, tra cui Chi corre? Il cane, Chi legge? La maestra, Chi dorme? Il gatto, Chi gioca? Il bambino e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Comprensione: chi?"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "Chi corre? Il cane",
+      "concept": null
+    },
+    {
+      "label": "Chi legge? La maestra",
+      "concept": null
+    },
+    {
+      "label": "Chi dorme? Il gatto",
+      "concept": null
+    },
+    {
+      "label": "Chi gioca? Il bambino",
+      "concept": null
+    },
+    {
+      "label": "Chi cucina? La mamma",
+      "concept": null
+    },
+    {
+      "label": "Chi guida? Il papà",
+      "concept": null
+    }
+  ]
+}

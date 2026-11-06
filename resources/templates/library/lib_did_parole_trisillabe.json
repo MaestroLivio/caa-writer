@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_parole_trisillabe",
+  "name": "Parole trisillabe",
+  "category": "Materiali didattici",
+  "description": "Scheda di lettura di parole trisillabe. 6 voci, tra cui matita, tavolo, forbici, albero e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Parole trisillabe"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "matita",
+      "concept": "object.pencil"
+    },
+    {
+      "label": "tavolo",
+      "concept": "object.table"
+    },
+    {
+      "label": "forbici",
+      "concept": "object.scissors"
+    },
+    {
+      "label": "albero",
+      "concept": "nature.tree"
+    },
+    {
+      "label": "telefono",
+      "concept": "object.phone"
+    },
+    {
+      "label": "bicicletta",
+      "concept": "vehicle.bike"
+    }
+  ]
+}

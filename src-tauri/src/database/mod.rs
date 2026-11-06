@@ -42,6 +42,8 @@ pub type DbResult<T> = Result<T, DbError>;
 pub struct SymbolFilters {
     pub pack_id: Option<String>,
     pub commercial_only: bool,
+    /// Limita ai pittogrammi di una collezione personale.
+    pub collection_id: Option<String>,
 }
 
 #[derive(Debug, Clone)]
@@ -248,20 +250,28 @@ impl Database {
             let total: i64 = self.conn.query_row(
                 "SELECT COUNT(*) FROM symbols s JOIN symbol_packs p ON p.id = s.pack_id
                  WHERE s.hide = 0 AND (?1 IS NULL OR s.pack_id = ?1)
-                   AND (?2 = 0 OR p.commercial_ok = 1)",
-                params![filters.pack_id, filters.commercial_only as i64],
+                   AND (?2 = 0 OR p.commercial_ok = 1)
+                   AND (?3 IS NULL OR s.collection_id = ?3)",
+                params![
+                    filters.pack_id,
+                    filters.commercial_only as i64,
+                    filters.collection_id
+                ],
                 |row| row.get(0),
             )?;
             let sql = format!(
                 "{SYMBOL_SELECT} WHERE s.hide = 0 AND (?1 IS NULL OR s.pack_id = ?1)
                  AND (?2 = 0 OR p.commercial_ok = 1)
-                 ORDER BY s.concept_id, s.id LIMIT ?3 OFFSET ?4"
+                 AND (?3 IS NULL OR s.collection_id = ?3)
+                 ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 ELSE 1 END,
+                          s.concept_id, s.id LIMIT ?4 OFFSET ?5"
             );
             let mut stmt = self.conn.prepare(&sql)?;
             let rows = stmt.query_map(
                 params![
                     filters.pack_id,
                     filters.commercial_only as i64,
+                    filters.collection_id,
                     limit,
                     offset
                 ],
@@ -286,7 +296,9 @@ impl Database {
                  WHERE symbol_fts MATCH ?1 AND s.hide = 0
                    AND (?2 IS NULL OR s.pack_id = ?2)
                    AND (?3 = 0 OR p.commercial_ok = 1)
-                 ORDER BY bm25(symbol_fts), s.id LIMIT ?4 OFFSET ?5"
+                   AND (?4 IS NULL OR s.collection_id = ?4)
+                 ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 ELSE 1 END,
+                          bm25(symbol_fts), s.id LIMIT ?5 OFFSET ?6"
             );
             if let Ok(mut stmt) = self.conn.prepare(&sql) {
                 let rows = stmt.query_map(
@@ -294,6 +306,7 @@ impl Database {
                         match_query,
                         filters.pack_id,
                         filters.commercial_only as i64,
+                        filters.collection_id,
                         limit,
                         offset
                     ],
@@ -329,7 +342,9 @@ impl Database {
         let sql = format!(
             "{SYMBOL_SELECT} WHERE s.hide = 0 AND (lower(s.label) LIKE ?1 OR lower(IFNULL(s.meaning,'')) LIKE ?1)
              AND (?2 IS NULL OR s.pack_id = ?2) AND (?3 = 0 OR p.commercial_ok = 1)
-             ORDER BY length(s.label), s.id LIMIT ?4 OFFSET ?5"
+             AND (?4 IS NULL OR s.collection_id = ?4)
+             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 ELSE 1 END,
+                      length(s.label), s.id LIMIT ?5 OFFSET ?6"
         );
         let mut stmt = self.conn.prepare(&sql)?;
         let rows = stmt.query_map(
@@ -337,6 +352,7 @@ impl Database {
                 like,
                 filters.pack_id,
                 filters.commercial_only as i64,
+                filters.collection_id,
                 limit,
                 offset
             ],
@@ -361,13 +377,15 @@ impl Database {
                    JOIN symbol_packs p ON p.id = s.pack_id
                    WHERE symbol_fts MATCH ?1 AND s.hide = 0
                      AND (?2 IS NULL OR s.pack_id = ?2)
-                     AND (?3 = 0 OR p.commercial_ok = 1)";
+                     AND (?3 = 0 OR p.commercial_ok = 1)
+                     AND (?4 IS NULL OR s.collection_id = ?4)";
         let count: i64 = self.conn.query_row(
             sql,
             params![
                 match_query,
                 filters.pack_id,
-                filters.commercial_only as i64
+                filters.commercial_only as i64,
+                filters.collection_id
             ],
             |row| row.get(0),
         )?;

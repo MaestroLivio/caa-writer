@@ -233,4 +233,53 @@ CREATE TABLE IF NOT EXISTS import_log (
 ALTER TABLE document_overrides ADD COLUMN hidden INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE document_overrides ADD COLUMN modifiers TEXT NOT NULL DEFAULT '{}';
 "#,
+}, Migration {
+    version: 3,
+    name: "pictogram_collections_online_prompt",
+    sql: r#"
+-- Collezioni personali di pittogrammi importati dall'utente.
+CREATE TABLE IF NOT EXISTS pictogram_collections (
+    id              TEXT PRIMARY KEY,
+    name            TEXT NOT NULL,
+    description     TEXT,
+    created_at      TEXT NOT NULL,
+    updated_at      TEXT NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_collections_name ON pictogram_collections(name);
+
+ALTER TABLE symbols ADD COLUMN collection_id TEXT REFERENCES pictogram_collections(id) ON DELETE SET NULL;
+ALTER TABLE symbols ADD COLUMN relative_path TEXT;
+ALTER TABLE symbols ADD COLUMN original_name TEXT;
+ALTER TABLE symbols ADD COLUMN category TEXT;
+CREATE INDEX IF NOT EXISTS idx_symbols_collection ON symbols(collection_id);
+
+-- Sinonimi e parole chiave dei pittogrammi personali: entrano nell'indice
+-- semantico condiviso senza duplicare la tabella FTS.
+CREATE TABLE IF NOT EXISTS symbol_keywords (
+    symbol_id       TEXT NOT NULL REFERENCES symbols(id) ON DELETE CASCADE,
+    term            TEXT NOT NULL,
+    PRIMARY KEY(symbol_id, term)
+);
+
+-- Cache delle risposte dei provider online (una voce per provider e query).
+CREATE TABLE IF NOT EXISTS online_cache (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    provider        TEXT NOT NULL,
+    query           TEXT NOT NULL,
+    payload         TEXT NOT NULL,
+    fetched_at      TEXT NOT NULL,
+    UNIQUE(provider, query)
+);
+
+-- Cronologia delle modifiche richieste in linguaggio naturale: le operazioni
+-- validate restano tracciabili e annullabili.
+CREATE TABLE IF NOT EXISTS document_operations (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    document_key    TEXT NOT NULL,
+    prompt          TEXT NOT NULL,
+    operations      TEXT NOT NULL,
+    applied         INTEGER NOT NULL DEFAULT 0,
+    created_at      TEXT NOT NULL
+);
+"#,
 }];

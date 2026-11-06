@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_doposcuola",
+  "name": "Doposcuola",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda del pomeriggio al doposcuola. 5 voci, tra cui arrivo, merenda, compiti, gioco e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Doposcuola"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "arrivo",
+      "concept": null
+    },
+    {
+      "label": "merenda",
+      "concept": null
+    },
+    {
+      "label": "compiti",
+      "concept": null
+    },
+    {
+      "label": "gioco",
+      "concept": null
+    },
+    {
+      "label": "uscita",
+      "concept": null
+    }
+  ]
+}

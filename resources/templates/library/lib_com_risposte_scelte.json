@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_risposte_scelte",
+  "name": "Risposte e scelte",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per rispondere, scegliere e chiedere aiuto. 9 voci, tra cui questo, quello, ancora, finire e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Risposte e scelte"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "questo",
+      "concept": null
+    },
+    {
+      "label": "quello",
+      "concept": null
+    },
+    {
+      "label": "ancora",
+      "concept": null
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "non so",
+      "concept": "state.uncertain"
+    },
+    {
+      "label": "sì",
+      "concept": null
+    },
+    {
+      "label": "no",
+      "concept": null
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    }
+  ]
+}

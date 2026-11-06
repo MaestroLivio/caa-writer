@@ -1,0 +1,68 @@
+{
+  "id": "lib_aba_scelta_quattro",
+  "name": "Tabella di scelta: quattro opzioni",
+  "category": "Materiali ABA e supporti visivi",
+  "description": "Supporto visivo per scegliere tra quattro attività. 6 voci, tra cui mangiare, giocare, bere, leggere e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Tabella di scelta: quattro opzioni"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    },
+    {
+      "label": "ascoltare",
+      "concept": "action.listen"
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    }
+  ]
+}

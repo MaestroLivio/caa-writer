@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_intensita",
+  "name": "Quanto è forte?",
+  "category": "Emozioni e autoregolazione",
+  "description": "Scala di intensità emotiva da uno a cinque. 6 voci, tra cui 1 poco, 2 un po', 3 abbastanza, 4 molto e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Quanto è forte?"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "1 poco",
+      "concept": null
+    },
+    {
+      "label": "2 un po'",
+      "concept": null
+    },
+    {
+      "label": "3 abbastanza",
+      "concept": null
+    },
+    {
+      "label": "4 molto",
+      "concept": null
+    },
+    {
+      "label": "5 moltissimo",
+      "concept": null
+    },
+    {
+      "label": "chiedo aiuto",
+      "concept": null
+    }
+  ]
+}

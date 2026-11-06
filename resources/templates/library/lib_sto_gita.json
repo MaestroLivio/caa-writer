@@ -1,0 +1,72 @@
+{
+  "id": "lib_sto_gita",
+  "name": "La gita scolastica",
+  "category": "Storie sociali",
+  "description": "Storia sociale sulla gita scolastica. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "La gita scolastica"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "Oggi andiamo in gita.",
+      "concept": null
+    },
+    {
+      "label": "Prepariamo lo zaino con acqua e merenda.",
+      "concept": null
+    },
+    {
+      "label": "Saliamo sull'autobus.",
+      "concept": null
+    },
+    {
+      "label": "Durante il viaggio resto seduto.",
+      "concept": null
+    },
+    {
+      "label": "Visitiamo il posto.",
+      "concept": null
+    },
+    {
+      "label": "Alla fine torniamo a scuola.",
+      "concept": null
+    },
+    {
+      "label": "Posso raccontare cosa ho visto.",
+      "concept": null
+    }
+  ]
+}

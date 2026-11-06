@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_igiene_scuola",
+  "name": "Igiene a scuola",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per l'igiene nei bagni della scuola. 6 voci, tra cui lavarsi le mani, bagno, acqua, finire e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Igiene a scuola"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "asciugamano",
+      "concept": null
+    }
+  ]
+}

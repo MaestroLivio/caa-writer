@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_termometro_calma",
+  "name": "Termometro della calma",
+  "category": "Emozioni e autoregolazione",
+  "description": "Termometro per misurare l'agitazione e scegliere una strategia. 6 voci, tra cui calmo, un po' agitato, agitato, molto agitato e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Termometro della calma"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "calmo",
+      "concept": null
+    },
+    {
+      "label": "un po' agitato",
+      "concept": null
+    },
+    {
+      "label": "agitato",
+      "concept": null
+    },
+    {
+      "label": "molto agitato",
+      "concept": null
+    },
+    {
+      "label": "pausa",
+      "concept": null
+    },
+    {
+      "label": "respiro",
+      "concept": null
+    }
+  ]
+}

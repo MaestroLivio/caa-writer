@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_prepararsi_dormire",
+  "name": "Prepararsi per dormire",
+  "category": "Sequenze e routine",
+  "description": "Routine della sera prima di dormire. 6 voci, tra cui pigiama, lavarsi i denti, leggere, spegnere la luce e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Prepararsi per dormire"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "pigiama",
+      "concept": null
+    },
+    {
+      "label": "lavarsi i denti",
+      "concept": "hygiene.brush_teeth"
+    },
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    },
+    {
+      "label": "spegnere la luce",
+      "concept": null
+    },
+    {
+      "label": "letto",
+      "concept": "furniture.bed"
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    }
+  ]
+}

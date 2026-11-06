@@ -1,0 +1,68 @@
+{
+  "id": "lib_aut_denaro_cassa",
+  "name": "Denaro: pagare alla cassa",
+  "category": "Autonomia personale",
+  "description": "Routine autonoma per pagare alla cassa. 6 voci, tra cui prendere il prodotto, andare alla cassa, aspettare il turno, pagare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Denaro: pagare alla cassa"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "prendere il prodotto",
+      "concept": null
+    },
+    {
+      "label": "andare alla cassa",
+      "concept": null
+    },
+    {
+      "label": "aspettare il turno",
+      "concept": null
+    },
+    {
+      "label": "pagare",
+      "concept": null
+    },
+    {
+      "label": "prendere lo scontrino",
+      "concept": null
+    },
+    {
+      "label": "riporre",
+      "concept": null
+    }
+  ]
+}

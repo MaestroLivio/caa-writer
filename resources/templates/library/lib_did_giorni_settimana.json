@@ -1,0 +1,72 @@
+{
+  "id": "lib_did_giorni_settimana",
+  "name": "I giorni della settimana",
+  "category": "Materiali didattici",
+  "description": "Scheda per ordinare i giorni della settimana. 7 voci, tra cui lunedì, martedì, mercoledì, giovedì e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 7,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "I giorni della settimana"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lunedì",
+      "concept": null
+    },
+    {
+      "label": "martedì",
+      "concept": null
+    },
+    {
+      "label": "mercoledì",
+      "concept": null
+    },
+    {
+      "label": "giovedì",
+      "concept": null
+    },
+    {
+      "label": "venerdì",
+      "concept": null
+    },
+    {
+      "label": "sabato",
+      "concept": null
+    },
+    {
+      "label": "domenica",
+      "concept": null
+    }
+  ]
+}

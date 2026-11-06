@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_colazione",
+  "name": "Colazione",
+  "category": "Tabelle comunicative",
+  "description": "Griglia dedicata alla colazione di casa. 6 voci, tra cui fare colazione, pane, mela, succo di mela e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Colazione"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "fare colazione",
+      "concept": "food.breakfast"
+    },
+    {
+      "label": "pane",
+      "concept": "food.bread"
+    },
+    {
+      "label": "mela",
+      "concept": "food.apple"
+    },
+    {
+      "label": "succo di mela",
+      "concept": "food.apple_juice"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

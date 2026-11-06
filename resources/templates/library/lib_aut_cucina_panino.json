@@ -1,0 +1,64 @@
+{
+  "id": "lib_aut_cucina_panino",
+  "name": "Cucina: preparare un panino",
+  "category": "Autonomia personale",
+  "description": "Routine autonoma per preparare un panino. 5 voci, tra cui lavarsi le mani, prendere il pane, mettere il ripieno, chiudere il panino e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Cucina: preparare un panino"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    },
+    {
+      "label": "prendere il pane",
+      "concept": null
+    },
+    {
+      "label": "mettere il ripieno",
+      "concept": null
+    },
+    {
+      "label": "chiudere il panino",
+      "concept": null
+    },
+    {
+      "label": "riordinare",
+      "concept": null
+    }
+  ]
+}

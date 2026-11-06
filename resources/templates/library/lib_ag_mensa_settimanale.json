@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_mensa_settimanale",
+  "name": "Menu della settimana",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda settimanale dei piatti della mensa. 5 voci, tra cui lunedì pasta, martedì riso, mercoledì pollo, giovedì pesce e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 5,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Menu della settimana"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lunedì pasta",
+      "concept": null
+    },
+    {
+      "label": "martedì riso",
+      "concept": null
+    },
+    {
+      "label": "mercoledì pollo",
+      "concept": null
+    },
+    {
+      "label": "giovedì pesce",
+      "concept": null
+    },
+    {
+      "label": "venerdì pizza",
+      "concept": null
+    }
+  ]
+}

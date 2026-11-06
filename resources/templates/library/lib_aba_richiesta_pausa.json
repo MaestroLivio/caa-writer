@@ -1,0 +1,64 @@
+{
+  "id": "lib_aba_richiesta_pausa",
+  "name": "Chiedere una pausa durante il lavoro",
+  "category": "Materiali ABA e supporti visivi",
+  "description": "Sequenza per chiedere una pausa durante il lavoro. 5 voci, tra cui sentire la stanchezza, fare il segno, chiedere pausa, riposare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Chiedere una pausa durante il lavoro"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "passo per passo"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "sentire la stanchezza",
+      "concept": null
+    },
+    {
+      "label": "fare il segno",
+      "concept": null
+    },
+    {
+      "label": "chiedere pausa",
+      "concept": null
+    },
+    {
+      "label": "riposare",
+      "concept": null
+    },
+    {
+      "label": "tornare",
+      "concept": null
+    }
+  ]
+}

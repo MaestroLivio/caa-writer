@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_vestirsi_scelte",
+  "name": "Vestirsi: scelte",
+  "category": "Tabelle comunicative",
+  "description": "Celle per scegliere i capi e completare la vestizione. 9 voci, tra cui maglietta, pantaloni, calze, scarpe e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Vestirsi: scelte"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "maglietta",
+      "concept": null
+    },
+    {
+      "label": "pantaloni",
+      "concept": null
+    },
+    {
+      "label": "calze",
+      "concept": null
+    },
+    {
+      "label": "scarpe",
+      "concept": "object.shoes"
+    },
+    {
+      "label": "giacca",
+      "concept": null
+    },
+    {
+      "label": "cappello",
+      "concept": "object.hat"
+    },
+    {
+      "label": "vestirsi",
+      "concept": null
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    }
+  ]
+}

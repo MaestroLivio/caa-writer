@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_pranzo",
+  "name": "Il pranzo: sequenza lineare",
+  "category": "Sequenze e routine",
+  "description": "Routine del pranzo a casa o a scuola. 6 voci, tra cui lavarsi le mani, sedersi, servirsi, mangiare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Il pranzo: sequenza lineare"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    },
+    {
+      "label": "sedersi",
+      "concept": null
+    },
+    {
+      "label": "servirsi",
+      "concept": null
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "riordinare",
+      "concept": null
+    }
+  ]
+}

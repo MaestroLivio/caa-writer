@@ -1,0 +1,68 @@
+{
+  "id": "lib_aba_osservazione_richieste",
+  "name": "Osservazione: richieste",
+  "category": "Materiali ABA e supporti visivi",
+  "description": "Scheda di osservazione delle modalità di richiesta. 6 voci, tra cui chiedere aiuto, chiedere pausa, chiedere oggetto, indicare e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Osservazione: richieste"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "chiedere pausa",
+      "concept": null
+    },
+    {
+      "label": "chiedere oggetto",
+      "concept": null
+    },
+    {
+      "label": "indicare",
+      "concept": null
+    },
+    {
+      "label": "parlare",
+      "concept": "action.speak"
+    },
+    {
+      "label": "ripetere",
+      "concept": null
+    }
+  ]
+}

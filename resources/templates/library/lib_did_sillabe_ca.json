@@ -1,0 +1,64 @@
+{
+  "id": "lib_did_sillabe_ca",
+  "name": "Sillabe con C",
+  "category": "Materiali didattici",
+  "description": "Scheda di lettura delle sillabe con la consonante C. 5 voci, tra cui CA, CE, CI, CO e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 5,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Sillabe con C"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "CA",
+      "concept": null
+    },
+    {
+      "label": "CE",
+      "concept": null
+    },
+    {
+      "label": "CI",
+      "concept": null
+    },
+    {
+      "label": "CO",
+      "concept": null
+    },
+    {
+      "label": "CU",
+      "concept": null
+    }
+  ]
+}

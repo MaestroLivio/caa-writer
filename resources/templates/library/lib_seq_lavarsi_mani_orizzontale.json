@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_lavarsi_mani_orizzontale",
+  "name": "Lavarsi le mani: striscia orizzontale",
+  "category": "Sequenze e routine",
+  "description": "Striscia orizzontale della routine per lavarsi le mani. 6 voci, tra cui aprire l'acqua, bagnare le mani, mettere il sapone, sfregare le mani e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 6,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Lavarsi le mani: striscia orizzontale"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "orizzontale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "aprire l'acqua",
+      "concept": null
+    },
+    {
+      "label": "bagnare le mani",
+      "concept": null
+    },
+    {
+      "label": "mettere il sapone",
+      "concept": null
+    },
+    {
+      "label": "sfregare le mani",
+      "concept": null
+    },
+    {
+      "label": "sciacquare",
+      "concept": null
+    },
+    {
+      "label": "asciugare",
+      "concept": null
+    }
+  ]
+}

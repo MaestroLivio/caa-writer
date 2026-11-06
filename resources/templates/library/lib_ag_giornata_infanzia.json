@@ -1,0 +1,76 @@
+{
+  "id": "lib_ag_giornata_infanzia",
+  "name": "Giornata alla scuola dell'infanzia",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda della giornata tipo alla scuola dell'infanzia. 8 voci, tra cui 8:00 entrata a scuola, 8:30 gioco libero, 9:30 attività in classe, 10:30 merenda e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 8,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Giornata alla scuola dell'infanzia"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "8:00 entrata a scuola",
+      "concept": null
+    },
+    {
+      "label": "8:30 gioco libero",
+      "concept": null
+    },
+    {
+      "label": "9:30 attività in classe",
+      "concept": null
+    },
+    {
+      "label": "10:30 merenda",
+      "concept": null
+    },
+    {
+      "label": "11:30 giardino",
+      "concept": null
+    },
+    {
+      "label": "12:30 pranzo",
+      "concept": null
+    },
+    {
+      "label": "13:30 riposo",
+      "concept": null
+    },
+    {
+      "label": "15:30 uscita",
+      "concept": null
+    }
+  ]
+}

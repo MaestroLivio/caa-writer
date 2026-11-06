@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_domande_quando",
+  "name": "Domande: quando?",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per collocare un'azione nel tempo. 6 voci, tra cui quando, mattina, adesso, giorno e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Domande: quando?"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "quando",
+      "concept": null
+    },
+    {
+      "label": "mattina",
+      "concept": "time.morning"
+    },
+    {
+      "label": "adesso",
+      "concept": "time.now"
+    },
+    {
+      "label": "giorno",
+      "concept": "time.day"
+    },
+    {
+      "label": "notte",
+      "concept": "time.night"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "id": "lib_did_quantita_10",
+  "name": "Quantità fino a 10",
+  "category": "Materiali didattici",
+  "description": "Scheda di associazione tra numero e quantità fino a dieci. 10 voci, tra cui 1 mela, 2 mele, 3 mele, 4 mele e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 5,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Quantità fino a 10"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "1 mela",
+      "concept": null
+    },
+    {
+      "label": "2 mele",
+      "concept": null
+    },
+    {
+      "label": "3 mele",
+      "concept": null
+    },
+    {
+      "label": "4 mele",
+      "concept": null
+    },
+    {
+      "label": "5 mele",
+      "concept": null
+    },
+    {
+      "label": "6 mele",
+      "concept": null
+    },
+    {
+      "label": "7 mele",
+      "concept": null
+    },
+    {
+      "label": "8 mele",
+      "concept": null
+    },
+    {
+      "label": "9 mele",
+      "concept": null
+    },
+    {
+      "label": "10 mele",
+      "concept": null
+    }
+  ]
+}

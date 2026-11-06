@@ -1,0 +1,76 @@
+{
+  "id": "lib_com_vestirsi_scuola",
+  "name": "Vestirsi per la scuola",
+  "category": "Tabelle comunicative",
+  "description": "Griglia dei capi e degli accessori per uscire. 8 voci, tra cui maglietta, pantaloni, scarpe, cappello e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Vestirsi per la scuola"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "4"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "maglietta",
+      "concept": null
+    },
+    {
+      "label": "pantaloni",
+      "concept": null
+    },
+    {
+      "label": "scarpe",
+      "concept": "object.shoes"
+    },
+    {
+      "label": "cappello",
+      "concept": "object.hat"
+    },
+    {
+      "label": "giacca",
+      "concept": null
+    },
+    {
+      "label": "zaino",
+      "concept": "object.backpack"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    }
+  ]
+}

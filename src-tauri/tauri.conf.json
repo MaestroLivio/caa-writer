@@ -15,8 +15,8 @@
         "title": "CAA Writer",
         "width": 1440,
         "height": 900,
-        "minWidth": 1024,
-        "minHeight": 640,
+        "minWidth": 800,
+        "minHeight": 600,
         "resizable": true,
         "fullscreen": false,
         "dragDropEnabled": true

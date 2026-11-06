@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_domande_dove",
+  "name": "Domande: dove?",
+  "category": "Tabelle comunicative",
+  "description": "Celle per chiedere e indicare un luogo. 9 voci, tra cui dove, casa, scuola, bagno e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Domande: dove?"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "dove",
+      "concept": null
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "scuola",
+      "concept": "place.school"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "cucina",
+      "concept": "place.kitchen"
+    },
+    {
+      "label": "parco",
+      "concept": "place.park"
+    },
+    {
+      "label": "giardino",
+      "concept": null
+    },
+    {
+      "label": "biblioteca",
+      "concept": null
+    },
+    {
+      "label": "fuori",
+      "concept": null
+    }
+  ]
+}

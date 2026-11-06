@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_dolore_medico",
+  "name": "Dolore: chiedere il medico",
+  "category": "Tabelle comunicative",
+  "description": "Griglia essenziale per segnalare dolore e chiedere aiuto. 6 voci, tra cui dolore, medico, chiedere aiuto, casa e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Dolore: chiedere il medico"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "dolore",
+      "concept": null
+    },
+    {
+      "label": "medico",
+      "concept": "person.doctor"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

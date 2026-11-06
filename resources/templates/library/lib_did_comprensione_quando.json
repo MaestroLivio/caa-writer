@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_comprensione_quando",
+  "name": "Comprensione: quando?",
+  "category": "Materiali didattici",
+  "description": "Domande di comprensione sul tempo. 6 voci, tra cui Quando facciamo colazione? La mattina, Quando andiamo a dormire? La sera, Quando pranziamo? A mezzogiorno, Quando andiamo a scuola? Al mattino e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Comprensione: quando?"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "Quando facciamo colazione? La mattina",
+      "concept": null
+    },
+    {
+      "label": "Quando andiamo a dormire? La sera",
+      "concept": null
+    },
+    {
+      "label": "Quando pranziamo? A mezzogiorno",
+      "concept": null
+    },
+    {
+      "label": "Quando andiamo a scuola? Al mattino",
+      "concept": null
+    },
+    {
+      "label": "Quando vediamo le stelle? La notte",
+      "concept": null
+    },
+    {
+      "label": "Quando facciamo merenda? Nel pomeriggio",
+      "concept": null
+    }
+  ]
+}

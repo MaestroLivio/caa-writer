@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_strada_lineare",
+  "name": "Attraversare la strada: sequenza lineare",
+  "category": "Sequenze e routine",
+  "description": "Routine per attraversare la strada in sicurezza. 6 voci, tra cui fermarsi al marciapiede, guardare a sinistra, guardare a destra, guardare ancora e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Attraversare la strada: sequenza lineare"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "fermarsi al marciapiede",
+      "concept": null
+    },
+    {
+      "label": "guardare a sinistra",
+      "concept": null
+    },
+    {
+      "label": "guardare a destra",
+      "concept": null
+    },
+    {
+      "label": "guardare ancora",
+      "concept": null
+    },
+    {
+      "label": "attraversare",
+      "concept": null
+    },
+    {
+      "label": "arrivare",
+      "concept": null
+    }
+  ]
+}

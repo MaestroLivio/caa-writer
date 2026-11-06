@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_emozioni_base",
+  "name": "Emozioni di base",
+  "category": "Tabelle comunicative",
+  "description": "Celle per riconoscere e comunicare sei emozioni. 6 voci, tra cui felice, triste, arrabbiato, paura e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Emozioni di base"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "felice",
+      "concept": "emotion.happy"
+    },
+    {
+      "label": "triste",
+      "concept": "emotion.sad"
+    },
+    {
+      "label": "arrabbiato",
+      "concept": "emotion.angry"
+    },
+    {
+      "label": "paura",
+      "concept": "emotion.afraid"
+    },
+    {
+      "label": "stanco",
+      "concept": "emotion.tired"
+    },
+    {
+      "label": "calmo",
+      "concept": null
+    }
+  ]
+}

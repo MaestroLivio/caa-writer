@@ -1,0 +1,68 @@
+{
+  "id": "lib_gio_scelte",
+  "name": "Gioco delle scelte",
+  "category": "Giochi e attività interattive",
+  "description": "Gioco interattivo per scegliere un'attività divertente. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Gioco delle scelte"
+    },
+    {
+      "key": "players",
+      "label": "Numero di giocatori",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "rules",
+      "label": "Regole",
+      "kind": "text",
+      "default_value": "Scegli un'attività, rispetta il turno e completa il gioco."
+    }
+  ],
+  "items": [
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "disegnare",
+      "concept": null
+    },
+    {
+      "label": "cantare",
+      "concept": null
+    }
+  ]
+}

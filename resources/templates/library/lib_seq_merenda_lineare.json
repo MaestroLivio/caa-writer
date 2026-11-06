@@ -1,0 +1,64 @@
+{
+  "id": "lib_seq_merenda_lineare",
+  "name": "Fare merenda: sequenza lineare",
+  "category": "Sequenze e routine",
+  "description": "Routine per la merenda in cinque passi. 5 voci, tra cui lavarsi le mani, scegliere la merenda, sedersi, mangiare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Fare merenda: sequenza lineare"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    },
+    {
+      "label": "scegliere la merenda",
+      "concept": null
+    },
+    {
+      "label": "sedersi",
+      "concept": null
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "riordinare",
+      "concept": null
+    }
+  ]
+}

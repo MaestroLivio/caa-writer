@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_forme_geometriche",
+  "name": "Forme geometriche",
+  "category": "Materiali didattici",
+  "description": "Scheda di riconoscimento delle forme geometriche. 6 voci, tra cui cerchio, quadrato, triangolo, rettangolo e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Forme geometriche"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "cerchio",
+      "concept": null
+    },
+    {
+      "label": "quadrato",
+      "concept": null
+    },
+    {
+      "label": "triangolo",
+      "concept": null
+    },
+    {
+      "label": "rettangolo",
+      "concept": null
+    },
+    {
+      "label": "rombo",
+      "concept": null
+    },
+    {
+      "label": "trapezio",
+      "concept": null
+    }
+  ]
+}

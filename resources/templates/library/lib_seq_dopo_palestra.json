@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_dopo_palestra",
+  "name": "Dopo la palestra",
+  "category": "Sequenze e routine",
+  "description": "Routine per cambiarsi dopo la palestra. 6 voci, tra cui asciugarsi, cambiarsi, mettere i vestiti nella borsa, pettinarsi e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Dopo la palestra"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "asciugarsi",
+      "concept": null
+    },
+    {
+      "label": "cambiarsi",
+      "concept": null
+    },
+    {
+      "label": "mettere i vestiti nella borsa",
+      "concept": null
+    },
+    {
+      "label": "pettinarsi",
+      "concept": null
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "uscire",
+      "concept": null
+    }
+  ]
+}

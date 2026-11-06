@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_lavarsi_mani_lineare",
+  "name": "Lavarsi le mani: sequenza lineare",
+  "category": "Sequenze e routine",
+  "description": "Routine per lavarsi le mani in sei passi. 6 voci, tra cui aprire l'acqua, bagnare le mani, mettere il sapone, sfregare le mani e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Lavarsi le mani: sequenza lineare"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "aprire l'acqua",
+      "concept": null
+    },
+    {
+      "label": "bagnare le mani",
+      "concept": null
+    },
+    {
+      "label": "mettere il sapone",
+      "concept": null
+    },
+    {
+      "label": "sfregare le mani",
+      "concept": null
+    },
+    {
+      "label": "sciacquare",
+      "concept": null
+    },
+    {
+      "label": "asciugare",
+      "concept": null
+    }
+  ]
+}

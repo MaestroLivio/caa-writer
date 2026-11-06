@@ -1,0 +1,64 @@
+{
+  "id": "lib_tea_presenza",
+  "name": "Tabella delle presenze",
+  "category": "Materiali TEACCH",
+  "description": "Tabella settimanale per segnare la presenza a scuola. 5 voci, tra cui lunedì, martedì, mercoledì, giovedì e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 5,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Tabella delle presenze"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lunedì",
+      "concept": null
+    },
+    {
+      "label": "martedì",
+      "concept": null
+    },
+    {
+      "label": "mercoledì",
+      "concept": null
+    },
+    {
+      "label": "giovedì",
+      "concept": null
+    },
+    {
+      "label": "venerdì",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_pausa",
+  "name": "Chiedere una pausa",
+  "category": "Emozioni e autoregolazione",
+  "description": "Sequenza per chiedere e prendere una pausa. 6 voci, tra cui chiedo pausa, mi allontano, mi siedo, respiro e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Chiedere una pausa"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "chiedo pausa",
+      "concept": null
+    },
+    {
+      "label": "mi allontano",
+      "concept": null
+    },
+    {
+      "label": "mi siedo",
+      "concept": null
+    },
+    {
+      "label": "respiro",
+      "concept": null
+    },
+    {
+      "label": "bevo",
+      "concept": null
+    },
+    {
+      "label": "torno",
+      "concept": null
+    }
+  ]
+}

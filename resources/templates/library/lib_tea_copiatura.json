@@ -1,0 +1,68 @@
+{
+  "id": "lib_tea_copiatura",
+  "name": "Copiare un modello",
+  "category": "Materiali TEACCH",
+  "description": "Compito di copiatura da un modello scritto. 6 voci, tra cui guardare il modello, scrivere la prima parola, controllare, scrivere la seconda parola e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Copiare un modello"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "guardare il modello",
+      "concept": null
+    },
+    {
+      "label": "scrivere la prima parola",
+      "concept": null
+    },
+    {
+      "label": "controllare",
+      "concept": null
+    },
+    {
+      "label": "scrivere la seconda parola",
+      "concept": null
+    },
+    {
+      "label": "rileggere",
+      "concept": null
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

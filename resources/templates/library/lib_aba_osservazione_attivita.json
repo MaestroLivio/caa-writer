@@ -1,0 +1,68 @@
+{
+  "id": "lib_aba_osservazione_attivita",
+  "name": "Osservazione: attività completate",
+  "category": "Materiali ABA e supporti visivi",
+  "description": "Scheda di osservazione delle attività svolte. 6 voci, tra cui iniziata, svolta, finita, con aiuto e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Osservazione: attività completate"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "iniziata",
+      "concept": null
+    },
+    {
+      "label": "svolta",
+      "concept": null
+    },
+    {
+      "label": "finita",
+      "concept": null
+    },
+    {
+      "label": "con aiuto",
+      "concept": null
+    },
+    {
+      "label": "da solo",
+      "concept": "state.alone"
+    },
+    {
+      "label": "da ripetere",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_cameretta",
+  "name": "Mettere in ordine la cameretta",
+  "category": "Sequenze e routine",
+  "description": "Routine per riordinare la cameretta. 6 voci, tra cui rifare il letto, raccogliere i vestiti, mettere i giochi, spolverare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 6,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Mettere in ordine la cameretta"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "orizzontale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "rifare il letto",
+      "concept": null
+    },
+    {
+      "label": "raccogliere i vestiti",
+      "concept": null
+    },
+    {
+      "label": "mettere i giochi",
+      "concept": null
+    },
+    {
+      "label": "spolverare",
+      "concept": null
+    },
+    {
+      "label": "mettere a posto",
+      "concept": null
+    },
+    {
+      "label": "controllare",
+      "concept": null
+    }
+  ]
+}

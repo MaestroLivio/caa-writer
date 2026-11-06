@@ -22,6 +22,11 @@ Sintesi onesta di ciò che esiste nel codice:
 | Unità multiparola automatiche (sintesi vocale, computer portatile, …) con un solo pittogramma | implementato |
 | Unione e separazione manuale delle unità CAA, persistenti e annullabili | implementato |
 | Lettura facoltativa di parola e frase durante la digitazione | implementato |
+| Importazione di immagini e cartelle con collezioni personali | implementato |
+| Ricerca online ARASAAC/Wikimedia con privacy, cache e licenze | implementato |
+| Biblioteca di 300 modelli CAA filtrabili e apribili | implementato |
+| Modifica del documento con prompt e anteprima | implementato |
+| CLI headless `caa-cli` con `call`/`rpc` per agenti | implementato |
 | Selezione di qualsiasi parola e aggiunta di un pittogramma senza simbolo preesistente | implementato |
 | Pittogramma + testo digitato, senza didascalia duplicata (didascalie opzionali) | implementato |
 | Stili di bordo del pittogramma (nessuno, immagine, immagine+testo, separato, divisore) | implementato |
@@ -131,3 +136,8 @@ modifiche significative e aggiornarla prima di terminare una sessione. È esclus
 (`/Contesto.md`), non viene pubblicata e non entra negli installer. `AGENTS.md` e `CLAUDE.md`
 rimandano ad essa; `scripts/check_context.py` verifica che esista, che contenga le 21 sezioni
 richieste e che resti fuori dal repository.
+
+## CLI per agenti e automazione
+
+`cargo run --bin caa-cli -- info` avvia il motore headless. Documentazione:
+[`docs/AGENT.md`](docs/AGENT.md).

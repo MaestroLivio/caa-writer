@@ -1,0 +1,76 @@
+{
+  "id": "lib_ag_gita_scolastica",
+  "name": "Gita scolastica",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda oraria della gita scolastica. 8 voci, tra cui 7:30 ritrovo, 8:00 autobus, 9:30 arrivo, 10:00 visita e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 8,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Gita scolastica"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "7:30 ritrovo",
+      "concept": null
+    },
+    {
+      "label": "8:00 autobus",
+      "concept": null
+    },
+    {
+      "label": "9:30 arrivo",
+      "concept": null
+    },
+    {
+      "label": "10:00 visita",
+      "concept": null
+    },
+    {
+      "label": "12:30 pranzo",
+      "concept": null
+    },
+    {
+      "label": "14:00 laboratorio",
+      "concept": null
+    },
+    {
+      "label": "15:30 ritorno",
+      "concept": null
+    },
+    {
+      "label": "16:30 scuola",
+      "concept": null
+    }
+  ]
+}

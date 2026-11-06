@@ -1,0 +1,68 @@
+{
+  "id": "lib_ag_sera_casa",
+  "name": "Sera a casa",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda della sera prima di dormire. 6 voci, tra cui 19:00 cena, 19:30 lavarsi i denti, 19:45 pigiama, 20:00 lettura e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Sera a casa"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "19:00 cena",
+      "concept": null
+    },
+    {
+      "label": "19:30 lavarsi i denti",
+      "concept": null
+    },
+    {
+      "label": "19:45 pigiama",
+      "concept": null
+    },
+    {
+      "label": "20:00 lettura",
+      "concept": null
+    },
+    {
+      "label": "20:30 letto",
+      "concept": null
+    },
+    {
+      "label": "21:00 dormire",
+      "concept": null
+    }
+  ]
+}

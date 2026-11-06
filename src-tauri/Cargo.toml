@@ -7,6 +7,7 @@ edition = "2021"
 rust-version = "1.77"
 license = "CC-BY-NC-SA-4.0"
 publish = false
+default-run = "caa-writer"
 
 [lib]
 name = "caa_writer_lib"
@@ -28,6 +29,11 @@ sha2 = "0.10"
 roxmltree = "0.20"
 unicode-normalization = "0.1"
 time = { version = "0.3", features = ["formatting", "macros"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp", "bmp", "tiff", "ico", "avif", "avif-native"] }
+walkdir = "2"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+urlencoding = "2"
+clap = { version = "4", features = ["derive"] }
 
 [dev-dependencies]
 tempfile = "3"

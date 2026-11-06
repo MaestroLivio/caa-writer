@@ -1,0 +1,68 @@
+{
+  "id": "lib_sto_dormire_fuori",
+  "name": "Dormire fuori casa",
+  "category": "Storie sociali",
+  "description": "Storia sociale sul dormire fuori casa. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Dormire fuori casa"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "A volte dormo fuori casa.",
+      "concept": null
+    },
+    {
+      "label": "Porto il mio pigiama e il mio cuscino.",
+      "concept": null
+    },
+    {
+      "label": "La stanza può essere diversa.",
+      "concept": null
+    },
+    {
+      "label": "Posso chiedere dove dormo.",
+      "concept": null
+    },
+    {
+      "label": "Posso fare la mia solita routine.",
+      "concept": null
+    },
+    {
+      "label": "Al mattino torno a casa.",
+      "concept": null
+    }
+  ]
+}

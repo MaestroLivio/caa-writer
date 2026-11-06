@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_bisogni_casa",
+  "name": "Bisogni a casa",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per comunicare i bisogni nella routine domestica. 6 voci, tra cui mangiare, bere, bagno, dormire e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Bisogni a casa"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    }
+  ]
+}

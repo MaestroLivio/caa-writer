@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_calendario_mensile",
+  "name": "Calendario mensile delle attività",
+  "category": "Agende e calendari visivi",
+  "description": "Calendario sintetico con cinque appuntamenti del mese. 5 voci, tra cui 1: incontro, 8: visita, 15: compleanno, 22: gita e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 5,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Calendario mensile delle attività"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "1: incontro",
+      "concept": null
+    },
+    {
+      "label": "8: visita",
+      "concept": null
+    },
+    {
+      "label": "15: compleanno",
+      "concept": null
+    },
+    {
+      "label": "22: gita",
+      "concept": null
+    },
+    {
+      "label": "29: festa",
+      "concept": null
+    }
+  ]
+}

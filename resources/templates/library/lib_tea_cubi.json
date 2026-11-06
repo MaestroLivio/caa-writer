@@ -1,0 +1,68 @@
+{
+  "id": "lib_tea_cubi",
+  "name": "Costruire con i cubi",
+  "category": "Materiali TEACCH",
+  "description": "Compito strutturato di costruzione con i cubi. 6 voci, tra cui cubo rosso, cubo blu, cubo giallo, torre e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Costruire con i cubi"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "cubo rosso",
+      "concept": null
+    },
+    {
+      "label": "cubo blu",
+      "concept": null
+    },
+    {
+      "label": "cubo giallo",
+      "concept": null
+    },
+    {
+      "label": "torre",
+      "concept": null
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "controllare",
+      "concept": null
+    }
+  ]
+}

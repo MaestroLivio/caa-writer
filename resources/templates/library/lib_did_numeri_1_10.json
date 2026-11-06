@@ -1,0 +1,84 @@
+{
+  "id": "lib_did_numeri_1_10",
+  "name": "Numeri da 1 a 10",
+  "category": "Materiali didattici",
+  "description": "Scheda dei numeri da uno a dieci. 10 voci, tra cui 1 uno, 2 due, 3 tre, 4 quattro e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 5,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Numeri da 1 a 10"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "1 uno",
+      "concept": null
+    },
+    {
+      "label": "2 due",
+      "concept": null
+    },
+    {
+      "label": "3 tre",
+      "concept": null
+    },
+    {
+      "label": "4 quattro",
+      "concept": null
+    },
+    {
+      "label": "5 cinque",
+      "concept": null
+    },
+    {
+      "label": "6 sei",
+      "concept": null
+    },
+    {
+      "label": "7 sette",
+      "concept": null
+    },
+    {
+      "label": "8 otto",
+      "concept": null
+    },
+    {
+      "label": "9 nove",
+      "concept": null
+    },
+    {
+      "label": "10 dieci",
+      "concept": null
+    }
+  ]
+}

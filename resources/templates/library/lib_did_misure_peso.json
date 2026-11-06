@@ -1,0 +1,60 @@
+{
+  "id": "lib_did_misure_peso",
+  "name": "Misure di peso",
+  "category": "Materiali didattici",
+  "description": "Scheda sulle equivalenze di peso. 4 voci, tra cui 1 chilogrammo = 1000 grammi, mezzo chilo = 500 grammi, 1 etto = 100 grammi, 1 tonnellata = 1000 chili.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Misure di peso"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "1 chilogrammo = 1000 grammi",
+      "concept": null
+    },
+    {
+      "label": "mezzo chilo = 500 grammi",
+      "concept": null
+    },
+    {
+      "label": "1 etto = 100 grammi",
+      "concept": null
+    },
+    {
+      "label": "1 tonnellata = 1000 chili",
+      "concept": null
+    }
+  ]
+}

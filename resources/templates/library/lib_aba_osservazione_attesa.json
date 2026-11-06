@@ -1,0 +1,68 @@
+{
+  "id": "lib_aba_osservazione_attesa",
+  "name": "Osservazione: attesa",
+  "category": "Materiali ABA e supporti visivi",
+  "description": "Scheda di osservazione dei tempi di attesa. 6 voci, tra cui aspettare 1 minuto, aspettare 3 minuti, aspettare il turno, aspettare in fila e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Osservazione: attesa"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "aspettare 1 minuto",
+      "concept": null
+    },
+    {
+      "label": "aspettare 3 minuti",
+      "concept": null
+    },
+    {
+      "label": "aspettare il turno",
+      "concept": null
+    },
+    {
+      "label": "aspettare in fila",
+      "concept": null
+    },
+    {
+      "label": "aspettare seduto",
+      "concept": null
+    },
+    {
+      "label": "aspettare in piedi",
+      "concept": null
+    }
+  ]
+}

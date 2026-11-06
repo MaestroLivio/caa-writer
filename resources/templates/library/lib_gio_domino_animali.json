@@ -1,0 +1,76 @@
+{
+  "id": "lib_gio_domino_animali",
+  "name": "Domino degli animali",
+  "category": "Giochi e attività interattive",
+  "description": "Domino con otto animali da abbinare. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Domino degli animali"
+    },
+    {
+      "key": "players",
+      "label": "Numero di giocatori",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "rules",
+      "label": "Regole",
+      "kind": "text",
+      "default_value": "Abbina le carte che mostrano lo stesso simbolo."
+    }
+  ],
+  "items": [
+    {
+      "label": "cane",
+      "concept": "animal.dog"
+    },
+    {
+      "label": "gatto",
+      "concept": "animal.cat"
+    },
+    {
+      "label": "uccello",
+      "concept": "animal.bird"
+    },
+    {
+      "label": "pesce",
+      "concept": null
+    },
+    {
+      "label": "cavallo",
+      "concept": null
+    },
+    {
+      "label": "coniglio",
+      "concept": null
+    },
+    {
+      "label": "tartaruga",
+      "concept": null
+    },
+    {
+      "label": "farfalla",
+      "concept": null
+    }
+  ]
+}

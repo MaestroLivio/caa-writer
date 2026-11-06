@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_respirazione",
+  "name": "Respirazione guidata",
+  "category": "Emozioni e autoregolazione",
+  "description": "Sequenza illustrata per respirare lentamente. 6 voci, tra cui inspira, trattieni, espira, conta fino a 4 e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Respirazione guidata"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "inspira",
+      "concept": null
+    },
+    {
+      "label": "trattieni",
+      "concept": null
+    },
+    {
+      "label": "espira",
+      "concept": null
+    },
+    {
+      "label": "conta fino a 4",
+      "concept": null
+    },
+    {
+      "label": "ripeti",
+      "concept": null
+    },
+    {
+      "label": "calmo",
+      "concept": null
+    }
+  ]
+}

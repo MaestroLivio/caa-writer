@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_bagno_casa",
+  "name": "Bagno a casa",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per la routine del bagno domestico. 6 voci, tra cui bagno, lavarsi le mani, lavarsi i denti, acqua e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Bagno a casa"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    },
+    {
+      "label": "lavarsi i denti",
+      "concept": "hygiene.brush_teeth"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "porta",
+      "concept": "place.door"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

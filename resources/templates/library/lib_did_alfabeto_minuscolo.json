@@ -1,0 +1,128 @@
+{
+  "id": "lib_did_alfabeto_minuscolo",
+  "name": "Alfabeto minuscolo",
+  "category": "Materiali didattici",
+  "description": "Scheda dell'alfabeto italiano in stampato minuscolo. 21 voci, tra cui a, b, c, d e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "articolata",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 7,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Alfabeto minuscolo"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "a",
+      "concept": null
+    },
+    {
+      "label": "b",
+      "concept": null
+    },
+    {
+      "label": "c",
+      "concept": null
+    },
+    {
+      "label": "d",
+      "concept": null
+    },
+    {
+      "label": "e",
+      "concept": null
+    },
+    {
+      "label": "f",
+      "concept": null
+    },
+    {
+      "label": "g",
+      "concept": null
+    },
+    {
+      "label": "h",
+      "concept": null
+    },
+    {
+      "label": "i",
+      "concept": null
+    },
+    {
+      "label": "l",
+      "concept": null
+    },
+    {
+      "label": "m",
+      "concept": null
+    },
+    {
+      "label": "n",
+      "concept": null
+    },
+    {
+      "label": "o",
+      "concept": null
+    },
+    {
+      "label": "p",
+      "concept": null
+    },
+    {
+      "label": "q",
+      "concept": null
+    },
+    {
+      "label": "r",
+      "concept": null
+    },
+    {
+      "label": "s",
+      "concept": null
+    },
+    {
+      "label": "t",
+      "concept": null
+    },
+    {
+      "label": "u",
+      "concept": null
+    },
+    {
+      "label": "v",
+      "concept": null
+    },
+    {
+      "label": "z",
+      "concept": null
+    }
+  ]
+}

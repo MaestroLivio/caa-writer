@@ -1,0 +1,72 @@
+{
+  "id": "lib_seq_materiali_lineare",
+  "name": "Preparare i materiali scolastici: sequenza lineare",
+  "category": "Sequenze e routine",
+  "description": "Routine per preparare i materiali per la lezione. 7 voci, tra cui astuccio, matita, penna, gomma e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Preparare i materiali scolastici: sequenza lineare"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "astuccio",
+      "concept": null
+    },
+    {
+      "label": "matita",
+      "concept": "object.pencil"
+    },
+    {
+      "label": "penna",
+      "concept": "obj.pen"
+    },
+    {
+      "label": "gomma",
+      "concept": null
+    },
+    {
+      "label": "righello",
+      "concept": null
+    },
+    {
+      "label": "quaderno",
+      "concept": null
+    },
+    {
+      "label": "zaino",
+      "concept": "object.backpack"
+    }
+  ]
+}

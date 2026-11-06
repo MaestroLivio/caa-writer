@@ -2,6 +2,7 @@
   import { api, isTauri } from "../api";
   import ModelManager from "./ModelManager.svelte";
   import type { AssociationScope } from "../workspace/layout";
+  import type { CollectionInfo, OnlineResult } from "../types";
   import type {
     AiConfig,
     AiStatus,
@@ -19,7 +20,7 @@
     WordAffinity,
   } from "../types";
 
-  type Tab = "alternative" | "cerca" | "impostazioni" | "studio";
+  type Tab = "alternative" | "cerca" | "collezioni" | "impostazioni" | "studio";
 
   interface Props {
     selected: { pid: string; token: CaaToken } | null;
@@ -31,6 +32,7 @@
     aiStatus: AiStatus | null;
     preferences: Preference[];
     templates: TemplateInfo[];
+    collections: CollectionInfo[];
     /// Richiesta di apertura di una scheda specifica, inviata dalla schermata iniziale
     /// o dal Ribbon. `search` apre la ricerca sulla parola, `ai` usa gli affini IA.
     intent: {
@@ -69,6 +71,9 @@
     onPrintResource: () => void;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
     onClearHistory: () => Promise<void>;
+    onRefreshCollections: () => Promise<void>;
+    onImportImages: () => void;
+    onImportFolder: () => void;
   }
 
   let {
@@ -81,6 +86,7 @@
     aiStatus,
     preferences,
     templates,
+    collections,
     intent,
     closed = $bindable(false),
     overlay = false,
@@ -103,9 +109,24 @@
     onPrintResource,
     onToast,
     onClearHistory,
+    onRefreshCollections,
+    onImportImages,
+    onImportFolder,
   }: Props = $props();
 
   let tab = $state<Tab>("alternative");
+  let collectionFilter = $state<string | null>(null);
+  let collectionFilterName = $state("");
+  let renamingId = $state<string | null>(null);
+  let renameValue = $state("");
+  let deleteCandidate = $state<CollectionInfo | null>(null);
+  let onlineResults = $state<OnlineResult[]>([]);
+  let onlineThumbs = $state<Record<string, string>>({});
+  let onlineBusy = $state(false);
+  let onlineError = $state("");
+  let onlineQuery = $state("");
+  let onlineCached = $state(false);
+  let autoOnlineKey = "";
   let searchQuery = $state("");
   let searchResults = $state<Alternative[]>([]);
   let searchBusy = $state(false);
@@ -120,6 +141,34 @@
   let plan = $state<ResourcePlan | null>(null);
   let studioBusy = $state(false);
   let templateChoice = $state<string | null>(null);
+  let libQuery = $state("");
+  let libCategory = $state("");
+  let libKind = $state("");
+  let libComplexity = $state("");
+  let libMinCells = $state(0);
+  let libUsage = $state("");
+  const templateCategories = $derived(
+    [...new Set(templates.map((template) => template.category))].sort()
+  );
+  const filteredTemplates = $derived(
+    templates.filter((template) => {
+      if (libCategory && template.category !== libCategory) return false;
+      if (libKind && template.kind !== libKind) return false;
+      if (libComplexity && (template.complexity ?? "") !== libComplexity) return false;
+      if (libUsage === "printable" && template.printable === false) return false;
+      if (libUsage === "interactive" && template.interactive !== true) return false;
+      if (libMinCells > 0) {
+        const cells = (template.grid?.columns ?? 0) * (template.grid?.rows ?? 0);
+        if (cells < libMinCells) return false;
+      }
+      const query = libQuery.trim().toLowerCase();
+      if (query) {
+        const haystack = `${template.name} ${template.description} ${template.category}`.toLowerCase();
+        if (!haystack.includes(query)) return false;
+      }
+      return true;
+    })
+  );
   let aiDraft = $state<AiConfig>({
     enabled: false,
     binary_path: "",
@@ -250,6 +299,119 @@
     onSwitchTab(next);
   }
 
+  function onlineTerms(): string[] {
+    if (!selected) return [];
+    const token = selected.token;
+    return [token.concept_label ?? "", token.lemma ?? "", token.surface]
+      .map((term) => term.trim())
+      .filter(Boolean);
+  }
+
+  async function searchOnline() {
+    if (!selected) return;
+    const terms = onlineTerms();
+    if (terms.length === 0) return;
+    onlineBusy = true;
+    onlineError = "";
+    try {
+      const response = await api.searchOnlinePictograms(terms, false);
+      onlineResults = response.results;
+      onlineQuery = response.query;
+      onlineCached = response.cached;
+      const thumbs: Record<string, string> = {};
+      await Promise.allSettled(
+        response.results.slice(0, 12).map(async (result) => {
+          const url = result.thumbnail_url ?? result.image_url;
+          try {
+            thumbs[result.id] = await api.onlineThumbnail(url);
+          } catch {
+            /* anteprima non disponibile: resta il titolo */
+          }
+        })
+      );
+      onlineThumbs = thumbs;
+      if (response.results.length === 0) {
+        onToast(response.warnings[0] ?? "Nessun risultato online.", "warn");
+      }
+    } catch (error) {
+      onlineError = error instanceof Error ? error.message : String(error);
+    } finally {
+      onlineBusy = false;
+    }
+  }
+
+  async function useOnline(result: OnlineResult) {
+    if (!selected) {
+      onToast("Seleziona l'unità a cui applicare il pittogramma.", "warn");
+      return;
+    }
+    onlineBusy = true;
+    try {
+      const lemma = selected.token.lemma ?? selected.token.surface;
+      const alternative = await api.saveOnlinePictogram(result, lemma, "Online");
+      onApplyAlternative(alternative);
+      await onRefreshCollections();
+      onToast("Pittogramma salvato nella collezione Online e applicato.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      onlineBusy = false;
+    }
+  }
+
+  $effect(() => {
+    if (settings.online_search !== "auto" || tab !== "alternative" || !selected) return;
+    if (selected.token.symbol_id) return;
+    const key = `${selected.pid}:${selected.token.index}:${selected.token.surface}`;
+    if (key === autoOnlineKey) return;
+    autoOnlineKey = key;
+    void searchOnline();
+  });
+
+  function openCollection(collection: CollectionInfo) {
+    collectionFilter = collection.id;
+    collectionFilterName = collection.name;
+    searchQuery = "";
+    selectTab("cerca");
+    void runSearch();
+  }
+
+  function clearCollectionFilter() {
+    collectionFilter = null;
+    collectionFilterName = "";
+    void runSearch();
+  }
+
+  function beginRename(collection: CollectionInfo) {
+    renamingId = collection.id;
+    renameValue = collection.name;
+  }
+
+  async function confirmRename() {
+    if (!renamingId || !renameValue.trim()) return;
+    try {
+      await api.renamePictogramCollection(renamingId, renameValue.trim());
+      await onRefreshCollections();
+      if (collectionFilter === renamingId) collectionFilterName = renameValue.trim();
+      onToast("Collezione rinominata.", "info");
+      renamingId = null;
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function removeCollection(collection: CollectionInfo) {
+    try {
+      const removed = await api.deletePictogramCollection(collection.id);
+      deleteCandidate = null;
+      if (collectionFilter === collection.id) clearCollectionFilter();
+      await onRefreshCollections();
+      onToast(`${removed} pittogrammi eliminati con la collezione.`, "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
   // Passa alla scheda «Alternative» solo quando la selezione cambia davvero:
   // eseguire il cambio a ogni montaggio sovrascriveva la scheda richiesta
   // dalla schermata iniziale (per esempio «Impostazioni»).
@@ -327,7 +489,7 @@
 
   async function runSearch() {
     const query = searchQuery.trim();
-    if (!query) {
+    if (!query && !collectionFilter) {
       searchResults = [];
       affinity = null;
       affinityCacheKey = "";
@@ -342,7 +504,14 @@
     // seconda non deve rallentare la comparsa dei risultati FTS.
     void loadAffinity(query, true);
     try {
-      const page = await api.searchSymbols(query, 60, 0, settings.pack_id, settings.commercial_only);
+      const page = await api.searchSymbols(
+        query,
+        60,
+        0,
+        settings.pack_id,
+        settings.commercial_only,
+        collectionFilter
+      );
       searchResults = page.items;
       if (page.items.length === 0) onToast("Nessun simbolo trovato per questa ricerca.", "warn");
     } catch (error) {
@@ -380,6 +549,16 @@
     const parts = [alternative.label];
     if (alternative.pack_name) parts.push(alternative.pack_name);
     return parts.join(" — ");
+  }
+
+  async function openTemplate(template: (typeof templates)[number]) {
+    templateChoice = template.id;
+    studioBusy = true;
+    try {
+      plan = await onGenerateResource(studioPrompt.trim() || template.name, template.id);
+    } finally {
+      studioBusy = false;
+    }
   }
 
   async function handleImportSvg() {
@@ -478,6 +657,12 @@
     <button
       class="tab"
       role="tab"
+      aria-selected={tab === "collezioni"}
+      onclick={() => selectTab("collezioni")}>Collezioni</button
+    >
+    <button
+      class="tab"
+      role="tab"
       aria-selected={tab === "impostazioni"}
       onclick={() => selectTab("impostazioni")}>Impostazioni</button
     >
@@ -557,6 +742,66 @@
                       <span class="badge badge--ai" title="Suggerito dal modello neurale: simbolo affine, da verificare">IA affine</span>
                     {/if}
                   </button>
+                {/each}
+              </div>
+            {/if}
+          </section>
+
+          <section class="panel-section online-panel">
+            <h3>Ricerca online</h3>
+            <p class="hint">
+              {#if selected}
+                Verso il provider vengono inviati solo lemmi e concetti generici:
+                <strong>{onlineTerms().join(" · ") || "nessun termine"}</strong>.
+                Non viene inviata la frase completa.
+              {:else}
+                Seleziona un'unità per cercare un pittogramma online.
+              {/if}
+            </p>
+            {#if settings.online_search === "off"}
+              <p class="hint">
+                Ricerca online disattivata. Attivala in Impostazioni → Ricerca online.
+              </p>
+            {:else}
+              <button
+                class="btn"
+                onclick={() => void searchOnline()}
+                disabled={onlineBusy || !selected}
+              >{onlineBusy ? "Cerco…" : "Cerca su Wikimedia Commons"}</button>
+            {/if}
+            {#if onlineError}
+              <p class="import-error">{onlineError}</p>
+            {/if}
+            {#if onlineResults.length > 0}
+              <p class="hint">
+                «{onlineQuery}» · {onlineCached ? "cache locale" : "richiesta appena eseguita"} ·
+                controlla sempre la licenza prima dell'uso. Le fotografie sono distinte dai pittogrammi CAA.
+              </p>
+              <div class="online-grid">
+                {#each onlineResults as result (result.provider + result.id)}
+                  <div class="online-card">
+                    {#if onlineThumbs[result.id]}
+                      <img class="online-thumb" src={onlineThumbs[result.id]} alt="" />
+                    {:else}
+                      <span class="online-thumb online-thumb--empty">?</span>
+                    {/if}
+                    <strong class="online-title">{result.title}</strong>
+                    <span class="online-meta">
+                      <span class="import-badge">{result.kind === "pittogramma" ? "pittogramma" : "fotografia"}</span>
+                      {result.source} · {result.license}
+                      {#if result.author} · {result.author}{/if}
+                    </span>
+                    <div class="online-actions">
+                      <button
+                        class="btn btn--solid"
+                        onclick={() => void useOnline(result)}
+                        disabled={onlineBusy || !selected}
+                      >Salva e applica</button>
+                      {#if result.page_url}
+                        <a href={result.page_url} target="_blank" rel="noreferrer">Fonte</a>
+                      {/if}
+                    </div>
+                  </div>
                 {/each}
               </div>
             {/if}
@@ -685,6 +930,58 @@
         {/if}
       {/if}
 
+      {#if tab === "collezioni"}
+        <section class="panel-section">
+          <h3>Collezioni personali</h3>
+          <p class="hint">
+            I pittogrammi importati restano nell'archivio dell'app, sono ricercabili per lemma e
+            sinonimi e vengono usati dalla simbolizzazione automatica.
+          </p>
+          <div class="collection-actions">
+            <button class="btn btn--solid" onclick={onImportImages}>Importa immagini</button>
+            <button class="btn" onclick={onImportFolder}>Importa cartella</button>
+          </div>
+
+          {#if deleteCandidate}
+            <div class="collection-warning" role="alert">
+              <p>
+                Eliminare «{deleteCandidate.name}» e i suoi {deleteCandidate.symbols} pittogrammi?
+                L'operazione non può essere annullata.
+              </p>
+              <div class="collection-actions">
+                <button class="btn btn--solid" onclick={() => void removeCollection(deleteCandidate!)}>
+                  Elimina definitivamente
+                </button>
+                <button class="btn btn--ghost" onclick={() => (deleteCandidate = null)}>Annulla</button>
+              </div>
+            </div>
+          {/if}
+
+          {#if collections.length === 0}
+            <p class="hint">Nessuna collezione. Importa una cartella per iniziare.</p>
+          {/if}
+
+          {#each collections as collection (collection.id)}
+            <div class="collection-row">
+              {#if renamingId === collection.id}
+                <input bind:value={renameValue} aria-label="Nuovo nome della collezione" />
+                <button class="btn btn--solid" onclick={() => void confirmRename()}>Salva</button>
+                <button class="btn btn--ghost" onclick={() => (renamingId = null)}>Annulla</button>
+              {:else}
+                <button
+                  class="collection-open"
+                  onclick={() => openCollection(collection)}
+                  title="Cerca i pittogrammi di questa collezione"
+                >{collection.name}</button>
+                <span class="collection-count">{collection.symbols}</span>
+                <button class="btn btn--ghost" onclick={() => beginRename(collection)}>Rinomina</button>
+                <button class="btn btn--ghost" onclick={() => (deleteCandidate = collection)}>Elimina</button>
+              {/if}
+            </div>
+          {/each}
+        </section>
+      {/if}
+
       {#if tab === "cerca"}
         <section class="panel-section">
           <h3>Ricerca simboli</h3>
@@ -719,6 +1016,12 @@
             suggerimenti approssimativi da verificare. I gruppi di affinità distinguono parola esatta,
             forma base, varianti, sinonimi, concetto generale e affini.
           </p>
+          {#if collectionFilter}
+            <p class="collection-filter">
+              Collezione: <strong>{collectionFilterName}</strong>
+              <button class="btn btn--ghost" onclick={clearCollectionFilter}>Tutte le collezioni</button>
+            </p>
+          {/if}
           {@render scopeChoice()}
           {#if affinityMatchesSearch}
             {@render affinityBlock()}
@@ -839,6 +1142,19 @@
               checked={settings.touch_mode}
               onchange={(event) => onUpdateSettings({ touch_mode: (event.currentTarget as HTMLInputElement).checked })}
             />
+          </div>
+          <div class="settings-row">
+            <label for="online-search-select">Ricerca online</label>
+            <select
+              id="online-search-select"
+              value={settings.online_search}
+              onchange={(event) =>
+                onUpdateSettings({ online_search: (event.currentTarget as HTMLSelectElement).value as never })}
+            >
+              <option value="off">Disattivata</option>
+              <option value="suggest">Suggerisci nel pannello</option>
+              <option value="auto">Cerca automaticamente l'unità senza simbolo</option>
+            </select>
           </div>
           <div class="settings-row">
             <label for="animations-select">Animazioni</label>
@@ -1081,19 +1397,73 @@
         </section>
 
         <section class="panel-section">
-          <h3>Modelli disponibili</h3>
+          <h3>Biblioteca modelli <span class="hint">({filteredTemplates.length}/{templates.length})</span></h3>
           {#if templates.length === 0}
             <p class="hint">Nessun modello caricato. Verifica la cartella resources/templates.</p>
           {:else}
-            <ul style="margin:0;padding-left:18px;font-size:0.82rem">
-              {#each templates as template (template.id)}
-                <li style="margin-bottom:4px">
-                  <strong>{template.name}</strong>
-                  <span class="hint"> · {template.category}</span>
-                  <div class="hint">{template.description}</div>
-                </li>
+            <div class="template-filters">
+              <input type="search" bind:value={libQuery} placeholder="Cerca un modello…" aria-label="Cerca un modello" />
+              <select bind:value={libCategory} aria-label="Categoria">
+                <option value="">Tutte le categorie</option>
+                {#each templateCategories as category (category)}
+                  <option value={category}>{category}</option>
+                {/each}
+              </select>
+              <select bind:value={libKind} aria-label="Tipologia">
+                <option value="">Tutte le tipologie</option>
+                <option value="grid">Tabella</option>
+                <option value="schedule">Agenda</option>
+                <option value="sequence">Sequenza</option>
+                <option value="story">Storia</option>
+                <option value="tokens">Gettoni</option>
+                <option value="worksheet">Scheda</option>
+              </select>
+              <select bind:value={libComplexity} aria-label="Complessità">
+                <option value="">Qualsiasi complessità</option>
+                <option value="semplice">Semplice</option>
+                <option value="intermedia">Intermedia</option>
+                <option value="articolata">Articolata</option>
+              </select>
+              <select bind:value={libMinCells} aria-label="Numero minimo di celle">
+                <option value={0}>Qualsiasi dimensione</option>
+                <option value={4}>Almeno 4 celle</option>
+                <option value={6}>Almeno 6 celle</option>
+                <option value={9}>Almeno 9 celle</option>
+                <option value={12}>Almeno 12 celle</option>
+                <option value={16}>Almeno 16 celle</option>
+                <option value={20}>Almeno 20 celle</option>
+                <option value={24}>Almeno 24 celle</option>
+                <option value={36}>Almeno 36 celle</option>
+              </select>
+              <select bind:value={libUsage} aria-label="Uso">
+                <option value="">Stampa e interattivo</option>
+                <option value="printable">Solo stampabile</option>
+                <option value="interactive">Interattivo</option>
+              </select>
+            </div>
+            <div class="template-list">
+              {#each filteredTemplates as template (template.id)}
+                <div class="template-card">
+                  <div class="template-card__head">
+                    <strong>{template.name}</strong>
+                    <span class="hint">{template.category}</span>
+                  </div>
+                  <p class="hint">{template.description}</p>
+                  <div class="template-card__meta">
+                    <span>{template.items.length} elementi</span>
+                    {#if template.grid}<span>{template.grid.columns}×{template.grid.rows}</span>{/if}
+                    {#if template.complexity}<span>{template.complexity}</span>{/if}
+                    {#if template.interactive}<span>interattivo</span>{/if}
+                    {#if template.printable !== false}<span>stampabile</span>{/if}
+                  </div>
+                  <button
+                    class="btn btn--ghost"
+                    disabled={studioBusy}
+                    onclick={() => void openTemplate(template)}
+                  >Apri una copia</button>
+                </div>
               {/each}
-            </ul>
+            </div>
           {/if}
         </section>
 
@@ -1114,7 +1484,11 @@
                   {:else}
                     <span class="caa-chip__empty" style="width:44px;height:44px">?</span>
                   {/if}
-                  <input value={item.label} aria-label={`Etichetta ${item.label}`} readonly />
+                  <input
+                    value={item.label}
+                    aria-label={`Etichetta ${item.label}`}
+                    oninput={(event) => (item.label = (event.currentTarget as HTMLInputElement).value)}
+                  />
                   {#if item.approximate}<span class="badge badge--warn">≈</span>{/if}
                 </div>
               {/each}

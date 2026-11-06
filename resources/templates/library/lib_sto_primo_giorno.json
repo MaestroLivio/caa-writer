@@ -1,0 +1,72 @@
+{
+  "id": "lib_sto_primo_giorno",
+  "name": "Il primo giorno di scuola",
+  "category": "Storie sociali",
+  "description": "Storia sociale sul primo giorno di scuola. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Il primo giorno di scuola"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "Il primo giorno di scuola alcune cose sono nuove.",
+      "concept": null
+    },
+    {
+      "label": "Conosco la maestra e i compagni.",
+      "concept": null
+    },
+    {
+      "label": "Guardo l'aula e trovo il mio banco.",
+      "concept": null
+    },
+    {
+      "label": "Se non so dove andare, posso chiedere.",
+      "concept": null
+    },
+    {
+      "label": "Posso ascoltare le indicazioni della maestra.",
+      "concept": null
+    },
+    {
+      "label": "A poco a poco la scuola diventa familiare.",
+      "concept": null
+    },
+    {
+      "label": "Posso raccontare a casa com'è andata.",
+      "concept": null
+    }
+  ]
+}

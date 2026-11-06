@@ -1,0 +1,72 @@
+{
+  "id": "lib_sto_supermercato",
+  "name": "Il supermercato",
+  "category": "Storie sociali",
+  "description": "Storia sociale sulla spesa al supermercato. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Il supermercato"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "Vado al supermercato.",
+      "concept": null
+    },
+    {
+      "label": "Prendo il carrello.",
+      "concept": null
+    },
+    {
+      "label": "Cerco gli articoli della lista.",
+      "concept": null
+    },
+    {
+      "label": "Posso chiedere aiuto a un commesso.",
+      "concept": null
+    },
+    {
+      "label": "Alla cassa aspetto il mio turno.",
+      "concept": null
+    },
+    {
+      "label": "Metto tutto nella busta.",
+      "concept": null
+    },
+    {
+      "label": "Torno a casa.",
+      "concept": null
+    }
+  ]
+}

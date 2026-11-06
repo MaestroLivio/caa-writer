@@ -440,6 +440,11 @@ export interface TemplateInfo {
   grid: GridSpec | null;
   fields: TemplateField[];
   items: TemplateItem[];
+  complexity?: string | null;
+  pages?: number | null;
+  orientation?: string | null;
+  printable?: boolean | null;
+  interactive?: boolean | null;
 }
 
 export interface PlannedItem {
@@ -470,6 +475,7 @@ export interface DocumentSettings {
   show_captions: boolean;
   border_style: BorderStyle;
   animations: "full" | "reduced" | "off";
+  online_search: "off" | "suggest" | "auto";
   typing_sound: boolean;
   speak_words: boolean;
   speak_sentences: boolean;
@@ -516,6 +522,7 @@ export const defaultSettings: DocumentSettings = {
   // Bordo attorno a immagine e testo: è l'aspetto storico dei chip.
   border_style: "immagine_testo",
   animations: "full",
+  online_search: "off",
   typing_sound: false,
   speak_words: false,
   speak_sentences: false,
@@ -644,4 +651,125 @@ export interface LayoutEditResult {
   pages: LayoutPage[];
   notes: string[];
   operations: string[];
+}
+
+/// Anteprima di un file selezionato per l'importazione.
+export interface ImportPreviewEntry {
+  path: string;
+  relative_path: string;
+  original_name: string;
+  suggested_lemma: string;
+  format: string;
+  supported: boolean;
+  reason: string | null;
+  duplicate: boolean;
+  width: number | null;
+  height: number | null;
+  checksum: string | null;
+  preview: string | null;
+}
+
+export interface ImportPreview {
+  suggested_collection: string;
+  root: string | null;
+  entries: ImportPreviewEntry[];
+  total: number;
+  supported: number;
+  duplicates: number;
+  truncated: boolean;
+  warnings: string[];
+}
+
+export interface ImportItemInput {
+  path: string;
+  lemma: string;
+  collection: string | null;
+  category: string | null;
+  synonyms: string[];
+  relative_path: string | null;
+  original_name: string | null;
+}
+
+export interface ImportLicense {
+  name: string | null;
+  url: string | null;
+  author: string | null;
+  source_url: string | null;
+  commercial_ok: boolean;
+}
+
+export interface ImportOutcome {
+  path: string;
+  symbol_id: string | null;
+  status: "imported" | "duplicate" | "failed";
+  reason: string | null;
+}
+
+export interface ImportReport {
+  imported: number;
+  skipped: number;
+  failed: number;
+  items: ImportOutcome[];
+  warnings: string[];
+}
+
+export interface CollectionInfo {
+  id: string;
+  name: string;
+  description: string | null;
+  symbols: number;
+  updated_at: string;
+}
+
+export interface OnlineResult {
+  provider: string;
+  id: string;
+  title: string;
+  thumbnail_url: string | null;
+  image_url: string;
+  page_url: string | null;
+  mime: string;
+  width: number | null;
+  height: number | null;
+  author: string | null;
+  license: string;
+  license_url: string | null;
+  source: string;
+  commercial_ok: boolean;
+  kind: "pittogramma" | "fotografia";
+}
+
+export interface OnlineResponse {
+  provider: string;
+  query: string;
+  results: OnlineResult[];
+  cached: boolean;
+  warnings: string[];
+}
+
+export interface OnlineProviderInfo {
+  id: string;
+  name: string;
+  enabled: boolean;
+  note: string;
+}
+
+export type DocumentOperation =
+  | { type: "set_uppercase"; value: boolean }
+  | { type: "scale_font_size"; factor: number }
+  | { type: "set_font_size"; value: number }
+  | { type: "scale_symbol_size"; factor: number }
+  | { type: "set_symbol_gap"; value: number }
+  | { type: "set_chip_border_color"; value: string }
+  | { type: "set_alignment"; value: "left" | "center" | "right" | "justify" }
+  | { type: "insert_table"; rows: number; columns: number }
+  | { type: "add_table_row" }
+  | { type: "add_table_column" }
+  | { type: "generate_board"; prompt: string };
+
+export interface DocumentEditPlan {
+  operations: DocumentOperation[];
+  descriptions: string[];
+  warnings: string[];
+  source: string;
 }

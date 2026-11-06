@@ -1,0 +1,188 @@
+{
+  "id": "lib_com_core_36",
+  "name": "Tabella completa: 36 celle",
+  "category": "Tabelle comunicative",
+  "description": "Tabella completa per la comunicazione quotidiana. 36 voci, tra cui volere, mangiare, bere, bagno e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "articolata",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 6,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Tabella completa: 36 celle"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "6"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "volere",
+      "concept": "action.want"
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "scuola",
+      "concept": "place.school"
+    },
+    {
+      "label": "felice",
+      "concept": "emotion.happy"
+    },
+    {
+      "label": "triste",
+      "concept": "emotion.sad"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "andare",
+      "concept": "action.go"
+    },
+    {
+      "label": "correre",
+      "concept": "action.run"
+    },
+    {
+      "label": "camminare",
+      "concept": "action.walk"
+    },
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    },
+    {
+      "label": "ascoltare",
+      "concept": "action.listen"
+    },
+    {
+      "label": "parlare",
+      "concept": "action.speak"
+    },
+    {
+      "label": "scrivere",
+      "concept": "action.write"
+    },
+    {
+      "label": "palla",
+      "concept": "object.ball"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "matita",
+      "concept": "object.pencil"
+    },
+    {
+      "label": "penna",
+      "concept": "obj.pen"
+    },
+    {
+      "label": "foglio",
+      "concept": "obj.paper_sheet"
+    },
+    {
+      "label": "forbici",
+      "concept": "object.scissors"
+    },
+    {
+      "label": "colla",
+      "concept": "object.glue"
+    },
+    {
+      "label": "zaino",
+      "concept": "object.backpack"
+    },
+    {
+      "label": "maestra",
+      "concept": "person.teacher"
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    },
+    {
+      "label": "famiglia",
+      "concept": "person.family"
+    },
+    {
+      "label": "cane",
+      "concept": "animal.dog"
+    },
+    {
+      "label": "gatto",
+      "concept": "animal.cat"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "pane",
+      "concept": "food.bread"
+    },
+    {
+      "label": "mela",
+      "concept": "food.apple"
+    },
+    {
+      "label": "bicchiere",
+      "concept": "object.glass"
+    }
+  ]
+}

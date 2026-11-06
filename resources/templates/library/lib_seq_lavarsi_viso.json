@@ -1,0 +1,64 @@
+{
+  "id": "lib_seq_lavarsi_viso",
+  "name": "Lavarsi il viso",
+  "category": "Sequenze e routine",
+  "description": "Routine per lavarsi il viso. 5 voci, tra cui aprire l'acqua, bagnare il viso, mettere il sapone, sciacquare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Lavarsi il viso"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "aprire l'acqua",
+      "concept": null
+    },
+    {
+      "label": "bagnare il viso",
+      "concept": null
+    },
+    {
+      "label": "mettere il sapone",
+      "concept": null
+    },
+    {
+      "label": "sciacquare",
+      "concept": null
+    },
+    {
+      "label": "asciugare",
+      "concept": null
+    }
+  ]
+}

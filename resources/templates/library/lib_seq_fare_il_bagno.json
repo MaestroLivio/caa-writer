@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_fare_il_bagno",
+  "name": "Fare il bagno o la doccia",
+  "category": "Sequenze e routine",
+  "description": "Routine per il bagno o la doccia. 6 voci, tra cui preparare l'asciugamano, entrare nella doccia, bagnarsi, lavarsi e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Fare il bagno o la doccia"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "preparare l'asciugamano",
+      "concept": null
+    },
+    {
+      "label": "entrare nella doccia",
+      "concept": null
+    },
+    {
+      "label": "bagnarsi",
+      "concept": null
+    },
+    {
+      "label": "lavarsi",
+      "concept": null
+    },
+    {
+      "label": "sciacquarsi",
+      "concept": null
+    },
+    {
+      "label": "asciugarsi",
+      "concept": null
+    }
+  ]
+}

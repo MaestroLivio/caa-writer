@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_sottrazioni_10",
+  "name": "Sottrazioni entro 10",
+  "category": "Materiali didattici",
+  "description": "Scheda di sottrazioni entro dieci. 6 voci, tra cui 5 - 2 = ___, 7 - 3 = ___, 9 - 4 = ___, 8 - 2 = ___ e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Sottrazioni entro 10"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "5 - 2 = ___",
+      "concept": null
+    },
+    {
+      "label": "7 - 3 = ___",
+      "concept": null
+    },
+    {
+      "label": "9 - 4 = ___",
+      "concept": null
+    },
+    {
+      "label": "8 - 2 = ___",
+      "concept": null
+    },
+    {
+      "label": "6 - 1 = ___",
+      "concept": null
+    },
+    {
+      "label": "10 - 5 = ___",
+      "concept": null
+    }
+  ]
+}

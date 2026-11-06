@@ -1,0 +1,68 @@
+{
+  "id": "lib_ag_vacanze_mare",
+  "name": "Vacanze al mare",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda della giornata in spiaggia. 6 voci, tra cui spiaggia, bagno, castelli di sabbia, pranzo e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Vacanze al mare"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "spiaggia",
+      "concept": null
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "castelli di sabbia",
+      "concept": null
+    },
+    {
+      "label": "pranzo",
+      "concept": "school.lunch"
+    },
+    {
+      "label": "gelato",
+      "concept": "food.ice_cream"
+    },
+    {
+      "label": "tramonto",
+      "concept": null
+    }
+  ]
+}

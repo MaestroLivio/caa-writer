@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_emozioni_volti",
+  "name": "Emozioni e volti",
+  "category": "Materiali didattici",
+  "description": "Scheda di riconoscimento delle espressioni del viso. 6 voci, tra cui felice, triste, arrabbiato, paura e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Emozioni e volti"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "felice",
+      "concept": "emotion.happy"
+    },
+    {
+      "label": "triste",
+      "concept": "emotion.sad"
+    },
+    {
+      "label": "arrabbiato",
+      "concept": "emotion.angry"
+    },
+    {
+      "label": "paura",
+      "concept": "emotion.afraid"
+    },
+    {
+      "label": "sorpresa",
+      "concept": null
+    },
+    {
+      "label": "calmo",
+      "concept": null
+    }
+  ]
+}

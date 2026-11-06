@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_casa_stanze",
+  "name": "Casa: le stanze",
+  "category": "Tabelle comunicative",
+  "description": "Celle per indicare gli ambienti e le azioni di casa. 9 voci, tra cui casa, cucina, bagno, letto e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Casa: le stanze"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "cucina",
+      "concept": "place.kitchen"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "letto",
+      "concept": "furniture.bed"
+    },
+    {
+      "label": "tavolo",
+      "concept": "object.table"
+    },
+    {
+      "label": "sedia",
+      "concept": "object.chair"
+    },
+    {
+      "label": "porta",
+      "concept": "place.door"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    }
+  ]
+}

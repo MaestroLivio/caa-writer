@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_uscita_parco",
+  "name": "Uscita al parco",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda dell'uscita al parco. 5 voci, tra cui preparativi, macchina, parco, giocare e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Uscita al parco"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "preparativi",
+      "concept": null
+    },
+    {
+      "label": "macchina",
+      "concept": "vehicle.car"
+    },
+    {
+      "label": "parco",
+      "concept": "place.park"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    }
+  ]
+}

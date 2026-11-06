@@ -1,0 +1,68 @@
+{
+  "id": "lib_ag_pomeriggio_casa",
+  "name": "Pomeriggio a casa",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda del pomeriggio dopo la scuola. 6 voci, tra cui 13:30 pranzo, 14:00 riposo, 15:00 compiti, 16:00 merenda e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Pomeriggio a casa"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "13:30 pranzo",
+      "concept": null
+    },
+    {
+      "label": "14:00 riposo",
+      "concept": null
+    },
+    {
+      "label": "15:00 compiti",
+      "concept": null
+    },
+    {
+      "label": "16:00 merenda",
+      "concept": null
+    },
+    {
+      "label": "17:00 giocare",
+      "concept": null
+    },
+    {
+      "label": "18:30 cena",
+      "concept": null
+    }
+  ]
+}

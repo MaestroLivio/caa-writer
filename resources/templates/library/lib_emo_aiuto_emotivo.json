@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_aiuto_emotivo",
+  "name": "Chiedere aiuto emotivo",
+  "category": "Emozioni e autoregolazione",
+  "description": "Scheda per chiedere aiuto quando un'emozione è forte. 6 voci, tra cui sto male, mi serve aiuto, chiamo un adulto, parlo e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Chiedere aiuto emotivo"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "sto male",
+      "concept": null
+    },
+    {
+      "label": "mi serve aiuto",
+      "concept": null
+    },
+    {
+      "label": "chiamo un adulto",
+      "concept": null
+    },
+    {
+      "label": "parlo",
+      "concept": null
+    },
+    {
+      "label": "abbraccio",
+      "concept": null
+    },
+    {
+      "label": "sto meglio",
+      "concept": null
+    }
+  ]
+}

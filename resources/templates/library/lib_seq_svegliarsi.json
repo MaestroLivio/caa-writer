@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_svegliarsi",
+  "name": "Svegliarsi e uscire",
+  "category": "Sequenze e routine",
+  "description": "Routine del mattino dalla sveglia all'uscita. 6 voci, tra cui suonare la sveglia, alzarsi, lavarsi il viso, vestirsi e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Svegliarsi e uscire"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "suonare la sveglia",
+      "concept": null
+    },
+    {
+      "label": "alzarsi",
+      "concept": null
+    },
+    {
+      "label": "lavarsi il viso",
+      "concept": null
+    },
+    {
+      "label": "vestirsi",
+      "concept": null
+    },
+    {
+      "label": "colazione",
+      "concept": null
+    },
+    {
+      "label": "uscita",
+      "concept": null
+    }
+  ]
+}

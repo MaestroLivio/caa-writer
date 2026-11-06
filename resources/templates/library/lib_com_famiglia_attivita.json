@@ -1,0 +1,76 @@
+{
+  "id": "lib_com_famiglia_attivita",
+  "name": "Attività in famiglia",
+  "category": "Tabelle comunicative",
+  "description": "Griglia delle cose da fare insieme a casa. 8 voci, tra cui famiglia, casa, mangiare, giocare e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Attività in famiglia"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "4"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "famiglia",
+      "concept": "person.family"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "parlare",
+      "concept": "action.speak"
+    },
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    },
+    {
+      "label": "guardare",
+      "concept": null
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    }
+  ]
+}

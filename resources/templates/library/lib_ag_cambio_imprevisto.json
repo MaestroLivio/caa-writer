@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_cambio_imprevisto",
+  "name": "Cambio di programma imprevisto",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda per gestire un cambiamento non previsto. 5 voci, tra cui programma cambiato, ascoltare la maestra, nuova attività, pausa e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Cambio di programma imprevisto"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "programma cambiato",
+      "concept": null
+    },
+    {
+      "label": "ascoltare la maestra",
+      "concept": null
+    },
+    {
+      "label": "nuova attività",
+      "concept": null
+    },
+    {
+      "label": "pausa",
+      "concept": null
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

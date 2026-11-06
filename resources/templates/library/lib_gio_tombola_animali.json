@@ -1,0 +1,92 @@
+{
+  "id": "lib_gio_tombola_animali",
+  "name": "Tombola degli animali",
+  "category": "Giochi e attività interattive",
+  "description": "Tombola con dodici animali da riconoscere. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Tombola degli animali"
+    },
+    {
+      "key": "players",
+      "label": "Numero di giocatori",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "rules",
+      "label": "Regole",
+      "kind": "text",
+      "default_value": "Estrai una carta e copri la casella corrispondente."
+    }
+  ],
+  "items": [
+    {
+      "label": "cane",
+      "concept": "animal.dog"
+    },
+    {
+      "label": "gatto",
+      "concept": "animal.cat"
+    },
+    {
+      "label": "uccello",
+      "concept": "animal.bird"
+    },
+    {
+      "label": "cavallo",
+      "concept": null
+    },
+    {
+      "label": "coniglio",
+      "concept": null
+    },
+    {
+      "label": "pesce",
+      "concept": null
+    },
+    {
+      "label": "tartaruga",
+      "concept": null
+    },
+    {
+      "label": "farfalla",
+      "concept": null
+    },
+    {
+      "label": "leone",
+      "concept": null
+    },
+    {
+      "label": "elefante",
+      "concept": null
+    },
+    {
+      "label": "scimmia",
+      "concept": null
+    },
+    {
+      "label": "pinguino",
+      "concept": null
+    }
+  ]
+}

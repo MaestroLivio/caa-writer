@@ -1,0 +1,68 @@
+{
+  "id": "lib_tea_incollaggio",
+  "name": "Incollare i pezzi",
+  "category": "Materiali TEACCH",
+  "description": "Compito strutturato di incollaggio. 6 voci, tra cui mettere la colla, posizionare il pezzo, premere, aspettare e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Incollare i pezzi"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mettere la colla",
+      "concept": null
+    },
+    {
+      "label": "posizionare il pezzo",
+      "concept": null
+    },
+    {
+      "label": "premere",
+      "concept": null
+    },
+    {
+      "label": "aspettare",
+      "concept": null
+    },
+    {
+      "label": "controllare",
+      "concept": null
+    },
+    {
+      "label": "finito",
+      "concept": null
+    }
+  ]
+}

@@ -37,6 +37,15 @@ import type {
   UnitModifiers,
   VoiceInfo,
   WordAffinity,
+  ImportPreview,
+  ImportItemInput,
+  ImportLicense,
+  ImportReport,
+  CollectionInfo,
+  OnlineResult,
+  OnlineResponse,
+  OnlineProviderInfo,
+  DocumentEditPlan,
 } from "./types";
 
 export const isTauri = (): boolean =>
@@ -66,7 +75,8 @@ export const api = {
     limit = 40,
     offset = 0,
     packId: string | null = null,
-    commercialOnly = false
+    commercialOnly = false,
+    collectionId: string | null = null
   ) =>
     call<SearchResultPage>("search_symbols", {
       query,
@@ -74,7 +84,28 @@ export const api = {
       offset,
       packId,
       commercialOnly,
+      collectionId,
     }),
+  scanPictograms: (paths: string[]) => call<ImportPreview>("scan_pictograms", { paths }),
+  importPictograms: (entries: ImportItemInput[], collection: string, license: ImportLicense) =>
+    call<ImportReport>("import_pictograms", { entries, collection, license }),
+  listPictogramCollections: () => call<CollectionInfo[]>("list_pictogram_collections"),
+  renamePictogramCollection: (id: string, name: string) =>
+    call<void>("rename_pictogram_collection", { id, name }),
+  deletePictogramCollection: (id: string) =>
+    call<number>("delete_pictogram_collection", { id }),
+  deletePictogramSymbols: (ids: string[]) =>
+    call<number>("delete_pictogram_symbols", { ids }),
+  movePictogramSymbols: (ids: string[], collectionId: string) =>
+    call<number>("move_pictogram_symbols", { ids, collectionId }),
+  listOnlineProviders: () => call<OnlineProviderInfo[]>("list_online_providers"),
+  searchOnlinePictograms: (terms: string[], forceRefresh = false) =>
+    call<OnlineResponse>("search_online_pictograms", { terms, forceRefresh }),
+  onlineThumbnail: (url: string) => call<string>("online_thumbnail", { url }),
+  saveOnlinePictogram: (result: OnlineResult, lemma: string, collection: string) =>
+    call<Alternative>("save_online_pictogram", { result, lemma, collection }),
+  interpretDocumentPrompt: (prompt: string, useNeural = true) =>
+    call<DocumentEditPlan>("interpret_document_prompt", { prompt, useNeural }),
   conceptAlternatives: (conceptId: string, packId: string | null = null) =>
     call<Alternative[]>("concept_alternatives", { conceptId, packId }),
   wordAffinities: (word: string, packId: string | null = null, commercialOnly = false) =>

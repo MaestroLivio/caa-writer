@@ -1,0 +1,64 @@
+{
+  "id": "lib_aba_generalizzazione_casa",
+  "name": "Generalizzazione: a casa",
+  "category": "Materiali ABA e supporti visivi",
+  "description": "Elenco di attività da riproporre a casa. 5 voci, tra cui mangiare, vestirsi, lavarsi le mani, riordinare e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Generalizzazione: a casa"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "vestirsi",
+      "concept": null
+    },
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    },
+    {
+      "label": "riordinare",
+      "concept": null
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    }
+  ]
+}

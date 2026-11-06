@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_conversazione",
+  "name": "Conversazione",
+  "category": "Tabelle comunicative",
+  "description": "Celle di base per iniziare e mantenere una conversazione. 9 voci, tra cui parlare, ascoltare, amico, maestra e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Conversazione"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "parlare",
+      "concept": "action.speak"
+    },
+    {
+      "label": "ascoltare",
+      "concept": "action.listen"
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    },
+    {
+      "label": "maestra",
+      "concept": "person.teacher"
+    },
+    {
+      "label": "felice",
+      "concept": "emotion.happy"
+    },
+    {
+      "label": "triste",
+      "concept": "emotion.sad"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_terapia_settimanale",
+  "name": "Appuntamenti settimanali",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda settimanale delle terapie e degli incontri. 5 voci, tra cui lunedì logopedia, martedì psicomotricità, mercoledì acquaticità, giovedì logopedia e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 5,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Appuntamenti settimanali"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lunedì logopedia",
+      "concept": null
+    },
+    {
+      "label": "martedì psicomotricità",
+      "concept": null
+    },
+    {
+      "label": "mercoledì acquaticità",
+      "concept": null
+    },
+    {
+      "label": "giovedì logopedia",
+      "concept": null
+    },
+    {
+      "label": "venerdì riposo",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_bagno_checklist",
+  "name": "Andare in bagno: checklist",
+  "category": "Sequenze e routine",
+  "description": "Checklist della routine del bagno. 6 voci, tra cui entrare, abbassare i pantaloni, sedersi, pulirsi e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Andare in bagno: checklist"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "checklist"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "entrare",
+      "concept": null
+    },
+    {
+      "label": "abbassare i pantaloni",
+      "concept": null
+    },
+    {
+      "label": "sedersi",
+      "concept": null
+    },
+    {
+      "label": "pulirsi",
+      "concept": null
+    },
+    {
+      "label": "tirare l'acqua",
+      "concept": null
+    },
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    }
+  ]
+}

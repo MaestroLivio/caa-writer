@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_colazione",
+  "name": "La colazione: checklist",
+  "category": "Sequenze e routine",
+  "description": "Routine della colazione a casa. 6 voci, tra cui sedersi, prendere il pane, bere, mangiare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "La colazione: checklist"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "checklist"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "sedersi",
+      "concept": null
+    },
+    {
+      "label": "prendere il pane",
+      "concept": null
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "pulire",
+      "concept": null
+    },
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    }
+  ]
+}

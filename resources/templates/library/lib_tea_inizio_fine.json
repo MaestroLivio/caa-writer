@@ -1,0 +1,64 @@
+{
+  "id": "lib_tea_inizio_fine",
+  "name": "Inizio e fine del lavoro",
+  "category": "Materiali TEACCH",
+  "description": "Struttura per segnare inizio, svolgimento e fine di un compito. 5 voci, tra cui inizio, lavoro, pausa, controllo e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Inizio e fine del lavoro"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "inizio",
+      "concept": null
+    },
+    {
+      "label": "lavoro",
+      "concept": null
+    },
+    {
+      "label": "pausa",
+      "concept": null
+    },
+    {
+      "label": "controllo",
+      "concept": null
+    },
+    {
+      "label": "fine",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_ag_festa_scuola",
+  "name": "Festa di scuola",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda della festa scolastica. 6 voci, tra cui preparativi, addobbi, spettacolo, merenda e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Festa di scuola"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "preparativi",
+      "concept": null
+    },
+    {
+      "label": "addobbi",
+      "concept": null
+    },
+    {
+      "label": "spettacolo",
+      "concept": null
+    },
+    {
+      "label": "merenda",
+      "concept": null
+    },
+    {
+      "label": "giochi",
+      "concept": null
+    },
+    {
+      "label": "saluti",
+      "concept": null
+    }
+  ]
+}

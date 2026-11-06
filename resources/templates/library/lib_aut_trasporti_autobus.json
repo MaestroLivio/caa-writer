@@ -1,0 +1,68 @@
+{
+  "id": "lib_aut_trasporti_autobus",
+  "name": "Trasporti: prendere l'autobus",
+  "category": "Autonomia personale",
+  "description": "Routine autonoma per prendere l'autobus. 6 voci, tra cui andare alla fermata, aspettare, controllare il numero, salire e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Trasporti: prendere l'autobus"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "andare alla fermata",
+      "concept": null
+    },
+    {
+      "label": "aspettare",
+      "concept": null
+    },
+    {
+      "label": "controllare il numero",
+      "concept": null
+    },
+    {
+      "label": "salire",
+      "concept": null
+    },
+    {
+      "label": "convalidare il biglietto",
+      "concept": null
+    },
+    {
+      "label": "scendere",
+      "concept": null
+    }
+  ]
+}

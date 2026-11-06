@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_sorpresa",
+  "name": "La sorpresa",
+  "category": "Emozioni e autoregolazione",
+  "description": "Scheda per riconoscere e gestire la sorpresa. 6 voci, tra cui sorpresa, domanda, ascoltare, respiro e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "La sorpresa"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "sorpresa",
+      "concept": null
+    },
+    {
+      "label": "domanda",
+      "concept": null
+    },
+    {
+      "label": "ascoltare",
+      "concept": "action.listen"
+    },
+    {
+      "label": "respiro",
+      "concept": null
+    },
+    {
+      "label": "parlare",
+      "concept": "action.speak"
+    },
+    {
+      "label": "calmo",
+      "concept": null
+    }
+  ]
+}

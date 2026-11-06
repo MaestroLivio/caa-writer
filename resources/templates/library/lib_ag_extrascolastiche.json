@@ -1,0 +1,72 @@
+{
+  "id": "lib_ag_extrascolastiche",
+  "name": "Attività extrascolastiche",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda settimanale dei corsi dopo la scuola. 7 voci, tra cui lunedì nuoto, martedì musica, mercoledì calcio, giovedì inglese e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 7,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Attività extrascolastiche"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lunedì nuoto",
+      "concept": null
+    },
+    {
+      "label": "martedì musica",
+      "concept": null
+    },
+    {
+      "label": "mercoledì calcio",
+      "concept": null
+    },
+    {
+      "label": "giovedì inglese",
+      "concept": null
+    },
+    {
+      "label": "venerdì danza",
+      "concept": null
+    },
+    {
+      "label": "sabato cavallo",
+      "concept": null
+    },
+    {
+      "label": "domenica riposo",
+      "concept": null
+    }
+  ]
+}

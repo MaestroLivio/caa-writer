@@ -1,0 +1,68 @@
+{
+  "id": "lib_ag_uscita_supermercato",
+  "name": "Uscita al supermercato",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda della spesa al supermercato. 6 voci, tra cui lista, supermercato, carrello, cassa e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Uscita al supermercato"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lista",
+      "concept": null
+    },
+    {
+      "label": "supermercato",
+      "concept": null
+    },
+    {
+      "label": "carrello",
+      "concept": null
+    },
+    {
+      "label": "cassa",
+      "concept": null
+    },
+    {
+      "label": "busta",
+      "concept": null
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    }
+  ]
+}

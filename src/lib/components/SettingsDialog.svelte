@@ -299,6 +299,18 @@
           />
         </div>
         <div class="row">
+          <label for="dlg-online">Ricerca online</label>
+          <select
+            id="dlg-online"
+            value={settings.online_search}
+            onchange={(event) => onUpdateSettings({ online_search: (event.currentTarget as HTMLSelectElement).value as never })}
+          >
+            <option value="off">Disattivata</option>
+            <option value="suggest">Suggerisci nel pannello</option>
+            <option value="auto">Cerca automaticamente l'unità senza simbolo</option>
+          </select>
+        </div>
+        <div class="row">
           <label for="dlg-animations">Animazioni</label>
           <select
             id="dlg-animations"

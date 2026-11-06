@@ -1,0 +1,72 @@
+{
+  "id": "lib_ag_vacanze_estate",
+  "name": "Vacanze d'estate",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda delle giornate di vacanza al mare o in campagna. 7 voci, tra cui sveglia tardi, mare, gelato, gioco e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Vacanze d'estate"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "sveglia tardi",
+      "concept": null
+    },
+    {
+      "label": "mare",
+      "concept": null
+    },
+    {
+      "label": "gelato",
+      "concept": "food.ice_cream"
+    },
+    {
+      "label": "gioco",
+      "concept": null
+    },
+    {
+      "label": "pranzo",
+      "concept": "school.lunch"
+    },
+    {
+      "label": "passeggiata",
+      "concept": null
+    },
+    {
+      "label": "dormire",
+      "concept": "action.sleep"
+    }
+  ]
+}

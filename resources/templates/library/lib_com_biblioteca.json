@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_biblioteca",
+  "name": "Biblioteca",
+  "category": "Tabelle comunicative",
+  "description": "Celle per scegliere, leggere e restituire un libro. 9 voci, tra cui leggere, libro, ascoltare, parlare e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Biblioteca"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "ascoltare",
+      "concept": "action.listen"
+    },
+    {
+      "label": "parlare",
+      "concept": "action.speak"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "maestra",
+      "concept": "person.teacher"
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    }
+  ]
+}

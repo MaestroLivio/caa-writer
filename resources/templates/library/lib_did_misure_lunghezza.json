@@ -1,0 +1,60 @@
+{
+  "id": "lib_did_misure_lunghezza",
+  "name": "Misure di lunghezza",
+  "category": "Materiali didattici",
+  "description": "Scheda sulle equivalenze di lunghezza. 4 voci, tra cui 1 metro = 100 centimetri, 1 chilometro = 1000 metri, mezzo metro = 50 centimetri, 1 decimetro = 10 centimetri.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Misure di lunghezza"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "1 metro = 100 centimetri",
+      "concept": null
+    },
+    {
+      "label": "1 chilometro = 1000 metri",
+      "concept": null
+    },
+    {
+      "label": "mezzo metro = 50 centimetri",
+      "concept": null
+    },
+    {
+      "label": "1 decimetro = 10 centimetri",
+      "concept": null
+    }
+  ]
+}

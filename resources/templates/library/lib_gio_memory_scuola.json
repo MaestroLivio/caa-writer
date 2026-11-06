@@ -1,0 +1,92 @@
+{
+  "id": "lib_gio_memory_scuola",
+  "name": "Memory dei materiali scolastici",
+  "category": "Giochi e attività interattive",
+  "description": "Gioco di memoria con dodici carte di materiali scolastici. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Memory dei materiali scolastici"
+    },
+    {
+      "key": "players",
+      "label": "Numero di giocatori",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "rules",
+      "label": "Regole",
+      "kind": "text",
+      "default_value": "Mescola le carte e scopri le coppie uguali."
+    }
+  ],
+  "items": [
+    {
+      "label": "matita",
+      "concept": "object.pencil"
+    },
+    {
+      "label": "matita",
+      "concept": "object.pencil"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "forbici",
+      "concept": "object.scissors"
+    },
+    {
+      "label": "forbici",
+      "concept": "object.scissors"
+    },
+    {
+      "label": "colla",
+      "concept": "object.glue"
+    },
+    {
+      "label": "colla",
+      "concept": "object.glue"
+    },
+    {
+      "label": "zaino",
+      "concept": "object.backpack"
+    },
+    {
+      "label": "zaino",
+      "concept": "object.backpack"
+    },
+    {
+      "label": "banco",
+      "concept": "furniture.school_desk"
+    },
+    {
+      "label": "banco",
+      "concept": "furniture.school_desk"
+    }
+  ]
+}

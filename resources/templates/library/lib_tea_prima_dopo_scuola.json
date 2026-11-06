@@ -1,0 +1,64 @@
+{
+  "id": "lib_tea_prima_dopo_scuola",
+  "name": "Prima e dopo a scuola",
+  "category": "Materiali TEACCH",
+  "description": "Sequenza temporale della mattina scolastica. 5 voci, tra cui entrata a scuola, lavoro in classe, intervallo, pranzo e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Prima e dopo a scuola"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "entrata a scuola",
+      "concept": "school.arrival"
+    },
+    {
+      "label": "lavoro in classe",
+      "concept": "school.classwork"
+    },
+    {
+      "label": "intervallo",
+      "concept": "school.break"
+    },
+    {
+      "label": "pranzo",
+      "concept": "school.lunch"
+    },
+    {
+      "label": "uscita",
+      "concept": null
+    }
+  ]
+}

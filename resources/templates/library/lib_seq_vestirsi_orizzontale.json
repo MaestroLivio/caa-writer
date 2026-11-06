@@ -1,0 +1,76 @@
+{
+  "id": "lib_seq_vestirsi_orizzontale",
+  "name": "Vestirsi: striscia orizzontale",
+  "category": "Sequenze e routine",
+  "description": "Striscia orizzontale della routine per vestirsi. 8 voci, tra cui mutande, maglietta, pantaloni, calze e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 8,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Vestirsi: striscia orizzontale"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "orizzontale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mutande",
+      "concept": null
+    },
+    {
+      "label": "maglietta",
+      "concept": null
+    },
+    {
+      "label": "pantaloni",
+      "concept": null
+    },
+    {
+      "label": "calze",
+      "concept": null
+    },
+    {
+      "label": "scarpe",
+      "concept": "object.shoes"
+    },
+    {
+      "label": "giacca",
+      "concept": null
+    },
+    {
+      "label": "zaino",
+      "concept": "object.backpack"
+    },
+    {
+      "label": "specchio",
+      "concept": null
+    }
+  ]
+}

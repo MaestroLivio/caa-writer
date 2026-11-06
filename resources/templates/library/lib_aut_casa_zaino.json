@@ -1,0 +1,68 @@
+{
+  "id": "lib_aut_casa_zaino",
+  "name": "Casa: preparare lo zaino",
+  "category": "Autonomia personale",
+  "description": "Routine autonoma per preparare lo zaino. 6 voci, tra cui astuccio, quaderni, libri, agenda e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Casa: preparare lo zaino"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "checklist"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "astuccio",
+      "concept": null
+    },
+    {
+      "label": "quaderni",
+      "concept": null
+    },
+    {
+      "label": "libri",
+      "concept": null
+    },
+    {
+      "label": "agenda",
+      "concept": null
+    },
+    {
+      "label": "borraccia",
+      "concept": null
+    },
+    {
+      "label": "merenda",
+      "concept": null
+    }
+  ]
+}

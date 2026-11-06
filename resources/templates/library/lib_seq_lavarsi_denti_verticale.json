@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_lavarsi_denti_verticale",
+  "name": "Lavarsi i denti: sequenza verticale",
+  "category": "Sequenze e routine",
+  "description": "Routine verticale per lavarsi i denti. 6 voci, tra cui prendere lo spazzolino, mettere il dentifricio, spazzolare i denti, sciacquare la bocca e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Lavarsi i denti: sequenza verticale"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "prendere lo spazzolino",
+      "concept": null
+    },
+    {
+      "label": "mettere il dentifricio",
+      "concept": null
+    },
+    {
+      "label": "spazzolare i denti",
+      "concept": null
+    },
+    {
+      "label": "sciacquare la bocca",
+      "concept": null
+    },
+    {
+      "label": "sciacquare lo spazzolino",
+      "concept": null
+    },
+    {
+      "label": "riporre lo spazzolino",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "lib_seq_piscina_lineare",
+  "name": "Andare in piscina: sequenza lineare",
+  "category": "Sequenze e routine",
+  "description": "Routine per l'attività in piscina. 7 voci, tra cui preparare la borsa, spogliatoio, costume, doccia e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Andare in piscina: sequenza lineare"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "preparare la borsa",
+      "concept": null
+    },
+    {
+      "label": "spogliatoio",
+      "concept": null
+    },
+    {
+      "label": "costume",
+      "concept": null
+    },
+    {
+      "label": "doccia",
+      "concept": null
+    },
+    {
+      "label": "bordo vasca",
+      "concept": null
+    },
+    {
+      "label": "nuotare",
+      "concept": null
+    },
+    {
+      "label": "asciugarsi",
+      "concept": null
+    }
+  ]
+}

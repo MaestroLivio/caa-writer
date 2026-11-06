@@ -1,0 +1,92 @@
+{
+  "id": "lib_com_animali",
+  "name": "Animali",
+  "category": "Tabelle comunicative",
+  "description": "Celle per parlare degli animali e delle loro cure. 12 voci, tra cui cane, gatto, uccello, bassotto e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Animali"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "4"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "cane",
+      "concept": "animal.dog"
+    },
+    {
+      "label": "gatto",
+      "concept": "animal.cat"
+    },
+    {
+      "label": "uccello",
+      "concept": "animal.bird"
+    },
+    {
+      "label": "bassotto",
+      "concept": "breed.dachshund"
+    },
+    {
+      "label": "albero",
+      "concept": "nature.tree"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "accarezzare",
+      "concept": null
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    }
+  ]
+}

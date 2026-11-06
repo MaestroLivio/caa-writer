@@ -1,0 +1,68 @@
+{
+  "id": "lib_tea_abbina_ombre",
+  "name": "Abbinare le ombre",
+  "category": "Materiali TEACCH",
+  "description": "Compito di abbinamento tra figura e ombra. 6 voci, tra cui cane, gatto, uccello, albero e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Abbinare le ombre"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "cane",
+      "concept": "animal.dog"
+    },
+    {
+      "label": "gatto",
+      "concept": "animal.cat"
+    },
+    {
+      "label": "uccello",
+      "concept": "animal.bird"
+    },
+    {
+      "label": "albero",
+      "concept": "nature.tree"
+    },
+    {
+      "label": "fiore",
+      "concept": "nature.flower"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    }
+  ]
+}

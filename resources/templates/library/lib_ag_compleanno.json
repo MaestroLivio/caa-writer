@@ -1,0 +1,72 @@
+{
+  "id": "lib_ag_compleanno",
+  "name": "Festa di compleanno",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda della festa di compleanno. 7 voci, tra cui inviti, torta, candeline, regali e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 7,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Festa di compleanno"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "inviti",
+      "concept": null
+    },
+    {
+      "label": "torta",
+      "concept": null
+    },
+    {
+      "label": "candeline",
+      "concept": null
+    },
+    {
+      "label": "regali",
+      "concept": null
+    },
+    {
+      "label": "giochi",
+      "concept": null
+    },
+    {
+      "label": "musica",
+      "concept": null
+    },
+    {
+      "label": "saluti",
+      "concept": null
+    }
+  ]
+}

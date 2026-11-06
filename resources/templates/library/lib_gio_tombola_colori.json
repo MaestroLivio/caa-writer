@@ -1,0 +1,92 @@
+{
+  "id": "lib_gio_tombola_colori",
+  "name": "Tombola dei colori",
+  "category": "Giochi e attività interattive",
+  "description": "Tombola con dodici colori da riconoscere. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Tombola dei colori"
+    },
+    {
+      "key": "players",
+      "label": "Numero di giocatori",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "rules",
+      "label": "Regole",
+      "kind": "text",
+      "default_value": "Estrai una carta e copri la casella corrispondente."
+    }
+  ],
+  "items": [
+    {
+      "label": "rosso",
+      "concept": null
+    },
+    {
+      "label": "blu",
+      "concept": null
+    },
+    {
+      "label": "giallo",
+      "concept": null
+    },
+    {
+      "label": "verde",
+      "concept": null
+    },
+    {
+      "label": "arancione",
+      "concept": null
+    },
+    {
+      "label": "viola",
+      "concept": null
+    },
+    {
+      "label": "rosa",
+      "concept": null
+    },
+    {
+      "label": "marrone",
+      "concept": null
+    },
+    {
+      "label": "nero",
+      "concept": null
+    },
+    {
+      "label": "bianco",
+      "concept": null
+    },
+    {
+      "label": "grigio",
+      "concept": null
+    },
+    {
+      "label": "azzurro",
+      "concept": null
+    }
+  ]
+}

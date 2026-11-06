@@ -1,0 +1,92 @@
+{
+  "id": "lib_com_gioco",
+  "name": "Gioco: scelte",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per scegliere un gioco e i suoi materiali. 12 voci, tra cui giocare, palla, libro, cane e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Gioco: scelte"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "4"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "palla",
+      "concept": "object.ball"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "cane",
+      "concept": "animal.dog"
+    },
+    {
+      "label": "gatto",
+      "concept": "animal.cat"
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    },
+    {
+      "label": "musica",
+      "concept": null
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "parco",
+      "concept": "place.park"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_tea_ritaglio",
+  "name": "Ritagliare lungo la linea",
+  "category": "Materiali TEACCH",
+  "description": "Compito di ritaglio con le forbici. 6 voci, tra cui prendere le forbici, tagliare lungo la linea, girare il foglio, continuare e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Ritagliare lungo la linea"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "prendere le forbici",
+      "concept": null
+    },
+    {
+      "label": "tagliare lungo la linea",
+      "concept": null
+    },
+    {
+      "label": "girare il foglio",
+      "concept": null
+    },
+    {
+      "label": "continuare",
+      "concept": null
+    },
+    {
+      "label": "posare le forbici",
+      "concept": null
+    },
+    {
+      "label": "finito",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_perimetro",
+  "name": "Perimetro delle figure",
+  "category": "Materiali didattici",
+  "description": "Scheda sul numero di lati delle figure piane. 6 voci, tra cui quadrato: 4 lati, rettangolo: 4 lati, triangolo: 3 lati, cerchio: 1 bordo e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Perimetro delle figure"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "quadrato: 4 lati",
+      "concept": null
+    },
+    {
+      "label": "rettangolo: 4 lati",
+      "concept": null
+    },
+    {
+      "label": "triangolo: 3 lati",
+      "concept": null
+    },
+    {
+      "label": "cerchio: 1 bordo",
+      "concept": null
+    },
+    {
+      "label": "pentagono: 5 lati",
+      "concept": null
+    },
+    {
+      "label": "esagono: 6 lati",
+      "concept": null
+    }
+  ]
+}

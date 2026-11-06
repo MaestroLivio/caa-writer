@@ -14,6 +14,8 @@ use crate::database::SymbolFilters;
 use crate::engine::Engine;
 use crate::export::{caadoc, docx, html};
 use crate::model::*;
+use crate::pictogram_import;
+use crate::online_search;
 use crate::speech;
 use crate::studio;
 use crate::symbol_search;
@@ -72,6 +74,7 @@ pub fn search_symbols(
     offset: Option<u32>,
     pack_id: Option<String>,
     commercial_only: Option<bool>,
+    collection_id: Option<String>,
 ) -> Result<SearchResultPage, String> {
     let db = state.db()?;
     db.record_search(&query).ok();
@@ -82,6 +85,7 @@ pub fn search_symbols(
         &SymbolFilters {
             pack_id,
             commercial_only: commercial_only.unwrap_or(false),
+            collection_id,
         },
     )
     .map_err(|e| e.to_string())
@@ -98,6 +102,7 @@ pub fn concept_alternatives(
     let filters = SymbolFilters {
         pack_id,
         commercial_only: commercial_only.unwrap_or(false),
+        collection_id: None,
     };
     let symbols = db
         .symbols_for_concept(&concept_id, &filters)
@@ -540,6 +545,173 @@ pub fn plan_resource(
         notes,
         source: "deterministico".to_string(),
     })
+}
+
+/// Analizza file e directory per l'importazione: formato reale, lemma
+/// proposto, duplicati rispetto alla libreria e miniature dei primi elementi.
+#[tauri::command]
+pub fn scan_pictograms(
+    state: State<'_, Engine>,
+    paths: Vec<String>,
+) -> Result<pictogram_import::ImportPreview, String> {
+    let mut preview = pictogram_import::scan(&paths, 160);
+    let db = state.db()?;
+    let mut known: std::collections::HashSet<String> = std::collections::HashSet::new();
+    if let Ok(mut stmt) = db.conn().prepare("SELECT checksum FROM symbols WHERE checksum IS NOT NULL") {
+        if let Ok(rows) = stmt.query_map([], |row| row.get::<_, String>(0)) {
+            for row in rows.flatten() {
+                known.insert(row);
+            }
+        }
+    }
+    let mut duplicates = preview.duplicates;
+    for entry in &mut preview.entries {
+        if let Some(hash) = &entry.checksum {
+            if known.contains(hash) && !entry.duplicate {
+                entry.duplicate = true;
+                duplicates += 1;
+            }
+        }
+    }
+    preview.duplicates = duplicates;
+    Ok(preview)
+}
+
+/// Importa i pittogrammi confermati dall'utente. Copia i file nella libreria
+/// dell'app e li indicizza nell'indice semantico condiviso.
+#[tauri::command]
+pub fn import_pictograms(
+    state: State<'_, Engine>,
+    entries: Vec<pictogram_import::ImportItem>,
+    collection: String,
+    license: pictogram_import::ImportLicense,
+) -> Result<pictogram_import::ImportReport, String> {
+    let db = state.db()?;
+    let report = pictogram_import::import_batch(
+        &db,
+        &state.paths.assets_dir,
+        &entries,
+        &license,
+        &collection,
+    );
+    state.clear_caches();
+    Ok(report)
+}
+
+#[tauri::command]
+pub fn list_pictogram_collections(
+    state: State<'_, Engine>,
+) -> Result<Vec<pictogram_import::CollectionInfo>, String> {
+    let db = state.db()?;
+    pictogram_import::list_collections(&db)
+}
+
+#[tauri::command]
+pub fn rename_pictogram_collection(
+    state: State<'_, Engine>,
+    id: String,
+    name: String,
+) -> Result<(), String> {
+    let db = state.db()?;
+    pictogram_import::rename_collection(&db, &id, &name)
+}
+
+#[tauri::command]
+pub fn delete_pictogram_collection(
+    state: State<'_, Engine>,
+    id: String,
+) -> Result<usize, String> {
+    let db = state.db()?;
+    let removed = pictogram_import::delete_collection(&db, &state.paths.assets_dir, &id)?;
+    state.clear_caches();
+    Ok(removed)
+}
+
+#[tauri::command]
+pub fn delete_pictogram_symbols(
+    state: State<'_, Engine>,
+    ids: Vec<String>,
+) -> Result<usize, String> {
+    let db = state.db()?;
+    let removed = pictogram_import::delete_symbols(&db, &state.paths.assets_dir, &ids)?;
+    state.clear_caches();
+    Ok(removed)
+}
+
+#[tauri::command]
+pub fn move_pictogram_symbols(
+    state: State<'_, Engine>,
+    ids: Vec<String>,
+    collection_id: String,
+) -> Result<usize, String> {
+    let db = state.db()?;
+    let moved = pictogram_import::move_symbols(&db, &ids, &collection_id)?;
+    state.clear_caches();
+    Ok(moved)
+}
+
+#[tauri::command]
+pub fn interpret_document_prompt(
+    state: State<'_, Engine>,
+    prompt: String,
+    use_neural: Option<bool>,
+) -> Result<crate::document_edit::DocumentEditPlan, String> {
+    if prompt.trim().is_empty() {
+        return Err("Scrivi una richiesta di modifica.".to_string());
+    }
+    Ok(state.interpret_document_prompt(&prompt, use_neural.unwrap_or(true)))
+}
+
+#[tauri::command]
+pub fn list_online_providers() -> Vec<online_search::OnlineProviderInfo> {
+    online_search::providers()
+}
+
+/// Cerca online usando solo lemmi/concetti generici già estratti localmente.
+#[tauri::command]
+pub fn search_online_pictograms(
+    state: State<'_, Engine>,
+    terms: Vec<String>,
+    force_refresh: Option<bool>,
+) -> Result<online_search::OnlineResponse, String> {
+    let terms = online_search::known_terms(&state.lexicon, &terms);
+    if terms.is_empty() {
+        return Err(
+            "Nessun termine generico riconosciuto: la ricerca online non invia testo libero."
+                .to_string(),
+        );
+    }
+    let db = state.db()?;
+    online_search::search(&db, &terms, force_refresh.unwrap_or(false))
+}
+
+/// Scarica un risultato, lo salva nella libreria personale (copia offline) e
+/// restituisce l'alternativa pronta da applicare all'unità selezionata.
+#[tauri::command]
+pub fn online_thumbnail(url: String) -> Result<String, String> {
+    online_search::download_thumbnail(&url)
+}
+
+#[tauri::command]
+pub fn save_online_pictogram(
+    state: State<'_, Engine>,
+    result: online_search::OnlineResult,
+    lemma: String,
+    collection: String,
+) -> Result<Alternative, String> {
+    let db = state.db()?;
+    let symbol_id = online_search::save_result(
+        &db,
+        &state.paths.assets_dir,
+        &result,
+        &lemma,
+        &collection,
+    )?;
+    state.clear_caches();
+    let record = db
+        .symbol_by_id(&symbol_id)?
+        .ok_or_else(|| "simbolo importato non trovato".to_string())?;
+    Ok(alternative_from_record(&record))
 }
 
 /// Importa un SVG originale come simbolo personalizzato locale.

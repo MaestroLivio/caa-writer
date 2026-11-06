@@ -1,0 +1,60 @@
+{
+  "id": "lib_ag_mese_scolastico",
+  "name": "Mese scolastico",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda del mese con le principali scadenze scolastiche. 4 voci, tra cui settimana 1: laboratorio, settimana 2: verifica, settimana 3: gita, settimana 4: festa.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Mese scolastico"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "settimana 1: laboratorio",
+      "concept": null
+    },
+    {
+      "label": "settimana 2: verifica",
+      "concept": null
+    },
+    {
+      "label": "settimana 3: gita",
+      "concept": null
+    },
+    {
+      "label": "settimana 4: festa",
+      "concept": null
+    }
+  ]
+}

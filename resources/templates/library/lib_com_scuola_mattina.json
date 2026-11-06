@@ -1,0 +1,92 @@
+{
+  "id": "lib_com_scuola_mattina",
+  "name": "Scuola: la mattina",
+  "category": "Tabelle comunicative",
+  "description": "Celle per seguire le attività della mattina scolastica. 12 voci, tra cui entrata a scuola, lavoro in classe, intervallo, pranzo e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Scuola: la mattina"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "4"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "entrata a scuola",
+      "concept": "school.arrival"
+    },
+    {
+      "label": "lavoro in classe",
+      "concept": "school.classwork"
+    },
+    {
+      "label": "intervallo",
+      "concept": "school.break"
+    },
+    {
+      "label": "pranzo",
+      "concept": "school.lunch"
+    },
+    {
+      "label": "maestra",
+      "concept": "person.teacher"
+    },
+    {
+      "label": "banco",
+      "concept": "furniture.school_desk"
+    },
+    {
+      "label": "zaino",
+      "concept": "object.backpack"
+    },
+    {
+      "label": "matita",
+      "concept": "object.pencil"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    }
+  ]
+}

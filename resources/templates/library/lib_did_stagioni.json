@@ -1,0 +1,60 @@
+{
+  "id": "lib_did_stagioni",
+  "name": "Le quattro stagioni",
+  "category": "Materiali didattici",
+  "description": "Scheda sulle caratteristiche delle stagioni. 4 voci, tra cui primavera, estate, autunno, inverno.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 4,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Le quattro stagioni"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "primavera",
+      "concept": null
+    },
+    {
+      "label": "estate",
+      "concept": null
+    },
+    {
+      "label": "autunno",
+      "concept": null
+    },
+    {
+      "label": "inverno",
+      "concept": null
+    }
+  ]
+}

@@ -1105,6 +1105,14 @@
     view?.focus();
   }
 
+  /// Annulla l'ultima transazione dell'editor (usato dal pannello Assistente).
+  export function undoEdit(): boolean {
+    if (!view) return false;
+    const done = undo(view.state, view.dispatch);
+    if (done) view.focus();
+    return done;
+  }
+
   export function toggleBold() {
     if (!view) return;
     toggleMark(schema.marks.strong)(view.state, view.dispatch);

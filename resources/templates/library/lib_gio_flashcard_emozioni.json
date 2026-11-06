@@ -1,0 +1,68 @@
+{
+  "id": "lib_gio_flashcard_emozioni",
+  "name": "Flashcard delle emozioni",
+  "category": "Giochi e attività interattive",
+  "description": "Sei flashcard per riconoscere le emozioni. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Flashcard delle emozioni"
+    },
+    {
+      "key": "players",
+      "label": "Numero di giocatori",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "rules",
+      "label": "Regole",
+      "kind": "text",
+      "default_value": "Mostra una carta alla volta e nomina il simbolo."
+    }
+  ],
+  "items": [
+    {
+      "label": "felice",
+      "concept": "emotion.happy"
+    },
+    {
+      "label": "triste",
+      "concept": "emotion.sad"
+    },
+    {
+      "label": "arrabbiato",
+      "concept": "emotion.angry"
+    },
+    {
+      "label": "paura",
+      "concept": "emotion.afraid"
+    },
+    {
+      "label": "stanco",
+      "concept": "emotion.tired"
+    },
+    {
+      "label": "calmo",
+      "concept": null
+    }
+  ]
+}

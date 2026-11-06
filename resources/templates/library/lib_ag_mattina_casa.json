@@ -1,0 +1,68 @@
+{
+  "id": "lib_ag_mattina_casa",
+  "name": "Mattina a casa",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda della mattina prima di uscire. 6 voci, tra cui 7:00 sveglia, 7:10 lavarsi le mani, 7:20 vestirsi, 7:40 fare colazione e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Mattina a casa"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "7:00 sveglia",
+      "concept": null
+    },
+    {
+      "label": "7:10 lavarsi le mani",
+      "concept": null
+    },
+    {
+      "label": "7:20 vestirsi",
+      "concept": null
+    },
+    {
+      "label": "7:40 fare colazione",
+      "concept": null
+    },
+    {
+      "label": "8:00 zaino",
+      "concept": null
+    },
+    {
+      "label": "8:10 uscita",
+      "concept": null
+    }
+  ]
+}

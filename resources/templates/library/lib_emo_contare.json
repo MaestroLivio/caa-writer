@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_contare",
+  "name": "Contare fino a cinque",
+  "category": "Emozioni e autoregolazione",
+  "description": "Strategia di regolazione attraverso il conteggio. 6 voci, tra cui 1, 2, 3, 4 e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Contare fino a cinque"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "1",
+      "concept": null
+    },
+    {
+      "label": "2",
+      "concept": null
+    },
+    {
+      "label": "3",
+      "concept": null
+    },
+    {
+      "label": "4",
+      "concept": null
+    },
+    {
+      "label": "5",
+      "concept": null
+    },
+    {
+      "label": "calmo",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_sto_medico",
+  "name": "La visita dal medico",
+  "category": "Storie sociali",
+  "description": "Storia sociale sulla visita dal medico. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "La visita dal medico"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "Vado dal medico.",
+      "concept": null
+    },
+    {
+      "label": "Il medico mi fa alcune domande.",
+      "concept": null
+    },
+    {
+      "label": "Posso dire cosa sento.",
+      "concept": null
+    },
+    {
+      "label": "Mi visita con calma.",
+      "concept": null
+    },
+    {
+      "label": "A volte scrive una medicina.",
+      "concept": null
+    },
+    {
+      "label": "Dopo posso riposare a casa.",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "lib_ag_settimana_completa",
+  "name": "Settimana completa",
+  "category": "Agende e calendari visivi",
+  "description": "Calendario visivo da lunedì a domenica. 7 voci, tra cui lunedì scuola, martedì palestra, mercoledì biblioteca, giovedì piscina e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 7,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Settimana completa"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lunedì scuola",
+      "concept": null
+    },
+    {
+      "label": "martedì palestra",
+      "concept": null
+    },
+    {
+      "label": "mercoledì biblioteca",
+      "concept": null
+    },
+    {
+      "label": "giovedì piscina",
+      "concept": null
+    },
+    {
+      "label": "venerdì musica",
+      "concept": null
+    },
+    {
+      "label": "sabato parco",
+      "concept": null
+    },
+    {
+      "label": "domenica famiglia",
+      "concept": null
+    }
+  ]
+}

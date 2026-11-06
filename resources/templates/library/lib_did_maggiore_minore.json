@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_maggiore_minore",
+  "name": "Maggiore, minore, uguale",
+  "category": "Materiali didattici",
+  "description": "Scheda di confronto tra numeri. 6 voci, tra cui 3 ___ 1, 2 ___ 5, 4 ___ 4, 7 ___ 2 e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Maggiore, minore, uguale"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "3 ___ 1",
+      "concept": null
+    },
+    {
+      "label": "2 ___ 5",
+      "concept": null
+    },
+    {
+      "label": "4 ___ 4",
+      "concept": null
+    },
+    {
+      "label": "7 ___ 2",
+      "concept": null
+    },
+    {
+      "label": "6 ___ 9",
+      "concept": null
+    },
+    {
+      "label": "8 ___ 8",
+      "concept": null
+    }
+  ]
+}

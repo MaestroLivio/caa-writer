@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_apparecchiare_lineare",
+  "name": "Apparecchiare la tavola: sequenza lineare",
+  "category": "Sequenze e routine",
+  "description": "Routine per apparecchiare la tavola. 6 voci, tra cui tovaglia, piatti, bicchieri, posate e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Apparecchiare la tavola: sequenza lineare"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "lineare"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "tovaglia",
+      "concept": null
+    },
+    {
+      "label": "piatti",
+      "concept": null
+    },
+    {
+      "label": "bicchieri",
+      "concept": null
+    },
+    {
+      "label": "posate",
+      "concept": null
+    },
+    {
+      "label": "tovaglioli",
+      "concept": null
+    },
+    {
+      "label": "cibo",
+      "concept": null
+    }
+  ]
+}

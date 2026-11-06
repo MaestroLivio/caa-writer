@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_cosa_mi_aiuta",
+  "name": "Cosa mi aiuta",
+  "category": "Emozioni e autoregolazione",
+  "description": "Tabella per scegliere cosa aiuta a stare meglio. 6 voci, tra cui respirare, contare, bere, abbraccio e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Cosa mi aiuta"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "respirare",
+      "concept": null
+    },
+    {
+      "label": "contare",
+      "concept": null
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "abbraccio",
+      "concept": null
+    },
+    {
+      "label": "musica",
+      "concept": null
+    },
+    {
+      "label": "silenzio",
+      "concept": null
+    }
+  ]
+}

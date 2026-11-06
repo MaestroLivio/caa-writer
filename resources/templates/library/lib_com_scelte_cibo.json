@@ -1,0 +1,92 @@
+{
+  "id": "lib_com_scelte_cibo",
+  "name": "Scelte di cibo",
+  "category": "Tabelle comunicative",
+  "description": "Celle per scegliere cosa mangiare e bere. 12 voci, tra cui mela, pane, pasta, frutta e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Scelte di cibo"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "4"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "mela",
+      "concept": "food.apple"
+    },
+    {
+      "label": "pane",
+      "concept": "food.bread"
+    },
+    {
+      "label": "pasta",
+      "concept": "food.pasta"
+    },
+    {
+      "label": "frutta",
+      "concept": "food.fruit"
+    },
+    {
+      "label": "gelato",
+      "concept": "food.ice_cream"
+    },
+    {
+      "label": "succo di mela",
+      "concept": "food.apple_juice"
+    },
+    {
+      "label": "acqua",
+      "concept": "nature.water"
+    },
+    {
+      "label": "piatto",
+      "concept": "object.plate"
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_com_rifiuti",
+  "name": "Rifiuti e pause",
+  "category": "Tabelle comunicative",
+  "description": "Celle per dire no, chiedere una pausa e fermarsi. 6 voci, tra cui no, basta, finire, no grazie e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Rifiuti e pause"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "2"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "no",
+      "concept": null
+    },
+    {
+      "label": "basta",
+      "concept": null
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "no grazie",
+      "concept": null
+    },
+    {
+      "label": "pausa",
+      "concept": null
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    }
+  ]
+}

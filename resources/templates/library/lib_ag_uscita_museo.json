@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_uscita_museo",
+  "name": "Uscita al museo",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda dell'uscita al museo. 5 voci, tra cui autobus, biglietto, visita, pausa e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Uscita al museo"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "autobus",
+      "concept": "vehicle.bus"
+    },
+    {
+      "label": "biglietto",
+      "concept": null
+    },
+    {
+      "label": "visita",
+      "concept": null
+    },
+    {
+      "label": "pausa",
+      "concept": null
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    }
+  ]
+}

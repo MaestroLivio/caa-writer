@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_termometro_rabbia",
+  "name": "Termometro della rabbia",
+  "category": "Emozioni e autoregolazione",
+  "description": "Termometro per riconoscere la rabbia e fermarsi in tempo. 6 voci, tra cui calmo, un po' arrabbiato, arrabbiato, molto arrabbiato e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Termometro della rabbia"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "calmo",
+      "concept": null
+    },
+    {
+      "label": "un po' arrabbiato",
+      "concept": null
+    },
+    {
+      "label": "arrabbiato",
+      "concept": "emotion.angry"
+    },
+    {
+      "label": "molto arrabbiato",
+      "concept": null
+    },
+    {
+      "label": "pausa",
+      "concept": null
+    },
+    {
+      "label": "respiro",
+      "concept": null
+    }
+  ]
+}

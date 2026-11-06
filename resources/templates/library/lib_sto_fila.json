@@ -1,0 +1,68 @@
+{
+  "id": "lib_sto_fila",
+  "name": "Fare la fila",
+  "category": "Storie sociali",
+  "description": "Storia sociale sul fare la fila a scuola. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Fare la fila"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "A scuola a volte si fa la fila.",
+      "concept": null
+    },
+    {
+      "label": "Posso mettermi dietro a chi è davanti.",
+      "concept": null
+    },
+    {
+      "label": "Posso aspettare il mio turno.",
+      "concept": null
+    },
+    {
+      "label": "Posso tenere le mani lungo i fianchi.",
+      "concept": null
+    },
+    {
+      "label": "Quando la fila avanza, cammino.",
+      "concept": null
+    },
+    {
+      "label": "Se mi perdo, posso chiedere.",
+      "concept": null
+    }
+  ]
+}

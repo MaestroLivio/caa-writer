@@ -1,0 +1,64 @@
+{
+  "id": "lib_ag_sport_settimanale",
+  "name": "Settimana sportiva",
+  "category": "Agende e calendari visivi",
+  "description": "Agenda settimanale di allenamenti e partite. 5 voci, tra cui lunedì allenamento, mercoledì partita, venerdì allenamento, sabato gara e altre ancora.",
+  "kind": "schedule",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 5,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Settimana sportiva"
+    },
+    {
+      "key": "time_column",
+      "label": "Colonna orario",
+      "kind": "boolean",
+      "default_value": "true"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "lunedì allenamento",
+      "concept": null
+    },
+    {
+      "label": "mercoledì partita",
+      "concept": null
+    },
+    {
+      "label": "venerdì allenamento",
+      "concept": null
+    },
+    {
+      "label": "sabato gara",
+      "concept": null
+    },
+    {
+      "label": "domenica riposo",
+      "concept": null
+    }
+  ]
+}

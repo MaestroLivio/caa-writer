@@ -1,0 +1,68 @@
+{
+  "id": "lib_aut_casa_camera",
+  "name": "Casa: riordinare la camera",
+  "category": "Autonomia personale",
+  "description": "Routine autonoma per riordinare la camera. 6 voci, tra cui rifare il letto, raccogliere i vestiti, mettere i giochi, spolverare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Casa: riordinare la camera"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "checklist"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "rifare il letto",
+      "concept": null
+    },
+    {
+      "label": "raccogliere i vestiti",
+      "concept": null
+    },
+    {
+      "label": "mettere i giochi",
+      "concept": null
+    },
+    {
+      "label": "spolverare",
+      "concept": null
+    },
+    {
+      "label": "mettere a posto",
+      "concept": null
+    },
+    {
+      "label": "controllare",
+      "concept": null
+    }
+  ]
+}

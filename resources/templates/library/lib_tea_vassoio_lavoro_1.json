@@ -1,0 +1,64 @@
+{
+  "id": "lib_tea_vassoio_lavoro_1",
+  "name": "Vassoio di lavoro: primo compito",
+  "category": "Materiali TEACCH",
+  "description": "Compito strutturato con vassoio di lavoro. 5 voci, tra cui aprire il vassoio, prendere il materiale, svolgere il compito, mettere a posto e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 5,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Vassoio di lavoro: primo compito"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "aprire il vassoio",
+      "concept": null
+    },
+    {
+      "label": "prendere il materiale",
+      "concept": null
+    },
+    {
+      "label": "svolgere il compito",
+      "concept": null
+    },
+    {
+      "label": "mettere a posto",
+      "concept": null
+    },
+    {
+      "label": "chiudere il vassoio",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_emo_paura",
+  "name": "Quando ho paura",
+  "category": "Emozioni e autoregolazione",
+  "description": "Scheda con azioni possibili quando arriva la paura. 6 voci, tra cui paura, luce, adulto, respiro e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Quando ho paura"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "paura",
+      "concept": "emotion.afraid"
+    },
+    {
+      "label": "luce",
+      "concept": null
+    },
+    {
+      "label": "adulto",
+      "concept": null
+    },
+    {
+      "label": "respiro",
+      "concept": null
+    },
+    {
+      "label": "mano",
+      "concept": null
+    },
+    {
+      "label": "calmo",
+      "concept": null
+    }
+  ]
+}

@@ -28,15 +28,42 @@ verifica lo stato reale del repository prima di dichiarare qualcosa come complet
 6. **`Contesto.md` resta locale:** `.gitignore` contiene `/Contesto.md`. Non pubblicarlo, non
    includerlo negli installer, non inserirvi segreti o dati personali.
 
+## Pilotaggio da CLI
+
+Il motore è utilizzabile senza interfaccia grafica con la CLI `caa-cli`
+(`src-tauri/src/bin/caa-cli.rs`). La documentazione completa per un coding agent
+è in `docs/AGENT.md`: metodi, schemi JSON, esempi, limiti, privacy e licenze.
+Comandi rapidi:
+
+```bash
+cd src-tauri
+cargo run --bin caa-cli -- info
+cargo run --bin caa-cli -- methods
+cargo run --bin caa-cli -- call symbolize '{"text":"Il gatto dorme."}'
+cargo run --bin caa-cli -- rpc     # richieste JSONL da stdin
+```
+
+Usare `--data-dir` e `--resources` per isolare i test. Non dichiarare una
+funzionalità pilotabile se non esiste un metodo CLI o un comando Tauri reale.
+
+## Ribbon e spazio disponibile
+
+Il Ribbon non deve mai scorrere orizzontalmente oltre la finestra. Quando i
+gruppi non entrano, i gruppi meno prioritari vengono raccolti nel menu
+**Gruppi (n)**, organizzato per categoria. Non usare lo scorrimento orizzontale
+come soluzione predefinita.
+
 ## Comandi di verifica
 
 ```bash
 npm run build                     # controllo tipi Svelte + build Vite
 cd src-tauri && cargo test        # unit test, test d'integrazione, corpus semantico
 python3 scripts/check_context.py  # Contesto.md: presenza, 21 sezioni, esclusione da Git
+cd src-tauri && cargo build --bin caa-cli   # CLI headless
+cd src-tauri && cargo run --bin caa-cli -- info
 ```
 
-Il corpus semantico (`tests/semantic_corpus.json`, 205 frasi annotate) produce
+Il corpus semantico (`tests/semantic_corpus.json`, 212 frasi annotate) produce
 `tests/last_report.json`: riporta i numeri reali, senza arrotondarli per eccesso.
 
 ## Convenzioni tecniche

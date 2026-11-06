@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_comprensione_dove",
+  "name": "Comprensione: dove?",
+  "category": "Materiali didattici",
+  "description": "Domande di comprensione sul luogo. 6 voci, tra cui Dove dorme il gatto? Sul letto, Dove mangiamo? In cucina, Dove leggiamo? In biblioteca, Dove giochiamo? Al parco e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Comprensione: dove?"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "Dove dorme il gatto? Sul letto",
+      "concept": null
+    },
+    {
+      "label": "Dove mangiamo? In cucina",
+      "concept": null
+    },
+    {
+      "label": "Dove leggiamo? In biblioteca",
+      "concept": null
+    },
+    {
+      "label": "Dove giochiamo? Al parco",
+      "concept": null
+    },
+    {
+      "label": "Dove studiamo? A scuola",
+      "concept": null
+    },
+    {
+      "label": "Dove ci laviamo? In bagno",
+      "concept": null
+    }
+  ]
+}

@@ -13,6 +13,8 @@
   import PresetDialog from "./lib/components/PresetDialog.svelte";
   import LayoutPreview from "./lib/components/LayoutPreview.svelte";
   import Communicator from "./lib/components/Communicator.svelte";
+  import ImportDialog from "./lib/components/ImportDialog.svelte";
+  import DocumentAssistant from "./lib/components/DocumentAssistant.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
   import FreeBoard from "./lib/components/FreeBoard.svelte";
   import { recordRecent } from "./lib/recent";
@@ -36,6 +38,7 @@
     type AssociationScope,
     type WorkspacePanel,
   } from "./lib/workspace/layout";
+  import type { CollectionInfo, DocumentOperation, ImportReport } from "./lib/types";
   import {
     defaultSettings,
     type AiConfig,
@@ -96,7 +99,7 @@
   let printingResource = $state(false);
   let aiConfig = $state<AiConfig | null>(null);
 
-  type SideTab = "alternative" | "cerca" | "impostazioni" | "studio";
+  type SideTab = "alternative" | "cerca" | "collezioni" | "impostazioni" | "studio";
   type SideIntent = {
     tab: SideTab;
     prompt?: string;
@@ -134,6 +137,160 @@
       oscillator.stop(clickAudio.currentTime + 0.018);
     } catch {
       /* audio non disponibile: nessun errore bloccante */
+    }
+  }
+
+  let importPaths = $state<string[]>([]);
+  let pictogramCollections = $state<CollectionInfo[]>([]);
+  let assistantOpen = $state(false);
+  let lastDocumentEdit = $state<{
+    settings: DocumentSettings;
+    table: boolean;
+  } | null>(null);
+
+  function applyDocumentPlan(operations: DocumentOperation[]): {
+    applied: number;
+    warnings: string[];
+  } {
+    const before = { ...settings };
+    const next = { ...settings };
+    let applied = 0;
+    let usedTable = false;
+    const warnings: string[] = [];
+
+    for (const operation of operations) {
+      switch (operation.type) {
+        case "set_uppercase":
+          next.uppercase = operation.value;
+          applied += 1;
+          break;
+        case "scale_font_size":
+          next.font_size = Math.min(72, Math.max(8, Math.round(next.font_size * operation.factor)));
+          applied += 1;
+          break;
+        case "set_font_size":
+          next.font_size = Math.min(72, Math.max(8, Math.round(operation.value)));
+          applied += 1;
+          break;
+        case "scale_symbol_size":
+          next.symbol_size = Math.min(
+            200,
+            Math.max(24, Math.round(next.symbol_size * operation.factor))
+          );
+          applied += 1;
+          break;
+        case "set_symbol_gap":
+          next.symbol_gap = Math.min(64, Math.max(0, operation.value));
+          applied += 1;
+          break;
+        case "set_chip_border_color":
+          next.chip_border_color = operation.value;
+          applied += 1;
+          break;
+        case "set_alignment":
+          editor?.applyAlignment(operation.value);
+          applied += 1;
+          break;
+        case "insert_table":
+          editor?.insertTable(operation.rows, operation.columns);
+          usedTable = true;
+          applied += 1;
+          break;
+        case "add_table_row":
+        case "add_table_column": {
+          const done = editor?.tableAction(
+            operation.type === "add_table_row" ? "addRowAfter" : "addColumnAfter"
+          );
+          if (done) {
+            usedTable = true;
+            applied += 1;
+          } else {
+            warnings.push("Aggiungi riga/colonna richiede il cursore dentro una tabella.");
+          }
+          break;
+        }
+        case "generate_board":
+          sideIntent = {
+            tab: "studio",
+            prompt: operation.prompt,
+            nonce: ++intentSeq,
+          };
+          openPanelTab("studio");
+          warnings.push(
+            "La tabella comunicativa è stata aperta nello Studio come proposta modificabile; non è stata inserita automaticamente nel documento."
+          );
+          applied += 1;
+          break;
+      }
+    }
+
+    patchSettings(next);
+    lastDocumentEdit = { settings: before, table: usedTable };
+    return { applied, warnings };
+  }
+
+  function undoDocumentPlan(): boolean {
+    if (!lastDocumentEdit) return false;
+    patchSettings(lastDocumentEdit.settings);
+    if (lastDocumentEdit.table) editor?.undoEdit();
+    lastDocumentEdit = null;
+    toast("Ultima modifica annullata.", "info");
+    return true;
+  }
+
+  async function refreshPictogramCollections() {
+    if (!native) return;
+    try {
+      pictogramCollections = await api.listPictogramCollections();
+    } catch {
+      /* la libreria personale non deve bloccare l'avvio */
+    }
+  }
+
+  async function importPictogramImages() {
+    if (!native) {
+      toast("L'importazione richiede l'app desktop.", "warn");
+      return;
+    }
+    const picked = await openDialog({
+      title: "Importa immagini",
+      multiple: true,
+      filters: [
+        {
+          name: "Immagini supportate",
+          extensions: ["png", "jpg", "jpeg", "svg", "webp", "gif", "bmp", "tif", "tiff", "avif", "heic", "heif", "ico"],
+        },
+      ],
+    });
+    if (!picked) return;
+    importPaths = Array.isArray(picked) ? picked.map(String) : [String(picked)];
+  }
+
+  async function importPictogramFolder() {
+    if (!native) {
+      toast("L'importazione richiede l'app desktop.", "warn");
+      return;
+    }
+    const picked = await openDialog({
+      title: "Importa una cartella di pittogrammi",
+      directory: true,
+      multiple: false,
+    });
+    if (!picked) return;
+    importPaths = [String(picked)];
+  }
+
+  async function onPictogramsImported(report: ImportReport, collection: string) {
+    await refreshPictogramCollections();
+    stats = await api.libraryStats().catch(() => stats);
+    editor?.refreshAll();
+    if (report.imported > 0) {
+      toast(
+        `${report.imported} pittogrammi importati in «${collection}».`,
+        "info"
+      );
+    } else if (report.skipped > 0) {
+      toast("Nessun nuovo pittogramma: erano già presenti.", "info");
     }
   }
 
@@ -292,6 +449,7 @@
         aiStatus = await api.aiStatus();
         preferences = await api.listPreferences();
         templates = await api.listTemplates();
+        await refreshPictogramCollections();
         aiConfig = {
           enabled: aiStatus.enabled,
           binary_path: aiStatus.binary_path,
@@ -2198,6 +2356,11 @@
         id: "pictograms",
         label: "Pittogrammi",
         groups: [
+          group("import", "Importa", [
+            cmd("import-images", "Importa immagini", "image-plus", () => void importPictogramImages()),
+            cmd("import-folder", "Importa cartella", "folder-open", () => void importPictogramFolder()),
+            cmd("open-collections", "Collezioni", "library", () => openSidebar("collezioni")),
+          ]),
           group("symbolization", "Simbolizzazione", [
             toggle("auto-caa", "CAA automatica", "sparkles", settings.auto_caa, () =>
               patchSettings({ auto_caa: !settings.auto_caa })
@@ -2390,6 +2553,7 @@
             }),
           ]),
           group("ai-writing", "Scrittura", [
+            cmd("ai-document", "Modifica con IA", "wand", () => (assistantOpen = true)),
             cmd("ai-simplify", "Semplifica testo", "wand", () =>
               void runAiReport(
                 "simplify_sentence",
@@ -2826,6 +2990,10 @@
           {aiStatus}
           {preferences}
           {templates}
+          collections={pictogramCollections}
+          onRefreshCollections={refreshPictogramCollections}
+          onImportImages={() => void importPictogramImages()}
+          onImportFolder={() => void importPictogramFolder()}
           intent={sideIntent}
           overlay={effectiveSidebarMode === "overlay"}
           onCollapse={closeSidebar}

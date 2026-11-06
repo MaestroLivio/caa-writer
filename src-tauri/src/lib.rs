@@ -10,6 +10,7 @@ pub mod ai_engine;
 pub mod asset_manager;
 pub mod commands;
 pub mod database;
+pub mod document_edit;
 pub mod engine;
 pub mod export;
 pub mod layout;
@@ -17,6 +18,8 @@ pub mod layout_edit;
 pub mod linguistics;
 pub mod model;
 pub mod paths;
+pub mod pictogram_import;
+pub mod online_search;
 pub mod speech;
 pub mod studio;
 pub mod tts_normalize;
@@ -95,7 +98,19 @@ pub fn run() {
             commands::plan_resource,
             commands::build_layout,
             commands::edit_layout,
+            commands::interpret_document_prompt,
             commands::import_svg_symbol,
+            commands::scan_pictograms,
+            commands::import_pictograms,
+            commands::list_pictogram_collections,
+            commands::rename_pictogram_collection,
+            commands::delete_pictogram_collection,
+            commands::delete_pictogram_symbols,
+            commands::move_pictogram_symbols,
+            commands::list_online_providers,
+            commands::search_online_pictograms,
+            commands::online_thumbnail,
+            commands::save_online_pictogram,
             commands::hide_symbol,
             commands::import_document_text,
             commands::clear_history,

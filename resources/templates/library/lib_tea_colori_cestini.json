@@ -1,0 +1,68 @@
+{
+  "id": "lib_tea_colori_cestini",
+  "name": "Colori e cestini",
+  "category": "Materiali TEACCH",
+  "description": "Abbinare ogni colore al cestino corrispondente. 6 voci, tra cui rosso, blu, giallo, verde e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Colori e cestini"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "rosso",
+      "concept": null
+    },
+    {
+      "label": "blu",
+      "concept": null
+    },
+    {
+      "label": "giallo",
+      "concept": null
+    },
+    {
+      "label": "verde",
+      "concept": null
+    },
+    {
+      "label": "cestino rosso",
+      "concept": null
+    },
+    {
+      "label": "cestino blu",
+      "concept": null
+    }
+  ]
+}

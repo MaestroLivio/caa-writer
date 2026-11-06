@@ -18,6 +18,7 @@
   }[] = [
     { id: "alternative", label: "Alternative", short: "Alt.", icon: "list" },
     { id: "cerca", label: "Ricerca pittogrammi", short: "Cerca", icon: "search" },
+    { id: "collezioni", label: "Collezioni personali", short: "Coll.", icon: "library" },
     { id: "impostazioni", label: "Impostazioni e IA", short: "IA", icon: "settings" },
     { id: "studio", label: "Visual Resource Studio", short: "Studio", icon: "layout-grid" },
   ];

@@ -307,6 +307,7 @@ impl Engine {
         SymbolFilters {
             pack_id: opts.pack_id.clone(),
             commercial_only: opts.commercial_only,
+            collection_id: None,
         }
     }
 
@@ -532,6 +533,30 @@ impl Engine {
             sentence_text,
             &frequency,
         );
+
+        // Priorità alle collezioni personali: se l'utente ha importato un
+        // pittogramma per questa parola, il concetto personale entra in testa
+        // ai candidati. Resta un candidato semantico, non una sostituzione
+        // cieca: la scelta manuale e le preferenze continuano a vincere.
+        let personal_slug = crate::pictogram_import::slugify(
+            &crate::linguistics::normalize::normalize_word(&token.surface),
+        );
+        if !personal_slug.is_empty() {
+            let personal_concept = format!("custom.{personal_slug}");
+            if !ranked.iter().any(|item| item.concept_id == personal_concept) {
+                if let Ok(found) = db.symbols_for_concept(&personal_concept, filters) {
+                    if !found.is_empty() {
+                        ranked.insert(
+                            0,
+                            symbol_search::ScoredConcept {
+                                concept_id: personal_concept,
+                                score: 100.0,
+                            },
+                        );
+                    }
+                }
+            }
+        }
 
         if let Some(pref) = &preferences {
             if let Some(concept_id) = &pref.concept_id {
@@ -905,6 +930,7 @@ impl Engine {
         let filters = SymbolFilters {
             pack_id,
             commercial_only,
+            collection_id: None,
         };
         let db = self.db()?;
         let mut cache = SvgCache::new(64);
@@ -1723,6 +1749,7 @@ impl Engine {
         let filters = SymbolFilters {
             pack_id: None,
             commercial_only: false,
+            collection_id: None,
         };
         let found = self.library_alternatives_for_words(&db, &filters, &words, 8);
         if found.is_empty() {
@@ -2008,6 +2035,49 @@ impl Engine {
         input: &serde_json::Value,
     ) -> Result<ai_engine::tools::ToolOutcome, String> {
         ai_engine::tools::run(self.ai_service.clone(), tool, input)
+    }
+
+    /// Interpreta una richiesta di modifica del documento. Il parser
+    /// deterministico è sempre disponibile; il modello locale interviene solo
+    /// se il parser non riconosce nulla e l'utente lo consente.
+    pub fn interpret_document_prompt(
+        &self,
+        prompt: &str,
+        use_neural: bool,
+    ) -> crate::document_edit::DocumentEditPlan {
+        let mut plan = crate::document_edit::interpret(prompt);
+        if plan.operations.is_empty() && use_neural {
+            let config = self.ai_config();
+            if config.enabled {
+                let system = "Sei un interprete di richieste per un editor CAA. Rispondi SOLO con un oggetto JSON: {\"operations\":[...]}. Operazioni ammesse: {\"type\":\"set_uppercase\",\"value\":true|false}, {\"type\":\"scale_font_size\",\"factor\":0.5..2}, {\"type\":\"set_font_size\",\"value\":8..72}, {\"type\":\"scale_symbol_size\",\"factor\":0.5..2}, {\"type\":\"set_symbol_gap\",\"value\":0..64}, {\"type\":\"set_chip_border_color\",\"value\":\"#rrggbb\"}, {\"type\":\"set_alignment\",\"value\":\"left|center|right|justify\"}, {\"type\":\"insert_table\",\"rows\":1..12,\"columns\":1..12}, {\"type\":\"add_table_row\"}, {\"type\":\"add_table_column\"}, {\"type\":\"generate_board\",\"prompt\":\"...\"}. Non inventare altre operazioni. Se non capisci, restituisci operations vuoto.";
+                let cancel = self.ai_service.cancel_handle();
+                match self.ai_service.complete(
+                    format!("{system}\n\nRichiesta: {prompt}"),
+                    384,
+                    2,
+                    cancel,
+                ) {
+                    Ok(raw) => {
+                        let neural = crate::document_edit::parse_model_plan(&raw);
+                        if !neural.operations.is_empty() {
+                            plan = neural;
+                        } else {
+                            plan.warnings.extend(neural.warnings);
+                            plan.source = "neurale".to_string();
+                        }
+                    }
+                    Err(error) => plan.warnings.push(format!(
+                        "Modello non disponibile ({error}): resta valido il parser deterministico."
+                    )),
+                }
+            } else {
+                plan.warnings.push(
+                    "Nessun modello neurale attivo: la richiesta è stata interpretata dalle regole locali."
+                        .to_string(),
+                );
+            }
+        }
+        plan
     }
 
     pub fn ai_config(&self) -> AiConfig {
@@ -3070,6 +3140,47 @@ mod tests {
         );
         assert!(split.tokens.iter().any(|token| token.surface == "sintesi"));
         assert!(split.tokens.iter().any(|token| token.surface == "vocale"));
+    }
+
+    #[test]
+    fn imported_personal_pictogram_wins_for_the_same_word() {
+        let engine = test_engine();
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("cane.png");
+        // PNG valido: il contenuto visivo non conta, conta la pipeline.
+        image::RgbImage::from_pixel(8, 8, image::Rgb([180, 90, 40]))
+            .save(&path)
+            .unwrap();
+        let report = crate::pictogram_import::import_batch(
+            &engine.db().unwrap(),
+            &engine.paths.assets_dir,
+            &[crate::pictogram_import::ImportItem {
+                path: path.to_string_lossy().to_string(),
+                lemma: "cane".to_string(),
+                collection: Some("Animali".to_string()),
+                category: Some("animali".to_string()),
+                synonyms: vec!["cagnolino".to_string()],
+                relative_path: Some("cane.png".to_string()),
+                original_name: Some("cane.png".to_string()),
+            }],
+            &crate::pictogram_import::ImportLicense::default(),
+            "Animali",
+        );
+        assert_eq!(report.imported, 1, "avvisi: {:?}", report.warnings);
+        engine.clear_caches();
+
+        let opts = SymbolizeOptions {
+            paragraph_id: "p1".to_string(),
+            ..Default::default()
+        };
+        let result = engine.symbolize("Il cane corre.", &opts).unwrap();
+        let token = result
+            .tokens
+            .iter()
+            .find(|token| token.surface.eq_ignore_ascii_case("cane"))
+            .expect("token cane");
+        assert_eq!(token.pack_id.as_deref(), Some("personal"));
+        assert_eq!(token.caption, "cane");
     }
 
     #[test]

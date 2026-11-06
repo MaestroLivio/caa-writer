@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_addizioni_10",
+  "name": "Addizioni entro 10",
+  "category": "Materiali didattici",
+  "description": "Scheda di addizioni con risultato entro dieci. 6 voci, tra cui 2 + 1 = ___, 3 + 2 = ___, 4 + 4 = ___, 5 + 3 = ___ e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 3,
+    "rows": 2,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Addizioni entro 10"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "2 + 1 = ___",
+      "concept": null
+    },
+    {
+      "label": "3 + 2 = ___",
+      "concept": null
+    },
+    {
+      "label": "4 + 4 = ___",
+      "concept": null
+    },
+    {
+      "label": "5 + 3 = ___",
+      "concept": null
+    },
+    {
+      "label": "6 + 2 = ___",
+      "concept": null
+    },
+    {
+      "label": "1 + 7 = ___",
+      "concept": null
+    }
+  ]
+}

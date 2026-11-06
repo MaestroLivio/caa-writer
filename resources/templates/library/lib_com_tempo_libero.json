@@ -1,0 +1,92 @@
+{
+  "id": "lib_com_tempo_libero",
+  "name": "Tempo libero",
+  "category": "Tabelle comunicative",
+  "description": "Griglia delle attività preferite nel tempo libero. 12 voci, tra cui giocare, leggere, ascoltare, correre e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Tempo libero"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "4"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "giocare",
+      "concept": "action.play"
+    },
+    {
+      "label": "leggere",
+      "concept": "action.read"
+    },
+    {
+      "label": "ascoltare",
+      "concept": "action.listen"
+    },
+    {
+      "label": "correre",
+      "concept": "action.run"
+    },
+    {
+      "label": "camminare",
+      "concept": "action.walk"
+    },
+    {
+      "label": "palla",
+      "concept": "object.ball"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "amico",
+      "concept": "person.friend"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "parco",
+      "concept": "place.park"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    }
+  ]
+}

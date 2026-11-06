@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_dolore_corpo",
+  "name": "Dolore: parti del corpo",
+  "category": "Tabelle comunicative",
+  "description": "Celle per indicare dove si sente dolore. 9 voci, tra cui testa, pancia, denti, orecchio e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Dolore: parti del corpo"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "testa",
+      "concept": null
+    },
+    {
+      "label": "pancia",
+      "concept": null
+    },
+    {
+      "label": "denti",
+      "concept": null
+    },
+    {
+      "label": "orecchio",
+      "concept": null
+    },
+    {
+      "label": "gola",
+      "concept": null
+    },
+    {
+      "label": "schiena",
+      "concept": null
+    },
+    {
+      "label": "dolore",
+      "concept": null
+    },
+    {
+      "label": "medico",
+      "concept": "person.doctor"
+    },
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    }
+  ]
+}

@@ -265,7 +265,7 @@ python3 scripts/check_context.py
 python3 scripts/build_indexes.py --db <percorso>/caa-writer.sqlite3
 ```
 
-Il corpus `tests/semantic_corpus.json` contiene 205 frasi annotate a mano; il test produce
+Il corpus `tests/semantic_corpus.json` contiene 212 frasi annotate a mano; il test produce
 `tests/last_report.json` con accuratezza, approssimazioni, tempi e l'elenco dei casi falliti. Il
 confronto con il sistema ibrido è dichiarato non misurato se manca il modello.
 

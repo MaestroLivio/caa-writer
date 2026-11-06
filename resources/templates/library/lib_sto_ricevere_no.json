@@ -1,0 +1,68 @@
+{
+  "id": "lib_sto_ricevere_no",
+  "name": "Quando mi viene detto no",
+  "category": "Storie sociali",
+  "description": "Storia sociale sul ricevere un no. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Quando mi viene detto no"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "A volte mi viene detto no.",
+      "concept": null
+    },
+    {
+      "label": "Posso sentirmi deluso.",
+      "concept": null
+    },
+    {
+      "label": "Posso respirare e ascoltare il motivo.",
+      "concept": null
+    },
+    {
+      "label": "Posso chiedere una spiegazione.",
+      "concept": null
+    },
+    {
+      "label": "Posso pensare a un'alternativa.",
+      "concept": null
+    },
+    {
+      "label": "Dopo posso andare avanti.",
+      "concept": null
+    }
+  ]
+}

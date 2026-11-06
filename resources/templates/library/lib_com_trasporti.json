@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_trasporti",
+  "name": "Trasporti",
+  "category": "Tabelle comunicative",
+  "description": "Celle per scegliere come spostarsi. 9 voci, tra cui macchina, autobus, bicicletta, monopattino e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Trasporti"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "macchina",
+      "concept": "vehicle.car"
+    },
+    {
+      "label": "autobus",
+      "concept": "vehicle.bus"
+    },
+    {
+      "label": "bicicletta",
+      "concept": "vehicle.bike"
+    },
+    {
+      "label": "monopattino",
+      "concept": "vehicle.scooter"
+    },
+    {
+      "label": "camminare",
+      "concept": "action.walk"
+    },
+    {
+      "label": "andare",
+      "concept": "action.go"
+    },
+    {
+      "label": "casa",
+      "concept": "place.house"
+    },
+    {
+      "label": "scuola",
+      "concept": "place.school"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    }
+  ]
+}

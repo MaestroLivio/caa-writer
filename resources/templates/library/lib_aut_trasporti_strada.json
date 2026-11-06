@@ -1,0 +1,64 @@
+{
+  "id": "lib_aut_trasporti_strada",
+  "name": "Trasporti: attraversare la strada",
+  "category": "Autonomia personale",
+  "description": "Routine autonoma per attraversare la strada. 5 voci, tra cui fermarsi, guardare a sinistra, guardare a destra, attraversare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Trasporti: attraversare la strada"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "checklist"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "fermarsi",
+      "concept": null
+    },
+    {
+      "label": "guardare a sinistra",
+      "concept": null
+    },
+    {
+      "label": "guardare a destra",
+      "concept": null
+    },
+    {
+      "label": "attraversare",
+      "concept": null
+    },
+    {
+      "label": "arrivare",
+      "concept": null
+    }
+  ]
+}

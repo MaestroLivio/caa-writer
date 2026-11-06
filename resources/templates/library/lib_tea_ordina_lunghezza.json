@@ -1,0 +1,60 @@
+{
+  "id": "lib_tea_ordina_lunghezza",
+  "name": "Dal più corto al più lungo",
+  "category": "Materiali TEACCH",
+  "description": "Ordinamento per lunghezza. 4 voci, tra cui corto, medio, lungo, lunghissimo.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 4,
+    "rows": 1,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Dal più corto al più lungo"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "corto",
+      "concept": null
+    },
+    {
+      "label": "medio",
+      "concept": null
+    },
+    {
+      "label": "lungo",
+      "concept": null
+    },
+    {
+      "label": "lunghissimo",
+      "concept": null
+    }
+  ]
+}

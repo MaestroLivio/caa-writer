@@ -1,0 +1,68 @@
+{
+  "id": "lib_did_frasi_minime",
+  "name": "Frasi minime",
+  "category": "Materiali didattici",
+  "description": "Scheda di lettura di frasi minime. 6 voci, tra cui il cane corre, la mela è rossa, il libro è sul tavolo, la palla è blu e altre ancora.",
+  "kind": "worksheet",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 2,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Frasi minime"
+    },
+    {
+      "key": "instructions",
+      "label": "Consegna",
+      "kind": "text",
+      "default_value": "Osserva, scegli e completa."
+    },
+    {
+      "key": "answer_lines",
+      "label": "Righe per la risposta",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "il cane corre",
+      "concept": null
+    },
+    {
+      "label": "la mela è rossa",
+      "concept": null
+    },
+    {
+      "label": "il libro è sul tavolo",
+      "concept": null
+    },
+    {
+      "label": "la palla è blu",
+      "concept": null
+    },
+    {
+      "label": "il gatto dorme",
+      "concept": null
+    },
+    {
+      "label": "la maestra legge",
+      "concept": null
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lib_seq_cena",
+  "name": "La cena: sequenza verticale",
+  "category": "Sequenze e routine",
+  "description": "Routine della cena in famiglia. 6 voci, tra cui apparecchiare, sedersi, servirsi, mangiare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "La cena: sequenza verticale"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "apparecchiare",
+      "concept": null
+    },
+    {
+      "label": "sedersi",
+      "concept": null
+    },
+    {
+      "label": "servirsi",
+      "concept": null
+    },
+    {
+      "label": "mangiare",
+      "concept": "action.eat"
+    },
+    {
+      "label": "riordinare",
+      "concept": null
+    },
+    {
+      "label": "lavarsi i denti",
+      "concept": "hygiene.brush_teeth"
+    }
+  ]
+}

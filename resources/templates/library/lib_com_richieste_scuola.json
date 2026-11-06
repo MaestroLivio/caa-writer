@@ -1,0 +1,80 @@
+{
+  "id": "lib_com_richieste_scuola",
+  "name": "Richieste a scuola",
+  "category": "Tabelle comunicative",
+  "description": "Griglia per chiedere materiali e aiuto in classe. 9 voci, tra cui chiedere aiuto, matita, penna, foglio e altre ancora.",
+  "kind": "grid",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "intermedia",
+  "pages": 1,
+  "orientation": "orizzontale",
+  "printable": true,
+  "interactive": true,
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "categorie"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Richieste a scuola"
+    },
+    {
+      "key": "columns",
+      "label": "Colonne",
+      "kind": "number",
+      "default_value": "3"
+    },
+    {
+      "key": "caption",
+      "label": "Didascalia sotto il simbolo",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "chiedere aiuto",
+      "concept": "action.ask_help"
+    },
+    {
+      "label": "matita",
+      "concept": "object.pencil"
+    },
+    {
+      "label": "penna",
+      "concept": "obj.pen"
+    },
+    {
+      "label": "foglio",
+      "concept": "obj.paper_sheet"
+    },
+    {
+      "label": "libro",
+      "concept": "object.book"
+    },
+    {
+      "label": "bagno",
+      "concept": "place.toilet"
+    },
+    {
+      "label": "bere",
+      "concept": "action.drink"
+    },
+    {
+      "label": "finire",
+      "concept": "action.finish"
+    },
+    {
+      "label": "maestra",
+      "concept": "person.teacher"
+    }
+  ]
+}

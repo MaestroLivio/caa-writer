@@ -1,0 +1,68 @@
+{
+  "id": "lib_sto_maestra_parla",
+  "name": "Quando la maestra parla",
+  "category": "Storie sociali",
+  "description": "Storia sociale sull'ascolto durante la lezione. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "kind": "story",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": false,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Quando la maestra parla"
+    },
+    {
+      "key": "first_person",
+      "label": "Racconto in prima persona",
+      "kind": "boolean",
+      "default_value": "false"
+    },
+    {
+      "key": "adult_guide",
+      "label": "Nota per l'adulto",
+      "kind": "text",
+      "default_value": "Leggere una frase alla volta e lasciare spazio alle domande."
+    }
+  ],
+  "items": [
+    {
+      "label": "La maestra a volte parla a tutta la classe.",
+      "concept": null
+    },
+    {
+      "label": "Quando parla, posso fermarmi e ascoltare.",
+      "concept": null
+    },
+    {
+      "label": "Se sto finendo una cosa, posso chiedere un momento.",
+      "concept": null
+    },
+    {
+      "label": "Posso guardare la maestra per capire cosa dice.",
+      "concept": null
+    },
+    {
+      "label": "Se non ho capito, posso chiedere di ripetere.",
+      "concept": null
+    },
+    {
+      "label": "Ascoltare aiuta a sapere cosa fare dopo.",
+      "concept": null
+    }
+  ]
+}

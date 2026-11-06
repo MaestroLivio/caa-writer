@@ -56,20 +56,25 @@
   let width = $state(1440);
   let temporaryExpanded = $state(false);
   let bodyEl: HTMLDivElement | undefined = $state();
-  let scrollLeft = $state(0);
-  let bodyWidth = $state(0);
-  let bodyScrollWidth = $state(0);
   let openGroup = $state<RibbonGroup | null>(null);
+  let groupsMenuOpen = $state(false);
   let menuStyle = $state("");
+  const currentGroups = $derived(
+    tabs.find((tab) => tab.id === activeTab)?.groups ?? []
+  );
 
   $effect(() => {
-    if (!root) return;
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      if (entry) width = entry.contentRect.width;
-    });
-    observer.observe(root);
-    return () => observer.disconnect();
+    // La larghezza della finestra è il dato affidabile: il contenuto del
+    // Ribbon non deve poter allargare il layout oltre il viewport.
+    const update = () => (width = window.innerWidth);
+    update();
+    window.addEventListener("resize", update);
+    const observer = new ResizeObserver(update);
+    if (root) observer.observe(root);
+    return () => {
+      window.removeEventListener("resize", update);
+      observer.disconnect();
+    };
   });
 
   // Sotto i 1200 px il Ribbon completo diventa compatto; sotto i 980 px si
@@ -129,24 +134,27 @@
     return group.commands.slice(visibleCount(group));
   }
 
-  function updateScroll() {
-    if (!bodyEl) return;
-    scrollLeft = bodyEl.scrollLeft;
-    bodyWidth = bodyEl.clientWidth;
-    bodyScrollWidth = bodyEl.scrollWidth;
-  }
-
-  function scrollBy(delta: number) {
-    bodyEl?.scrollBy({ left: delta, behavior: "smooth" });
+  function placeMenu(event: MouseEvent, menuWidth: number) {
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const left = Math.max(8, Math.min(window.innerWidth - menuWidth - 8, rect.left));
+    const top = Math.min(window.innerHeight - 120, rect.bottom + 4);
+    menuStyle = `left:${Math.round(left)}px; top:${Math.round(top)}px; width:${menuWidth}px`;
   }
 
   function openMenu(group: RibbonGroup, event: MouseEvent) {
-    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    const menuWidth = 300;
-    const left = Math.max(8, Math.min(window.innerWidth - menuWidth - 8, rect.left));
-    const top = Math.min(window.innerHeight - 80, rect.bottom + 4);
-    menuStyle = `left:${Math.round(left)}px; top:${Math.round(top)}px; width:${menuWidth}px`;
+    placeMenu(event, 300);
+    groupsMenuOpen = false;
     openGroup = group;
+    void tick().then(() => {
+      const first = document.querySelector<HTMLElement>(".ribbon-menu button, .ribbon-menu select");
+      first?.focus();
+    });
+  }
+
+  function openGroupsMenu(event: MouseEvent) {
+    placeMenu(event, 320);
+    openGroup = null;
+    groupsMenuOpen = true;
     void tick().then(() => {
       const first = document.querySelector<HTMLElement>(".ribbon-menu button, .ribbon-menu select");
       first?.focus();
@@ -155,20 +163,21 @@
 
   function closeMenu() {
     openGroup = null;
+    groupsMenuOpen = false;
   }
 
-  const canScrollLeft = $derived(scrollLeft > 2);
-  const canScrollRight = $derived(scrollLeft + bodyWidth < bodyScrollWidth - 2);
-
-  $effect(() => {
-    // Ricalcola la disponibilità di scorrimento quando cambiano scheda,
-    // modalità, larghezza o numero di comandi.
-    void activeTab;
-    void effectiveMode;
-    void width;
-    void tabs;
-    requestAnimationFrame(updateScroll);
+  // Soglie espresse in pixel CSS della finestra: quando lo spazio diminuisce
+  // i gruppi meno prioritari passano nel menu «Gruppi (n)». Non esiste uno
+  // scorrimento orizzontale del Ribbon.
+  const visibleGroupCount = $derived.by(() => {
+    const total = currentGroups.length;
+    if (width >= 1360) return total;
+    if (width >= 1180) return Math.min(total, 4);
+    if (width >= 980) return Math.min(total, 3);
+    return Math.min(total, 2);
   });
+  const visibleGroups = $derived(currentGroups.slice(0, visibleGroupCount));
+  const hiddenGroups = $derived(currentGroups.slice(visibleGroupCount));
 
   $effect(() => {
     if (!openGroup) return;
@@ -373,79 +382,49 @@
 
   {#if effectiveMode !== "hidden"}
     <div class="ribbon__bodywrap">
-      {#if canScrollLeft}
-        <button
-          class="ribbon__scroll ribbon__scroll--left"
-          aria-label="Scorri il Ribbon a sinistra"
-          title="Scorri a sinistra"
-          onclick={() => scrollBy(-180)}>‹</button
-        >
-      {/if}
       <div
         class="ribbon__body"
         class:ribbon__body--switch={switching}
         bind:this={bodyEl}
-        onscroll={updateScroll}
-        onwheel={(event) => {
-          if (bodyScrollWidth <= bodyWidth) return;
-          const delta = event.deltaX || event.deltaY;
-          if (delta) {
-            event.preventDefault();
-            bodyEl!.scrollLeft += delta;
-          }
-        }}
-        onkeydown={(event) => {
-          if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            scrollBy(-120);
-          } else if (event.key === "ArrowRight") {
-            event.preventDefault();
-            scrollBy(120);
-          } else if (event.key === "Home") {
-            event.preventDefault();
-            bodyEl?.scrollTo({ left: 0, behavior: "smooth" });
-          } else if (event.key === "End") {
-            event.preventDefault();
-            bodyEl?.scrollTo({ left: bodyScrollWidth, behavior: "smooth" });
-          }
-        }}
         tabindex="0"
         role="toolbar"
         aria-label="Comandi della scheda attiva"
       >
-        {#each tabs.filter((tab) => tab.id === activeTab) as tab (tab.id)}
-          {#each tab.groups as group (group.id)}
-            <section class="ribbon-group" aria-label={group.label}>
-              <div class="ribbon-group__commands">
-                {#each visibleCommands(group) as command (command.id)}
-                  {@render control(command)}
-                {/each}
-                {#if overflowCommands(group).length > 0}
-                  <button
-                    class="ribbon-btn ribbon-btn--more"
-                    aria-label={`Altri comandi: ${group.label}`}
-                    title={`Altri comandi di ${group.label} (${overflowCommands(group).length})`}
-                    aria-haspopup="menu"
-                    onclick={(event) => openMenu(group, event)}
-                  >
-                    <RibbonIcon node={ribbonIcons.ellipsis} size={17} />
-                    <span class="ribbon-btn__label">Altri</span>
-                  </button>
-                {/if}
-              </div>
-              <div class="ribbon-group__label">{group.label}</div>
-            </section>
-          {/each}
+        {#each visibleGroups as group (group.id)}
+          <section class="ribbon-group" data-group-id={group.id} aria-label={group.label}>
+            <div class="ribbon-group__commands">
+              {#each visibleCommands(group) as command (command.id)}
+                {@render control(command)}
+              {/each}
+              {#if overflowCommands(group).length > 0}
+                <button
+                  class="ribbon-btn ribbon-btn--more"
+                  aria-label={`Altri comandi: ${group.label}`}
+                  title={`Altri comandi di ${group.label} (${overflowCommands(group).length})`}
+                  aria-haspopup="menu"
+                  onclick={(event) => openMenu(group, event)}
+                >
+                  <RibbonIcon node={ribbonIcons.ellipsis} size={17} />
+                  <span class="ribbon-btn__label">Altri</span>
+                </button>
+              {/if}
+            </div>
+            <div class="ribbon-group__label">{group.label}</div>
+          </section>
         {/each}
+        {#if hiddenGroups.length > 0}
+          <button
+            class="ribbon-btn ribbon-btn--more ribbon-btn--groups"
+            aria-label={`Altri gruppi di comandi (${hiddenGroups.length})`}
+            title={`Gruppi non visibili per mancanza di spazio (${hiddenGroups.length})`}
+            aria-haspopup="menu"
+            onclick={openGroupsMenu}
+          >
+            <RibbonIcon node={ribbonIcons.ellipsis} size={17} />
+            <span class="ribbon-btn__label">Gruppi ({hiddenGroups.length})</span>
+          </button>
+        {/if}
       </div>
-      {#if canScrollRight}
-        <button
-          class="ribbon__scroll ribbon__scroll--right"
-          aria-label="Scorri il Ribbon a destra"
-          title="Scorri a destra"
-          onclick={() => scrollBy(180)}>›</button
-        >
-      {/if}
     </div>
   {/if}
   {#if openGroup}
@@ -473,6 +452,39 @@
             {#if command.shortcut}<span class="ribbon-menu__shortcut">{command.shortcut}</span>{/if}
           </button>
         {/if}
+      {/each}
+    </div>
+  {/if}
+  {#if groupsMenuOpen}
+    <button class="ribbon-menu-backdrop" aria-label="Chiudi il menu" onclick={closeMenu}></button>
+    <div class="ribbon-menu ribbon-menu--groups" style={menuStyle} role="menu" aria-label="Altri gruppi di comandi">
+      <p class="ribbon-menu__title">Gruppi non visibili</p>
+      {#each hiddenGroups as group (group.id)}
+        <div class="ribbon-menu__group">
+          <p class="ribbon-menu__subtitle">{group.label}</p>
+          {#each group.commands as command (command.id)}
+            {#if command.kind === "select" || command.kind === "color"}
+              {@render control(command)}
+            {:else}
+              {@const Icon = command.icon ? ribbonIcons[command.icon as keyof typeof ribbonIcons] : null}
+              <button
+                type="button"
+                class="ribbon-menu__item"
+                role="menuitem"
+                disabled={command.enabled === false}
+                title={command.tooltip ?? command.label}
+                onclick={() => {
+                  run(command);
+                  closeMenu();
+                }}
+              >
+                {#if Icon}<RibbonIcon node={Icon} size={16} />{/if}
+                <span>{command.label}</span>
+                {#if command.shortcut}<span class="ribbon-menu__shortcut">{command.shortcut}</span>{/if}
+              </button>
+            {/if}
+          {/each}
+        </div>
       {/each}
     </div>
   {/if}

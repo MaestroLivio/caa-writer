@@ -1,0 +1,68 @@
+{
+  "id": "lib_aut_casa_piatti",
+  "name": "Casa: lavare i piatti",
+  "category": "Autonomia personale",
+  "description": "Routine autonoma per lavare i piatti. 6 voci, tra cui togliere i resti, insaponare, sciacquare, asciugare e altre ancora.",
+  "kind": "sequence",
+  "version": "1.0.0",
+  "license": "CC BY-NC-SA 4.0",
+  "complexity": "semplice",
+  "pages": 1,
+  "orientation": "verticale",
+  "printable": true,
+  "interactive": false,
+  "grid": {
+    "columns": 1,
+    "rows": 6,
+    "caption": true,
+    "symbol": true,
+    "border": true,
+    "color_coding": "nessuna"
+  },
+  "fields": [
+    {
+      "key": "title",
+      "label": "Titolo",
+      "kind": "text",
+      "default_value": "Casa: lavare i piatti"
+    },
+    {
+      "key": "layout",
+      "label": "Disposizione",
+      "kind": "text",
+      "default_value": "verticale"
+    },
+    {
+      "key": "checkboxes",
+      "label": "Caselle da completare",
+      "kind": "boolean",
+      "default_value": "true"
+    }
+  ],
+  "items": [
+    {
+      "label": "togliere i resti",
+      "concept": null
+    },
+    {
+      "label": "insaponare",
+      "concept": null
+    },
+    {
+      "label": "sciacquare",
+      "concept": null
+    },
+    {
+      "label": "asciugare",
+      "concept": null
+    },
+    {
+      "label": "riporre",
+      "concept": null
+    },
+    {
+      "label": "lavarsi le mani",
+      "concept": "hygiene.wash_hands"
+    }
+  ]
+}
