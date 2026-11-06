@@ -406,6 +406,15 @@ completo.
 3. Applicare solo operazioni validate; per la GUI usare il pannello «Modifica
    con IA», che applica le operazioni alle transazioni ProseMirror.
 
+## 8bis. Console CLI nella GUI
+
+In CAA Writer: **Strumenti IA → Modello neurale → Console CLI** (il gruppo può
+essere nel menu «Gruppi»). La console esegue gli stessi metodi della CLI con
+`--data-dir` e `--resources` dell'app, mostra stdout/stderr e il JSON. Il
+binario è in `resources/cli/` nei bundle; in sviluppo viene cercato anche in
+`target/release` e `target/debug`. Non usa una shell: metodo e parametri sono
+dati, non comandi di sistema.
+
 ## 9. Sicurezza, rete e licenze
 
 - La CLI non apre connessioni se non si chiamano `online.*` o `voice.*` che

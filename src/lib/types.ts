@@ -773,3 +773,11 @@ export interface DocumentEditPlan {
   warnings: string[];
   source: string;
 }
+
+export interface CliRunResult {
+  ok: boolean;
+  stdout: string;
+  stderr: string;
+  json: unknown;
+  binary: string;
+}

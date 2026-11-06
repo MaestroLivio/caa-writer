@@ -15,6 +15,7 @@
   import Communicator from "./lib/components/Communicator.svelte";
   import ImportDialog from "./lib/components/ImportDialog.svelte";
   import DocumentAssistant from "./lib/components/DocumentAssistant.svelte";
+  import CliConsole from "./lib/components/CliConsole.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
   import FreeBoard from "./lib/components/FreeBoard.svelte";
   import { recordRecent } from "./lib/recent";
@@ -143,6 +144,7 @@
   let importPaths = $state<string[]>([]);
   let pictogramCollections = $state<CollectionInfo[]>([]);
   let assistantOpen = $state(false);
+  let cliOpen = $state(false);
   let lastDocumentEdit = $state<{
     settings: DocumentSettings;
     table: boolean;
@@ -2579,6 +2581,7 @@
             cmd("create-teaching", "Materiale didattico", "layout-grid", () => void createResource("teaching")),
           ]),
           group("ai-model", "Modello neurale", [
+            cmd("open-cli", "Console CLI", "terminal", () => (cliOpen = true)),
             cmd("ai-status", "Stato del modello", "badge-check", () =>
               report = {
                 title: "Modello neurale",

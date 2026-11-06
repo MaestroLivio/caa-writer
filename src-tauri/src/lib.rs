@@ -99,6 +99,7 @@ pub fn run() {
             commands::build_layout,
             commands::edit_layout,
             commands::interpret_document_prompt,
+            commands::run_cli,
             commands::import_svg_symbol,
             commands::scan_pictograms,
             commands::import_pictograms,

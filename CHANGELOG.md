@@ -61,6 +61,17 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
   menu «Gruppi (n)» per categoria; nessun gruppo tagliato oltre la finestra.
 - Dimensione minima della finestra 800×600.
 
+### Correzioni
+
+- Applicazione manuale dei pittogrammi anche per parole senza concetto lessicale
+  («governa», «mondo»): l'override non viene più scavalcato dalla ricerca per
+  etichetta durante la rianalisi.
+- Console CLI integrata nella GUI (Strumenti IA → Modello neurale → Console
+  CLI), con esecuzione dei metodi e output JSON; il binario è incluso nei
+  bundle.
+- I 300 modelli sono ora inclusi negli installer (`templates/**/*`, prima
+  veniva copiata solo la cartella superiore).
+
 ### Installer
 
 - macOS arm64/x64: DMG e `.app.zip` non firmati, avviati localmente (Intel via Rosetta).

@@ -57,3 +57,5 @@ resources/symbol-packs/downloaded/
 # Motore vocale locale: runtime e voce non versionati
 /.voice-venv/
 /resources/voice/
+
+/resources/cli/

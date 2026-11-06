@@ -48,7 +48,8 @@
     "resources": [
       "../resources/dictionaries/*",
       "../resources/symbol-packs/**/*",
-      "../resources/templates/*",
+      "../resources/templates/**/*",
+      "../resources/cli/*",
       "../resources/ai/*"
     ],
     "macOS": {

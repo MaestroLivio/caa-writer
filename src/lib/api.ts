@@ -46,6 +46,7 @@ import type {
   OnlineResponse,
   OnlineProviderInfo,
   DocumentEditPlan,
+  CliRunResult,
 } from "./types";
 
 export const isTauri = (): boolean =>
@@ -106,6 +107,8 @@ export const api = {
     call<Alternative>("save_online_pictogram", { result, lemma, collection }),
   interpretDocumentPrompt: (prompt: string, useNeural = true) =>
     call<DocumentEditPlan>("interpret_document_prompt", { prompt, useNeural }),
+  runCli: (method: string, params: unknown) =>
+    call<CliRunResult>("run_cli", { method, params }),
   conceptAlternatives: (conceptId: string, packId: string | null = null) =>
     call<Alternative[]>("concept_alternatives", { conceptId, packId }),
   wordAffinities: (word: string, packId: string | null = null, commercialOnly = false) =>

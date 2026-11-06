@@ -585,6 +585,47 @@ impl Engine {
         let concept_id = match chosen {
             Some(id) => id,
             None => {
+                // Anche senza un concetto nel lessico la scelta manuale vince:
+                // «mondo» e «governa» non hanno un concept lessicale, ma un
+                // override documento/occorrenza deve sopravvivere alla
+                // rianalisi invece di essere sostituito dalla ricerca per
+                // etichetta.
+                if let Some(pref) = &preferences {
+                    if !pref.symbol_id.is_empty() {
+                        if let Ok(Some(symbol)) = db.symbol_by_id(&pref.symbol_id) {
+                            out.symbol_id = Some(symbol.id.clone());
+                            out.pack_id = Some(symbol.pack_id.clone());
+                            out.concept_id = symbol.concept_id.clone();
+                            out.caption = token.surface.clone();
+                            out.symbol_label = Some(symbol.label.clone());
+                            out.concept_label = Some(symbol.label.clone());
+                            out.meaning = symbol.meaning.clone();
+                            out.strategy = Strategy::Exact.as_str().to_string();
+                            out.confidence = 1.0;
+                            out.locked = pref.locked;
+                            out.svg = self.svg_for(db, &symbol.id, symbol.svg.clone(), svg_cache);
+                            out.alternatives = self.build_alternatives(
+                                db,
+                                filters,
+                                &[],
+                                symbol.concept_id.as_deref(),
+                                svg_cache,
+                            )?;
+                            for neighbour in self.library_alternatives(
+                                db,
+                                filters,
+                                &symbol.label,
+                                &symbol.id,
+                                svg_cache,
+                            ) {
+                                if out.alternatives.iter().all(|a| a.symbol_id != neighbour.symbol_id) {
+                                    out.alternatives.push(neighbour);
+                                }
+                            }
+                            return Ok(out);
+                        }
+                    }
+                }
                 // Nessun concetto nel lessico: si cerca nella libreria dei
                 // pittogrammi (per esempio l'intero catalogo ARASAAC) usando la
                 // parola scritta e il suo lemma. Si accetta solo una
@@ -2438,6 +2479,32 @@ mod tests {
     }
 
     /// Bloccare un pittogramma e poi cambiare il testo: il simbolo resta.
+    #[test]
+    fn document_override_applies_to_a_single_word() {
+        let engine = test_engine();
+        let doc = "/tmp/override-mondo.caadoc";
+        engine
+            .db()
+            .unwrap()
+            .set_document_override(doc, "p1:0", Some("arasaac.picto.27504"), None)
+            .unwrap();
+        engine.clear_caches();
+        let result = engine
+            .symbolize(
+                "mondo",
+                &SymbolizeOptions {
+                    intensity: Intensity::Completa,
+                    mode: CaaMode::Sopra,
+                    document_key: doc.to_string(),
+                    paragraph_id: "p1".to_string(),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let token = result.tokens.iter().find(|token| token.surface == "mondo").unwrap();
+        assert_eq!(token.symbol_id.as_deref(), Some("arasaac.picto.27504"));
+    }
+
     #[test]
     fn locked_symbol_survives_text_change() {
         let engine = test_engine();

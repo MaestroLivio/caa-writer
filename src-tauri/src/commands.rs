@@ -650,6 +650,74 @@ pub fn move_pictogram_symbols(
     Ok(moved)
 }
 
+#[derive(Debug, Serialize)]
+pub struct CliRunResult {
+    pub ok: bool,
+    pub stdout: String,
+    pub stderr: String,
+    pub json: Option<serde_json::Value>,
+    pub binary: String,
+}
+
+fn find_cli_binary(resources_dir: &Path) -> Option<std::path::PathBuf> {
+    let name = if cfg!(windows) { "caa-cli.exe" } else { "caa-cli" };
+    let mut candidates: Vec<std::path::PathBuf> = vec![resources_dir.join("cli").join(name)];
+    if let Ok(executable) = std::env::current_exe() {
+        if let Some(dir) = executable.parent() {
+            candidates.push(dir.join(name));
+        }
+    }
+    if let Ok(cwd) = std::env::current_dir() {
+        for ancestor in cwd.ancestors().take(5) {
+            for profile in ["release", "debug"] {
+                candidates.push(ancestor.join("target").join(profile).join(name));
+                candidates.push(
+                    ancestor
+                        .join("src-tauri/target")
+                        .join(profile)
+                        .join(name),
+                );
+            }
+        }
+    }
+    candidates.into_iter().find(|path| path.is_file())
+}
+
+/// Esegue un metodo della CLI headless e restituisce l'output alla GUI.
+/// La console integrata non usa una shell: metodo e parametri sono dati,
+/// non comandi di sistema.
+#[tauri::command]
+pub fn run_cli(
+    state: State<'_, Engine>,
+    method: String,
+    params: serde_json::Value,
+) -> Result<CliRunResult, String> {
+    let binary = find_cli_binary(&state.paths.resources_dir)
+        .ok_or_else(|| "CLI non trovata: compila `caa-cli` o reinstalla l'app.".to_string())?;
+    let payload = serde_json::to_string(&params).map_err(|e| format!("parametri: {e}"))?;
+    let output = std::process::Command::new(&binary)
+        .arg("--compact")
+        .arg("--data-dir")
+        .arg(&state.paths.data_dir)
+        .arg("--resources")
+        .arg(&state.paths.resources_dir)
+        .arg("call")
+        .arg(&method)
+        .arg(&payload)
+        .output()
+        .map_err(|e| format!("avvio CLI: {e}"))?;
+    let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr).to_string();
+    let json = serde_json::from_str::<serde_json::Value>(stdout.trim()).ok();
+    Ok(CliRunResult {
+        ok: output.status.success(),
+        stdout,
+        stderr,
+        json,
+        binary: binary.to_string_lossy().to_string(),
+    })
+}
+
 #[tauri::command]
 pub fn interpret_document_prompt(
     state: State<'_, Engine>,

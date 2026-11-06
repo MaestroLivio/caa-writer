@@ -2540,3 +2540,80 @@ textarea {
   padding: 6px 0;
   font-size: 0.78rem;
 }
+
+/* --- Console CLI --- */
+.cli-dialog {
+  width: min(920px, 94vw);
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.cli-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.cli-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cli-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.cli-form input,
+.cli-form textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+}
+
+.cli-params textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.cli-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.cli-output {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  margin-top: 8px;
+}
+
+.cli-output__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.76rem;
+}
+
+.cli-output pre {
+  margin: 0;
+  padding: 8px;
+  max-height: 360px;
+  overflow: auto;
+  font-size: 0.72rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.cli-stderr {
+  color: var(--danger, #b91c1c);
+  border-bottom: 1px solid var(--border);
+}
