@@ -439,6 +439,39 @@ binario è in `resources/cli/` nei bundle; in sviluppo viene cercato anche in
 `target/release` e `target/debug`. Non usa una shell: metodo e parametri sono
 dati, non comandi di sistema.
 
+## 8quater. Prestazioni, annullamento e diagnostica
+
+La scrittura non aspetta mai l'IA. Il frontend pianifica l'analisi lessicale
+dopo un debounce (predefinito 240 ms) e la rifinitura neurale dopo 600 ms.
+Ogni richiesta neurale ha un `requestId` (`pid:sequenza`); quando il testo
+cambia, il frontend chiama `cancel_refine` e il backend scarta il risultato
+anche se llama.cpp ha già risposto. I comandi Tauri pesanti girano su
+`spawn_blocking`.
+
+Impostazioni → Prestazioni offre quattro profili: `risparmio`, `bilanciato`,
+`elevate`, `personalizzato`. Cambiano thread/contesto del modello e le due
+attese di debounce. Il profilo è salvato con le impostazioni dell'interfaccia;
+thread, contesto e timeout vengono salvati nella configurazione IA.
+
+Impostazioni → Diagnostica misurata legge dal sistema: CPU/RAM del processo e
+del modello, coda neurale, inferenze, risultati obsoleti, tempi di
+simbolizzazione, latenza input p95 e blocchi di frame > 120 ms raccolti nel
+WebView. Su Windows `Get-Process` espone secondi CPU cumulati, non una
+percentuale istantanea: il pannello lo dichiara.
+
+Le preferenze manuali hanno cinque ambiti:
+
+| Ambito | Chiave | Effetto |
+|---|---|---|
+| occorrenza | `document_overrides` | solo l'unità selezionata |
+| documento | `document_overrides` per concetto | occorrenze equivalenti nel documento |
+| profilo | `symbol_preferences` scope `profile` | solo il profilo attivo |
+| globale | scope `global` | tutti i documenti futuri |
+| vocabolario | scope `vocabulary` | ultima risorsa, condivisa dal Creator |
+
+Nessun ambito sovrascrive un blocco manuale; l'ordine è documento > profilo >
+contesto > globale > vocabolario.
+
 ## 9. Sicurezza, rete e licenze
 
 - La CLI non apre connessioni se non si chiamano `online.*` o `voice.*` che

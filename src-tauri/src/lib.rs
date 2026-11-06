@@ -10,6 +10,7 @@ pub mod ai_engine;
 pub mod asset_manager;
 pub mod commands;
 pub mod database;
+pub mod diagnostics;
 pub mod document_edit;
 pub mod engine;
 pub mod export;
@@ -21,6 +22,7 @@ pub mod paths;
 pub mod profiles;
 pub mod pictogram_import;
 pub mod online_search;
+pub mod process;
 pub mod speech;
 pub mod studio;
 pub mod tts_normalize;
@@ -64,6 +66,7 @@ pub fn run() {
             commands::app_info,
             commands::symbolize_paragraph,
             commands::refine_paragraph,
+            commands::cancel_refine,
             commands::search_symbols,
             commands::concept_alternatives,
             commands::set_preference,
@@ -79,9 +82,12 @@ pub fn run() {
             commands::export_attributions,
             commands::list_voices,
             commands::speak,
+            commands::stop_speaking,
+            commands::speech_active,
             commands::normalize_speech,
             commands::voice_status,
             commands::ai_status,
+            commands::runtime_diagnostics,
             commands::set_ai_config,
             commands::ai_models,
             commands::ai_install_model,

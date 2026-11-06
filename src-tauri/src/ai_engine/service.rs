@@ -13,7 +13,7 @@ use std::collections::{BinaryHeap, HashMap};
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
-use std::process::{Child, Command, Stdio};
+use std::process::{Child, Stdio};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{mpsc, Arc, Mutex};
 use std::time::{Duration, Instant};
@@ -41,6 +41,8 @@ pub struct MetricsSnapshot {
     pub failures: u64,
     pub total_ms: u64,
     pub last_ms: u64,
+    pub pending: u64,
+    pub queue_limit: u64,
     pub executor: String,
 }
 
@@ -240,6 +242,15 @@ impl LocalModel {
             .unwrap_or(false)
     }
 
+    /// PID dell'istanza condivisa, per le misure di memoria del pannello
+    /// diagnostico. `None` quando il modello non è in esecuzione.
+    pub fn server_pid(&self) -> Option<u32> {
+        self.server
+            .lock()
+            .ok()
+            .and_then(|slot| slot.as_ref().map(|handle| handle.child.id()))
+    }
+
     pub fn stop_server(&self) {
         if let Ok(mut slot) = self.server.lock() {
             *slot = None;
@@ -272,7 +283,7 @@ impl LocalModel {
             .context_size
             .clamp(512, self.hardware.max_context.max(512));
         let threads = config.threads.clamp(1, self.hardware.max_threads.max(1));
-        let mut command = Command::new(&binary);
+        let mut command = crate::process::command(&binary);
         command
             .arg("-m")
             .arg(&model)
@@ -434,6 +445,10 @@ pub struct Service {
     /// apparentemente valide).
     cache_epoch: Arc<AtomicU64>,
     timeout: Duration,
+    /// Richieste in attesa o in esecuzione: la coda non deve accumulare
+    /// decine di inferenze obsolete su una macchina da 4 GB.
+    pending: Arc<AtomicU64>,
+    queue_limit: u64,
 }
 
 const CACHE_LIMIT: usize = 256;
@@ -501,6 +516,8 @@ impl Service {
             seq: AtomicU64::new(0),
             cache_epoch: Arc::new(AtomicU64::new(0)),
             timeout: request_timeout,
+            pending: Arc::new(AtomicU64::new(0)),
+            queue_limit: 8,
         }
     }
 
@@ -519,6 +536,16 @@ impl Service {
         priority: u8,
         cancel: Arc<AtomicBool>,
     ) -> Result<String, String> {
+        let pending = self.pending.fetch_add(1, Ordering::Relaxed) + 1;
+        if pending > self.queue_limit {
+            self.pending.fetch_sub(1, Ordering::Relaxed);
+            self.counters.failures.fetch_add(1, Ordering::Relaxed);
+            return Err(
+                "coda del motore neurale piena: la richiesta è stata rinviata per non bloccare \
+                 la scrittura"
+                    .to_string(),
+            );
+        }
         self.counters.requests.fetch_add(1, Ordering::Relaxed);
         let seq = self.seq.fetch_add(1, Ordering::Relaxed);
         let (reply, rx) = mpsc::channel();
@@ -533,8 +560,9 @@ impl Service {
                 reply,
             })
             .map_err(|_| "motore neurale non disponibile".to_string())?;
-        rx.recv_timeout(self.timeout)
-            .map_err(|_| "il modello non ha risposto in tempo".to_string())?
+        let result = rx.recv_timeout(self.timeout);
+        self.pending.fetch_sub(1, Ordering::Relaxed);
+        result.map_err(|_| "il modello non ha risposto in tempo".to_string())?
     }
 
     pub fn cancel_handle(&self) -> Arc<AtomicBool> {
@@ -558,6 +586,8 @@ impl Service {
             failures: self.counters.failures.load(Ordering::Relaxed),
             total_ms: total,
             last_ms: self.counters.last_ms.load(Ordering::Relaxed),
+            pending: self.pending.load(Ordering::Relaxed),
+            queue_limit: self.queue_limit,
             executor: self.executor.describe(),
         }
     }

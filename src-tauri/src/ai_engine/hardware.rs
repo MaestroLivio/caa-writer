@@ -25,7 +25,7 @@ pub struct HardwareProfile {
 }
 
 fn command_output(program: &str, args: &[&str]) -> Option<String> {
-    let output = std::process::Command::new(program).args(args).output().ok()?;
+    let output = crate::process::command(program).args(args).output().ok()?;
     if !output.status.success() {
         return None;
     }
@@ -45,6 +45,9 @@ fn total_ram_mb() -> u64 {
             "powershell",
             &[
                 "-NoProfile",
+                "-NonInteractive",
+                "-WindowStyle",
+                "Hidden",
                 "-Command",
                 "(Get-CimInstance Win32_OperatingSystem).TotalVisibleMemorySize",
             ],
@@ -102,6 +105,9 @@ fn available_ram_mb() -> u64 {
             "powershell",
             &[
                 "-NoProfile",
+                "-NonInteractive",
+                "-WindowStyle",
+                "Hidden",
                 "-Command",
                 "(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory",
             ],

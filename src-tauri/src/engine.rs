@@ -5,6 +5,7 @@
 //! una frase non rigenera l'intero documento.
 
 use std::collections::{HashMap, HashSet};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
@@ -21,6 +22,40 @@ use crate::util::now_iso;
 
 const CACHE_LIMIT: usize = 96;
 const MAX_ALTERNATIVES: usize = 12;
+
+/// Metriche misurate della pipeline di scrittura. Non sono stime: ogni valore
+/// viene incrementato nel punto in cui l'operazione avviene davvero.
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+pub struct SymbolMetrics {
+    pub paragraphs: u64,
+    pub total_ms: u64,
+    pub last_ms: u64,
+    pub worst_ms: u64,
+    pub cache_hits: u64,
+    pub stale_results: u64,
+    pub neural_paragraphs: u64,
+    pub neural_ms: u64,
+}
+
+/// Cancellazione cooperativa di una richiesta di rifinitura neurale.
+pub struct CancelToken {
+    id: Option<String>,
+    flag: Arc<AtomicBool>,
+}
+
+/// Dati misurati mostrati nel pannello Diagnostica del Creator.
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct RuntimeDiagnostics {
+    pub version: String,
+    pub platform: String,
+    pub app_process: crate::diagnostics::ProcessSample,
+    pub model_process: Option<crate::diagnostics::ProcessSample>,
+    pub server_running: bool,
+    pub speech_active: bool,
+    pub ai: ai_engine::service::MetricsSnapshot,
+    pub symbols: SymbolMetrics,
+    pub active_model: String,
+}
 
 /// Converte gli intervalli UTF-16 di ProseMirror in offset di caratteri,
 /// che sono le posizioni usate dal tokenizer.
@@ -179,6 +214,12 @@ pub struct Engine {
     /// Download e importazione dei modelli GGUF (azione esplicita dell'utente).
     installer: ai_engine::installer::ModelInstaller,
     cache: Mutex<HashMap<String, ParagraphResult>>,
+    /// Richieste neurali annullabili: il frontend assegna un id e, quando il
+    /// testo cambia, chiede l'annullamento. Il lavoro già in esecuzione in
+    /// llama.cpp non viene interrotto a forza (non è sicuro), ma il risultato
+    /// viene scartato e non tocca il documento.
+    cancellations: Mutex<HashMap<String, Arc<AtomicBool>>>,
+    metrics: Mutex<SymbolMetrics>,
     pub startup_warnings: Vec<String>,
 }
 
@@ -195,6 +236,13 @@ impl Engine {
         // volta sola: un pacchetto nuovo (per esempio ARASAAC) entra nel
         // database esistente senza duplicare i simboli già presenti.
         let symbol_count = db.statistics().map(|s| s.symbols).unwrap_or(0);
+        // La versione del lessico è versionata come il pacchetto: se il file
+        // delle risorse è più recente del seed, i concetti e i lemmi nuovi
+        // devono entrare anche nel database già esistente.
+        let lexicon_version = std::fs::read_to_string(paths.dictionary_path())
+            .ok()
+            .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok())
+            .and_then(|value| value.get("version").and_then(|v| v.as_u64()));
         let installed: std::collections::HashMap<String, String> = db
             .list_packs()
             .unwrap_or_default()
@@ -230,7 +278,13 @@ impl Engine {
                         .and_then(|version| version.as_str())
                         .map(str::to_string)
                 });
-            if symbol_count > 0 && installed.get(&pack_id) == manifest_version.as_ref() {
+            let seeded_lexicon = db
+                .setting("seed.lexicon_version")
+                .and_then(|raw| raw.parse::<u64>().ok());
+            if symbol_count > 0
+                && installed.get(&pack_id) == manifest_version.as_ref()
+                && seeded_lexicon == lexicon_version
+            {
                 continue;
             }
             match seed_core_pack(&mut db, &paths.dictionary_path(), &dir) {
@@ -299,6 +353,8 @@ impl Engine {
             hardware,
             installer,
             cache: Mutex::new(HashMap::new()),
+            cancellations: Mutex::new(HashMap::new()),
+            metrics: Mutex::new(SymbolMetrics::default()),
             startup_warnings: warnings,
         })
     }
@@ -313,7 +369,7 @@ impl Engine {
 
     fn cache_key(opts: &SymbolizeOptions, text: &str) -> String {
         format!(
-            "{}\u{1}{:?}\u{1}{:?}\u{1}{}\u{1}{}\u{1}{:?}\u{1}{}\u{1}{:?}\u{1}{:?}",
+            "{}\u{1}{:?}\u{1}{:?}\u{1}{}\u{1}{}\u{1}{:?}\u{1}{}\u{1}{:?}\u{1}{:?}\u{1}{:?}",
             opts.paragraph_id,
             opts.intensity,
             opts.mode,
@@ -328,19 +384,112 @@ impl Engine {
             opts.split_ranges
                 .iter()
                 .map(|range| (range.start, range.end))
-                .collect::<Vec<_>>()
+                .collect::<Vec<_>>(),
+            // Le preferenze di un profilo non devono essere servite dalla
+            // cache a un altro profilo.
+            opts.profile_id
         )
     }
 
     /// Simbolizza un paragrafo. Ritorna token allineati al testo originale.
     pub fn symbolize(&self, text: &str, opts: &SymbolizeOptions) -> Result<ParagraphResult, String> {
-        self.symbolize_internal(text, opts, false)
+        self.symbolize_internal(text, opts, false, None)
     }
 
     /// Come `symbolize`, ma con il reranking del modello locale sui soli
     /// token ambigui. Da invocare in background, mai a ogni tasto.
     pub fn refine(&self, text: &str, opts: &SymbolizeOptions) -> Result<ParagraphResult, String> {
-        self.symbolize_internal(text, opts, true)
+        self.symbolize_internal(text, opts, true, None)
+    }
+
+    /// Rifinitura annullabile: `request_id` identifica la versione del testo a
+    /// cui il risultato appartiene. Se nel frattempo arriva `cancel_request`,
+    /// il risultato viene scartato anche se il modello ha già risposto.
+    pub fn refine_cancellable(
+        &self,
+        text: &str,
+        opts: &SymbolizeOptions,
+        request_id: Option<&str>,
+    ) -> Result<ParagraphResult, String> {
+        let token = self.register_cancel(request_id);
+        let result = self.symbolize_internal(text, opts, true, Some(token.flag.clone()));
+        self.release_cancel(&token);
+        result
+    }
+
+    /// Registra un gettone di annullamento. Senza id non c'è nulla da
+    /// annullare in modo mirato: resta un gettone non registrato.
+    fn register_cancel(&self, id: Option<&str>) -> CancelToken {
+        let flag = Arc::new(AtomicBool::new(false));
+        let id = id.map(str::to_string);
+        if let (Some(key), Ok(mut map)) = (id.as_ref(), self.cancellations.lock()) {
+            // Evita che una mappa di richieste abbandonate cresca senza limite.
+            if map.len() > 64 {
+                map.retain(|_, value| !value.load(Ordering::SeqCst));
+            }
+            // Se l'annullamento è arrivato prima della registrazione (il
+            // comando async non ha ancora raggiunto il motore), il gettone
+            // esiste già ed è positivo: il risultato non deve essere applicato.
+            if let Some(existing) = map.get(key) {
+                return CancelToken {
+                    id,
+                    flag: existing.clone(),
+                };
+            }
+            map.insert(key.clone(), flag.clone());
+        }
+        CancelToken { id, flag }
+    }
+
+    fn release_cancel(&self, token: &CancelToken) {
+        if let (Some(id), Ok(mut map)) = (token.id.as_ref(), self.cancellations.lock()) {
+            map.remove(id);
+        }
+    }
+
+    /// Annulla la rifinitura neurale associata a un id. Il flag è controllato
+    /// prima della coda, tra un token e l'altro e dopo la risposta del modello.
+    pub fn cancel_request(&self, id: &str) {
+        if let Ok(mut map) = self.cancellations.lock() {
+            if map.len() > 64 {
+                map.retain(|_, value| !value.load(Ordering::SeqCst));
+            }
+            match map.get(id) {
+                Some(flag) => flag.store(true, Ordering::SeqCst),
+                None => {
+                    map.insert(id.to_string(), Arc::new(AtomicBool::new(true)));
+                }
+            }
+        }
+    }
+
+    pub fn metrics_snapshot(&self) -> SymbolMetrics {
+        self.metrics
+            .lock()
+            .map(|value| value.clone())
+            .unwrap_or_default()
+    }
+
+    fn record_metrics(&self, elapsed_ms: u64, cache_hit: bool, neural: bool, neural_ms: u64) {
+        if let Ok(mut metrics) = self.metrics.lock() {
+            metrics.paragraphs += 1;
+            metrics.total_ms = metrics.total_ms.saturating_add(elapsed_ms);
+            metrics.last_ms = elapsed_ms;
+            metrics.worst_ms = metrics.worst_ms.max(elapsed_ms);
+            if cache_hit {
+                metrics.cache_hits += 1;
+            }
+            if neural {
+                metrics.neural_paragraphs += 1;
+                metrics.neural_ms = metrics.neural_ms.saturating_add(neural_ms);
+            }
+        }
+    }
+
+    fn mark_stale(&self) {
+        if let Ok(mut metrics) = self.metrics.lock() {
+            metrics.stale_results += 1;
+        }
     }
 
     fn symbolize_internal(
@@ -348,12 +497,15 @@ impl Engine {
         text: &str,
         opts: &SymbolizeOptions,
         use_ai: bool,
+        cancel: Option<Arc<AtomicBool>>,
     ) -> Result<ParagraphResult, String> {
         let started = std::time::Instant::now();
         let key = Self::cache_key(opts, text);
         if !use_ai {
             if let Ok(cache) = self.cache.lock() {
                 if let Some(hit) = cache.get(&key) {
+                    let elapsed = started.elapsed().as_millis() as u64;
+                    self.record_metrics(elapsed, true, false, 0);
                     return Ok(hit.clone());
                 }
             }
@@ -365,68 +517,99 @@ impl Engine {
         for sentence in &mut analysis.sentences {
             apply_manual_units(&self.lexicon, text, &manual_ranges, &mut sentence.tokens);
         }
-        let db = self.db.lock().map_err(|_| "database non disponibile".to_string())?;
+        let domains = analysis.domains.clone();
         let filters = self.filters(opts);
-        let mut svg_cache = self
-            .svg_cache
-            .lock()
-            .map_err(|_| "cache simboli non disponibile".to_string())?;
 
-        let mut tokens: Vec<CaaToken> = Vec::new();
-        let mut symbolized = 0usize;
-        let mut approximate = 0usize;
-        let mut missing = 0usize;
-        let mut index = 0usize;
+        // Il blocco del database e della cache SVG resta limitato alla
+        // risoluzione lessicale. Prima veniva tenuto anche durante l'inferenza
+        // neurale: una rifinitura da secondi bloccava ogni altra lettura.
+        let (mut tokens, mut symbolized, mut approximate, mut missing) = {
+            let db = self.db.lock().map_err(|_| "database non disponibile".to_string())?;
+            let mut svg_cache = self
+                .svg_cache
+                .lock()
+                .map_err(|_| "cache simboli non disponibile".to_string())?;
 
-        for sentence in &analysis.sentences {
-            for token in &sentence.tokens {
-                if token.span == 0 {
-                    continue;
-                }
-                let unit_key = format!("{}:{}", opts.paragraph_id, index);
-                let caa = self.resolve_token(
-                    &db,
-                    &filters,
-                    opts,
-                    &analysis.domains,
-                    sentence.index,
-                    &sentence.text,
-                    token,
-                    index,
-                    &unit_key,
-                    &mut svg_cache,
-                )?;
-                if caa.symbol_id.is_some() || !caa.composition.is_empty() {
-                    symbolized += 1;
-                    if caa.approximate {
-                        approximate += 1;
+            let mut tokens: Vec<CaaToken> = Vec::new();
+            let mut symbolized = 0usize;
+            let mut approximate = 0usize;
+            let mut missing = 0usize;
+            let mut index = 0usize;
+
+            for sentence in &analysis.sentences {
+                for token in &sentence.tokens {
+                    if token.span == 0 {
+                        continue;
                     }
-                } else if caa.key && !caa.is_punct {
-                    missing += 1;
+                    let unit_key = format!("{}:{}", opts.paragraph_id, index);
+                    let caa = self.resolve_token(
+                        &db,
+                        &filters,
+                        opts,
+                        &analysis.domains,
+                        sentence.index,
+                        &sentence.text,
+                        token,
+                        index,
+                        &unit_key,
+                        &mut svg_cache,
+                    )?;
+                    if caa.symbol_id.is_some() || !caa.composition.is_empty() {
+                        symbolized += 1;
+                        if caa.approximate {
+                            approximate += 1;
+                        }
+                    } else if caa.key && !caa.is_punct {
+                        missing += 1;
+                    }
+                    tokens.push(caa);
+                    index += 1;
                 }
-                tokens.push(caa);
-                index += 1;
             }
-        }
+            (tokens, symbolized, approximate, missing)
+        };
 
+        let mut neural_ms = 0u64;
         if use_ai {
-            self.rerank_with_ai(&db, &filters, &mut tokens, text, opts)?;
+            if cancel
+                .as_ref()
+                .map(|flag| flag.load(Ordering::SeqCst))
+                .unwrap_or(false)
+            {
+                self.mark_stale();
+                return Err("richiesta superata: il testo è cambiato".to_string());
+            }
+            let neural_started = Instant::now();
+            self.rerank_with_ai(&filters, &mut tokens, text, cancel.as_ref())?;
+            neural_ms = neural_started.elapsed().as_millis() as u64;
+            if cancel
+                .as_ref()
+                .map(|flag| flag.load(Ordering::SeqCst))
+                .unwrap_or(false)
+            {
+                self.mark_stale();
+                return Err("richiesta superata: il testo è cambiato".to_string());
+            }
             symbolized = tokens
                 .iter()
                 .filter(|t| t.symbol_id.is_some() || !t.composition.is_empty())
                 .count();
             approximate = tokens.iter().filter(|t| t.approximate).count();
-            missing = tokens.iter().filter(|t| t.key && t.symbol_id.is_none() && t.composition.is_empty()).count();
+            missing = tokens
+                .iter()
+                .filter(|t| t.key && t.symbol_id.is_none() && t.composition.is_empty())
+                .count();
         }
 
+        let elapsed = started.elapsed().as_millis() as u64;
         let result = ParagraphResult {
             paragraph_id: opts.paragraph_id.clone(),
             tokens,
-            domains: analysis.domains.clone(),
+            domains,
             symbolized,
             approximate,
             missing,
-            elapsed_ms: started.elapsed().as_millis() as u64,
+            elapsed_ms: elapsed,
         };
 
         if !use_ai {
@@ -437,6 +620,7 @@ impl Engine {
                 cache.insert(key, result.clone());
             }
         }
+        self.record_metrics(elapsed, false, use_ai, neural_ms);
         Ok(result)
     }
 
@@ -677,45 +861,50 @@ impl Engine {
                     }
                     return Ok(out);
                 }
-                // Fallback semantico prudente: nessuna etichetta esatta, ma
-                // una radice sufficientemente lunga può trovare un simbolo
-                // affine (es. «governa» → «governo»). Resta marcato come
-                // approssimativo e il testo scritto non cambia.
+                // Fallback morfologico prudente: una forma fuori lessico può
+                // essere ricondotta a un lemma italiano (principesse →
+                // principessa, governa → governare). Il simbolo viene accettato
+                // solo se l'etichetta del lemma esiste davvero nel repertorio:
+                // nessuna ricerca per prefisso, nessuna somiglianza di lettere.
+                // «sento» non può diventare «sentiero», «bravo» non può
+                // diventare «patatas bravas».
                 if !token.is_function {
                     let normalized = crate::linguistics::normalize::normalize_word(&token.surface);
-                    let mut chars: Vec<char> = normalized.chars().collect();
-                    let last_vowel = chars.last().map(|c| "aeiou".contains(*c)).unwrap_or(false);
-                    if last_vowel && chars.len() > 4 {
-                        chars.pop();
-                    }
-                    let stem: String = chars.iter().collect();
-                    if stem.chars().count() >= 4 {
-                        if let Ok(page) = db.search_symbols(&stem, 8, 0, filters) {
-                            if let Some(hit) = page.items.into_iter().next() {
-                                out.symbol_id = Some(hit.symbol_id.clone());
-                                out.pack_id = Some(hit.pack_id.clone());
-                                out.concept_id = hit.concept_id.clone();
-                                out.caption = token.surface.clone();
-                                out.symbol_label = Some(hit.label.clone());
-                                out.concept_label = Some(hit.label.clone());
-                                out.meaning = Some(format!(
-                                    "Pittogramma affine a «{}»: verificare il significato.",
-                                    token.surface
-                                ));
-                                out.strategy = Strategy::Related.as_str().to_string();
-                                out.approximate = true;
-                                out.confidence = 0.25;
-                                out.svg = hit.svg.clone();
-                                out.alternatives = self.library_alternatives(
-                                    db,
-                                    filters,
-                                    &hit.label,
-                                    &hit.symbol_id,
-                                    svg_cache,
-                                );
-                                return Ok(out);
-                            }
+                    let mut guesses = singular_guesses(&normalized);
+                    guesses.extend(morphology::lemma_guesses(&normalized));
+                    let mut seen_guesses = HashSet::new();
+                    for (guess, rule) in guesses {
+                        if guess == normalized || !seen_guesses.insert(guess.clone()) {
+                            continue;
                         }
+                        let Some(first) = self.library_match(db, filters, &guess) else {
+                            continue;
+                        };
+                        let Ok(Some(symbol)) = db.symbol_by_id(&first.symbol_id) else {
+                            continue;
+                        };
+                        out.symbol_id = Some(symbol.id.clone());
+                        out.pack_id = Some(symbol.pack_id.clone());
+                        out.concept_id = symbol.concept_id.clone();
+                        out.caption = token.surface.clone();
+                        out.symbol_label = Some(symbol.label.clone());
+                        out.concept_label = Some(symbol.label.clone());
+                        out.meaning = Some(format!(
+                            "Forma ricondotta a «{}» ({}). Pittogramma approssimativo: verificare il significato.",
+                            guess, rule
+                        ));
+                        out.strategy = Strategy::Related.as_str().to_string();
+                        out.approximate = true;
+                        out.confidence = 0.3;
+                        out.svg = self.svg_for(db, &symbol.id, symbol.svg.clone(), svg_cache);
+                        out.alternatives = self.library_alternatives(
+                            db,
+                            filters,
+                            &symbol.label,
+                            &symbol.id,
+                            svg_cache,
+                        );
+                        return Ok(out);
                     }
                 }
                 out.strategy = "none".to_string();
@@ -1401,38 +1590,12 @@ impl Engine {
             }
         }
 
-        if let Ok(page) = db.search_symbols(&normalized, 20, 0, &filters) {
-            for (index, alt) in page.items.into_iter().enumerate() {
-                if seen.contains(&alt.symbol_id) {
-                    continue;
-                }
-                let label_norm = crate::linguistics::normalize::normalize_word(&alt.label);
-                let contains = label_norm == normalized
-                    || label_norm.starts_with(&normalized)
-                    || label_norm
-                        .split_whitespace()
-                        .any(|part| part == normalized);
-                let score = 45u32.saturating_sub((index as u32) * 2).max(30);
-                let reason = if contains {
-                    format!("L'etichetta «{}» contiene la parola cercata.", alt.label)
-                } else {
-                    format!(
-                        "Somiglianza nel testo dell'etichetta o del significato: «{}».",
-                        alt.label
-                    )
-                };
-                self.push_affinity(
-                    &db,
-                    &mut cache,
-                    &mut seen,
-                    &mut related,
-                    alt,
-                    score,
-                    true,
-                    reason,
-                );
-            }
-        }
+        // Nessun candidato viene creato dalla sola somiglianza ortografica o
+        // dall'indice FTS. «sento» non è «sentiero», «bravo» non è «patatas
+        // bravas», «non» non è «nonna»: la vicinanza di lettere non è una
+        // relazione semantica. Gli unici gruppi ammessi sono quelli costruiti
+        // sopra (etichetta esatta, lemma, variante morfologica, sinonimo
+        // dichiarato, concetto equivalente/generale/collegato nel lessico).
 
         let mut groups = Vec::new();
         for (level, mut candidates) in [
@@ -1533,6 +1696,23 @@ impl Engine {
             }
         }
 
+        // Preferenza del profilo attivo: vale solo per questo Utilizzatore.
+        // Prima del contesto, perché è una scelta esplicita e circoscritta.
+        if let Some(profile_id) = opts.profile_id.as_deref().filter(|id| !id.is_empty()) {
+            for concept_id in token.concepts.iter().map(Some).chain(std::iter::once(None)) {
+                let key = match concept_id {
+                    Some(id) => format!("profile:{profile_id}:concept:{id}"),
+                    None => format!("profile:{profile_id}"),
+                };
+                if let Some(pref) = db
+                    .preference("profile", &lemma, &key)
+                    .map_err(|e| e.to_string())?
+                {
+                    return Ok(Some(pref));
+                }
+            }
+        }
+
         for domain in domains {
             if let Some(pref) = db
                 .preference("context", &lemma, domain)
@@ -1555,7 +1735,25 @@ impl Engine {
             }
         }
 
-        db.preference("global", &lemma, "")
+        if let Some(pref) = db
+            .preference("global", &lemma, "")
+            .map_err(|e| e.to_string())?
+        {
+            return Ok(Some(pref));
+        }
+
+        // Vocabolario condiviso del Creator: l'ultima risorsa, dopo le scelte
+        // del singolo profilo e le associazioni globali.
+        for concept_id in &token.concepts {
+            let key = format!("concept:{concept_id}");
+            if let Some(pref) = db
+                .preference("vocabulary", &lemma, &key)
+                .map_err(|e| e.to_string())?
+            {
+                return Ok(Some(pref));
+            }
+        }
+        db.preference("vocabulary", &lemma, "")
             .map_err(|e| e.to_string())
     }
 
@@ -1573,12 +1771,24 @@ impl Engine {
     /// `approximate`; nessuna preferenza bloccata viene toccata.
     fn rerank_with_ai(
         &self,
-        db: &Database,
         filters: &SymbolFilters,
         tokens: &mut [CaaToken],
         text: &str,
-        _opts: &SymbolizeOptions,
+        cancel: Option<&Arc<AtomicBool>>,
     ) -> Result<(), String> {
+        let cancelled = |flag: Option<&Arc<AtomicBool>>| {
+            flag.map(|value| value.load(Ordering::SeqCst)).unwrap_or(false)
+        };
+        if cancelled(cancel) {
+            return Err("richiesta superata: il testo è cambiato".to_string());
+        }
+        // La comunicazione vocale ha priorità sulle elaborazioni differibili:
+        // mentre la voce legge, non si avvia una seconda inferenza pesante.
+        // La simbolizzazione lessicale già fatta resta valida; la rifinitura
+        // riparte alla prossima pausa di scrittura.
+        if crate::speech::is_speaking() {
+            return Ok(());
+        }
         let config = self
             .ai_config
             .lock()
@@ -1598,16 +1808,23 @@ impl Engine {
         let mut field_symbols: Vec<Alternative> = Vec::new();
         if budget > 0 {
             budget -= 1;
-            match self.ask_neural(&ai_engine::semantic_field_prompt(text), 96) {
+            match self.ask_neural(&ai_engine::semantic_field_prompt(text), 96, cancel) {
                 Ok(raw) => {
                     let words = ai_engine::parse_semantic_field(&raw);
-                    field_symbols = self.library_alternatives_for_words(db, filters, &words, 6);
+                    // Il database viene bloccato solo per la lettura dei
+                    // simboli, mai durante l'inferenza.
+                    if let Ok(db) = self.db.lock() {
+                        field_symbols = self.library_alternatives_for_words(&db, filters, &words, 6);
+                    }
                 }
                 Err(err) => hard_error = Some(err),
             }
         }
 
         for token in tokens.iter_mut() {
+            if cancelled(cancel) {
+                return Err("richiesta superata: il testo è cambiato".to_string());
+            }
             if token.locked || token.is_punct {
                 continue;
             }
@@ -1625,6 +1842,7 @@ impl Engine {
                 let raw = match self.ask_neural(
                     &ai_engine::related_words_prompt(&token.surface, Some(text)),
                     64,
+                    cancel,
                 ) {
                     Ok(raw) => raw,
                     Err(err) => {
@@ -1633,7 +1851,13 @@ impl Engine {
                     }
                 };
                 let words = ai_engine::parse_related_words(&raw, ai_engine::RELATED_WORDS_LIMIT);
-                let found = self.library_alternatives_for_words(db, filters, &words, 4);
+                let found = {
+                    let db = self
+                        .db
+                        .lock()
+                        .map_err(|_| "database non disponibile".to_string())?;
+                    self.library_alternatives_for_words(&db, filters, &words, 4)
+                };
                 if let Some(best) = found.first() {
                     token.symbol_id = Some(best.symbol_id.clone());
                     token.pack_id = Some(best.pack_id.clone());
@@ -1712,7 +1936,7 @@ impl Engine {
             budget -= 1;
             let prompt = ai_engine::build_prompt(text, &token.surface, &candidates);
             match self
-                .ask_neural(&prompt, 32)
+                .ask_neural(&prompt, 32, cancel)
                 .and_then(|raw| ai_engine::validate_answer(&raw, &candidates, ""))
             {
                 Ok(choice) => {
@@ -1757,8 +1981,15 @@ impl Engine {
     }
 
     /// Una richiesta al servizio condiviso con la priorità della scrittura.
-    fn ask_neural(&self, prompt: &str, max_tokens: u32) -> Result<String, String> {
-        let cancel = self.ai_service.cancel_handle();
+    fn ask_neural(
+        &self,
+        prompt: &str,
+        max_tokens: u32,
+        cancel: Option<&Arc<AtomicBool>>,
+    ) -> Result<String, String> {
+        let cancel = cancel
+            .cloned()
+            .unwrap_or_else(|| self.ai_service.cancel_handle());
         self.ai_service
             .complete(prompt.to_string(), max_tokens, 7, cancel)
     }
@@ -1884,11 +2115,30 @@ impl Engine {
         }
     }
 
+    /// Misure reali dei processi e della pipeline. La memoria viene letta dal
+    /// sistema operativo solo quando il Creator apre il pannello Diagnostica.
+    pub fn diagnostics(&self) -> RuntimeDiagnostics {
+        let model_pid = self.ai_model.server_pid();
+        let config = self.ai_config.lock().map(|c| c.clone()).unwrap_or_default();
+        RuntimeDiagnostics {
+            version: env!("CARGO_PKG_VERSION").to_string(),
+            platform: format!("{} / {}", std::env::consts::OS, std::env::consts::ARCH),
+            app_process: crate::diagnostics::current_process(),
+            model_process: model_pid.map(crate::diagnostics::sample),
+            server_running: self.ai_model.is_running(),
+            speech_active: crate::speech::is_speaking(),
+            ai: self.ai_service.metrics(),
+            symbols: self.metrics_snapshot(),
+            active_model: self.active_model_label(&config),
+        }
+    }
+
     /// Ferma il processo `llama-server` all'uscita dell'applicazione. Tauri
     /// non esegue i distruttori dello stato gestito: senza questa chiamata il
     /// modello resterebbe in memoria dopo la chiusura della finestra.
     pub fn shutdown(&self) {
         self.ai_service.shutdown();
+        crate::speech::stop();
     }
 
     pub fn set_ai_config(&self, config: AiConfig) -> Result<(), String> {
@@ -2521,7 +2771,7 @@ mod tests {
 
     /// Bloccare un pittogramma e poi cambiare il testo: il simbolo resta.
     #[test]
-    fn unknown_verb_gets_an_approximate_affine_symbol() {
+    fn unknown_verb_is_reduced_to_its_real_lemma() {
         let engine = test_engine();
         let result = engine
             .symbolize(
@@ -2535,9 +2785,109 @@ mod tests {
             )
             .unwrap();
         let token = result.tokens.iter().find(|token| token.surface == "governa").unwrap();
-        assert!(token.symbol_id.is_some(), "governa deve avere un fallback affine");
-        assert!(token.approximate, "il fallback deve essere dichiarato approssimativo");
+        // «governa» viene ricondotto a «governare» e al concetto action.govern;
+        // non viene accettato un simbolo solo perché condivide le lettere.
+        assert_eq!(token.lemma.as_deref(), Some("governare"));
+        assert_eq!(token.concept_id.as_deref(), Some("action.govern"));
+        if let Some(symbol) = token.symbol_label.as_deref() {
+            assert!(
+                symbol.to_lowercase().contains("govern"),
+                "simbolo non pertinente: {symbol}"
+            );
+        }
         assert_eq!(token.caption, "governa");
+    }
+
+    #[test]
+    fn mandatory_semantic_regression_cases() {
+        let engine = test_engine();
+        let cases: &[(&str, &str, &[&str])] = &[
+            ("Mi sento bravo.", "sento", &["state.feel"]),
+            ("Mi sento bravo.", "bravo", &["state.capable", "ability.can"]),
+            ("Sono bravo.", "bravo", &["state.capable", "ability.can"]),
+            ("Non voglio.", "non", &[]),
+            ("Non voglio.", "voglio", &["action.want"]),
+            ("Parlo più lingue.", "lingue", &["communication.language"]),
+            ("Uso un computer portatile.", "computer portatile", &["object.laptop"]),
+            ("La sintesi vocale legge.", "sintesi vocale", &["device.speech_synthesis"]),
+            ("Le principesse giocano.", "principesse", &["person.princess"]),
+            ("Le principesse giocano.", "giocano", &["action.play"]),
+            ("Assaggerei.", "assaggerei", &["action.taste"]),
+            ("Mi sento triste.", "sento", &["state.feel"]),
+            ("Mi sento triste.", "triste", &["emotion.sad"]),
+            ("Non sono qui per dimostrare nulla.", "nulla", &["quantity.nothing"]),
+        ];
+        for (text, surface, concepts) in cases {
+            let result = engine
+                .symbolize(
+                    text,
+                    &SymbolizeOptions {
+                        intensity: Intensity::Completa,
+                        mode: CaaMode::Sopra,
+                        paragraph_id: format!("reg-{surface}"),
+                        ..Default::default()
+                    },
+                )
+                .unwrap();
+            let token = result
+                .tokens
+                .iter()
+                .find(|token| token.surface.eq_ignore_ascii_case(surface))
+                .unwrap_or_else(|| panic!("token «{surface}» assente in «{text}»"));
+            if concepts.is_empty() {
+                assert!(
+                    token.symbol_id.is_none() && token.composition.is_empty(),
+                    "«{surface}» non deve avere un pittogramma, ha {:?}",
+                    token.symbol_label
+                );
+                continue;
+            }
+            let actual = token.concept_id.as_deref().unwrap_or("");
+            assert!(
+                concepts.contains(&actual),
+                "«{surface}» in «{text}»: atteso {:?}, ottenuto «{actual}» ({})",
+                concepts,
+                token.strategy
+            );
+        }
+    }
+
+    #[test]
+    fn orthographic_neighbours_are_never_used_as_symbols() {
+        let engine = test_engine();
+        for (text, surface, forbidden) in [
+            ("Mi sento bravo.", "sento", "sentiero"),
+            ("Sono bravo.", "bravo", "bravas"),
+            ("Non voglio.", "non", "nonna"),
+            ("Non sono qui per dimostrare nulla.", "nulla", "nonna"),
+        ] {
+            let result = engine
+                .symbolize(
+                    text,
+                    &SymbolizeOptions {
+                        intensity: Intensity::Completa,
+                        mode: CaaMode::Sopra,
+                        paragraph_id: format!("p-{surface}"),
+                        ..Default::default()
+                    },
+                )
+                .unwrap();
+            if let Some(token) = result
+                .tokens
+                .iter()
+                .find(|token| token.surface.eq_ignore_ascii_case(surface))
+            {
+                let label = token
+                    .symbol_label
+                    .as_deref()
+                    .unwrap_or("")
+                    .to_lowercase();
+                assert!(
+                    !label.contains(forbidden),
+                    "«{surface}» ha ricevuto il simbolo fuorviante «{label}»"
+                );
+            }
+        }
     }
 
     #[test]
@@ -2695,19 +3045,19 @@ mod tests {
 
     #[test]
     fn library_word_without_concept_gets_a_symbol() {
-        // «avere» non ha un concetto nel lessico, ma esiste nel catalogo
+        // «vedere» non ha un concetto nel lessico, ma esiste nel catalogo
         // ARASAAC: senza l'immagine nel token l'editor non mostrava nulla,
         // anche se la ricerca manuale lo trovava.
         let engine = test_engine();
-        let result = symbolize(&engine, "Il bambino ha una casa.");
+        let result = symbolize(&engine, "Il bambino vede una casa.");
         let token = result
             .tokens
             .iter()
-            .find(|t| t.surface.eq_ignore_ascii_case("ha"))
-            .expect("token ha");
-        assert_eq!(token.lemma.as_deref(), Some("avere"));
-        assert!(token.symbol_id.is_some(), "simbolo mancante per «avere»");
-        assert!(token.svg.is_some(), "SVG mancante per «avere»");
+            .find(|t| t.surface.eq_ignore_ascii_case("vede"))
+            .expect("token vede");
+        assert_eq!(token.lemma.as_deref(), Some("vedere"));
+        assert!(token.symbol_id.is_some(), "simbolo mancante per «vedere»");
+        assert!(token.svg.is_some(), "SVG mancante per «vedere»");
     }
 
     #[test]
@@ -2994,19 +3344,21 @@ mod tests {
     }
 
     #[test]
-    fn affinity_for_out_of_lexicon_plural_only_proposes_library_labels() {
+    fn affinity_reduces_principesse_to_the_real_lemma() {
         let engine = test_engine();
         let found = affinity(&engine, "principesse");
         assert!(found.known);
-        let variants =
-            group(&found, AffinityLevel::Variant).expect("varianti ipotizzate di «principesse»");
-        let princess = variants
+        // La forma è ora nel lessico: viene ricondotta al lemma reale, non a
+        // una variante ortografica ipotizzata. Il simbolo deve esistere.
+        let matched_group = group(&found, AffinityLevel::Lemma)
+            .or_else(|| group(&found, AffinityLevel::Variant))
+            .expect("lemma o variante di «principesse»");
+        let princess = matched_group
             .candidates
             .iter()
             .find(|candidate| candidate.symbol.label == "principessa")
             .expect("«principessa» esiste nel repertorio");
-        assert!(princess.approximate);
-        assert!(princess.reason.contains("-esse"));
+        assert_eq!(princess.symbol.label, "principessa");
 
         // Nessun identificativo inventato: ogni candidato esiste nel database.
         let db = engine.db().unwrap();
@@ -3349,6 +3701,96 @@ mod tests {
             .expect("token capire");
         assert_eq!(token.symbol_id.as_deref(), Some("arasaac.picto.16659"));
         assert_ne!(token.symbol_id.as_deref(), Some("core.action.eat"));
+    }
+
+    #[test]
+    fn affinity_never_uses_orthographic_similarity() {
+        let engine = test_engine();
+        for (word, forbidden) in [
+            ("sento", "sentiero"),
+            ("bravo", "bravas"),
+            ("non", "nonna"),
+        ] {
+            let found = affinity(&engine, word);
+            for group in &found.groups {
+                for candidate in &group.candidates {
+                    assert!(
+                        !candidate.symbol.label.to_lowercase().contains(forbidden),
+                        "«{word}» ha proposto «{}» per sola somiglianza ortografica",
+                        candidate.symbol.label
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn cancelled_refinement_is_discarded_before_it_starts() {
+        let engine = test_engine();
+        engine.cancel_request("doc:p1:7");
+        let result = engine.refine_cancellable(
+            "Io vorrei sapere chi governa il mondo.",
+            &SymbolizeOptions {
+                paragraph_id: "p1".to_string(),
+                document_key: "doc".to_string(),
+                ..Default::default()
+            },
+            Some("doc:p1:7"),
+        );
+        assert!(result.is_err());
+        assert!(result.unwrap_err().contains("superata"));
+        assert!(engine.metrics_snapshot().stale_results >= 1);
+    }
+
+    #[test]
+    fn profile_preference_does_not_leak_to_other_profiles() {
+        let engine = test_engine();
+        {
+            let db = engine.db().unwrap();
+            db.upsert_preference(&Preference {
+                scope: "profile".to_string(),
+                lemma: "capire".to_string(),
+                context_key: Some("profile:p1:concept:action.understand".to_string()),
+                symbol_id: "core.fruit.peach".to_string(),
+                concept_id: Some("action.understand".to_string()),
+                locked: false,
+                created_at: now_iso(),
+            })
+            .unwrap();
+        }
+        let with_profile = engine
+            .symbolize(
+                "Vorrei capire.",
+                &SymbolizeOptions {
+                    paragraph_id: "p1".to_string(),
+                    profile_id: Some("p1".to_string()),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let token = with_profile
+            .tokens
+            .iter()
+            .find(|token| token.surface.eq_ignore_ascii_case("capire"))
+            .unwrap();
+        assert_eq!(token.symbol_id.as_deref(), Some("core.fruit.peach"));
+
+        let other_profile = engine
+            .symbolize(
+                "Vorrei capire.",
+                &SymbolizeOptions {
+                    paragraph_id: "p1".to_string(),
+                    profile_id: Some("p2".to_string()),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let token = other_profile
+            .tokens
+            .iter()
+            .find(|token| token.surface.eq_ignore_ascii_case("capire"))
+            .unwrap();
+        assert_ne!(token.symbol_id.as_deref(), Some("core.fruit.peach"));
     }
 
     #[test]

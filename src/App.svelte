@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, tick } from "svelte";
+  import { onDestroy, onMount, tick } from "svelte";
   import { get } from "svelte/store";
   import { language } from "./lib/i18n";
   import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
@@ -61,6 +61,7 @@
     type PackInfo,
     type Preference,
     type ResourcePlan,
+    type RuntimeDiagnostics,
     type TemplateInfo,
     type UnitModifiers,
     type VoiceInfo,
@@ -103,6 +104,20 @@
   let layoutApplied = $state<string[]>([]);
   let printingResource = $state(false);
   let aiConfig = $state<AiConfig | null>(null);
+  let analyzing = $state(false);
+  let speechActive = $state(false);
+  let speechPoll: ReturnType<typeof setInterval> | null = null;
+  let diagnostics = $state<RuntimeDiagnostics | null>(null);
+  let editorMetrics = $state({
+    input_samples: 0,
+    input_p95_ms: 0,
+    input_worst_ms: 0,
+    update_p95_ms: 0,
+    analysis_runs: 0,
+    long_tasks: 0,
+    longest_task_ms: 0,
+    last_analysis_ms: 0,
+  });
 
   type SideTab = "alternative" | "cerca" | "collezioni" | "impostazioni" | "studio";
   type SideIntent = {
@@ -406,7 +421,7 @@
   };
   type AssociationAction = {
     items: AssociationItem[];
-    global: { lemma: string; contextKey: string | null } | null;
+    remembered: { scope: string; lemma: string; contextKey: string | null } | null;
   };
   let associationUndo = $state<AssociationAction[]>([]);
   let associationRedo = $state<AssociationAction[]>([]);
@@ -420,9 +435,11 @@
   // Su finestre medie il pannello ancorato diventa temporaneamente sovrapposto,
   // senza modificare la preferenza salvata.
   const effectiveSidebarMode = $derived(
-    windowWidth < 1100 && $workspace.sidebarMode === "docked"
-      ? "overlay"
-      : $workspace.sidebarMode
+    windowWidth < 720 && $workspace.sidebarMode !== "collapsed"
+      ? "collapsed"
+      : windowWidth < 1100 && $workspace.sidebarMode === "docked"
+        ? "overlay"
+        : $workspace.sidebarMode
   );
   // Se la scheda contestuale non è più pertinente, si torna a Home.
   $effect(() => {
@@ -472,6 +489,9 @@
   };
 
   const native = isTauri();
+  onDestroy(() => {
+    if (speechPoll) clearInterval(speechPoll);
+  });
   const unitKey = (pid: string, index: number) => `${pid}:${index}`;
 
   function toast(text: string, kind: Toast["kind"] = "info") {
@@ -737,6 +757,15 @@
 
   function openSettingsPanel() {
     settingsOpen = true;
+    void refreshDiagnostics();
+  }
+
+  async function refreshDiagnostics() {
+    if (!native) {
+      diagnostics = null;
+      return;
+    }
+    diagnostics = await api.runtimeDiagnostics();
   }
 
   function resizePanelBy(delta: number) {
@@ -1114,8 +1143,46 @@
       toast("La sintesi vocale richiede l'app desktop.", "warn");
       return;
     }
+    // Il comando è asincrono: la UI mostra subito lo stato e resta scrivibile.
+    speechActive = true;
     try {
       await api.speak(text, null, 1.0, get(language));
+      trackSpeech();
+    } catch (error) {
+      speechActive = false;
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  /// La durata della frase non è nota in anticipo: si interroga il backend
+  /// reale invece di indovinarla. Il polling è leggero (700 ms) e si ferma
+  /// appena la voce termina.
+  function trackSpeech() {
+    if (speechPoll) clearInterval(speechPoll);
+    speechPoll = setInterval(async () => {
+      try {
+        const active = await api.speechActive();
+        speechActive = active;
+        if (!active && speechPoll) {
+          clearInterval(speechPoll);
+          speechPoll = null;
+        }
+      } catch {
+        speechActive = false;
+        if (speechPoll) clearInterval(speechPoll);
+        speechPoll = null;
+      }
+    }, 700);
+  }
+
+  async function stopSpeech() {
+    if (speechPoll) {
+      clearInterval(speechPoll);
+      speechPoll = null;
+    }
+    speechActive = false;
+    try {
+      await api.stopSpeaking();
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
@@ -1175,11 +1242,19 @@
       newSymbol: alternative.symbol_id,
       newConcept: conceptId,
     }));
-    const globalInfo =
-      scope === "global"
+    const remembered =
+      scope === "global" || scope === "profile" || scope === "vocabulary"
         ? {
+            scope,
             lemma: token.lemma ?? token.surface.toLocaleLowerCase(),
-            contextKey: conceptId ? `concept:${conceptId}` : null,
+            contextKey:
+              scope === "profile"
+                ? activeProfile?.id
+                  ? `profile:${activeProfile.id}${conceptId ? `:concept:${conceptId}` : ""}`
+                  : null
+                : conceptId
+                  ? `concept:${conceptId}`
+                  : null,
           }
         : null;
 
@@ -1205,11 +1280,11 @@
         editor?.refreshParagraph(affected);
       }
 
-      if (globalInfo) {
+      if (remembered) {
         await api.setPreference({
-          scope: "global",
-          lemma: globalInfo.lemma,
-          context_key: globalInfo.contextKey,
+          scope: remembered.scope,
+          lemma: remembered.lemma,
+          context_key: remembered.contextKey,
           symbol_id: alternative.symbol_id,
           concept_id: conceptId,
           locked: false,
@@ -1218,11 +1293,21 @@
         preferences = await api.listPreferences();
       }
 
-      associationUndo = [...associationUndo, { items, global: globalInfo }].slice(-20);
+      associationUndo = [...associationUndo, { items, remembered }].slice(-20);
       associationRedo = [];
       associationPending = true;
       if (scope === "document" && targets.length > 1) {
         toast(`Pittogramma applicato a ${targets.length} occorrenze.`, "info");
+      } else if (scope === "profile") {
+        toast(
+          `Associazione salvata per il profilo attivo: «${token.surface}» userà questo pittogramma.`,
+          "info"
+        );
+      } else if (scope === "vocabulary") {
+        toast(
+          `«${token.surface}» aggiunto al vocabolario condiviso del Creator.`,
+          "info"
+        );
       } else if (scope === "global") {
         toast(
           `Associazione salvata per «${token.surface}»: verrà considerata nei prossimi documenti.`,
@@ -1251,8 +1336,12 @@
           : api.clearDocumentOverride(docKey, item.unitKey)
       )
     );
-    if (action.global) {
-      await api.deletePreference("global", action.global.lemma, action.global.contextKey ?? "");
+    if (action.remembered) {
+      await api.deletePreference(
+        action.remembered.scope,
+        action.remembered.lemma,
+        action.remembered.contextKey ?? ""
+      );
     }
     editor?.refreshAll();
   }
@@ -1292,12 +1381,12 @@
           api.setDocumentOverride(docKey, item.unitKey, item.newSymbol, item.newConcept)
         )
       );
-      if (action.global) {
+      if (action.remembered) {
         const first = action.items[0];
         await api.setPreference({
-          scope: "global",
-          lemma: action.global.lemma,
-          context_key: action.global.contextKey,
+          scope: action.remembered.scope,
+          lemma: action.remembered.lemma,
+          context_key: action.remembered.contextKey,
           symbol_id: first.newSymbol,
           concept_id: first.newConcept,
           locked: false,
@@ -3009,8 +3098,28 @@
           onAnalyzed={onAnalyzed}
           onFormattingChange={(state) => (formatState = state)}
           onDocChanged={() => (associationPending = false)}
+          analysisDebounceMs={settings.analysis_debounce_ms}
+          refineDebounceMs={settings.refine_debounce_ms}
+          profileId={activeProfile?.id ?? null}
+          onAnalysisState={(active) => (analyzing = active)}
+          onMetrics={(metrics) => (editorMetrics = metrics)}
         />
       </div>
+
+      {#if analyzing}
+        <div class="analysis-pill" role="status" aria-live="polite" title="Il testo resta modificabile">
+          <span class="analysis-pill__dot" aria-hidden="true"></span>
+          Analisi in corso
+        </div>
+      {/if}
+
+      {#if speechActive}
+        <div class="analysis-pill analysis-pill--speech" role="status">
+          <span class="analysis-pill__dot" aria-hidden="true"></span>
+          Lettura in corso
+          <button class="btn btn--ghost btn--tiny" onclick={() => void stopSpeech()}>Ferma</button>
+        </div>
+      {/if}
 
       <div class="resource-print" class:active={printingResource}>
         {#if resourceLayout}
@@ -3249,6 +3358,9 @@
     onClearHistory={clearHistory}
     onToast={toast}
     onClose={() => (settingsOpen = false)}
+    {editorMetrics}
+    {diagnostics}
+    onRefreshDiagnostics={refreshDiagnostics}
   />
 {/if}
 

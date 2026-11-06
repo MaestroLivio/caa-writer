@@ -1,19 +1,74 @@
 //! Sintesi vocale offline con le voci di sistema.
 //!
 //! - macOS: comando `say` (voci di sistema, nessuna rete).
-//! - Windows: System.Speech via PowerShell (voci SAPI installate).
+//! - Windows: System.Speech via PowerShell (voci SAPI installate), avviato
+//!   senza finestra console.
 //! - Altri sistemi: `spd-say` se disponibile.
 //!
 //! La lettura usa sempre il testo originale, non la descrizione del simbolo.
+//! Il processo di lettura viene ricordato: una nuova richiesta interrompe la
+//! precedente e il comando «Ferma voce» può terminarla. Nessun processo resta
+//! orfano dopo la chiusura dell'applicazione.
 
-use std::process::Command;
+use std::process::Child;
+use std::sync::{Mutex, OnceLock};
 
 use crate::model::VoiceInfo;
+
+fn speaker_slot() -> &'static Mutex<Option<Child>> {
+    static SLOT: OnceLock<Mutex<Option<Child>>> = OnceLock::new();
+    SLOT.get_or_init(|| Mutex::new(None))
+}
+
+/// Registra un processo audio e ferma quello precedente. La riproduzione è
+/// volutamente non bloccante: la UI mostra subito il feedback.
+pub fn track(child: Child) {
+    if let Ok(mut slot) = speaker_slot().lock() {
+        if let Some(mut previous) = slot.take() {
+            let _ = previous.kill();
+            let _ = previous.wait();
+        }
+        *slot = Some(child);
+    }
+}
+
+/// Interrompe la lettura in corso, se c'è.
+pub fn stop() {
+    if let Ok(mut slot) = speaker_slot().lock() {
+        if let Some(mut child) = slot.take() {
+            let _ = child.kill();
+            let _ = child.wait();
+        }
+    }
+}
+
+pub fn is_speaking() -> bool {
+    let Ok(mut slot) = speaker_slot().lock() else {
+        return false;
+    };
+    let Some(child) = slot.as_mut() else {
+        return false;
+    };
+    match child.try_wait() {
+        Ok(Some(_)) => {
+            // Il processo è terminato: lo slot va liberato, altrimenti la UI
+            // mostrerebbe «Lettura in corso» per sempre e il motore neurale
+            // resterebbe bloccato dalla priorità della voce.
+            *slot = None;
+            false
+        }
+        Ok(None) => true,
+        Err(_) => {
+            *slot = None;
+            false
+        }
+    }
+}
 
 pub fn list_voices() -> Vec<VoiceInfo> {
     #[cfg(target_os = "macos")]
     {
-        if let Ok(output) = Command::new("say").arg("-v").arg("?").output() {
+        if let Ok(output) = crate::process::command("say").arg("-v").arg("?").output() {
             let text = String::from_utf8_lossy(&output.stdout);
             let mut voices = Vec::new();
             for line in text.lines() {
@@ -39,7 +94,7 @@ pub fn list_voices() -> Vec<VoiceInfo> {
             $s = New-Object System.Speech.Synthesis.SpeechSynthesizer; \
             $s.GetInstalledVoices() | ForEach-Object { \
                 $i = $_.VoiceInfo; Write-Output ($i.Name + '|' + $i.Culture.Name) }";
-        if let Ok(output) = Command::new("powershell")
+        if let Ok(output) = crate::process::command("powershell")
             .arg("-NoProfile")
             .arg("-NonInteractive")
             .arg("-Command")
@@ -78,20 +133,22 @@ pub fn speak(text: &str, voice: Option<&str>, rate: Option<i32>) -> Result<(), S
     // Numeri, orari, date e abbreviazioni vengono letti in parole; il testo del
     // documento resta invariato perché `text` non viene riscritto.
     let spoken = crate::tts_normalize::normalize(text);
+    stop();
 
     #[cfg(target_os = "macos")]
     {
-        let mut command = Command::new("say");
+        let mut command = crate::process::command("say");
         if let Some(voice) = voice.filter(|v| !v.is_empty()) {
             command.arg("-v").arg(voice);
         }
         let words_per_minute = rate.unwrap_or(180).clamp(80, 400);
         command.arg("-r").arg(words_per_minute.to_string());
         command.arg(&spoken);
-        command
+        let child = command
             .spawn()
-            .map(|_| ())
-            .map_err(|e| format!("sintesi vocale non disponibile: {e}"))
+            .map_err(|e| format!("sintesi vocale non disponibile: {e}"))?;
+        track(child);
+        Ok(())
     }
 
     #[cfg(target_os = "windows")]
@@ -104,34 +161,30 @@ pub fn speak(text: &str, voice: Option<&str>, rate: Option<i32>) -> Result<(), S
              if ($env:CAA_VOICE -ne '') {{ try {{ $s.SelectVoice($env:CAA_VOICE) }} catch {{}} }}; \
              $s.Speak($env:CAA_TEXT)"
         );
-        let status = Command::new("powershell")
+        let child = crate::process::command("powershell")
             .arg("-NoProfile")
             .arg("-NonInteractive")
+            .arg("-WindowStyle")
+            .arg("Hidden")
             .arg("-Command")
             .arg(script)
             .env("CAA_TEXT", &spoken)
             .env("CAA_VOICE", voice.unwrap_or(""))
-            .status()
+            .spawn()
             .map_err(|e| format!("sintesi vocale non disponibile: {e}"))?;
-        if status.success() {
-            Ok(())
-        } else {
-            Err("la sintesi vocale di Windows ha restituito un errore".to_string())
-        }
+        track(child);
+        Ok(())
     }
 
     #[cfg(all(unix, not(target_os = "macos")))]
     {
-        let status = Command::new("spd-say")
+        let child = crate::process::command("spd-say")
             .arg("-w")
             .arg(&spoken)
-            .status()
+            .spawn()
             .map_err(|e| format!("sintesi vocale non disponibile: {e}"))?;
-        if status.success() {
-            Ok(())
-        } else {
-            Err("spd-say ha restituito un errore".to_string())
-        }
+        track(child);
+        Ok(())
     }
 }
 

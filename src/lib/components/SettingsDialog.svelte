@@ -11,6 +11,8 @@
     PackInfo,
     Preference,
     ToolOutcome,
+    EditorMetrics,
+    RuntimeDiagnostics,
   } from "../types";
 
   interface Props {
@@ -26,6 +28,9 @@
     onClearHistory: () => Promise<void>;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
     onClose: () => void;
+    editorMetrics: EditorMetrics;
+    diagnostics: RuntimeDiagnostics | null;
+    onRefreshDiagnostics: () => Promise<void>;
   }
 
   let {
@@ -41,6 +46,9 @@
     onClearHistory,
     onToast,
     onClose,
+    editorMetrics,
+    diagnostics,
+    onRefreshDiagnostics,
   }: Props = $props();
 
   let dialog = $state<HTMLDivElement | null>(null);
@@ -58,6 +66,79 @@
   let toolInput = $state("");
   let toolOutcome = $state<ToolOutcome | null>(null);
   let toolBusy = $state(false);
+  let diagnosticsBusy = $state(false);
+
+  const profiles = [
+    {
+      id: "risparmio",
+      label: "Risparmio risorse",
+      hint: "1 thread, contesto 512, analisi meno frequente. Per computer con 4 GB di RAM.",
+      threads: 1,
+      context: 512,
+      timeout: 4000,
+      analysis: 420,
+      refine: 1200,
+    },
+    {
+      id: "bilanciato",
+      label: "Bilanciato",
+      hint: "2 thread, contesto 1024: compromesso predefinito tra qualità e reattività.",
+      threads: 2,
+      context: 1024,
+      timeout: 8000,
+      analysis: 240,
+      refine: 600,
+    },
+    {
+      id: "elevate",
+      label: "Prestazioni elevate",
+      hint: "Più thread e contesto maggiore; la digitazione resta prioritaria.",
+      threads: 2,
+      context: 2048,
+      timeout: 15000,
+      analysis: 140,
+      refine: 320,
+    },
+  ];
+
+  function applyProfile(id: "risparmio" | "bilanciato" | "elevate" | "personalizzato") {
+    if (id === "personalizzato") {
+      onUpdateSettings({ perf_profile: id });
+      return;
+    }
+    const profile = profiles.find((entry) => entry.id === id);
+    if (!profile) return;
+    const threads =
+      id === "elevate"
+        ? Math.min(8, Math.max(2, aiStatus?.hardware.cpu_cores ?? 4))
+        : profile.threads;
+    aiDraft = {
+      ...aiDraft,
+      threads,
+      context_size: profile.context,
+      timeout_ms: profile.timeout,
+    };
+    onUpdateSettings({
+      perf_profile: id,
+      analysis_debounce_ms: profile.analysis,
+      refine_debounce_ms: profile.refine,
+    });
+    onToast(
+      `Profilo «${profile.label}» applicato. Ricorda di salvare la configurazione IA.`,
+      "info"
+    );
+  }
+
+  async function refreshDiagnostics() {
+    diagnosticsBusy = true;
+    try {
+      await onRefreshDiagnostics();
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      diagnosticsBusy = false;
+    }
+  }
 
   const toolDefs = [
     { id: "analyse_text_clarity", label: "Chiarezza del testo", key: "text", hint: "Incolla un testo da analizzare" },
@@ -393,6 +474,57 @@
       </section>
 
       <section class="block">
+        <h3>Prestazioni</h3>
+        <p class="hint">
+          La digitazione ha sempre la priorità: l'analisi lessicale e quella neurale
+          vengono pianificate dopo una pausa e possono essere annullate quando il testo cambia.
+        </p>
+        <div class="row" style="flex-wrap:wrap;gap:6px">
+          {#each profiles as profile (profile.id)}
+            <button
+              class="btn"
+              class:btn--solid={settings.perf_profile === profile.id}
+              title={profile.hint}
+              onclick={() => applyProfile(profile.id as "risparmio" | "bilanciato" | "elevate")}
+            >{profile.label}</button>
+          {/each}
+          <button
+            class="btn"
+            class:btn--solid={settings.perf_profile === "personalizzato"}
+            onclick={() => applyProfile("personalizzato")}
+          >Personalizzato</button>
+        </div>
+        <p class="hint">
+          {profiles.find((profile) => profile.id === settings.perf_profile)?.hint ??
+            "Valori scelti manualmente: regola attesa dell'analisi e thread del modello."}
+        </p>
+        <div class="row">
+          <label for="dlg-analysis-debounce">Attesa analisi (ms)</label>
+          <input
+            id="dlg-analysis-debounce"
+            type="number"
+            min="80"
+            max="2000"
+            step="20"
+            value={settings.analysis_debounce_ms}
+            onchange={(event) => onUpdateSettings({ perf_profile: "personalizzato", analysis_debounce_ms: Number((event.currentTarget as HTMLInputElement).value) || 240 })}
+            style="width:90px"
+          />
+          <label for="dlg-refine-debounce">Attesa rifinitura IA (ms)</label>
+          <input
+            id="dlg-refine-debounce"
+            type="number"
+            min="200"
+            max="5000"
+            step="50"
+            value={settings.refine_debounce_ms}
+            onchange={(event) => onUpdateSettings({ perf_profile: "personalizzato", refine_debounce_ms: Number((event.currentTarget as HTMLInputElement).value) || 600 })}
+            style="width:90px"
+          />
+        </div>
+      </section>
+
+      <section class="block">
         <h3>Intelligenza artificiale locale</h3>
         {#if aiStatus}
           <p class="hint">{aiStatus.note}</p>
@@ -425,6 +557,54 @@
       </section>
 
       <ModelManager {aiStatus} {onToast} {onStatusChange} />
+
+      <section class="block">
+        <h3>Diagnostica misurata</h3>
+        <p class="hint">
+          Valori letti dal sistema e dal WebView, non stimati. Apri questa sezione quando
+          vuoi un controllo: la lettura non avviene durante la digitazione.
+        </p>
+        <div class="row">
+          <button class="btn btn--solid" disabled={diagnosticsBusy} onclick={() => void refreshDiagnostics()}>
+            {diagnosticsBusy ? "Misuro…" : "Aggiorna misure"}
+          </button>
+          <span class="hint">
+            {diagnostics ? `Ultima lettura · ${diagnostics.platform}` : "Nessuna lettura ancora"}
+          </span>
+        </div>
+        <dl class="facts">
+          <dt>Latenza input p95</dt><dd>{editorMetrics.input_p95_ms} ms · peggiore {editorMetrics.input_worst_ms} ms</dd>
+          <dt>Aggiornamento editor p95</dt><dd>{editorMetrics.update_p95_ms} ms</dd>
+          <dt>Analisi eseguite</dt><dd>{editorMetrics.analysis_runs} · ultima {editorMetrics.last_analysis_ms} ms</dd>
+          <dt>Blocchi &gt; 120 ms</dt><dd>{editorMetrics.long_tasks} · massimo {editorMetrics.longest_task_ms} ms</dd>
+        </dl>
+        {#if diagnostics}
+          <dl class="facts">
+            <dt>Memoria app</dt><dd>{diagnostics.app_process.resident_mb} MiB · CPU {diagnostics.app_process.cpu_percent}%</dd>
+            <dt>Memoria modello</dt>
+            <dd>
+              {#if diagnostics.model_process}
+                {diagnostics.model_process.resident_mb} MiB · PID {diagnostics.model_process.pid}
+                {#if diagnostics.model_process.note}<span class="hint"> · {diagnostics.model_process.note}</span>{/if}
+              {:else}
+                modello non in esecuzione
+              {/if}
+            </dd>
+            <dt>Modello attivo</dt><dd>{diagnostics.active_model}</dd>
+            <dt>Coda neurale</dt><dd>{diagnostics.ai.pending}/{diagnostics.ai.queue_limit} · annullate {diagnostics.ai.cancelled}</dd>
+            <dt>Inferenze</dt><dd>{diagnostics.ai.completed} completate · ultima {diagnostics.ai.last_ms} ms</dd>
+            <dt>Simbolizzazione</dt><dd>{diagnostics.symbols.paragraphs} paragrafi · media {diagnostics.symbols.paragraphs > 0 ? Math.round(diagnostics.symbols.total_ms / diagnostics.symbols.paragraphs) : 0} ms · peggiore {diagnostics.symbols.worst_ms} ms</dd>
+            <dt>Risultati obsoleti scartati</dt><dd>{diagnostics.symbols.stale_results}</dd>
+            <dt>Voce attiva</dt><dd>{diagnostics.speech_active ? "sì" : "no"}</dd>
+          </dl>
+          <p class="hint">{diagnostics.app_process.note}</p>
+        {:else}
+          <p class="hint">
+            Le misure di CPU e memoria richiedono l'app desktop: nella sola anteprima browser
+            restano dichiarate come non disponibili.
+          </p>
+        {/if}
+      </section>
 
       <section class="block">
         <h3>Strumenti IA</h3>

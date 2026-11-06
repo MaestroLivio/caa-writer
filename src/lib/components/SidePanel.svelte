@@ -633,14 +633,20 @@
     >
       <option value="occurrence">Solo questa occorrenza</option>
       <option value="document">Tutte le occorrenze equivalenti nel documento</option>
-      <option value="global">Ricorda questa associazione per i documenti futuri</option>
+      <option value="profile">Solo per questo profilo Utilizzatore</option>
+      <option value="global">Per tutti i documenti futuri</option>
+      <option value="vocabulary">Nel vocabolario condiviso del Creator</option>
     </select>
     <p class="hint">
       {associationScope === "occurrence"
         ? "La scelta vale solo per la parola selezionata."
         : associationScope === "document"
           ? "La scelta vale per le altre occorrenze dello stesso concetto nel documento; le associazioni bloccate non vengono toccate."
-          : "La scelta entra nel dizionario personale e verrà considerata nei prossimi documenti per lo stesso concetto."}
+          : associationScope === "profile"
+            ? "La scelta vale solo per il profilo Utilizzatore attivo, anche nei prossimi documenti; gli altri profili non vengono toccati."
+            : associationScope === "vocabulary"
+              ? "La scelta entra nel vocabolario condiviso del Creator ed è l'ultima risorsa dopo le preferenze del profilo e quelle globali."
+              : "La scelta vale per tutti i documenti futuri, ma resta subordinata alla disambiguazione quando il significato cambia."}
     </p>
   </div>
 {/snippet}

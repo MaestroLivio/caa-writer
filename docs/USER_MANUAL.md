@@ -157,3 +157,33 @@ pittogramma.
 | PDF diverso dall'anteprima | Il PDF usa il motore di stampa del sistema: imposta margini e formato nel dialogo di stampa. |
 | L'applicazione non parte su Windows | Verifica WebView2; l'installer tenta di scaricarlo se assente. |
 | L'IA non risponde | In Impostazioni indica il percorso di `llama-cli` e del modello GGUF; senza modello l'app funziona comunque. |
+
+## Prestazioni e diagnostica (0.7.0)
+
+In **Impostazioni → Prestazioni** puoi scegliere:
+
+- **Risparmio risorse**: pensato per computer con 4 GB di RAM; meno thread e
+  analisi meno frequente.
+- **Bilanciato**: impostazione predefinita.
+- **Prestazioni elevate**: più thread e contesto, se la macchina lo consente.
+- **Personalizzato**: regoli tu le attese dell'analisi e della rifinitura IA.
+
+La digitazione non viene mai bloccata: il testo compare subito e i pittogrammi
+si aggiornano quando l'analisi è pronta. Se continui a scrivere, i risultati
+vecchi vengono scartati.
+
+In **Impostazioni → Diagnostica misurata** trovi valori reali, non stimati:
+latenza di input, tempo di aggiornamento dell'editor, blocchi dell'interfaccia,
+memoria e CPU dell'app e del modello, coda delle inferenze e tempi di
+simbolizzazione. Su Windows la CPU del processo è riportata come secondi
+cumulati, perché il sistema non espone la stessa percentuale istantanea di
+macOS.
+
+Quando la voce legge, compare un indicatore con **Ferma**. La lettura non
+blocca l'editor e il motore non avvia un'altra inferenza pesante nello stesso
+momento.
+
+Per correggere un pittogramma puoi scegliere l'ambito: solo questa occorrenza,
+tutte le occorrenze equivalenti nel documento, solo il profilo Utilizzatore
+attivo, tutti i documenti futuri oppure il vocabolario condiviso del Creator.
+Le associazioni bloccate non vengono mai sovrascritte.

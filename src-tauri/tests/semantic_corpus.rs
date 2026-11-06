@@ -84,8 +84,8 @@ fn semantic_corpus_accuracy() {
     let corpus: Corpus = serde_json::from_str(&raw).expect("corpus JSON valido");
 
     assert!(
-        corpus.sentences.len() >= 200,
-        "il corpus deve contenere almeno 200 frasi, trovate {}",
+        corpus.sentences.len() >= 300,
+        "il corpus deve contenere almeno 300 frasi, trovate {}",
         corpus.sentences.len()
     );
 
@@ -110,6 +110,7 @@ fn semantic_corpus_accuracy() {
             symbolize_conjunctions: false,
             manual_units: Vec::new(),
             split_ranges: Vec::new(),
+            profile_id: None,
         };
         let result = match engine.symbolize(&sentence.text, &options) {
             Ok(result) => result,

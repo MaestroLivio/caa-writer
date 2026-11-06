@@ -18,7 +18,7 @@
 use std::fs::{self, File};
 use std::io::Read;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
@@ -196,7 +196,7 @@ impl ModelInstaller {
             .map(|meta| meta.len() == entry.size_bytes)
             .unwrap_or(false);
         if !already_complete {
-            let mut command = Command::new("curl");
+            let mut command = crate::process::command("curl");
             command
                 .args([
                     "-L",

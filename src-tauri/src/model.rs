@@ -101,6 +101,10 @@ pub struct SymbolizeOptions {
     /// Intervalli in cui l'utente ha separato un'espressione automatica.
     #[serde(default)]
     pub split_ranges: Vec<ManualRange>,
+    /// Profilo Utilizzatore attivo: le preferenze salvate per un profilo non
+    /// si applicano agli altri profili della stessa installazione.
+    #[serde(default)]
+    pub profile_id: Option<String>,
 }
 
 impl Default for SymbolizeOptions {
@@ -117,6 +121,7 @@ impl Default for SymbolizeOptions {
             symbolize_conjunctions: false,
             manual_units: Vec::new(),
             split_ranges: Vec::new(),
+            profile_id: None,
         }
     }
 }

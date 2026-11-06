@@ -4,6 +4,89 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.7.0 — 2026-11-06
+
+### Reattività dell'editor
+
+- I comandi pesanti (`symbolize_paragraph`, `refine_paragraph`, `speak`,
+  `ai_related_symbols`, `ai_benchmark`, `ai_run_tool`, `run_cli`) non girano più
+  sul thread principale: usano `spawn_blocking` e lasciano la digitazione
+  indipendente dall'IA.
+- Il database e la cache SVG vengono bloccati solo durante la risoluzione
+  lessicale, mai durante l'inferenza neurale. Prima una rifinitura da secondi
+  impediva ogni altra lettura.
+- Ogni analisi ha un identificativo di versione: le risposte superate vengono
+  scartate. La rifinitura neurale è annullabile (`cancel_refine`) anche se il
+  modello ha già iniziato a generare.
+- Coda neurale limitata a 8 richieste, un solo worker di inferenza e contatori
+  reali di richieste, annullamenti, risultati obsoleti e tempi.
+- Rendering differenziale delle strisce CAA: i chip vengono ricostruiti solo
+  quando cambiano davvero; la selezione aggiorna i due paragrafi coinvolti.
+- Cache dei nodi SVG con limite LRU: gli stessi pittogrammi non vengono
+  riparsati a ogni aggiornamento.
+- Debounce adattivo configurabile (analisi e rifinitura), profili
+  «Risparmio risorse», «Bilanciato», «Prestazioni elevate» e «Personalizzato».
+
+### Voce
+
+- La sintesi vocale è asincrona, mostra subito lo stato e può essere interrotta
+  con «Ferma».
+- Mentre la voce legge, il motore non avvia una seconda inferenza pesante.
+- I processi audio vengono registrati e terminati alla chiusura: nessun
+  processo orfano.
+
+### Semantica
+
+- Rimosso il gruppo di candidati costruito dalla sola somiglianza ortografica o
+  dall'indice FTS: «sento» non propone più «sentiero», «bravo» non propone
+  «patatas bravas», «non» non propone «nonna».
+- Il fallback per parole fuori lessico usa solo ipotesi morfologiche verificate
+  e accetta un simbolo soltanto se l'etichetta esatta esiste nel repertorio.
+- Tutte le letture di una forma contribuiscono ai concetti: «porta» è sia il
+  sostantivo sia il verbo «portare»; il ranking contestuale sceglie.
+- Lessico esteso a 127 concetti e 191 lemmi: sentirsi, sentire, bravo/capace,
+  nonna, nulla/niente, lingua, sentiero, principessa, governare, gustare.
+  Simboli di repertorio collegati per i nuovi concetti.
+- Preferenze separate per occorrenza, documento, **profilo**, globale e
+  **vocabolario condiviso del Creator**; l'ordine rispetta la disambiguazione.
+- Corpus semantico portato a **311 frasi** (314 bersagli): prima scelta
+  **100,0% (314/314)**, 0 approssimazioni fuorvianti, 24/24 assenze rilevate,
+  16,94 ms per paragrafo. Include i dieci casi obbligatori del capitolato.
+
+### Windows e processi
+
+- Tutti i processi esterni usano `CREATE_NO_WINDOW` su Windows: llama.cpp,
+  PowerShell (voce, memoria, riproduzione), curl, Piper, afplay, spd-say e CLI.
+- PowerShell viene avviato con `-NonInteractive -WindowStyle Hidden`; non si
+  nasconde una finestra già comparsa.
+- Il modello condiviso viene riavviato se il processo termina e fermato
+  all'uscita; la voce viene interrotta alla chiusura.
+
+### Diagnostica e interfaccia
+
+- Pannello **Diagnostica misurata** nel Creator: latenza input p95, tempo di
+  aggiornamento editor, blocchi superiori a 120 ms, CPU/RAM del processo e del
+  modello, coda neurale, inferenze, risultati obsoleti, tempi di
+  simbolizzazione e stato della voce. I valori sono letti dal sistema, non
+  stimati; su Windows la CPU è dichiarata come secondi cumulati.
+- Indicatore discreto «Analisi in corso» che non blocca né copre il documento.
+- Sidebar: schede sempre visibili (vanno a capo, nessuno scorrimento
+  orizzontale), intestazione fissata, corpo scorrevole, larghezza 260–640 px
+  rispettata senza minimi che tagliano il contenuto; sotto 720 px il pannello si
+  riduce automaticamente alla barra a icone.
+- Rifinitura grafica: anello di focus, schede attive, hover, ombre, transizioni
+  brevi rispettose di `prefers-reduced-motion`.
+
+### Limiti dichiarati
+
+- Windows è stato controllato in compilazione incrociata (`cargo xwin check`),
+  non eseguito su una macchina Windows: l'assenza di console e i tempi non sono
+  misurati a runtime.
+- macOS Intel e Linux non sono stati ricostruiti in questa sessione; installer
+  non firmati e non notarizzati.
+- La misura di CPU su Windows è cumulativa (Get-Process), non una percentuale
+  istantanea.
+
 ## 0.6.0 — 2026-11-06
 
 ### CLI e automazione

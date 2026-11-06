@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 7,
   "language": "it",
   "description": "Lessico italiano per CAA Writer. Un concetto = un significato; un lemma può avere più concetti. Le 'cues' guidano la disambiguazione deterministica (Livello 3) e servono da contesto per il reranking LLM opzionale.",
   "domains": {
@@ -2045,7 +2045,8 @@
           "piccolo"
         ],
         "avoid": []
-      }
+      },
+      "symbol_ref": "arasaac.picto.2418"
     },
     {
       "id": "state.uncertain",
@@ -2348,6 +2349,228 @@
         ]
       },
       "symbol_ref": "arasaac.picto.26704"
+    },
+    {
+      "id": "state.feel",
+      "label": "sentirsi",
+      "meaning": "provare una sensazione o un'emozione",
+      "category": "emozioni",
+      "broader": null,
+      "pos": "verb",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "mi",
+          "sento",
+          "senti",
+          "sentiamo",
+          "provo",
+          "sensazione",
+          "emozione",
+          "felice",
+          "triste",
+          "bravo",
+          "stanco",
+          "paura"
+        ],
+        "avoid": [
+          "sentiero",
+          "bosco",
+          "strada",
+          "rumore"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.37719"
+    },
+    {
+      "id": "state.capable",
+      "label": "bravo",
+      "meaning": "capace, competente, che sa fare bene",
+      "category": "emozioni",
+      "broader": "ability.can",
+      "pos": "adj",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "bravo",
+          "brava",
+          "capace",
+          "competente",
+          "riesco",
+          "soddisfatto",
+          "orgoglioso"
+        ],
+        "avoid": [
+          "patatas",
+          "bravas",
+          "cibo",
+          "piatto"
+        ]
+      }
+    },
+    {
+      "id": "family.grandmother",
+      "label": "nonna",
+      "meaning": "madre del padre o della madre",
+      "category": "persone",
+      "broader": "person.family",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "nonna",
+          "nonno",
+          "famiglia",
+          "nipote"
+        ],
+        "avoid": [
+          "non",
+          "negazione"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.2243"
+    },
+    {
+      "id": "quantity.nothing",
+      "label": "nulla",
+      "meaning": "nessuna cosa, niente",
+      "category": "astratti",
+      "broader": null,
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "nulla",
+          "niente",
+          "nessuno",
+          "zero"
+        ],
+        "avoid": [
+          "nonna",
+          "non"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.29839"
+    },
+    {
+      "id": "communication.language",
+      "label": "lingua",
+      "meaning": "sistema di comunicazione parlato o scritto",
+      "category": "comunicazione",
+      "broader": null,
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "lingua",
+          "lingue",
+          "parlare",
+          "parlo",
+          "capire",
+          "imparare",
+          "straniera",
+          "plurilingue"
+        ],
+        "avoid": [
+          "bocca",
+          "gusto",
+          "mangiare",
+          "anatomia"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.2944"
+    },
+    {
+      "id": "action.hear",
+      "label": "sentire",
+      "meaning": "percepire un suono con l'udito",
+      "category": "azioni",
+      "broader": "action.listen",
+      "pos": "verb",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "sento",
+          "senti",
+          "ascoltare",
+          "udire",
+          "rumore",
+          "musica",
+          "voce"
+        ],
+        "avoid": [
+          "sentiero",
+          "emozione",
+          "mi sento"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.30194"
+    },
+    {
+      "id": "place.path",
+      "label": "sentiero",
+      "meaning": "strada stretta in campagna o in montagna",
+      "category": "luoghi",
+      "broader": null,
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "sentiero",
+          "bosco",
+          "montagna",
+          "cammino",
+          "strada"
+        ],
+        "avoid": [
+          "sento",
+          "sentire",
+          "udito"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.38976"
+    },
+    {
+      "id": "person.princess",
+      "label": "principessa",
+      "meaning": "figlia di un re o di una regina",
+      "category": "persone",
+      "broader": "person.girl",
+      "pos": "noun",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "principessa",
+          "principesse",
+          "castello",
+          "re",
+          "regina"
+        ],
+        "avoid": []
+      },
+      "symbol_ref": "arasaac.picto.5554"
+    },
+    {
+      "id": "action.govern",
+      "label": "governare",
+      "meaning": "dirigere un paese o un gruppo",
+      "category": "azioni",
+      "broader": null,
+      "pos": "verb",
+      "symbol": null,
+      "cues": {
+        "prefer": [
+          "governare",
+          "governa",
+          "governo",
+          "paese",
+          "politica"
+        ],
+        "avoid": [
+          "sentiero"
+        ]
+      },
+      "symbol_ref": "arasaac.picto.21906"
     }
   ],
   "lemmas": [
@@ -3520,7 +3743,9 @@
       "lemma": "nonna",
       "pos": "noun",
       "gender": "f",
-      "concepts": []
+      "concepts": [
+        "family.grandmother"
+      ]
     },
     {
       "lemma": "capire",
@@ -3538,6 +3763,87 @@
     },
     {
       "lemma": "assaggiare",
+      "pos": "verb",
+      "concepts": [
+        "action.taste"
+      ]
+    },
+    {
+      "lemma": "sentire",
+      "pos": "verb",
+      "concepts": [
+        "action.hear",
+        "state.feel"
+      ]
+    },
+    {
+      "lemma": "sentirsi",
+      "pos": "verb",
+      "concepts": [
+        "state.feel"
+      ]
+    },
+    {
+      "lemma": "bravo",
+      "pos": "adj",
+      "concepts": [
+        "state.capable"
+      ]
+    },
+    {
+      "lemma": "capace",
+      "pos": "adj",
+      "concepts": [
+        "state.capable"
+      ]
+    },
+    {
+      "lemma": "nulla",
+      "pos": "noun",
+      "concepts": [
+        "quantity.nothing"
+      ]
+    },
+    {
+      "lemma": "niente",
+      "pos": "noun",
+      "concepts": [
+        "quantity.nothing"
+      ]
+    },
+    {
+      "lemma": "lingua",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "communication.language"
+      ]
+    },
+    {
+      "lemma": "sentiero",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "place.path"
+      ]
+    },
+    {
+      "lemma": "principessa",
+      "pos": "noun",
+      "gender": "f",
+      "concepts": [
+        "person.princess"
+      ]
+    },
+    {
+      "lemma": "governare",
+      "pos": "verb",
+      "concepts": [
+        "action.govern"
+      ]
+    },
+    {
+      "lemma": "gustare",
       "pos": "verb",
       "concepts": [
         "action.taste"
@@ -3960,66 +4266,85 @@
     "vedono": "vedere"
   },
   "function_words": [
-    "il",
-    "lo",
-    "la",
-    "i",
-    "gli",
-    "le",
-    "un",
-    "uno",
-    "una",
-    "di",
     "a",
-    "da",
-    "in",
-    "con",
-    "su",
-    "per",
-    "tra",
-    "fra",
-    "e",
-    "ed",
-    "o",
-    "ma",
-    "che",
-    "se",
-    "quando",
-    "non",
-    "che",
-    "cui",
-    "del",
-    "dello",
-    "della",
-    "dei",
-    "degli",
-    "delle",
-    "al",
-    "allo",
-    "alla",
-    "ai",
+    "abbiamo",
     "agli",
+    "ai",
+    "al",
+    "alla",
     "alle",
-    "dal",
-    "dallo",
-    "dalla",
-    "dai",
-    "dagli",
-    "dalle",
-    "nel",
-    "nello",
-    "nella",
-    "nei",
-    "negli",
-    "nelle",
-    "sul",
-    "sullo",
-    "sulla",
-    "sui",
-    "sugli",
-    "sulle",
+    "allo",
+    "avere",
+    "avete",
+    "che",
+    "coi",
     "col",
-    "coi"
+    "con",
+    "cui",
+    "da",
+    "dagli",
+    "dai",
+    "dal",
+    "dalla",
+    "dalle",
+    "dallo",
+    "degli",
+    "dei",
+    "del",
+    "della",
+    "delle",
+    "dello",
+    "di",
+    "e",
+    "e`",
+    "ed",
+    "essere",
+    "fra",
+    "gli",
+    "ha",
+    "hai",
+    "hanno",
+    "ho",
+    "i",
+    "il",
+    "in",
+    "la",
+    "le",
+    "lo",
+    "ma",
+    "negli",
+    "nei",
+    "nel",
+    "nella",
+    "nelle",
+    "nello",
+    "non",
+    "o",
+    "per",
+    "quando",
+    "se",
+    "sei",
+    "siamo",
+    "siete",
+    "sono",
+    "sta",
+    "stai",
+    "stanno",
+    "state",
+    "stiamo",
+    "sto",
+    "su",
+    "sugli",
+    "sui",
+    "sul",
+    "sulla",
+    "sulle",
+    "sullo",
+    "tra",
+    "un",
+    "una",
+    "uno",
+    "è"
   ],
   "synonyms": [
     {
@@ -4182,6 +4507,36 @@
       "term": "sola",
       "concepts": [
         "state.alone"
+      ]
+    },
+    {
+      "term": "capace",
+      "concepts": [
+        "state.capable"
+      ]
+    },
+    {
+      "term": "niente",
+      "concepts": [
+        "quantity.nothing"
+      ]
+    },
+    {
+      "term": "udire",
+      "concepts": [
+        "action.hear"
+      ]
+    },
+    {
+      "term": "idioma",
+      "concepts": [
+        "communication.language"
+      ]
+    },
+    {
+      "term": "gustare",
+      "concepts": [
+        "action.taste"
       ]
     }
   ]

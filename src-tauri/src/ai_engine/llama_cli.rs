@@ -9,7 +9,7 @@
 //! Senza di essi il software funziona con la sola selezione deterministica.
 
 use std::io::Read;
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::{Duration, Instant};
 
 use crate::model::AiConfig;
@@ -31,7 +31,7 @@ pub fn run_completion(config: &AiConfig, prompt: &str) -> Result<String, String>
 
     let stdout = std::fs::File::create(&out_file).map_err(|e| format!("file temporaneo: {e}"))?;
 
-    let mut command = Command::new(&config.binary_path);
+    let mut command = crate::process::command(&config.binary_path);
     command
         .arg("-m")
         .arg(&config.model_path)

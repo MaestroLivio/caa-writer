@@ -140,12 +140,22 @@ impl<'a> Analyzer<'a> {
                 // Ripiego: forma senza accenti (perche -> perché).
                 matches = self.lexicon.lookup_folded(&normalized);
             }
+            // Tutte le letture della forma contribuiscono ai concetti: «porta»
+            // è sia il sostantivo sia il verbo «portare». Il ranking
+            // contestuale sceglie poi la lettura; scartarne una in partenza
+            // rendeva impossibile la disambiguazione.
+            for matched in &matches {
+                for concept in &matched.concepts {
+                    if !concepts.contains(concept) {
+                        concepts.push(concept.clone());
+                    }
+                }
+            }
             if let Some(best) = pick_best(&matches) {
                 lemma = Some(best.lemma.clone());
                 pos = best.pos.clone();
                 gender = best.gender.clone();
                 number = best.number.clone();
-                concepts = best.concepts.clone();
                 from_lemma = best.from_lemma;
             } else if is_function {
                 pos = "fun".to_string();
@@ -274,6 +284,14 @@ impl<'a> Analyzer<'a> {
     fn mark_negation(&self, tokens: &mut Vec<TokenAnalysis>) {
         let mut negate_next = false;
         for token in tokens.iter_mut() {
+            // Parole intrinsecamente negative: la negazione appartiene
+            // all'unità stessa, non solo alla parola che segue «non».
+            if matches!(
+                token.normalized.as_str(),
+                "nulla" | "niente" | "nessuno" | "nessuna" | "nessun"
+            ) {
+                token.negated = true;
+            }
             if token.normalized == "non" || token.normalized == "mai" || token.normalized == "senza" {
                 negate_next = true;
                 continue;

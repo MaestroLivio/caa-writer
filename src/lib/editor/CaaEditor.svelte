@@ -67,6 +67,25 @@
     onFormattingChange?: (state: FormattingState) => void;
     /// Vero quando il testo del documento cambia (non le sole associazioni).
     onDocChanged?: () => void;
+    /// Attesa prima dell'analisi lessicale (profilo prestazionale).
+    analysisDebounceMs?: number;
+    /// Attesa prima della rifinitura neurale.
+    refineDebounceMs?: number;
+    /// Profilo attivo: le preferenze di un profilo non si applicano agli altri.
+    profileId?: string | null;
+    /// Indicatore non invasivo «Analisi in corso».
+    onAnalysisState?: (active: boolean) => void;
+    /// Misure reali raccolte nel WebView per il pannello Diagnostica.
+    onMetrics?: (metrics: {
+      input_samples: number;
+      input_p95_ms: number;
+      input_worst_ms: number;
+      update_p95_ms: number;
+      analysis_runs: number;
+      long_tasks: number;
+      longest_task_ms: number;
+      last_analysis_ms: number;
+    }) => void;
   }
 
   let {
@@ -89,6 +108,11 @@
     onAnalyzed,
     onFormattingChange,
     onDocChanged,
+    analysisDebounceMs = 240,
+    refineDebounceMs = 600,
+    profileId = null,
+    onAnalysisState,
+    onMetrics,
   }: Props = $props();
 
   let host: HTMLDivElement;
@@ -102,7 +126,40 @@
   let queued = false;
   let refineTimer: ReturnType<typeof setTimeout> | null = null;
   let refineSeq = 0;
+  let refineRequestId = "";
   const refinedSignature = new Map<string, string>();
+  let analyzeSeq = 0;
+
+  // Misure raccolte nel WebView: sono tempi reali, non stime. Gli array
+  // contengono gli ultimi 200 campioni, sufficienti per un p95 significativo
+  // senza far crescere la memoria durante una sessione lunga.
+  const inputSamples: number[] = [];
+  const updateSamples: number[] = [];
+  let lastKeyAt = 0;
+  let analysisRuns = 0;
+  let lastAnalysisMs = 0;
+  let longTasks = 0;
+  let longestTaskMs = 0;
+
+  function percentile(values: number[], ratio: number): number {
+    if (values.length === 0) return 0;
+    const sorted = [...values].sort((a, b) => a - b);
+    const index = Math.min(sorted.length - 1, Math.floor(sorted.length * ratio));
+    return Math.round(sorted[index] * 10) / 10;
+  }
+
+  function reportMetrics() {
+    onMetrics?.({
+      input_samples: inputSamples.length,
+      input_p95_ms: percentile(inputSamples, 0.95),
+      input_worst_ms: inputSamples.length ? Math.round(Math.max(...inputSamples) * 10) / 10 : 0,
+      update_p95_ms: percentile(updateSamples, 0.95),
+      analysis_runs: analysisRuns,
+      long_tasks: longTasks,
+      longest_task_ms: Math.round(longestTaskMs * 10) / 10,
+      last_analysis_ms: Math.round(lastAnalysisMs * 10) / 10,
+    });
+  }
 
   const newPid = (): string =>
     `p${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
@@ -139,6 +196,32 @@
       if (!hasMedia && token.is_function) return false;
       return hasMedia || token.key;
     });
+  }
+
+  // Cache dei nodi SVG già analizzati: il documento contiene molti pittogrammi
+  // ripetuti e ricostruire l'HTML a ogni aggiornamento faceva riparsare gli
+  // stessi SVG. La cache è limitata (LRU) per non trattenere migliaia di nodi.
+  const svgPrototypes = new Map<string, Element>();
+  const SVG_CACHE_LIMIT = 300;
+
+  function svgNode(markup: string): Element | null {
+    const cached = svgPrototypes.get(markup);
+    if (cached) {
+      // Rinnova l'ordine LRU.
+      svgPrototypes.delete(markup);
+      svgPrototypes.set(markup, cached);
+      return cached.cloneNode(true) as Element;
+    }
+    const template = document.createElement("template");
+    template.innerHTML = markup;
+    const node = template.content.firstElementChild;
+    if (!node) return null;
+    if (svgPrototypes.size >= SVG_CACHE_LIMIT) {
+      const oldest = svgPrototypes.keys().next().value;
+      if (oldest) svgPrototypes.delete(oldest);
+    }
+    svgPrototypes.set(markup, node);
+    return node.cloneNode(true) as Element;
   }
 
   function renderChips(strip: HTMLElement, pid: string, tokens: CaaToken[]) {
@@ -180,12 +263,16 @@
       const media = document.createElement("span");
       media.className = "caa-chip__media";
       if (token.svg && token.svg.trimStart().startsWith("<svg")) {
-        media.innerHTML = token.svg;
+        const node = svgNode(token.svg);
+        if (node) media.append(node);
       } else if (token.composition.length > 0) {
         media.classList.add("caa-chip__media--composition");
         for (const part of token.composition) {
           const partSpan = document.createElement("span");
-          if (part.svg && part.svg.trimStart().startsWith("<svg")) partSpan.innerHTML = part.svg;
+          if (part.svg && part.svg.trimStart().startsWith("<svg")) {
+            const node = svgNode(part.svg);
+            if (node) partSpan.append(node);
+          }
           partSpan.title = part.label;
           media.append(partSpan);
         }
@@ -266,6 +353,10 @@
     private pid: string;
     private tag: "paragraph" | "heading";
     private layout: "sopra" | "sotto" | null = null;
+    /// Firma dell'ultimo contenuto disegnato: evita di ricostruire i chip a
+    /// ogni transazione ProseMirror (cioè a ogni tasto) quando i token non
+    /// sono cambiati.
+    lastKey = "";
 
     constructor(node: PMNode, tag: "paragraph" | "heading") {
       this.node = node;
@@ -336,9 +427,29 @@
       else this.dom.append(this.strip, this.contentDOM);
     }
 
-    renderStrip() {
-      const visible = stripTokens(tokensByPid.get(this.pid) ?? []);
+    renderStrip(force = false) {
+      const all = tokensByPid.get(this.pid) ?? [];
+      const visible = stripTokens(all);
       const hidden = !autoEnabled || mode === "testo" || visible.length === 0;
+      // La chiave contiene solo ciò che cambia l'aspetto: niente SVG (grande
+      // e immutabile) e niente ricostruzione quando il testo viene digitato.
+      const key = hidden
+        ? `${this.pid}|hidden|${mode}|${autoEnabled}`
+        : `${this.pid}|${mode}|${appliedKey.startsWith(`${this.pid}:`) ? appliedKey : ""}|${visible
+            .map(
+              (token) =>
+                `${token.index}:${token.symbol_id ?? ""}:${token.composition.length}:${
+                  token.locked ? 1 : 0
+                }:${token.hidden ? 1 : 0}:${token.approximate ? 1 : 0}:${
+                  token.alternatives.some((alternative) => alternative.neural) ? 1 : 0
+                }`
+            )
+            .join(";")}`;
+      if (!force && key === this.lastKey) {
+        this.order();
+        return;
+      }
+      this.lastKey = key;
       if (hidden) {
         this.strip.replaceChildren();
         this.strip.hidden = true;
@@ -356,6 +467,9 @@
       this.node = node;
       this.syncPid();
       this.applyAttrs();
+      // Anche se il testo cambia, i token restano quelli dell'ultima analisi:
+      // ridisegnare qui sarebbe lavoro inutile a ogni tasto. Il ridisegno
+      // avviene quando arriva un risultato nuovo o cambia la selezione.
       this.renderStrip();
       return true;
     }
@@ -380,8 +494,11 @@
     return (node: PMNode) => new TextView(node, tag);
   }
 
-  function refreshStrips() {
-    for (const paragraphView of paragraphViews.values()) paragraphView.renderStrip();
+  function refreshStrips(force = false, only?: Set<string>) {
+    for (const [pid, paragraphView] of paragraphViews) {
+      if (only && !only.has(pid)) continue;
+      paragraphView.renderStrip(force);
+    }
   }
 
   // La selezione testuale è la fonte principale della scelta: un clic su una
@@ -480,6 +597,10 @@
   const selectionSyncPlugin = new Plugin({
     props: {
       handleDOMEvents: {
+        keydown: () => {
+          lastKeyAt = performance.now();
+          return false;
+        },
         mouseup: (current) => {
           // Dopo il click ProseMirror ha già aggiornato la selezione.
           window.setTimeout(() => selectionFromView(current), 0);
@@ -569,6 +690,7 @@
       symbolize_conjunctions: symbolizeConjunctions,
       manual_units: paragraph.merges,
       split_ranges: paragraph.splits,
+      profile_id: profileId,
     };
   }
 
@@ -578,12 +700,15 @@
       queued = true;
       return;
     }
+    const run = ++analyzeSeq;
     analyzing = true;
+    onAnalysisState?.(true);
+    const startedAt = performance.now();
     try {
       const paragraphs = collectParagraphs();
       if (!autoEnabled) {
         tokensByPid.clear();
-        refreshStrips();
+        refreshStrips(true);
         return;
       }
       let budget = 60;
@@ -604,19 +729,33 @@
           const result = isTauri()
             ? await api.symbolizeParagraph(paragraph.text, options(paragraph))
             : demoAnalyze(paragraph.text, paragraph.pid);
+          // Una risposta arrivata dopo che il testo è cambiato non deve
+          // sovrascrivere la versione nuova.
+          if (run !== analyzeSeq) return;
+          const current = collectParagraphs().find((item) => item.pid === paragraph.pid);
+          if (!current || signatureFor(current) !== signature) continue;
           analyzedSignature.set(paragraph.pid, signature);
           tokensByPid.set(paragraph.pid, result.tokens);
+          paragraphViews.get(paragraph.pid)?.renderStrip();
         } catch (error) {
+          if (run !== analyzeSeq) return;
           analyzedSignature.set(paragraph.pid, signature);
           const message = error instanceof Error ? error.message : String(error);
           if (!message.includes("Anteprima browser")) onError(message);
         }
       }
+      if (run !== analyzeSeq) return;
       onAnalyzed(new Map(tokensByPid));
       refreshStrips();
       scheduleRefine();
     } finally {
       analyzing = false;
+      if (run === analyzeSeq) {
+        analysisRuns += 1;
+        lastAnalysisMs = performance.now() - startedAt;
+        onAnalysisState?.(false);
+        reportMetrics();
+      }
       if (queued) {
         queued = false;
         schedule(80);
@@ -624,48 +763,82 @@
     }
   }
 
-  function schedule(delay = 240) {
+  function schedule(delay = analysisDebounceMs) {
+    // Ogni nuovo testo invalida le risposte in volo: il risultato vecchio
+    // verrà scartato anche se arriva dopo.
+    analyzeSeq += 1;
+    if (refineTimer) {
+      clearTimeout(refineTimer);
+      refineTimer = null;
+    }
+    void cancelCurrentRefine();
+    onAnalysisState?.(true);
     if (debounce) clearTimeout(debounce);
     debounce = setTimeout(() => {
       debounce = null;
       void analyzeAll();
-    }, delay);
+    }, Math.max(40, delay));
+  }
+
+  function cancelCurrentRefine() {
+    const key = refineRequestId;
+    refineRequestId = "";
+    if (key && isTauri()) {
+      return api.cancelRefine(key).catch(() => undefined);
+    }
+    return Promise.resolve();
   }
 
   /// Passata neurale facoltativa: parte dopo una breve pausa di scrittura, senza
   /// bloccare la digitazione. Ogni nuova analisi annulla la passata precedente; il
   /// risultato si applica solo se il testo non è cambiato.
-  function scheduleRefine(delay = 450) {
+  function scheduleRefine(delay = refineDebounceMs) {
     if (refineTimer) clearTimeout(refineTimer);
     refineTimer = setTimeout(() => {
       refineTimer = null;
       void refineAll();
-    }, delay);
+    }, Math.max(120, delay));
   }
 
   async function refineAll() {
     if (!autoEnabled || !neural || !isTauri() || !view) return;
     const seq = ++refineSeq;
-    for (const paragraph of collectParagraphs()) {
-      if (seq !== refineSeq) return;
-      const text = paragraph.text.trim();
-      // Basta un testo con almeno tre parole: aspettare il punto finale
-      // significava non vedere mai la correzione contestuale mentre si scrive.
-      if (!text || text.split(/\s+/).filter(Boolean).length < 3) continue;
-      const signature = signatureFor(paragraph);
-      if (refinedSignature.get(paragraph.pid) === signature) continue;
-      try {
-        const result = await api.refineParagraph(paragraph.text, options(paragraph));
+    onAnalysisState?.(true);
+    const startedAt = performance.now();
+    try {
+      for (const paragraph of collectParagraphs()) {
         if (seq !== refineSeq) return;
-        const current = collectParagraphs().find((item) => item.pid === paragraph.pid);
-        if (!current || signatureFor(current) !== signature) continue;
-        refinedSignature.set(paragraph.pid, signature);
-        tokensByPid.set(paragraph.pid, result.tokens);
-        refreshStrips();
-        onAnalyzed(new Map(tokensByPid));
-      } catch {
-        // Modello assente o in errore: resta valida la scelta lessicale, senza avvisi.
-        refinedSignature.set(paragraph.pid, signature);
+        const text = paragraph.text.trim();
+        // Basta un testo con almeno tre parole: aspettare il punto finale
+        // significava non vedere mai la correzione contestuale mentre si scrive.
+        if (!text || text.split(/\s+/).filter(Boolean).length < 3) continue;
+        const signature = signatureFor(paragraph);
+        if (refinedSignature.get(paragraph.pid) === signature) continue;
+        const requestId = `${paragraph.pid}:${seq}`;
+        refineRequestId = requestId;
+        try {
+          const result = await api.refineParagraph(paragraph.text, options(paragraph), requestId);
+          if (seq !== refineSeq) return;
+          const current = collectParagraphs().find((item) => item.pid === paragraph.pid);
+          if (!current || signatureFor(current) !== signature) continue;
+          refinedSignature.set(paragraph.pid, signature);
+          tokensByPid.set(paragraph.pid, result.tokens);
+          paragraphViews.get(paragraph.pid)?.renderStrip();
+          onAnalyzed(new Map(tokensByPid));
+        } catch {
+          // Modello assente, richiesta annullata o testo superato: resta valida
+          // la scelta lessicale, senza avvisi e senza toccare il documento.
+          if (seq !== refineSeq) return;
+          refinedSignature.set(paragraph.pid, signature);
+        } finally {
+          if (refineRequestId === requestId) refineRequestId = "";
+        }
+      }
+    } finally {
+      if (seq === refineSeq) {
+        lastAnalysisMs = performance.now() - startedAt;
+        onAnalysisState?.(false);
+        reportMetrics();
       }
     }
   }
@@ -714,6 +887,7 @@
         heading: textViewFor("heading"),
       },
       dispatchTransaction(transaction) {
+        const updateStarted = performance.now();
         const next = view!.state.apply(transaction);
         view!.updateState(next);
         if (transaction.docChanged) {
@@ -723,6 +897,17 @@
           schedule();
         }
         reportFormatting();
+        const elapsed = performance.now() - updateStarted;
+        updateSamples.push(elapsed);
+        if (updateSamples.length > 200) updateSamples.shift();
+        if (lastKeyAt) {
+          inputSamples.push(performance.now() - lastKeyAt);
+          if (inputSamples.length > 200) inputSamples.shift();
+          lastKeyAt = 0;
+          // Il reporting avviene al massimo una volta ogni 40 transazioni per
+          // non aggiungere lavoro al percorso di battitura.
+          if (updateSamples.length % 40 === 0) reportMetrics();
+        }
       },
       attributes: {
         class: "ProseMirror editor",
@@ -733,9 +918,25 @@
       },
     });
 
+    // Lacune di frame superiori a 120 ms indicano un blocco percepibile
+    // dell'interfaccia. Sono misurate nel WebView, non dedotte.
+    let frameHandle = 0;
+    let lastFrame = performance.now();
+    const watchFrames = () => {
+      const now = performance.now();
+      if (document.visibilityState === "visible" && now - lastFrame > 120) {
+        longTasks += 1;
+        longestTaskMs = Math.max(longestTaskMs, now - lastFrame);
+      }
+      lastFrame = now;
+      frameHandle = requestAnimationFrame(watchFrames);
+    };
+    frameHandle = requestAnimationFrame(watchFrames);
+
     reportFormatting();
     schedule(30);
     return () => {
+      cancelAnimationFrame(frameHandle);
       view?.destroy();
       view = null;
       paragraphViews.clear();
@@ -765,11 +966,20 @@
     refreshStrips();
   });
 
-  // Evidenzia il pittogramma selezionato ricostruendo i chip.
+  // Evidenzia il pittogramma selezionato aggiornando solo i due paragrafi
+  // coinvolti (quello che perde e quello che riceve la selezione). Prima si
+  // ricostruivano tutti i chip del documento a ogni clic.
+  let previousSelectionKey = "";
   $effect(() => {
-    void selectedUnit;
+    const nextKey = selectedUnit ? `${selectedUnit.pid}:${selectedUnit.index}` : "";
     if (!view) return;
-    refreshStrips();
+    if (nextKey === previousSelectionKey) return;
+    const touched = new Set<string>();
+    if (previousSelectionKey) touched.add(previousSelectionKey.split(":")[0]);
+    if (selectedUnit) touched.add(selectedUnit.pid);
+    previousSelectionKey = nextKey;
+    if (touched.size === 0) refreshStrips(true);
+    else refreshStrips(true, touched);
   });
 
   export function getDocJson(): unknown {
@@ -840,6 +1050,8 @@
   export function refreshAll() {
     analyzedSignature.clear();
     refinedSignature.clear();
+    refineSeq += 1;
+    void cancelCurrentRefine();
     schedule(0);
   }
 

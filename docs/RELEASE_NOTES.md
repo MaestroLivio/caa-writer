@@ -1,3 +1,21 @@
+# CAA Writer 0.7.0 — note di rilascio
+
+Reattività dell'editor, selezione semantica più prudente, processi Windows senza
+console e interfaccia adattiva.
+
+## Novità principali
+
+- Digitazione indipendente dall'IA: comandi pesanti asincroni, annullamento
+  delle analisi superate, coda neurale limitata e rendering differenziale.
+- Niente più associazioni per somiglianza di lettere: «sento» non è «sentiero»,
+  «bravo» non è «patatas bravas», «non» non è «nonna».
+- Fallback morfologico verificato, tutte le letture di una forma e preferenze
+  separate per occorrenza, documento, profilo, globale e vocabolario.
+- Sidebar con schede sempre visibili e intestazione fissa; pannello Diagnostica
+  con CPU/RAM e tempi misurati; profili prestazionali.
+- Processi llama.cpp, voce, PowerShell, curl e CLI avviati senza finestra
+  console su Windows.
+
 ## Requisiti
 
 - Windows 10/11 a 64 bit con WebView2 (presente di norma su Windows 11 e
@@ -9,16 +27,15 @@
 
 ## Installazione
 
-- **Windows**: usare `CAA-Writer_*_x64-setup.exe` (NSIS) oppure il file `.msi`.
-  Se SmartScreen avvisa, il pacchetto non è firmato: verificare il checksum
-  SHA-256 pubblicato nella release e scegliere «Ulteriori informazioni» →
-  «Esegui comunque».
+- **Windows**: usare `CAA-Writer_0.7.0_windows-x64-setup.exe` (NSIS). In questa
+  release non è prodotto il `.msi`. Se SmartScreen avvisa, il pacchetto non è
+  firmato: verificare il checksum SHA-256 e scegliere «Ulteriori informazioni»
+  → «Esegui comunque».
 - **macOS**: aprire il `.dmg`, trascinare `CAA Writer.app` in Applicazioni.
   Al primo avvio macOS può chiedere di confermare l'apertura (l'app non è
   notarizzata). In alternativa usare il file `.app.zip`.
-- **Linux**: installare il `.deb` con `sudo apt install ./CAA-Writer_*.deb`
-  oppure usare l'AppImage (rendere eseguibile e avviare). Il pacchetto `.rpm`
-  è per le distribuzioni che usano RPM.
+- **Linux**: nessun pacchetto è stato prodotto in questa sessione; il workflow
+  è pronto ma non eseguito.
 
 ## Verifica dei file
 
@@ -36,8 +53,14 @@ il valore.
 
 - I pacchetti **non sono firmati né notarizzati**: mancano certificati e
   credenziali. Non viene simulata una firma.
-- La ricerca online di immagini non è inclusa; l'app funziona offline.
-- Il runtime vocale Piper non è incluso nel bundle: si usa la voce di sistema.
+- Windows è compilato in modo incrociato e ispezionato staticamente, ma **non
+  eseguito** su una macchina Windows in questa sessione.
+- La misura della latenza di battitura p95 è strumentata nel pannello
+  Diagnostica, non ancora misurata da un test automatico del WebView.
+- La ricerca online è opzionale e disattivata per default; l'app funziona
+  offline.
+- Il runtime vocale Piper dipende dal sistema/venv; resta il fallback dichiarato
+  alla voce di sistema.
 - La copertura semantica dipende dal lessico incluso e dal catalogo ARASAAC.
 - I test su Windows con 4 GB di RAM, su macOS Intel e con utenti CAA non sono
   stati eseguiti da questo ambiente.

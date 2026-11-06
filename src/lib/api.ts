@@ -8,6 +8,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { noModifiers } from "./types";
 import type {
+  RuntimeDiagnostics,
   AiConfig,
   LayoutDocument,
   LayoutEditResult,
@@ -72,8 +73,9 @@ export const api = {
 
   symbolizeParagraph: (text: string, options: SymbolizeOptions) =>
     call<ParagraphResult>("symbolize_paragraph", { text, options }),
-  refineParagraph: (text: string, options: SymbolizeOptions) =>
-    call<ParagraphResult>("refine_paragraph", { text, options }),
+  refineParagraph: (text: string, options: SymbolizeOptions, requestId: string | null = null) =>
+    call<ParagraphResult>("refine_paragraph", { text, options, requestId }),
+  cancelRefine: (requestId: string) => call<void>("cancel_refine", { requestId }),
 
   searchSymbols: (
     query: string,
@@ -197,7 +199,10 @@ export const api = {
 
   listVoices: () => call<VoiceInfo[]>("list_voices"),
   speak: (text: string, voice: string | null, rate: number, language: string | null = null) =>
-    call<void>("speak", { text, voice, rate }),
+    call<void>("speak", { text, voice, rate, language }),
+  stopSpeaking: () => call<void>("stop_speaking"),
+  speechActive: () => call<boolean>("speech_active"),
+  runtimeDiagnostics: () => call<RuntimeDiagnostics>("runtime_diagnostics"),
 
   aiStatus: () => call<AiStatus>("ai_status"),
   setAiConfig: (config: AiConfig) => call<AiStatus>("set_ai_config", { config }),

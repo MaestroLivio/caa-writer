@@ -35,6 +35,8 @@ export interface SymbolizeOptions {
   manual_units: ManualRange[];
   /// Intervalli in cui non unire automaticamente un'espressione.
   split_ranges: ManualRange[];
+  /// Profilo Utilizzatore attivo: le preferenze restano separate per profilo.
+  profile_id: string | null;
 }
 
 /// Modificatori grafici del pittogramma (stile ARASAAC).
@@ -262,11 +264,54 @@ export interface AiStatus {
     failures: number;
     total_ms: number;
     last_ms: number;
+    pending: number;
+    queue_limit: number;
     executor: string;
   };
   server_running: boolean;
   active_model?: string;
   active_model_bundled?: boolean;
+}
+
+export interface ProcessSample {
+  pid: number;
+  resident_mb: number;
+  cpu_percent: number;
+  running: boolean;
+  note: string;
+}
+
+export interface RuntimeDiagnostics {
+  version: string;
+  platform: string;
+  app_process: ProcessSample;
+  model_process: ProcessSample | null;
+  server_running: boolean;
+  speech_active: boolean;
+  ai: AiStatus["metrics"];
+  symbols: {
+    paragraphs: number;
+    total_ms: number;
+    last_ms: number;
+    worst_ms: number;
+    cache_hits: number;
+    stale_results: number;
+    neural_paragraphs: number;
+    neural_ms: number;
+  };
+  active_model: string;
+}
+
+/** Misure raccolte nel WebView, dichiarate come tali nel pannello. */
+export interface EditorMetrics {
+  input_samples: number;
+  input_p95_ms: number;
+  input_worst_ms: number;
+  update_p95_ms: number;
+  analysis_runs: number;
+  long_tasks: number;
+  longest_task_ms: number;
+  last_analysis_ms: number;
 }
 
 export type InstallPhase =
@@ -508,6 +553,12 @@ export interface DocumentSettings {
   symbolize_articles: boolean;
   symbolize_prepositions: boolean;
   symbolize_conjunctions: boolean;
+  /// Profilo prestazionale scelto (risparmio, bilanciato, elevate, custom).
+  perf_profile: "risparmio" | "bilanciato" | "elevate" | "personalizzato";
+  /// Attesa dopo l'ultimo tasto prima dell'analisi lessicale.
+  analysis_debounce_ms: number;
+  /// Attesa dopo l'ultimo tasto prima della rifinitura neurale.
+  refine_debounce_ms: number;
 }
 
 export const defaultSettings: DocumentSettings = {
@@ -549,6 +600,9 @@ export const defaultSettings: DocumentSettings = {
   symbolize_articles: false,
   symbolize_prepositions: false,
   symbolize_conjunctions: false,
+  perf_profile: "bilanciato",
+  analysis_debounce_ms: 240,
+  refine_debounce_ms: 600,
 };
 
 // ---------------------------------------------------------------------------

@@ -7,7 +7,7 @@
 use std::path::Path;
 
 use serde::Serialize;
-use tauri::State;
+use tauri::{Manager, State};
 
 use crate::asset_manager::{alternative_from_record, svg as svg_tool};
 use crate::database::SymbolFilters;
@@ -49,22 +49,56 @@ pub fn app_info(state: State<'_, Engine>) -> Result<AppInfo, String> {
     })
 }
 
-#[tauri::command]
-pub fn symbolize_paragraph(
-    state: State<'_, Engine>,
-    text: String,
-    options: SymbolizeOptions,
-) -> Result<ParagraphResult, String> {
-    state.symbolize(&text, &options)
+/// Comandi sincroni di Tauri girano sul thread principale: un'analisi da
+/// 20–90 ms per paragrafo o una sintesi vocale da secondi bloccherebbe la
+/// digitazione. Le operazioni pesanti passano quindi su `spawn_blocking`, che
+/// non tocca mai il thread dell'interfaccia.
+fn on_blocking<T, F>(work: F) -> impl std::future::Future<Output = Result<T, String>>
+where
+    T: Send + 'static,
+    F: FnOnce() -> Result<T, String> + Send + 'static,
+{
+    async move {
+        match tauri::async_runtime::spawn_blocking(work).await {
+            Ok(result) => result,
+            Err(error) => Err(format!("operazione interrotta: {error}")),
+        }
+    }
 }
 
 #[tauri::command]
-pub fn refine_paragraph(
-    state: State<'_, Engine>,
+pub async fn symbolize_paragraph(
+    app: tauri::AppHandle,
     text: String,
     options: SymbolizeOptions,
 ) -> Result<ParagraphResult, String> {
-    state.refine(&text, &options)
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        state.symbolize(&text, &options)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn refine_paragraph(
+    app: tauri::AppHandle,
+    text: String,
+    options: SymbolizeOptions,
+    request_id: Option<String>,
+) -> Result<ParagraphResult, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        state.refine_cancellable(&text, &options, request_id.as_deref())
+    })
+    .await
+}
+
+/// Annulla una rifinitura neurale superata. Se il modello sta già generando,
+/// il lavoro termina ma il risultato viene scartato: non sovrascrive mai il
+/// testo nuovo.
+#[tauri::command]
+pub fn cancel_refine(state: State<'_, Engine>, request_id: String) {
+    state.cancel_request(&request_id);
 }
 
 #[tauri::command]
@@ -298,24 +332,46 @@ pub fn list_voices() -> Vec<VoiceInfo> {
 }
 
 #[tauri::command]
-pub fn speak(
-    state: State<'_, Engine>,
+pub async fn speak(
+    app: tauri::AppHandle,
     text: String,
     voice: Option<String>,
     rate: Option<i32>,
     language: Option<String>,
 ) -> Result<(), String> {
-    // Voce neurale locale quando disponibile; altrimenti la voce di sistema
-    // resta un fallback reale, non un pulsante finto.
-    if let Some(paths) =
-        crate::voice::resolve(&state.paths.resources_dir, &state.paths.data_dir, language.as_deref())
-    {
-        match crate::voice::speak(&text, &paths) {
-            Ok(_) => return Ok(()),
-            Err(error) => eprintln!("voce neurale non disponibile ({error}): uso la voce di sistema"),
+    // La sintesi può richiedere secondi: non deve bloccare né l'editor né il
+    // thread principale. Il processo di riproduzione viene registrato e può
+    // essere interrotto da `stop_speaking`.
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        // Voce neurale locale quando disponibile; altrimenti la voce di sistema
+        // resta un fallback reale, non un pulsante finto.
+        if let Some(paths) = crate::voice::resolve(
+            &state.paths.resources_dir,
+            &state.paths.data_dir,
+            language.as_deref(),
+        ) {
+            match crate::voice::speak(&text, &paths) {
+                Ok(_) => return Ok(()),
+                Err(error) => {
+                    eprintln!("voce neurale non disponibile ({error}): uso la voce di sistema")
+                }
+            }
         }
-    }
-    speech::speak(&text, voice.as_deref(), rate)
+        speech::speak(&text, voice.as_deref(), rate)
+    })
+    .await
+}
+
+/// Interrompe subito la voce in corso (richiesta esplicita dell'utente).
+#[tauri::command]
+pub fn stop_speaking() {
+    speech::stop();
+}
+
+#[tauri::command]
+pub fn speech_active() -> bool {
+    speech::is_speaking()
 }
 
 /// Stato reale del motore vocale: installato o fallback di sistema.
@@ -341,6 +397,13 @@ pub fn normalize_speech(text: String) -> String {
 #[tauri::command]
 pub fn ai_status(state: State<'_, Engine>) -> AiStatus {
     state.ai_status()
+}
+
+/// Diagnostica misurata: CPU/RAM dei processi, coda neurale, tempi reali e
+/// richieste obsolete. Nessun valore è stimato o inventato.
+#[tauri::command]
+pub fn runtime_diagnostics(state: State<'_, Engine>) -> crate::engine::RuntimeDiagnostics {
+    state.diagnostics()
 }
 
 #[tauri::command]
@@ -391,11 +454,11 @@ pub fn ai_import_model(state: State<'_, Engine>, path: String) -> Result<AiStatu
 }
 
 #[tauri::command]
-pub fn ai_related_symbols(
-    state: State<'_, Engine>,
+pub async fn ai_related_symbols(
+    app: tauri::AppHandle,
     text: String,
 ) -> Result<Vec<Alternative>, String> {
-    state.ai_related_symbols(&text)
+    on_blocking(move || app.state::<Engine>().ai_related_symbols(&text)).await
 }
 
 #[tauri::command]
@@ -405,17 +468,17 @@ pub fn ai_select_model(state: State<'_, Engine>, model_id: String) -> Result<AiS
 }
 
 #[tauri::command]
-pub fn ai_benchmark(state: State<'_, Engine>) -> Result<BenchmarkResult, String> {
-    state.ai_benchmark()
+pub async fn ai_benchmark(app: tauri::AppHandle) -> Result<BenchmarkResult, String> {
+    on_blocking(move || app.state::<Engine>().ai_benchmark()).await
 }
 
 #[tauri::command]
-pub fn ai_run_tool(
-    state: State<'_, Engine>,
+pub async fn ai_run_tool(
+    app: tauri::AppHandle,
     tool: String,
     input: serde_json::Value,
 ) -> Result<crate::ai_engine::tools::ToolOutcome, String> {
-    state.run_ai_tool(&tool, &input)
+    on_blocking(move || app.state::<Engine>().run_ai_tool(&tool, &input)).await
 }
 
 #[tauri::command]
@@ -688,35 +751,39 @@ fn find_cli_binary(resources_dir: &Path) -> Option<std::path::PathBuf> {
 /// La console integrata non usa una shell: metodo e parametri sono dati,
 /// non comandi di sistema.
 #[tauri::command]
-pub fn run_cli(
-    state: State<'_, Engine>,
+pub async fn run_cli(
+    app: tauri::AppHandle,
     method: String,
     params: serde_json::Value,
 ) -> Result<CliRunResult, String> {
-    let binary = find_cli_binary(&state.paths.resources_dir)
-        .ok_or_else(|| "CLI non trovata: compila `caa-cli` o reinstalla l'app.".to_string())?;
-    let payload = serde_json::to_string(&params).map_err(|e| format!("parametri: {e}"))?;
-    let output = std::process::Command::new(&binary)
-        .arg("--compact")
-        .arg("--data-dir")
-        .arg(&state.paths.data_dir)
-        .arg("--resources")
-        .arg(&state.paths.resources_dir)
-        .arg("call")
-        .arg(&method)
-        .arg(&payload)
-        .output()
-        .map_err(|e| format!("avvio CLI: {e}"))?;
-    let stdout = String::from_utf8_lossy(&output.stdout).to_string();
-    let stderr = String::from_utf8_lossy(&output.stderr).to_string();
-    let json = serde_json::from_str::<serde_json::Value>(stdout.trim()).ok();
-    Ok(CliRunResult {
-        ok: output.status.success(),
-        stdout,
-        stderr,
-        json,
-        binary: binary.to_string_lossy().to_string(),
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let binary = find_cli_binary(&state.paths.resources_dir)
+            .ok_or_else(|| "CLI non trovata: compila `caa-cli` o reinstalla l'app.".to_string())?;
+        let payload = serde_json::to_string(&params).map_err(|e| format!("parametri: {e}"))?;
+        let output = crate::process::command(&binary)
+            .arg("--compact")
+            .arg("--data-dir")
+            .arg(&state.paths.data_dir)
+            .arg("--resources")
+            .arg(&state.paths.resources_dir)
+            .arg("call")
+            .arg(&method)
+            .arg(&payload)
+            .output()
+            .map_err(|e| format!("avvio CLI: {e}"))?;
+        let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+        let stderr = String::from_utf8_lossy(&output.stderr).to_string();
+        let json = serde_json::from_str::<serde_json::Value>(stdout.trim()).ok();
+        Ok(CliRunResult {
+            ok: output.status.success(),
+            stdout,
+            stderr,
+            json,
+            binary: binary.to_string_lossy().to_string(),
+        })
     })
+    .await
 }
 
 #[tauri::command]

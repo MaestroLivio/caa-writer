@@ -13,7 +13,7 @@ use std::fs;
 use std::hash::{Hash, Hasher};
 use std::io::Write;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 
 use serde::Serialize;
 
@@ -219,7 +219,7 @@ pub fn synthesize(text: &str, paths: &VoicePaths) -> Result<PathBuf, String> {
         return Ok(output);
     }
 
-    let mut child = Command::new(&paths.engine)
+    let mut child = crate::process::command(&paths.engine)
         .arg("-m")
         .arg(&paths.model)
         .arg("-c")
@@ -255,11 +255,12 @@ pub fn synthesize(text: &str, paths: &VoicePaths) -> Result<PathBuf, String> {
 pub fn play(path: &Path) -> Result<(), String> {
     #[cfg(target_os = "macos")]
     {
-        Command::new("afplay")
+        let child = crate::process::command("afplay")
             .arg(path)
             .spawn()
-            .map(|_| ())
-            .map_err(|e| format!("riproduzione audio non disponibile: {e}"))
+            .map_err(|e| format!("riproduzione audio non disponibile: {e}"))?;
+        crate::speech::track(child);
+        Ok(())
     }
     #[cfg(target_os = "windows")]
     {
@@ -267,18 +268,17 @@ pub fn play(path: &Path) -> Result<(), String> {
             "$p = New-Object Media.SoundPlayer '{}'; $p.PlaySync()",
             path.to_string_lossy().replace('\'', "''")
         );
-        let status = Command::new("powershell")
+        let child = crate::process::command("powershell")
             .arg("-NoProfile")
             .arg("-NonInteractive")
+            .arg("-WindowStyle")
+            .arg("Hidden")
             .arg("-Command")
             .arg(script)
-            .status()
+            .spawn()
             .map_err(|e| format!("riproduzione audio non disponibile: {e}"))?;
-        if status.success() {
-            Ok(())
-        } else {
-            Err("la riproduzione audio di Windows ha restituito un errore".to_string())
-        }
+        crate::speech::track(child);
+        Ok(())
     }
     #[cfg(all(unix, not(target_os = "macos")))]
     {
@@ -289,6 +289,9 @@ pub fn play(path: &Path) -> Result<(), String> {
 
 /// Sintetizza e riproduce. Restituisce il percorso del WAV in cache.
 pub fn speak(text: &str, paths: &VoicePaths) -> Result<PathBuf, String> {
+    // Una nuova richiesta interrompe subito la lettura precedente, anche se la
+    // sintesi del nuovo audio richiede qualche istante.
+    crate::speech::stop();
     let wav = synthesize(text, paths)?;
     play(&wav)?;
     Ok(wav)

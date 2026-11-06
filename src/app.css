@@ -956,8 +956,10 @@ textarea {
 
 /* --- Pannello laterale --- */
 .sidepanel {
-  width: 372px;
-  min-width: 320px;
+  /* La larghezza la decide il pannello ridimensionabile (260–640 px):
+     qui non si impone un minimo che taglierebbe il contenuto. */
+  width: 100%;
+  min-width: 0;
   background: var(--surface);
   border-left: 1px solid var(--border);
   display: flex;
@@ -2076,8 +2078,8 @@ textarea {
 /* --- Adattamenti --- */
 @media (max-width: 1080px) {
   .sidepanel {
-    width: 320px;
-    min-width: 300px;
+    width: 100%;
+    min-width: 0;
   }
   .paper {
     padding: 28px 24px 40px;
@@ -3045,4 +3047,91 @@ textarea {
 
 .toast {
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+}
+
+/* --- Adattamento del pannello e indicatori di analisi (0.7.0) --- */
+.sidepanel__tabs {
+  /* Nessuno scorrimento orizzontale: se le schede non entrano vanno a capo,
+     tutte raggiungibili. L'intestazione resta ferma mentre il corpo scorre. */
+  flex-wrap: wrap;
+  overflow: visible;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+
+.sidepanel__tabs .tab {
+  flex: 1 1 auto;
+  min-width: 64px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sidepanel__body {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.analysis-pill {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 92%, var(--accent));
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
+  color: var(--muted);
+  font-size: 0.78rem;
+  pointer-events: none;
+}
+
+.analysis-pill--speech {
+  bottom: 56px;
+  pointer-events: auto;
+  color: var(--text);
+}
+
+.analysis-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: analysis-pulse 1.4s ease-in-out infinite;
+}
+
+.btn--tiny {
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  min-height: 0;
+}
+
+@keyframes analysis-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Il foglio conserva sempre una larghezza utile; i pannelli non lo coprono
+   quando sono ancorati. */
+.stage {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .analysis-pill {
+    left: 8px;
+    bottom: 8px;
+    max-width: calc(100% - 16px);
+  }
+  .analysis-pill--speech {
+    bottom: 48px;
+  }
 }

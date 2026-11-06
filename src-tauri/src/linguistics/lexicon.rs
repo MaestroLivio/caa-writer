@@ -261,22 +261,27 @@ impl Lexicon {
             }
         }
 
-        if out.is_empty() {
-            // Cerca un lemma il cui paradigma contiene questa forma.
-            for entry in self.lemmas.values().flatten() {
-                if entry.lemma.eq_ignore_ascii_case(surface) {
-                    continue;
-                }
-                if super::morphology::generates_form(&entry.lemma, &entry.pos, &key) {
-                    out.push(LemmaMatch {
-                        lemma: entry.lemma.clone(),
-                        pos: entry.pos.clone(),
-                        gender: entry.gender.clone(),
-                        number: infer_number(&entry.pos, &key),
-                        concepts: entry.concepts.clone(),
-                        from_lemma: false,
-                    });
-                }
+        // Cerca anche i lemmi il cui paradigma contiene questa forma. Non solo
+        // quando manca una corrispondenza diretta: «porta» è il sostantivo
+        // «porta» *e* la terza persona di «portare». Scartare la seconda
+        // lettura rendeva impossibile la disambiguazione contestuale.
+        for entry in self.lemmas.values().flatten() {
+            if entry.lemma.eq_ignore_ascii_case(surface) {
+                continue;
+            }
+            if super::morphology::generates_form(&entry.lemma, &entry.pos, &key)
+                && !out
+                    .iter()
+                    .any(|existing| existing.lemma == entry.lemma && existing.pos == entry.pos)
+            {
+                out.push(LemmaMatch {
+                    lemma: entry.lemma.clone(),
+                    pos: entry.pos.clone(),
+                    gender: entry.gender.clone(),
+                    number: infer_number(&entry.pos, &key),
+                    concepts: entry.concepts.clone(),
+                    from_lemma: false,
+                });
             }
         }
 

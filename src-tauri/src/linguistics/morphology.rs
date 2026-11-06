@@ -296,6 +296,105 @@ pub fn generates_form(lemma: &str, pos: &str, form: &str) -> bool {
         .any(|f| f.form == form)
 }
 
+/// Ipotesi di lemma per una forma italiana sconosciuta al lessico.
+///
+/// Non è un'analisi morfologica completa e non viene usata per decidere il
+/// significato: serve solo a cercare un'etichetta **esatta** nel repertorio
+/// («principesse» → «principessa», «governa» → «governare»). Ogni ipotesi
+/// viene verificata rigenerando il paradigma: se la forma non appartiene
+/// davvero a quel paradigma, viene scartata.
+pub fn lemma_guesses(form: &str) -> Vec<(String, &'static str)> {
+    let form = form.trim().to_lowercase();
+    let chars: Vec<char> = form.chars().collect();
+    if chars.len() < 3 {
+        return Vec::new();
+    }
+    let mut candidates: Vec<(String, &'static str)> = Vec::new();
+
+    let push = |out: &mut Vec<(String, &'static str)>, base: &str, endings: &[&str], rule: &'static str| {
+        for ending in endings {
+            let candidate = format!("{base}{ending}");
+            if candidate.chars().count() >= 3 {
+                out.push((candidate, rule));
+            }
+        }
+    };
+
+    // Verbi: presente, imperfetto, futuro e condizionale. Si prova a
+    // ricostruire l'infinito e si tiene solo ciò che genera davvero la forma.
+    let verb_suffixes: [(&str, &'static str); 20] = [
+        ("avano", "imperfetto in -avano"),
+        ("evano", "imperfetto in -evano"),
+        ("ivano", "imperfetto in -ivano"),
+        ("ando", "gerundio in -ando"),
+        ("endo", "gerundio in -endo"),
+        ("erò", "futuro in -erò"),
+        ("erei", "condizionale in -erei"),
+        ("iamo", "presente in -iamo"),
+        ("ate", "presente in -ate"),
+        ("ano", "presente in -ano"),
+        ("ava", "imperfetto in -ava"),
+        ("evo", "imperfetto in -evo"),
+        ("ivo", "imperfetto in -ivo"),
+        ("ato", "participio in -ato"),
+        ("uto", "participio in -uto"),
+        ("ito", "participio in -ito"),
+        ("a", "presente in -a"),
+        ("e", "presente in -e"),
+        ("i", "presente in -i"),
+        ("o", "presente in -o"),
+    ];
+    for (suffix, rule) in verb_suffixes {
+        let Some(base) = form.strip_suffix(suffix) else {
+            continue;
+        };
+        if base.chars().count() < 2 {
+            continue;
+        }
+        // Condizionale/futuro: la base perde la vocale finale del tema
+        // (assaggiare → assagger + ei). Si prova anche la ricostruzione in -i.
+        if suffix.ends_with('ò') || suffix == "erei" {
+            push(&mut candidates, base, &["are", "ere", "ire", "iare"], rule);
+        } else {
+            push(&mut candidates, base, &["are", "ere", "ire"], rule);
+        }
+    }
+
+    // Nomi e aggettivi: plurali e femminili.
+    if let Some(base) = form.strip_suffix("esse") {
+        candidates.push((format!("{base}essa"), "plurale femminile in -esse"));
+    }
+    if let Some(base) = form.strip_suffix("iste") {
+        candidates.push((format!("{base}ista"), "plurale in -iste"));
+    }
+    if let Some(base) = form.strip_suffix("trici") {
+        candidates.push((format!("{base}trice"), "plurale in -trici"));
+    }
+    if let Some(base) = form.strip_suffix("che") {
+        candidates.push((format!("{base}ca"), "plurale in -che"));
+    }
+    if let Some(base) = form.strip_suffix("ghe") {
+        candidates.push((format!("{base}ga"), "plurale in -ghe"));
+    }
+    if let Some(base) = form.strip_suffix('i') {
+        push(&mut candidates, base, &["o", "e", "a"], "plurale in -i");
+    }
+    if let Some(base) = form.strip_suffix('e') {
+        candidates.push((format!("{base}a"), "singolare femminile in -a"));
+    }
+
+    candidates.sort();
+    candidates.dedup();
+    candidates.retain(|(candidate, _)| {
+        candidate != &form
+            && (generates_form(candidate, "verb", &form)
+                || generates_form(candidate, "noun", &form)
+                || generates_form(candidate, "adj", &form))
+    });
+    candidates.truncate(12);
+    candidates
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -367,5 +466,28 @@ mod tests {
     fn reverse_lookup() {
         assert!(generates_form("mangiare", "verb", "mangiavano"));
         assert!(!generates_form("mangiare", "verb", "bevo"));
+    }
+
+    fn guesses(form: &str) -> Vec<String> {
+        lemma_guesses(form).into_iter().map(|(value, _)| value).collect()
+    }
+
+    #[test]
+    fn unknown_forms_are_reduced_to_verified_lemmas() {
+        assert!(guesses("principesse").contains(&"principessa".to_string()));
+        assert!(guesses("governa").contains(&"governare".to_string()));
+        assert!(guesses("sento").contains(&"sentire".to_string()));
+        assert!(guesses("assaggerei").contains(&"assaggiare".to_string()));
+        assert!(guesses("mangiavano").contains(&"mangiare".to_string()));
+        assert!(guesses("libri").contains(&"libro".to_string()));
+    }
+
+    #[test]
+    fn orthographic_neighbours_are_not_proposed_as_lemmas() {
+        // La somiglianza di lettere non basta: «sentiero», «nonna» e «bravas»
+        // non sono lemmi delle rispettive forme.
+        assert!(!guesses("sento").contains(&"sentiero".to_string()));
+        assert!(!guesses("non").contains(&"nonna".to_string()));
+        assert!(!guesses("bravo").contains(&"bravas".to_string()));
     }
 }

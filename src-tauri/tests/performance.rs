@@ -37,6 +37,7 @@ fn options(id: &str) -> SymbolizeOptions {
         symbolize_conjunctions: false,
         manual_units: Vec::new(),
         split_ranges: Vec::new(),
+        profile_id: None,
     }
 }
 
