@@ -1,0 +1,129 @@
+{
+  "id": "lib_com_domande_quando",
+  "title": "Domande: quando?",
+  "description": "Griglia per collocare un'azione nel tempo. 6 voci, tra cui quando, mattina, adesso, giorno e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Domande: quando?",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_domande_quando-p1-1",
+          "kind": "symbol",
+          "text": "quando",
+          "symbol": "quando",
+          "concept": null,
+          "spoken_text": "quando",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_quando-p1-2",
+          "kind": "symbol",
+          "text": "mattina",
+          "symbol": "mattina",
+          "concept": "time.morning",
+          "spoken_text": "mattina",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_quando-p1-3",
+          "kind": "symbol",
+          "text": "adesso",
+          "symbol": "adesso",
+          "concept": "time.now",
+          "spoken_text": "adesso",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_quando-p1-4",
+          "kind": "symbol",
+          "text": "giorno",
+          "symbol": "giorno",
+          "concept": "time.day",
+          "spoken_text": "giorno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_quando-p1-5",
+          "kind": "symbol",
+          "text": "notte",
+          "symbol": "notte",
+          "concept": "time.night",
+          "spoken_text": "notte",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_quando-p1-6",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 2,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

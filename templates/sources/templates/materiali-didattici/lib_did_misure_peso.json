@@ -1,0 +1,109 @@
+{
+  "id": "lib_did_misure_peso",
+  "title": "Misure di peso",
+  "description": "Scheda sulle equivalenze di peso. 4 voci, tra cui 1 chilogrammo = 1000 grammi, mezzo chilo = 500 grammi, 1 etto = 100 grammi, 1 tonnellata = 1000 chili.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Misure di peso",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_misure_peso-p1-title",
+          "kind": "text",
+          "text": "Misure di peso",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_misure_peso-p1-field-title",
+          "kind": "text",
+          "text": "Misure di peso",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_misure_peso-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_misure_peso-p1-1",
+          "kind": "symbol",
+          "text": "1 chilogrammo = 1000 grammi",
+          "symbol": "1 chilogrammo = 1000 grammi",
+          "concept": null,
+          "spoken_text": "1 chilogrammo = 1000 grammi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_misure_peso-p1-2",
+          "kind": "symbol",
+          "text": "mezzo chilo = 500 grammi",
+          "symbol": "mezzo chilo = 500 grammi",
+          "concept": null,
+          "spoken_text": "mezzo chilo = 500 grammi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_misure_peso-p1-3",
+          "kind": "symbol",
+          "text": "1 etto = 100 grammi",
+          "symbol": "1 etto = 100 grammi",
+          "concept": null,
+          "spoken_text": "1 etto = 100 grammi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_misure_peso-p1-4",
+          "kind": "symbol",
+          "text": "1 tonnellata = 1000 chili",
+          "symbol": "1 tonnellata = 1000 chili",
+          "concept": null,
+          "spoken_text": "1 tonnellata = 1000 chili",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

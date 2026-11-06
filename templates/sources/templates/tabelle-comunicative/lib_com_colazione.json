@@ -1,0 +1,129 @@
+{
+  "id": "lib_com_colazione",
+  "title": "Colazione",
+  "description": "Griglia dedicata alla colazione di casa. 6 voci, tra cui fare colazione, pane, mela, succo di mela e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Colazione",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_colazione-p1-1",
+          "kind": "symbol",
+          "text": "fare colazione",
+          "symbol": "fare colazione",
+          "concept": "food.breakfast",
+          "spoken_text": "fare colazione",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_colazione-p1-2",
+          "kind": "symbol",
+          "text": "pane",
+          "symbol": "pane",
+          "concept": "food.bread",
+          "spoken_text": "pane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_colazione-p1-3",
+          "kind": "symbol",
+          "text": "mela",
+          "symbol": "mela",
+          "concept": "food.apple",
+          "spoken_text": "mela",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_colazione-p1-4",
+          "kind": "symbol",
+          "text": "succo di mela",
+          "symbol": "succo di mela",
+          "concept": "food.apple_juice",
+          "spoken_text": "succo di mela",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_colazione-p1-5",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_colazione-p1-6",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

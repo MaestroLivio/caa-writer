@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_visita_medico",
+  "title": "Visita dal medico",
+  "description": "Agenda della visita medica passo per passo. 5 voci, tra cui attesa, medico, visita, medicina e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Visita dal medico",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_visita_medico-p1-1",
+          "kind": "symbol",
+          "text": "attesa",
+          "symbol": "attesa",
+          "concept": null,
+          "spoken_text": "attesa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_visita_medico-p1-2",
+          "kind": "symbol",
+          "text": "medico",
+          "symbol": "medico",
+          "concept": "person.doctor",
+          "spoken_text": "medico",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_visita_medico-p1-3",
+          "kind": "symbol",
+          "text": "visita",
+          "symbol": "visita",
+          "concept": null,
+          "spoken_text": "visita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_visita_medico-p1-4",
+          "kind": "symbol",
+          "text": "medicina",
+          "symbol": "medicina",
+          "concept": null,
+          "spoken_text": "medicina",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_visita_medico-p1-5",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

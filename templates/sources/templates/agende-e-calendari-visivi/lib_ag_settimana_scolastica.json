@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_settimana_scolastica",
+  "title": "Settimana scolastica",
+  "description": "Agenda settimanale delle attività di scuola e sport. 5 voci, tra cui lunedì scuola e nuoto, martedì scuola e musica, mercoledì scuola e calcio, giovedì scuola e danza e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Settimana scolastica",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_settimana_scolastica-p1-1",
+          "kind": "symbol",
+          "text": "lunedì scuola e nuoto",
+          "symbol": "lunedì scuola e nuoto",
+          "concept": null,
+          "spoken_text": "lunedì scuola e nuoto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_scolastica-p1-2",
+          "kind": "symbol",
+          "text": "martedì scuola e musica",
+          "symbol": "martedì scuola e musica",
+          "concept": null,
+          "spoken_text": "martedì scuola e musica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_scolastica-p1-3",
+          "kind": "symbol",
+          "text": "mercoledì scuola e calcio",
+          "symbol": "mercoledì scuola e calcio",
+          "concept": null,
+          "spoken_text": "mercoledì scuola e calcio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_scolastica-p1-4",
+          "kind": "symbol",
+          "text": "giovedì scuola e danza",
+          "symbol": "giovedì scuola e danza",
+          "concept": null,
+          "spoken_text": "giovedì scuola e danza",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_scolastica-p1-5",
+          "kind": "symbol",
+          "text": "venerdì scuola e famiglia",
+          "symbol": "venerdì scuola e famiglia",
+          "concept": null,
+          "spoken_text": "venerdì scuola e famiglia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 5,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

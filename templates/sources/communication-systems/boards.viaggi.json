@@ -1,0 +1,1277 @@
+{
+  "id": "boards.viaggi",
+  "title": "Viaggi",
+  "description": "Preparare la valigia, muoversi, gestire l'alloggio e risolvere problemi in viaggio.",
+  "category": "Sistemi comunicativi",
+  "source_type": "board",
+  "kind": "communication_board",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Viaggi",
+      "layout": "grid",
+      "home": true,
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c1",
+          "kind": "symbol",
+          "text": "Preparare",
+          "symbol": "preparare home",
+          "spoken_text": "Apri la preparazione",
+          "action": {
+            "type": "navigate",
+            "target": "preparare"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "symbol",
+          "text": "Muoversi",
+          "symbol": "muoversi home",
+          "spoken_text": "Apri gli spostamenti",
+          "action": {
+            "type": "navigate",
+            "target": "muoversi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "symbol",
+          "text": "Alloggio",
+          "symbol": "alloggio home",
+          "spoken_text": "Apri l'alloggio",
+          "action": {
+            "type": "navigate",
+            "target": "alloggio"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "symbol",
+          "text": "Problemi",
+          "symbol": "problemi viaggio",
+          "spoken_text": "Apri i problemi",
+          "action": {
+            "type": "navigate",
+            "target": "problemi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "symbol",
+          "text": "Documenti",
+          "symbol": "documenti viaggio",
+          "spoken_text": "Apri i documenti",
+          "action": {
+            "type": "navigate",
+            "target": "documenti"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "symbol",
+          "text": "Frasi",
+          "symbol": "frasi viaggio",
+          "spoken_text": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "target": "frasi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "symbol",
+          "text": "Ho bisogno di",
+          "symbol": "ho bisogno viaggio",
+          "spoken_text": "Ho bisogno di",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "symbol",
+          "text": "Parlo italiano",
+          "symbol": "parlo italiano",
+          "spoken_text": "Parlo italiano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "preparare",
+      "title": "Preparare",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c9",
+          "kind": "symbol",
+          "text": "Valigia",
+          "symbol": "valigia",
+          "spoken_text": "Preparo la valigia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "symbol",
+          "text": "Biglietti",
+          "symbol": "biglietti viaggio",
+          "spoken_text": "Controllo i biglietti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c11",
+          "kind": "symbol",
+          "text": "Passaporto",
+          "symbol": "passaporto prep",
+          "spoken_text": "Prendo il passaporto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c12",
+          "kind": "symbol",
+          "text": "Prenotazione",
+          "symbol": "prenotazione prep",
+          "spoken_text": "Controllo la prenotazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c13",
+          "kind": "symbol",
+          "text": "Caricabatterie",
+          "symbol": "caricabatterie prep",
+          "spoken_text": "Prendo il caricabatterie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c14",
+          "kind": "symbol",
+          "text": "Medicine",
+          "symbol": "medicine viaggio",
+          "spoken_text": "Prendo le medicine",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c15",
+          "kind": "symbol",
+          "text": "Valigia dettagli",
+          "symbol": "valigia nav",
+          "spoken_text": "Apri il contenuto della valigia",
+          "action": {
+            "type": "navigate",
+            "target": "valigia"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c16",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c17",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "valigia",
+      "title": "Contenuto della valigia",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c18",
+          "kind": "symbol",
+          "text": "Vestiti",
+          "symbol": "vestiti valigia",
+          "spoken_text": "Metto i vestiti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c19",
+          "kind": "symbol",
+          "text": "Scarpe",
+          "symbol": "scarpe valigia",
+          "spoken_text": "Metto le scarpe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c20",
+          "kind": "symbol",
+          "text": "Spazzolino",
+          "symbol": "spazzolino valigia",
+          "spoken_text": "Metto lo spazzolino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c21",
+          "kind": "symbol",
+          "text": "Caricabatterie",
+          "symbol": "caricabatterie valigia",
+          "spoken_text": "Metto il caricabatterie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c22",
+          "kind": "symbol",
+          "text": "Medicine",
+          "symbol": "medicine valigia",
+          "spoken_text": "Metto le medicine",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c23",
+          "kind": "symbol",
+          "text": "Libri",
+          "symbol": "libri valigia",
+          "spoken_text": "Metto un libro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c24",
+          "kind": "symbol",
+          "text": "Bagaglio a mano",
+          "symbol": "bagaglio mano",
+          "spoken_text": "Preparo il bagaglio a mano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c25",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c26",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "muoversi",
+      "title": "Muoversi",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c27",
+          "kind": "symbol",
+          "text": "Aeroporto",
+          "symbol": "aeroporto",
+          "spoken_text": "Vado in aeroporto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c28",
+          "kind": "symbol",
+          "text": "Stazione",
+          "symbol": "stazione viaggio",
+          "spoken_text": "Vado in stazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c29",
+          "kind": "symbol",
+          "text": "Hotel",
+          "symbol": "hotel",
+          "spoken_text": "Cerco l'hotel",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c30",
+          "kind": "symbol",
+          "text": "Taxi",
+          "symbol": "taxi viaggio",
+          "spoken_text": "Prendo un taxi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c31",
+          "kind": "symbol",
+          "text": "Mappa",
+          "symbol": "mappa viaggio",
+          "spoken_text": "Guardo la mappa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c32",
+          "kind": "symbol",
+          "text": "Orientarsi",
+          "symbol": "orientarsi",
+          "spoken_text": "Provo a orientarmi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c33",
+          "kind": "symbol",
+          "text": "Chiedere",
+          "symbol": "chiedere viaggio",
+          "spoken_text": "Chiedo indicazioni",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c34",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c35",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "alloggio",
+      "title": "Alloggio",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c36",
+          "kind": "symbol",
+          "text": "Reception",
+          "symbol": "reception",
+          "spoken_text": "Vado alla reception",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c37",
+          "kind": "symbol",
+          "text": "Camera",
+          "symbol": "camera hotel",
+          "spoken_text": "La camera è pronta?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c38",
+          "kind": "symbol",
+          "text": "Chiave",
+          "symbol": "chiave hotel",
+          "spoken_text": "Prendo la chiave",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c39",
+          "kind": "symbol",
+          "text": "Colazione",
+          "symbol": "colazione hotel",
+          "spoken_text": "A che ora è la colazione?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c40",
+          "kind": "symbol",
+          "text": "Check-in",
+          "symbol": "check in",
+          "spoken_text": "Faccio il check-in",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c41",
+          "kind": "symbol",
+          "text": "Check-out",
+          "symbol": "check out",
+          "spoken_text": "Faccio il check-out",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c42",
+          "kind": "symbol",
+          "text": "Wifi",
+          "symbol": "wifi hotel",
+          "spoken_text": "Qual è la password del wifi?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c43",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c44",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "problemi",
+      "title": "Problemi in viaggio",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c45",
+          "kind": "symbol",
+          "text": "Bagaglio perso",
+          "symbol": "bagaglio perso",
+          "spoken_text": "Ho perso il bagaglio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c46",
+          "kind": "symbol",
+          "text": "Ritardo",
+          "symbol": "ritardo viaggio",
+          "spoken_text": "C'è un ritardo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c47",
+          "kind": "symbol",
+          "text": "Prenotazione",
+          "symbol": "problema prenotazione",
+          "spoken_text": "C'è un problema con la prenotazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c48",
+          "kind": "symbol",
+          "text": "Stanza",
+          "symbol": "problema stanza",
+          "spoken_text": "La stanza non va bene",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c49",
+          "kind": "symbol",
+          "text": "Lingua",
+          "symbol": "problema lingua",
+          "spoken_text": "Non capisco la lingua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c50",
+          "kind": "symbol",
+          "text": "Emergenza",
+          "symbol": "emergenza viaggio",
+          "spoken_text": "È un'emergenza",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c51",
+          "kind": "symbol",
+          "text": "Aiuto",
+          "symbol": "aiuto viaggio",
+          "spoken_text": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c52",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c53",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "documenti",
+      "title": "Documenti",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c54",
+          "kind": "symbol",
+          "text": "Passaporto",
+          "symbol": "passaporto",
+          "spoken_text": "Ecco il passaporto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c55",
+          "kind": "symbol",
+          "text": "Carta d'identità",
+          "symbol": "carta identita viaggio",
+          "spoken_text": "Ecco la carta d'identità",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c56",
+          "kind": "symbol",
+          "text": "Visto",
+          "symbol": "visto",
+          "spoken_text": "Ho il visto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c57",
+          "kind": "symbol",
+          "text": "Assicurazione",
+          "symbol": "assicurazione",
+          "spoken_text": "Ho l'assicurazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c58",
+          "kind": "symbol",
+          "text": "Prenotazione",
+          "symbol": "prenotazione doc",
+          "spoken_text": "Ecco la prenotazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c59",
+          "kind": "symbol",
+          "text": "Indirizzo",
+          "symbol": "indirizzo",
+          "spoken_text": "Questo è l'indirizzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c60",
+          "kind": "symbol",
+          "text": "Telefono",
+          "symbol": "telefono viaggio",
+          "spoken_text": "Questo è il mio telefono",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c61",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c62",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c63",
+          "kind": "symbol",
+          "text": "Dov'è il bagno?",
+          "symbol": "bagno viaggio",
+          "spoken_text": "Dov'è il bagno?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c64",
+          "kind": "symbol",
+          "text": "Parlo italiano",
+          "symbol": "parlo italiano frase",
+          "spoken_text": "Parlo italiano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c65",
+          "kind": "symbol",
+          "text": "Non capisco",
+          "symbol": "non capisco viaggio",
+          "spoken_text": "Non capisco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c66",
+          "kind": "symbol",
+          "text": "Mi può aiutare?",
+          "symbol": "mi puo aiutare",
+          "spoken_text": "Mi può aiutare?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c67",
+          "kind": "symbol",
+          "text": "Ho una prenotazione",
+          "symbol": "ho prenotazione",
+          "spoken_text": "Ho una prenotazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c68",
+          "kind": "symbol",
+          "text": "Dov'è la fermata?",
+          "symbol": "fermata viaggio",
+          "spoken_text": "Dov'è la fermata?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c69",
+          "kind": "symbol",
+          "text": "Ho perso il bagaglio",
+          "symbol": "perso bagaglio",
+          "spoken_text": "Ho perso il bagaglio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c70",
+          "kind": "symbol",
+          "text": "Grazie",
+          "symbol": "grazie viaggio",
+          "spoken_text": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c71",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c72",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    }
+  ]
+}

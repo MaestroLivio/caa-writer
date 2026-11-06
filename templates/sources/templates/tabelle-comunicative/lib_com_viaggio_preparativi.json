@@ -1,0 +1,163 @@
+{
+  "id": "lib_com_viaggio_preparativi",
+  "title": "Viaggio: preparativi",
+  "description": "Griglia delle cose da preparare prima di partire. 8 voci, tra cui macchina, autobus, bicicletta, zaino e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Viaggio: preparativi",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_viaggio_preparativi-p1-1",
+          "kind": "symbol",
+          "text": "macchina",
+          "symbol": "macchina",
+          "concept": "vehicle.car",
+          "spoken_text": "macchina",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_viaggio_preparativi-p1-2",
+          "kind": "symbol",
+          "text": "autobus",
+          "symbol": "autobus",
+          "concept": "vehicle.bus",
+          "spoken_text": "autobus",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_viaggio_preparativi-p1-3",
+          "kind": "symbol",
+          "text": "bicicletta",
+          "symbol": "bicicletta",
+          "concept": "vehicle.bike",
+          "spoken_text": "bicicletta",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_viaggio_preparativi-p1-4",
+          "kind": "symbol",
+          "text": "zaino",
+          "symbol": "zaino",
+          "concept": "object.backpack",
+          "spoken_text": "zaino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_viaggio_preparativi-p1-5",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_viaggio_preparativi-p1-6",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_viaggio_preparativi-p1-7",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_viaggio_preparativi-p1-8",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

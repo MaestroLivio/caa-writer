@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_natale",
+  "title": "Giorni di Natale",
+  "description": "Agenda dei giorni di festa a Natale. 6 voci, tra cui vigilia, cena, regali, messa e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Giorni di Natale",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_natale-p1-1",
+          "kind": "symbol",
+          "text": "vigilia",
+          "symbol": "vigilia",
+          "concept": null,
+          "spoken_text": "vigilia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_natale-p1-2",
+          "kind": "symbol",
+          "text": "cena",
+          "symbol": "cena",
+          "concept": null,
+          "spoken_text": "cena",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_natale-p1-3",
+          "kind": "symbol",
+          "text": "regali",
+          "symbol": "regali",
+          "concept": null,
+          "spoken_text": "regali",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_natale-p1-4",
+          "kind": "symbol",
+          "text": "messa",
+          "symbol": "messa",
+          "concept": null,
+          "spoken_text": "messa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_natale-p1-5",
+          "kind": "symbol",
+          "text": "pranzo",
+          "symbol": "pranzo",
+          "concept": "school.lunch",
+          "spoken_text": "pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_natale-p1-6",
+          "kind": "symbol",
+          "text": "famiglia",
+          "symbol": "famiglia",
+          "concept": "person.family",
+          "spoken_text": "famiglia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_piscina_settimanale",
+  "title": "Settimana in piscina",
+  "description": "Agenda settimanale degli allenamenti in piscina. 5 voci, tra cui lunedì nuoto, mercoledì nuoto, venerdì nuoto, sabato piscina libera e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Settimana in piscina",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_piscina_settimanale-p1-1",
+          "kind": "symbol",
+          "text": "lunedì nuoto",
+          "symbol": "lunedì nuoto",
+          "concept": null,
+          "spoken_text": "lunedì nuoto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_piscina_settimanale-p1-2",
+          "kind": "symbol",
+          "text": "mercoledì nuoto",
+          "symbol": "mercoledì nuoto",
+          "concept": null,
+          "spoken_text": "mercoledì nuoto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_piscina_settimanale-p1-3",
+          "kind": "symbol",
+          "text": "venerdì nuoto",
+          "symbol": "venerdì nuoto",
+          "concept": null,
+          "spoken_text": "venerdì nuoto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_piscina_settimanale-p1-4",
+          "kind": "symbol",
+          "text": "sabato piscina libera",
+          "symbol": "sabato piscina libera",
+          "concept": null,
+          "spoken_text": "sabato piscina libera",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_piscina_settimanale-p1-5",
+          "kind": "symbol",
+          "text": "domenica riposo",
+          "symbol": "domenica riposo",
+          "concept": null,
+          "spoken_text": "domenica riposo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 5,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_il_mio_viso",
+  "title": "Il mio viso",
+  "description": "Scheda per osservare le parti del viso nelle emozioni. 6 voci, tra cui occhi, bocca, sopracciglia, guance e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Il mio viso",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_il_mio_viso-p1-1",
+          "kind": "symbol",
+          "text": "occhi",
+          "symbol": "occhi",
+          "concept": null,
+          "spoken_text": "occhi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_il_mio_viso-p1-2",
+          "kind": "symbol",
+          "text": "bocca",
+          "symbol": "bocca",
+          "concept": null,
+          "spoken_text": "bocca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_il_mio_viso-p1-3",
+          "kind": "symbol",
+          "text": "sopracciglia",
+          "symbol": "sopracciglia",
+          "concept": null,
+          "spoken_text": "sopracciglia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_il_mio_viso-p1-4",
+          "kind": "symbol",
+          "text": "guance",
+          "symbol": "guance",
+          "concept": null,
+          "spoken_text": "guance",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_il_mio_viso-p1-5",
+          "kind": "symbol",
+          "text": "sorriso",
+          "symbol": "sorriso",
+          "concept": null,
+          "spoken_text": "sorriso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_il_mio_viso-p1-6",
+          "kind": "symbol",
+          "text": "lacrime",
+          "symbol": "lacrime",
+          "concept": null,
+          "spoken_text": "lacrime",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

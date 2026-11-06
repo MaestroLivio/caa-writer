@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_sorpresa",
+  "title": "La sorpresa",
+  "description": "Scheda per riconoscere e gestire la sorpresa. 6 voci, tra cui sorpresa, domanda, ascoltare, respiro e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "La sorpresa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_sorpresa-p1-1",
+          "kind": "symbol",
+          "text": "sorpresa",
+          "symbol": "sorpresa",
+          "concept": null,
+          "spoken_text": "sorpresa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_sorpresa-p1-2",
+          "kind": "symbol",
+          "text": "domanda",
+          "symbol": "domanda",
+          "concept": null,
+          "spoken_text": "domanda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_sorpresa-p1-3",
+          "kind": "symbol",
+          "text": "ascoltare",
+          "symbol": "ascoltare",
+          "concept": "action.listen",
+          "spoken_text": "ascoltare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_sorpresa-p1-4",
+          "kind": "symbol",
+          "text": "respiro",
+          "symbol": "respiro",
+          "concept": null,
+          "spoken_text": "respiro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_sorpresa-p1-5",
+          "kind": "symbol",
+          "text": "parlare",
+          "symbol": "parlare",
+          "concept": "action.speak",
+          "spoken_text": "parlare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_sorpresa-p1-6",
+          "kind": "symbol",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "spoken_text": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

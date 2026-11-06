@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_ciclo_pianta",
+  "title": "Il ciclo della pianta",
+  "description": "Scheda sull'ordine di crescita della pianta. 6 voci, tra cui seme, germoglio, piantina, foglie e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Il ciclo della pianta",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_ciclo_pianta-p1-title",
+          "kind": "text",
+          "text": "Il ciclo della pianta",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-field-title",
+          "kind": "text",
+          "text": "Il ciclo della pianta",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-1",
+          "kind": "symbol",
+          "text": "seme",
+          "symbol": "seme",
+          "concept": null,
+          "spoken_text": "seme",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-2",
+          "kind": "symbol",
+          "text": "germoglio",
+          "symbol": "germoglio",
+          "concept": null,
+          "spoken_text": "germoglio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-3",
+          "kind": "symbol",
+          "text": "piantina",
+          "symbol": "piantina",
+          "concept": null,
+          "spoken_text": "piantina",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-4",
+          "kind": "symbol",
+          "text": "foglie",
+          "symbol": "foglie",
+          "concept": null,
+          "spoken_text": "foglie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-5",
+          "kind": "symbol",
+          "text": "fiore",
+          "symbol": "fiore",
+          "concept": "nature.flower",
+          "spoken_text": "fiore",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_ciclo_pianta-p1-6",
+          "kind": "symbol",
+          "text": "frutto",
+          "symbol": "frutto",
+          "concept": null,
+          "spoken_text": "frutto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

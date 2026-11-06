@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_comprensione_sequenza",
+  "title": "Comprensione: prima e poi",
+  "description": "Scheda di comprensione di brevi sequenze. 6 voci, tra cui Prima leggo, poi disegno, Prima taglio, poi incollo, Prima mi lavo, poi mangio, Prima mi vesto, poi esco e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Comprensione: prima e poi",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_comprensione_sequenza-p1-title",
+          "kind": "text",
+          "text": "Comprensione: prima e poi",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-field-title",
+          "kind": "text",
+          "text": "Comprensione: prima e poi",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-1",
+          "kind": "symbol",
+          "text": "Prima leggo, poi disegno",
+          "symbol": "Prima leggo, poi disegno",
+          "concept": null,
+          "spoken_text": "Prima leggo, poi disegno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-2",
+          "kind": "symbol",
+          "text": "Prima taglio, poi incollo",
+          "symbol": "Prima taglio, poi incollo",
+          "concept": null,
+          "spoken_text": "Prima taglio, poi incollo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-3",
+          "kind": "symbol",
+          "text": "Prima mi lavo, poi mangio",
+          "symbol": "Prima mi lavo, poi mangio",
+          "concept": null,
+          "spoken_text": "Prima mi lavo, poi mangio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-4",
+          "kind": "symbol",
+          "text": "Prima mi vesto, poi esco",
+          "symbol": "Prima mi vesto, poi esco",
+          "concept": null,
+          "spoken_text": "Prima mi vesto, poi esco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-5",
+          "kind": "symbol",
+          "text": "Prima studio, poi gioco",
+          "symbol": "Prima studio, poi gioco",
+          "concept": null,
+          "spoken_text": "Prima studio, poi gioco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_sequenza-p1-6",
+          "kind": "symbol",
+          "text": "Prima ascolto, poi rispondo",
+          "symbol": "Prima ascolto, poi rispondo",
+          "concept": null,
+          "spoken_text": "Prima ascolto, poi rispondo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

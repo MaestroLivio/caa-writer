@@ -1,0 +1,1277 @@
+{
+  "id": "boards.alimentazione",
+  "title": "Alimentazione",
+  "description": "Cibi, bevande, pasti, gusti e consistenze per scegliere cosa mangiare e segnalare allergie o preferenze.",
+  "category": "Sistemi comunicativi",
+  "source_type": "board",
+  "kind": "communication_board",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Alimentazione",
+      "layout": "grid",
+      "home": true,
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c1",
+          "kind": "symbol",
+          "text": "Cibi",
+          "symbol": "cibi",
+          "spoken_text": "Apri i cibi",
+          "action": {
+            "type": "navigate",
+            "target": "cibi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "symbol",
+          "text": "Bevande",
+          "symbol": "bevande",
+          "spoken_text": "Apri le bevande",
+          "action": {
+            "type": "navigate",
+            "target": "bevande"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "symbol",
+          "text": "Pasti",
+          "symbol": "pasti",
+          "spoken_text": "Apri i pasti",
+          "action": {
+            "type": "navigate",
+            "target": "pasti"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "symbol",
+          "text": "Gusti",
+          "symbol": "gusti",
+          "spoken_text": "Apri i gusti",
+          "action": {
+            "type": "navigate",
+            "target": "gusti"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "symbol",
+          "text": "Cucinare",
+          "symbol": "cucina",
+          "spoken_text": "Apri le azioni in cucina",
+          "action": {
+            "type": "navigate",
+            "target": "cucina"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "symbol",
+          "text": "Frasi",
+          "symbol": "frasi",
+          "spoken_text": "Apri le frasi per mangiare",
+          "action": {
+            "type": "navigate",
+            "target": "frasi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "symbol",
+          "text": "Voglio mangiare",
+          "symbol": "voglio mangiare",
+          "spoken_text": "Voglio mangiare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "symbol",
+          "text": "Non ho fame",
+          "symbol": "non ho fame",
+          "spoken_text": "Non ho fame",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cibi",
+      "title": "Cibi",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c9",
+          "kind": "symbol",
+          "text": "Pane",
+          "symbol": "pane",
+          "spoken_text": "Vorrei del pane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "symbol",
+          "text": "Pasta",
+          "symbol": "pasta",
+          "spoken_text": "Vorrei della pasta",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c11",
+          "kind": "symbol",
+          "text": "Riso",
+          "symbol": "riso",
+          "spoken_text": "Vorrei del riso",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c12",
+          "kind": "symbol",
+          "text": "Carne",
+          "symbol": "carne",
+          "spoken_text": "Vorrei della carne",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c13",
+          "kind": "symbol",
+          "text": "Pesce",
+          "symbol": "pesce",
+          "spoken_text": "Vorrei del pesce",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c14",
+          "kind": "symbol",
+          "text": "Formaggio",
+          "symbol": "formaggio",
+          "spoken_text": "Vorrei del formaggio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c15",
+          "kind": "symbol",
+          "text": "Consistenze",
+          "symbol": "consistenze",
+          "spoken_text": "Apri le consistenze",
+          "action": {
+            "type": "navigate",
+            "target": "consistenze"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c16",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c17",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "consistenze",
+      "title": "Consistenze",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c18",
+          "kind": "symbol",
+          "text": "Morbido",
+          "symbol": "morbido",
+          "spoken_text": "Vorrei qualcosa di morbido",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c19",
+          "kind": "symbol",
+          "text": "Duro",
+          "symbol": "duro",
+          "spoken_text": "È troppo duro per me",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c20",
+          "kind": "symbol",
+          "text": "Liquido",
+          "symbol": "liquido",
+          "spoken_text": "Preferisco cibo liquido",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c21",
+          "kind": "symbol",
+          "text": "Frullato",
+          "symbol": "frullato",
+          "spoken_text": "Vorrei un frullato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c22",
+          "kind": "symbol",
+          "text": "Senza sale",
+          "symbol": "senza sale",
+          "spoken_text": "Vorrei senza sale",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c23",
+          "kind": "symbol",
+          "text": "Piccante",
+          "symbol": "piccante",
+          "spoken_text": "Non posso mangiare piccante",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c24",
+          "kind": "symbol",
+          "text": "Troppo caldo",
+          "symbol": "troppo caldo",
+          "spoken_text": "È troppo caldo, aspetto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c25",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c26",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bevande",
+      "title": "Bevande",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c27",
+          "kind": "symbol",
+          "text": "Acqua",
+          "symbol": "acqua",
+          "spoken_text": "Vorrei dell'acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c28",
+          "kind": "symbol",
+          "text": "Succo",
+          "symbol": "succo",
+          "spoken_text": "Vorrei un succo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c29",
+          "kind": "symbol",
+          "text": "Latte",
+          "symbol": "latte",
+          "spoken_text": "Vorrei del latte",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c30",
+          "kind": "symbol",
+          "text": "Caffè",
+          "symbol": "caffe",
+          "spoken_text": "Vorrei un caffè",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c31",
+          "kind": "symbol",
+          "text": "Tè",
+          "symbol": "te",
+          "spoken_text": "Vorrei un tè",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c32",
+          "kind": "symbol",
+          "text": "Bibita",
+          "symbol": "bibita",
+          "spoken_text": "Vorrei una bibita",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c33",
+          "kind": "symbol",
+          "text": "Ghiaccio",
+          "symbol": "ghiaccio",
+          "spoken_text": "Senza ghiaccio, per favore",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c34",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c35",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pasti",
+      "title": "Pasti",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c36",
+          "kind": "symbol",
+          "text": "Colazione",
+          "symbol": "colazione",
+          "spoken_text": "Faccio colazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c37",
+          "kind": "symbol",
+          "text": "Pranzo",
+          "symbol": "pranzo",
+          "spoken_text": "È ora di pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c38",
+          "kind": "symbol",
+          "text": "Cena",
+          "symbol": "cena",
+          "spoken_text": "Cosa c'è per cena?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c39",
+          "kind": "symbol",
+          "text": "Merenda",
+          "symbol": "merenda",
+          "spoken_text": "Vorrei una merenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c40",
+          "kind": "symbol",
+          "text": "Porzione",
+          "symbol": "porzione",
+          "spoken_text": "Una porzione piccola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c41",
+          "kind": "symbol",
+          "text": "Ancora",
+          "symbol": "ancora",
+          "spoken_text": "Vorrei ancora un po'",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c42",
+          "kind": "symbol",
+          "text": "Basta",
+          "symbol": "basta",
+          "spoken_text": "Basta così, grazie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c43",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c44",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "gusti",
+      "title": "Gusti",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c45",
+          "kind": "symbol",
+          "text": "Mi piace",
+          "symbol": "mi piace",
+          "spoken_text": "Mi piace",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c46",
+          "kind": "symbol",
+          "text": "Non mi piace",
+          "symbol": "non mi piace",
+          "spoken_text": "Non mi piace",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c47",
+          "kind": "symbol",
+          "text": "Buono",
+          "symbol": "buono",
+          "spoken_text": "È buono",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c48",
+          "kind": "symbol",
+          "text": "Saporito",
+          "symbol": "saporito",
+          "spoken_text": "È molto saporito",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c49",
+          "kind": "symbol",
+          "text": "Dolce",
+          "symbol": "dolce",
+          "spoken_text": "Preferisco il dolce",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c50",
+          "kind": "symbol",
+          "text": "Salato",
+          "symbol": "salato",
+          "spoken_text": "È troppo salato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c51",
+          "kind": "symbol",
+          "text": "Amaro",
+          "symbol": "amaro",
+          "spoken_text": "Questo è amaro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c52",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c53",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cucina",
+      "title": "In cucina",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c54",
+          "kind": "symbol",
+          "text": "Cuocere",
+          "symbol": "cuocere",
+          "spoken_text": "Devo cuocere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c55",
+          "kind": "symbol",
+          "text": "Tagliare",
+          "symbol": "tagliare",
+          "spoken_text": "Mi aiuti a tagliare?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c56",
+          "kind": "symbol",
+          "text": "Scaldare",
+          "symbol": "scaldare",
+          "spoken_text": "Posso scaldare?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c57",
+          "kind": "symbol",
+          "text": "Frigorifero",
+          "symbol": "frigorifero",
+          "spoken_text": "Metto in frigorifero",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c58",
+          "kind": "symbol",
+          "text": "Piatto",
+          "symbol": "piatto",
+          "spoken_text": "Mi passi un piatto?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c59",
+          "kind": "symbol",
+          "text": "Posate",
+          "symbol": "posate",
+          "spoken_text": "Mi servono le posate",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c60",
+          "kind": "symbol",
+          "text": "Tovagliolo",
+          "symbol": "tovagliolo",
+          "spoken_text": "Vorrei un tovagliolo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c61",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c62",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c63",
+          "kind": "symbol",
+          "text": "Voglio mangiare",
+          "symbol": "voglio mangiare frase",
+          "spoken_text": "Voglio mangiare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c64",
+          "kind": "symbol",
+          "text": "Ho fame",
+          "symbol": "ho fame",
+          "spoken_text": "Ho fame",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c65",
+          "kind": "symbol",
+          "text": "Non ho fame",
+          "symbol": "non ho fame frase",
+          "spoken_text": "Non ho fame",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c66",
+          "kind": "symbol",
+          "text": "Sono a dieta",
+          "symbol": "a dieta",
+          "spoken_text": "Sono a dieta",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c67",
+          "kind": "symbol",
+          "text": "Sono allergico",
+          "symbol": "allergico",
+          "spoken_text": "Sono allergico a un alimento",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c68",
+          "kind": "symbol",
+          "text": "Posso avere",
+          "symbol": "posso avere",
+          "spoken_text": "Posso avere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c69",
+          "kind": "symbol",
+          "text": "Sono sazio",
+          "symbol": "sazio",
+          "spoken_text": "Sono sazio, grazie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c70",
+          "kind": "symbol",
+          "text": "Buon appetito",
+          "symbol": "buon appetito",
+          "spoken_text": "Buon appetito",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c71",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c72",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    }
+  ]
+}

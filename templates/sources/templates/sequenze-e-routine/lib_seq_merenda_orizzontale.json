@@ -1,0 +1,123 @@
+{
+  "id": "lib_seq_merenda_orizzontale",
+  "title": "Fare merenda: striscia orizzontale",
+  "description": "Striscia orizzontale della routine della merenda. 5 voci, tra cui lavarsi le mani, scegliere la merenda, sedersi, mangiare e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Fare merenda: striscia orizzontale",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-title",
+          "kind": "text",
+          "text": "Fare merenda: striscia orizzontale",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-field-title",
+          "kind": "text",
+          "text": "Fare merenda: striscia orizzontale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-field-layout",
+          "kind": "text",
+          "text": "orizzontale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-1",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-2",
+          "kind": "symbol",
+          "text": "scegliere la merenda",
+          "symbol": "scegliere la merenda",
+          "concept": null,
+          "spoken_text": "scegliere la merenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-3",
+          "kind": "symbol",
+          "text": "sedersi",
+          "symbol": "sedersi",
+          "concept": null,
+          "spoken_text": "sedersi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-4",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_merenda_orizzontale-p1-5",
+          "kind": "symbol",
+          "text": "riordinare",
+          "symbol": "riordinare",
+          "concept": null,
+          "spoken_text": "riordinare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

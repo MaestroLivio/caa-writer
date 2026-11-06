@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_rifiuti_cibo",
+  "title": "Rifiutare un cibo",
+  "description": "Griglia per rifiutare un alimento con calma. 9 voci, tra cui no, finire, acqua, pane e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Rifiutare un cibo",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_rifiuti_cibo-p1-1",
+          "kind": "symbol",
+          "text": "no",
+          "symbol": "no",
+          "concept": null,
+          "spoken_text": "no",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-2",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-3",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-4",
+          "kind": "symbol",
+          "text": "pane",
+          "symbol": "pane",
+          "concept": "food.bread",
+          "spoken_text": "pane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-5",
+          "kind": "symbol",
+          "text": "pasta",
+          "symbol": "pasta",
+          "concept": "food.pasta",
+          "spoken_text": "pasta",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-6",
+          "kind": "symbol",
+          "text": "mela",
+          "symbol": "mela",
+          "concept": "food.apple",
+          "spoken_text": "mela",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-7",
+          "kind": "symbol",
+          "text": "piatto",
+          "symbol": "piatto",
+          "concept": "object.plate",
+          "spoken_text": "piatto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-8",
+          "kind": "symbol",
+          "text": "basta",
+          "symbol": "basta",
+          "concept": null,
+          "spoken_text": "basta",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti_cibo-p1-9",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

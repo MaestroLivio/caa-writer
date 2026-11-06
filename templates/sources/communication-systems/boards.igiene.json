@@ -1,0 +1,1261 @@
+{
+  "id": "boards.igiene",
+  "title": "Igiene personale",
+  "description": "Routine di igiene per mani, denti, doccia, capelli e viso, con prodotti e richieste di aiuto o privacy.",
+  "category": "Sistemi comunicativi",
+  "source_type": "board",
+  "kind": "communication_board",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Igiene personale",
+      "layout": "grid",
+      "home": true,
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c1",
+          "kind": "symbol",
+          "text": "Mani",
+          "symbol": "mani",
+          "spoken_text": "Apri il lavaggio delle mani",
+          "action": {
+            "type": "navigate",
+            "target": "mani"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "symbol",
+          "text": "Denti",
+          "symbol": "denti",
+          "spoken_text": "Apri la cura dei denti",
+          "action": {
+            "type": "navigate",
+            "target": "denti"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "symbol",
+          "text": "Doccia",
+          "symbol": "doccia",
+          "spoken_text": "Apri la doccia",
+          "action": {
+            "type": "navigate",
+            "target": "doccia"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "symbol",
+          "text": "Capelli",
+          "symbol": "capelli",
+          "spoken_text": "Apri la cura dei capelli",
+          "action": {
+            "type": "navigate",
+            "target": "capelli"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "symbol",
+          "text": "Viso",
+          "symbol": "viso",
+          "spoken_text": "Apri la cura del viso",
+          "action": {
+            "type": "navigate",
+            "target": "viso"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "symbol",
+          "text": "Frasi",
+          "symbol": "frasi",
+          "spoken_text": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "target": "frasi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "symbol",
+          "text": "Devo lavarmi",
+          "symbol": "devo lavarmi",
+          "spoken_text": "Devo lavarmi",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "symbol",
+          "text": "Sono pulito",
+          "symbol": "sono pulito",
+          "spoken_text": "Sono pulito",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mani",
+      "title": "Mani",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c9",
+          "kind": "symbol",
+          "text": "Acqua",
+          "symbol": "acqua mani",
+          "spoken_text": "Apro l'acqua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "symbol",
+          "text": "Sapone",
+          "symbol": "sapone",
+          "spoken_text": "Prendo il sapone",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c11",
+          "kind": "symbol",
+          "text": "Strofinare",
+          "symbol": "strofinare",
+          "spoken_text": "Strofino le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c12",
+          "kind": "symbol",
+          "text": "Risciacquare",
+          "symbol": "risciacquare",
+          "spoken_text": "Risciacquo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c13",
+          "kind": "symbol",
+          "text": "Asciugare",
+          "symbol": "asciugare",
+          "spoken_text": "Asciugo le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c14",
+          "kind": "symbol",
+          "text": "Unghie",
+          "symbol": "unghie",
+          "spoken_text": "Taglio le unghie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c15",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c16",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "denti",
+      "title": "Denti",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c17",
+          "kind": "symbol",
+          "text": "Spazzolino",
+          "symbol": "spazzolino",
+          "spoken_text": "Prendo lo spazzolino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c18",
+          "kind": "symbol",
+          "text": "Dentifricio",
+          "symbol": "dentifricio",
+          "spoken_text": "Metto il dentifricio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c19",
+          "kind": "symbol",
+          "text": "Spazzolare",
+          "symbol": "spazzolare",
+          "spoken_text": "Spazzolo i denti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c20",
+          "kind": "symbol",
+          "text": "Risciacquare",
+          "symbol": "risciacquare denti",
+          "spoken_text": "Risciacquo la bocca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c21",
+          "kind": "symbol",
+          "text": "Filo",
+          "symbol": "filo",
+          "spoken_text": "Uso il filo interdentale",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c22",
+          "kind": "symbol",
+          "text": "Dentista",
+          "symbol": "dentista",
+          "spoken_text": "Ho un appuntamento dal dentista",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c23",
+          "kind": "symbol",
+          "text": "Due minuti",
+          "symbol": "due minuti",
+          "spoken_text": "Spazzolo per due minuti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c24",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c25",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "doccia",
+      "title": "Doccia",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c26",
+          "kind": "symbol",
+          "text": "Doccia",
+          "symbol": "doccia azione",
+          "spoken_text": "Faccio la doccia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c27",
+          "kind": "symbol",
+          "text": "Shampoo",
+          "symbol": "shampoo",
+          "spoken_text": "Uso lo shampoo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c28",
+          "kind": "symbol",
+          "text": "Bagnoschiuma",
+          "symbol": "bagnoschiuma",
+          "spoken_text": "Uso il bagnoschiuma",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c29",
+          "kind": "symbol",
+          "text": "Temperatura",
+          "symbol": "temperatura",
+          "spoken_text": "Regolo la temperatura",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c30",
+          "kind": "symbol",
+          "text": "Salvietta",
+          "symbol": "salvietta",
+          "spoken_text": "Prendo la salvietta",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c31",
+          "kind": "symbol",
+          "text": "Asciugamano",
+          "symbol": "asciugamano",
+          "spoken_text": "Mi passi l'asciugamano?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c32",
+          "kind": "symbol",
+          "text": "Prodotti",
+          "symbol": "prodotti",
+          "spoken_text": "Apri i prodotti per la cura",
+          "action": {
+            "type": "navigate",
+            "target": "prodotti"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c33",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c34",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prodotti",
+      "title": "Prodotti per la cura",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c35",
+          "kind": "symbol",
+          "text": "Deodorante",
+          "symbol": "deodorante",
+          "spoken_text": "Uso il deodorante",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c36",
+          "kind": "symbol",
+          "text": "Crema",
+          "symbol": "crema",
+          "spoken_text": "Metto la crema",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c37",
+          "kind": "symbol",
+          "text": "Rasoio",
+          "symbol": "rasoio",
+          "spoken_text": "Uso il rasoio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c38",
+          "kind": "symbol",
+          "text": "Spazzola",
+          "symbol": "spazzola",
+          "spoken_text": "Uso la spazzola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c39",
+          "kind": "symbol",
+          "text": "Cotton fioc",
+          "symbol": "cotton fioc",
+          "spoken_text": "Uso un cotton fioc",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c40",
+          "kind": "symbol",
+          "text": "Sapone liquido",
+          "symbol": "sapone liquido",
+          "spoken_text": "Uso il sapone liquido",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c41",
+          "kind": "symbol",
+          "text": "Asciugacapelli",
+          "symbol": "asciugacapelli",
+          "spoken_text": "Uso l'asciugacapelli",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c42",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c43",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "capelli",
+      "title": "Capelli",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c44",
+          "kind": "symbol",
+          "text": "Lavare",
+          "symbol": "lavare capelli",
+          "spoken_text": "Lavo i capelli",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c45",
+          "kind": "symbol",
+          "text": "Pettinare",
+          "symbol": "pettinare",
+          "spoken_text": "Mi pettino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c46",
+          "kind": "symbol",
+          "text": "Asciugare",
+          "symbol": "asciugare capelli",
+          "spoken_text": "Asciugo i capelli",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c47",
+          "kind": "symbol",
+          "text": "Tagliare",
+          "symbol": "tagliare capelli",
+          "spoken_text": "Vorrei tagliare i capelli",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c48",
+          "kind": "symbol",
+          "text": "Spazzola",
+          "symbol": "spazzola capelli",
+          "spoken_text": "Dove è la spazzola?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c49",
+          "kind": "symbol",
+          "text": "Elastico",
+          "symbol": "elastico",
+          "spoken_text": "Mi serve un elastico",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c50",
+          "kind": "symbol",
+          "text": "Specchio",
+          "symbol": "specchio",
+          "spoken_text": "Mi guardo allo specchio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c51",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c52",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "viso",
+      "title": "Viso",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c53",
+          "kind": "symbol",
+          "text": "Lavare",
+          "symbol": "lavare viso",
+          "spoken_text": "Lavo il viso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c54",
+          "kind": "symbol",
+          "text": "Asciugare",
+          "symbol": "asciugare viso",
+          "spoken_text": "Asciugo il viso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c55",
+          "kind": "symbol",
+          "text": "Crema",
+          "symbol": "crema viso",
+          "spoken_text": "Metto la crema sul viso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c56",
+          "kind": "symbol",
+          "text": "Barba",
+          "symbol": "barba",
+          "spoken_text": "Devo fare la barba",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c57",
+          "kind": "symbol",
+          "text": "Trucco",
+          "symbol": "trucco",
+          "spoken_text": "Metto il trucco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c58",
+          "kind": "symbol",
+          "text": "Specchio",
+          "symbol": "specchio viso",
+          "spoken_text": "Ho bisogno dello specchio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c59",
+          "kind": "symbol",
+          "text": "Brufolo",
+          "symbol": "brufolo",
+          "spoken_text": "Ho un brufolo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c60",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c61",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c62",
+          "kind": "symbol",
+          "text": "Devo lavarmi",
+          "symbol": "devo lavarmi frase",
+          "spoken_text": "Devo lavarmi",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c63",
+          "kind": "symbol",
+          "text": "Mi aiuti?",
+          "symbol": "mi aiuti igiene",
+          "spoken_text": "Mi aiuti a lavarmi?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c64",
+          "kind": "symbol",
+          "text": "Non voglio",
+          "symbol": "non voglio igiene",
+          "spoken_text": "Non voglio farlo adesso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c65",
+          "kind": "symbol",
+          "text": "Fa male",
+          "symbol": "fa male igiene",
+          "spoken_text": "Fa male",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c66",
+          "kind": "symbol",
+          "text": "Sono pronto",
+          "symbol": "sono pronto",
+          "spoken_text": "Sono pronto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c67",
+          "kind": "symbol",
+          "text": "Mi passi l'asciugamano?",
+          "symbol": "passa asciugamano",
+          "spoken_text": "Mi passi l'asciugamano?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c68",
+          "kind": "symbol",
+          "text": "Ho bisogno di privacy",
+          "symbol": "privacy",
+          "spoken_text": "Ho bisogno di privacy",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c69",
+          "kind": "symbol",
+          "text": "Grazie",
+          "symbol": "grazie igiene",
+          "spoken_text": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c70",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c71",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    }
+  ]
+}

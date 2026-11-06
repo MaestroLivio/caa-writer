@@ -1,0 +1,123 @@
+{
+  "id": "lib_aut_igiene_mani",
+  "title": "Igiene: lavarsi le mani",
+  "description": "Routine autonoma per lavarsi le mani. 5 voci, tra cui aprire l'acqua, bagnare le mani, mettere il sapone, sciacquare e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Igiene: lavarsi le mani",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_igiene_mani-p1-title",
+          "kind": "text",
+          "text": "Igiene: lavarsi le mani",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_igiene_mani-p1-field-title",
+          "kind": "text",
+          "text": "Igiene: lavarsi le mani",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_igiene_mani-p1-field-layout",
+          "kind": "text",
+          "text": "checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_igiene_mani-p1-1",
+          "kind": "symbol",
+          "text": "aprire l'acqua",
+          "symbol": "aprire l'acqua",
+          "concept": null,
+          "spoken_text": "aprire l'acqua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_mani-p1-2",
+          "kind": "symbol",
+          "text": "bagnare le mani",
+          "symbol": "bagnare le mani",
+          "concept": null,
+          "spoken_text": "bagnare le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_mani-p1-3",
+          "kind": "symbol",
+          "text": "mettere il sapone",
+          "symbol": "mettere il sapone",
+          "concept": null,
+          "spoken_text": "mettere il sapone",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_mani-p1-4",
+          "kind": "symbol",
+          "text": "sciacquare",
+          "symbol": "sciacquare",
+          "concept": null,
+          "spoken_text": "sciacquare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_mani-p1-5",
+          "kind": "symbol",
+          "text": "asciugare",
+          "symbol": "asciugare",
+          "concept": null,
+          "spoken_text": "asciugare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

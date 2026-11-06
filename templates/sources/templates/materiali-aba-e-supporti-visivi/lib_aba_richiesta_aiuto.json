@@ -1,0 +1,112 @@
+{
+  "id": "lib_aba_richiesta_aiuto",
+  "title": "Chiedere aiuto durante un compito",
+  "description": "Sequenza per chiedere aiuto durante un compito. 5 voci, tra cui provare, fermarsi, chiedere aiuto, ricevere aiuto e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Chiedere aiuto durante un compito",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_richiesta_aiuto-p1-1",
+          "kind": "symbol",
+          "text": "provare",
+          "symbol": "provare",
+          "concept": null,
+          "spoken_text": "provare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_aiuto-p1-2",
+          "kind": "symbol",
+          "text": "fermarsi",
+          "symbol": "fermarsi",
+          "concept": null,
+          "spoken_text": "fermarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_aiuto-p1-3",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_aiuto-p1-4",
+          "kind": "symbol",
+          "text": "ricevere aiuto",
+          "symbol": "ricevere aiuto",
+          "concept": null,
+          "spoken_text": "ricevere aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_aiuto-p1-5",
+          "kind": "symbol",
+          "text": "continuare",
+          "symbol": "continuare",
+          "concept": null,
+          "spoken_text": "continuare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "lib_com_igiene_mani_denti",
+  "title": "Igiene: mani e denti",
+  "description": "Celle per le routine di igiene quotidiana. 6 voci, tra cui lavarsi le mani, lavarsi i denti, bagno, acqua e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Igiene: mani e denti",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_igiene_mani_denti-p1-1",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_igiene_mani_denti-p1-2",
+          "kind": "symbol",
+          "text": "lavarsi i denti",
+          "symbol": "lavarsi i denti",
+          "concept": "hygiene.brush_teeth",
+          "spoken_text": "lavarsi i denti",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_igiene_mani_denti-p1-3",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_igiene_mani_denti-p1-4",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_igiene_mani_denti-p1-5",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_igiene_mani_denti-p1-6",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

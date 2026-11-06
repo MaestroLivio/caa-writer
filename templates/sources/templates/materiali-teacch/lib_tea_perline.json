@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_perline",
+  "title": "Infilare le perline",
+  "description": "Compito di motricità fine con le perline. 6 voci, tra cui prendere il filo, infilare la perlina, contare, continuare e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Infilare le perline",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_perline-p1-1",
+          "kind": "symbol",
+          "text": "prendere il filo",
+          "symbol": "prendere il filo",
+          "concept": null,
+          "spoken_text": "prendere il filo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_perline-p1-2",
+          "kind": "symbol",
+          "text": "infilare la perlina",
+          "symbol": "infilare la perlina",
+          "concept": null,
+          "spoken_text": "infilare la perlina",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_perline-p1-3",
+          "kind": "symbol",
+          "text": "contare",
+          "symbol": "contare",
+          "concept": null,
+          "spoken_text": "contare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_perline-p1-4",
+          "kind": "symbol",
+          "text": "continuare",
+          "symbol": "continuare",
+          "concept": null,
+          "spoken_text": "continuare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_perline-p1-5",
+          "kind": "symbol",
+          "text": "annodare",
+          "symbol": "annodare",
+          "concept": null,
+          "spoken_text": "annodare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_perline-p1-6",
+          "kind": "symbol",
+          "text": "finito",
+          "symbol": "finito",
+          "concept": null,
+          "spoken_text": "finito",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_ricevere_no",
+  "title": "Quando mi viene detto no",
+  "description": "Storia sociale sul ricevere un no. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quando mi viene detto no",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_ricevere_no-p1-title",
+          "kind": "text",
+          "text": "Quando mi viene detto no",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-field-title",
+          "kind": "text",
+          "text": "Quando mi viene detto no",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-1",
+          "kind": "symbol",
+          "text": "A volte mi viene detto no.",
+          "symbol": "A volte mi viene detto no.",
+          "concept": null,
+          "spoken_text": "A volte mi viene detto no.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-2",
+          "kind": "symbol",
+          "text": "Posso sentirmi deluso.",
+          "symbol": "Posso sentirmi deluso.",
+          "concept": null,
+          "spoken_text": "Posso sentirmi deluso.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-3",
+          "kind": "symbol",
+          "text": "Posso respirare e ascoltare il motivo.",
+          "symbol": "Posso respirare e ascoltare il motivo.",
+          "concept": null,
+          "spoken_text": "Posso respirare e ascoltare il motivo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-4",
+          "kind": "symbol",
+          "text": "Posso chiedere una spiegazione.",
+          "symbol": "Posso chiedere una spiegazione.",
+          "concept": null,
+          "spoken_text": "Posso chiedere una spiegazione.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-5",
+          "kind": "symbol",
+          "text": "Posso pensare a un'alternativa.",
+          "symbol": "Posso pensare a un'alternativa.",
+          "concept": null,
+          "spoken_text": "Posso pensare a un'alternativa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricevere_no-p1-6",
+          "kind": "symbol",
+          "text": "Dopo posso andare avanti.",
+          "symbol": "Dopo posso andare avanti.",
+          "concept": null,
+          "spoken_text": "Dopo posso andare avanti.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

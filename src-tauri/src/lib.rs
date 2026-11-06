@@ -26,6 +26,8 @@ pub mod process;
 pub mod speech;
 pub mod studio;
 pub mod tts_normalize;
+pub mod universal;
+pub mod universal_build;
 pub mod voice;
 pub mod symbol_search;
 pub mod util;
@@ -88,6 +90,13 @@ pub fn run() {
             commands::voice_status,
             commands::ai_status,
             commands::runtime_diagnostics,
+            commands::document_validate,
+            commands::document_render,
+            commands::document_apply,
+            commands::universal_from_plan,
+            commands::document_export,
+            commands::universal_library,
+            commands::universal_open,
             commands::set_ai_config,
             commands::ai_models,
             commands::ai_install_model,

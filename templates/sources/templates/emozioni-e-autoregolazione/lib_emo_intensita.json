@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_intensita",
+  "title": "Quanto è forte?",
+  "description": "Scala di intensità emotiva da uno a cinque. 6 voci, tra cui 1 poco, 2 un po', 3 abbastanza, 4 molto e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quanto è forte?",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_intensita-p1-1",
+          "kind": "symbol",
+          "text": "1 poco",
+          "symbol": "1 poco",
+          "concept": null,
+          "spoken_text": "1 poco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_intensita-p1-2",
+          "kind": "symbol",
+          "text": "2 un po'",
+          "symbol": "2 un po'",
+          "concept": null,
+          "spoken_text": "2 un po'",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_intensita-p1-3",
+          "kind": "symbol",
+          "text": "3 abbastanza",
+          "symbol": "3 abbastanza",
+          "concept": null,
+          "spoken_text": "3 abbastanza",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_intensita-p1-4",
+          "kind": "symbol",
+          "text": "4 molto",
+          "symbol": "4 molto",
+          "concept": null,
+          "spoken_text": "4 molto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_intensita-p1-5",
+          "kind": "symbol",
+          "text": "5 moltissimo",
+          "symbol": "5 moltissimo",
+          "concept": null,
+          "spoken_text": "5 moltissimo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_intensita-p1-6",
+          "kind": "symbol",
+          "text": "chiedo aiuto",
+          "symbol": "chiedo aiuto",
+          "concept": null,
+          "spoken_text": "chiedo aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_richieste_scuola",
+  "title": "Richieste a scuola",
+  "description": "Griglia per chiedere materiali e aiuto in classe. 9 voci, tra cui chiedere aiuto, matita, penna, foglio e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Richieste a scuola",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_richieste_scuola-p1-1",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-2",
+          "kind": "symbol",
+          "text": "matita",
+          "symbol": "matita",
+          "concept": "object.pencil",
+          "spoken_text": "matita",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-3",
+          "kind": "symbol",
+          "text": "penna",
+          "symbol": "penna",
+          "concept": "obj.pen",
+          "spoken_text": "penna",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-4",
+          "kind": "symbol",
+          "text": "foglio",
+          "symbol": "foglio",
+          "concept": "obj.paper_sheet",
+          "spoken_text": "foglio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-5",
+          "kind": "symbol",
+          "text": "libro",
+          "symbol": "libro",
+          "concept": "object.book",
+          "spoken_text": "libro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-6",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-7",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-8",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_richieste_scuola-p1-9",
+          "kind": "symbol",
+          "text": "maestra",
+          "symbol": "maestra",
+          "concept": "person.teacher",
+          "spoken_text": "maestra",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

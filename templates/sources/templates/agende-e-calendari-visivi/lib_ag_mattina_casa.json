@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_mattina_casa",
+  "title": "Mattina a casa",
+  "description": "Agenda della mattina prima di uscire. 6 voci, tra cui 7:00 sveglia, 7:10 lavarsi le mani, 7:20 vestirsi, 7:40 fare colazione e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Mattina a casa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_mattina_casa-p1-1",
+          "kind": "symbol",
+          "text": "7:00 sveglia",
+          "symbol": "7:00 sveglia",
+          "concept": null,
+          "spoken_text": "7:00 sveglia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mattina_casa-p1-2",
+          "kind": "symbol",
+          "text": "7:10 lavarsi le mani",
+          "symbol": "7:10 lavarsi le mani",
+          "concept": null,
+          "spoken_text": "7:10 lavarsi le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mattina_casa-p1-3",
+          "kind": "symbol",
+          "text": "7:20 vestirsi",
+          "symbol": "7:20 vestirsi",
+          "concept": null,
+          "spoken_text": "7:20 vestirsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mattina_casa-p1-4",
+          "kind": "symbol",
+          "text": "7:40 fare colazione",
+          "symbol": "7:40 fare colazione",
+          "concept": null,
+          "spoken_text": "7:40 fare colazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mattina_casa-p1-5",
+          "kind": "symbol",
+          "text": "8:00 zaino",
+          "symbol": "8:00 zaino",
+          "concept": null,
+          "spoken_text": "8:00 zaino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mattina_casa-p1-6",
+          "kind": "symbol",
+          "text": "8:10 uscita",
+          "symbol": "8:10 uscita",
+          "concept": null,
+          "spoken_text": "8:10 uscita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

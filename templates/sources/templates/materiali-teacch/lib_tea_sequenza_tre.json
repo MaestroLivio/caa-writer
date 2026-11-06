@@ -1,0 +1,95 @@
+{
+  "id": "lib_tea_sequenza_tre",
+  "title": "Versare e bere: quattro passi",
+  "description": "Ordinare una breve sequenza di azioni per bere. 4 voci, tra cui prendere il bicchiere, versare l'acqua, mettere il succo, bere.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Versare e bere: quattro passi",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_sequenza_tre-p1-1",
+          "kind": "symbol",
+          "text": "prendere il bicchiere",
+          "symbol": "prendere il bicchiere",
+          "concept": null,
+          "spoken_text": "prendere il bicchiere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_sequenza_tre-p1-2",
+          "kind": "symbol",
+          "text": "versare l'acqua",
+          "symbol": "versare l'acqua",
+          "concept": null,
+          "spoken_text": "versare l'acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_sequenza_tre-p1-3",
+          "kind": "symbol",
+          "text": "mettere il succo",
+          "symbol": "mettere il succo",
+          "concept": null,
+          "spoken_text": "mettere il succo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_sequenza_tre-p1-4",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "lib_aba_osservazione_richieste",
+  "title": "Osservazione: richieste",
+  "description": "Scheda di osservazione delle modalità di richiesta. 6 voci, tra cui chiedere aiuto, chiedere pausa, chiedere oggetto, indicare e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Osservazione: richieste",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_osservazione_richieste-p1-1",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_richieste-p1-2",
+          "kind": "symbol",
+          "text": "chiedere pausa",
+          "symbol": "chiedere pausa",
+          "concept": null,
+          "spoken_text": "chiedere pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_richieste-p1-3",
+          "kind": "symbol",
+          "text": "chiedere oggetto",
+          "symbol": "chiedere oggetto",
+          "concept": null,
+          "spoken_text": "chiedere oggetto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_richieste-p1-4",
+          "kind": "symbol",
+          "text": "indicare",
+          "symbol": "indicare",
+          "concept": null,
+          "spoken_text": "indicare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_richieste-p1-5",
+          "kind": "symbol",
+          "text": "parlare",
+          "symbol": "parlare",
+          "concept": "action.speak",
+          "spoken_text": "parlare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_richieste-p1-6",
+          "kind": "symbol",
+          "text": "ripetere",
+          "symbol": "ripetere",
+          "concept": null,
+          "spoken_text": "ripetere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

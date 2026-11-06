@@ -1,0 +1,137 @@
+{
+  "id": "lib_seq_prepararsi_dormire",
+  "title": "Prepararsi per dormire",
+  "description": "Routine della sera prima di dormire. 6 voci, tra cui pigiama, lavarsi i denti, leggere, spegnere la luce e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Prepararsi per dormire",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-title",
+          "kind": "text",
+          "text": "Prepararsi per dormire",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-field-title",
+          "kind": "text",
+          "text": "Prepararsi per dormire",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-field-layout",
+          "kind": "text",
+          "text": "lineare",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-1",
+          "kind": "symbol",
+          "text": "pigiama",
+          "symbol": "pigiama",
+          "concept": null,
+          "spoken_text": "pigiama",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-2",
+          "kind": "symbol",
+          "text": "lavarsi i denti",
+          "symbol": "lavarsi i denti",
+          "concept": "hygiene.brush_teeth",
+          "spoken_text": "lavarsi i denti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-3",
+          "kind": "symbol",
+          "text": "leggere",
+          "symbol": "leggere",
+          "concept": "action.read",
+          "spoken_text": "leggere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-4",
+          "kind": "symbol",
+          "text": "spegnere la luce",
+          "symbol": "spegnere la luce",
+          "concept": null,
+          "spoken_text": "spegnere la luce",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-5",
+          "kind": "symbol",
+          "text": "letto",
+          "symbol": "letto",
+          "concept": "furniture.bed",
+          "spoken_text": "letto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_prepararsi_dormire-p1-6",
+          "kind": "symbol",
+          "text": "dormire",
+          "symbol": "dormire",
+          "concept": "action.sleep",
+          "spoken_text": "dormire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

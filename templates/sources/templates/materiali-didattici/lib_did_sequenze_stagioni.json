@@ -1,0 +1,109 @@
+{
+  "id": "lib_did_sequenze_stagioni",
+  "title": "Sequenze temporali: le stagioni",
+  "description": "Scheda per ordinare le quattro stagioni. 4 voci, tra cui primavera, estate, autunno, inverno.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Sequenze temporali: le stagioni",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_sequenze_stagioni-p1-title",
+          "kind": "text",
+          "text": "Sequenze temporali: le stagioni",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_sequenze_stagioni-p1-field-title",
+          "kind": "text",
+          "text": "Sequenze temporali: le stagioni",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_sequenze_stagioni-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_sequenze_stagioni-p1-1",
+          "kind": "symbol",
+          "text": "primavera",
+          "symbol": "primavera",
+          "concept": null,
+          "spoken_text": "primavera",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sequenze_stagioni-p1-2",
+          "kind": "symbol",
+          "text": "estate",
+          "symbol": "estate",
+          "concept": null,
+          "spoken_text": "estate",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sequenze_stagioni-p1-3",
+          "kind": "symbol",
+          "text": "autunno",
+          "symbol": "autunno",
+          "concept": null,
+          "spoken_text": "autunno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sequenze_stagioni-p1-4",
+          "kind": "symbol",
+          "text": "inverno",
+          "symbol": "inverno",
+          "concept": null,
+          "spoken_text": "inverno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,1277 @@
+{
+  "id": "boards.tecnologia",
+  "title": "Tecnologia",
+  "description": "Dispositivi, azioni, problemi, internet e privacy per usare la tecnologia e chiedere aiuto.",
+  "category": "Sistemi comunicativi",
+  "source_type": "board",
+  "kind": "communication_board",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Tecnologia",
+      "layout": "grid",
+      "home": true,
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c1",
+          "kind": "symbol",
+          "text": "Dispositivi",
+          "symbol": "dispositivi home",
+          "spoken_text": "Apri i dispositivi",
+          "action": {
+            "type": "navigate",
+            "target": "dispositivi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "symbol",
+          "text": "Azioni",
+          "symbol": "azioni tech",
+          "spoken_text": "Apri le azioni",
+          "action": {
+            "type": "navigate",
+            "target": "azioni"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "symbol",
+          "text": "Problemi",
+          "symbol": "problemi tech",
+          "spoken_text": "Apri i problemi",
+          "action": {
+            "type": "navigate",
+            "target": "problemi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "symbol",
+          "text": "Internet",
+          "symbol": "internet home",
+          "spoken_text": "Apri internet",
+          "action": {
+            "type": "navigate",
+            "target": "internet"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "symbol",
+          "text": "Privacy",
+          "symbol": "privacy home",
+          "spoken_text": "Apri la privacy",
+          "action": {
+            "type": "navigate",
+            "target": "privacy"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "symbol",
+          "text": "Frasi",
+          "symbol": "frasi tech",
+          "spoken_text": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "target": "frasi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "symbol",
+          "text": "Voglio aprire",
+          "symbol": "voglio aprire",
+          "spoken_text": "Voglio aprire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "symbol",
+          "text": "Non funziona",
+          "symbol": "non funziona",
+          "spoken_text": "Non funziona",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dispositivi",
+      "title": "Dispositivi",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c9",
+          "kind": "symbol",
+          "text": "Telefono",
+          "symbol": "telefono tech",
+          "spoken_text": "Uso il telefono",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "symbol",
+          "text": "Computer",
+          "symbol": "computer tech",
+          "spoken_text": "Uso il computer",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c11",
+          "kind": "symbol",
+          "text": "Tablet",
+          "symbol": "tablet",
+          "spoken_text": "Uso il tablet",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c12",
+          "kind": "symbol",
+          "text": "Stampante",
+          "symbol": "stampante tech",
+          "spoken_text": "Uso la stampante",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c13",
+          "kind": "symbol",
+          "text": "Cuffie",
+          "symbol": "cuffie tech",
+          "spoken_text": "Uso le cuffie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c14",
+          "kind": "symbol",
+          "text": "Caricabatterie",
+          "symbol": "caricabatterie tech",
+          "spoken_text": "Collego il caricabatterie",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c15",
+          "kind": "symbol",
+          "text": "Impostazioni",
+          "symbol": "impostazioni nav",
+          "spoken_text": "Apri le impostazioni",
+          "action": {
+            "type": "navigate",
+            "target": "impostazioni"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c16",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c17",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "impostazioni",
+      "title": "Impostazioni",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c18",
+          "kind": "symbol",
+          "text": "Wifi",
+          "symbol": "wifi impostazioni",
+          "spoken_text": "Attivo il wifi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c19",
+          "kind": "symbol",
+          "text": "Bluetooth",
+          "symbol": "bluetooth",
+          "spoken_text": "Attivo il bluetooth",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c20",
+          "kind": "symbol",
+          "text": "Volume",
+          "symbol": "volume tech",
+          "spoken_text": "Regolo il volume",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c21",
+          "kind": "symbol",
+          "text": "Luminosità",
+          "symbol": "luminosita",
+          "spoken_text": "Regolo la luminosità",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c22",
+          "kind": "symbol",
+          "text": "Aggiornamento",
+          "symbol": "aggiornamento impostazioni",
+          "spoken_text": "Faccio l'aggiornamento",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c23",
+          "kind": "symbol",
+          "text": "Account",
+          "symbol": "account",
+          "spoken_text": "Controllo l'account",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c24",
+          "kind": "symbol",
+          "text": "Batteria",
+          "symbol": "batteria",
+          "spoken_text": "Controllo la batteria",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c25",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c26",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "azioni",
+      "title": "Azioni",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c27",
+          "kind": "symbol",
+          "text": "Accendere",
+          "symbol": "accendere",
+          "spoken_text": "Accendo il dispositivo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c28",
+          "kind": "symbol",
+          "text": "Spegnere",
+          "symbol": "spegnere",
+          "spoken_text": "Spengo il dispositivo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c29",
+          "kind": "symbol",
+          "text": "Aprire",
+          "symbol": "aprire",
+          "spoken_text": "Apro l'app",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c30",
+          "kind": "symbol",
+          "text": "Chiudere",
+          "symbol": "chiudere",
+          "spoken_text": "Chiudo l'app",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c31",
+          "kind": "symbol",
+          "text": "Scaricare",
+          "symbol": "scaricare",
+          "spoken_text": "Scarico il file",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c32",
+          "kind": "symbol",
+          "text": "Inviare",
+          "symbol": "inviare",
+          "spoken_text": "Invio il messaggio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c33",
+          "kind": "symbol",
+          "text": "Salvare",
+          "symbol": "salvare",
+          "spoken_text": "Salvo il lavoro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c34",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c35",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "problemi",
+      "title": "Problemi",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c36",
+          "kind": "symbol",
+          "text": "Lento",
+          "symbol": "lento tech",
+          "spoken_text": "Il dispositivo è lento",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c37",
+          "kind": "symbol",
+          "text": "Bloccato",
+          "symbol": "bloccato",
+          "spoken_text": "Si è bloccato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c38",
+          "kind": "symbol",
+          "text": "Batteria",
+          "symbol": "batteria problema",
+          "spoken_text": "La batteria è scarica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c39",
+          "kind": "symbol",
+          "text": "Connessione",
+          "symbol": "connessione",
+          "spoken_text": "Manca la connessione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c40",
+          "kind": "symbol",
+          "text": "Errore",
+          "symbol": "errore tech",
+          "spoken_text": "C'è un errore",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c41",
+          "kind": "symbol",
+          "text": "Aggiornamento",
+          "symbol": "aggiornamento problema",
+          "spoken_text": "L'aggiornamento non parte",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c42",
+          "kind": "symbol",
+          "text": "Aiuto",
+          "symbol": "aiuto tech",
+          "spoken_text": "Mi serve aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c43",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c44",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "internet",
+      "title": "Internet",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c45",
+          "kind": "symbol",
+          "text": "Wifi",
+          "symbol": "wifi internet",
+          "spoken_text": "Mi connetto al wifi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c46",
+          "kind": "symbol",
+          "text": "Password",
+          "symbol": "password internet",
+          "spoken_text": "Inserisco la password",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c47",
+          "kind": "symbol",
+          "text": "Sito",
+          "symbol": "sito",
+          "spoken_text": "Apro il sito",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c48",
+          "kind": "symbol",
+          "text": "Email",
+          "symbol": "email",
+          "spoken_text": "Controllo l'email",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c49",
+          "kind": "symbol",
+          "text": "Videochiamata",
+          "symbol": "videochiamata",
+          "spoken_text": "Faccio una videochiamata",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c50",
+          "kind": "symbol",
+          "text": "Ricerca",
+          "symbol": "ricerca internet",
+          "spoken_text": "Faccio una ricerca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c51",
+          "kind": "symbol",
+          "text": "Download",
+          "symbol": "download",
+          "spoken_text": "Faccio il download",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c52",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c53",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "title": "Privacy",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c54",
+          "kind": "symbol",
+          "text": "Password",
+          "symbol": "password privacy",
+          "spoken_text": "Proteggo la password",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c55",
+          "kind": "symbol",
+          "text": "Permesso",
+          "symbol": "permesso tech",
+          "spoken_text": "Chiedo il permesso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c56",
+          "kind": "symbol",
+          "text": "Dati",
+          "symbol": "dati",
+          "spoken_text": "Proteggo i miei dati",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c57",
+          "kind": "symbol",
+          "text": "Condivisione",
+          "symbol": "condivisione",
+          "spoken_text": "Controllo la condivisione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c58",
+          "kind": "symbol",
+          "text": "Profilo",
+          "symbol": "profilo",
+          "spoken_text": "Controllo il profilo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c59",
+          "kind": "symbol",
+          "text": "Spam",
+          "symbol": "spam",
+          "spoken_text": "Segnalo lo spam",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c60",
+          "kind": "symbol",
+          "text": "Bloccare",
+          "symbol": "bloccare",
+          "spoken_text": "Blocco il contatto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c61",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c62",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c63",
+          "kind": "symbol",
+          "text": "Non funziona",
+          "symbol": "non funziona frase",
+          "spoken_text": "Non funziona",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c64",
+          "kind": "symbol",
+          "text": "Mi aiuti?",
+          "symbol": "mi aiuti tech",
+          "spoken_text": "Mi aiuti?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c65",
+          "kind": "symbol",
+          "text": "Come si fa?",
+          "symbol": "come si fa",
+          "spoken_text": "Come si fa?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c66",
+          "kind": "symbol",
+          "text": "Ho dimenticato la password",
+          "symbol": "dimenticato password",
+          "spoken_text": "Ho dimenticato la password",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c67",
+          "kind": "symbol",
+          "text": "Posso connettermi?",
+          "symbol": "posso connettermi",
+          "spoken_text": "Posso connettermi?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c68",
+          "kind": "symbol",
+          "text": "Il wifi non va",
+          "symbol": "wifi non va",
+          "spoken_text": "Il wifi non va",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c69",
+          "kind": "symbol",
+          "text": "Ho salvato il file",
+          "symbol": "salvato file",
+          "spoken_text": "Ho salvato il file",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c70",
+          "kind": "symbol",
+          "text": "Grazie",
+          "symbol": "grazie tech",
+          "spoken_text": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c71",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c72",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    }
+  ]
+}

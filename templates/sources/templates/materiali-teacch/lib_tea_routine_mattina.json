@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_routine_mattina",
+  "title": "Routine del mattino TEACCH",
+  "description": "Sequenza strutturata della routine del mattino. 6 voci, tra cui sveglia, lavarsi, vestirsi, colazione e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Routine del mattino TEACCH",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_routine_mattina-p1-1",
+          "kind": "symbol",
+          "text": "sveglia",
+          "symbol": "sveglia",
+          "concept": null,
+          "spoken_text": "sveglia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_routine_mattina-p1-2",
+          "kind": "symbol",
+          "text": "lavarsi",
+          "symbol": "lavarsi",
+          "concept": null,
+          "spoken_text": "lavarsi",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_routine_mattina-p1-3",
+          "kind": "symbol",
+          "text": "vestirsi",
+          "symbol": "vestirsi",
+          "concept": null,
+          "spoken_text": "vestirsi",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_routine_mattina-p1-4",
+          "kind": "symbol",
+          "text": "colazione",
+          "symbol": "colazione",
+          "concept": null,
+          "spoken_text": "colazione",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_routine_mattina-p1-5",
+          "kind": "symbol",
+          "text": "zaino",
+          "symbol": "zaino",
+          "concept": "object.backpack",
+          "spoken_text": "zaino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_routine_mattina-p1-6",
+          "kind": "symbol",
+          "text": "uscita",
+          "symbol": "uscita",
+          "concept": null,
+          "spoken_text": "uscita",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

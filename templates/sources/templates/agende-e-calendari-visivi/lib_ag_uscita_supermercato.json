@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_uscita_supermercato",
+  "title": "Uscita al supermercato",
+  "description": "Agenda della spesa al supermercato. 6 voci, tra cui lista, supermercato, carrello, cassa e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Uscita al supermercato",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_uscita_supermercato-p1-1",
+          "kind": "symbol",
+          "text": "lista",
+          "symbol": "lista",
+          "concept": null,
+          "spoken_text": "lista",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_supermercato-p1-2",
+          "kind": "symbol",
+          "text": "supermercato",
+          "symbol": "supermercato",
+          "concept": null,
+          "spoken_text": "supermercato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_supermercato-p1-3",
+          "kind": "symbol",
+          "text": "carrello",
+          "symbol": "carrello",
+          "concept": null,
+          "spoken_text": "carrello",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_supermercato-p1-4",
+          "kind": "symbol",
+          "text": "cassa",
+          "symbol": "cassa",
+          "concept": null,
+          "spoken_text": "cassa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_supermercato-p1-5",
+          "kind": "symbol",
+          "text": "busta",
+          "symbol": "busta",
+          "concept": null,
+          "spoken_text": "busta",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_supermercato-p1-6",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

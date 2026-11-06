@@ -1,0 +1,1277 @@
+{
+  "id": "boards.scuola-primaria",
+  "title": "Scuola primaria",
+  "description": "Materie, materiali, attività e regole della classe, con una pagina per lettura e scrittura.",
+  "category": "Sistemi comunicativi",
+  "source_type": "board",
+  "kind": "communication_board",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Scuola primaria",
+      "layout": "grid",
+      "home": true,
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c1",
+          "kind": "symbol",
+          "text": "Materie",
+          "symbol": "materie primaria",
+          "spoken_text": "Apri le materie",
+          "action": {
+            "type": "navigate",
+            "target": "materie"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "symbol",
+          "text": "Materiali",
+          "symbol": "materiali",
+          "spoken_text": "Apri i materiali",
+          "action": {
+            "type": "navigate",
+            "target": "materiali"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "symbol",
+          "text": "Attività",
+          "symbol": "attivita scuola",
+          "spoken_text": "Apri le attività",
+          "action": {
+            "type": "navigate",
+            "target": "attivita"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "symbol",
+          "text": "Compagni",
+          "symbol": "compagni",
+          "spoken_text": "Apri i compagni",
+          "action": {
+            "type": "navigate",
+            "target": "compagni"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "symbol",
+          "text": "Regole",
+          "symbol": "regole",
+          "spoken_text": "Apri le regole",
+          "action": {
+            "type": "navigate",
+            "target": "regole"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "symbol",
+          "text": "Frasi",
+          "symbol": "frasi scuola",
+          "spoken_text": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "target": "frasi"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "symbol",
+          "text": "Non capisco",
+          "symbol": "non capisco home",
+          "spoken_text": "Non capisco",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "symbol",
+          "text": "Posso andare in bagno",
+          "symbol": "bagno permesso",
+          "spoken_text": "Posso andare in bagno?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "materie",
+      "title": "Materie",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c9",
+          "kind": "symbol",
+          "text": "Italiano",
+          "symbol": "italiano",
+          "spoken_text": "Abbiamo italiano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "symbol",
+          "text": "Matematica",
+          "symbol": "matematica",
+          "spoken_text": "Abbiamo matematica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c11",
+          "kind": "symbol",
+          "text": "Scienze",
+          "symbol": "scienze",
+          "spoken_text": "Abbiamo scienze",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c12",
+          "kind": "symbol",
+          "text": "Storia",
+          "symbol": "storia",
+          "spoken_text": "Abbiamo storia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c13",
+          "kind": "symbol",
+          "text": "Geografia",
+          "symbol": "geografia",
+          "spoken_text": "Abbiamo geografia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c14",
+          "kind": "symbol",
+          "text": "Arte",
+          "symbol": "arte",
+          "spoken_text": "Abbiamo arte",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c15",
+          "kind": "symbol",
+          "text": "Lettura e scrittura",
+          "symbol": "lettura scrittura nav",
+          "spoken_text": "Apri lettura e scrittura",
+          "action": {
+            "type": "navigate",
+            "target": "lettura-scrittura"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c16",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c17",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lettura-scrittura",
+      "title": "Lettura e scrittura",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c18",
+          "kind": "symbol",
+          "text": "Leggere",
+          "symbol": "leggere",
+          "spoken_text": "Leggo ad alta voce",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c19",
+          "kind": "symbol",
+          "text": "Scrivere",
+          "symbol": "scrivere",
+          "spoken_text": "Scrivo sul quaderno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c20",
+          "kind": "symbol",
+          "text": "Sillabe",
+          "symbol": "sillabe",
+          "spoken_text": "Divido in sillabe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c21",
+          "kind": "symbol",
+          "text": "Parola",
+          "symbol": "parola",
+          "spoken_text": "Scrivo una parola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c22",
+          "kind": "symbol",
+          "text": "Frase",
+          "symbol": "frase",
+          "spoken_text": "Scrivo una frase",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c23",
+          "kind": "symbol",
+          "text": "Disegnare",
+          "symbol": "disegnare",
+          "spoken_text": "Disegno la storia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c24",
+          "kind": "symbol",
+          "text": "Dettato",
+          "symbol": "dettato",
+          "spoken_text": "Faccio il dettato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c25",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c26",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "materiali",
+      "title": "Materiali",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c27",
+          "kind": "symbol",
+          "text": "Quaderno",
+          "symbol": "quaderno",
+          "spoken_text": "Prendo il quaderno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c28",
+          "kind": "symbol",
+          "text": "Matita",
+          "symbol": "matita",
+          "spoken_text": "Ho perso la matita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c29",
+          "kind": "symbol",
+          "text": "Gomma",
+          "symbol": "gomma",
+          "spoken_text": "Mi serve la gomma",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c30",
+          "kind": "symbol",
+          "text": "Astuccio",
+          "symbol": "astuccio",
+          "spoken_text": "Apro l'astuccio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c31",
+          "kind": "symbol",
+          "text": "Libro",
+          "symbol": "libro",
+          "spoken_text": "Apro il libro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c32",
+          "kind": "symbol",
+          "text": "Forbici",
+          "symbol": "forbici",
+          "spoken_text": "Uso le forbici",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c33",
+          "kind": "symbol",
+          "text": "Colla",
+          "symbol": "colla",
+          "spoken_text": "Mi serve la colla",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c34",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c35",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attivita",
+      "title": "Attività",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c36",
+          "kind": "symbol",
+          "text": "Ascoltare",
+          "symbol": "ascoltare scuola",
+          "spoken_text": "Ascolto la maestra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c37",
+          "kind": "symbol",
+          "text": "Rispondere",
+          "symbol": "rispondere",
+          "spoken_text": "Rispondo alla domanda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c38",
+          "kind": "symbol",
+          "text": "Disegnare",
+          "symbol": "disegnare att",
+          "spoken_text": "Disegno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c39",
+          "kind": "symbol",
+          "text": "Leggere",
+          "symbol": "leggere att",
+          "spoken_text": "Leggo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c40",
+          "kind": "symbol",
+          "text": "Contare",
+          "symbol": "contare scuola",
+          "spoken_text": "Conto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c41",
+          "kind": "symbol",
+          "text": "Lavorare in gruppo",
+          "symbol": "gruppo scuola",
+          "spoken_text": "Lavoro in gruppo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c42",
+          "kind": "symbol",
+          "text": "Ricreazione",
+          "symbol": "ricreazione",
+          "spoken_text": "Vado in ricreazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c43",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c44",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compagni",
+      "title": "Compagni",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c45",
+          "kind": "symbol",
+          "text": "Amico",
+          "symbol": "amico scuola",
+          "spoken_text": "Gioco con il mio amico",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c46",
+          "kind": "symbol",
+          "text": "Amica",
+          "symbol": "amica scuola",
+          "spoken_text": "Parlo con la mia amica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c47",
+          "kind": "symbol",
+          "text": "Gruppo",
+          "symbol": "gruppo compagni",
+          "spoken_text": "Sono nel gruppo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c48",
+          "kind": "symbol",
+          "text": "Turno",
+          "symbol": "turno scuola",
+          "spoken_text": "Aspetto il mio turno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c49",
+          "kind": "symbol",
+          "text": "Condividere",
+          "symbol": "condividere scuola",
+          "spoken_text": "Condivido i colori",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c50",
+          "kind": "symbol",
+          "text": "Aiutare",
+          "symbol": "aiutare compagno",
+          "spoken_text": "Aiuto un compagno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c51",
+          "kind": "symbol",
+          "text": "Litigare",
+          "symbol": "litigare scuola",
+          "spoken_text": "Ho litigato con un compagno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c52",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c53",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "regole",
+      "title": "Regole",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c54",
+          "kind": "symbol",
+          "text": "Alzare la mano",
+          "symbol": "alzare mano",
+          "spoken_text": "Alzo la mano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c55",
+          "kind": "symbol",
+          "text": "Aspettare",
+          "symbol": "aspettare scuola",
+          "spoken_text": "Aspetto il turno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c56",
+          "kind": "symbol",
+          "text": "Ascoltare",
+          "symbol": "ascoltare regole",
+          "spoken_text": "Ascolto in silenzio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c57",
+          "kind": "symbol",
+          "text": "Rispettare",
+          "symbol": "rispettare regole",
+          "spoken_text": "Rispetto le regole",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c58",
+          "kind": "symbol",
+          "text": "Chiedere permesso",
+          "symbol": "chiedere permesso",
+          "spoken_text": "Chiedo permesso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c59",
+          "kind": "symbol",
+          "text": "Riordinare",
+          "symbol": "riordinare scuola",
+          "spoken_text": "Riordino i materiali",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c60",
+          "kind": "symbol",
+          "text": "Silenzio",
+          "symbol": "silenzio scuola",
+          "spoken_text": "Faccio silenzio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c61",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c62",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "layout": "grid",
+      "home": false,
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      },
+      "elements": [
+        {
+          "id": "c63",
+          "kind": "symbol",
+          "text": "Non capisco",
+          "symbol": "non capisco scuola",
+          "spoken_text": "Non capisco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c64",
+          "kind": "symbol",
+          "text": "Puoi ripetere?",
+          "symbol": "ripetere scuola",
+          "spoken_text": "Puoi ripetere, per favore?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c65",
+          "kind": "symbol",
+          "text": "Mi aiuti?",
+          "symbol": "mi aiuti scuola",
+          "spoken_text": "Mi aiuti?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c66",
+          "kind": "symbol",
+          "text": "Ho finito",
+          "symbol": "ho finito",
+          "spoken_text": "Ho finito il compito",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c67",
+          "kind": "symbol",
+          "text": "Devo andare in bagno",
+          "symbol": "bagno scuola",
+          "spoken_text": "Devo andare in bagno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c68",
+          "kind": "symbol",
+          "text": "Posso bere?",
+          "symbol": "posso bere",
+          "spoken_text": "Posso bere?",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c69",
+          "kind": "symbol",
+          "text": "Non ho capito il compito",
+          "symbol": "compito non capito",
+          "spoken_text": "Non ho capito il compito",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c70",
+          "kind": "symbol",
+          "text": "Grazie",
+          "symbol": "grazie scuola",
+          "spoken_text": "Grazie, maestra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c71",
+          "kind": "symbol",
+          "text": "Indietro",
+          "symbol": "indietro",
+          "spoken_text": "Torna indietro",
+          "action": {
+            "type": "back"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        },
+        {
+          "id": "c72",
+          "kind": "symbol",
+          "text": "Home",
+          "symbol": "home",
+          "spoken_text": "Vai alla home",
+          "action": {
+            "type": "home"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#4b5563"
+          }
+        }
+      ]
+    }
+  ]
+}

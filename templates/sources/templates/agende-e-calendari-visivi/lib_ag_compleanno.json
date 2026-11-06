@@ -1,0 +1,146 @@
+{
+  "id": "lib_ag_compleanno",
+  "title": "Festa di compleanno",
+  "description": "Agenda della festa di compleanno. 7 voci, tra cui inviti, torta, candeline, regali e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Festa di compleanno",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_compleanno-p1-1",
+          "kind": "symbol",
+          "text": "inviti",
+          "symbol": "inviti",
+          "concept": null,
+          "spoken_text": "inviti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_compleanno-p1-2",
+          "kind": "symbol",
+          "text": "torta",
+          "symbol": "torta",
+          "concept": null,
+          "spoken_text": "torta",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_compleanno-p1-3",
+          "kind": "symbol",
+          "text": "candeline",
+          "symbol": "candeline",
+          "concept": null,
+          "spoken_text": "candeline",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_compleanno-p1-4",
+          "kind": "symbol",
+          "text": "regali",
+          "symbol": "regali",
+          "concept": null,
+          "spoken_text": "regali",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_compleanno-p1-5",
+          "kind": "symbol",
+          "text": "giochi",
+          "symbol": "giochi",
+          "concept": null,
+          "spoken_text": "giochi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_compleanno-p1-6",
+          "kind": "symbol",
+          "text": "musica",
+          "symbol": "musica",
+          "concept": null,
+          "spoken_text": "musica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_compleanno-p1-7",
+          "kind": "symbol",
+          "text": "saluti",
+          "symbol": "saluti",
+          "concept": null,
+          "spoken_text": "saluti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 7,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

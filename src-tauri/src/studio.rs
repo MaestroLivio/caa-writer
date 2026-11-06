@@ -86,7 +86,7 @@ pub struct TemplateInfo {
     pub interactive: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PlannedItem {
     pub label: String,
     pub concept_id: Option<String>,
@@ -96,7 +96,7 @@ pub struct PlannedItem {
     pub approximate: bool,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ResourcePlan {
     pub template_id: String,
     pub title: String,

@@ -1,0 +1,639 @@
+{
+  "id": "lib_com_core_36",
+  "title": "Tabella completa: 36 celle",
+  "description": "Tabella completa per la comunicazione quotidiana. 36 voci, tra cui volere, mangiare, bere, bagno e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Tabella completa: 36 celle",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_core_36-p1-1",
+          "kind": "symbol",
+          "text": "volere",
+          "symbol": "volere",
+          "concept": "action.want",
+          "spoken_text": "volere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-2",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-3",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-4",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-5",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-6",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-7",
+          "kind": "symbol",
+          "text": "dormire",
+          "symbol": "dormire",
+          "concept": "action.sleep",
+          "spoken_text": "dormire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-8",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-9",
+          "kind": "symbol",
+          "text": "scuola",
+          "symbol": "scuola",
+          "concept": "place.school",
+          "spoken_text": "scuola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-10",
+          "kind": "symbol",
+          "text": "felice",
+          "symbol": "felice",
+          "concept": "emotion.happy",
+          "spoken_text": "felice",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-11",
+          "kind": "symbol",
+          "text": "triste",
+          "symbol": "triste",
+          "concept": "emotion.sad",
+          "spoken_text": "triste",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-12",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-13",
+          "kind": "symbol",
+          "text": "andare",
+          "symbol": "andare",
+          "concept": "action.go",
+          "spoken_text": "andare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-14",
+          "kind": "symbol",
+          "text": "correre",
+          "symbol": "correre",
+          "concept": "action.run",
+          "spoken_text": "correre",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-15",
+          "kind": "symbol",
+          "text": "camminare",
+          "symbol": "camminare",
+          "concept": "action.walk",
+          "spoken_text": "camminare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-16",
+          "kind": "symbol",
+          "text": "leggere",
+          "symbol": "leggere",
+          "concept": "action.read",
+          "spoken_text": "leggere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-17",
+          "kind": "symbol",
+          "text": "ascoltare",
+          "symbol": "ascoltare",
+          "concept": "action.listen",
+          "spoken_text": "ascoltare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-18",
+          "kind": "symbol",
+          "text": "parlare",
+          "symbol": "parlare",
+          "concept": "action.speak",
+          "spoken_text": "parlare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-19",
+          "kind": "symbol",
+          "text": "scrivere",
+          "symbol": "scrivere",
+          "concept": "action.write",
+          "spoken_text": "scrivere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-20",
+          "kind": "symbol",
+          "text": "palla",
+          "symbol": "palla",
+          "concept": "object.ball",
+          "spoken_text": "palla",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-21",
+          "kind": "symbol",
+          "text": "libro",
+          "symbol": "libro",
+          "concept": "object.book",
+          "spoken_text": "libro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-22",
+          "kind": "symbol",
+          "text": "matita",
+          "symbol": "matita",
+          "concept": "object.pencil",
+          "spoken_text": "matita",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-23",
+          "kind": "symbol",
+          "text": "penna",
+          "symbol": "penna",
+          "concept": "obj.pen",
+          "spoken_text": "penna",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-24",
+          "kind": "symbol",
+          "text": "foglio",
+          "symbol": "foglio",
+          "concept": "obj.paper_sheet",
+          "spoken_text": "foglio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-25",
+          "kind": "symbol",
+          "text": "forbici",
+          "symbol": "forbici",
+          "concept": "object.scissors",
+          "spoken_text": "forbici",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-26",
+          "kind": "symbol",
+          "text": "colla",
+          "symbol": "colla",
+          "concept": "object.glue",
+          "spoken_text": "colla",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-27",
+          "kind": "symbol",
+          "text": "zaino",
+          "symbol": "zaino",
+          "concept": "object.backpack",
+          "spoken_text": "zaino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-28",
+          "kind": "symbol",
+          "text": "maestra",
+          "symbol": "maestra",
+          "concept": "person.teacher",
+          "spoken_text": "maestra",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-29",
+          "kind": "symbol",
+          "text": "amico",
+          "symbol": "amico",
+          "concept": "person.friend",
+          "spoken_text": "amico",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-30",
+          "kind": "symbol",
+          "text": "famiglia",
+          "symbol": "famiglia",
+          "concept": "person.family",
+          "spoken_text": "famiglia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-31",
+          "kind": "symbol",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "spoken_text": "cane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-32",
+          "kind": "symbol",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "spoken_text": "gatto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-33",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-34",
+          "kind": "symbol",
+          "text": "pane",
+          "symbol": "pane",
+          "concept": "food.bread",
+          "spoken_text": "pane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-35",
+          "kind": "symbol",
+          "text": "mela",
+          "symbol": "mela",
+          "concept": "food.apple",
+          "spoken_text": "mela",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_core_36-p1-36",
+          "kind": "symbol",
+          "text": "bicchiere",
+          "symbol": "bicchiere",
+          "concept": "object.glass",
+          "spoken_text": "bicchiere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 6,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

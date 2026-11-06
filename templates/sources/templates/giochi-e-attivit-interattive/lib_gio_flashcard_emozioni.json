@@ -1,0 +1,444 @@
+{
+  "id": "lib_gio_flashcard_emozioni",
+  "title": "Flashcard delle emozioni",
+  "description": "Sei flashcard per riconoscere le emozioni. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "category": "Giochi e attività interattive",
+  "source_type": "template",
+  "kind": "activity",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Flashcard delle emozioni",
+      "layout": "absolute",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_gio_flashcard_emozioni-title",
+          "kind": "text",
+          "text": "Flashcard delle emozioni",
+          "x_mm": 15,
+          "y_mm": 14,
+          "w_mm": 260,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-btn-1",
+          "kind": "button",
+          "text": "felice",
+          "symbol": "felice",
+          "concept": "emotion.happy",
+          "x_mm": 18,
+          "y_mm": 42,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-1"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-btn-2",
+          "kind": "button",
+          "text": "triste",
+          "symbol": "triste",
+          "concept": "emotion.sad",
+          "x_mm": 106,
+          "y_mm": 42,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-2"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-btn-3",
+          "kind": "button",
+          "text": "arrabbiato",
+          "symbol": "arrabbiato",
+          "concept": "emotion.angry",
+          "x_mm": 194,
+          "y_mm": 42,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-3"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-btn-4",
+          "kind": "button",
+          "text": "paura",
+          "symbol": "paura",
+          "concept": "emotion.afraid",
+          "x_mm": 18,
+          "y_mm": 94,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-4"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-btn-5",
+          "kind": "button",
+          "text": "stanco",
+          "symbol": "stanco",
+          "concept": "emotion.tired",
+          "x_mm": 106,
+          "y_mm": 94,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-5"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-btn-6",
+          "kind": "button",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "x_mm": 194,
+          "y_mm": 94,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-6"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-1",
+      "title": "felice",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_flashcard_emozioni-a1-title",
+          "kind": "text",
+          "text": "felice",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a1-symbol",
+          "kind": "symbol",
+          "text": "felice",
+          "symbol": "felice",
+          "concept": "emotion.happy",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a1-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-2",
+      "title": "triste",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_flashcard_emozioni-a2-title",
+          "kind": "text",
+          "text": "triste",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a2-symbol",
+          "kind": "symbol",
+          "text": "triste",
+          "symbol": "triste",
+          "concept": "emotion.sad",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a2-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-3",
+      "title": "arrabbiato",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_flashcard_emozioni-a3-title",
+          "kind": "text",
+          "text": "arrabbiato",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a3-symbol",
+          "kind": "symbol",
+          "text": "arrabbiato",
+          "symbol": "arrabbiato",
+          "concept": "emotion.angry",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a3-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-4",
+      "title": "paura",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_flashcard_emozioni-a4-title",
+          "kind": "text",
+          "text": "paura",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a4-symbol",
+          "kind": "symbol",
+          "text": "paura",
+          "symbol": "paura",
+          "concept": "emotion.afraid",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a4-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-5",
+      "title": "stanco",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_flashcard_emozioni-a5-title",
+          "kind": "text",
+          "text": "stanco",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a5-symbol",
+          "kind": "symbol",
+          "text": "stanco",
+          "symbol": "stanco",
+          "concept": "emotion.tired",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a5-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-6",
+      "title": "calmo",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_flashcard_emozioni-a6-title",
+          "kind": "text",
+          "text": "calmo",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a6-symbol",
+          "kind": "symbol",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_flashcard_emozioni-a6-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "id": "lib_did_vocali",
+  "title": "Le vocali",
+  "description": "Scheda di riconoscimento delle cinque vocali. 5 voci, tra cui A, E, I, O e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Le vocali",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_vocali-p1-title",
+          "kind": "text",
+          "text": "Le vocali",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_vocali-p1-field-title",
+          "kind": "text",
+          "text": "Le vocali",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_vocali-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_vocali-p1-1",
+          "kind": "symbol",
+          "text": "A",
+          "symbol": "A",
+          "concept": null,
+          "spoken_text": "A",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_vocali-p1-2",
+          "kind": "symbol",
+          "text": "E",
+          "symbol": "E",
+          "concept": null,
+          "spoken_text": "E",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_vocali-p1-3",
+          "kind": "symbol",
+          "text": "I",
+          "symbol": "I",
+          "concept": null,
+          "spoken_text": "I",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_vocali-p1-4",
+          "kind": "symbol",
+          "text": "O",
+          "symbol": "O",
+          "concept": null,
+          "spoken_text": "O",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_vocali-p1-5",
+          "kind": "symbol",
+          "text": "U",
+          "symbol": "U",
+          "concept": null,
+          "spoken_text": "U",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

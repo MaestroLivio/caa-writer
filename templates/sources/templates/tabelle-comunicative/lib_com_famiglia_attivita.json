@@ -1,0 +1,163 @@
+{
+  "id": "lib_com_famiglia_attivita",
+  "title": "Attività in famiglia",
+  "description": "Griglia delle cose da fare insieme a casa. 8 voci, tra cui famiglia, casa, mangiare, giocare e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Attività in famiglia",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_famiglia_attivita-p1-1",
+          "kind": "symbol",
+          "text": "famiglia",
+          "symbol": "famiglia",
+          "concept": "person.family",
+          "spoken_text": "famiglia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_attivita-p1-2",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_attivita-p1-3",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_attivita-p1-4",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_attivita-p1-5",
+          "kind": "symbol",
+          "text": "parlare",
+          "symbol": "parlare",
+          "concept": "action.speak",
+          "spoken_text": "parlare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_attivita-p1-6",
+          "kind": "symbol",
+          "text": "leggere",
+          "symbol": "leggere",
+          "concept": "action.read",
+          "spoken_text": "leggere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_attivita-p1-7",
+          "kind": "symbol",
+          "text": "guardare",
+          "symbol": "guardare",
+          "concept": null,
+          "spoken_text": "guardare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_attivita-p1-8",
+          "kind": "symbol",
+          "text": "dormire",
+          "symbol": "dormire",
+          "concept": "action.sleep",
+          "spoken_text": "dormire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

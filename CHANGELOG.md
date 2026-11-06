@@ -4,6 +4,76 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.9.0 — 2026-11-06
+
+### CAA Universal Document Engine
+
+- Un solo modello documentale (`universal.rs`) per Word Processor, presentazioni,
+  tabelle comunicative, agende, storie sociali, sequenze, materiali didattici,
+  sistemi comunicativi, Creator, Utilizzatore e CLI.
+- Pagine `flow` (documento), `absolute` (presentazione) e `grid` (tabelle),
+  anche miste nello stesso documento; elementi con posizione, dimensione,
+  rotazione, livello, visibilità, blocco, opacità, stile, gruppi, celle,
+  collegamenti e azioni.
+- Comandi tipizzati e transazionali: pagine, elementi, posizione, dimensione,
+  stile, simbolo, testo, azioni, collegamenti, gruppi, griglie, conversione
+  layout. La stessa transazione è usata da GUI, CLI, generatore e test.
+- Rendering deterministico condiviso (millimetri) per editor, anteprima, SVG,
+  HTML interattivo e CLI; migrazione automatica dei vecchi layout.
+- `.caadoc` v3: `universal` accanto a testo/layout legacy; i file v1/v2 si
+  aprono e vengono migrati senza perdere simboli o azioni.
+
+### Editor universale
+
+- Nuovo `UniversalEditor.svelte`: pagine con miniature, aggiunta/duplicazione/
+  eliminazione/riordino/rinomina, pagina iniziale, layout di pagina,
+  selezione multipla, trascinamento, ridimensionamento, rotazione, livelli,
+  blocco/visibilità, gruppi, proprietà contestuali.
+- Pannello proprietà per testo, voce, posizione, dimensione, rotazione, colori,
+  bordi, spessore, livello, azione, pagina collegata, celle e simboli.
+- Ricerca e sostituzione del pittogramma anche dentro le celle; azioni cella
+  modificabili; riordino delle celle.
+- Modalità Anteprima/Utilizzatore sullo stesso documento: navigazione per ID
+  stabile, torna indietro, home, componi frase, pronuncia, svuota.
+- Apertura dei 300 modelli e dei 30 sistemi dalla stessa vista; l'Utilizzatore
+  usa gli stessi file in sola lettura, senza renderer o copie separate.
+
+### CLI e pipeline della biblioteca
+
+- Nuovi comandi `caa-cli document|page|element|board|template`:
+  creazione, validazione, ispezione, migrazione, rendering, export,
+  aggiunta/rimozione/riordino pagine, aggiunta/aggiornamento/rimozione elementi,
+  creazione/collegamento/validazione tabelle, build/validate/preview/package/
+  build-all dei modelli.
+- Specifiche sorgente versionate in `templates/sources/` (300 template + 30
+  sistemi) generate dal contenuto originale con
+  `scripts/generate_universal_sources.py`.
+- `caa-cli template build-all` genera documenti nativi, anteprime SVG, manifest
+  e report; non pubblica modelli invalidi.
+- Report reale: 300 template previsti/costruiti, 30 sistemi previsti/costruiti,
+  330 validi e modificabili, 0 falliti.
+- Test di round-trip su tutti i 330 documenti: caricamento, validazione,
+  rendering, modifica di testo/posizione/dimensione, salvataggio e riapertura.
+
+### Integrazione
+
+- I modelli aperti dalla home o dallo Studio diventano documenti universali;
+  il piano dello Studio e il generatore neurale producono lo stesso formato.
+- Esportazione HTML interattiva e SVG; la stampa/PDF usa il dialogo di sistema.
+- Il foglio libero e il comunicatore della 0.8.0 restano disponibili, ma la
+  nuova pipeline usa il documento universale.
+
+### Limiti dichiarati
+
+- DOCX/PPTX/PNG non sono ancora esportati dal documento universale; HTML, SVG,
+  PDF di sistema e `.caadoc` sono operativi.
+- Non sono implementati intestazioni/piè di pagina, numerazione automatica,
+  guide magnetiche e snap avanzati.
+- Windows è compilato in modo incrociato ma non eseguito; Linux non compilato.
+- La pipeline dei 300 modelli è riproducibile, ma le specifiche sorgente sono
+  ricostruzioni strutturali del contenuto originale, non una revisione
+  redazionale indipendente.
+
 ## 0.8.0 — 2026-11-06
 
 ### Comunicatore modificabile

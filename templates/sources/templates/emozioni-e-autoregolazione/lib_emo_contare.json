@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_contare",
+  "title": "Contare fino a cinque",
+  "description": "Strategia di regolazione attraverso il conteggio. 6 voci, tra cui 1, 2, 3, 4 e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Contare fino a cinque",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_contare-p1-1",
+          "kind": "symbol",
+          "text": "1",
+          "symbol": "1",
+          "concept": null,
+          "spoken_text": "1",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_contare-p1-2",
+          "kind": "symbol",
+          "text": "2",
+          "symbol": "2",
+          "concept": null,
+          "spoken_text": "2",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_contare-p1-3",
+          "kind": "symbol",
+          "text": "3",
+          "symbol": "3",
+          "concept": null,
+          "spoken_text": "3",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_contare-p1-4",
+          "kind": "symbol",
+          "text": "4",
+          "symbol": "4",
+          "concept": null,
+          "spoken_text": "4",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_contare-p1-5",
+          "kind": "symbol",
+          "text": "5",
+          "symbol": "5",
+          "concept": null,
+          "spoken_text": "5",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_contare-p1-6",
+          "kind": "symbol",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "spoken_text": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

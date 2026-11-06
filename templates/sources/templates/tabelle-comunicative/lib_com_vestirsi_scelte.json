@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_vestirsi_scelte",
+  "title": "Vestirsi: scelte",
+  "description": "Celle per scegliere i capi e completare la vestizione. 9 voci, tra cui maglietta, pantaloni, calze, scarpe e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Vestirsi: scelte",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_vestirsi_scelte-p1-1",
+          "kind": "symbol",
+          "text": "maglietta",
+          "symbol": "maglietta",
+          "concept": null,
+          "spoken_text": "maglietta",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-2",
+          "kind": "symbol",
+          "text": "pantaloni",
+          "symbol": "pantaloni",
+          "concept": null,
+          "spoken_text": "pantaloni",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-3",
+          "kind": "symbol",
+          "text": "calze",
+          "symbol": "calze",
+          "concept": null,
+          "spoken_text": "calze",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-4",
+          "kind": "symbol",
+          "text": "scarpe",
+          "symbol": "scarpe",
+          "concept": "object.shoes",
+          "spoken_text": "scarpe",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-5",
+          "kind": "symbol",
+          "text": "giacca",
+          "symbol": "giacca",
+          "concept": null,
+          "spoken_text": "giacca",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-6",
+          "kind": "symbol",
+          "text": "cappello",
+          "symbol": "cappello",
+          "concept": "object.hat",
+          "spoken_text": "cappello",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-7",
+          "kind": "symbol",
+          "text": "vestirsi",
+          "symbol": "vestirsi",
+          "concept": null,
+          "spoken_text": "vestirsi",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-8",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_vestirsi_scelte-p1-9",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

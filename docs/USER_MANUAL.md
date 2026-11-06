@@ -217,3 +217,30 @@ profilo:
 
 L'editor Utilizzatore non mostra il Ribbon, lo Studio o i comandi del Creator. Il documento
 si salva in `.caadoc` e rispetta le funzionalità del profilo (per esempio la voce).
+
+
+## Editor universale e biblioteca nativa (0.9.0)
+
+Tutti i modelli della biblioteca sono documenti nativi `.caadoc`, non immagini
+o pagine HTML. Dalla Home o dalla Biblioteca apri un modello nell'editor
+universale: puoi spostare, ridimensionare, ruotare, duplicare, raggruppare,
+bloccare e nascondere gli elementi; modificare testi, voci, pittogrammi,
+colori, bordi, celle, azioni e collegamenti; aggiungere o riordinare pagine.
+
+Le pagine possono essere di tre tipi: documento (flusso), presentazione
+(posizione libera) e griglia (tabelle comunicative). La modalità **Anteprima**
+e la modalità **Utilizzatore** mostrano lo stesso documento con navigazione,
+composizione della frase e voce.
+
+**Salva .caadoc** conserva tutto il documento, compresi pittogrammi e azioni.
+**Esporta HTML** produce una versione interattiva con navigazione e sintesi
+vocale del browser. Per la stampa usa il dialogo PDF di sistema.
+
+La rigenerazione completa della biblioteca si esegue con:
+
+```bash
+caa-cli template build-all --sources templates/sources --out resources/library
+```
+
+Le specifiche sorgente sono in `templates/sources/`; i documenti generati sono
+in `resources/library/` con anteprime e report.

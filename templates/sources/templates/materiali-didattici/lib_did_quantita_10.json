@@ -1,0 +1,232 @@
+{
+  "id": "lib_did_quantita_10",
+  "title": "Quantità fino a 10",
+  "description": "Scheda di associazione tra numero e quantità fino a dieci. 10 voci, tra cui 1 mela, 2 mele, 3 mele, 4 mele e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quantità fino a 10",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_quantita_10-p1-title",
+          "kind": "text",
+          "text": "Quantità fino a 10",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p1-field-title",
+          "kind": "text",
+          "text": "Quantità fino a 10",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p1-1",
+          "kind": "symbol",
+          "text": "1 mela",
+          "symbol": "1 mela",
+          "concept": null,
+          "spoken_text": "1 mela",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p1-2",
+          "kind": "symbol",
+          "text": "2 mele",
+          "symbol": "2 mele",
+          "concept": null,
+          "spoken_text": "2 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p1-3",
+          "kind": "symbol",
+          "text": "3 mele",
+          "symbol": "3 mele",
+          "concept": null,
+          "spoken_text": "3 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p1-4",
+          "kind": "symbol",
+          "text": "4 mele",
+          "symbol": "4 mele",
+          "concept": null,
+          "spoken_text": "4 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p1-5",
+          "kind": "symbol",
+          "text": "5 mele",
+          "symbol": "5 mele",
+          "concept": null,
+          "spoken_text": "5 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Quantità fino a 10 · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_quantita_10-p2-title",
+          "kind": "text",
+          "text": "Quantità fino a 10 · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p2-field-title",
+          "kind": "text",
+          "text": "Quantità fino a 10",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p2-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p2-1",
+          "kind": "symbol",
+          "text": "6 mele",
+          "symbol": "6 mele",
+          "concept": null,
+          "spoken_text": "6 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p2-2",
+          "kind": "symbol",
+          "text": "7 mele",
+          "symbol": "7 mele",
+          "concept": null,
+          "spoken_text": "7 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p2-3",
+          "kind": "symbol",
+          "text": "8 mele",
+          "symbol": "8 mele",
+          "concept": null,
+          "spoken_text": "8 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p2-4",
+          "kind": "symbol",
+          "text": "9 mele",
+          "symbol": "9 mele",
+          "concept": null,
+          "spoken_text": "9 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_quantita_10-p2-5",
+          "kind": "symbol",
+          "text": "10 mele",
+          "symbol": "10 mele",
+          "concept": null,
+          "spoken_text": "10 mele",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

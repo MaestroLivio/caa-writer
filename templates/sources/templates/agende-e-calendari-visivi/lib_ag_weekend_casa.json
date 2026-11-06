@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_weekend_casa",
+  "title": "Weekend a casa",
+  "description": "Agenda del fine settimana a casa. 6 voci, tra cui sabato mattina, sabato pomeriggio, sabato sera, domenica mattina e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Weekend a casa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_weekend_casa-p1-1",
+          "kind": "symbol",
+          "text": "sabato mattina",
+          "symbol": "sabato mattina",
+          "concept": null,
+          "spoken_text": "sabato mattina",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_weekend_casa-p1-2",
+          "kind": "symbol",
+          "text": "sabato pomeriggio",
+          "symbol": "sabato pomeriggio",
+          "concept": null,
+          "spoken_text": "sabato pomeriggio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_weekend_casa-p1-3",
+          "kind": "symbol",
+          "text": "sabato sera",
+          "symbol": "sabato sera",
+          "concept": null,
+          "spoken_text": "sabato sera",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_weekend_casa-p1-4",
+          "kind": "symbol",
+          "text": "domenica mattina",
+          "symbol": "domenica mattina",
+          "concept": null,
+          "spoken_text": "domenica mattina",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_weekend_casa-p1-5",
+          "kind": "symbol",
+          "text": "domenica pomeriggio",
+          "symbol": "domenica pomeriggio",
+          "concept": null,
+          "spoken_text": "domenica pomeriggio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_weekend_casa-p1-6",
+          "kind": "symbol",
+          "text": "domenica sera",
+          "symbol": "domenica sera",
+          "concept": null,
+          "spoken_text": "domenica sera",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

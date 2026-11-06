@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_uscita_museo",
+  "title": "Uscita al museo",
+  "description": "Agenda dell'uscita al museo. 5 voci, tra cui autobus, biglietto, visita, pausa e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Uscita al museo",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_uscita_museo-p1-1",
+          "kind": "symbol",
+          "text": "autobus",
+          "symbol": "autobus",
+          "concept": "vehicle.bus",
+          "spoken_text": "autobus",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_museo-p1-2",
+          "kind": "symbol",
+          "text": "biglietto",
+          "symbol": "biglietto",
+          "concept": null,
+          "spoken_text": "biglietto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_museo-p1-3",
+          "kind": "symbol",
+          "text": "visita",
+          "symbol": "visita",
+          "concept": null,
+          "spoken_text": "visita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_museo-p1-4",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_uscita_museo-p1-5",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

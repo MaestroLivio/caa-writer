@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_alimentazione",
+  "title": "Alimentazione equilibrata",
+  "description": "Scheda sui gruppi di alimenti. 6 voci, tra cui frutta, verdura, cereali, proteine e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Alimentazione equilibrata",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_alimentazione-p1-title",
+          "kind": "text",
+          "text": "Alimentazione equilibrata",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-field-title",
+          "kind": "text",
+          "text": "Alimentazione equilibrata",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-1",
+          "kind": "symbol",
+          "text": "frutta",
+          "symbol": "frutta",
+          "concept": "food.fruit",
+          "spoken_text": "frutta",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-2",
+          "kind": "symbol",
+          "text": "verdura",
+          "symbol": "verdura",
+          "concept": null,
+          "spoken_text": "verdura",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-3",
+          "kind": "symbol",
+          "text": "cereali",
+          "symbol": "cereali",
+          "concept": null,
+          "spoken_text": "cereali",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-4",
+          "kind": "symbol",
+          "text": "proteine",
+          "symbol": "proteine",
+          "concept": null,
+          "spoken_text": "proteine",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-5",
+          "kind": "symbol",
+          "text": "latticini",
+          "symbol": "latticini",
+          "concept": null,
+          "spoken_text": "latticini",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alimentazione-p1-6",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

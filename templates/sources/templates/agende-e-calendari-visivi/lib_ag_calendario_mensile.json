@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_calendario_mensile",
+  "title": "Calendario mensile delle attività",
+  "description": "Calendario sintetico con cinque appuntamenti del mese. 5 voci, tra cui 1: incontro, 8: visita, 15: compleanno, 22: gita e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Calendario mensile delle attività",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_calendario_mensile-p1-1",
+          "kind": "symbol",
+          "text": "1: incontro",
+          "symbol": "1: incontro",
+          "concept": null,
+          "spoken_text": "1: incontro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_calendario_mensile-p1-2",
+          "kind": "symbol",
+          "text": "8: visita",
+          "symbol": "8: visita",
+          "concept": null,
+          "spoken_text": "8: visita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_calendario_mensile-p1-3",
+          "kind": "symbol",
+          "text": "15: compleanno",
+          "symbol": "15: compleanno",
+          "concept": null,
+          "spoken_text": "15: compleanno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_calendario_mensile-p1-4",
+          "kind": "symbol",
+          "text": "22: gita",
+          "symbol": "22: gita",
+          "concept": null,
+          "spoken_text": "22: gita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_calendario_mensile-p1-5",
+          "kind": "symbol",
+          "text": "29: festa",
+          "symbol": "29: festa",
+          "concept": null,
+          "spoken_text": "29: festa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 5,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

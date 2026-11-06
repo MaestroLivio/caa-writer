@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_pranzo_mensa",
+  "title": "Il pranzo in mensa",
+  "description": "Storia sociale sul pranzo in mensa. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Il pranzo in mensa",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_pranzo_mensa-p1-title",
+          "kind": "text",
+          "text": "Il pranzo in mensa",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-field-title",
+          "kind": "text",
+          "text": "Il pranzo in mensa",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-1",
+          "kind": "symbol",
+          "text": "In mensa mangio con i compagni.",
+          "symbol": "In mensa mangio con i compagni.",
+          "concept": null,
+          "spoken_text": "In mensa mangio con i compagni.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-2",
+          "kind": "symbol",
+          "text": "Posso scegliere cosa mangiare.",
+          "symbol": "Posso scegliere cosa mangiare.",
+          "concept": null,
+          "spoken_text": "Posso scegliere cosa mangiare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-3",
+          "kind": "symbol",
+          "text": "Posso usare forchetta e bicchiere.",
+          "symbol": "Posso usare forchetta e bicchiere.",
+          "concept": null,
+          "spoken_text": "Posso usare forchetta e bicchiere.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-4",
+          "kind": "symbol",
+          "text": "Se non mi piace qualcosa, posso dirlo.",
+          "symbol": "Se non mi piace qualcosa, posso dirlo.",
+          "concept": null,
+          "spoken_text": "Se non mi piace qualcosa, posso dirlo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-5",
+          "kind": "symbol",
+          "text": "Quando finisco, porto il vassoio.",
+          "symbol": "Quando finisco, porto il vassoio.",
+          "concept": null,
+          "spoken_text": "Quando finisco, porto il vassoio.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_pranzo_mensa-p1-6",
+          "kind": "symbol",
+          "text": "Posso aspettare il mio turno.",
+          "symbol": "Posso aspettare il mio turno.",
+          "concept": null,
+          "spoken_text": "Posso aspettare il mio turno.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

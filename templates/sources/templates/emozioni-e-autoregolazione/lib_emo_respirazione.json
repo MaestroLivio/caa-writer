@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_respirazione",
+  "title": "Respirazione guidata",
+  "description": "Sequenza illustrata per respirare lentamente. 6 voci, tra cui inspira, trattieni, espira, conta fino a 4 e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Respirazione guidata",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_respirazione-p1-1",
+          "kind": "symbol",
+          "text": "inspira",
+          "symbol": "inspira",
+          "concept": null,
+          "spoken_text": "inspira",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_respirazione-p1-2",
+          "kind": "symbol",
+          "text": "trattieni",
+          "symbol": "trattieni",
+          "concept": null,
+          "spoken_text": "trattieni",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_respirazione-p1-3",
+          "kind": "symbol",
+          "text": "espira",
+          "symbol": "espira",
+          "concept": null,
+          "spoken_text": "espira",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_respirazione-p1-4",
+          "kind": "symbol",
+          "text": "conta fino a 4",
+          "symbol": "conta fino a 4",
+          "concept": null,
+          "spoken_text": "conta fino a 4",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_respirazione-p1-5",
+          "kind": "symbol",
+          "text": "ripeti",
+          "symbol": "ripeti",
+          "concept": null,
+          "spoken_text": "ripeti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_respirazione-p1-6",
+          "kind": "symbol",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "spoken_text": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 2,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

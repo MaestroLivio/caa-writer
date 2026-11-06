@@ -1,0 +1,129 @@
+{
+  "id": "lib_com_bisogni_scuola",
+  "title": "Bisogni a scuola",
+  "description": "Selezione dei bisogni tipici durante la giornata scolastica. 6 voci, tra cui chiedere aiuto, bagno, bere, mangiare e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Bisogni a scuola",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_bisogni_scuola-p1-1",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bisogni_scuola-p1-2",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bisogni_scuola-p1-3",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bisogni_scuola-p1-4",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bisogni_scuola-p1-5",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bisogni_scuola-p1-6",
+          "kind": "symbol",
+          "text": "intervallo",
+          "symbol": "intervallo",
+          "concept": "school.break",
+          "spoken_text": "intervallo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

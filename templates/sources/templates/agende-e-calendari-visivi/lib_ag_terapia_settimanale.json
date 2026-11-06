@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_terapia_settimanale",
+  "title": "Appuntamenti settimanali",
+  "description": "Agenda settimanale delle terapie e degli incontri. 5 voci, tra cui lunedì logopedia, martedì psicomotricità, mercoledì acquaticità, giovedì logopedia e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Appuntamenti settimanali",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_terapia_settimanale-p1-1",
+          "kind": "symbol",
+          "text": "lunedì logopedia",
+          "symbol": "lunedì logopedia",
+          "concept": null,
+          "spoken_text": "lunedì logopedia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_terapia_settimanale-p1-2",
+          "kind": "symbol",
+          "text": "martedì psicomotricità",
+          "symbol": "martedì psicomotricità",
+          "concept": null,
+          "spoken_text": "martedì psicomotricità",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_terapia_settimanale-p1-3",
+          "kind": "symbol",
+          "text": "mercoledì acquaticità",
+          "symbol": "mercoledì acquaticità",
+          "concept": null,
+          "spoken_text": "mercoledì acquaticità",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_terapia_settimanale-p1-4",
+          "kind": "symbol",
+          "text": "giovedì logopedia",
+          "symbol": "giovedì logopedia",
+          "concept": null,
+          "spoken_text": "giovedì logopedia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_terapia_settimanale-p1-5",
+          "kind": "symbol",
+          "text": "venerdì riposo",
+          "symbol": "venerdì riposo",
+          "concept": null,
+          "spoken_text": "venerdì riposo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 5,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

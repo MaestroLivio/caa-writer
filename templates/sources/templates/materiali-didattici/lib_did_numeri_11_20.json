@@ -1,0 +1,232 @@
+{
+  "id": "lib_did_numeri_11_20",
+  "title": "Numeri da 11 a 20",
+  "description": "Scheda dei numeri da undici a venti. 10 voci, tra cui 11 undici, 12 dodici, 13 tredici, 14 quattordici e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Numeri da 11 a 20",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_numeri_11_20-p1-title",
+          "kind": "text",
+          "text": "Numeri da 11 a 20",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p1-field-title",
+          "kind": "text",
+          "text": "Numeri da 11 a 20",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p1-1",
+          "kind": "symbol",
+          "text": "11 undici",
+          "symbol": "11 undici",
+          "concept": null,
+          "spoken_text": "11 undici",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p1-2",
+          "kind": "symbol",
+          "text": "12 dodici",
+          "symbol": "12 dodici",
+          "concept": null,
+          "spoken_text": "12 dodici",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p1-3",
+          "kind": "symbol",
+          "text": "13 tredici",
+          "symbol": "13 tredici",
+          "concept": null,
+          "spoken_text": "13 tredici",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p1-4",
+          "kind": "symbol",
+          "text": "14 quattordici",
+          "symbol": "14 quattordici",
+          "concept": null,
+          "spoken_text": "14 quattordici",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p1-5",
+          "kind": "symbol",
+          "text": "15 quindici",
+          "symbol": "15 quindici",
+          "concept": null,
+          "spoken_text": "15 quindici",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Numeri da 11 a 20 · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_numeri_11_20-p2-title",
+          "kind": "text",
+          "text": "Numeri da 11 a 20 · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p2-field-title",
+          "kind": "text",
+          "text": "Numeri da 11 a 20",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p2-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p2-1",
+          "kind": "symbol",
+          "text": "16 sedici",
+          "symbol": "16 sedici",
+          "concept": null,
+          "spoken_text": "16 sedici",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p2-2",
+          "kind": "symbol",
+          "text": "17 diciassette",
+          "symbol": "17 diciassette",
+          "concept": null,
+          "spoken_text": "17 diciassette",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p2-3",
+          "kind": "symbol",
+          "text": "18 diciotto",
+          "symbol": "18 diciotto",
+          "concept": null,
+          "spoken_text": "18 diciotto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p2-4",
+          "kind": "symbol",
+          "text": "19 diciannove",
+          "symbol": "19 diciannove",
+          "concept": null,
+          "spoken_text": "19 diciannove",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-p2-5",
+          "kind": "symbol",
+          "text": "20 venti",
+          "symbol": "20 venti",
+          "concept": null,
+          "spoken_text": "20 venti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

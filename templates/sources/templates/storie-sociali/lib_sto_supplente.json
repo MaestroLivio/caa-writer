@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_supplente",
+  "title": "La supplente",
+  "description": "Storia sociale sulla giornata con un'insegnante supplente. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "La supplente",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_supplente-p1-title",
+          "kind": "text",
+          "text": "La supplente",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-field-title",
+          "kind": "text",
+          "text": "La supplente",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-1",
+          "kind": "symbol",
+          "text": "Oggi la maestra non c'è.",
+          "symbol": "Oggi la maestra non c'è.",
+          "concept": null,
+          "spoken_text": "Oggi la maestra non c'è.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-2",
+          "kind": "symbol",
+          "text": "In classe c'è una supplente.",
+          "symbol": "In classe c'è una supplente.",
+          "concept": null,
+          "spoken_text": "In classe c'è una supplente.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-3",
+          "kind": "symbol",
+          "text": "Posso ascoltare le sue indicazioni.",
+          "symbol": "Posso ascoltare le sue indicazioni.",
+          "concept": null,
+          "spoken_text": "Posso ascoltare le sue indicazioni.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-4",
+          "kind": "symbol",
+          "text": "Posso dirle il mio nome.",
+          "symbol": "Posso dirle il mio nome.",
+          "concept": null,
+          "spoken_text": "Posso dirle il mio nome.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-5",
+          "kind": "symbol",
+          "text": "Le attività possono essere diverse.",
+          "symbol": "Le attività possono essere diverse.",
+          "concept": null,
+          "spoken_text": "Le attività possono essere diverse.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supplente-p1-6",
+          "kind": "symbol",
+          "text": "Se ho bisogno, posso chiedere.",
+          "symbol": "Se ho bisogno, posso chiedere.",
+          "concept": null,
+          "spoken_text": "Se ho bisogno, posso chiedere.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

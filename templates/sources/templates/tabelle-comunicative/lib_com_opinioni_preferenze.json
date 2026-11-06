@@ -1,0 +1,163 @@
+{
+  "id": "lib_com_opinioni_preferenze",
+  "title": "Preferenze",
+  "description": "Griglia per indicare ciò che piace e ciò che non piace. 8 voci, tra cui felice, triste, giocare, leggere e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Preferenze",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_opinioni_preferenze-p1-1",
+          "kind": "symbol",
+          "text": "felice",
+          "symbol": "felice",
+          "concept": "emotion.happy",
+          "spoken_text": "felice",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_opinioni_preferenze-p1-2",
+          "kind": "symbol",
+          "text": "triste",
+          "symbol": "triste",
+          "concept": "emotion.sad",
+          "spoken_text": "triste",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_opinioni_preferenze-p1-3",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_opinioni_preferenze-p1-4",
+          "kind": "symbol",
+          "text": "leggere",
+          "symbol": "leggere",
+          "concept": "action.read",
+          "spoken_text": "leggere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_opinioni_preferenze-p1-5",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_opinioni_preferenze-p1-6",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_opinioni_preferenze-p1-7",
+          "kind": "symbol",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "spoken_text": "cane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_opinioni_preferenze-p1-8",
+          "kind": "symbol",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "spoken_text": "gatto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

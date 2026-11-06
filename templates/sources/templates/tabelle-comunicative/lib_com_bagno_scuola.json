@@ -1,0 +1,95 @@
+{
+  "id": "lib_com_bagno_scuola",
+  "title": "Bagno a scuola",
+  "description": "Quattro richieste essenziali per il bagno a scuola: bagno, chiedere aiuto, lavarsi le mani, finire. Versione a 4 celle, stampabile e interattiva.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Bagno a scuola",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_bagno_scuola-p1-1",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bagno_scuola-p1-2",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bagno_scuola-p1-3",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bagno_scuola-p1-4",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 2,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

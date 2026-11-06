@@ -1,0 +1,95 @@
+{
+  "id": "lib_tea_sequenza_quattro",
+  "title": "Sequenza di quattro azioni",
+  "description": "Ordinare una sequenza di quattro azioni. 4 voci, tra cui prendere il foglio, piegare, tagliare, incollare.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Sequenza di quattro azioni",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_sequenza_quattro-p1-1",
+          "kind": "symbol",
+          "text": "prendere il foglio",
+          "symbol": "prendere il foglio",
+          "concept": null,
+          "spoken_text": "prendere il foglio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_sequenza_quattro-p1-2",
+          "kind": "symbol",
+          "text": "piegare",
+          "symbol": "piegare",
+          "concept": null,
+          "spoken_text": "piegare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_sequenza_quattro-p1-3",
+          "kind": "symbol",
+          "text": "tagliare",
+          "symbol": "tagliare",
+          "concept": null,
+          "spoken_text": "tagliare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_sequenza_quattro-p1-4",
+          "kind": "symbol",
+          "text": "incollare",
+          "symbol": "incollare",
+          "concept": null,
+          "spoken_text": "incollare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

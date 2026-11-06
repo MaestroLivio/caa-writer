@@ -1,0 +1,112 @@
+{
+  "id": "lib_tea_inizio_fine",
+  "title": "Inizio e fine del lavoro",
+  "description": "Struttura per segnare inizio, svolgimento e fine di un compito. 5 voci, tra cui inizio, lavoro, pausa, controllo e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Inizio e fine del lavoro",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_inizio_fine-p1-1",
+          "kind": "symbol",
+          "text": "inizio",
+          "symbol": "inizio",
+          "concept": null,
+          "spoken_text": "inizio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_inizio_fine-p1-2",
+          "kind": "symbol",
+          "text": "lavoro",
+          "symbol": "lavoro",
+          "concept": null,
+          "spoken_text": "lavoro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_inizio_fine-p1-3",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_inizio_fine-p1-4",
+          "kind": "symbol",
+          "text": "controllo",
+          "symbol": "controllo",
+          "concept": null,
+          "spoken_text": "controllo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_inizio_fine-p1-5",
+          "kind": "symbol",
+          "text": "fine",
+          "symbol": "fine",
+          "concept": null,
+          "spoken_text": "fine",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

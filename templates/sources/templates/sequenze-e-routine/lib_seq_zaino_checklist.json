@@ -1,0 +1,190 @@
+{
+  "id": "lib_seq_zaino_checklist",
+  "title": "Preparare lo zaino: checklist",
+  "description": "Checklist per preparare lo zaino prima di uscire. 7 voci, tra cui astuccio, quaderni, libri, agenda e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Preparare lo zaino: checklist",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_zaino_checklist-p1-title",
+          "kind": "text",
+          "text": "Preparare lo zaino: checklist",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p1-field-title",
+          "kind": "text",
+          "text": "Preparare lo zaino: checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p1-field-layout",
+          "kind": "text",
+          "text": "checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p1-1",
+          "kind": "symbol",
+          "text": "astuccio",
+          "symbol": "astuccio",
+          "concept": null,
+          "spoken_text": "astuccio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p1-2",
+          "kind": "symbol",
+          "text": "quaderni",
+          "symbol": "quaderni",
+          "concept": null,
+          "spoken_text": "quaderni",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p1-3",
+          "kind": "symbol",
+          "text": "libri",
+          "symbol": "libri",
+          "concept": null,
+          "spoken_text": "libri",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p1-4",
+          "kind": "symbol",
+          "text": "agenda",
+          "symbol": "agenda",
+          "concept": null,
+          "spoken_text": "agenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Preparare lo zaino: checklist · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_seq_zaino_checklist-p2-title",
+          "kind": "text",
+          "text": "Preparare lo zaino: checklist · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p2-field-title",
+          "kind": "text",
+          "text": "Preparare lo zaino: checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p2-field-layout",
+          "kind": "text",
+          "text": "checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p2-1",
+          "kind": "symbol",
+          "text": "borraccia",
+          "symbol": "borraccia",
+          "concept": null,
+          "spoken_text": "borraccia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p2-2",
+          "kind": "symbol",
+          "text": "merenda",
+          "symbol": "merenda",
+          "concept": null,
+          "spoken_text": "merenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_zaino_checklist-p2-3",
+          "kind": "symbol",
+          "text": "cappello",
+          "symbol": "cappello",
+          "concept": "object.hat",
+          "spoken_text": "cappello",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

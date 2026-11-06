@@ -1,0 +1,231 @@
+{
+  "id": "lib_com_scuola_mattina",
+  "title": "Scuola: la mattina",
+  "description": "Celle per seguire le attività della mattina scolastica. 12 voci, tra cui entrata a scuola, lavoro in classe, intervallo, pranzo e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Scuola: la mattina",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_scuola_mattina-p1-1",
+          "kind": "symbol",
+          "text": "entrata a scuola",
+          "symbol": "entrata a scuola",
+          "concept": "school.arrival",
+          "spoken_text": "entrata a scuola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-2",
+          "kind": "symbol",
+          "text": "lavoro in classe",
+          "symbol": "lavoro in classe",
+          "concept": "school.classwork",
+          "spoken_text": "lavoro in classe",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-3",
+          "kind": "symbol",
+          "text": "intervallo",
+          "symbol": "intervallo",
+          "concept": "school.break",
+          "spoken_text": "intervallo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-4",
+          "kind": "symbol",
+          "text": "pranzo",
+          "symbol": "pranzo",
+          "concept": "school.lunch",
+          "spoken_text": "pranzo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-5",
+          "kind": "symbol",
+          "text": "maestra",
+          "symbol": "maestra",
+          "concept": "person.teacher",
+          "spoken_text": "maestra",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-6",
+          "kind": "symbol",
+          "text": "banco",
+          "symbol": "banco",
+          "concept": "furniture.school_desk",
+          "spoken_text": "banco",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-7",
+          "kind": "symbol",
+          "text": "zaino",
+          "symbol": "zaino",
+          "concept": "object.backpack",
+          "spoken_text": "zaino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-8",
+          "kind": "symbol",
+          "text": "matita",
+          "symbol": "matita",
+          "concept": "object.pencil",
+          "spoken_text": "matita",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-9",
+          "kind": "symbol",
+          "text": "libro",
+          "symbol": "libro",
+          "concept": "object.book",
+          "spoken_text": "libro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-10",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-11",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_mattina-p1-12",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

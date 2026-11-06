@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_domande_dove",
+  "title": "Domande: dove?",
+  "description": "Celle per chiedere e indicare un luogo. 9 voci, tra cui dove, casa, scuola, bagno e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Domande: dove?",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_domande_dove-p1-1",
+          "kind": "symbol",
+          "text": "dove",
+          "symbol": "dove",
+          "concept": null,
+          "spoken_text": "dove",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-2",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-3",
+          "kind": "symbol",
+          "text": "scuola",
+          "symbol": "scuola",
+          "concept": "place.school",
+          "spoken_text": "scuola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-4",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-5",
+          "kind": "symbol",
+          "text": "cucina",
+          "symbol": "cucina",
+          "concept": "place.kitchen",
+          "spoken_text": "cucina",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-6",
+          "kind": "symbol",
+          "text": "parco",
+          "symbol": "parco",
+          "concept": "place.park",
+          "spoken_text": "parco",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-7",
+          "kind": "symbol",
+          "text": "giardino",
+          "symbol": "giardino",
+          "concept": null,
+          "spoken_text": "giardino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-8",
+          "kind": "symbol",
+          "text": "biblioteca",
+          "symbol": "biblioteca",
+          "concept": null,
+          "spoken_text": "biblioteca",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_dove-p1-9",
+          "kind": "symbol",
+          "text": "fuori",
+          "symbol": "fuori",
+          "concept": null,
+          "spoken_text": "fuori",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

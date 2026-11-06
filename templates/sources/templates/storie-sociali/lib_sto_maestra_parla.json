@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_maestra_parla",
+  "title": "Quando la maestra parla",
+  "description": "Storia sociale sull'ascolto durante la lezione. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quando la maestra parla",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_maestra_parla-p1-title",
+          "kind": "text",
+          "text": "Quando la maestra parla",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-field-title",
+          "kind": "text",
+          "text": "Quando la maestra parla",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-1",
+          "kind": "symbol",
+          "text": "La maestra a volte parla a tutta la classe.",
+          "symbol": "La maestra a volte parla a tutta la classe.",
+          "concept": null,
+          "spoken_text": "La maestra a volte parla a tutta la classe.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-2",
+          "kind": "symbol",
+          "text": "Quando parla, posso fermarmi e ascoltare.",
+          "symbol": "Quando parla, posso fermarmi e ascoltare.",
+          "concept": null,
+          "spoken_text": "Quando parla, posso fermarmi e ascoltare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-3",
+          "kind": "symbol",
+          "text": "Se sto finendo una cosa, posso chiedere un momento.",
+          "symbol": "Se sto finendo una cosa, posso chiedere un momento.",
+          "concept": null,
+          "spoken_text": "Se sto finendo una cosa, posso chiedere un momento.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-4",
+          "kind": "symbol",
+          "text": "Posso guardare la maestra per capire cosa dice.",
+          "symbol": "Posso guardare la maestra per capire cosa dice.",
+          "concept": null,
+          "spoken_text": "Posso guardare la maestra per capire cosa dice.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-5",
+          "kind": "symbol",
+          "text": "Se non ho capito, posso chiedere di ripetere.",
+          "symbol": "Se non ho capito, posso chiedere di ripetere.",
+          "concept": null,
+          "spoken_text": "Se non ho capito, posso chiedere di ripetere.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_maestra_parla-p1-6",
+          "kind": "symbol",
+          "text": "Ascoltare aiuta a sapere cosa fare dopo.",
+          "symbol": "Ascoltare aiuta a sapere cosa fare dopo.",
+          "concept": null,
+          "spoken_text": "Ascoltare aiuta a sapere cosa fare dopo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

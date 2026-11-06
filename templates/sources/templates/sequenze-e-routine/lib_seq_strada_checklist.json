@@ -1,0 +1,137 @@
+{
+  "id": "lib_seq_strada_checklist",
+  "title": "Attraversare la strada: checklist",
+  "description": "Checklist per attraversare la strada in sicurezza. 6 voci, tra cui fermarsi al marciapiede, guardare a sinistra, guardare a destra, guardare ancora e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Attraversare la strada: checklist",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_strada_checklist-p1-title",
+          "kind": "text",
+          "text": "Attraversare la strada: checklist",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-field-title",
+          "kind": "text",
+          "text": "Attraversare la strada: checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-field-layout",
+          "kind": "text",
+          "text": "checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-1",
+          "kind": "symbol",
+          "text": "fermarsi al marciapiede",
+          "symbol": "fermarsi al marciapiede",
+          "concept": null,
+          "spoken_text": "fermarsi al marciapiede",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-2",
+          "kind": "symbol",
+          "text": "guardare a sinistra",
+          "symbol": "guardare a sinistra",
+          "concept": null,
+          "spoken_text": "guardare a sinistra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-3",
+          "kind": "symbol",
+          "text": "guardare a destra",
+          "symbol": "guardare a destra",
+          "concept": null,
+          "spoken_text": "guardare a destra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-4",
+          "kind": "symbol",
+          "text": "guardare ancora",
+          "symbol": "guardare ancora",
+          "concept": null,
+          "spoken_text": "guardare ancora",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-5",
+          "kind": "symbol",
+          "text": "attraversare",
+          "symbol": "attraversare",
+          "concept": null,
+          "spoken_text": "attraversare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_strada_checklist-p1-6",
+          "kind": "symbol",
+          "text": "arrivare",
+          "symbol": "arrivare",
+          "concept": null,
+          "spoken_text": "arrivare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

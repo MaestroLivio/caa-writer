@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_puzzle",
+  "title": "Completare un puzzle",
+  "description": "Compito strutturato per completare un puzzle. 6 voci, tra cui bordo, angolo, centro, immagine e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Completare un puzzle",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_puzzle-p1-1",
+          "kind": "symbol",
+          "text": "bordo",
+          "symbol": "bordo",
+          "concept": null,
+          "spoken_text": "bordo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_puzzle-p1-2",
+          "kind": "symbol",
+          "text": "angolo",
+          "symbol": "angolo",
+          "concept": null,
+          "spoken_text": "angolo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_puzzle-p1-3",
+          "kind": "symbol",
+          "text": "centro",
+          "symbol": "centro",
+          "concept": null,
+          "spoken_text": "centro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_puzzle-p1-4",
+          "kind": "symbol",
+          "text": "immagine",
+          "symbol": "immagine",
+          "concept": null,
+          "spoken_text": "immagine",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_puzzle-p1-5",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_puzzle-p1-6",
+          "kind": "symbol",
+          "text": "controllare",
+          "symbol": "controllare",
+          "concept": null,
+          "spoken_text": "controllare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

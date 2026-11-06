@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_ricreazione",
+  "title": "La ricreazione",
+  "description": "Storia sociale su come vivere l'intervallo. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "La ricreazione",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_ricreazione-p1-title",
+          "kind": "text",
+          "text": "La ricreazione",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-field-title",
+          "kind": "text",
+          "text": "La ricreazione",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-1",
+          "kind": "symbol",
+          "text": "Durante la ricreazione posso giocare.",
+          "symbol": "Durante la ricreazione posso giocare.",
+          "concept": null,
+          "spoken_text": "Durante la ricreazione posso giocare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-2",
+          "kind": "symbol",
+          "text": "Posso scegliere un gioco con i compagni.",
+          "symbol": "Posso scegliere un gioco con i compagni.",
+          "concept": null,
+          "spoken_text": "Posso scegliere un gioco con i compagni.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-3",
+          "kind": "symbol",
+          "text": "Posso chiedere se posso unirmi.",
+          "symbol": "Posso chiedere se posso unirmi.",
+          "concept": null,
+          "spoken_text": "Posso chiedere se posso unirmi.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-4",
+          "kind": "symbol",
+          "text": "Se voglio stare da solo, posso dirlo.",
+          "symbol": "Se voglio stare da solo, posso dirlo.",
+          "concept": null,
+          "spoken_text": "Se voglio stare da solo, posso dirlo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-5",
+          "kind": "symbol",
+          "text": "Quando suona la campanella, rientro.",
+          "symbol": "Quando suona la campanella, rientro.",
+          "concept": null,
+          "spoken_text": "Quando suona la campanella, rientro.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_ricreazione-p1-6",
+          "kind": "symbol",
+          "text": "Metto a posto il gioco.",
+          "symbol": "Metto a posto il gioco.",
+          "concept": null,
+          "spoken_text": "Metto a posto il gioco.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

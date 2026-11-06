@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_comprensione_chi",
+  "title": "Comprensione: chi?",
+  "description": "Domande di comprensione sul soggetto dell'azione. 6 voci, tra cui Chi corre? Il cane, Chi legge? La maestra, Chi dorme? Il gatto, Chi gioca? Il bambino e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Comprensione: chi?",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_comprensione_chi-p1-title",
+          "kind": "text",
+          "text": "Comprensione: chi?",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-field-title",
+          "kind": "text",
+          "text": "Comprensione: chi?",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-1",
+          "kind": "symbol",
+          "text": "Chi corre? Il cane",
+          "symbol": "Chi corre? Il cane",
+          "concept": null,
+          "spoken_text": "Chi corre? Il cane",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-2",
+          "kind": "symbol",
+          "text": "Chi legge? La maestra",
+          "symbol": "Chi legge? La maestra",
+          "concept": null,
+          "spoken_text": "Chi legge? La maestra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-3",
+          "kind": "symbol",
+          "text": "Chi dorme? Il gatto",
+          "symbol": "Chi dorme? Il gatto",
+          "concept": null,
+          "spoken_text": "Chi dorme? Il gatto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-4",
+          "kind": "symbol",
+          "text": "Chi gioca? Il bambino",
+          "symbol": "Chi gioca? Il bambino",
+          "concept": null,
+          "spoken_text": "Chi gioca? Il bambino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-5",
+          "kind": "symbol",
+          "text": "Chi cucina? La mamma",
+          "symbol": "Chi cucina? La mamma",
+          "concept": null,
+          "spoken_text": "Chi cucina? La mamma",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-p1-6",
+          "kind": "symbol",
+          "text": "Chi guida? Il papà",
+          "symbol": "Chi guida? Il papà",
+          "concept": null,
+          "spoken_text": "Chi guida? Il papà",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

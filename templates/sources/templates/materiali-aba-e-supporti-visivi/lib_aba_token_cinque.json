@@ -1,0 +1,112 @@
+{
+  "id": "lib_aba_token_cinque",
+  "title": "Token board: cinque gettoni",
+  "description": "Tabella di rinforzo con cinque gettoni. 5 voci, tra cui lavorare, pausa, finire, premio e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Token board: cinque gettoni",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_token_cinque-p1-1",
+          "kind": "symbol",
+          "text": "lavorare",
+          "symbol": "lavorare",
+          "concept": null,
+          "spoken_text": "lavorare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_token_cinque-p1-2",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_token_cinque-p1-3",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_token_cinque-p1-4",
+          "kind": "symbol",
+          "text": "premio",
+          "symbol": "premio",
+          "concept": null,
+          "spoken_text": "premio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_token_cinque-p1-5",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 5,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

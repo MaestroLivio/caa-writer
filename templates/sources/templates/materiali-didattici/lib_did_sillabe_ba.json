@@ -1,0 +1,123 @@
+{
+  "id": "lib_did_sillabe_ba",
+  "title": "Sillabe con B",
+  "description": "Scheda di lettura delle sillabe con la consonante B. 5 voci, tra cui BA, BE, BI, BO e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Sillabe con B",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_sillabe_ba-p1-title",
+          "kind": "text",
+          "text": "Sillabe con B",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ba-p1-field-title",
+          "kind": "text",
+          "text": "Sillabe con B",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ba-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ba-p1-1",
+          "kind": "symbol",
+          "text": "BA",
+          "symbol": "BA",
+          "concept": null,
+          "spoken_text": "BA",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ba-p1-2",
+          "kind": "symbol",
+          "text": "BE",
+          "symbol": "BE",
+          "concept": null,
+          "spoken_text": "BE",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ba-p1-3",
+          "kind": "symbol",
+          "text": "BI",
+          "symbol": "BI",
+          "concept": null,
+          "spoken_text": "BI",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ba-p1-4",
+          "kind": "symbol",
+          "text": "BO",
+          "symbol": "BO",
+          "concept": null,
+          "spoken_text": "BO",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ba-p1-5",
+          "kind": "symbol",
+          "text": "BU",
+          "symbol": "BU",
+          "concept": null,
+          "spoken_text": "BU",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

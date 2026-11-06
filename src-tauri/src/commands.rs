@@ -402,6 +402,108 @@ pub fn ai_status(state: State<'_, Engine>) -> AiStatus {
 /// Diagnostica misurata: CPU/RAM dei processi, coda neurale, tempi reali e
 /// richieste obsolete. Nessun valore è stimato o inventato.
 #[tauri::command]
+pub fn document_validate(document: serde_json::Value) -> Result<serde_json::Value, String> {
+    let document: crate::universal::UniversalDocument =
+        serde_json::from_value(document).map_err(|e| format!("documento non valido: {e}"))?;
+    crate::universal::validate(&document)?;
+    Ok(serde_json::json!({
+        "valid": true,
+        "pages": document.pages.len(),
+        "elements": document.pages.iter().map(|page| page.elements.len()).sum::<usize>(),
+        "schema_version": document.schema_version,
+    }))
+}
+
+#[tauri::command]
+pub fn document_render(document: serde_json::Value) -> Result<crate::universal::RenderedDocument, String> {
+    let document: crate::universal::UniversalDocument =
+        serde_json::from_value(document).map_err(|e| format!("documento non valido: {e}"))?;
+    document.render()
+}
+
+/// Applica una transazione di comandi tipizzati al documento. Il frontend
+/// conserva lo stato precedente per undo/redo; il backend valida tutto prima
+/// di restituire il nuovo documento.
+#[tauri::command]
+pub fn document_apply(
+    document: serde_json::Value,
+    commands: serde_json::Value,
+) -> Result<crate::universal::ApplyResult, String> {
+    let document: crate::universal::UniversalDocument =
+        serde_json::from_value(document).map_err(|e| format!("documento non valido: {e}"))?;
+    let commands: Vec<crate::universal::DocumentCommand> =
+        serde_json::from_value(commands).map_err(|e| format!("comandi non validi: {e}"))?;
+    crate::universal::apply_transaction(&document, &commands)
+}
+
+#[tauri::command]
+pub fn universal_from_plan(
+    plan: studio::ResourcePlan,
+) -> Result<crate::universal::UniversalDocument, String> {
+    crate::universal_build::from_plan(&plan)
+}
+
+#[tauri::command]
+pub fn document_export(
+    document: serde_json::Value,
+    format: String,
+    path: String,
+) -> Result<crate::model::ExportResult, String> {
+    let document: crate::universal::UniversalDocument =
+        serde_json::from_value(document).map_err(|e| format!("documento non valido: {e}"))?;
+    crate::universal::validate(&document)?;
+    let target = std::path::Path::new(&path);
+    let content = match format.as_str() {
+        "html" => crate::universal_build::export_html(&document)?,
+        "svg" => {
+            let rendered = document.render()?;
+            let page = rendered
+                .pages
+                .first()
+                .ok_or_else(|| "documento senza pagine".to_string())?;
+            crate::universal::render_page_svg(page)
+        }
+        other => return Err(format!("formato di esportazione non supportato: {other}")),
+    };
+    std::fs::write(target, content).map_err(|e| format!("{}: {e}", target.display()))?;
+    Ok(crate::model::ExportResult {
+        path,
+        warnings: Vec::new(),
+    })
+}
+
+#[tauri::command]
+pub fn universal_library(state: State<'_, Engine>) -> crate::universal::LibraryManifest {
+    crate::universal::load_library_manifest(&state.paths.resources_dir)
+}
+
+#[derive(Serialize)]
+pub struct OpenedUniversalDocument {
+    pub document: crate::universal::UniversalDocument,
+    pub path: String,
+}
+
+#[tauri::command]
+pub fn universal_open(
+    state: State<'_, Engine>,
+    id: String,
+    source_type: Option<String>,
+) -> Result<OpenedUniversalDocument, String> {
+    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let path = crate::universal::resolve_library_path(
+        &manifest,
+        &id,
+        source_type.as_deref(),
+        &state.paths.resources_dir,
+    )?;
+    let document = crate::universal::load_from_caadoc(&path)?;
+    Ok(OpenedUniversalDocument {
+        document,
+        path: path.to_string_lossy().to_string(),
+    })
+}
+
+#[tauri::command]
 pub fn runtime_diagnostics(state: State<'_, Engine>) -> crate::engine::RuntimeDiagnostics {
     state.diagnostics()
 }

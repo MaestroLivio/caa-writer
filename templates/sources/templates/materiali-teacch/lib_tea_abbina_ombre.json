@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_abbina_ombre",
+  "title": "Abbinare le ombre",
+  "description": "Compito di abbinamento tra figura e ombra. 6 voci, tra cui cane, gatto, uccello, albero e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Abbinare le ombre",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_abbina_ombre-p1-1",
+          "kind": "symbol",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "spoken_text": "cane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_abbina_ombre-p1-2",
+          "kind": "symbol",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "spoken_text": "gatto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_abbina_ombre-p1-3",
+          "kind": "symbol",
+          "text": "uccello",
+          "symbol": "uccello",
+          "concept": "animal.bird",
+          "spoken_text": "uccello",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_abbina_ombre-p1-4",
+          "kind": "symbol",
+          "text": "albero",
+          "symbol": "albero",
+          "concept": "nature.tree",
+          "spoken_text": "albero",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_abbina_ombre-p1-5",
+          "kind": "symbol",
+          "text": "fiore",
+          "symbol": "fiore",
+          "concept": "nature.flower",
+          "spoken_text": "fiore",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_abbina_ombre-p1-6",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

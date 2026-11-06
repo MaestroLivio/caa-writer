@@ -18,6 +18,7 @@
   import CliConsole from "./lib/components/CliConsole.svelte";
   import UserHome from "./lib/components/UserHome.svelte";
   import UserEditor from "./lib/components/UserEditor.svelte";
+  import UniversalEditor from "./lib/components/UniversalEditor.svelte";
   import BoardPlayer from "./lib/components/BoardPlayer.svelte";
   import ProfileSetup from "./lib/components/ProfileSetup.svelte";
   import ProfileManager from "./lib/components/ProfileManager.svelte";
@@ -67,6 +68,7 @@
     type RuntimeDiagnostics,
     type TemplateInfo,
     type UnitModifiers,
+    type UniversalDocument,
     type VoiceInfo,
     noModifiers,
   } from "./lib/types";
@@ -98,6 +100,10 @@
   let recovered = $state(false);
   let resourcePlan = $state<ResourcePlan | null>(null);
   let freeBoardData = $state<FreeBoardData | null>(null);
+  let universalDoc = $state<UniversalDocument | null>(null);
+  let universalPath = $state<string | null>(null);
+  let universalFromLibrary = $state(false);
+  let universalReadOnly = $state(false);
   let resourceLayout = $state<LayoutDocument | null>(null);
   let showLayoutPreview = $state(false);
   let communicatorOpen = $state(false);
@@ -134,7 +140,7 @@
     nonce: number;
   };
 
-  let view = $state<"home" | "editor" | "board">("home");
+  let view = $state<"home" | "editor" | "board" | "universal">("home");
   // Le impostazioni sono una finestra modale autonoma: non dipendono più
   // dall'apertura del pannello laterale, che restava chiuso o vuoto.
   let settingsOpen = $state(false);
@@ -803,17 +809,139 @@
     window.addEventListener("pointerup", stop);
   }
 
+  async function openUniversalDocument(
+    id: string,
+    sourceType: string | null,
+    readOnly = false
+  ): Promise<boolean> {
+    if (!native) {
+      toast("La biblioteca universale richiede l'app desktop.", "warn");
+      return false;
+    }
+    try {
+      const opened = await api.universalOpen(id, sourceType);
+      universalDoc = opened.document;
+      universalPath = opened.path;
+      universalFromLibrary = true;
+      universalReadOnly = readOnly;
+      docTitle = opened.document.title;
+      view = "universal";
+      return true;
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+      return false;
+    }
+  }
+
+  async function openBoardUniversal(boardId: string) {
+    const opened = await openUniversalDocument(boardId, "board", true);
+    if (!opened) boardPlayerId = boardId;
+  }
+
+  async function saveUniversal(document: UniversalDocument) {
+    if (!native) {
+      toast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    let path = universalPath;
+    if (!path || universalFromLibrary || universalReadOnly) {
+      const picked = await saveDialog({
+        title: "Salva documento universale",
+        defaultPath: `${document.title || "documento"}.caadoc`,
+        filters: [{ name: "Documento CAA Writer", extensions: ["caadoc"] }],
+      });
+      if (!picked) return;
+      path = picked as string;
+    }
+    const assets = new Map<string, { symbol_id: string; svg: string | null; png_base64: null }>();
+    for (const page of document.pages) {
+      for (const element of page.elements) {
+        if (element.symbol_id && element.svg && !assets.has(element.symbol_id)) {
+          assets.set(element.symbol_id, {
+            symbol_id: element.symbol_id,
+            svg: element.svg,
+            png_base64: null,
+          });
+        }
+        for (const cell of element.grid?.cells ?? []) {
+          if (cell.symbol_id && cell.svg && !assets.has(cell.symbol_id)) {
+            assets.set(cell.symbol_id, {
+              symbol_id: cell.symbol_id,
+              svg: cell.svg,
+              png_base64: null,
+            });
+          }
+        }
+      }
+    }
+    const plain = document.pages
+      .flatMap((page) => [
+        page.title,
+        ...page.elements.flatMap((element) => [
+          element.text,
+          ...(element.grid?.cells.map((cell) => cell.text) ?? []),
+        ]),
+      ])
+      .filter(Boolean)
+      .join("\n");
+    try {
+      const result = await api.saveDocument(path, {
+        title: document.title || "Documento",
+        content: { type: "doc", content: [] },
+        plain_text: plain,
+        settings,
+        assets: [...assets.values()],
+        preferences: [],
+        layout: null,
+        universal: document,
+      });
+      universalPath = path;
+      universalFromLibrary = false;
+      docTitle = document.title;
+      recordRecent({ path, title: docTitle, excerpt: plain.slice(0, 160) });
+      if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
+      toast(`Documento salvato in ${path}`, "info");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function exportUniversal(document: UniversalDocument, format: "html" | "svg") {
+    if (!native) {
+      toast("L'esportazione richiede l'app desktop.", "warn");
+      return;
+    }
+    const picked = await saveDialog({
+      title: `Esporta ${format.toUpperCase()}`,
+      defaultPath: `${document.title || "documento"}.${format}`,
+      filters: [{ name: format.toUpperCase(), extensions: [format] }],
+    });
+    if (!picked) return;
+    try {
+      const result = await api.documentExport(document, format, picked as string);
+      toast(`Esportato in ${result.path}`, "info");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
   function openTemplate(templateId: string) {
     const template = templates.find((item) => item.id === templateId);
-    newDocument(true);
-    docTitle = template?.name ?? "Nuovo materiale";
-    sideIntent = {
-      tab: "studio",
-      prompt: template?.description ?? "",
-      templateId,
-      nonce: ++intentSeq,
-    };
-    view = "editor";
+    void (async () => {
+      const opened = await openUniversalDocument(templateId, "template", false);
+      if (opened) return;
+      // Fallback dichiarato: se la biblioteca universale non è installata,
+      // resta disponibile il vecchio percorso dello Studio.
+      newDocument(true);
+      docTitle = template?.name ?? "Nuovo materiale";
+      sideIntent = {
+        tab: "studio",
+        prompt: template?.description ?? "",
+        templateId,
+        nonce: ++intentSeq,
+      };
+      view = "editor";
+    })();
   }
 
   function buildPayload() {
@@ -1018,6 +1146,22 @@
       docKey = `doc-${path}`;
       if (loaded.settings && typeof loaded.settings === "object") {
         settings = { ...defaultSettings, ...(loaded.settings as Partial<DocumentSettings>) };
+      }
+      if (loaded.universal) {
+        universalDoc = loaded.universal as UniversalDocument;
+        universalPath = path;
+        universalFromLibrary = false;
+        universalReadOnly = false;
+        selected = null;
+        view = "universal";
+        recordRecent({
+          path,
+          title: docTitle,
+          excerpt: `${universalDoc.pages.length} pagine`,
+        });
+        loaded.warnings.forEach((warning) => toast(warning, "warn"));
+        toast(`Aperto: ${docTitle}`, "info");
+        return;
       }
       const savedLayout = loaded.layout as
         | { document_type?: string; layout?: { columns?: number }; elements?: Array<Record<string, unknown>> }
@@ -1801,31 +1945,21 @@
   }
 
   async function openPlanInEditor(plan: ResourcePlan) {
-    const content = {
-      type: "doc",
-      content: [
-        { type: "heading", attrs: { level: 1 }, content: [{ type: "text", text: plan.title }] },
-        ...plan.items.map((item) => ({
-          type: "paragraph",
-          attrs: {},
-          content: [{ type: "text", text: item.label }],
-        })),
-      ],
-    };
-    docTitle = plan.title;
-    docPath = null;
-    docKey = `doc-${Date.now().toString(36)}`;
-    selected = null;
-    view = "editor";
-    await tick();
-    editor?.setDocJson(content, plan.items.map((item) => item.label).join(" "));
-    if (get(workspace).sidebarMode === "overlay") {
-      updateWorkspace({ sidebarMode: "docked" });
+    try {
+      const document = await api.universalFromPlan(plan);
+      universalDoc = document;
+      universalPath = null;
+      universalFromLibrary = false;
+      universalReadOnly = false;
+      docTitle = plan.title;
+      view = "universal";
+      toast(
+        `«${plan.title}» è un documento nativo: puoi modificarne celle, testi, pittogrammi e azioni.`,
+        "info"
+      );
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
     }
-    toast(
-      `Modello «${plan.title}» aperto nell'editor: modifica liberamente testi e pittogrammi.`,
-      "info"
-    );
   }
 
   async function generateResource(prompt: string, templateId: string | null): Promise<ResourcePlan | null> {
@@ -3098,17 +3232,17 @@
   <title>{view === "editor" ? `${docTitle} · CAA Writer` : "CAA Writer"}</title>
 </svelte:head>
 
-{#if userMode && !boardPlayerId && !userEditorOpen}
+{#if userMode && !boardPlayerId && !userEditorOpen && view !== "universal"}
   <UserHome
     profile={activeProfile!}
     boards={userBoards}
-    onOpenBoard={(id) => (boardPlayerId = id)}
+    onOpenBoard={(id) => void openBoardUniversal(id)}
     onOpenEditor={() => (userEditorOpen = true)}
     onOpenCreator={() => void openCreator()}
   />
 {/if}
 
-{#if userMode && userEditorOpen && activeProfile && !boardPlayerId}
+{#if userMode && userEditorOpen && activeProfile && !boardPlayerId && view !== "universal"}
   <UserEditor
     profile={activeProfile}
     onBack={() => (userEditorOpen = false)}
@@ -3133,6 +3267,23 @@
     onOpenSettings={openSettingsPanel}
     onOpenTemplate={openTemplate}
   />
+{:else if view === "universal" && universalDoc}
+  {#key `${universalDoc.id}:${universalPath ?? ""}`}
+  <UniversalEditor
+    document={universalDoc}
+    path={universalPath}
+    readOnly={universalReadOnly || userMode}
+    profile={activeProfile}
+    onSave={saveUniversal}
+    onClose={() => {
+      view = "home";
+      universalDoc = null;
+    }}
+    onToast={toast}
+    onSpeak={(text) => void speak(text)}
+    onExport={exportUniversal}
+  />
+  {/key}
 {:else if view === "board"}
   <FreeBoard
     packId={settings.pack_id}
@@ -3426,6 +3577,7 @@
           onStatusChange={refreshAiStatus}
           onGenerateResource={generateResource}
           onOpenInEditor={openPlanInEditor}
+          onOpenUniversalTemplate={(id) => openTemplate(id)}
           onPrintResource={printResource}
           onToast={toast}
           onClearHistory={clearHistory}

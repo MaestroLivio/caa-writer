@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_parti_corpo",
+  "title": "Le parti del corpo",
+  "description": "Scheda di riconoscimento delle parti del corpo. 6 voci, tra cui testa, occhi, naso, bocca e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Le parti del corpo",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_parti_corpo-p1-title",
+          "kind": "text",
+          "text": "Le parti del corpo",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-field-title",
+          "kind": "text",
+          "text": "Le parti del corpo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-1",
+          "kind": "symbol",
+          "text": "testa",
+          "symbol": "testa",
+          "concept": null,
+          "spoken_text": "testa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-2",
+          "kind": "symbol",
+          "text": "occhi",
+          "symbol": "occhi",
+          "concept": null,
+          "spoken_text": "occhi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-3",
+          "kind": "symbol",
+          "text": "naso",
+          "symbol": "naso",
+          "concept": null,
+          "spoken_text": "naso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-4",
+          "kind": "symbol",
+          "text": "bocca",
+          "symbol": "bocca",
+          "concept": null,
+          "spoken_text": "bocca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-5",
+          "kind": "symbol",
+          "text": "mano",
+          "symbol": "mano",
+          "concept": null,
+          "spoken_text": "mano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_parti_corpo-p1-6",
+          "kind": "symbol",
+          "text": "piede",
+          "symbol": "piede",
+          "concept": null,
+          "spoken_text": "piede",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

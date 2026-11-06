@@ -1,0 +1,112 @@
+{
+  "id": "lib_aba_richiesta_pausa",
+  "title": "Chiedere una pausa durante il lavoro",
+  "description": "Sequenza per chiedere una pausa durante il lavoro. 5 voci, tra cui sentire la stanchezza, fare il segno, chiedere pausa, riposare e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Chiedere una pausa durante il lavoro",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_richiesta_pausa-p1-1",
+          "kind": "symbol",
+          "text": "sentire la stanchezza",
+          "symbol": "sentire la stanchezza",
+          "concept": null,
+          "spoken_text": "sentire la stanchezza",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_pausa-p1-2",
+          "kind": "symbol",
+          "text": "fare il segno",
+          "symbol": "fare il segno",
+          "concept": null,
+          "spoken_text": "fare il segno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_pausa-p1-3",
+          "kind": "symbol",
+          "text": "chiedere pausa",
+          "symbol": "chiedere pausa",
+          "concept": null,
+          "spoken_text": "chiedere pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_pausa-p1-4",
+          "kind": "symbol",
+          "text": "riposare",
+          "symbol": "riposare",
+          "concept": null,
+          "spoken_text": "riposare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_pausa-p1-5",
+          "kind": "symbol",
+          "text": "tornare",
+          "symbol": "tornare",
+          "concept": null,
+          "spoken_text": "tornare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

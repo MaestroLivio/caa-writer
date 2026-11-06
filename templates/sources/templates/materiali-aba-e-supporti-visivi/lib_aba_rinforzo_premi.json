@@ -1,0 +1,129 @@
+{
+  "id": "lib_aba_rinforzo_premi",
+  "title": "Elenco dei rinforzi preferiti",
+  "description": "Elenco visivo dei premi graditi alla persona. 6 voci, tra cui giocare, leggere, palla, musica e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Elenco dei rinforzi preferiti",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_rinforzo_premi-p1-1",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_rinforzo_premi-p1-2",
+          "kind": "symbol",
+          "text": "leggere",
+          "symbol": "leggere",
+          "concept": "action.read",
+          "spoken_text": "leggere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_rinforzo_premi-p1-3",
+          "kind": "symbol",
+          "text": "palla",
+          "symbol": "palla",
+          "concept": "object.ball",
+          "spoken_text": "palla",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_rinforzo_premi-p1-4",
+          "kind": "symbol",
+          "text": "musica",
+          "symbol": "musica",
+          "concept": null,
+          "spoken_text": "musica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_rinforzo_premi-p1-5",
+          "kind": "symbol",
+          "text": "gelato",
+          "symbol": "gelato",
+          "concept": "food.ice_cream",
+          "spoken_text": "gelato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_rinforzo_premi-p1-6",
+          "kind": "symbol",
+          "text": "parco",
+          "symbol": "parco",
+          "concept": "place.park",
+          "spoken_text": "parco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_aspettare_turno",
+  "title": "Aspettare il proprio turno",
+  "description": "Storia sociale sull'attesa del turno. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Aspettare il proprio turno",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_aspettare_turno-p1-title",
+          "kind": "text",
+          "text": "Aspettare il proprio turno",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-field-title",
+          "kind": "text",
+          "text": "Aspettare il proprio turno",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-1",
+          "kind": "symbol",
+          "text": "A scuola e nei giochi a volte bisogna aspettare.",
+          "symbol": "A scuola e nei giochi a volte bisogna aspettare.",
+          "concept": null,
+          "spoken_text": "A scuola e nei giochi a volte bisogna aspettare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-2",
+          "kind": "symbol",
+          "text": "Posso guardare chi sta davanti a me.",
+          "symbol": "Posso guardare chi sta davanti a me.",
+          "concept": null,
+          "spoken_text": "Posso guardare chi sta davanti a me.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-3",
+          "kind": "symbol",
+          "text": "Posso respirare e contare fino a cinque.",
+          "symbol": "Posso respirare e contare fino a cinque.",
+          "concept": null,
+          "spoken_text": "Posso respirare e contare fino a cinque.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-4",
+          "kind": "symbol",
+          "text": "Quando arriva il mio turno, posso giocare.",
+          "symbol": "Quando arriva il mio turno, posso giocare.",
+          "concept": null,
+          "spoken_text": "Quando arriva il mio turno, posso giocare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-5",
+          "kind": "symbol",
+          "text": "Aspettare può essere noioso, ed è normale.",
+          "symbol": "Aspettare può essere noioso, ed è normale.",
+          "concept": null,
+          "spoken_text": "Aspettare può essere noioso, ed è normale.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_aspettare_turno-p1-6",
+          "kind": "symbol",
+          "text": "Posso chiedere quanto manca.",
+          "symbol": "Posso chiedere quanto manca.",
+          "concept": null,
+          "spoken_text": "Posso chiedere quanto manca.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

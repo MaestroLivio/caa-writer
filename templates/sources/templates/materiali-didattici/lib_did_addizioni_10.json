@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_addizioni_10",
+  "title": "Addizioni entro 10",
+  "description": "Scheda di addizioni con risultato entro dieci. 6 voci, tra cui 2 + 1 = ___, 3 + 2 = ___, 4 + 4 = ___, 5 + 3 = ___ e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Addizioni entro 10",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_addizioni_10-p1-title",
+          "kind": "text",
+          "text": "Addizioni entro 10",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-field-title",
+          "kind": "text",
+          "text": "Addizioni entro 10",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-1",
+          "kind": "symbol",
+          "text": "2 + 1 = ___",
+          "symbol": "2 + 1 = ___",
+          "concept": null,
+          "spoken_text": "2 + 1 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-2",
+          "kind": "symbol",
+          "text": "3 + 2 = ___",
+          "symbol": "3 + 2 = ___",
+          "concept": null,
+          "spoken_text": "3 + 2 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-3",
+          "kind": "symbol",
+          "text": "4 + 4 = ___",
+          "symbol": "4 + 4 = ___",
+          "concept": null,
+          "spoken_text": "4 + 4 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-4",
+          "kind": "symbol",
+          "text": "5 + 3 = ___",
+          "symbol": "5 + 3 = ___",
+          "concept": null,
+          "spoken_text": "5 + 3 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-5",
+          "kind": "symbol",
+          "text": "6 + 2 = ___",
+          "symbol": "6 + 2 = ___",
+          "concept": null,
+          "spoken_text": "6 + 2 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_addizioni_10-p1-6",
+          "kind": "symbol",
+          "text": "1 + 7 = ___",
+          "symbol": "1 + 7 = ___",
+          "concept": null,
+          "spoken_text": "1 + 7 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

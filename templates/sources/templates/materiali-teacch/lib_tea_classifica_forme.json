@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_classifica_forme",
+  "title": "Classificare le forme",
+  "description": "Compito di classificazione per forma. 6 voci, tra cui cerchio, quadrato, triangolo, rettangolo e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Classificare le forme",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_classifica_forme-p1-1",
+          "kind": "symbol",
+          "text": "cerchio",
+          "symbol": "cerchio",
+          "concept": null,
+          "spoken_text": "cerchio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_forme-p1-2",
+          "kind": "symbol",
+          "text": "quadrato",
+          "symbol": "quadrato",
+          "concept": null,
+          "spoken_text": "quadrato",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_forme-p1-3",
+          "kind": "symbol",
+          "text": "triangolo",
+          "symbol": "triangolo",
+          "concept": null,
+          "spoken_text": "triangolo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_forme-p1-4",
+          "kind": "symbol",
+          "text": "rettangolo",
+          "symbol": "rettangolo",
+          "concept": null,
+          "spoken_text": "rettangolo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_forme-p1-5",
+          "kind": "symbol",
+          "text": "stella",
+          "symbol": "stella",
+          "concept": "object.star",
+          "spoken_text": "stella",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_forme-p1-6",
+          "kind": "symbol",
+          "text": "cuore",
+          "symbol": "cuore",
+          "concept": null,
+          "spoken_text": "cuore",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

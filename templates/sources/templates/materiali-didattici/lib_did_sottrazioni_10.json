@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_sottrazioni_10",
+  "title": "Sottrazioni entro 10",
+  "description": "Scheda di sottrazioni entro dieci. 6 voci, tra cui 5 - 2 = ___, 7 - 3 = ___, 9 - 4 = ___, 8 - 2 = ___ e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Sottrazioni entro 10",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_sottrazioni_10-p1-title",
+          "kind": "text",
+          "text": "Sottrazioni entro 10",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-field-title",
+          "kind": "text",
+          "text": "Sottrazioni entro 10",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-1",
+          "kind": "symbol",
+          "text": "5 - 2 = ___",
+          "symbol": "5 - 2 = ___",
+          "concept": null,
+          "spoken_text": "5 - 2 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-2",
+          "kind": "symbol",
+          "text": "7 - 3 = ___",
+          "symbol": "7 - 3 = ___",
+          "concept": null,
+          "spoken_text": "7 - 3 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-3",
+          "kind": "symbol",
+          "text": "9 - 4 = ___",
+          "symbol": "9 - 4 = ___",
+          "concept": null,
+          "spoken_text": "9 - 4 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-4",
+          "kind": "symbol",
+          "text": "8 - 2 = ___",
+          "symbol": "8 - 2 = ___",
+          "concept": null,
+          "spoken_text": "8 - 2 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-5",
+          "kind": "symbol",
+          "text": "6 - 1 = ___",
+          "symbol": "6 - 1 = ___",
+          "concept": null,
+          "spoken_text": "6 - 1 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sottrazioni_10-p1-6",
+          "kind": "symbol",
+          "text": "10 - 5 = ___",
+          "symbol": "10 - 5 = ___",
+          "concept": null,
+          "spoken_text": "10 - 5 = ___",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

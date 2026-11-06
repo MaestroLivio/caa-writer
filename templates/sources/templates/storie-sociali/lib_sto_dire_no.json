@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_dire_no",
+  "title": "Dire di no",
+  "description": "Storia sociale sul dire di no con calma. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Dire di no",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_dire_no-p1-title",
+          "kind": "text",
+          "text": "Dire di no",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-field-title",
+          "kind": "text",
+          "text": "Dire di no",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-1",
+          "kind": "symbol",
+          "text": "A volte non voglio fare qualcosa.",
+          "symbol": "A volte non voglio fare qualcosa.",
+          "concept": null,
+          "spoken_text": "A volte non voglio fare qualcosa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-2",
+          "kind": "symbol",
+          "text": "Posso dire no con calma.",
+          "symbol": "Posso dire no con calma.",
+          "concept": null,
+          "spoken_text": "Posso dire no con calma.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-3",
+          "kind": "symbol",
+          "text": "Posso spiegare il motivo.",
+          "symbol": "Posso spiegare il motivo.",
+          "concept": null,
+          "spoken_text": "Posso spiegare il motivo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-4",
+          "kind": "symbol",
+          "text": "Posso proporre un'altra cosa.",
+          "symbol": "Posso proporre un'altra cosa.",
+          "concept": null,
+          "spoken_text": "Posso proporre un'altra cosa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-5",
+          "kind": "symbol",
+          "text": "L'adulto può ascoltarmi.",
+          "symbol": "L'adulto può ascoltarmi.",
+          "concept": null,
+          "spoken_text": "L'adulto può ascoltarmi.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dire_no-p1-6",
+          "kind": "symbol",
+          "text": "Dire no aiuta a farsi capire.",
+          "symbol": "Dire no aiuta a farsi capire.",
+          "concept": null,
+          "spoken_text": "Dire no aiuta a farsi capire.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

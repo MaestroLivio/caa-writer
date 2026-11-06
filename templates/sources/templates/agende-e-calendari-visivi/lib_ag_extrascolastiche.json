@@ -1,0 +1,146 @@
+{
+  "id": "lib_ag_extrascolastiche",
+  "title": "Attività extrascolastiche",
+  "description": "Agenda settimanale dei corsi dopo la scuola. 7 voci, tra cui lunedì nuoto, martedì musica, mercoledì calcio, giovedì inglese e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Attività extrascolastiche",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_extrascolastiche-p1-1",
+          "kind": "symbol",
+          "text": "lunedì nuoto",
+          "symbol": "lunedì nuoto",
+          "concept": null,
+          "spoken_text": "lunedì nuoto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_extrascolastiche-p1-2",
+          "kind": "symbol",
+          "text": "martedì musica",
+          "symbol": "martedì musica",
+          "concept": null,
+          "spoken_text": "martedì musica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_extrascolastiche-p1-3",
+          "kind": "symbol",
+          "text": "mercoledì calcio",
+          "symbol": "mercoledì calcio",
+          "concept": null,
+          "spoken_text": "mercoledì calcio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_extrascolastiche-p1-4",
+          "kind": "symbol",
+          "text": "giovedì inglese",
+          "symbol": "giovedì inglese",
+          "concept": null,
+          "spoken_text": "giovedì inglese",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_extrascolastiche-p1-5",
+          "kind": "symbol",
+          "text": "venerdì danza",
+          "symbol": "venerdì danza",
+          "concept": null,
+          "spoken_text": "venerdì danza",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_extrascolastiche-p1-6",
+          "kind": "symbol",
+          "text": "sabato cavallo",
+          "symbol": "sabato cavallo",
+          "concept": null,
+          "spoken_text": "sabato cavallo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_extrascolastiche-p1-7",
+          "kind": "symbol",
+          "text": "domenica riposo",
+          "symbol": "domenica riposo",
+          "concept": null,
+          "spoken_text": "domenica riposo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 7,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

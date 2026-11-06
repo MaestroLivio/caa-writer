@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_buio",
+  "title": "Quando è buio",
+  "description": "Storia sociale sulla paura del buio. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quando è buio",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_buio-p1-title",
+          "kind": "text",
+          "text": "Quando è buio",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-field-title",
+          "kind": "text",
+          "text": "Quando è buio",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-1",
+          "kind": "symbol",
+          "text": "A volte la stanza è buia.",
+          "symbol": "A volte la stanza è buia.",
+          "concept": null,
+          "spoken_text": "A volte la stanza è buia.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-2",
+          "kind": "symbol",
+          "text": "Posso accendere la luce.",
+          "symbol": "Posso accendere la luce.",
+          "concept": null,
+          "spoken_text": "Posso accendere la luce.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-3",
+          "kind": "symbol",
+          "text": "Posso usare una lampada piccola.",
+          "symbol": "Posso usare una lampada piccola.",
+          "concept": null,
+          "spoken_text": "Posso usare una lampada piccola.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-4",
+          "kind": "symbol",
+          "text": "Se ho paura, posso chiamare un adulto.",
+          "symbol": "Se ho paura, posso chiamare un adulto.",
+          "concept": null,
+          "spoken_text": "Se ho paura, posso chiamare un adulto.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-5",
+          "kind": "symbol",
+          "text": "Il buio non è pericoloso di per sé.",
+          "symbol": "Il buio non è pericoloso di per sé.",
+          "concept": null,
+          "spoken_text": "Il buio non è pericoloso di per sé.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_buio-p1-6",
+          "kind": "symbol",
+          "text": "Posso respirare e calmarmi.",
+          "symbol": "Posso respirare e calmarmi.",
+          "concept": null,
+          "spoken_text": "Posso respirare e calmarmi.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

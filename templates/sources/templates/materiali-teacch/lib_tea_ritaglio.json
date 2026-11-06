@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_ritaglio",
+  "title": "Ritagliare lungo la linea",
+  "description": "Compito di ritaglio con le forbici. 6 voci, tra cui prendere le forbici, tagliare lungo la linea, girare il foglio, continuare e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Ritagliare lungo la linea",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_ritaglio-p1-1",
+          "kind": "symbol",
+          "text": "prendere le forbici",
+          "symbol": "prendere le forbici",
+          "concept": null,
+          "spoken_text": "prendere le forbici",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ritaglio-p1-2",
+          "kind": "symbol",
+          "text": "tagliare lungo la linea",
+          "symbol": "tagliare lungo la linea",
+          "concept": null,
+          "spoken_text": "tagliare lungo la linea",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ritaglio-p1-3",
+          "kind": "symbol",
+          "text": "girare il foglio",
+          "symbol": "girare il foglio",
+          "concept": null,
+          "spoken_text": "girare il foglio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ritaglio-p1-4",
+          "kind": "symbol",
+          "text": "continuare",
+          "symbol": "continuare",
+          "concept": null,
+          "spoken_text": "continuare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ritaglio-p1-5",
+          "kind": "symbol",
+          "text": "posare le forbici",
+          "symbol": "posare le forbici",
+          "concept": null,
+          "spoken_text": "posare le forbici",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ritaglio-p1-6",
+          "kind": "symbol",
+          "text": "finito",
+          "symbol": "finito",
+          "concept": null,
+          "spoken_text": "finito",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -406,6 +406,7 @@ export interface DocumentPayload {
   assets: DocumentAsset[];
   preferences: DocumentPreference[];
   layout?: LayoutSpecification | null;
+  universal?: UniversalDocument | null;
 }
 
 export interface LoadedDocument {
@@ -419,6 +420,7 @@ export interface LoadedDocument {
   warnings: string[];
   path: string;
   layout?: LayoutSpecification | null;
+  universal?: UniversalDocument | null;
 }
 
 export interface ExportUnit {
@@ -622,6 +624,229 @@ export interface LayoutGridSpec {
   rows: number;
   gap_mm: number;
 }
+
+// ---------------------------------------------------------------- Universal Document Engine
+export interface UniversalPageSettings {
+  size: string;
+  orientation: string;
+  margin_mm: number;
+  width_mm?: number | null;
+  height_mm?: number | null;
+  background: string;
+}
+
+export interface UniversalFlow { columns: number; gap_mm: number; padding_mm: number }
+export interface UniversalGrid { columns: number; rows: number; gap_mm: number }
+
+export interface UniversalStyle {
+  font_family?: string;
+  font_size?: number;
+  color?: string;
+  background?: string;
+  border_color?: string;
+  border_width?: number;
+  border_style?: string;
+  border_radius?: number;
+  padding_mm?: number;
+  align?: string;
+  valign?: string;
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+}
+
+export interface UniversalAccessibility {
+  label?: string;
+  large_text?: boolean;
+  high_contrast?: boolean;
+}
+
+export interface UniversalAction {
+  type: string;
+  target_page?: string | null;
+  target_document?: string | null;
+  url?: string | null;
+}
+
+export interface UniversalGridCell {
+  id: string;
+  text: string;
+  spoken_text: string;
+  concept_id?: string | null;
+  symbol_id?: string | null;
+  lemma?: string | null;
+  svg?: string | null;
+  action?: UniversalAction | null;
+  style?: UniversalStyle;
+  hidden?: boolean;
+}
+
+export interface UniversalGridData {
+  columns: number;
+  rows: number;
+  gap_mm: number;
+  cells: UniversalGridCell[];
+}
+
+export interface UniversalElement {
+  id: string;
+  kind: string;
+  text: string;
+  spoken_text: string;
+  concept_id?: string | null;
+  symbol_id?: string | null;
+  lemma?: string | null;
+  svg?: string | null;
+  image_asset?: string | null;
+  audio_asset?: string | null;
+  x_mm: number;
+  y_mm: number;
+  w_mm: number;
+  h_mm: number;
+  rotation: number;
+  z: number;
+  visible: boolean;
+  locked: boolean;
+  opacity: number;
+  row: number;
+  column: number;
+  row_span: number;
+  column_span: number;
+  style: UniversalStyle;
+  action?: UniversalAction | null;
+  link_page?: string | null;
+  group_id?: string | null;
+  children: string[];
+  grid?: UniversalGridData | null;
+  accessibility?: UniversalAccessibility;
+  metadata?: unknown;
+}
+
+export interface UniversalPage {
+  id: string;
+  title: string;
+  layout: "flow" | "absolute" | "grid" | string;
+  background: string;
+  flow: UniversalFlow;
+  grid: UniversalGrid;
+  elements: UniversalElement[];
+  is_home: boolean;
+  notes: string;
+}
+
+export interface UniversalDocument {
+  schema_version: number;
+  id: string;
+  title: string;
+  description: string;
+  kind: string;
+  locale: string;
+  metadata: Record<string, unknown>;
+  page: UniversalPageSettings;
+  pages: UniversalPage[];
+  styles: Record<string, UniversalStyle>;
+  accessibility: UniversalAccessibility;
+  licenses: Array<Record<string, unknown>>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface RenderedElement {
+  id: string;
+  kind: string;
+  text: string;
+  spoken_text: string;
+  concept_id: string | null;
+  symbol_id: string | null;
+  svg: string | null;
+  image_asset: string | null;
+  audio_asset: string | null;
+  x_mm: number;
+  y_mm: number;
+  w_mm: number;
+  h_mm: number;
+  rotation: number;
+  z: number;
+  visible: boolean;
+  locked: boolean;
+  opacity: number;
+  style: UniversalStyle;
+  action: UniversalAction | null;
+  link_page: string | null;
+  group_id: string | null;
+  cells: RenderedGridCell[];
+  accessibility: UniversalAccessibility;
+}
+
+export interface RenderedGridCell {
+  id: string;
+  text: string;
+  spoken_text: string;
+  symbol_id: string | null;
+  concept_id: string | null;
+  svg: string | null;
+  action: UniversalAction | null;
+  hidden: boolean;
+  x_mm: number;
+  y_mm: number;
+  w_mm: number;
+  h_mm: number;
+  style: UniversalStyle;
+}
+
+export interface RenderedPage {
+  id: string;
+  title: string;
+  index: number;
+  layout: string;
+  width_mm: number;
+  height_mm: number;
+  background: string;
+  is_home: boolean;
+  elements: RenderedElement[];
+}
+
+export interface RenderedDocument {
+  id: string;
+  title: string;
+  kind: string;
+  schema_version: number;
+  pages: RenderedPage[];
+  warnings: string[];
+}
+
+export interface DocumentApplyResult {
+  document: UniversalDocument;
+  rendered: RenderedDocument;
+  changed: number;
+}
+
+export interface LibraryEntry {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  source_type: string;
+  kind: string;
+  pages: number;
+  elements: number;
+  interactive: boolean;
+  path: string;
+}
+
+export interface LibraryManifest {
+  version: number;
+  generated_at: string;
+  entries: LibraryEntry[];
+  report: Record<string, unknown>;
+}
+
+export interface OpenedUniversalDocument {
+  document: UniversalDocument;
+  path: string;
+}
+
+export type UniversalCommand = Record<string, unknown> & { op: string };
 
 export interface FreeBoardCell {
   id: string;

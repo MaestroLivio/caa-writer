@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_pomeriggio_casa",
+  "title": "Pomeriggio a casa",
+  "description": "Agenda del pomeriggio dopo la scuola. 6 voci, tra cui 13:30 pranzo, 14:00 riposo, 15:00 compiti, 16:00 merenda e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Pomeriggio a casa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_pomeriggio_casa-p1-1",
+          "kind": "symbol",
+          "text": "13:30 pranzo",
+          "symbol": "13:30 pranzo",
+          "concept": null,
+          "spoken_text": "13:30 pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_pomeriggio_casa-p1-2",
+          "kind": "symbol",
+          "text": "14:00 riposo",
+          "symbol": "14:00 riposo",
+          "concept": null,
+          "spoken_text": "14:00 riposo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_pomeriggio_casa-p1-3",
+          "kind": "symbol",
+          "text": "15:00 compiti",
+          "symbol": "15:00 compiti",
+          "concept": null,
+          "spoken_text": "15:00 compiti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_pomeriggio_casa-p1-4",
+          "kind": "symbol",
+          "text": "16:00 merenda",
+          "symbol": "16:00 merenda",
+          "concept": null,
+          "spoken_text": "16:00 merenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_pomeriggio_casa-p1-5",
+          "kind": "symbol",
+          "text": "17:00 giocare",
+          "symbol": "17:00 giocare",
+          "concept": null,
+          "spoken_text": "17:00 giocare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_pomeriggio_casa-p1-6",
+          "kind": "symbol",
+          "text": "18:30 cena",
+          "symbol": "18:30 cena",
+          "concept": null,
+          "spoken_text": "18:30 cena",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

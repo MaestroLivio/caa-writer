@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_bagno_scuola",
+  "title": "Andare in bagno a scuola",
+  "description": "Storia sociale sull'uso del bagno a scuola. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Andare in bagno a scuola",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_bagno_scuola-p1-title",
+          "kind": "text",
+          "text": "Andare in bagno a scuola",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-field-title",
+          "kind": "text",
+          "text": "Andare in bagno a scuola",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-1",
+          "kind": "symbol",
+          "text": "A scuola posso andare in bagno.",
+          "symbol": "A scuola posso andare in bagno.",
+          "concept": null,
+          "spoken_text": "A scuola posso andare in bagno.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-2",
+          "kind": "symbol",
+          "text": "Posso chiedere alla maestra.",
+          "symbol": "Posso chiedere alla maestra.",
+          "concept": null,
+          "spoken_text": "Posso chiedere alla maestra.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-3",
+          "kind": "symbol",
+          "text": "Cammino senza correre.",
+          "symbol": "Cammino senza correre.",
+          "concept": null,
+          "spoken_text": "Cammino senza correre.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-4",
+          "kind": "symbol",
+          "text": "Uso il bagno e mi lavo le mani.",
+          "symbol": "Uso il bagno e mi lavo le mani.",
+          "concept": null,
+          "spoken_text": "Uso il bagno e mi lavo le mani.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-5",
+          "kind": "symbol",
+          "text": "Torno in classe.",
+          "symbol": "Torno in classe.",
+          "concept": null,
+          "spoken_text": "Torno in classe.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_bagno_scuola-p1-6",
+          "kind": "symbol",
+          "text": "Se è chiuso, posso aspettare.",
+          "symbol": "Se è chiuso, posso aspettare.",
+          "concept": null,
+          "spoken_text": "Se è chiuso, posso aspettare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

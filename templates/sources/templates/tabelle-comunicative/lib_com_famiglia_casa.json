@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_famiglia_casa",
+  "title": "Famiglia e casa",
+  "description": "Celle per parlare delle persone di famiglia e degli ambienti di casa. 9 voci, tra cui famiglia, mamma, papà, nonno e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Famiglia e casa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_famiglia_casa-p1-1",
+          "kind": "symbol",
+          "text": "famiglia",
+          "symbol": "famiglia",
+          "concept": "person.family",
+          "spoken_text": "famiglia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-2",
+          "kind": "symbol",
+          "text": "mamma",
+          "symbol": "mamma",
+          "concept": null,
+          "spoken_text": "mamma",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-3",
+          "kind": "symbol",
+          "text": "papà",
+          "symbol": "papà",
+          "concept": null,
+          "spoken_text": "papà",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-4",
+          "kind": "symbol",
+          "text": "nonno",
+          "symbol": "nonno",
+          "concept": null,
+          "spoken_text": "nonno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-5",
+          "kind": "symbol",
+          "text": "nonna",
+          "symbol": "nonna",
+          "concept": null,
+          "spoken_text": "nonna",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-6",
+          "kind": "symbol",
+          "text": "fratello",
+          "symbol": "fratello",
+          "concept": null,
+          "spoken_text": "fratello",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-7",
+          "kind": "symbol",
+          "text": "sorella",
+          "symbol": "sorella",
+          "concept": null,
+          "spoken_text": "sorella",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-8",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_famiglia_casa-p1-9",
+          "kind": "symbol",
+          "text": "amico",
+          "symbol": "amico",
+          "concept": "person.friend",
+          "spoken_text": "amico",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

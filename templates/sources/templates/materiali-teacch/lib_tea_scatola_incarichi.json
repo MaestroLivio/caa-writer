@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_scatola_incarichi",
+  "title": "Scatola degli incarichi",
+  "description": "Compito strutturato con scatola degli incarichi. 6 voci, tra cui aprire la scatola, leggere l'incarico, svolgere, controllare e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Scatola degli incarichi",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_scatola_incarichi-p1-1",
+          "kind": "symbol",
+          "text": "aprire la scatola",
+          "symbol": "aprire la scatola",
+          "concept": null,
+          "spoken_text": "aprire la scatola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_scatola_incarichi-p1-2",
+          "kind": "symbol",
+          "text": "leggere l'incarico",
+          "symbol": "leggere l'incarico",
+          "concept": null,
+          "spoken_text": "leggere l'incarico",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_scatola_incarichi-p1-3",
+          "kind": "symbol",
+          "text": "svolgere",
+          "symbol": "svolgere",
+          "concept": null,
+          "spoken_text": "svolgere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_scatola_incarichi-p1-4",
+          "kind": "symbol",
+          "text": "controllare",
+          "symbol": "controllare",
+          "concept": null,
+          "spoken_text": "controllare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_scatola_incarichi-p1-5",
+          "kind": "symbol",
+          "text": "riporre",
+          "symbol": "riporre",
+          "concept": null,
+          "spoken_text": "riporre",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_scatola_incarichi-p1-6",
+          "kind": "symbol",
+          "text": "chiudere",
+          "symbol": "chiudere",
+          "concept": null,
+          "spoken_text": "chiudere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

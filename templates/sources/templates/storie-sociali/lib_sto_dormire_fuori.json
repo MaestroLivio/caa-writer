@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_dormire_fuori",
+  "title": "Dormire fuori casa",
+  "description": "Storia sociale sul dormire fuori casa. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Dormire fuori casa",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_dormire_fuori-p1-title",
+          "kind": "text",
+          "text": "Dormire fuori casa",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-field-title",
+          "kind": "text",
+          "text": "Dormire fuori casa",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-1",
+          "kind": "symbol",
+          "text": "A volte dormo fuori casa.",
+          "symbol": "A volte dormo fuori casa.",
+          "concept": null,
+          "spoken_text": "A volte dormo fuori casa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-2",
+          "kind": "symbol",
+          "text": "Porto il mio pigiama e il mio cuscino.",
+          "symbol": "Porto il mio pigiama e il mio cuscino.",
+          "concept": null,
+          "spoken_text": "Porto il mio pigiama e il mio cuscino.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-3",
+          "kind": "symbol",
+          "text": "La stanza può essere diversa.",
+          "symbol": "La stanza può essere diversa.",
+          "concept": null,
+          "spoken_text": "La stanza può essere diversa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-4",
+          "kind": "symbol",
+          "text": "Posso chiedere dove dormo.",
+          "symbol": "Posso chiedere dove dormo.",
+          "concept": null,
+          "spoken_text": "Posso chiedere dove dormo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-5",
+          "kind": "symbol",
+          "text": "Posso fare la mia solita routine.",
+          "symbol": "Posso fare la mia solita routine.",
+          "concept": null,
+          "spoken_text": "Posso fare la mia solita routine.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dormire_fuori-p1-6",
+          "kind": "symbol",
+          "text": "Al mattino torno a casa.",
+          "symbol": "Al mattino torno a casa.",
+          "concept": null,
+          "spoken_text": "Al mattino torno a casa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

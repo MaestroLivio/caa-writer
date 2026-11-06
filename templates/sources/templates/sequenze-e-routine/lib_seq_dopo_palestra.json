@@ -1,0 +1,137 @@
+{
+  "id": "lib_seq_dopo_palestra",
+  "title": "Dopo la palestra",
+  "description": "Routine per cambiarsi dopo la palestra. 6 voci, tra cui asciugarsi, cambiarsi, mettere i vestiti nella borsa, pettinarsi e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Dopo la palestra",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_dopo_palestra-p1-title",
+          "kind": "text",
+          "text": "Dopo la palestra",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-field-title",
+          "kind": "text",
+          "text": "Dopo la palestra",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-field-layout",
+          "kind": "text",
+          "text": "lineare",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-1",
+          "kind": "symbol",
+          "text": "asciugarsi",
+          "symbol": "asciugarsi",
+          "concept": null,
+          "spoken_text": "asciugarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-2",
+          "kind": "symbol",
+          "text": "cambiarsi",
+          "symbol": "cambiarsi",
+          "concept": null,
+          "spoken_text": "cambiarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-3",
+          "kind": "symbol",
+          "text": "mettere i vestiti nella borsa",
+          "symbol": "mettere i vestiti nella borsa",
+          "concept": null,
+          "spoken_text": "mettere i vestiti nella borsa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-4",
+          "kind": "symbol",
+          "text": "pettinarsi",
+          "symbol": "pettinarsi",
+          "concept": null,
+          "spoken_text": "pettinarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-5",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_dopo_palestra-p1-6",
+          "kind": "symbol",
+          "text": "uscire",
+          "symbol": "uscire",
+          "concept": null,
+          "spoken_text": "uscire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

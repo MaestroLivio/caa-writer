@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "templates": 300,
+  "boards": 30,
+  "categories": {
+    "Materiali ABA e supporti visivi": 20,
+    "Agende e calendari visivi": 35,
+    "Autonomia personale": 15,
+    "Tabelle comunicative": 60,
+    "Materiali didattici": 45,
+    "Emozioni e autoregolazione": 20,
+    "Giochi e attività interattive": 10,
+    "Sequenze e routine": 35,
+    "Storie sociali": 30,
+    "Materiali TEACCH": 30
+  },
+  "note": "Specifiche sorgente; i documenti nativi sono generati da caa-cli template build-all."
+}

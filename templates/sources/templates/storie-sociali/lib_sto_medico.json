@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_medico",
+  "title": "La visita dal medico",
+  "description": "Storia sociale sulla visita dal medico. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "La visita dal medico",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_medico-p1-title",
+          "kind": "text",
+          "text": "La visita dal medico",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-field-title",
+          "kind": "text",
+          "text": "La visita dal medico",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-1",
+          "kind": "symbol",
+          "text": "Vado dal medico.",
+          "symbol": "Vado dal medico.",
+          "concept": null,
+          "spoken_text": "Vado dal medico.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-2",
+          "kind": "symbol",
+          "text": "Il medico mi fa alcune domande.",
+          "symbol": "Il medico mi fa alcune domande.",
+          "concept": null,
+          "spoken_text": "Il medico mi fa alcune domande.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-3",
+          "kind": "symbol",
+          "text": "Posso dire cosa sento.",
+          "symbol": "Posso dire cosa sento.",
+          "concept": null,
+          "spoken_text": "Posso dire cosa sento.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-4",
+          "kind": "symbol",
+          "text": "Mi visita con calma.",
+          "symbol": "Mi visita con calma.",
+          "concept": null,
+          "spoken_text": "Mi visita con calma.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-5",
+          "kind": "symbol",
+          "text": "A volte scrive una medicina.",
+          "symbol": "A volte scrive una medicina.",
+          "concept": null,
+          "spoken_text": "A volte scrive una medicina.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_medico-p1-6",
+          "kind": "symbol",
+          "text": "Dopo posso riposare a casa.",
+          "symbol": "Dopo posso riposare a casa.",
+          "concept": null,
+          "spoken_text": "Dopo posso riposare a casa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

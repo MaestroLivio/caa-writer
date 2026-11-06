@@ -1,0 +1,112 @@
+{
+  "id": "lib_aba_generalizzazione_scuola",
+  "title": "Generalizzazione: a scuola",
+  "description": "Elenco di attività da riproporre a scuola. 5 voci, tra cui entrata a scuola, lavoro in classe, intervallo, pranzo e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Generalizzazione: a scuola",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_generalizzazione_scuola-p1-1",
+          "kind": "symbol",
+          "text": "entrata a scuola",
+          "symbol": "entrata a scuola",
+          "concept": "school.arrival",
+          "spoken_text": "entrata a scuola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_scuola-p1-2",
+          "kind": "symbol",
+          "text": "lavoro in classe",
+          "symbol": "lavoro in classe",
+          "concept": "school.classwork",
+          "spoken_text": "lavoro in classe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_scuola-p1-3",
+          "kind": "symbol",
+          "text": "intervallo",
+          "symbol": "intervallo",
+          "concept": "school.break",
+          "spoken_text": "intervallo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_scuola-p1-4",
+          "kind": "symbol",
+          "text": "pranzo",
+          "symbol": "pranzo",
+          "concept": "school.lunch",
+          "spoken_text": "pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_scuola-p1-5",
+          "kind": "symbol",
+          "text": "uscita",
+          "symbol": "uscita",
+          "concept": null,
+          "spoken_text": "uscita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

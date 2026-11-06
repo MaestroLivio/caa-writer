@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_piegatura",
+  "title": "Piegare un foglio",
+  "description": "Compito strutturato di piegatura della carta. 6 voci, tra cui foglio aperto, prima piega, seconda piega, premere e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Piegare un foglio",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_piegatura-p1-1",
+          "kind": "symbol",
+          "text": "foglio aperto",
+          "symbol": "foglio aperto",
+          "concept": null,
+          "spoken_text": "foglio aperto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_piegatura-p1-2",
+          "kind": "symbol",
+          "text": "prima piega",
+          "symbol": "prima piega",
+          "concept": null,
+          "spoken_text": "prima piega",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_piegatura-p1-3",
+          "kind": "symbol",
+          "text": "seconda piega",
+          "symbol": "seconda piega",
+          "concept": null,
+          "spoken_text": "seconda piega",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_piegatura-p1-4",
+          "kind": "symbol",
+          "text": "premere",
+          "symbol": "premere",
+          "concept": null,
+          "spoken_text": "premere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_piegatura-p1-5",
+          "kind": "symbol",
+          "text": "aprire",
+          "symbol": "aprire",
+          "concept": null,
+          "spoken_text": "aprire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_piegatura-p1-6",
+          "kind": "symbol",
+          "text": "finito",
+          "symbol": "finito",
+          "concept": null,
+          "spoken_text": "finito",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

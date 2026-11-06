@@ -1,0 +1,137 @@
+{
+  "id": "lib_aut_denaro_monete",
+  "title": "Denaro: riconoscere le monete",
+  "description": "Scheda per riconoscere monete e valori. 6 voci, tra cui 1 centesimo, 2 centesimi, 5 centesimi, 10 centesimi e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Denaro: riconoscere le monete",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_denaro_monete-p1-title",
+          "kind": "text",
+          "text": "Denaro: riconoscere le monete",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-field-title",
+          "kind": "text",
+          "text": "Denaro: riconoscere le monete",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-field-layout",
+          "kind": "text",
+          "text": "verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-1",
+          "kind": "symbol",
+          "text": "1 centesimo",
+          "symbol": "1 centesimo",
+          "concept": null,
+          "spoken_text": "1 centesimo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-2",
+          "kind": "symbol",
+          "text": "2 centesimi",
+          "symbol": "2 centesimi",
+          "concept": null,
+          "spoken_text": "2 centesimi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-3",
+          "kind": "symbol",
+          "text": "5 centesimi",
+          "symbol": "5 centesimi",
+          "concept": null,
+          "spoken_text": "5 centesimi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-4",
+          "kind": "symbol",
+          "text": "10 centesimi",
+          "symbol": "10 centesimi",
+          "concept": null,
+          "spoken_text": "10 centesimi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-5",
+          "kind": "symbol",
+          "text": "50 centesimi",
+          "symbol": "50 centesimi",
+          "concept": null,
+          "spoken_text": "50 centesimi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_denaro_monete-p1-6",
+          "kind": "symbol",
+          "text": "1 euro",
+          "symbol": "1 euro",
+          "concept": null,
+          "spoken_text": "1 euro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

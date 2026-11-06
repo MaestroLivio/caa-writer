@@ -1,0 +1,163 @@
+{
+  "id": "lib_tea_classifica_animali_oggetti",
+  "title": "Animali e oggetti",
+  "description": "Classificazione in due gruppi: animali e oggetti. 8 voci, tra cui cane, gatto, tavolo, sedia e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Animali e oggetti",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-1",
+          "kind": "symbol",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "spoken_text": "cane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-2",
+          "kind": "symbol",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "spoken_text": "gatto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-3",
+          "kind": "symbol",
+          "text": "tavolo",
+          "symbol": "tavolo",
+          "concept": "object.table",
+          "spoken_text": "tavolo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-4",
+          "kind": "symbol",
+          "text": "sedia",
+          "symbol": "sedia",
+          "concept": "object.chair",
+          "spoken_text": "sedia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-5",
+          "kind": "symbol",
+          "text": "uccello",
+          "symbol": "uccello",
+          "concept": "animal.bird",
+          "spoken_text": "uccello",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-6",
+          "kind": "symbol",
+          "text": "matita",
+          "symbol": "matita",
+          "concept": "object.pencil",
+          "spoken_text": "matita",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-7",
+          "kind": "symbol",
+          "text": "libro",
+          "symbol": "libro",
+          "concept": "object.book",
+          "spoken_text": "libro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_classifica_animali_oggetti-p1-8",
+          "kind": "symbol",
+          "text": "palla",
+          "symbol": "palla",
+          "concept": "object.ball",
+          "spoken_text": "palla",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

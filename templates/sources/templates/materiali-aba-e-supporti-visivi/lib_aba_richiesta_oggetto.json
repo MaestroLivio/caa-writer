@@ -1,0 +1,112 @@
+{
+  "id": "lib_aba_richiesta_oggetto",
+  "title": "Chiedere un oggetto",
+  "description": "Sequenza per chiedere un oggetto desiderato. 5 voci, tra cui indicare, dire il nome, chiedere, ricevere e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Chiedere un oggetto",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_richiesta_oggetto-p1-1",
+          "kind": "symbol",
+          "text": "indicare",
+          "symbol": "indicare",
+          "concept": null,
+          "spoken_text": "indicare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_oggetto-p1-2",
+          "kind": "symbol",
+          "text": "dire il nome",
+          "symbol": "dire il nome",
+          "concept": null,
+          "spoken_text": "dire il nome",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_oggetto-p1-3",
+          "kind": "symbol",
+          "text": "chiedere",
+          "symbol": "chiedere",
+          "concept": null,
+          "spoken_text": "chiedere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_oggetto-p1-4",
+          "kind": "symbol",
+          "text": "ricevere",
+          "symbol": "ricevere",
+          "concept": null,
+          "spoken_text": "ricevere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_richiesta_oggetto-p1-5",
+          "kind": "symbol",
+          "text": "ringraziare",
+          "symbol": "ringraziare",
+          "concept": null,
+          "spoken_text": "ringraziare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

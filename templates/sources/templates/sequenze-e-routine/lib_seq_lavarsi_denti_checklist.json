@@ -1,0 +1,137 @@
+{
+  "id": "lib_seq_lavarsi_denti_checklist",
+  "title": "Lavarsi i denti: checklist",
+  "description": "Checklist della routine per lavarsi i denti. 6 voci, tra cui prendere lo spazzolino, mettere il dentifricio, spazzolare i denti, sciacquare la bocca e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Lavarsi i denti: checklist",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-title",
+          "kind": "text",
+          "text": "Lavarsi i denti: checklist",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-field-title",
+          "kind": "text",
+          "text": "Lavarsi i denti: checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-field-layout",
+          "kind": "text",
+          "text": "checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-1",
+          "kind": "symbol",
+          "text": "prendere lo spazzolino",
+          "symbol": "prendere lo spazzolino",
+          "concept": null,
+          "spoken_text": "prendere lo spazzolino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-2",
+          "kind": "symbol",
+          "text": "mettere il dentifricio",
+          "symbol": "mettere il dentifricio",
+          "concept": null,
+          "spoken_text": "mettere il dentifricio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-3",
+          "kind": "symbol",
+          "text": "spazzolare i denti",
+          "symbol": "spazzolare i denti",
+          "concept": null,
+          "spoken_text": "spazzolare i denti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-4",
+          "kind": "symbol",
+          "text": "sciacquare la bocca",
+          "symbol": "sciacquare la bocca",
+          "concept": null,
+          "spoken_text": "sciacquare la bocca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-5",
+          "kind": "symbol",
+          "text": "sciacquare lo spazzolino",
+          "symbol": "sciacquare lo spazzolino",
+          "concept": null,
+          "spoken_text": "sciacquare lo spazzolino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_denti_checklist-p1-6",
+          "kind": "symbol",
+          "text": "riporre lo spazzolino",
+          "symbol": "riporre lo spazzolino",
+          "concept": null,
+          "spoken_text": "riporre lo spazzolino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

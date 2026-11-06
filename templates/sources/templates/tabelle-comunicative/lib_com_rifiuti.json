@@ -1,0 +1,129 @@
+{
+  "id": "lib_com_rifiuti",
+  "title": "Rifiuti e pause",
+  "description": "Celle per dire no, chiedere una pausa e fermarsi. 6 voci, tra cui no, basta, finire, no grazie e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Rifiuti e pause",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_rifiuti-p1-1",
+          "kind": "symbol",
+          "text": "no",
+          "symbol": "no",
+          "concept": null,
+          "spoken_text": "no",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti-p1-2",
+          "kind": "symbol",
+          "text": "basta",
+          "symbol": "basta",
+          "concept": null,
+          "spoken_text": "basta",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti-p1-3",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti-p1-4",
+          "kind": "symbol",
+          "text": "no grazie",
+          "symbol": "no grazie",
+          "concept": null,
+          "spoken_text": "no grazie",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti-p1-5",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_rifiuti-p1-6",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 2,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

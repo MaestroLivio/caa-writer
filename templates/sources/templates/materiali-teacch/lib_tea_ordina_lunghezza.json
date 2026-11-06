@@ -1,0 +1,95 @@
+{
+  "id": "lib_tea_ordina_lunghezza",
+  "title": "Dal più corto al più lungo",
+  "description": "Ordinamento per lunghezza. 4 voci, tra cui corto, medio, lungo, lunghissimo.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Dal più corto al più lungo",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_ordina_lunghezza-p1-1",
+          "kind": "symbol",
+          "text": "corto",
+          "symbol": "corto",
+          "concept": null,
+          "spoken_text": "corto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ordina_lunghezza-p1-2",
+          "kind": "symbol",
+          "text": "medio",
+          "symbol": "medio",
+          "concept": null,
+          "spoken_text": "medio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ordina_lunghezza-p1-3",
+          "kind": "symbol",
+          "text": "lungo",
+          "symbol": "lungo",
+          "concept": null,
+          "spoken_text": "lungo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ordina_lunghezza-p1-4",
+          "kind": "symbol",
+          "text": "lunghissimo",
+          "symbol": "lunghissimo",
+          "concept": null,
+          "spoken_text": "lunghissimo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

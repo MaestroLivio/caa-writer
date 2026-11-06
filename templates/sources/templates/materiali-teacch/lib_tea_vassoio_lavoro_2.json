@@ -1,0 +1,112 @@
+{
+  "id": "lib_tea_vassoio_lavoro_2",
+  "title": "Vassoio di lavoro: secondo compito",
+  "description": "Secondo compito strutturato con vassoio di lavoro. 5 voci, tra cui scegliere il compito, lavorare, controllare, riporre e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Vassoio di lavoro: secondo compito",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_vassoio_lavoro_2-p1-1",
+          "kind": "symbol",
+          "text": "scegliere il compito",
+          "symbol": "scegliere il compito",
+          "concept": null,
+          "spoken_text": "scegliere il compito",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_2-p1-2",
+          "kind": "symbol",
+          "text": "lavorare",
+          "symbol": "lavorare",
+          "concept": null,
+          "spoken_text": "lavorare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_2-p1-3",
+          "kind": "symbol",
+          "text": "controllare",
+          "symbol": "controllare",
+          "concept": null,
+          "spoken_text": "controllare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_2-p1-4",
+          "kind": "symbol",
+          "text": "riporre",
+          "symbol": "riporre",
+          "concept": null,
+          "spoken_text": "riporre",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_2-p1-5",
+          "kind": "symbol",
+          "text": "segnare finito",
+          "symbol": "segnare finito",
+          "concept": null,
+          "spoken_text": "segnare finito",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

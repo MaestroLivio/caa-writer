@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_risposte_scelte",
+  "title": "Risposte e scelte",
+  "description": "Griglia per rispondere, scegliere e chiedere aiuto. 9 voci, tra cui questo, quello, ancora, finire e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Risposte e scelte",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_risposte_scelte-p1-1",
+          "kind": "symbol",
+          "text": "questo",
+          "symbol": "questo",
+          "concept": null,
+          "spoken_text": "questo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-2",
+          "kind": "symbol",
+          "text": "quello",
+          "symbol": "quello",
+          "concept": null,
+          "spoken_text": "quello",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-3",
+          "kind": "symbol",
+          "text": "ancora",
+          "symbol": "ancora",
+          "concept": null,
+          "spoken_text": "ancora",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-4",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-5",
+          "kind": "symbol",
+          "text": "non so",
+          "symbol": "non so",
+          "concept": "state.uncertain",
+          "spoken_text": "non so",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-6",
+          "kind": "symbol",
+          "text": "sì",
+          "symbol": "sì",
+          "concept": null,
+          "spoken_text": "sì",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-7",
+          "kind": "symbol",
+          "text": "no",
+          "symbol": "no",
+          "concept": null,
+          "spoken_text": "no",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-8",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_risposte_scelte-p1-9",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_vacanze_montagna",
+  "title": "Vacanze in montagna",
+  "description": "Agenda della giornata in montagna. 6 voci, tra cui colazione, sentiero, pranzo, gioco e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Vacanze in montagna",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_vacanze_montagna-p1-1",
+          "kind": "symbol",
+          "text": "colazione",
+          "symbol": "colazione",
+          "concept": null,
+          "spoken_text": "colazione",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_montagna-p1-2",
+          "kind": "symbol",
+          "text": "sentiero",
+          "symbol": "sentiero",
+          "concept": null,
+          "spoken_text": "sentiero",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_montagna-p1-3",
+          "kind": "symbol",
+          "text": "pranzo",
+          "symbol": "pranzo",
+          "concept": "school.lunch",
+          "spoken_text": "pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_montagna-p1-4",
+          "kind": "symbol",
+          "text": "gioco",
+          "symbol": "gioco",
+          "concept": null,
+          "spoken_text": "gioco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_montagna-p1-5",
+          "kind": "symbol",
+          "text": "merenda",
+          "symbol": "merenda",
+          "concept": null,
+          "spoken_text": "merenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_montagna-p1-6",
+          "kind": "symbol",
+          "text": "cena",
+          "symbol": "cena",
+          "concept": null,
+          "spoken_text": "cena",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

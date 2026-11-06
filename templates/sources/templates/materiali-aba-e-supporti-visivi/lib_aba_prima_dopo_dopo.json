@@ -1,0 +1,95 @@
+{
+  "id": "lib_aba_prima_dopo_dopo",
+  "title": "Prima, dopo, dopo, infine",
+  "description": "Sequenza visiva con quattro momenti consecutivi. 4 voci, tra cui lavoro in classe, pausa, giocare, casa.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Prima, dopo, dopo, infine",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_prima_dopo_dopo-p1-1",
+          "kind": "symbol",
+          "text": "lavoro in classe",
+          "symbol": "lavoro in classe",
+          "concept": "school.classwork",
+          "spoken_text": "lavoro in classe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_prima_dopo_dopo-p1-2",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_prima_dopo_dopo-p1-3",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_prima_dopo_dopo-p1-4",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 4,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

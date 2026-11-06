@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_spazio_destra_sinistra",
+  "title": "Spazio: destra e sinistra",
+  "description": "Scheda sull'orientamento nello spazio. 6 voci, tra cui destra, sinistra, davanti, dietro e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Spazio: destra e sinistra",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-title",
+          "kind": "text",
+          "text": "Spazio: destra e sinistra",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-field-title",
+          "kind": "text",
+          "text": "Spazio: destra e sinistra",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-1",
+          "kind": "symbol",
+          "text": "destra",
+          "symbol": "destra",
+          "concept": null,
+          "spoken_text": "destra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-2",
+          "kind": "symbol",
+          "text": "sinistra",
+          "symbol": "sinistra",
+          "concept": null,
+          "spoken_text": "sinistra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-3",
+          "kind": "symbol",
+          "text": "davanti",
+          "symbol": "davanti",
+          "concept": null,
+          "spoken_text": "davanti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-4",
+          "kind": "symbol",
+          "text": "dietro",
+          "symbol": "dietro",
+          "concept": null,
+          "spoken_text": "dietro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-5",
+          "kind": "symbol",
+          "text": "in alto",
+          "symbol": "in alto",
+          "concept": null,
+          "spoken_text": "in alto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_destra_sinistra-p1-6",
+          "kind": "symbol",
+          "text": "in basso",
+          "symbol": "in basso",
+          "concept": null,
+          "spoken_text": "in basso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

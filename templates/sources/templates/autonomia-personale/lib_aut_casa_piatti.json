@@ -1,0 +1,137 @@
+{
+  "id": "lib_aut_casa_piatti",
+  "title": "Casa: lavare i piatti",
+  "description": "Routine autonoma per lavare i piatti. 6 voci, tra cui togliere i resti, insaponare, sciacquare, asciugare e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Casa: lavare i piatti",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_casa_piatti-p1-title",
+          "kind": "text",
+          "text": "Casa: lavare i piatti",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-field-title",
+          "kind": "text",
+          "text": "Casa: lavare i piatti",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-field-layout",
+          "kind": "text",
+          "text": "verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-1",
+          "kind": "symbol",
+          "text": "togliere i resti",
+          "symbol": "togliere i resti",
+          "concept": null,
+          "spoken_text": "togliere i resti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-2",
+          "kind": "symbol",
+          "text": "insaponare",
+          "symbol": "insaponare",
+          "concept": null,
+          "spoken_text": "insaponare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-3",
+          "kind": "symbol",
+          "text": "sciacquare",
+          "symbol": "sciacquare",
+          "concept": null,
+          "spoken_text": "sciacquare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-4",
+          "kind": "symbol",
+          "text": "asciugare",
+          "symbol": "asciugare",
+          "concept": null,
+          "spoken_text": "asciugare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-5",
+          "kind": "symbol",
+          "text": "riporre",
+          "symbol": "riporre",
+          "concept": null,
+          "spoken_text": "riporre",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_piatti-p1-6",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

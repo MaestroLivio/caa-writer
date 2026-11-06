@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_categoria_frutta",
+  "title": "Raggruppare la frutta",
+  "description": "Compito di raggruppamento per categoria: frutta. 6 voci, tra cui mela, banana, pesca, uva e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Raggruppare la frutta",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_categoria_frutta-p1-1",
+          "kind": "symbol",
+          "text": "mela",
+          "symbol": "mela",
+          "concept": "food.apple",
+          "spoken_text": "mela",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_categoria_frutta-p1-2",
+          "kind": "symbol",
+          "text": "banana",
+          "symbol": "banana",
+          "concept": null,
+          "spoken_text": "banana",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_categoria_frutta-p1-3",
+          "kind": "symbol",
+          "text": "pesca",
+          "symbol": "pesca",
+          "concept": "fruit.peach",
+          "spoken_text": "pesca",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_categoria_frutta-p1-4",
+          "kind": "symbol",
+          "text": "uva",
+          "symbol": "uva",
+          "concept": null,
+          "spoken_text": "uva",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_categoria_frutta-p1-5",
+          "kind": "symbol",
+          "text": "fragola",
+          "symbol": "fragola",
+          "concept": null,
+          "spoken_text": "fragola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_categoria_frutta-p1-6",
+          "kind": "symbol",
+          "text": "arancia",
+          "symbol": "arancia",
+          "concept": null,
+          "spoken_text": "arancia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

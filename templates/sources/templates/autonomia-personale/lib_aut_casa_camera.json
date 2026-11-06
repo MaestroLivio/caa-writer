@@ -1,0 +1,137 @@
+{
+  "id": "lib_aut_casa_camera",
+  "title": "Casa: riordinare la camera",
+  "description": "Routine autonoma per riordinare la camera. 6 voci, tra cui rifare il letto, raccogliere i vestiti, mettere i giochi, spolverare e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Casa: riordinare la camera",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_casa_camera-p1-title",
+          "kind": "text",
+          "text": "Casa: riordinare la camera",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-field-title",
+          "kind": "text",
+          "text": "Casa: riordinare la camera",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-field-layout",
+          "kind": "text",
+          "text": "checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-1",
+          "kind": "symbol",
+          "text": "rifare il letto",
+          "symbol": "rifare il letto",
+          "concept": null,
+          "spoken_text": "rifare il letto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-2",
+          "kind": "symbol",
+          "text": "raccogliere i vestiti",
+          "symbol": "raccogliere i vestiti",
+          "concept": null,
+          "spoken_text": "raccogliere i vestiti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-3",
+          "kind": "symbol",
+          "text": "mettere i giochi",
+          "symbol": "mettere i giochi",
+          "concept": null,
+          "spoken_text": "mettere i giochi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-4",
+          "kind": "symbol",
+          "text": "spolverare",
+          "symbol": "spolverare",
+          "concept": null,
+          "spoken_text": "spolverare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-5",
+          "kind": "symbol",
+          "text": "mettere a posto",
+          "symbol": "mettere a posto",
+          "concept": null,
+          "spoken_text": "mettere a posto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_camera-p1-6",
+          "kind": "symbol",
+          "text": "controllare",
+          "symbol": "controllare",
+          "concept": null,
+          "spoken_text": "controllare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

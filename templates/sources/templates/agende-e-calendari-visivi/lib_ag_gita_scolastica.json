@@ -1,0 +1,163 @@
+{
+  "id": "lib_ag_gita_scolastica",
+  "title": "Gita scolastica",
+  "description": "Agenda oraria della gita scolastica. 8 voci, tra cui 7:30 ritrovo, 8:00 autobus, 9:30 arrivo, 10:00 visita e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Gita scolastica",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_gita_scolastica-p1-1",
+          "kind": "symbol",
+          "text": "7:30 ritrovo",
+          "symbol": "7:30 ritrovo",
+          "concept": null,
+          "spoken_text": "7:30 ritrovo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_gita_scolastica-p1-2",
+          "kind": "symbol",
+          "text": "8:00 autobus",
+          "symbol": "8:00 autobus",
+          "concept": null,
+          "spoken_text": "8:00 autobus",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_gita_scolastica-p1-3",
+          "kind": "symbol",
+          "text": "9:30 arrivo",
+          "symbol": "9:30 arrivo",
+          "concept": null,
+          "spoken_text": "9:30 arrivo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_gita_scolastica-p1-4",
+          "kind": "symbol",
+          "text": "10:00 visita",
+          "symbol": "10:00 visita",
+          "concept": null,
+          "spoken_text": "10:00 visita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_gita_scolastica-p1-5",
+          "kind": "symbol",
+          "text": "12:30 pranzo",
+          "symbol": "12:30 pranzo",
+          "concept": null,
+          "spoken_text": "12:30 pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_gita_scolastica-p1-6",
+          "kind": "symbol",
+          "text": "14:00 laboratorio",
+          "symbol": "14:00 laboratorio",
+          "concept": null,
+          "spoken_text": "14:00 laboratorio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_gita_scolastica-p1-7",
+          "kind": "symbol",
+          "text": "15:30 ritorno",
+          "symbol": "15:30 ritorno",
+          "concept": null,
+          "spoken_text": "15:30 ritorno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_gita_scolastica-p1-8",
+          "kind": "symbol",
+          "text": "16:30 scuola",
+          "symbol": "16:30 scuola",
+          "concept": null,
+          "spoken_text": "16:30 scuola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 8,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

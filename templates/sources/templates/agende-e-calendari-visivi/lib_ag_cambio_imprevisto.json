@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_cambio_imprevisto",
+  "title": "Cambio di programma imprevisto",
+  "description": "Agenda per gestire un cambiamento non previsto. 5 voci, tra cui programma cambiato, ascoltare la maestra, nuova attività, pausa e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Cambio di programma imprevisto",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_cambio_imprevisto-p1-1",
+          "kind": "symbol",
+          "text": "programma cambiato",
+          "symbol": "programma cambiato",
+          "concept": null,
+          "spoken_text": "programma cambiato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_cambio_imprevisto-p1-2",
+          "kind": "symbol",
+          "text": "ascoltare la maestra",
+          "symbol": "ascoltare la maestra",
+          "concept": null,
+          "spoken_text": "ascoltare la maestra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_cambio_imprevisto-p1-3",
+          "kind": "symbol",
+          "text": "nuova attività",
+          "symbol": "nuova attività",
+          "concept": null,
+          "spoken_text": "nuova attività",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_cambio_imprevisto-p1-4",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_cambio_imprevisto-p1-5",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

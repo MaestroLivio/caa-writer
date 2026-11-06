@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_numero_quantita",
+  "title": "Numero e quantità",
+  "description": "Abbinamento tra numero e quantità corrispondente. 6 voci, tra cui uno, due, tre, quattro e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Numero e quantità",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_numero_quantita-p1-1",
+          "kind": "symbol",
+          "text": "uno",
+          "symbol": "uno",
+          "concept": null,
+          "spoken_text": "uno",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_numero_quantita-p1-2",
+          "kind": "symbol",
+          "text": "due",
+          "symbol": "due",
+          "concept": null,
+          "spoken_text": "due",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_numero_quantita-p1-3",
+          "kind": "symbol",
+          "text": "tre",
+          "symbol": "tre",
+          "concept": null,
+          "spoken_text": "tre",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_numero_quantita-p1-4",
+          "kind": "symbol",
+          "text": "quattro",
+          "symbol": "quattro",
+          "concept": null,
+          "spoken_text": "quattro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_numero_quantita-p1-5",
+          "kind": "symbol",
+          "text": "cinque",
+          "symbol": "cinque",
+          "concept": null,
+          "spoken_text": "cinque",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_numero_quantita-p1-6",
+          "kind": "symbol",
+          "text": "sei",
+          "symbol": "sei",
+          "concept": null,
+          "spoken_text": "sei",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

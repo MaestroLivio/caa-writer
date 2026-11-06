@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_dolore_corpo",
+  "title": "Dolore: parti del corpo",
+  "description": "Celle per indicare dove si sente dolore. 9 voci, tra cui testa, pancia, denti, orecchio e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Dolore: parti del corpo",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_dolore_corpo-p1-1",
+          "kind": "symbol",
+          "text": "testa",
+          "symbol": "testa",
+          "concept": null,
+          "spoken_text": "testa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-2",
+          "kind": "symbol",
+          "text": "pancia",
+          "symbol": "pancia",
+          "concept": null,
+          "spoken_text": "pancia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-3",
+          "kind": "symbol",
+          "text": "denti",
+          "symbol": "denti",
+          "concept": null,
+          "spoken_text": "denti",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-4",
+          "kind": "symbol",
+          "text": "orecchio",
+          "symbol": "orecchio",
+          "concept": null,
+          "spoken_text": "orecchio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-5",
+          "kind": "symbol",
+          "text": "gola",
+          "symbol": "gola",
+          "concept": null,
+          "spoken_text": "gola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-6",
+          "kind": "symbol",
+          "text": "schiena",
+          "symbol": "schiena",
+          "concept": null,
+          "spoken_text": "schiena",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-7",
+          "kind": "symbol",
+          "text": "dolore",
+          "symbol": "dolore",
+          "concept": null,
+          "spoken_text": "dolore",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-8",
+          "kind": "symbol",
+          "text": "medico",
+          "symbol": "medico",
+          "concept": "person.doctor",
+          "spoken_text": "medico",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_dolore_corpo-p1-9",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

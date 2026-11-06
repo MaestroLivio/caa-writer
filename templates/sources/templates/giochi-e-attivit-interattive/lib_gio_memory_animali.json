@@ -1,0 +1,580 @@
+{
+  "id": "lib_gio_memory_animali",
+  "title": "Memory degli animali",
+  "description": "Gioco di memoria con dodici carte di animali. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "category": "Giochi e attività interattive",
+  "source_type": "template",
+  "kind": "activity",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Memory degli animali",
+      "layout": "absolute",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-title",
+          "kind": "text",
+          "text": "Memory degli animali",
+          "x_mm": 15,
+          "y_mm": 14,
+          "w_mm": 260,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-1",
+          "kind": "button",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "x_mm": 18,
+          "y_mm": 42,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-1"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-2",
+          "kind": "button",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "x_mm": 106,
+          "y_mm": 42,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-2"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-3",
+          "kind": "button",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "x_mm": 194,
+          "y_mm": 42,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-3"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-4",
+          "kind": "button",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "x_mm": 18,
+          "y_mm": 94,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-4"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-5",
+          "kind": "button",
+          "text": "uccello",
+          "symbol": "uccello",
+          "concept": "animal.bird",
+          "x_mm": 106,
+          "y_mm": 94,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-5"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-6",
+          "kind": "button",
+          "text": "uccello",
+          "symbol": "uccello",
+          "concept": "animal.bird",
+          "x_mm": 194,
+          "y_mm": 94,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-6"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-7",
+          "kind": "button",
+          "text": "cavallo",
+          "symbol": "cavallo",
+          "concept": null,
+          "x_mm": 18,
+          "y_mm": 146,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-7"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-btn-8",
+          "kind": "button",
+          "text": "cavallo",
+          "symbol": "cavallo",
+          "concept": null,
+          "x_mm": 106,
+          "y_mm": 146,
+          "w_mm": 78,
+          "h_mm": 40,
+          "action": {
+            "type": "navigate",
+            "target": "activity-8"
+          },
+          "style": {
+            "font_size": 5,
+            "border_width": 1,
+            "border_color": "#456",
+            "align": "center"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-1",
+      "title": "cane",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a1-title",
+          "kind": "text",
+          "text": "cane",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a1-symbol",
+          "kind": "symbol",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a1-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-2",
+      "title": "cane",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a2-title",
+          "kind": "text",
+          "text": "cane",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a2-symbol",
+          "kind": "symbol",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a2-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-3",
+      "title": "gatto",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a3-title",
+          "kind": "text",
+          "text": "gatto",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a3-symbol",
+          "kind": "symbol",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a3-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-4",
+      "title": "gatto",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a4-title",
+          "kind": "text",
+          "text": "gatto",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a4-symbol",
+          "kind": "symbol",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a4-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-5",
+      "title": "uccello",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a5-title",
+          "kind": "text",
+          "text": "uccello",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a5-symbol",
+          "kind": "symbol",
+          "text": "uccello",
+          "symbol": "uccello",
+          "concept": "animal.bird",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a5-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-6",
+      "title": "uccello",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a6-title",
+          "kind": "text",
+          "text": "uccello",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a6-symbol",
+          "kind": "symbol",
+          "text": "uccello",
+          "symbol": "uccello",
+          "concept": "animal.bird",
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a6-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-7",
+      "title": "cavallo",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a7-title",
+          "kind": "text",
+          "text": "cavallo",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a7-symbol",
+          "kind": "symbol",
+          "text": "cavallo",
+          "symbol": "cavallo",
+          "concept": null,
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a7-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "activity-8",
+      "title": "cavallo",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_gio_memory_animali-a8-title",
+          "kind": "text",
+          "text": "cavallo",
+          "x_mm": 20,
+          "y_mm": 12,
+          "w_mm": 250,
+          "h_mm": 20,
+          "style": {
+            "font_size": 9,
+            "bold": true,
+            "align": "center"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a8-symbol",
+          "kind": "symbol",
+          "text": "cavallo",
+          "symbol": "cavallo",
+          "concept": null,
+          "x_mm": 80,
+          "y_mm": 50,
+          "w_mm": 130,
+          "h_mm": 112,
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "lib_gio_memory_animali-a8-home",
+          "kind": "button",
+          "text": "Home",
+          "x_mm": 20,
+          "y_mm": 178,
+          "w_mm": 55,
+          "h_mm": 14,
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

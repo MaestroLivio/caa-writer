@@ -1,0 +1,190 @@
+{
+  "id": "lib_sto_autobus",
+  "title": "Il viaggio in autobus",
+  "description": "Storia sociale sul viaggio in autobus. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Il viaggio in autobus",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_autobus-p1-title",
+          "kind": "text",
+          "text": "Il viaggio in autobus",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p1-field-title",
+          "kind": "text",
+          "text": "Il viaggio in autobus",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p1-1",
+          "kind": "symbol",
+          "text": "Per andare a scuola prendo l'autobus.",
+          "symbol": "Per andare a scuola prendo l'autobus.",
+          "concept": null,
+          "spoken_text": "Per andare a scuola prendo l'autobus.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p1-2",
+          "kind": "symbol",
+          "text": "Aspetto alla fermata.",
+          "symbol": "Aspetto alla fermata.",
+          "concept": null,
+          "spoken_text": "Aspetto alla fermata.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p1-3",
+          "kind": "symbol",
+          "text": "Controllo il numero dell'autobus.",
+          "symbol": "Controllo il numero dell'autobus.",
+          "concept": null,
+          "spoken_text": "Controllo il numero dell'autobus.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p1-4",
+          "kind": "symbol",
+          "text": "Salgo e convalido il biglietto.",
+          "symbol": "Salgo e convalido il biglietto.",
+          "concept": null,
+          "spoken_text": "Salgo e convalido il biglietto.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Il viaggio in autobus · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_sto_autobus-p2-title",
+          "kind": "text",
+          "text": "Il viaggio in autobus · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p2-field-title",
+          "kind": "text",
+          "text": "Il viaggio in autobus",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p2-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p2-1",
+          "kind": "symbol",
+          "text": "Resto seduto o mi tengo alla maniglia.",
+          "symbol": "Resto seduto o mi tengo alla maniglia.",
+          "concept": null,
+          "spoken_text": "Resto seduto o mi tengo alla maniglia.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p2-2",
+          "kind": "symbol",
+          "text": "Scendo alla mia fermata.",
+          "symbol": "Scendo alla mia fermata.",
+          "concept": null,
+          "spoken_text": "Scendo alla mia fermata.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_autobus-p2-3",
+          "kind": "symbol",
+          "text": "Cammino fino a scuola.",
+          "symbol": "Cammino fino a scuola.",
+          "concept": null,
+          "spoken_text": "Cammino fino a scuola.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

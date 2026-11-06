@@ -1,0 +1,95 @@
+{
+  "id": "lib_tea_ordina_piccolo_grande",
+  "title": "Dal più piccolo al più grande",
+  "description": "Ordinamento per dimensione. 4 voci, tra cui piccolo, medio, grande, grandissimo.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Dal più piccolo al più grande",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_ordina_piccolo_grande-p1-1",
+          "kind": "symbol",
+          "text": "piccolo",
+          "symbol": "piccolo",
+          "concept": null,
+          "spoken_text": "piccolo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ordina_piccolo_grande-p1-2",
+          "kind": "symbol",
+          "text": "medio",
+          "symbol": "medio",
+          "concept": null,
+          "spoken_text": "medio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ordina_piccolo_grande-p1-3",
+          "kind": "symbol",
+          "text": "grande",
+          "symbol": "grande",
+          "concept": null,
+          "spoken_text": "grande",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_ordina_piccolo_grande-p1-4",
+          "kind": "symbol",
+          "text": "grandissimo",
+          "symbol": "grandissimo",
+          "concept": null,
+          "spoken_text": "grandissimo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

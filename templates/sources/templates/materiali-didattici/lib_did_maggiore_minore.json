@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_maggiore_minore",
+  "title": "Maggiore, minore, uguale",
+  "description": "Scheda di confronto tra numeri. 6 voci, tra cui 3 ___ 1, 2 ___ 5, 4 ___ 4, 7 ___ 2 e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Maggiore, minore, uguale",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_maggiore_minore-p1-title",
+          "kind": "text",
+          "text": "Maggiore, minore, uguale",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-field-title",
+          "kind": "text",
+          "text": "Maggiore, minore, uguale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-1",
+          "kind": "symbol",
+          "text": "3 ___ 1",
+          "symbol": "3 ___ 1",
+          "concept": null,
+          "spoken_text": "3 ___ 1",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-2",
+          "kind": "symbol",
+          "text": "2 ___ 5",
+          "symbol": "2 ___ 5",
+          "concept": null,
+          "spoken_text": "2 ___ 5",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-3",
+          "kind": "symbol",
+          "text": "4 ___ 4",
+          "symbol": "4 ___ 4",
+          "concept": null,
+          "spoken_text": "4 ___ 4",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-4",
+          "kind": "symbol",
+          "text": "7 ___ 2",
+          "symbol": "7 ___ 2",
+          "concept": null,
+          "spoken_text": "7 ___ 2",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-5",
+          "kind": "symbol",
+          "text": "6 ___ 9",
+          "symbol": "6 ___ 9",
+          "concept": null,
+          "spoken_text": "6 ___ 9",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_maggiore_minore-p1-6",
+          "kind": "symbol",
+          "text": "8 ___ 8",
+          "symbol": "8 ___ 8",
+          "concept": null,
+          "spoken_text": "8 ___ 8",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

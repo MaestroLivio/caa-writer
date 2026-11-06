@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_colori_cestini",
+  "title": "Colori e cestini",
+  "description": "Abbinare ogni colore al cestino corrispondente. 6 voci, tra cui rosso, blu, giallo, verde e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Colori e cestini",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_colori_cestini-p1-1",
+          "kind": "symbol",
+          "text": "rosso",
+          "symbol": "rosso",
+          "concept": null,
+          "spoken_text": "rosso",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_colori_cestini-p1-2",
+          "kind": "symbol",
+          "text": "blu",
+          "symbol": "blu",
+          "concept": null,
+          "spoken_text": "blu",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_colori_cestini-p1-3",
+          "kind": "symbol",
+          "text": "giallo",
+          "symbol": "giallo",
+          "concept": null,
+          "spoken_text": "giallo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_colori_cestini-p1-4",
+          "kind": "symbol",
+          "text": "verde",
+          "symbol": "verde",
+          "concept": null,
+          "spoken_text": "verde",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_colori_cestini-p1-5",
+          "kind": "symbol",
+          "text": "cestino rosso",
+          "symbol": "cestino rosso",
+          "concept": null,
+          "spoken_text": "cestino rosso",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_colori_cestini-p1-6",
+          "kind": "symbol",
+          "text": "cestino blu",
+          "symbol": "cestino blu",
+          "concept": null,
+          "spoken_text": "cestino blu",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

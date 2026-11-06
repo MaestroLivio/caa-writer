@@ -1,0 +1,137 @@
+{
+  "id": "lib_aut_trasporti_autobus",
+  "title": "Trasporti: prendere l'autobus",
+  "description": "Routine autonoma per prendere l'autobus. 6 voci, tra cui andare alla fermata, aspettare, controllare il numero, salire e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Trasporti: prendere l'autobus",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_trasporti_autobus-p1-title",
+          "kind": "text",
+          "text": "Trasporti: prendere l'autobus",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-field-title",
+          "kind": "text",
+          "text": "Trasporti: prendere l'autobus",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-field-layout",
+          "kind": "text",
+          "text": "verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-1",
+          "kind": "symbol",
+          "text": "andare alla fermata",
+          "symbol": "andare alla fermata",
+          "concept": null,
+          "spoken_text": "andare alla fermata",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-2",
+          "kind": "symbol",
+          "text": "aspettare",
+          "symbol": "aspettare",
+          "concept": null,
+          "spoken_text": "aspettare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-3",
+          "kind": "symbol",
+          "text": "controllare il numero",
+          "symbol": "controllare il numero",
+          "concept": null,
+          "spoken_text": "controllare il numero",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-4",
+          "kind": "symbol",
+          "text": "salire",
+          "symbol": "salire",
+          "concept": null,
+          "spoken_text": "salire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-5",
+          "kind": "symbol",
+          "text": "convalidare il biglietto",
+          "symbol": "convalidare il biglietto",
+          "concept": null,
+          "spoken_text": "convalidare il biglietto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_trasporti_autobus-p1-6",
+          "kind": "symbol",
+          "text": "scendere",
+          "symbol": "scendere",
+          "concept": null,
+          "spoken_text": "scendere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

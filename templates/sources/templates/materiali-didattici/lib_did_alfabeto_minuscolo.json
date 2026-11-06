@@ -1,0 +1,464 @@
+{
+  "id": "lib_did_alfabeto_minuscolo",
+  "title": "Alfabeto minuscolo",
+  "description": "Scheda dell'alfabeto italiano in stampato minuscolo. 21 voci, tra cui a, b, c, d e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Alfabeto minuscolo",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-field-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-1",
+          "kind": "symbol",
+          "text": "a",
+          "symbol": "a",
+          "concept": null,
+          "spoken_text": "a",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-2",
+          "kind": "symbol",
+          "text": "b",
+          "symbol": "b",
+          "concept": null,
+          "spoken_text": "b",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-3",
+          "kind": "symbol",
+          "text": "c",
+          "symbol": "c",
+          "concept": null,
+          "spoken_text": "c",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-4",
+          "kind": "symbol",
+          "text": "d",
+          "symbol": "d",
+          "concept": null,
+          "spoken_text": "d",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-5",
+          "kind": "symbol",
+          "text": "e",
+          "symbol": "e",
+          "concept": null,
+          "spoken_text": "e",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p1-6",
+          "kind": "symbol",
+          "text": "f",
+          "symbol": "f",
+          "concept": null,
+          "spoken_text": "f",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Alfabeto minuscolo · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-field-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-1",
+          "kind": "symbol",
+          "text": "g",
+          "symbol": "g",
+          "concept": null,
+          "spoken_text": "g",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-2",
+          "kind": "symbol",
+          "text": "h",
+          "symbol": "h",
+          "concept": null,
+          "spoken_text": "h",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-3",
+          "kind": "symbol",
+          "text": "i",
+          "symbol": "i",
+          "concept": null,
+          "spoken_text": "i",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-4",
+          "kind": "symbol",
+          "text": "l",
+          "symbol": "l",
+          "concept": null,
+          "spoken_text": "l",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-5",
+          "kind": "symbol",
+          "text": "m",
+          "symbol": "m",
+          "concept": null,
+          "spoken_text": "m",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p2-6",
+          "kind": "symbol",
+          "text": "n",
+          "symbol": "n",
+          "concept": null,
+          "spoken_text": "n",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-3",
+      "title": "Alfabeto minuscolo · 3",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo · 3",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-field-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-1",
+          "kind": "symbol",
+          "text": "o",
+          "symbol": "o",
+          "concept": null,
+          "spoken_text": "o",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-2",
+          "kind": "symbol",
+          "text": "p",
+          "symbol": "p",
+          "concept": null,
+          "spoken_text": "p",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-3",
+          "kind": "symbol",
+          "text": "q",
+          "symbol": "q",
+          "concept": null,
+          "spoken_text": "q",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-4",
+          "kind": "symbol",
+          "text": "r",
+          "symbol": "r",
+          "concept": null,
+          "spoken_text": "r",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-5",
+          "kind": "symbol",
+          "text": "s",
+          "symbol": "s",
+          "concept": null,
+          "spoken_text": "s",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p3-6",
+          "kind": "symbol",
+          "text": "t",
+          "symbol": "t",
+          "concept": null,
+          "spoken_text": "t",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-4",
+      "title": "Alfabeto minuscolo · 4",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_minuscolo-p4-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo · 4",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p4-field-title",
+          "kind": "text",
+          "text": "Alfabeto minuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p4-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p4-1",
+          "kind": "symbol",
+          "text": "u",
+          "symbol": "u",
+          "concept": null,
+          "spoken_text": "u",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p4-2",
+          "kind": "symbol",
+          "text": "v",
+          "symbol": "v",
+          "concept": null,
+          "spoken_text": "v",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-p4-3",
+          "kind": "symbol",
+          "text": "z",
+          "symbol": "z",
+          "concept": null,
+          "spoken_text": "z",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

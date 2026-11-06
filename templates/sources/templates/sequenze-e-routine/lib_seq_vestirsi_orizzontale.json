@@ -1,0 +1,204 @@
+{
+  "id": "lib_seq_vestirsi_orizzontale",
+  "title": "Vestirsi: striscia orizzontale",
+  "description": "Striscia orizzontale della routine per vestirsi. 8 voci, tra cui mutande, maglietta, pantaloni, calze e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Vestirsi: striscia orizzontale",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p1-title",
+          "kind": "text",
+          "text": "Vestirsi: striscia orizzontale",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p1-field-title",
+          "kind": "text",
+          "text": "Vestirsi: striscia orizzontale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p1-field-layout",
+          "kind": "text",
+          "text": "orizzontale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p1-1",
+          "kind": "symbol",
+          "text": "mutande",
+          "symbol": "mutande",
+          "concept": null,
+          "spoken_text": "mutande",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p1-2",
+          "kind": "symbol",
+          "text": "maglietta",
+          "symbol": "maglietta",
+          "concept": null,
+          "spoken_text": "maglietta",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p1-3",
+          "kind": "symbol",
+          "text": "pantaloni",
+          "symbol": "pantaloni",
+          "concept": null,
+          "spoken_text": "pantaloni",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p1-4",
+          "kind": "symbol",
+          "text": "calze",
+          "symbol": "calze",
+          "concept": null,
+          "spoken_text": "calze",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Vestirsi: striscia orizzontale · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p2-title",
+          "kind": "text",
+          "text": "Vestirsi: striscia orizzontale · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p2-field-title",
+          "kind": "text",
+          "text": "Vestirsi: striscia orizzontale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p2-field-layout",
+          "kind": "text",
+          "text": "orizzontale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p2-1",
+          "kind": "symbol",
+          "text": "scarpe",
+          "symbol": "scarpe",
+          "concept": "object.shoes",
+          "spoken_text": "scarpe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p2-2",
+          "kind": "symbol",
+          "text": "giacca",
+          "symbol": "giacca",
+          "concept": null,
+          "spoken_text": "giacca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p2-3",
+          "kind": "symbol",
+          "text": "zaino",
+          "symbol": "zaino",
+          "concept": "object.backpack",
+          "spoken_text": "zaino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_vestirsi_orizzontale-p2-4",
+          "kind": "symbol",
+          "text": "specchio",
+          "symbol": "specchio",
+          "concept": null,
+          "spoken_text": "specchio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

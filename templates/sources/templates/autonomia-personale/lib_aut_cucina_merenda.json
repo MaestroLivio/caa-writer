@@ -1,0 +1,123 @@
+{
+  "id": "lib_aut_cucina_merenda",
+  "title": "Cucina: preparare la merenda",
+  "description": "Routine autonoma per preparare la merenda. 5 voci, tra cui lavarsi le mani, scegliere il cibo, preparare il piatto, mangiare e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Cucina: preparare la merenda",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_cucina_merenda-p1-title",
+          "kind": "text",
+          "text": "Cucina: preparare la merenda",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_cucina_merenda-p1-field-title",
+          "kind": "text",
+          "text": "Cucina: preparare la merenda",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_cucina_merenda-p1-field-layout",
+          "kind": "text",
+          "text": "lineare",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_cucina_merenda-p1-1",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_cucina_merenda-p1-2",
+          "kind": "symbol",
+          "text": "scegliere il cibo",
+          "symbol": "scegliere il cibo",
+          "concept": null,
+          "spoken_text": "scegliere il cibo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_cucina_merenda-p1-3",
+          "kind": "symbol",
+          "text": "preparare il piatto",
+          "symbol": "preparare il piatto",
+          "concept": null,
+          "spoken_text": "preparare il piatto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_cucina_merenda-p1-4",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_cucina_merenda-p1-5",
+          "kind": "symbol",
+          "text": "riordinare",
+          "symbol": "riordinare",
+          "concept": null,
+          "spoken_text": "riordinare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

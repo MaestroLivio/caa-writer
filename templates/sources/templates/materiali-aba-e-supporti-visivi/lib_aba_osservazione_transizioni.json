@@ -1,0 +1,129 @@
+{
+  "id": "lib_aba_osservazione_transizioni",
+  "title": "Osservazione: transizioni",
+  "description": "Scheda di osservazione dei passaggi tra attività. 6 voci, tra cui entrata, cambio attività, intervallo, pranzo e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Osservazione: transizioni",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_osservazione_transizioni-p1-1",
+          "kind": "symbol",
+          "text": "entrata",
+          "symbol": "entrata",
+          "concept": null,
+          "spoken_text": "entrata",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_transizioni-p1-2",
+          "kind": "symbol",
+          "text": "cambio attività",
+          "symbol": "cambio attività",
+          "concept": null,
+          "spoken_text": "cambio attività",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_transizioni-p1-3",
+          "kind": "symbol",
+          "text": "intervallo",
+          "symbol": "intervallo",
+          "concept": "school.break",
+          "spoken_text": "intervallo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_transizioni-p1-4",
+          "kind": "symbol",
+          "text": "pranzo",
+          "symbol": "pranzo",
+          "concept": "school.lunch",
+          "spoken_text": "pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_transizioni-p1-5",
+          "kind": "symbol",
+          "text": "uscita",
+          "symbol": "uscita",
+          "concept": null,
+          "spoken_text": "uscita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_transizioni-p1-6",
+          "kind": "symbol",
+          "text": "rientro",
+          "symbol": "rientro",
+          "concept": null,
+          "spoken_text": "rientro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

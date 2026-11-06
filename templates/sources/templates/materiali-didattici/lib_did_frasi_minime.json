@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_frasi_minime",
+  "title": "Frasi minime",
+  "description": "Scheda di lettura di frasi minime. 6 voci, tra cui il cane corre, la mela è rossa, il libro è sul tavolo, la palla è blu e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Frasi minime",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_frasi_minime-p1-title",
+          "kind": "text",
+          "text": "Frasi minime",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-field-title",
+          "kind": "text",
+          "text": "Frasi minime",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-1",
+          "kind": "symbol",
+          "text": "il cane corre",
+          "symbol": "il cane corre",
+          "concept": null,
+          "spoken_text": "il cane corre",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-2",
+          "kind": "symbol",
+          "text": "la mela è rossa",
+          "symbol": "la mela è rossa",
+          "concept": null,
+          "spoken_text": "la mela è rossa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-3",
+          "kind": "symbol",
+          "text": "il libro è sul tavolo",
+          "symbol": "il libro è sul tavolo",
+          "concept": null,
+          "spoken_text": "il libro è sul tavolo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-4",
+          "kind": "symbol",
+          "text": "la palla è blu",
+          "symbol": "la palla è blu",
+          "concept": null,
+          "spoken_text": "la palla è blu",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-5",
+          "kind": "symbol",
+          "text": "il gatto dorme",
+          "symbol": "il gatto dorme",
+          "concept": null,
+          "spoken_text": "il gatto dorme",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_frasi_minime-p1-6",
+          "kind": "symbol",
+          "text": "la maestra legge",
+          "symbol": "la maestra legge",
+          "concept": null,
+          "spoken_text": "la maestra legge",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

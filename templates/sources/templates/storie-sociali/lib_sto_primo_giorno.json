@@ -1,0 +1,190 @@
+{
+  "id": "lib_sto_primo_giorno",
+  "title": "Il primo giorno di scuola",
+  "description": "Storia sociale sul primo giorno di scuola. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Il primo giorno di scuola",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_primo_giorno-p1-title",
+          "kind": "text",
+          "text": "Il primo giorno di scuola",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p1-field-title",
+          "kind": "text",
+          "text": "Il primo giorno di scuola",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p1-1",
+          "kind": "symbol",
+          "text": "Il primo giorno di scuola alcune cose sono nuove.",
+          "symbol": "Il primo giorno di scuola alcune cose sono nuove.",
+          "concept": null,
+          "spoken_text": "Il primo giorno di scuola alcune cose sono nuove.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p1-2",
+          "kind": "symbol",
+          "text": "Conosco la maestra e i compagni.",
+          "symbol": "Conosco la maestra e i compagni.",
+          "concept": null,
+          "spoken_text": "Conosco la maestra e i compagni.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p1-3",
+          "kind": "symbol",
+          "text": "Guardo l'aula e trovo il mio banco.",
+          "symbol": "Guardo l'aula e trovo il mio banco.",
+          "concept": null,
+          "spoken_text": "Guardo l'aula e trovo il mio banco.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p1-4",
+          "kind": "symbol",
+          "text": "Se non so dove andare, posso chiedere.",
+          "symbol": "Se non so dove andare, posso chiedere.",
+          "concept": null,
+          "spoken_text": "Se non so dove andare, posso chiedere.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Il primo giorno di scuola · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_sto_primo_giorno-p2-title",
+          "kind": "text",
+          "text": "Il primo giorno di scuola · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p2-field-title",
+          "kind": "text",
+          "text": "Il primo giorno di scuola",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p2-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p2-1",
+          "kind": "symbol",
+          "text": "Posso ascoltare le indicazioni della maestra.",
+          "symbol": "Posso ascoltare le indicazioni della maestra.",
+          "concept": null,
+          "spoken_text": "Posso ascoltare le indicazioni della maestra.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p2-2",
+          "kind": "symbol",
+          "text": "A poco a poco la scuola diventa familiare.",
+          "symbol": "A poco a poco la scuola diventa familiare.",
+          "concept": null,
+          "spoken_text": "A poco a poco la scuola diventa familiare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_primo_giorno-p2-3",
+          "kind": "symbol",
+          "text": "Posso raccontare a casa com'è andata.",
+          "symbol": "Posso raccontare a casa com'è andata.",
+          "concept": null,
+          "spoken_text": "Posso raccontare a casa com'è andata.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

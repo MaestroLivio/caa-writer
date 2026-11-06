@@ -1,0 +1,232 @@
+{
+  "id": "lib_did_numeri_1_10",
+  "title": "Numeri da 1 a 10",
+  "description": "Scheda dei numeri da uno a dieci. 10 voci, tra cui 1 uno, 2 due, 3 tre, 4 quattro e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Numeri da 1 a 10",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_numeri_1_10-p1-title",
+          "kind": "text",
+          "text": "Numeri da 1 a 10",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p1-field-title",
+          "kind": "text",
+          "text": "Numeri da 1 a 10",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p1-1",
+          "kind": "symbol",
+          "text": "1 uno",
+          "symbol": "1 uno",
+          "concept": null,
+          "spoken_text": "1 uno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p1-2",
+          "kind": "symbol",
+          "text": "2 due",
+          "symbol": "2 due",
+          "concept": null,
+          "spoken_text": "2 due",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p1-3",
+          "kind": "symbol",
+          "text": "3 tre",
+          "symbol": "3 tre",
+          "concept": null,
+          "spoken_text": "3 tre",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p1-4",
+          "kind": "symbol",
+          "text": "4 quattro",
+          "symbol": "4 quattro",
+          "concept": null,
+          "spoken_text": "4 quattro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p1-5",
+          "kind": "symbol",
+          "text": "5 cinque",
+          "symbol": "5 cinque",
+          "concept": null,
+          "spoken_text": "5 cinque",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Numeri da 1 a 10 · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_numeri_1_10-p2-title",
+          "kind": "text",
+          "text": "Numeri da 1 a 10 · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p2-field-title",
+          "kind": "text",
+          "text": "Numeri da 1 a 10",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p2-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p2-1",
+          "kind": "symbol",
+          "text": "6 sei",
+          "symbol": "6 sei",
+          "concept": null,
+          "spoken_text": "6 sei",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p2-2",
+          "kind": "symbol",
+          "text": "7 sette",
+          "symbol": "7 sette",
+          "concept": null,
+          "spoken_text": "7 sette",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p2-3",
+          "kind": "symbol",
+          "text": "8 otto",
+          "symbol": "8 otto",
+          "concept": null,
+          "spoken_text": "8 otto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p2-4",
+          "kind": "symbol",
+          "text": "9 nove",
+          "symbol": "9 nove",
+          "concept": null,
+          "spoken_text": "9 nove",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_numeri_1_10-p2-5",
+          "kind": "symbol",
+          "text": "10 dieci",
+          "symbol": "10 dieci",
+          "concept": null,
+          "spoken_text": "10 dieci",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

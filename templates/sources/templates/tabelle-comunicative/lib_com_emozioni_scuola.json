@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_emozioni_scuola",
+  "title": "Emozioni a scuola",
+  "description": "Griglia per esprimere come ci si sente in classe. 9 voci, tra cui felice, triste, arrabbiato, paura e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Emozioni a scuola",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_emozioni_scuola-p1-1",
+          "kind": "symbol",
+          "text": "felice",
+          "symbol": "felice",
+          "concept": "emotion.happy",
+          "spoken_text": "felice",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-2",
+          "kind": "symbol",
+          "text": "triste",
+          "symbol": "triste",
+          "concept": "emotion.sad",
+          "spoken_text": "triste",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-3",
+          "kind": "symbol",
+          "text": "arrabbiato",
+          "symbol": "arrabbiato",
+          "concept": "emotion.angry",
+          "spoken_text": "arrabbiato",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-4",
+          "kind": "symbol",
+          "text": "paura",
+          "symbol": "paura",
+          "concept": "emotion.afraid",
+          "spoken_text": "paura",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-5",
+          "kind": "symbol",
+          "text": "stanco",
+          "symbol": "stanco",
+          "concept": "emotion.tired",
+          "spoken_text": "stanco",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-6",
+          "kind": "symbol",
+          "text": "chiedere aiuto",
+          "symbol": "chiedere aiuto",
+          "concept": "action.ask_help",
+          "spoken_text": "chiedere aiuto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-7",
+          "kind": "symbol",
+          "text": "amico",
+          "symbol": "amico",
+          "concept": "person.friend",
+          "spoken_text": "amico",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-8",
+          "kind": "symbol",
+          "text": "maestra",
+          "symbol": "maestra",
+          "concept": "person.teacher",
+          "spoken_text": "maestra",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_emozioni_scuola-p1-9",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_paura",
+  "title": "Quando ho paura",
+  "description": "Scheda con azioni possibili quando arriva la paura. 6 voci, tra cui paura, luce, adulto, respiro e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quando ho paura",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_paura-p1-1",
+          "kind": "symbol",
+          "text": "paura",
+          "symbol": "paura",
+          "concept": "emotion.afraid",
+          "spoken_text": "paura",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_paura-p1-2",
+          "kind": "symbol",
+          "text": "luce",
+          "symbol": "luce",
+          "concept": null,
+          "spoken_text": "luce",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_paura-p1-3",
+          "kind": "symbol",
+          "text": "adulto",
+          "symbol": "adulto",
+          "concept": null,
+          "spoken_text": "adulto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_paura-p1-4",
+          "kind": "symbol",
+          "text": "respiro",
+          "symbol": "respiro",
+          "concept": null,
+          "spoken_text": "respiro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_paura-p1-5",
+          "kind": "symbol",
+          "text": "mano",
+          "symbol": "mano",
+          "concept": null,
+          "spoken_text": "mano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_paura-p1-6",
+          "kind": "symbol",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "spoken_text": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

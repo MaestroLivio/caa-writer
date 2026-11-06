@@ -1,0 +1,146 @@
+{
+  "id": "lib_ag_settimana_completa",
+  "title": "Settimana completa",
+  "description": "Calendario visivo da lunedì a domenica. 7 voci, tra cui lunedì scuola, martedì palestra, mercoledì biblioteca, giovedì piscina e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Settimana completa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_settimana_completa-p1-1",
+          "kind": "symbol",
+          "text": "lunedì scuola",
+          "symbol": "lunedì scuola",
+          "concept": null,
+          "spoken_text": "lunedì scuola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_completa-p1-2",
+          "kind": "symbol",
+          "text": "martedì palestra",
+          "symbol": "martedì palestra",
+          "concept": null,
+          "spoken_text": "martedì palestra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_completa-p1-3",
+          "kind": "symbol",
+          "text": "mercoledì biblioteca",
+          "symbol": "mercoledì biblioteca",
+          "concept": null,
+          "spoken_text": "mercoledì biblioteca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_completa-p1-4",
+          "kind": "symbol",
+          "text": "giovedì piscina",
+          "symbol": "giovedì piscina",
+          "concept": null,
+          "spoken_text": "giovedì piscina",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_completa-p1-5",
+          "kind": "symbol",
+          "text": "venerdì musica",
+          "symbol": "venerdì musica",
+          "concept": null,
+          "spoken_text": "venerdì musica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_completa-p1-6",
+          "kind": "symbol",
+          "text": "sabato parco",
+          "symbol": "sabato parco",
+          "concept": null,
+          "spoken_text": "sabato parco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_settimana_completa-p1-7",
+          "kind": "symbol",
+          "text": "domenica famiglia",
+          "symbol": "domenica famiglia",
+          "concept": null,
+          "spoken_text": "domenica famiglia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 7,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

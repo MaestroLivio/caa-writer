@@ -1,0 +1,112 @@
+{
+  "id": "lib_aba_generalizzazione_casa",
+  "title": "Generalizzazione: a casa",
+  "description": "Elenco di attività da riproporre a casa. 5 voci, tra cui mangiare, vestirsi, lavarsi le mani, riordinare e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Generalizzazione: a casa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_generalizzazione_casa-p1-1",
+          "kind": "symbol",
+          "text": "mangiare",
+          "symbol": "mangiare",
+          "concept": "action.eat",
+          "spoken_text": "mangiare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_casa-p1-2",
+          "kind": "symbol",
+          "text": "vestirsi",
+          "symbol": "vestirsi",
+          "concept": null,
+          "spoken_text": "vestirsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_casa-p1-3",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_casa-p1-4",
+          "kind": "symbol",
+          "text": "riordinare",
+          "symbol": "riordinare",
+          "concept": null,
+          "spoken_text": "riordinare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_casa-p1-5",
+          "kind": "symbol",
+          "text": "dormire",
+          "symbol": "dormire",
+          "concept": "action.sleep",
+          "spoken_text": "dormire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

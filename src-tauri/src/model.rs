@@ -473,6 +473,10 @@ pub struct DocumentPayload {
     /// la conserva opaca: il motore la interpreta, il documento la conserva.
     #[serde(default)]
     pub layout: Option<serde_json::Value>,
+    /// Documento universale (CAA Universal Document Engine). Il layout legacy
+    /// resta per i file precedenti; i nuovi materiali usano questo campo.
+    #[serde(default)]
+    pub universal: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -510,6 +514,8 @@ pub struct LoadedDocument {
     /// Layout salvato nel documento (None per i documenti solo testuali).
     #[serde(default)]
     pub layout: Option<serde_json::Value>,
+    #[serde(default)]
+    pub universal: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

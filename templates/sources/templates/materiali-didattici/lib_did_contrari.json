@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_contrari",
+  "title": "Contrari",
+  "description": "Scheda di abbinamento tra parole contrarie. 6 voci, tra cui grande / piccolo, alto / basso, caldo / freddo, giorno / notte e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Contrari",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_contrari-p1-title",
+          "kind": "text",
+          "text": "Contrari",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-field-title",
+          "kind": "text",
+          "text": "Contrari",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-1",
+          "kind": "symbol",
+          "text": "grande / piccolo",
+          "symbol": "grande / piccolo",
+          "concept": null,
+          "spoken_text": "grande / piccolo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-2",
+          "kind": "symbol",
+          "text": "alto / basso",
+          "symbol": "alto / basso",
+          "concept": null,
+          "spoken_text": "alto / basso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-3",
+          "kind": "symbol",
+          "text": "caldo / freddo",
+          "symbol": "caldo / freddo",
+          "concept": null,
+          "spoken_text": "caldo / freddo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-4",
+          "kind": "symbol",
+          "text": "giorno / notte",
+          "symbol": "giorno / notte",
+          "concept": null,
+          "spoken_text": "giorno / notte",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-5",
+          "kind": "symbol",
+          "text": "aprire / chiudere",
+          "symbol": "aprire / chiudere",
+          "concept": null,
+          "spoken_text": "aprire / chiudere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_contrari-p1-6",
+          "kind": "symbol",
+          "text": "dentro / fuori",
+          "symbol": "dentro / fuori",
+          "concept": null,
+          "spoken_text": "dentro / fuori",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

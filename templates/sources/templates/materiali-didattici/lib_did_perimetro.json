@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_perimetro",
+  "title": "Perimetro delle figure",
+  "description": "Scheda sul numero di lati delle figure piane. 6 voci, tra cui quadrato: 4 lati, rettangolo: 4 lati, triangolo: 3 lati, cerchio: 1 bordo e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Perimetro delle figure",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_perimetro-p1-title",
+          "kind": "text",
+          "text": "Perimetro delle figure",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-field-title",
+          "kind": "text",
+          "text": "Perimetro delle figure",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-1",
+          "kind": "symbol",
+          "text": "quadrato: 4 lati",
+          "symbol": "quadrato: 4 lati",
+          "concept": null,
+          "spoken_text": "quadrato: 4 lati",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-2",
+          "kind": "symbol",
+          "text": "rettangolo: 4 lati",
+          "symbol": "rettangolo: 4 lati",
+          "concept": null,
+          "spoken_text": "rettangolo: 4 lati",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-3",
+          "kind": "symbol",
+          "text": "triangolo: 3 lati",
+          "symbol": "triangolo: 3 lati",
+          "concept": null,
+          "spoken_text": "triangolo: 3 lati",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-4",
+          "kind": "symbol",
+          "text": "cerchio: 1 bordo",
+          "symbol": "cerchio: 1 bordo",
+          "concept": null,
+          "spoken_text": "cerchio: 1 bordo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-5",
+          "kind": "symbol",
+          "text": "pentagono: 5 lati",
+          "symbol": "pentagono: 5 lati",
+          "concept": null,
+          "spoken_text": "pentagono: 5 lati",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_perimetro-p1-6",
+          "kind": "symbol",
+          "text": "esagono: 6 lati",
+          "symbol": "esagono: 6 lati",
+          "concept": null,
+          "spoken_text": "esagono: 6 lati",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

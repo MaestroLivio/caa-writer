@@ -8,7 +8,13 @@
 import { invoke } from "@tauri-apps/api/core";
 import { noModifiers } from "./types";
 import type {
+  DocumentApplyResult,
+  LibraryManifest,
+  OpenedUniversalDocument,
+  RenderedDocument,
   RuntimeDiagnostics,
+  UniversalCommand,
+  UniversalDocument,
   AiConfig,
   LayoutDocument,
   LayoutEditResult,
@@ -154,6 +160,18 @@ export const api = {
     call<Alternative[]>("suggest_symbols", { text, commercialOnly }),
   commonSymbols: (limit = 48) => call<Alternative[]>("common_symbols", { limit }),
 
+  documentValidate: (document: UniversalDocument) =>
+    call<Record<string, unknown>>("document_validate", { document }),
+  documentRender: (document: UniversalDocument) =>
+    call<RenderedDocument>("document_render", { document }),
+  documentApply: (document: UniversalDocument, commands: UniversalCommand[]) =>
+    call<DocumentApplyResult>("document_apply", { document, commands }),
+  universalLibrary: () => call<LibraryManifest>("universal_library"),
+  universalOpen: (id: string, sourceType: string | null = null) =>
+    call<OpenedUniversalDocument>("universal_open", { id, sourceType }),
+  documentExport: (document: UniversalDocument, format: "html" | "svg", path: string) =>
+    call<{ path: string; warnings: string[] }>("document_export", { document, format, path }),
+
   setPreference: (preference: Preference) => call<void>("set_preference", { preference }),
   deletePreference: (scope: string, lemma: string, contextKey: string | null) =>
     call<void>("delete_preference", { scope, lemma, contextKey }),
@@ -221,6 +239,8 @@ export const api = {
   listTemplates: () => call<TemplateInfo[]>("list_templates"),
   planResource: (prompt: string, templateId: string | null) =>
     call<ResourcePlan>("plan_resource", { prompt, templateId }),
+  universalFromPlan: (plan: ResourcePlan) =>
+    call<UniversalDocument>("universal_from_plan", { plan }),
   buildLayout: (spec: LayoutSpecification) =>
     call<LayoutDocument>("build_layout", { spec }),
   editLayout: (

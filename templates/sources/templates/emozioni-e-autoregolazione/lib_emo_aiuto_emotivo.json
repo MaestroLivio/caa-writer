@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_aiuto_emotivo",
+  "title": "Chiedere aiuto emotivo",
+  "description": "Scheda per chiedere aiuto quando un'emozione è forte. 6 voci, tra cui sto male, mi serve aiuto, chiamo un adulto, parlo e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Chiedere aiuto emotivo",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_aiuto_emotivo-p1-1",
+          "kind": "symbol",
+          "text": "sto male",
+          "symbol": "sto male",
+          "concept": null,
+          "spoken_text": "sto male",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_aiuto_emotivo-p1-2",
+          "kind": "symbol",
+          "text": "mi serve aiuto",
+          "symbol": "mi serve aiuto",
+          "concept": null,
+          "spoken_text": "mi serve aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_aiuto_emotivo-p1-3",
+          "kind": "symbol",
+          "text": "chiamo un adulto",
+          "symbol": "chiamo un adulto",
+          "concept": null,
+          "spoken_text": "chiamo un adulto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_aiuto_emotivo-p1-4",
+          "kind": "symbol",
+          "text": "parlo",
+          "symbol": "parlo",
+          "concept": null,
+          "spoken_text": "parlo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_aiuto_emotivo-p1-5",
+          "kind": "symbol",
+          "text": "abbraccio",
+          "symbol": "abbraccio",
+          "concept": null,
+          "spoken_text": "abbraccio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_aiuto_emotivo-p1-6",
+          "kind": "symbol",
+          "text": "sto meglio",
+          "symbol": "sto meglio",
+          "concept": null,
+          "spoken_text": "sto meglio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

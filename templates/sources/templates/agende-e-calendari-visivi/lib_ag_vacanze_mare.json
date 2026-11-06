@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_vacanze_mare",
+  "title": "Vacanze al mare",
+  "description": "Agenda della giornata in spiaggia. 6 voci, tra cui spiaggia, bagno, castelli di sabbia, pranzo e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Vacanze al mare",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_vacanze_mare-p1-1",
+          "kind": "symbol",
+          "text": "spiaggia",
+          "symbol": "spiaggia",
+          "concept": null,
+          "spoken_text": "spiaggia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_mare-p1-2",
+          "kind": "symbol",
+          "text": "bagno",
+          "symbol": "bagno",
+          "concept": "place.toilet",
+          "spoken_text": "bagno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_mare-p1-3",
+          "kind": "symbol",
+          "text": "castelli di sabbia",
+          "symbol": "castelli di sabbia",
+          "concept": null,
+          "spoken_text": "castelli di sabbia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_mare-p1-4",
+          "kind": "symbol",
+          "text": "pranzo",
+          "symbol": "pranzo",
+          "concept": "school.lunch",
+          "spoken_text": "pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_mare-p1-5",
+          "kind": "symbol",
+          "text": "gelato",
+          "symbol": "gelato",
+          "concept": "food.ice_cream",
+          "spoken_text": "gelato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_vacanze_mare-p1-6",
+          "kind": "symbol",
+          "text": "tramonto",
+          "symbol": "tramonto",
+          "concept": null,
+          "spoken_text": "tramonto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

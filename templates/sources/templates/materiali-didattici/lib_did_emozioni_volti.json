@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_emozioni_volti",
+  "title": "Emozioni e volti",
+  "description": "Scheda di riconoscimento delle espressioni del viso. 6 voci, tra cui felice, triste, arrabbiato, paura e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Emozioni e volti",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_emozioni_volti-p1-title",
+          "kind": "text",
+          "text": "Emozioni e volti",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-field-title",
+          "kind": "text",
+          "text": "Emozioni e volti",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-1",
+          "kind": "symbol",
+          "text": "felice",
+          "symbol": "felice",
+          "concept": "emotion.happy",
+          "spoken_text": "felice",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-2",
+          "kind": "symbol",
+          "text": "triste",
+          "symbol": "triste",
+          "concept": "emotion.sad",
+          "spoken_text": "triste",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-3",
+          "kind": "symbol",
+          "text": "arrabbiato",
+          "symbol": "arrabbiato",
+          "concept": "emotion.angry",
+          "spoken_text": "arrabbiato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-4",
+          "kind": "symbol",
+          "text": "paura",
+          "symbol": "paura",
+          "concept": "emotion.afraid",
+          "spoken_text": "paura",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-5",
+          "kind": "symbol",
+          "text": "sorpresa",
+          "symbol": "sorpresa",
+          "concept": null,
+          "spoken_text": "sorpresa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_emozioni_volti-p1-6",
+          "kind": "symbol",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "spoken_text": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

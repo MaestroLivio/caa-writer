@@ -1,0 +1,129 @@
+{
+  "id": "lib_com_bere_giornata",
+  "title": "Bere nella giornata",
+  "description": "Griglia per indicare quando bere durante la giornata. 6 voci, tra cui bere, acqua, bicchiere, mattina e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Bere nella giornata",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_bere_giornata-p1-1",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bere_giornata-p1-2",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bere_giornata-p1-3",
+          "kind": "symbol",
+          "text": "bicchiere",
+          "symbol": "bicchiere",
+          "concept": "object.glass",
+          "spoken_text": "bicchiere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bere_giornata-p1-4",
+          "kind": "symbol",
+          "text": "mattina",
+          "symbol": "mattina",
+          "concept": "time.morning",
+          "spoken_text": "mattina",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bere_giornata-p1-5",
+          "kind": "symbol",
+          "text": "pomeriggio",
+          "symbol": "pomeriggio",
+          "concept": null,
+          "spoken_text": "pomeriggio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_bere_giornata-p1-6",
+          "kind": "symbol",
+          "text": "sera",
+          "symbol": "sera",
+          "concept": null,
+          "spoken_text": "sera",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

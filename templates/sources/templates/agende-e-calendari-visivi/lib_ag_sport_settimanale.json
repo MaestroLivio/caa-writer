@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_sport_settimanale",
+  "title": "Settimana sportiva",
+  "description": "Agenda settimanale di allenamenti e partite. 5 voci, tra cui lunedì allenamento, mercoledì partita, venerdì allenamento, sabato gara e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Settimana sportiva",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_sport_settimanale-p1-1",
+          "kind": "symbol",
+          "text": "lunedì allenamento",
+          "symbol": "lunedì allenamento",
+          "concept": null,
+          "spoken_text": "lunedì allenamento",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sport_settimanale-p1-2",
+          "kind": "symbol",
+          "text": "mercoledì partita",
+          "symbol": "mercoledì partita",
+          "concept": null,
+          "spoken_text": "mercoledì partita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sport_settimanale-p1-3",
+          "kind": "symbol",
+          "text": "venerdì allenamento",
+          "symbol": "venerdì allenamento",
+          "concept": null,
+          "spoken_text": "venerdì allenamento",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sport_settimanale-p1-4",
+          "kind": "symbol",
+          "text": "sabato gara",
+          "symbol": "sabato gara",
+          "concept": null,
+          "spoken_text": "sabato gara",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sport_settimanale-p1-5",
+          "kind": "symbol",
+          "text": "domenica riposo",
+          "symbol": "domenica riposo",
+          "concept": null,
+          "spoken_text": "domenica riposo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 5,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_rumore_forte",
+  "title": "Un rumore forte",
+  "description": "Storia sociale sui rumori forti e sul cercare un posto tranquillo. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Un rumore forte",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_rumore_forte-p1-title",
+          "kind": "text",
+          "text": "Un rumore forte",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-field-title",
+          "kind": "text",
+          "text": "Un rumore forte",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-1",
+          "kind": "symbol",
+          "text": "A volte ci sono rumori forti.",
+          "symbol": "A volte ci sono rumori forti.",
+          "concept": null,
+          "spoken_text": "A volte ci sono rumori forti.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-2",
+          "kind": "symbol",
+          "text": "Posso coprirmi le orecchie.",
+          "symbol": "Posso coprirmi le orecchie.",
+          "concept": null,
+          "spoken_text": "Posso coprirmi le orecchie.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-3",
+          "kind": "symbol",
+          "text": "Posso respirare lentamente.",
+          "symbol": "Posso respirare lentamente.",
+          "concept": null,
+          "spoken_text": "Posso respirare lentamente.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-4",
+          "kind": "symbol",
+          "text": "Posso cercare un posto più tranquillo.",
+          "symbol": "Posso cercare un posto più tranquillo.",
+          "concept": null,
+          "spoken_text": "Posso cercare un posto più tranquillo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-5",
+          "kind": "symbol",
+          "text": "Posso dire a un adulto che il rumore mi disturba.",
+          "symbol": "Posso dire a un adulto che il rumore mi disturba.",
+          "concept": null,
+          "spoken_text": "Posso dire a un adulto che il rumore mi disturba.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_rumore_forte-p1-6",
+          "kind": "symbol",
+          "text": "Quando il rumore passa, posso tornare.",
+          "symbol": "Quando il rumore passa, posso tornare.",
+          "concept": null,
+          "spoken_text": "Quando il rumore passa, posso tornare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_domande_chi",
+  "title": "Domande: chi?",
+  "description": "Griglia per formulare e rispondere alla domanda «chi?». 9 voci, tra cui chi, maestra, amico, famiglia e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Domande: chi?",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_domande_chi-p1-1",
+          "kind": "symbol",
+          "text": "chi",
+          "symbol": "chi",
+          "concept": null,
+          "spoken_text": "chi",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-2",
+          "kind": "symbol",
+          "text": "maestra",
+          "symbol": "maestra",
+          "concept": "person.teacher",
+          "spoken_text": "maestra",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-3",
+          "kind": "symbol",
+          "text": "amico",
+          "symbol": "amico",
+          "concept": "person.friend",
+          "spoken_text": "amico",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-4",
+          "kind": "symbol",
+          "text": "famiglia",
+          "symbol": "famiglia",
+          "concept": "person.family",
+          "spoken_text": "famiglia",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-5",
+          "kind": "symbol",
+          "text": "cane",
+          "symbol": "cane",
+          "concept": "animal.dog",
+          "spoken_text": "cane",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-6",
+          "kind": "symbol",
+          "text": "gatto",
+          "symbol": "gatto",
+          "concept": "animal.cat",
+          "spoken_text": "gatto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-7",
+          "kind": "symbol",
+          "text": "bambino",
+          "symbol": "bambino",
+          "concept": "person.child",
+          "spoken_text": "bambino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-8",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_domande_chi-p1-9",
+          "kind": "symbol",
+          "text": "scuola",
+          "symbol": "scuola",
+          "concept": "place.school",
+          "spoken_text": "scuola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "id": "lib_sto_compagno_nuovo",
+  "title": "Un compagno nuovo",
+  "description": "Storia sociale sull'accogliere un nuovo compagno. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Un compagno nuovo",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_compagno_nuovo-p1-title",
+          "kind": "text",
+          "text": "Un compagno nuovo",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p1-field-title",
+          "kind": "text",
+          "text": "Un compagno nuovo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p1-1",
+          "kind": "symbol",
+          "text": "Arriva un compagno nuovo in classe.",
+          "symbol": "Arriva un compagno nuovo in classe.",
+          "concept": null,
+          "spoken_text": "Arriva un compagno nuovo in classe.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p1-2",
+          "kind": "symbol",
+          "text": "Posso dirgli il mio nome.",
+          "symbol": "Posso dirgli il mio nome.",
+          "concept": null,
+          "spoken_text": "Posso dirgli il mio nome.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p1-3",
+          "kind": "symbol",
+          "text": "Posso mostrargli dove mettere lo zaino.",
+          "symbol": "Posso mostrargli dove mettere lo zaino.",
+          "concept": null,
+          "spoken_text": "Posso mostrargli dove mettere lo zaino.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p1-4",
+          "kind": "symbol",
+          "text": "Posso invitarlo a giocare.",
+          "symbol": "Posso invitarlo a giocare.",
+          "concept": null,
+          "spoken_text": "Posso invitarlo a giocare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Un compagno nuovo · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_sto_compagno_nuovo-p2-title",
+          "kind": "text",
+          "text": "Un compagno nuovo · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p2-field-title",
+          "kind": "text",
+          "text": "Un compagno nuovo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p2-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p2-1",
+          "kind": "symbol",
+          "text": "Lui può essere timido all'inizio.",
+          "symbol": "Lui può essere timido all'inizio.",
+          "concept": null,
+          "spoken_text": "Lui può essere timido all'inizio.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p2-2",
+          "kind": "symbol",
+          "text": "Posso dargli tempo.",
+          "symbol": "Posso dargli tempo.",
+          "concept": null,
+          "spoken_text": "Posso dargli tempo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p2-3",
+          "kind": "symbol",
+          "text": "Se ha bisogno, posso aiutarlo.",
+          "symbol": "Se ha bisogno, posso aiutarlo.",
+          "concept": null,
+          "spoken_text": "Se ha bisogno, posso aiutarlo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

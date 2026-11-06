@@ -69,6 +69,7 @@
     onStatusChange: () => Promise<void>;
     onGenerateResource: (prompt: string, templateId: string | null) => Promise<ResourcePlan | null>;
     onOpenInEditor: (plan: ResourcePlan) => void;
+    onOpenUniversalTemplate: (templateId: string) => void;
     onPrintResource: () => void;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
     onClearHistory: () => Promise<void>;
@@ -108,6 +109,7 @@
     onStatusChange,
     onGenerateResource,
     onOpenInEditor,
+    onOpenUniversalTemplate,
     onPrintResource,
     onToast,
     onClearHistory,
@@ -1464,11 +1466,17 @@
                     {#if template.interactive}<span>interattivo</span>{/if}
                     {#if template.printable !== false}<span>stampabile</span>{/if}
                   </div>
-                  <button
-                    class="btn btn--ghost"
-                    disabled={studioBusy}
-                    onclick={() => void openTemplate(template)}
-                  >Apri una copia</button>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <button
+                      class="btn btn--solid"
+                      onclick={() => onOpenUniversalTemplate(template.id)}
+                    >Apri documento</button>
+                    <button
+                      class="btn btn--ghost"
+                      disabled={studioBusy}
+                      onclick={() => void openTemplate(template)}
+                    >Genera anteprima</button>
+                  </div>
                 </div>
               {/each}
             </div>

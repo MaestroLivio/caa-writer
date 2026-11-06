@@ -1,0 +1,112 @@
+{
+  "id": "lib_tea_presenza",
+  "title": "Tabella delle presenze",
+  "description": "Tabella settimanale per segnare la presenza a scuola. 5 voci, tra cui lunedì, martedì, mercoledì, giovedì e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Tabella delle presenze",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_presenza-p1-1",
+          "kind": "symbol",
+          "text": "lunedì",
+          "symbol": "lunedì",
+          "concept": null,
+          "spoken_text": "lunedì",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_presenza-p1-2",
+          "kind": "symbol",
+          "text": "martedì",
+          "symbol": "martedì",
+          "concept": null,
+          "spoken_text": "martedì",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_presenza-p1-3",
+          "kind": "symbol",
+          "text": "mercoledì",
+          "symbol": "mercoledì",
+          "concept": null,
+          "spoken_text": "mercoledì",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_presenza-p1-4",
+          "kind": "symbol",
+          "text": "giovedì",
+          "symbol": "giovedì",
+          "concept": null,
+          "spoken_text": "giovedì",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_presenza-p1-5",
+          "kind": "symbol",
+          "text": "venerdì",
+          "symbol": "venerdì",
+          "concept": null,
+          "spoken_text": "venerdì",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 5,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

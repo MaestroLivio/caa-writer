@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_stanco",
+  "title": "Quando sono stanco",
+  "description": "Scheda con azioni possibili quando arriva la stanchezza. 6 voci, tra cui stanco, letto, pausa, acqua e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quando sono stanco",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_stanco-p1-1",
+          "kind": "symbol",
+          "text": "stanco",
+          "symbol": "stanco",
+          "concept": "emotion.tired",
+          "spoken_text": "stanco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_stanco-p1-2",
+          "kind": "symbol",
+          "text": "letto",
+          "symbol": "letto",
+          "concept": "furniture.bed",
+          "spoken_text": "letto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_stanco-p1-3",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_stanco-p1-4",
+          "kind": "symbol",
+          "text": "acqua",
+          "symbol": "acqua",
+          "concept": "nature.water",
+          "spoken_text": "acqua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_stanco-p1-5",
+          "kind": "symbol",
+          "text": "silenzio",
+          "symbol": "silenzio",
+          "concept": null,
+          "spoken_text": "silenzio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_stanco-p1-6",
+          "kind": "symbol",
+          "text": "dormire",
+          "symbol": "dormire",
+          "concept": "action.sleep",
+          "spoken_text": "dormire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "id": "lib_ag_giornata_secondaria",
+  "title": "Giornata alla scuola secondaria",
+  "description": "Agenda della giornata tipo alla scuola secondaria. 8 voci, tra cui 7:30 autobus, 8:00 entrata a scuola, 8:10 lavoro in classe, 10:30 intervallo e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Giornata alla scuola secondaria",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_giornata_secondaria-p1-1",
+          "kind": "symbol",
+          "text": "7:30 autobus",
+          "symbol": "7:30 autobus",
+          "concept": null,
+          "spoken_text": "7:30 autobus",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_giornata_secondaria-p1-2",
+          "kind": "symbol",
+          "text": "8:00 entrata a scuola",
+          "symbol": "8:00 entrata a scuola",
+          "concept": null,
+          "spoken_text": "8:00 entrata a scuola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_giornata_secondaria-p1-3",
+          "kind": "symbol",
+          "text": "8:10 lavoro in classe",
+          "symbol": "8:10 lavoro in classe",
+          "concept": null,
+          "spoken_text": "8:10 lavoro in classe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_giornata_secondaria-p1-4",
+          "kind": "symbol",
+          "text": "10:30 intervallo",
+          "symbol": "10:30 intervallo",
+          "concept": null,
+          "spoken_text": "10:30 intervallo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_giornata_secondaria-p1-5",
+          "kind": "symbol",
+          "text": "12:30 pranzo",
+          "symbol": "12:30 pranzo",
+          "concept": null,
+          "spoken_text": "12:30 pranzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_giornata_secondaria-p1-6",
+          "kind": "symbol",
+          "text": "14:00 lavoro in classe",
+          "symbol": "14:00 lavoro in classe",
+          "concept": null,
+          "spoken_text": "14:00 lavoro in classe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_giornata_secondaria-p1-7",
+          "kind": "symbol",
+          "text": "16:00 uscita",
+          "symbol": "16:00 uscita",
+          "concept": null,
+          "spoken_text": "16:00 uscita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_giornata_secondaria-p1-8",
+          "kind": "symbol",
+          "text": "17:00 casa",
+          "symbol": "17:00 casa",
+          "concept": null,
+          "spoken_text": "17:00 casa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 8,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

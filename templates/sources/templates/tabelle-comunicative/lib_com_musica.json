@@ -1,0 +1,129 @@
+{
+  "id": "lib_com_musica",
+  "title": "Musica",
+  "description": "Celle per scegliere di ascoltare o fare musica. 6 voci, tra cui ascoltare, parlare, giocare, canzone e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Musica",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_musica-p1-1",
+          "kind": "symbol",
+          "text": "ascoltare",
+          "symbol": "ascoltare",
+          "concept": "action.listen",
+          "spoken_text": "ascoltare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_musica-p1-2",
+          "kind": "symbol",
+          "text": "parlare",
+          "symbol": "parlare",
+          "concept": "action.speak",
+          "spoken_text": "parlare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_musica-p1-3",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_musica-p1-4",
+          "kind": "symbol",
+          "text": "canzone",
+          "symbol": "canzone",
+          "concept": null,
+          "spoken_text": "canzone",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_musica-p1-5",
+          "kind": "symbol",
+          "text": "musica",
+          "symbol": "musica",
+          "concept": null,
+          "spoken_text": "musica",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_musica-p1-6",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 2,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

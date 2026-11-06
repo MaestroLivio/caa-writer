@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_prestare",
+  "title": "Prestare un giocattolo",
+  "description": "Storia sociale sul prestare un giocattolo. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Prestare un giocattolo",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_prestare-p1-title",
+          "kind": "text",
+          "text": "Prestare un giocattolo",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-field-title",
+          "kind": "text",
+          "text": "Prestare un giocattolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-1",
+          "kind": "symbol",
+          "text": "Un compagno mi chiede un giocattolo.",
+          "symbol": "Un compagno mi chiede un giocattolo.",
+          "concept": null,
+          "spoken_text": "Un compagno mi chiede un giocattolo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-2",
+          "kind": "symbol",
+          "text": "Posso decidere se prestarlo.",
+          "symbol": "Posso decidere se prestarlo.",
+          "concept": null,
+          "spoken_text": "Posso decidere se prestarlo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-3",
+          "kind": "symbol",
+          "text": "Se dico sì, posso spiegare come si usa.",
+          "symbol": "Se dico sì, posso spiegare come si usa.",
+          "concept": null,
+          "spoken_text": "Se dico sì, posso spiegare come si usa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-4",
+          "kind": "symbol",
+          "text": "Se dico no, posso dirlo con calma.",
+          "symbol": "Se dico no, posso dirlo con calma.",
+          "concept": null,
+          "spoken_text": "Se dico no, posso dirlo con calma.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-5",
+          "kind": "symbol",
+          "text": "Il giocattolo torna a me dopo.",
+          "symbol": "Il giocattolo torna a me dopo.",
+          "concept": null,
+          "spoken_text": "Il giocattolo torna a me dopo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_prestare-p1-6",
+          "kind": "symbol",
+          "text": "Posso chiedere di prestarlo a mia volta.",
+          "symbol": "Posso chiedere di prestarlo a mia volta.",
+          "concept": null,
+          "spoken_text": "Posso chiedere di prestarlo a mia volta.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "lib_ag_trasporto_scuola",
+  "title": "Casa-scuola con l'autobus",
+  "description": "Agenda del tragitto da casa a scuola. 5 voci, tra cui uscita, fermata, autobus, scuola e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Casa-scuola con l'autobus",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_trasporto_scuola-p1-1",
+          "kind": "symbol",
+          "text": "uscita",
+          "symbol": "uscita",
+          "concept": null,
+          "spoken_text": "uscita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_trasporto_scuola-p1-2",
+          "kind": "symbol",
+          "text": "fermata",
+          "symbol": "fermata",
+          "concept": null,
+          "spoken_text": "fermata",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_trasporto_scuola-p1-3",
+          "kind": "symbol",
+          "text": "autobus",
+          "symbol": "autobus",
+          "concept": "vehicle.bus",
+          "spoken_text": "autobus",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_trasporto_scuola-p1-4",
+          "kind": "symbol",
+          "text": "scuola",
+          "symbol": "scuola",
+          "concept": "place.school",
+          "spoken_text": "scuola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_trasporto_scuola-p1-5",
+          "kind": "symbol",
+          "text": "entrata",
+          "symbol": "entrata",
+          "concept": null,
+          "spoken_text": "entrata",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "lib_aba_generalizzazione_cortile",
+  "title": "Generalizzazione: in cortile",
+  "description": "Elenco di attività da riproporre in cortile. 5 voci, tra cui giocare, palla, aspettare il turno, condividere e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Generalizzazione: in cortile",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_generalizzazione_cortile-p1-1",
+          "kind": "symbol",
+          "text": "giocare",
+          "symbol": "giocare",
+          "concept": "action.play",
+          "spoken_text": "giocare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_cortile-p1-2",
+          "kind": "symbol",
+          "text": "palla",
+          "symbol": "palla",
+          "concept": "object.ball",
+          "spoken_text": "palla",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_cortile-p1-3",
+          "kind": "symbol",
+          "text": "aspettare il turno",
+          "symbol": "aspettare il turno",
+          "concept": null,
+          "spoken_text": "aspettare il turno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_cortile-p1-4",
+          "kind": "symbol",
+          "text": "condividere",
+          "symbol": "condividere",
+          "concept": null,
+          "spoken_text": "condividere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_generalizzazione_cortile-p1-5",
+          "kind": "symbol",
+          "text": "rientrare",
+          "symbol": "rientrare",
+          "concept": null,
+          "spoken_text": "rientrare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

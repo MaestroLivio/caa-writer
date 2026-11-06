@@ -487,6 +487,49 @@ contesto > globale > vocabolario.
 - Comando Tauri `common_symbols` (GUI): vocabolario di base con soli simboli reali del
   repertorio; nessun simbolo inventato.
 
+## 8sexies. CAA Universal Document Engine e biblioteca (0.9.0)
+
+Tutti i materiali sono `UniversalDocument` (`.caadoc` v3, campo `universal`).
+Pagine `flow`, `absolute` e `grid`; elementi con ID stabile, posizione,
+dimensione, rotazione, livello, stile, celle, azioni e collegamenti per ID
+pagina. La GUI usa i comandi Tauri `document_apply`, `document_render`,
+`document_validate`, `universal_open`, `universal_from_plan`; la CLI usa le
+stesse `DocumentCommand` tramite `universal::apply_transaction`.
+
+Comandi CLI principali (il binario è `caa-cli`; la GUI è `caa-writer`):
+
+```bash
+caa-cli document create --spec templates/sources/...json --out file.caadoc
+caa-cli document validate file.caadoc
+caa-cli document inspect file.caadoc
+caa-cli document render file.caadoc --out cartella
+caa-cli document export file.caadoc --format html --out file.html
+caa-cli document migrate legacy.caadoc --out nuovo.caadoc
+caa-cli document apply file.caadoc --commands comandi.json
+
+caa-cli page add file.caadoc --title "Nuova" --layout grid
+caa-cli page remove file.caadoc --id pagina
+caa-cli page reorder file.caadoc --id pagina --index 0
+
+caa-cli element add file.caadoc --page home --element elemento.json
+caa-cli element update file.caadoc --page home --id cella --patch patch.json
+caa-cli element remove file.caadoc --page home --id cella
+
+caa-cli board create --spec specifica.json --out sistema.caadoc
+caa-cli board link file.caadoc --page home --id cella --target frutta
+caa-cli board validate file.caadoc
+
+caa-cli template build --spec specifica.json --out modello.caadoc
+caa-cli template validate --spec specifica.json
+caa-cli template preview file.caadoc --out anteprima.svg
+caa-cli template package file.caadoc --out modello.caadoc
+caa-cli template build-all --sources templates/sources --out resources/library
+```
+
+`template build-all` legge le specifiche versionate, risolve i pittogrammi col
+motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
+`manifest.json` e `report.json`. Non pubblica se un documento fallisce.
+
 ## 9. Sicurezza, rete e licenze
 
 - La CLI non apre connessioni se non si chiamano `online.*` o `voice.*` che

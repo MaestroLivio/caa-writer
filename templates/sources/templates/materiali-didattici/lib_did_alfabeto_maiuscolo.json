@@ -1,0 +1,464 @@
+{
+  "id": "lib_did_alfabeto_maiuscolo",
+  "title": "Alfabeto maiuscolo",
+  "description": "Scheda dell'alfabeto italiano in stampato maiuscolo. 21 voci, tra cui A, B, C, D e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Alfabeto maiuscolo",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-field-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-1",
+          "kind": "symbol",
+          "text": "A",
+          "symbol": "A",
+          "concept": null,
+          "spoken_text": "A",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-2",
+          "kind": "symbol",
+          "text": "B",
+          "symbol": "B",
+          "concept": null,
+          "spoken_text": "B",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-3",
+          "kind": "symbol",
+          "text": "C",
+          "symbol": "C",
+          "concept": null,
+          "spoken_text": "C",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-4",
+          "kind": "symbol",
+          "text": "D",
+          "symbol": "D",
+          "concept": null,
+          "spoken_text": "D",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-5",
+          "kind": "symbol",
+          "text": "E",
+          "symbol": "E",
+          "concept": null,
+          "spoken_text": "E",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p1-6",
+          "kind": "symbol",
+          "text": "F",
+          "symbol": "F",
+          "concept": null,
+          "spoken_text": "F",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Alfabeto maiuscolo · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-field-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-1",
+          "kind": "symbol",
+          "text": "G",
+          "symbol": "G",
+          "concept": null,
+          "spoken_text": "G",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-2",
+          "kind": "symbol",
+          "text": "H",
+          "symbol": "H",
+          "concept": null,
+          "spoken_text": "H",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-3",
+          "kind": "symbol",
+          "text": "I",
+          "symbol": "I",
+          "concept": null,
+          "spoken_text": "I",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-4",
+          "kind": "symbol",
+          "text": "L",
+          "symbol": "L",
+          "concept": null,
+          "spoken_text": "L",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-5",
+          "kind": "symbol",
+          "text": "M",
+          "symbol": "M",
+          "concept": null,
+          "spoken_text": "M",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p2-6",
+          "kind": "symbol",
+          "text": "N",
+          "symbol": "N",
+          "concept": null,
+          "spoken_text": "N",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-3",
+      "title": "Alfabeto maiuscolo · 3",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo · 3",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-field-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-1",
+          "kind": "symbol",
+          "text": "O",
+          "symbol": "O",
+          "concept": null,
+          "spoken_text": "O",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-2",
+          "kind": "symbol",
+          "text": "P",
+          "symbol": "P",
+          "concept": null,
+          "spoken_text": "P",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-3",
+          "kind": "symbol",
+          "text": "Q",
+          "symbol": "Q",
+          "concept": null,
+          "spoken_text": "Q",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-4",
+          "kind": "symbol",
+          "text": "R",
+          "symbol": "R",
+          "concept": null,
+          "spoken_text": "R",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-5",
+          "kind": "symbol",
+          "text": "S",
+          "symbol": "S",
+          "concept": null,
+          "spoken_text": "S",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p3-6",
+          "kind": "symbol",
+          "text": "T",
+          "symbol": "T",
+          "concept": null,
+          "spoken_text": "T",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-4",
+      "title": "Alfabeto maiuscolo · 4",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p4-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo · 4",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p4-field-title",
+          "kind": "text",
+          "text": "Alfabeto maiuscolo",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p4-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p4-1",
+          "kind": "symbol",
+          "text": "U",
+          "symbol": "U",
+          "concept": null,
+          "spoken_text": "U",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p4-2",
+          "kind": "symbol",
+          "text": "V",
+          "symbol": "V",
+          "concept": null,
+          "spoken_text": "V",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_maiuscolo-p4-3",
+          "kind": "symbol",
+          "text": "Z",
+          "symbol": "Z",
+          "concept": null,
+          "spoken_text": "Z",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

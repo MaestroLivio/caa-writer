@@ -1,0 +1,129 @@
+{
+  "id": "lib_ag_sera_casa",
+  "title": "Sera a casa",
+  "description": "Agenda della sera prima di dormire. 6 voci, tra cui 19:00 cena, 19:30 lavarsi i denti, 19:45 pigiama, 20:00 lettura e altre ancora.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Sera a casa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_sera_casa-p1-1",
+          "kind": "symbol",
+          "text": "19:00 cena",
+          "symbol": "19:00 cena",
+          "concept": null,
+          "spoken_text": "19:00 cena",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sera_casa-p1-2",
+          "kind": "symbol",
+          "text": "19:30 lavarsi i denti",
+          "symbol": "19:30 lavarsi i denti",
+          "concept": null,
+          "spoken_text": "19:30 lavarsi i denti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sera_casa-p1-3",
+          "kind": "symbol",
+          "text": "19:45 pigiama",
+          "symbol": "19:45 pigiama",
+          "concept": null,
+          "spoken_text": "19:45 pigiama",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sera_casa-p1-4",
+          "kind": "symbol",
+          "text": "20:00 lettura",
+          "symbol": "20:00 lettura",
+          "concept": null,
+          "spoken_text": "20:00 lettura",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sera_casa-p1-5",
+          "kind": "symbol",
+          "text": "20:30 letto",
+          "symbol": "20:30 letto",
+          "concept": null,
+          "spoken_text": "20:30 letto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_sera_casa-p1-6",
+          "kind": "symbol",
+          "text": "21:00 dormire",
+          "symbol": "21:00 dormire",
+          "concept": null,
+          "spoken_text": "21:00 dormire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

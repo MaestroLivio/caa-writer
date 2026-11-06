@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_cosa_mi_aiuta",
+  "title": "Cosa mi aiuta",
+  "description": "Tabella per scegliere cosa aiuta a stare meglio. 6 voci, tra cui respirare, contare, bere, abbraccio e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Cosa mi aiuta",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_cosa_mi_aiuta-p1-1",
+          "kind": "symbol",
+          "text": "respirare",
+          "symbol": "respirare",
+          "concept": null,
+          "spoken_text": "respirare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_cosa_mi_aiuta-p1-2",
+          "kind": "symbol",
+          "text": "contare",
+          "symbol": "contare",
+          "concept": null,
+          "spoken_text": "contare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_cosa_mi_aiuta-p1-3",
+          "kind": "symbol",
+          "text": "bere",
+          "symbol": "bere",
+          "concept": "action.drink",
+          "spoken_text": "bere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_cosa_mi_aiuta-p1-4",
+          "kind": "symbol",
+          "text": "abbraccio",
+          "symbol": "abbraccio",
+          "concept": null,
+          "spoken_text": "abbraccio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_cosa_mi_aiuta-p1-5",
+          "kind": "symbol",
+          "text": "musica",
+          "symbol": "musica",
+          "concept": null,
+          "spoken_text": "musica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_cosa_mi_aiuta-p1-6",
+          "kind": "symbol",
+          "text": "silenzio",
+          "symbol": "silenzio",
+          "concept": null,
+          "spoken_text": "silenzio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

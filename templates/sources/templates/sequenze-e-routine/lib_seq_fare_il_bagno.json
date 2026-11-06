@@ -1,0 +1,137 @@
+{
+  "id": "lib_seq_fare_il_bagno",
+  "title": "Fare il bagno o la doccia",
+  "description": "Routine per il bagno o la doccia. 6 voci, tra cui preparare l'asciugamano, entrare nella doccia, bagnarsi, lavarsi e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Fare il bagno o la doccia",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_fare_il_bagno-p1-title",
+          "kind": "text",
+          "text": "Fare il bagno o la doccia",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-field-title",
+          "kind": "text",
+          "text": "Fare il bagno o la doccia",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-field-layout",
+          "kind": "text",
+          "text": "verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-1",
+          "kind": "symbol",
+          "text": "preparare l'asciugamano",
+          "symbol": "preparare l'asciugamano",
+          "concept": null,
+          "spoken_text": "preparare l'asciugamano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-2",
+          "kind": "symbol",
+          "text": "entrare nella doccia",
+          "symbol": "entrare nella doccia",
+          "concept": null,
+          "spoken_text": "entrare nella doccia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-3",
+          "kind": "symbol",
+          "text": "bagnarsi",
+          "symbol": "bagnarsi",
+          "concept": null,
+          "spoken_text": "bagnarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-4",
+          "kind": "symbol",
+          "text": "lavarsi",
+          "symbol": "lavarsi",
+          "concept": null,
+          "spoken_text": "lavarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-5",
+          "kind": "symbol",
+          "text": "sciacquarsi",
+          "symbol": "sciacquarsi",
+          "concept": null,
+          "spoken_text": "sciacquarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_fare_il_bagno-p1-6",
+          "kind": "symbol",
+          "text": "asciugarsi",
+          "symbol": "asciugarsi",
+          "concept": null,
+          "spoken_text": "asciugarsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

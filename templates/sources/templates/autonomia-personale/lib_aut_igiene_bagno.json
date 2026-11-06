@@ -1,0 +1,137 @@
+{
+  "id": "lib_aut_igiene_bagno",
+  "title": "Igiene: la routine del bagno",
+  "description": "Routine autonoma per l'igiene in bagno. 6 voci, tra cui entrare, usare il bagno, pulirsi, tirare l'acqua e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Igiene: la routine del bagno",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_igiene_bagno-p1-title",
+          "kind": "text",
+          "text": "Igiene: la routine del bagno",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-field-title",
+          "kind": "text",
+          "text": "Igiene: la routine del bagno",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-field-layout",
+          "kind": "text",
+          "text": "verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-1",
+          "kind": "symbol",
+          "text": "entrare",
+          "symbol": "entrare",
+          "concept": null,
+          "spoken_text": "entrare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-2",
+          "kind": "symbol",
+          "text": "usare il bagno",
+          "symbol": "usare il bagno",
+          "concept": null,
+          "spoken_text": "usare il bagno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-3",
+          "kind": "symbol",
+          "text": "pulirsi",
+          "symbol": "pulirsi",
+          "concept": null,
+          "spoken_text": "pulirsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-4",
+          "kind": "symbol",
+          "text": "tirare l'acqua",
+          "symbol": "tirare l'acqua",
+          "concept": null,
+          "spoken_text": "tirare l'acqua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-5",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_igiene_bagno-p1-6",
+          "kind": "symbol",
+          "text": "asciugare le mani",
+          "symbol": "asciugare le mani",
+          "concept": null,
+          "spoken_text": "asciugare le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

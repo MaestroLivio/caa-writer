@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_termometro_calma",
+  "title": "Termometro della calma",
+  "description": "Termometro per misurare l'agitazione e scegliere una strategia. 6 voci, tra cui calmo, un po' agitato, agitato, molto agitato e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Termometro della calma",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_termometro_calma-p1-1",
+          "kind": "symbol",
+          "text": "calmo",
+          "symbol": "calmo",
+          "concept": null,
+          "spoken_text": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_termometro_calma-p1-2",
+          "kind": "symbol",
+          "text": "un po' agitato",
+          "symbol": "un po' agitato",
+          "concept": null,
+          "spoken_text": "un po' agitato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_termometro_calma-p1-3",
+          "kind": "symbol",
+          "text": "agitato",
+          "symbol": "agitato",
+          "concept": null,
+          "spoken_text": "agitato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_termometro_calma-p1-4",
+          "kind": "symbol",
+          "text": "molto agitato",
+          "symbol": "molto agitato",
+          "concept": null,
+          "spoken_text": "molto agitato",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_termometro_calma-p1-5",
+          "kind": "symbol",
+          "text": "pausa",
+          "symbol": "pausa",
+          "concept": null,
+          "spoken_text": "pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_termometro_calma-p1-6",
+          "kind": "symbol",
+          "text": "respiro",
+          "symbol": "respiro",
+          "concept": null,
+          "spoken_text": "respiro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

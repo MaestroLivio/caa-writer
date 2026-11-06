@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_cubi",
+  "title": "Costruire con i cubi",
+  "description": "Compito strutturato di costruzione con i cubi. 6 voci, tra cui cubo rosso, cubo blu, cubo giallo, torre e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Costruire con i cubi",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_cubi-p1-1",
+          "kind": "symbol",
+          "text": "cubo rosso",
+          "symbol": "cubo rosso",
+          "concept": null,
+          "spoken_text": "cubo rosso",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_cubi-p1-2",
+          "kind": "symbol",
+          "text": "cubo blu",
+          "symbol": "cubo blu",
+          "concept": null,
+          "spoken_text": "cubo blu",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_cubi-p1-3",
+          "kind": "symbol",
+          "text": "cubo giallo",
+          "symbol": "cubo giallo",
+          "concept": null,
+          "spoken_text": "cubo giallo",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_cubi-p1-4",
+          "kind": "symbol",
+          "text": "torre",
+          "symbol": "torre",
+          "concept": null,
+          "spoken_text": "torre",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_cubi-p1-5",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_cubi-p1-6",
+          "kind": "symbol",
+          "text": "controllare",
+          "symbol": "controllare",
+          "concept": null,
+          "spoken_text": "controllare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

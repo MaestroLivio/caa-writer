@@ -1,0 +1,260 @@
+{
+  "id": "lib_did_mesi",
+  "title": "I mesi dell'anno",
+  "description": "Scheda per ordinare i dodici mesi. 12 voci, tra cui gennaio, febbraio, marzo, aprile e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "I mesi dell'anno",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_mesi-p1-title",
+          "kind": "text",
+          "text": "I mesi dell'anno",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-field-title",
+          "kind": "text",
+          "text": "I mesi dell'anno",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-1",
+          "kind": "symbol",
+          "text": "gennaio",
+          "symbol": "gennaio",
+          "concept": null,
+          "spoken_text": "gennaio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-2",
+          "kind": "symbol",
+          "text": "febbraio",
+          "symbol": "febbraio",
+          "concept": null,
+          "spoken_text": "febbraio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-3",
+          "kind": "symbol",
+          "text": "marzo",
+          "symbol": "marzo",
+          "concept": null,
+          "spoken_text": "marzo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-4",
+          "kind": "symbol",
+          "text": "aprile",
+          "symbol": "aprile",
+          "concept": null,
+          "spoken_text": "aprile",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-5",
+          "kind": "symbol",
+          "text": "maggio",
+          "symbol": "maggio",
+          "concept": null,
+          "spoken_text": "maggio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p1-6",
+          "kind": "symbol",
+          "text": "giugno",
+          "symbol": "giugno",
+          "concept": null,
+          "spoken_text": "giugno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "I mesi dell'anno · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_did_mesi-p2-title",
+          "kind": "text",
+          "text": "I mesi dell'anno · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-field-title",
+          "kind": "text",
+          "text": "I mesi dell'anno",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-1",
+          "kind": "symbol",
+          "text": "luglio",
+          "symbol": "luglio",
+          "concept": null,
+          "spoken_text": "luglio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-2",
+          "kind": "symbol",
+          "text": "agosto",
+          "symbol": "agosto",
+          "concept": null,
+          "spoken_text": "agosto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-3",
+          "kind": "symbol",
+          "text": "settembre",
+          "symbol": "settembre",
+          "concept": null,
+          "spoken_text": "settembre",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-4",
+          "kind": "symbol",
+          "text": "ottobre",
+          "symbol": "ottobre",
+          "concept": null,
+          "spoken_text": "ottobre",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-5",
+          "kind": "symbol",
+          "text": "novembre",
+          "symbol": "novembre",
+          "concept": null,
+          "spoken_text": "novembre",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_mesi-p2-6",
+          "kind": "symbol",
+          "text": "dicembre",
+          "symbol": "dicembre",
+          "concept": null,
+          "spoken_text": "dicembre",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

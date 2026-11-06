@@ -1,0 +1,123 @@
+{
+  "id": "lib_did_sillabe_ca",
+  "title": "Sillabe con C",
+  "description": "Scheda di lettura delle sillabe con la consonante C. 5 voci, tra cui CA, CE, CI, CO e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Sillabe con C",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_sillabe_ca-p1-title",
+          "kind": "text",
+          "text": "Sillabe con C",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ca-p1-field-title",
+          "kind": "text",
+          "text": "Sillabe con C",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ca-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ca-p1-1",
+          "kind": "symbol",
+          "text": "CA",
+          "symbol": "CA",
+          "concept": null,
+          "spoken_text": "CA",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ca-p1-2",
+          "kind": "symbol",
+          "text": "CE",
+          "symbol": "CE",
+          "concept": null,
+          "spoken_text": "CE",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ca-p1-3",
+          "kind": "symbol",
+          "text": "CI",
+          "symbol": "CI",
+          "concept": null,
+          "spoken_text": "CI",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ca-p1-4",
+          "kind": "symbol",
+          "text": "CO",
+          "symbol": "CO",
+          "concept": null,
+          "spoken_text": "CO",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_sillabe_ca-p1-5",
+          "kind": "symbol",
+          "text": "CU",
+          "symbol": "CU",
+          "concept": null,
+          "spoken_text": "CU",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

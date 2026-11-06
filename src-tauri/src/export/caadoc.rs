@@ -26,9 +26,9 @@ use crate::model::{
 use crate::util::now_iso;
 
 pub const FORMAT_NAME: &str = "caadoc";
-/// v2: aggiunge il layout strutturato accanto al testo. I documenti v1
-/// continuano a caricarsi (layout assente).
-pub const FORMAT_VERSION: u32 = 2;
+/// v3: aggiunge il documento universale accanto al testo e al layout legacy.
+/// I documenti v1/v2 continuano a caricarsi e vengono migrati all'apertura.
+pub const FORMAT_VERSION: u32 = 3;
 
 pub fn save(
     path: &Path,
@@ -62,6 +62,7 @@ pub fn save(
             "plain_text": payload.plain_text,
             "settings": payload.settings,
             "layout": payload.layout,
+            "universal": payload.universal,
             "saved_at": now_iso(),
         });
         write_entry(&mut zip, "document.json", &document.to_string(), options, &mut warnings)?;
@@ -173,6 +174,7 @@ pub fn load(path: &Path) -> Result<LoadedDocument, String> {
         .unwrap_or(serde_json::Value::Null);
 
     let layout = document.get("layout").cloned().filter(|v| !v.is_null());
+    let universal = document.get("universal").cloned().filter(|v| !v.is_null());
 
     let preferences: Vec<DocumentPreference> = read_json_entry(&mut archive, "preferences.json")
         .unwrap_or_else(|| {
@@ -213,6 +215,7 @@ pub fn load(path: &Path) -> Result<LoadedDocument, String> {
         warnings,
         path: path.to_string_lossy().to_string(),
         layout,
+        universal,
     })
 }
 
@@ -263,6 +266,13 @@ mod tests {
                 svg: Some("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"></svg>".to_string()),
                 png_base64: None,
             }],
+            universal: Some(serde_json::json!({
+                "schema_version": 1,
+                "id": "doc-test",
+                "title": "La mia giornata",
+                "kind": "mixed",
+                "pages": []
+            })),
             preferences: vec![DocumentPreference {
                 unit_key: "p1:4".to_string(),
                 symbol_id: Some("core.fruit.peach".to_string()),
@@ -295,6 +305,7 @@ mod tests {
             loaded.layout.as_ref().unwrap()["documentType"],
             "visual_schedule"
         );
+        assert_eq!(loaded.universal.as_ref().unwrap()["id"], "doc-test");
     }
 
     #[test]

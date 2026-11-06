@@ -1,0 +1,95 @@
+{
+  "id": "lib_ag_mese_scolastico",
+  "title": "Mese scolastico",
+  "description": "Agenda del mese con le principali scadenze scolastiche. 4 voci, tra cui settimana 1: laboratorio, settimana 2: verifica, settimana 3: gita, settimana 4: festa.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Mese scolastico",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_mese_scolastico-p1-1",
+          "kind": "symbol",
+          "text": "settimana 1: laboratorio",
+          "symbol": "settimana 1: laboratorio",
+          "concept": null,
+          "spoken_text": "settimana 1: laboratorio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mese_scolastico-p1-2",
+          "kind": "symbol",
+          "text": "settimana 2: verifica",
+          "symbol": "settimana 2: verifica",
+          "concept": null,
+          "spoken_text": "settimana 2: verifica",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mese_scolastico-p1-3",
+          "kind": "symbol",
+          "text": "settimana 3: gita",
+          "symbol": "settimana 3: gita",
+          "concept": null,
+          "spoken_text": "settimana 3: gita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_mese_scolastico-p1-4",
+          "kind": "symbol",
+          "text": "settimana 4: festa",
+          "symbol": "settimana 4: festa",
+          "concept": null,
+          "spoken_text": "settimana 4: festa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "lib_tea_copiatura",
+  "title": "Copiare un modello",
+  "description": "Compito di copiatura da un modello scritto. 6 voci, tra cui guardare il modello, scrivere la prima parola, controllare, scrivere la seconda parola e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Copiare un modello",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_copiatura-p1-1",
+          "kind": "symbol",
+          "text": "guardare il modello",
+          "symbol": "guardare il modello",
+          "concept": null,
+          "spoken_text": "guardare il modello",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_copiatura-p1-2",
+          "kind": "symbol",
+          "text": "scrivere la prima parola",
+          "symbol": "scrivere la prima parola",
+          "concept": null,
+          "spoken_text": "scrivere la prima parola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_copiatura-p1-3",
+          "kind": "symbol",
+          "text": "controllare",
+          "symbol": "controllare",
+          "concept": null,
+          "spoken_text": "controllare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_copiatura-p1-4",
+          "kind": "symbol",
+          "text": "scrivere la seconda parola",
+          "symbol": "scrivere la seconda parola",
+          "concept": null,
+          "spoken_text": "scrivere la seconda parola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_copiatura-p1-5",
+          "kind": "symbol",
+          "text": "rileggere",
+          "symbol": "rileggere",
+          "concept": null,
+          "spoken_text": "rileggere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_copiatura-p1-6",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 6,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_piscina",
+  "title": "La piscina",
+  "description": "Storia sociale sulla routine in piscina. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "La piscina",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_piscina-p1-title",
+          "kind": "text",
+          "text": "La piscina",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-field-title",
+          "kind": "text",
+          "text": "La piscina",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-1",
+          "kind": "symbol",
+          "text": "Vado in piscina.",
+          "symbol": "Vado in piscina.",
+          "concept": null,
+          "spoken_text": "Vado in piscina.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-2",
+          "kind": "symbol",
+          "text": "Mi cambio nello spogliatoio.",
+          "symbol": "Mi cambio nello spogliatoio.",
+          "concept": null,
+          "spoken_text": "Mi cambio nello spogliatoio.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-3",
+          "kind": "symbol",
+          "text": "Faccio la doccia prima di entrare.",
+          "symbol": "Faccio la doccia prima di entrare.",
+          "concept": null,
+          "spoken_text": "Faccio la doccia prima di entrare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-4",
+          "kind": "symbol",
+          "text": "Aspetto il mio turno al bordo vasca.",
+          "symbol": "Aspetto il mio turno al bordo vasca.",
+          "concept": null,
+          "spoken_text": "Aspetto il mio turno al bordo vasca.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-5",
+          "kind": "symbol",
+          "text": "Nuoto con calma.",
+          "symbol": "Nuoto con calma.",
+          "concept": null,
+          "spoken_text": "Nuoto con calma.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_piscina-p1-6",
+          "kind": "symbol",
+          "text": "Alla fine mi asciugo e mi vesto.",
+          "symbol": "Alla fine mi asciugo e mi vesto.",
+          "concept": null,
+          "spoken_text": "Alla fine mi asciugo e mi vesto.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_spazio_sopra_sotto",
+  "title": "Spazio: sopra e sotto",
+  "description": "Scheda sui concetti spaziali di base. 6 voci, tra cui sopra, sotto, dentro, fuori e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Spazio: sopra e sotto",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-title",
+          "kind": "text",
+          "text": "Spazio: sopra e sotto",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-field-title",
+          "kind": "text",
+          "text": "Spazio: sopra e sotto",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-1",
+          "kind": "symbol",
+          "text": "sopra",
+          "symbol": "sopra",
+          "concept": null,
+          "spoken_text": "sopra",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-2",
+          "kind": "symbol",
+          "text": "sotto",
+          "symbol": "sotto",
+          "concept": null,
+          "spoken_text": "sotto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-3",
+          "kind": "symbol",
+          "text": "dentro",
+          "symbol": "dentro",
+          "concept": null,
+          "spoken_text": "dentro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-4",
+          "kind": "symbol",
+          "text": "fuori",
+          "symbol": "fuori",
+          "concept": null,
+          "spoken_text": "fuori",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-5",
+          "kind": "symbol",
+          "text": "vicino",
+          "symbol": "vicino",
+          "concept": null,
+          "spoken_text": "vicino",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_spazio_sopra_sotto-p1-6",
+          "kind": "symbol",
+          "text": "lontano",
+          "symbol": "lontano",
+          "concept": null,
+          "spoken_text": "lontano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

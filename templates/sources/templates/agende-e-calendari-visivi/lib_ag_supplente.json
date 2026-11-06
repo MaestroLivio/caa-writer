@@ -1,0 +1,95 @@
+{
+  "id": "lib_ag_supplente",
+  "title": "Giornata con la supplente",
+  "description": "Agenda per la giornata con un'insegnante supplente. 4 voci, tra cui supplente in classe, ascoltare, attività, finire.",
+  "category": "Agende e calendari visivi",
+  "source_type": "template",
+  "kind": "visual_schedule",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Giornata con la supplente",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_ag_supplente-p1-1",
+          "kind": "symbol",
+          "text": "supplente in classe",
+          "symbol": "supplente in classe",
+          "concept": null,
+          "spoken_text": "supplente in classe",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_supplente-p1-2",
+          "kind": "symbol",
+          "text": "ascoltare",
+          "symbol": "ascoltare",
+          "concept": "action.listen",
+          "spoken_text": "ascoltare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_supplente-p1-3",
+          "kind": "symbol",
+          "text": "attività",
+          "symbol": "attività",
+          "concept": null,
+          "spoken_text": "attività",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_ag_supplente-p1-4",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 4,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

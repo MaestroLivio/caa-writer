@@ -1,0 +1,137 @@
+{
+  "id": "lib_did_comprensione_dove",
+  "title": "Comprensione: dove?",
+  "description": "Domande di comprensione sul luogo. 6 voci, tra cui Dove dorme il gatto? Sul letto, Dove mangiamo? In cucina, Dove leggiamo? In biblioteca, Dove giochiamo? Al parco e altre ancora.",
+  "category": "Materiali didattici",
+  "source_type": "template",
+  "kind": "teaching",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Comprensione: dove?",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_did_comprensione_dove-p1-title",
+          "kind": "text",
+          "text": "Comprensione: dove?",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-field-title",
+          "kind": "text",
+          "text": "Comprensione: dove?",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-field-instructions",
+          "kind": "text",
+          "text": "Osserva, scegli e completa.",
+          "style": {
+            "font_size": 4.6,
+            "italic": true
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-1",
+          "kind": "symbol",
+          "text": "Dove dorme il gatto? Sul letto",
+          "symbol": "Dove dorme il gatto? Sul letto",
+          "concept": null,
+          "spoken_text": "Dove dorme il gatto? Sul letto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-2",
+          "kind": "symbol",
+          "text": "Dove mangiamo? In cucina",
+          "symbol": "Dove mangiamo? In cucina",
+          "concept": null,
+          "spoken_text": "Dove mangiamo? In cucina",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-3",
+          "kind": "symbol",
+          "text": "Dove leggiamo? In biblioteca",
+          "symbol": "Dove leggiamo? In biblioteca",
+          "concept": null,
+          "spoken_text": "Dove leggiamo? In biblioteca",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-4",
+          "kind": "symbol",
+          "text": "Dove giochiamo? Al parco",
+          "symbol": "Dove giochiamo? Al parco",
+          "concept": null,
+          "spoken_text": "Dove giochiamo? Al parco",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-5",
+          "kind": "symbol",
+          "text": "Dove studiamo? A scuola",
+          "symbol": "Dove studiamo? A scuola",
+          "concept": null,
+          "spoken_text": "Dove studiamo? A scuola",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_did_comprensione_dove-p1-6",
+          "kind": "symbol",
+          "text": "Dove ci laviamo? In bagno",
+          "symbol": "Dove ci laviamo? In bagno",
+          "concept": null,
+          "spoken_text": "Dove ci laviamo? In bagno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

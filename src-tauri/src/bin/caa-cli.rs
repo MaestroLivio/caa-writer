@@ -15,7 +15,8 @@ use caa_writer_lib::engine::Engine;
 use caa_writer_lib::model::*;
 use caa_writer_lib::paths::AppPaths;
 use caa_writer_lib::export::{caadoc, docx, html};
-use caa_writer_lib::{online_search, pictogram_import};
+use caa_writer_lib::universal::{self, DocumentCommand, UniversalDocument};
+use caa_writer_lib::{online_search, pictogram_import, universal_build};
 
 #[derive(Parser)]
 #[command(
@@ -51,6 +52,190 @@ enum Command {
     },
     /// Legge richieste JSONL da stdin: {"id":1,"method":"...","params":{}}.
     Rpc,
+    /// Documento universale: crea, valida, ispeziona, migra, applica comandi.
+    Document {
+        #[command(subcommand)]
+        action: DocumentAction,
+    },
+    /// Gestione delle pagine di un documento nativo.
+    Page {
+        #[command(subcommand)]
+        action: PageAction,
+    },
+    /// Gestione degli elementi di un documento nativo.
+    Element {
+        #[command(subcommand)]
+        action: ElementAction,
+    },
+    /// Tabelle e sistemi comunicativi nativi.
+    Board {
+        #[command(subcommand)]
+        action: BoardAction,
+    },
+    /// Pipeline riproducibile della biblioteca.
+    Template {
+        #[command(subcommand)]
+        action: TemplateAction,
+    },
+}
+
+#[derive(Subcommand)]
+enum DocumentAction {
+    /// Crea un .caadoc da una specifica JSON.
+    Create {
+        #[arg(long)]
+        spec: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Valida schema, pagine, elementi, risorse e collegamenti.
+    Validate { file: PathBuf },
+    /// Riepilogo leggibile del documento.
+    Inspect { file: PathBuf },
+    /// Calcola la geometria e scrive JSON + SVG per ogni pagina.
+    Render {
+        file: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Esporta HTML interattivo, SVG o JSON.
+    Export {
+        file: PathBuf,
+        #[arg(long, default_value = "html")]
+        format: String,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Converte un vecchio layout in documento universale.
+    Migrate {
+        file: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Applica una transazione JSON di comandi tipizzati.
+    Apply {
+        file: PathBuf,
+        #[arg(long)]
+        commands: PathBuf,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+}
+
+#[derive(Subcommand)]
+enum PageAction {
+    Add {
+        file: PathBuf,
+        #[arg(long)]
+        id: Option<String>,
+        #[arg(long)]
+        title: Option<String>,
+        #[arg(long, default_value = "flow")]
+        layout: String,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+    Remove {
+        file: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+    Reorder {
+        file: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        index: usize,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+}
+
+#[derive(Subcommand)]
+enum ElementAction {
+    Add {
+        file: PathBuf,
+        #[arg(long)]
+        page: String,
+        #[arg(long)]
+        element: PathBuf,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+    Update {
+        file: PathBuf,
+        #[arg(long)]
+        page: String,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        patch: PathBuf,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+    Remove {
+        file: PathBuf,
+        #[arg(long)]
+        page: String,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+}
+
+#[derive(Subcommand)]
+enum BoardAction {
+    Create {
+        #[arg(long)]
+        spec: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    Link {
+        file: PathBuf,
+        #[arg(long)]
+        page: String,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        target: String,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+    Validate { file: PathBuf },
+}
+
+#[derive(Subcommand)]
+enum TemplateAction {
+    Build {
+        #[arg(long)]
+        spec: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    Validate {
+        #[arg(long)]
+        spec: PathBuf,
+    },
+    Preview {
+        file: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    Package {
+        file: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    BuildAll {
+        #[arg(long, default_value = "templates/sources")]
+        sources: PathBuf,
+        #[arg(long, default_value = "resources/library")]
+        out: PathBuf,
+    },
 }
 
 fn home_dir() -> PathBuf {
@@ -689,6 +874,135 @@ fn print_json(value: &Value, compact: bool) -> Result<(), String> {
     Ok(())
 }
 
+fn read_json_file(path: &Path) -> Result<Value, String> {
+    let raw = std::fs::read_to_string(path)
+        .map_err(|error| format!("{}: {error}", path.display()))?;
+    serde_json::from_str(&raw).map_err(|error| format!("{}: JSON non valido: {error}", path.display()))
+}
+
+fn load_document(path: &Path) -> Result<UniversalDocument, String> {
+    universal_build::load_universal(path)
+}
+
+fn save_document(path: &Path, document: &UniversalDocument) -> Result<Value, String> {
+    let assets = universal_build::assets_from_document(document);
+    let saved = universal_build::save_universal(path, document, &assets)?;
+    Ok(json!({
+        "ok": true,
+        "path": saved.path,
+        "title": document.title,
+        "pages": document.pages.len(),
+        "elements": document.pages.iter().map(|page| page.elements.len()).sum::<usize>(),
+        "warnings": saved.warnings,
+    }))
+}
+
+fn apply_to_file(
+    file: &Path,
+    out: Option<PathBuf>,
+    commands: Vec<DocumentCommand>,
+) -> Result<Value, String> {
+    let document = load_document(file)?;
+    let result = universal::apply_transaction(&document, &commands)?;
+    let target = out.unwrap_or_else(|| file.to_path_buf());
+    save_document(&target, &result.document)
+}
+
+fn document_summary(document: &UniversalDocument) -> Value {
+    json!({
+        "id": document.id,
+        "title": document.title,
+        "kind": document.kind,
+        "schema_version": document.schema_version,
+        "pages": document.pages.iter().map(|page| json!({
+            "id": page.id,
+            "title": page.title,
+            "layout": page.layout,
+            "elements": page.elements.len(),
+            "home": page.is_home,
+        })).collect::<Vec<_>>(),
+        "licenses": document.licenses.len(),
+        "metadata": document.metadata,
+    })
+}
+
+fn render_to_dir(document: &UniversalDocument, out: &Path) -> Result<Value, String> {
+    std::fs::create_dir_all(out).map_err(|error| format!("{}: {error}", out.display()))?;
+    let rendered = document.render()?;
+    std::fs::write(
+        out.join("rendered.json"),
+        serde_json::to_string_pretty(&rendered).map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    let mut files = Vec::new();
+    for page in &rendered.pages {
+        let path = out.join(format!("page-{}.svg", page.index + 1));
+        std::fs::write(&path, universal::render_page_svg(page)).map_err(|e| e.to_string())?;
+        files.push(path.to_string_lossy().to_string());
+    }
+    Ok(json!({
+        "ok": true,
+        "pages": rendered.pages.len(),
+        "warnings": rendered.warnings,
+        "files": files,
+    }))
+}
+
+fn export_document(document: &UniversalDocument, format: &str, out: &Path) -> Result<Value, String> {
+    match format {
+        "html" => {
+            let html = universal_build::export_html(document)?;
+            std::fs::write(out, html).map_err(|e| format!("{}: {e}", out.display()))?;
+            Ok(json!({"ok": true, "format": "html", "path": out}))
+        }
+        "json" => {
+            std::fs::write(
+                out,
+                serde_json::to_string_pretty(document).map_err(|e| e.to_string())?,
+            )
+            .map_err(|e| format!("{}: {e}", out.display()))?;
+            Ok(json!({"ok": true, "format": "json", "path": out}))
+        }
+        "svg" => render_to_dir(document, out),
+        other => Err(format!("formato di esportazione non supportato: {other}")),
+    }
+}
+
+fn build_spec_file(engine: &Engine, spec_path: &Path, out: Option<&Path>) -> Result<Value, String> {
+    let spec = read_json_file(spec_path)?;
+    let outcome = universal_build::build_from_spec(engine, &spec)?;
+    let summary = document_summary(&outcome.document);
+    if let Some(out) = out {
+        let saved = universal_build::save_universal(out, &outcome.document, &outcome.assets)?;
+        Ok(json!({
+            "ok": true,
+            "document": summary,
+            "path": saved.path,
+            "notes": outcome.notes,
+            "assets": outcome.assets.len(),
+        }))
+    } else {
+        Ok(json!({
+            "ok": true,
+            "document": summary,
+            "notes": outcome.notes,
+            "assets": outcome.assets.len(),
+        }))
+    }
+}
+
+fn output(result: Result<Value, String>, compact: bool) {
+    match result {
+        Ok(value) => {
+            let _ = print_json(&value, compact);
+        }
+        Err(error) => {
+            eprintln!("{}", json!({"ok": false, "error": error}));
+            std::process::exit(1);
+        }
+    }
+}
+
 fn main() {
     let cli = Cli::parse();
     let engine = match engine_for(&cli) {
@@ -723,6 +1037,165 @@ fn main() {
                 std::process::exit(1);
             }
         },
+        Command::Document { action } => output(
+            (|| -> Result<Value, String> {
+                match action {
+                    DocumentAction::Create { spec, out } => build_spec_file(&engine, &spec, Some(&out)),
+                    DocumentAction::Validate { file } => {
+                        let document = load_document(&file)?;
+                        universal::validate(&document)?;
+                        Ok(json!({"ok": true, "valid": true, "document": document_summary(&document)}))
+                    }
+                    DocumentAction::Inspect { file } => {
+                        let document = load_document(&file)?;
+                        Ok(json!({"ok": true, "document": document_summary(&document)}))
+                    }
+                    DocumentAction::Render { file, out } => {
+                        let document = load_document(&file)?;
+                        render_to_dir(&document, &out)
+                    }
+                    DocumentAction::Export { file, format, out } => {
+                        let document = load_document(&file)?;
+                        export_document(&document, &format, &out)
+                    }
+                    DocumentAction::Migrate { file, out } => {
+                        let document = load_document(&file)?;
+                        save_document(&out, &document)
+                    }
+                    DocumentAction::Apply { file, commands, out } => {
+                        let value = read_json_file(&commands)?;
+                        let commands: Vec<DocumentCommand> = serde_json::from_value(value)
+                            .map_err(|error| format!("comandi non validi: {error}"))?;
+                        apply_to_file(&file, out, commands)
+                    }
+                }
+            })(),
+            cli.compact,
+        ),
+        Command::Page { action } => output(
+            (|| -> Result<Value, String> {
+                match action {
+                    PageAction::Add { file, id, title, layout, out } => apply_to_file(
+                        &file,
+                        out,
+                        vec![DocumentCommand::AddPage { id, title, layout: Some(layout), after: None }],
+                    ),
+                    PageAction::Remove { file, id, out } => {
+                        apply_to_file(&file, out, vec![DocumentCommand::RemovePage { id }])
+                    }
+                    PageAction::Reorder { file, id, index, out } => {
+                        apply_to_file(&file, out, vec![DocumentCommand::MovePage { id, index }])
+                    }
+                }
+            })(),
+            cli.compact,
+        ),
+        Command::Element { action } => output(
+            (|| -> Result<Value, String> {
+                match action {
+                    ElementAction::Add { file, page, element, out } => {
+                        let value = read_json_file(&element)?;
+                        apply_to_file(
+                            &file,
+                            out,
+                            vec![DocumentCommand::AddElement { page, element: value, index: None }],
+                        )
+                    }
+                    ElementAction::Update { file, page, id, patch, out } => {
+                        let value = read_json_file(&patch)?;
+                        apply_to_file(
+                            &file,
+                            out,
+                            vec![DocumentCommand::UpdateElement { page, id, patch: value }],
+                        )
+                    }
+                    ElementAction::Remove { file, page, id, out } => {
+                        apply_to_file(&file, out, vec![DocumentCommand::RemoveElement { page, id }])
+                    }
+                }
+            })(),
+            cli.compact,
+        ),
+        Command::Board { action } => output(
+            (|| -> Result<Value, String> {
+                match action {
+                    BoardAction::Create { spec, out } => {
+                        let mut value = read_json_file(&spec)?;
+                        if let Some(object) = value.as_object_mut() {
+                            object.insert("source_type".to_string(), json!("board"));
+                            object.insert("kind".to_string(), json!("communication_board"));
+                        }
+                        let outcome = universal_build::build_from_spec(&engine, &value)?;
+                        let saved = universal_build::save_universal(
+                            &out,
+                            &outcome.document,
+                            &outcome.assets,
+                        )?;
+                        Ok(json!({"ok": true, "path": saved.path, "document": document_summary(&outcome.document)}))
+                    }
+                    BoardAction::Link { file, page, id, target, out } => apply_to_file(
+                        &file,
+                        out,
+                        vec![DocumentCommand::CreateLink { page, id, target_page: target }],
+                    ),
+                    BoardAction::Validate { file } => {
+                        let document = load_document(&file)?;
+                        universal::validate(&document)?;
+                        if document.kind != "communication_board" {
+                            return Err(format!("il documento non è un sistema comunicativo: {}", document.kind));
+                        }
+                        Ok(json!({"ok": true, "valid": true, "document": document_summary(&document)}))
+                    }
+                }
+            })(),
+            cli.compact,
+        ),
+        Command::Template { action } => output(
+            (|| -> Result<Value, String> {
+                match action {
+                    TemplateAction::Build { spec, out } => build_spec_file(&engine, &spec, Some(&out)),
+                    TemplateAction::Validate { spec } => build_spec_file(&engine, &spec, None),
+                    TemplateAction::Preview { file, out } => {
+                        let document = load_document(&file)?;
+                        let svg = universal_build::preview_svg(&document)?;
+                        std::fs::write(&out, svg).map_err(|e| format!("{}: {e}", out.display()))?;
+                        Ok(json!({"ok": true, "path": out}))
+                    }
+                    TemplateAction::Package { file, out } => {
+                        let document = load_document(&file)?;
+                        save_document(&out, &document)
+                    }
+                    TemplateAction::BuildAll { sources, out } => {
+                        let resources_root = engine.paths.resources_dir.clone();
+                        let result = universal_build::build_all(
+                            &engine,
+                            &sources,
+                            &out,
+                            &resources_root,
+                        )?;
+                        let report = serde_json::to_value(&result.report).map_err(|e| e.to_string())?;
+                        let failed = result.report.failed;
+                        let missing = result.report.templates_expected < 300
+                            || result.report.boards_expected < 30;
+                        if failed > 0 || missing {
+                            return Err(format!(
+                                "biblioteca incompleta: {} template, {} sistemi, {} falliti{}",
+                                result.report.templates_expected,
+                                result.report.boards_expected,
+                                failed,
+                                if missing { " (attesi almeno 300 template e 30 sistemi)" } else { "" }
+                            ));
+                        }
+                        Ok(json!({
+                            "ok": true,
+                            "report": report,
+                            "manifest": result.manifest,
+                        }))
+                    }
+                }
+            })(),
+            cli.compact,
+        ),
         Command::Rpc => {
             let stdin = std::io::stdin();
             let mut stdout = std::io::stdout();

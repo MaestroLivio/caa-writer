@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_dopo_litigio",
+  "title": "Dopo un litigio",
+  "description": "Scheda di passi possibili dopo un litigio. 6 voci, tra cui respiro, allontanarmi, parlare, scusarmi e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Dopo un litigio",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_dopo_litigio-p1-1",
+          "kind": "symbol",
+          "text": "respiro",
+          "symbol": "respiro",
+          "concept": null,
+          "spoken_text": "respiro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_dopo_litigio-p1-2",
+          "kind": "symbol",
+          "text": "allontanarmi",
+          "symbol": "allontanarmi",
+          "concept": null,
+          "spoken_text": "allontanarmi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_dopo_litigio-p1-3",
+          "kind": "symbol",
+          "text": "parlare",
+          "symbol": "parlare",
+          "concept": "action.speak",
+          "spoken_text": "parlare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_dopo_litigio-p1-4",
+          "kind": "symbol",
+          "text": "scusarmi",
+          "symbol": "scusarmi",
+          "concept": null,
+          "spoken_text": "scusarmi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_dopo_litigio-p1-5",
+          "kind": "symbol",
+          "text": "riposare",
+          "symbol": "riposare",
+          "concept": null,
+          "spoken_text": "riposare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_dopo_litigio-p1-6",
+          "kind": "symbol",
+          "text": "ricominciare",
+          "symbol": "ricominciare",
+          "concept": null,
+          "spoken_text": "ricominciare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

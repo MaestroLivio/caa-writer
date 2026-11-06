@@ -1,0 +1,190 @@
+{
+  "id": "lib_sto_gita",
+  "title": "La gita scolastica",
+  "description": "Storia sociale sulla gita scolastica. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "La gita scolastica",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_gita-p1-title",
+          "kind": "text",
+          "text": "La gita scolastica",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_gita-p1-field-title",
+          "kind": "text",
+          "text": "La gita scolastica",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_gita-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_gita-p1-1",
+          "kind": "symbol",
+          "text": "Oggi andiamo in gita.",
+          "symbol": "Oggi andiamo in gita.",
+          "concept": null,
+          "spoken_text": "Oggi andiamo in gita.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_gita-p1-2",
+          "kind": "symbol",
+          "text": "Prepariamo lo zaino con acqua e merenda.",
+          "symbol": "Prepariamo lo zaino con acqua e merenda.",
+          "concept": null,
+          "spoken_text": "Prepariamo lo zaino con acqua e merenda.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_gita-p1-3",
+          "kind": "symbol",
+          "text": "Saliamo sull'autobus.",
+          "symbol": "Saliamo sull'autobus.",
+          "concept": null,
+          "spoken_text": "Saliamo sull'autobus.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_gita-p1-4",
+          "kind": "symbol",
+          "text": "Durante il viaggio resto seduto.",
+          "symbol": "Durante il viaggio resto seduto.",
+          "concept": null,
+          "spoken_text": "Durante il viaggio resto seduto.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "La gita scolastica · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_sto_gita-p2-title",
+          "kind": "text",
+          "text": "La gita scolastica · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_gita-p2-field-title",
+          "kind": "text",
+          "text": "La gita scolastica",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_gita-p2-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_gita-p2-1",
+          "kind": "symbol",
+          "text": "Visitiamo il posto.",
+          "symbol": "Visitiamo il posto.",
+          "concept": null,
+          "spoken_text": "Visitiamo il posto.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_gita-p2-2",
+          "kind": "symbol",
+          "text": "Alla fine torniamo a scuola.",
+          "symbol": "Alla fine torniamo a scuola.",
+          "concept": null,
+          "spoken_text": "Alla fine torniamo a scuola.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_gita-p2-3",
+          "kind": "symbol",
+          "text": "Posso raccontare cosa ho visto.",
+          "symbol": "Posso raccontare cosa ho visto.",
+          "concept": null,
+          "spoken_text": "Posso raccontare cosa ho visto.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

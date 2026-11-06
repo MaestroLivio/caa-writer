@@ -1,0 +1,137 @@
+{
+  "id": "lib_sto_cambio_attivita",
+  "title": "Quando cambia l'attività",
+  "description": "Storia sociale sui cambi di attività a scuola. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quando cambia l'attività",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_cambio_attivita-p1-title",
+          "kind": "text",
+          "text": "Quando cambia l'attività",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-field-title",
+          "kind": "text",
+          "text": "Quando cambia l'attività",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-1",
+          "kind": "symbol",
+          "text": "A scuola le attività cambiano.",
+          "symbol": "A scuola le attività cambiano.",
+          "concept": null,
+          "spoken_text": "A scuola le attività cambiano.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-2",
+          "kind": "symbol",
+          "text": "La maestra avvisa prima del cambio.",
+          "symbol": "La maestra avvisa prima del cambio.",
+          "concept": null,
+          "spoken_text": "La maestra avvisa prima del cambio.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-3",
+          "kind": "symbol",
+          "text": "Posso guardare l'agenda visiva.",
+          "symbol": "Posso guardare l'agenda visiva.",
+          "concept": null,
+          "spoken_text": "Posso guardare l'agenda visiva.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-4",
+          "kind": "symbol",
+          "text": "Metto a posto il materiale.",
+          "symbol": "Metto a posto il materiale.",
+          "concept": null,
+          "spoken_text": "Metto a posto il materiale.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-5",
+          "kind": "symbol",
+          "text": "Prendo quello che serve dopo.",
+          "symbol": "Prendo quello che serve dopo.",
+          "concept": null,
+          "spoken_text": "Prendo quello che serve dopo.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_cambio_attivita-p1-6",
+          "kind": "symbol",
+          "text": "Il cambio può essere veloce o lento.",
+          "symbol": "Il cambio può essere veloce o lento.",
+          "concept": null,
+          "spoken_text": "Il cambio può essere veloce o lento.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

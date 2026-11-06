@@ -1,0 +1,190 @@
+{
+  "id": "lib_sto_dentista",
+  "title": "La visita dal dentista",
+  "description": "Storia sociale sulla visita dal dentista. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "La visita dal dentista",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_dentista-p1-title",
+          "kind": "text",
+          "text": "La visita dal dentista",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p1-field-title",
+          "kind": "text",
+          "text": "La visita dal dentista",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p1-1",
+          "kind": "symbol",
+          "text": "Vado dal dentista.",
+          "symbol": "Vado dal dentista.",
+          "concept": null,
+          "spoken_text": "Vado dal dentista.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p1-2",
+          "kind": "symbol",
+          "text": "In sala d'attesa posso aspettare.",
+          "symbol": "In sala d'attesa posso aspettare.",
+          "concept": null,
+          "spoken_text": "In sala d'attesa posso aspettare.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p1-3",
+          "kind": "symbol",
+          "text": "Il dentista guarda i miei denti.",
+          "symbol": "Il dentista guarda i miei denti.",
+          "concept": null,
+          "spoken_text": "Il dentista guarda i miei denti.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p1-4",
+          "kind": "symbol",
+          "text": "A volte usa uno specchietto.",
+          "symbol": "A volte usa uno specchietto.",
+          "concept": null,
+          "spoken_text": "A volte usa uno specchietto.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "La visita dal dentista · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_sto_dentista-p2-title",
+          "kind": "text",
+          "text": "La visita dal dentista · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p2-field-title",
+          "kind": "text",
+          "text": "La visita dal dentista",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p2-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p2-1",
+          "kind": "symbol",
+          "text": "Posso aprire la bocca quando me lo chiede.",
+          "symbol": "Posso aprire la bocca quando me lo chiede.",
+          "concept": null,
+          "spoken_text": "Posso aprire la bocca quando me lo chiede.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p2-2",
+          "kind": "symbol",
+          "text": "La visita dura poco.",
+          "symbol": "La visita dura poco.",
+          "concept": null,
+          "spoken_text": "La visita dura poco.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_dentista-p2-3",
+          "kind": "symbol",
+          "text": "Dopo posso tornare a casa.",
+          "symbol": "Dopo posso tornare a casa.",
+          "concept": null,
+          "spoken_text": "Dopo posso tornare a casa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "id": "lib_seq_lavarsi_viso",
+  "title": "Lavarsi il viso",
+  "description": "Routine per lavarsi il viso. 5 voci, tra cui aprire l'acqua, bagnare il viso, mettere il sapone, sciacquare e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Lavarsi il viso",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_lavarsi_viso-p1-title",
+          "kind": "text",
+          "text": "Lavarsi il viso",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_viso-p1-field-title",
+          "kind": "text",
+          "text": "Lavarsi il viso",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_viso-p1-field-layout",
+          "kind": "text",
+          "text": "verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_viso-p1-1",
+          "kind": "symbol",
+          "text": "aprire l'acqua",
+          "symbol": "aprire l'acqua",
+          "concept": null,
+          "spoken_text": "aprire l'acqua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_viso-p1-2",
+          "kind": "symbol",
+          "text": "bagnare il viso",
+          "symbol": "bagnare il viso",
+          "concept": null,
+          "spoken_text": "bagnare il viso",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_viso-p1-3",
+          "kind": "symbol",
+          "text": "mettere il sapone",
+          "symbol": "mettere il sapone",
+          "concept": null,
+          "spoken_text": "mettere il sapone",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_viso-p1-4",
+          "kind": "symbol",
+          "text": "sciacquare",
+          "symbol": "sciacquare",
+          "concept": null,
+          "spoken_text": "sciacquare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_lavarsi_viso-p1-5",
+          "kind": "symbol",
+          "text": "asciugare",
+          "symbol": "asciugare",
+          "concept": null,
+          "spoken_text": "asciugare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

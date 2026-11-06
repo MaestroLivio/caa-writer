@@ -1,0 +1,129 @@
+{
+  "id": "lib_emo_pausa",
+  "title": "Chiedere una pausa",
+  "description": "Sequenza per chiedere e prendere una pausa. 6 voci, tra cui chiedo pausa, mi allontano, mi siedo, respiro e altre ancora.",
+  "category": "Emozioni e autoregolazione",
+  "source_type": "template",
+  "kind": "emotions",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Chiedere una pausa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_emo_pausa-p1-1",
+          "kind": "symbol",
+          "text": "chiedo pausa",
+          "symbol": "chiedo pausa",
+          "concept": null,
+          "spoken_text": "chiedo pausa",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_pausa-p1-2",
+          "kind": "symbol",
+          "text": "mi allontano",
+          "symbol": "mi allontano",
+          "concept": null,
+          "spoken_text": "mi allontano",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_pausa-p1-3",
+          "kind": "symbol",
+          "text": "mi siedo",
+          "symbol": "mi siedo",
+          "concept": null,
+          "spoken_text": "mi siedo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_pausa-p1-4",
+          "kind": "symbol",
+          "text": "respiro",
+          "symbol": "respiro",
+          "concept": null,
+          "spoken_text": "respiro",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_pausa-p1-5",
+          "kind": "symbol",
+          "text": "bevo",
+          "symbol": "bevo",
+          "concept": null,
+          "spoken_text": "bevo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_emo_pausa-p1-6",
+          "kind": "symbol",
+          "text": "torno",
+          "symbol": "torno",
+          "concept": null,
+          "spoken_text": "torno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 2,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

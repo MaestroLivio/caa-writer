@@ -1,0 +1,112 @@
+{
+  "id": "lib_tea_vassoio_lavoro_1",
+  "title": "Vassoio di lavoro: primo compito",
+  "description": "Compito strutturato con vassoio di lavoro. 5 voci, tra cui aprire il vassoio, prendere il materiale, svolgere il compito, mettere a posto e altre ancora.",
+  "category": "Materiali TEACCH",
+  "source_type": "template",
+  "kind": "teacch",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Vassoio di lavoro: primo compito",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_tea_vassoio_lavoro_1-p1-1",
+          "kind": "symbol",
+          "text": "aprire il vassoio",
+          "symbol": "aprire il vassoio",
+          "concept": null,
+          "spoken_text": "aprire il vassoio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_1-p1-2",
+          "kind": "symbol",
+          "text": "prendere il materiale",
+          "symbol": "prendere il materiale",
+          "concept": null,
+          "spoken_text": "prendere il materiale",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_1-p1-3",
+          "kind": "symbol",
+          "text": "svolgere il compito",
+          "symbol": "svolgere il compito",
+          "concept": null,
+          "spoken_text": "svolgere il compito",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_1-p1-4",
+          "kind": "symbol",
+          "text": "mettere a posto",
+          "symbol": "mettere a posto",
+          "concept": null,
+          "spoken_text": "mettere a posto",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_tea_vassoio_lavoro_1-p1-5",
+          "kind": "symbol",
+          "text": "chiudere il vassoio",
+          "symbol": "chiudere il vassoio",
+          "concept": null,
+          "spoken_text": "chiudere il vassoio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 1,
+        "rows": 5,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

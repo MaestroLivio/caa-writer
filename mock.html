@@ -90,6 +90,36 @@
         { id: "core", name: "Repertorio CAA Writer", version: "1.0.0", license: "CC BY 4.0", license_url: null, source_url: null, author: "CAA Writer", commercial_ok: true, symbol_count: 88, description: null },
       ];
 
+
+      const DEMO_UNIVERSAL = {
+        schema_version: 1,
+        id: "demo-universal",
+        title: "Comunicazione alimentazione",
+        description: "Documento dimostrativo della biblioteca universale.",
+        kind: "communication_board",
+        locale: "it",
+        metadata: { category: "Tabelle comunicative", interactive: true },
+        page: { size: "A4", orientation: "portrait", margin_mm: 12, background: "#ffffff" },
+        pages: [
+          {
+            id: "home", title: "Alimentazione", layout: "grid", background: "",
+            flow: { columns: 1, gap_mm: 3, padding_mm: 0 },
+            grid: { columns: 3, rows: 2, gap_mm: 3 },
+            is_home: true, notes: "",
+            elements: ["Frutta", "Verdura", "Bevande", "Mela", "Pane", "Acqua"].map((label, index) => ({
+              id: "cell-" + index, kind: "symbol", text: label, spoken_text: label,
+              concept_id: null, symbol_id: "core.demo." + index, svg: svgFor(label, index),
+              x_mm: 0, y_mm: 0, w_mm: 0, h_mm: 0, rotation: 0, z: index,
+              visible: true, locked: false, opacity: 1,
+              row: Math.floor(index / 3), column: index % 3, row_span: 1, column_span: 1,
+              style: { font_size: 4.2, align: "center", border_width: 1, border_color: "#5b6575" },
+              action: { type: "speak", target_page: null }, link_page: null,
+              group_id: null, children: [], grid: null, accessibility: {}, metadata: null,
+            })),
+          },
+        ],
+        styles: {}, accessibility: {}, licenses: [], created_at: "", updated_at: "",
+      };
       window.__TAURI_INTERNALS__ = {
         metadata: { currentWindow: { label: "main" }, currentWebview: { windowLabel: "main", label: "main" } },
         transformCallback: (cb) => cb,
@@ -110,7 +140,7 @@
             case "list_preferences":
               return [];
             case "list_templates":
-              return [];
+              return [{ id: "demo-universal", name: "Comunicazione alimentazione", category: "Tabelle comunicative", description: "Documento universale dimostrativo", kind: "grid", items: [{ label: "Mela" }, { label: "Pane" }], grid: { columns: 3, rows: 2, caption: true, symbol: true, border: true, color_coding: "nessuna" }, complexity: "semplice", pages: 1, printable: true, interactive: true }];
             case "get_setting":
               return null;
             case "set_setting":
@@ -121,6 +151,12 @@
               return tokensFor(args.text, args.options.paragraph_id);
             case "search_symbols":
               return { items: [], total: 0, page: 0, page_size: 24 };
+            case "universal_open":
+              return { document: DEMO_UNIVERSAL, path: "/tmp/demo.caadoc" };
+            case "document_render":
+              return null;
+            case "document_apply":
+              return { document: args.document, rendered: null, changed: args.commands.length };
             case "word_affinities": {
               // Dato dimostrativo per provare la sola interfaccia dei gruppi.
               // Il backend reale è verificato dai test Rust; qui il pittogramma

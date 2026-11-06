@@ -1,6 +1,6 @@
 # Release e installer
 
-## Stato reale (versione 0.8.0, 6 novembre 2026)
+## Stato reale (versione 0.9.0, 6 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
@@ -13,14 +13,14 @@
 Artefatti macOS prodotti (in `dist-release/`, esclusa da Git):
 
 ```
-CAA-Writer_0.8.0_macos-arm64.dmg       793,30 MiB
-CAA-Writer_0.8.0_macos-arm64.app.zip   802,58 MiB
-CAA-Writer_0.8.0_macos-x64.dmg         793,97 MiB
-CAA-Writer_0.8.0_macos-x64.app.zip     803,30 MiB
-CAA-Writer_0.8.0_windows-x64-setup.exe 780,72 MiB (NSIS)
-CAA-Writer_0.8.0_cli-macos-arm64       4,8 MiB
-CAA-Writer_0.8.0_cli-macos-x64         5,1 MiB
-CAA-Writer_0.8.0_cli-windows-x64.exe   5,15 MiB
+CAA-Writer_0.9.0_macos-arm64.dmg       830,56 MiB
+CAA-Writer_0.9.0_macos-arm64.app.zip   841,03 MiB
+CAA-Writer_0.9.0_macos-x64.dmg         831,27 MiB
+CAA-Writer_0.9.0_macos-x64.app.zip     841,81 MiB
+CAA-Writer_0.9.0_windows-x64-setup.exe 794,04 MiB (NSIS)
+CAA-Writer_0.9.0_cli-macos-arm64       5,2 MiB
+CAA-Writer_0.9.0_cli-macos-x64         5,6 MiB
+CAA-Writer_0.9.0_cli-windows-x64.exe   5,56 MiB
 SHA256SUMS-macos-windows.txt
 SHA256SUMS-cli.txt
 AGENT.md
@@ -29,7 +29,7 @@ AGENT.md
 I due bundle macOS sono stati aperti: Apple Silicon nativamente, Intel tramite Rosetta 2.
 L'installer Windows è stato controllato staticamente con 7-Zip: contiene `caa-writer.exe`
 (PE32+ x86-64), il runtime llama.cpp Windows, il modello, le 300 tabelle della biblioteca,
-i 30 sistemi comunicativi e la CLI (14.496 file).
+i 30 sistemi comunicativi e la CLI (15.802 file).
 Non è stato eseguito su Windows: la compilazione incrociata e i flag `CREATE_NO_WINDOW` sono
 verificati solo staticamente. Un tentativo sotto Wine si ferma sul bootstrapper WebView2.
 Non è prodotto il `.msi` perché WiX richiede un host Windows. La CLI è inclusa nel bundle

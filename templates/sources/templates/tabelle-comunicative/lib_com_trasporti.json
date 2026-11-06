@@ -1,0 +1,180 @@
+{
+  "id": "lib_com_trasporti",
+  "title": "Trasporti",
+  "description": "Celle per scegliere come spostarsi. 9 voci, tra cui macchina, autobus, bicicletta, monopattino e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Trasporti",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_trasporti-p1-1",
+          "kind": "symbol",
+          "text": "macchina",
+          "symbol": "macchina",
+          "concept": "vehicle.car",
+          "spoken_text": "macchina",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-2",
+          "kind": "symbol",
+          "text": "autobus",
+          "symbol": "autobus",
+          "concept": "vehicle.bus",
+          "spoken_text": "autobus",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-3",
+          "kind": "symbol",
+          "text": "bicicletta",
+          "symbol": "bicicletta",
+          "concept": "vehicle.bike",
+          "spoken_text": "bicicletta",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-4",
+          "kind": "symbol",
+          "text": "monopattino",
+          "symbol": "monopattino",
+          "concept": "vehicle.scooter",
+          "spoken_text": "monopattino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-5",
+          "kind": "symbol",
+          "text": "camminare",
+          "symbol": "camminare",
+          "concept": "action.walk",
+          "spoken_text": "camminare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-6",
+          "kind": "symbol",
+          "text": "andare",
+          "symbol": "andare",
+          "concept": "action.go",
+          "spoken_text": "andare",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-7",
+          "kind": "symbol",
+          "text": "casa",
+          "symbol": "casa",
+          "concept": "place.house",
+          "spoken_text": "casa",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-8",
+          "kind": "symbol",
+          "text": "scuola",
+          "symbol": "scuola",
+          "concept": "place.school",
+          "spoken_text": "scuola",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_trasporti-p1-9",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

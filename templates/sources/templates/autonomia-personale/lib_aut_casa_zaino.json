@@ -1,0 +1,137 @@
+{
+  "id": "lib_aut_casa_zaino",
+  "title": "Casa: preparare lo zaino",
+  "description": "Routine autonoma per preparare lo zaino. 6 voci, tra cui astuccio, quaderni, libri, agenda e altre ancora.",
+  "category": "Autonomia personale",
+  "source_type": "template",
+  "kind": "autonomy",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Casa: preparare lo zaino",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aut_casa_zaino-p1-title",
+          "kind": "text",
+          "text": "Casa: preparare lo zaino",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-field-title",
+          "kind": "text",
+          "text": "Casa: preparare lo zaino",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-field-layout",
+          "kind": "text",
+          "text": "checklist",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-1",
+          "kind": "symbol",
+          "text": "astuccio",
+          "symbol": "astuccio",
+          "concept": null,
+          "spoken_text": "astuccio",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-2",
+          "kind": "symbol",
+          "text": "quaderni",
+          "symbol": "quaderni",
+          "concept": null,
+          "spoken_text": "quaderni",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-3",
+          "kind": "symbol",
+          "text": "libri",
+          "symbol": "libri",
+          "concept": null,
+          "spoken_text": "libri",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-4",
+          "kind": "symbol",
+          "text": "agenda",
+          "symbol": "agenda",
+          "concept": null,
+          "spoken_text": "agenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-5",
+          "kind": "symbol",
+          "text": "borraccia",
+          "symbol": "borraccia",
+          "concept": null,
+          "spoken_text": "borraccia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_aut_casa_zaino-p1-6",
+          "kind": "symbol",
+          "text": "merenda",
+          "symbol": "merenda",
+          "concept": null,
+          "spoken_text": "merenda",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

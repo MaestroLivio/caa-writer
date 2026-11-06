@@ -1,0 +1,137 @@
+{
+  "id": "lib_seq_bagno_verticale",
+  "title": "Andare in bagno: sequenza verticale",
+  "description": "Routine verticale per andare in bagno. 6 voci, tra cui entrare, abbassare i pantaloni, sedersi, pulirsi e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Andare in bagno: sequenza verticale",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_bagno_verticale-p1-title",
+          "kind": "text",
+          "text": "Andare in bagno: sequenza verticale",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-field-title",
+          "kind": "text",
+          "text": "Andare in bagno: sequenza verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-field-layout",
+          "kind": "text",
+          "text": "verticale",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-1",
+          "kind": "symbol",
+          "text": "entrare",
+          "symbol": "entrare",
+          "concept": null,
+          "spoken_text": "entrare",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-2",
+          "kind": "symbol",
+          "text": "abbassare i pantaloni",
+          "symbol": "abbassare i pantaloni",
+          "concept": null,
+          "spoken_text": "abbassare i pantaloni",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-3",
+          "kind": "symbol",
+          "text": "sedersi",
+          "symbol": "sedersi",
+          "concept": null,
+          "spoken_text": "sedersi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-4",
+          "kind": "symbol",
+          "text": "pulirsi",
+          "symbol": "pulirsi",
+          "concept": null,
+          "spoken_text": "pulirsi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-5",
+          "kind": "symbol",
+          "text": "tirare l'acqua",
+          "symbol": "tirare l'acqua",
+          "concept": null,
+          "spoken_text": "tirare l'acqua",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_bagno_verticale-p1-6",
+          "kind": "symbol",
+          "text": "lavarsi le mani",
+          "symbol": "lavarsi le mani",
+          "concept": "hygiene.wash_hands",
+          "spoken_text": "lavarsi le mani",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

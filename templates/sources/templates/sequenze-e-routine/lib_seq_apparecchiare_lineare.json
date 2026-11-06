@@ -1,0 +1,137 @@
+{
+  "id": "lib_seq_apparecchiare_lineare",
+  "title": "Apparecchiare la tavola: sequenza lineare",
+  "description": "Routine per apparecchiare la tavola. 6 voci, tra cui tovaglia, piatti, bicchieri, posate e altre ancora.",
+  "category": "Sequenze e routine",
+  "source_type": "template",
+  "kind": "visual_sequence",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Apparecchiare la tavola: sequenza lineare",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-title",
+          "kind": "text",
+          "text": "Apparecchiare la tavola: sequenza lineare",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-field-title",
+          "kind": "text",
+          "text": "Apparecchiare la tavola: sequenza lineare",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-field-layout",
+          "kind": "text",
+          "text": "lineare",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-1",
+          "kind": "symbol",
+          "text": "tovaglia",
+          "symbol": "tovaglia",
+          "concept": null,
+          "spoken_text": "tovaglia",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-2",
+          "kind": "symbol",
+          "text": "piatti",
+          "symbol": "piatti",
+          "concept": null,
+          "spoken_text": "piatti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-3",
+          "kind": "symbol",
+          "text": "bicchieri",
+          "symbol": "bicchieri",
+          "concept": null,
+          "spoken_text": "bicchieri",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-4",
+          "kind": "symbol",
+          "text": "posate",
+          "symbol": "posate",
+          "concept": null,
+          "spoken_text": "posate",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-5",
+          "kind": "symbol",
+          "text": "tovaglioli",
+          "symbol": "tovaglioli",
+          "concept": null,
+          "spoken_text": "tovaglioli",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_seq_apparecchiare_lineare-p1-6",
+          "kind": "symbol",
+          "text": "cibo",
+          "symbol": "cibo",
+          "concept": null,
+          "spoken_text": "cibo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

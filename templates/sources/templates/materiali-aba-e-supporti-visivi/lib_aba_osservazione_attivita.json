@@ -1,0 +1,129 @@
+{
+  "id": "lib_aba_osservazione_attivita",
+  "title": "Osservazione: attività completate",
+  "description": "Scheda di osservazione delle attività svolte. 6 voci, tra cui iniziata, svolta, finita, con aiuto e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Osservazione: attività completate",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_osservazione_attivita-p1-1",
+          "kind": "symbol",
+          "text": "iniziata",
+          "symbol": "iniziata",
+          "concept": null,
+          "spoken_text": "iniziata",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attivita-p1-2",
+          "kind": "symbol",
+          "text": "svolta",
+          "symbol": "svolta",
+          "concept": null,
+          "spoken_text": "svolta",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attivita-p1-3",
+          "kind": "symbol",
+          "text": "finita",
+          "symbol": "finita",
+          "concept": null,
+          "spoken_text": "finita",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attivita-p1-4",
+          "kind": "symbol",
+          "text": "con aiuto",
+          "symbol": "con aiuto",
+          "concept": null,
+          "spoken_text": "con aiuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attivita-p1-5",
+          "kind": "symbol",
+          "text": "da solo",
+          "symbol": "da solo",
+          "concept": "state.alone",
+          "spoken_text": "da solo",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attivita-p1-6",
+          "kind": "symbol",
+          "text": "da ripetere",
+          "symbol": "da ripetere",
+          "concept": null,
+          "spoken_text": "da ripetere",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "id": "lib_sto_supermercato",
+  "title": "Il supermercato",
+  "description": "Storia sociale sulla spesa al supermercato. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "social_story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Il supermercato",
+      "layout": "flow",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_sto_supermercato-p1-title",
+          "kind": "text",
+          "text": "Il supermercato",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p1-field-title",
+          "kind": "text",
+          "text": "Il supermercato",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p1-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p1-1",
+          "kind": "symbol",
+          "text": "Vado al supermercato.",
+          "symbol": "Vado al supermercato.",
+          "concept": null,
+          "spoken_text": "Vado al supermercato.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p1-2",
+          "kind": "symbol",
+          "text": "Prendo il carrello.",
+          "symbol": "Prendo il carrello.",
+          "concept": null,
+          "spoken_text": "Prendo il carrello.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p1-3",
+          "kind": "symbol",
+          "text": "Cerco gli articoli della lista.",
+          "symbol": "Cerco gli articoli della lista.",
+          "concept": null,
+          "spoken_text": "Cerco gli articoli della lista.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p1-4",
+          "kind": "symbol",
+          "text": "Posso chiedere aiuto a un commesso.",
+          "symbol": "Posso chiedere aiuto a un commesso.",
+          "concept": null,
+          "spoken_text": "Posso chiedere aiuto a un commesso.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    },
+    {
+      "id": "pagina-2",
+      "title": "Il supermercato · 2",
+      "layout": "flow",
+      "home": false,
+      "elements": [
+        {
+          "id": "lib_sto_supermercato-p2-title",
+          "kind": "text",
+          "text": "Il supermercato · 2",
+          "style": {
+            "font_size": 8,
+            "bold": true
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p2-field-title",
+          "kind": "text",
+          "text": "Il supermercato",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p2-field-adult-guide",
+          "kind": "text",
+          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "style": {
+            "font_size": 4.6,
+            "italic": false
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p2-1",
+          "kind": "symbol",
+          "text": "Alla cassa aspetto il mio turno.",
+          "symbol": "Alla cassa aspetto il mio turno.",
+          "concept": null,
+          "spoken_text": "Alla cassa aspetto il mio turno.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p2-2",
+          "kind": "symbol",
+          "text": "Metto tutto nella busta.",
+          "symbol": "Metto tutto nella busta.",
+          "concept": null,
+          "spoken_text": "Metto tutto nella busta.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        },
+        {
+          "id": "lib_sto_supermercato-p2-3",
+          "kind": "symbol",
+          "text": "Torno a casa.",
+          "symbol": "Torno a casa.",
+          "concept": null,
+          "spoken_text": "Torno a casa.",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.6
+          }
+        }
+      ],
+      "flow": {
+        "columns": 1,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

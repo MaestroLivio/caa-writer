@@ -1,0 +1,129 @@
+{
+  "id": "lib_aba_osservazione_attesa",
+  "title": "Osservazione: attesa",
+  "description": "Scheda di osservazione dei tempi di attesa. 6 voci, tra cui aspettare 1 minuto, aspettare 3 minuti, aspettare il turno, aspettare in fila e altre ancora.",
+  "category": "Materiali ABA e supporti visivi",
+  "source_type": "template",
+  "kind": "aba",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Osservazione: attesa",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_aba_osservazione_attesa-p1-1",
+          "kind": "symbol",
+          "text": "aspettare 1 minuto",
+          "symbol": "aspettare 1 minuto",
+          "concept": null,
+          "spoken_text": "aspettare 1 minuto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attesa-p1-2",
+          "kind": "symbol",
+          "text": "aspettare 3 minuti",
+          "symbol": "aspettare 3 minuti",
+          "concept": null,
+          "spoken_text": "aspettare 3 minuti",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attesa-p1-3",
+          "kind": "symbol",
+          "text": "aspettare il turno",
+          "symbol": "aspettare il turno",
+          "concept": null,
+          "spoken_text": "aspettare il turno",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attesa-p1-4",
+          "kind": "symbol",
+          "text": "aspettare in fila",
+          "symbol": "aspettare in fila",
+          "concept": null,
+          "spoken_text": "aspettare in fila",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attesa-p1-5",
+          "kind": "symbol",
+          "text": "aspettare seduto",
+          "symbol": "aspettare seduto",
+          "concept": null,
+          "spoken_text": "aspettare seduto",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_aba_osservazione_attesa-p1-6",
+          "kind": "symbol",
+          "text": "aspettare in piedi",
+          "symbol": "aspettare in piedi",
+          "concept": null,
+          "spoken_text": "aspettare in piedi",
+          "action": {
+            "type": "speak"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3
+      }
+    }
+  ]
+}

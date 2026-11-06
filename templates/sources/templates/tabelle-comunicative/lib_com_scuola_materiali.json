@@ -1,0 +1,231 @@
+{
+  "id": "lib_com_scuola_materiali",
+  "title": "Scuola: i materiali",
+  "description": "Griglia per chiedere e nominare i materiali scolastici. 12 voci, tra cui matita, penna, foglio, libro e altre ancora.",
+  "category": "Tabelle comunicative",
+  "source_type": "template",
+  "kind": "communication_grid",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Scuola: i materiali",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "lib_com_scuola_materiali-p1-1",
+          "kind": "symbol",
+          "text": "matita",
+          "symbol": "matita",
+          "concept": "object.pencil",
+          "spoken_text": "matita",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-2",
+          "kind": "symbol",
+          "text": "penna",
+          "symbol": "penna",
+          "concept": "obj.pen",
+          "spoken_text": "penna",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-3",
+          "kind": "symbol",
+          "text": "foglio",
+          "symbol": "foglio",
+          "concept": "obj.paper_sheet",
+          "spoken_text": "foglio",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-4",
+          "kind": "symbol",
+          "text": "libro",
+          "symbol": "libro",
+          "concept": "object.book",
+          "spoken_text": "libro",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-5",
+          "kind": "symbol",
+          "text": "forbici",
+          "symbol": "forbici",
+          "concept": "object.scissors",
+          "spoken_text": "forbici",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-6",
+          "kind": "symbol",
+          "text": "colla",
+          "symbol": "colla",
+          "concept": "object.glue",
+          "spoken_text": "colla",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-7",
+          "kind": "symbol",
+          "text": "zaino",
+          "symbol": "zaino",
+          "concept": "object.backpack",
+          "spoken_text": "zaino",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-8",
+          "kind": "symbol",
+          "text": "banco",
+          "symbol": "banco",
+          "concept": "furniture.school_desk",
+          "spoken_text": "banco",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-9",
+          "kind": "symbol",
+          "text": "maestra",
+          "symbol": "maestra",
+          "concept": "person.teacher",
+          "spoken_text": "maestra",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-10",
+          "kind": "symbol",
+          "text": "scrivere",
+          "symbol": "scrivere",
+          "concept": "action.write",
+          "spoken_text": "scrivere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-11",
+          "kind": "symbol",
+          "text": "leggere",
+          "symbol": "leggere",
+          "concept": "action.read",
+          "spoken_text": "leggere",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        },
+        {
+          "id": "lib_com_scuola_materiali-p1-12",
+          "kind": "symbol",
+          "text": "finire",
+          "symbol": "finire",
+          "concept": "action.finish",
+          "spoken_text": "finire",
+          "action": {
+            "type": "append"
+          },
+          "style": {
+            "font_size": 4.2,
+            "align": "center",
+            "border_width": 1,
+            "border_color": "#5b6575"
+          }
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 3
+      }
+    }
+  ]
+}
