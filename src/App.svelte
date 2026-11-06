@@ -2081,7 +2081,7 @@
               patchSettings({ uppercase: !settings.uppercase })
             ),
             cmd("clear-format", "Cancella formattazione", "eraser", () => editor?.clearFormatting()),
-          ], 9),
+          ], 6),
           group("paragraph", "Paragrafo", [
             toggle("align-left", "Allinea a sinistra", "align-left", formatState.align === "left", () =>
               editor?.applyAlignment("left")
@@ -2134,7 +2134,7 @@
             toggle("paragraph-border", "Bordi paragrafo", "square", formatState.paragraphBorder, () =>
               editor?.applyParagraphAttr({ border: !formatState.paragraphBorder })
             ),
-          ], 6),
+          ], 4),
           group("styles", "Stili", [
             select(
               "style-select",

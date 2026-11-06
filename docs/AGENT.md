@@ -42,6 +42,16 @@ src-tauri/target/release/caa-cli
 In debug: `cargo run --bin caa-cli -- ...` da `src-tauri/`.
 `default-run = "caa-writer"` mantiene `cargo run` e `tauri dev` sulla GUI.
 
+Installazione locale della CLI:
+
+```bash
+cargo install --path src-tauri --bin caa-cli --locked
+# oppure copiare src-tauri/target/release/caa-cli nel PATH
+```
+
+La CLI non è inclusa nei bundle macOS/Windows: è uno strumento per sviluppo e
+automazione e va compilata dal sorgente.
+
 ## 3. Avvio e percorsi
 
 ```bash

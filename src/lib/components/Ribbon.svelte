@@ -62,6 +62,8 @@
   const currentGroups = $derived(
     tabs.find((tab) => tab.id === activeTab)?.groups ?? []
   );
+  let hiddenFrom = $state(999);
+  const groupWidths = new Map<string, number>();
 
   $effect(() => {
     // La larghezza della finestra è il dato affidabile: il contenuto del
@@ -166,18 +168,52 @@
     groupsMenuOpen = false;
   }
 
-  // Soglie espresse in pixel CSS della finestra: quando lo spazio diminuisce
-  // i gruppi meno prioritari passano nel menu «Gruppi (n)». Non esiste uno
-  // scorrimento orizzontale del Ribbon.
-  const visibleGroupCount = $derived.by(() => {
-    const total = currentGroups.length;
-    if (width >= 1360) return total;
-    if (width >= 1180) return Math.min(total, 4);
-    if (width >= 980) return Math.min(total, 3);
-    return Math.min(total, 2);
+  /// Misura i gruppi renderizzati e nasconde quelli che non entrano,
+  /// lasciando sempre il menu «Gruppi (n)». La larghezza del corpo è quella
+  /// reale del viewport, non quella del contenuto.
+  function measureGroups() {
+    if (!bodyEl) return;
+    const groups = currentGroups;
+    if (groups.length === 0) {
+      hiddenFrom = 0;
+      return;
+    }
+    const available = Math.max(140, bodyEl.clientWidth - 112);
+    let used = 0;
+    let cut = groups.length;
+    for (let index = 0; index < groups.length; index += 1) {
+      const group = groups[index];
+      const element = bodyEl.querySelector<HTMLElement>(
+        `[data-group-id="${group.id}"]`
+      );
+      const measured = element?.getBoundingClientRect().width ?? 0;
+      const cached = groupWidths.get(group.id) ?? 0;
+      const groupWidth = measured > 0 ? measured : cached > 0 ? cached : 190;
+      if (measured > 0) groupWidths.set(group.id, measured);
+      if (used + groupWidth > available && index > 0) {
+        cut = index;
+        break;
+      }
+      used += groupWidth;
+    }
+    hiddenFrom = Math.max(1, cut);
+  }
+
+  const visibleGroups = $derived(currentGroups.slice(0, hiddenFrom));
+  const hiddenGroups = $derived(currentGroups.slice(hiddenFrom));
+
+  $effect(() => {
+    void activeTab;
+    void effectiveMode;
+    void width;
+    void currentGroups;
+    hiddenFrom = 999;
+    const frame = requestAnimationFrame(() => {
+      hiddenFrom = 999;
+      requestAnimationFrame(measureGroups);
+    });
+    return () => cancelAnimationFrame(frame);
   });
-  const visibleGroups = $derived(currentGroups.slice(0, visibleGroupCount));
-  const hiddenGroups = $derived(currentGroups.slice(visibleGroupCount));
 
   $effect(() => {
     if (!openGroup) return;
