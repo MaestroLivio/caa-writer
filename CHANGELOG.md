@@ -4,6 +4,78 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.6.0 — 2026-11-06
+
+### CLI e automazione
+
+- Nuovo binario headless `caa-cli`: comandi `info`, `methods`, `call`, `rpc`
+  JSONL. Copre simbolizzazione, analisi di testo e `.caadoc`, ricerca e
+  affinità, template, layout, import e collezioni, ricerca online, prompt,
+  export, voce e strumenti IA (33 metodi).
+- Documentazione completa per il coding agent in `docs/AGENT.md`; `AGENTS.md`
+  e README aggiornati.
+- `default-run = "caa-writer"` mantiene la GUI come binario predefinito.
+
+### Pittogrammi personali
+
+- Import di PNG, JPEG, SVG, WebP, GIF (primo fotogramma), BMP, TIFF, ICO e
+  AVIF; HEIC dichiarato non supportato perché il decoder non è incluso.
+- Import di singoli file e directory ricorsive, con nome collezione suggerito,
+  metadati del percorso, rilevamento duplicati, miniature, annullamento tra i
+  blocchi e licenza per simbolo.
+- Collezioni personali: rinomina, eliminazione, spostamento, ricerca filtrata;
+  i simboli importati entrano in FTS, sinonimi, ricerca e simbolizzazione.
+- Priorità ai pittogrammi personali per lo stesso lemma, senza scavalcare le
+  scelte manuali.
+
+### Ricerca online
+
+- Provider ARASAAC (prima scelta, API ufficiale, CC BY-NC-SA 4.0) e Wikimedia
+  Commons (fallback, licenza dai metadati). Openverse e Global Symbols sono
+  elencati ma disattivati finché non vengono verificate API e condizioni.
+- Privacy: solo lemmi/concetti noti al lessico, mai la frase completa, email,
+  URL, numeri o nomi propri. Cache 24 h, download solo da host autorizzati,
+  limite 10 MB, salvataggio offline nella collezione.
+- Modalità disattivata / suggerimenti / automatica per l'unità senza simbolo.
+
+### Biblioteca modelli
+
+- 300 modelli in `resources/templates/library/`: 60 tabelle comunicative,
+  35 agende, 35 sequenze, 30 storie sociali, 30 TEACCH, 20 ABA, 45 didattici,
+  20 emozioni, 15 autonomia, 10 giochi. Ogni modello ha contenuti reali e
+  metadati di complessità, pagine, orientamento, stampabile/interattivo.
+- Filtri per categoria, tipologia, complessità, celle e uso; apertura di una
+  copia nello Studio.
+
+### Modifica con prompt
+
+- Operazioni tipizzate e validate: maiuscole, dimensioni testo/pittogrammi,
+  bordi, allineamento, tabelle, righe/colonne, generazione di tabelle.
+- Pannello «Modifica con IA» con anteprima, cronologia, applica e annulla.
+- Il modello locale propone un piano JSON solo se il parser deterministico non
+  capisce; operazioni sconosciute o fuori intervallo vengono rifiutate.
+
+### Interfaccia
+
+- Ribbon senza scorrimento orizzontale: i gruppi che non entrano finiscono nel
+  menu «Gruppi (n)» per categoria; nessun gruppo tagliato oltre la finestra.
+- Dimensione minima della finestra 800×600.
+
+### Installer
+
+- macOS arm64/x64: DMG e `.app.zip` non firmati, avviati localmente (Intel via Rosetta).
+- Windows x64: installer NSIS non firmato, verificato staticamente (14.164 file, PE32+
+  `caa-writer.exe`, runtime Windows e modello); non eseguito su Windows.
+- CLI separata per macOS arm64/x64 e Windows x64. Nessun `.msi`, nessun Linux, nessuna
+  pubblicazione GitHub.
+
+### Test
+
+- 174 test Rust, 23 frontend.
+- Corpus semantico: 98,11% (208/212), 0 approssimazioni fuorvianti, 20/20
+  assenze rilevate.
+- Build 0 errori/0 avvisi; CLI release verificata con chiamate reali.
+
 ## 0.5.1 — 2026-11-05
 
 ### Lettura automatica delle frasi

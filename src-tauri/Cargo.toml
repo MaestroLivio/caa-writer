@@ -1,6 +1,6 @@
 [package]
 name = "caa-writer"
-version = "0.5.1"
+version = "0.6.0"
 description = "Word processor CAA offline con motore semantico locale"
 authors = ["CAA Writer contributors"]
 edition = "2021"
@@ -29,11 +29,19 @@ sha2 = "0.10"
 roxmltree = "0.20"
 unicode-normalization = "0.1"
 time = { version = "0.3", features = ["formatting", "macros"] }
-image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp", "bmp", "tiff", "ico", "avif", "avif-native"] }
 walkdir = "2"
 reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
 urlencoding = "2"
 clap = { version = "4", features = ["derive"] }
+
+# AVIF decodificabile solo dove è disponibile dav1d: su macOS arm64 (Homebrew).
+# Gli altri target compilano il supporto AVIF in sola codifica e dichiarano il
+# formato non supportato in importazione, invece di fallire in decoding.
+[target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp", "bmp", "tiff", "ico", "avif", "avif-native"] }
+
+[target.'cfg(not(all(target_os = "macos", target_arch = "aarch64")))'.dependencies]
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp", "bmp", "tiff", "ico", "avif"] }
 
 [dev-dependencies]
 tempfile = "3"

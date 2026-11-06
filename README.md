@@ -6,6 +6,8 @@ materiali CAA, ABA e TEACCH. Applicazione desktop Tauri 2 (Rust + Svelte), pensa
 
 ## Stato attuale (verificare sempre su questa macchina)
 
+Ultima release locale: **0.6.0** (6 novembre 2026), non pubblicata su GitHub.
+
 Il software è in sviluppo attivo. La documentazione tecnica di stato — cosa è completo, cosa è
 parziale, quali test sono stati eseguiti e con quali risultati — vive in `Contesto.md`, che è
 **locale e non versionato**. In questo repository trovi solo la documentazione pubblica.
@@ -17,7 +19,7 @@ Sintesi onesta di ciò che esiste nel codice:
 | Editor ProseMirror con formattazione, elenchi, tabelle, annulla/ripristina | implementato |
 | Interfaccia Ribbon a schede (Home, Inserisci, Layout, Pittogrammi, Revisione, Strumenti IA, Visualizza) | implementato |
 | Workspace adattivo: Ribbon minimizzabile, pannello a icone/overlay, concentrazione, preset | implementato |
-| Ribbon orizzontale compatto con menu di overflow e scorrimento controllato | implementato |
+| Ribbon orizzontale con gruppi raccolti in «Gruppi (n)», senza scorrimento orizzontale | implementato |
 | Applicazione immediata dei pittogrammi con ambito occorrenza/documento/globale | implementato |
 | Unità multiparola automatiche (sintesi vocale, computer portatile, …) con un solo pittogramma | implementato |
 | Unione e separazione manuale delle unità CAA, persistenti e annullabili | implementato |

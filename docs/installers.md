@@ -1,6 +1,6 @@
 # Release e installer
 
-## Stato reale (versione 0.5.1, 5 novembre 2026)
+## Stato reale (versione 0.6.0, 6 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
@@ -13,20 +13,26 @@
 Artefatti macOS prodotti (in `dist-release/`, esclusa da Git):
 
 ```
-CAA-Writer_0.5.1_macos-arm64.dmg       786,75 MiB
-CAA-Writer_0.5.1_macos-arm64.app.zip   795,76 MiB
-CAA-Writer_0.5.1_macos-x64.dmg         787,15 MiB
-CAA-Writer_0.5.1_macos-x64.app.zip     796,19 MiB
-CAA-Writer_0.5.1_windows-x64-setup.exe 775,76 MiB (NSIS)
-SHA256SUMS-macos.txt
-SHA256SUMS-windows.txt
+CAA-Writer_0.6.0_macos-arm64.dmg       790,46 MiB
+CAA-Writer_0.6.0_macos-arm64.app.zip   799,43 MiB
+CAA-Writer_0.6.0_macos-x64.dmg         790,99 MiB
+CAA-Writer_0.6.0_macos-x64.app.zip     800,00 MiB
+CAA-Writer_0.6.0_windows-x64-setup.exe 778,89 MiB (NSIS)
+CAA-Writer_0.6.0_cli-macos-arm64       4,8 MiB
+CAA-Writer_0.6.0_cli-macos-x64         5,1 MiB
+CAA-Writer_0.6.0_cli-windows-x64.exe   5,09 MiB
+SHA256SUMS-macos-windows.txt
+SHA256SUMS-cli.txt
+AGENT.md
 ```
 
 I due bundle macOS sono stati aperti: Apple Silicon nativamente, Intel tramite Rosetta 2.
 L'installer Windows è stato controllato staticamente con 7-Zip: contiene `caa-writer.exe`
-(PE32+ x86-64), il runtime llama.cpp Windows, il modello e tutte le risorse (14.163 file).
+(PE32+ x86-64), il runtime llama.cpp Windows, il modello e tutte le risorse (14.164 file).
 Non è stato eseguito su Windows: un tentativo sotto Wine si ferma sul bootstrapper WebView2.
-Non è prodotto il `.msi` perché WiX richiede un host Windows. La dimensione
+Non è prodotto il `.msi` perché WiX richiede un host Windows. La CLI è distribuita anche come
+binario separato per macOS arm64/x64 e Windows x64: non è inclusa nei bundle grafici e va
+avviata con `--resources` che punta alla cartella risorse dell'app installata. La dimensione
 dipende dal modello GGUF in `resources/ai/`. Gli artefatti **non sono firmati né notarizzati**: al
 primo avvio macOS può richiedere «Apri comunque» dal menu contestuale del Finder.
 

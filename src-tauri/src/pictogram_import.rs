@@ -72,8 +72,9 @@ impl DetectedFormat {
             | Self::Bmp
             | Self::Tiff
             | Self::Ico
-            | Self::Avif
             | Self::Svg => true,
+            // Il decoder AVIF richiede dav1d: incluso nella build macOS arm64.
+            Self::Avif => cfg!(all(target_os = "macos", target_arch = "aarch64")),
             // Il decoder HEIC non è incluso: dichiararlo evita di mostrare un
             // formato "supportato" che poi fallisce.
             Self::Heic | Self::Unknown => false,
@@ -1048,7 +1049,10 @@ mod tests {
         );
         assert_eq!(detect_format(b"hello"), DetectedFormat::Unknown);
         assert!(!DetectedFormat::Heic.decoder_available());
-        assert!(DetectedFormat::Avif.decoder_available());
+        assert_eq!(
+            DetectedFormat::Avif.decoder_available(),
+            cfg!(all(target_os = "macos", target_arch = "aarch64"))
+        );
     }
 
     #[test]
@@ -1125,9 +1129,15 @@ mod tests {
             ("topo.bmp", image::ImageFormat::Bmp),
             ("volpe.tiff", image::ImageFormat::Tiff),
             ("icona.ico", image::ImageFormat::Ico),
-            ("aquila.avif", image::ImageFormat::Avif),
         ] {
             items.push(entry(&write_image(dir.path(), name, format), &name[..name.find('.').unwrap()]));
+        }
+        // AVIF solo dove il decoder dav1d è disponibile.
+        if cfg!(all(target_os = "macos", target_arch = "aarch64")) {
+            items.push(entry(
+                &write_image(dir.path(), "aquila.avif", image::ImageFormat::Avif),
+                "aquila",
+            ));
         }
         let svg = dir.path().join("laptop.svg");
         fs::write(
