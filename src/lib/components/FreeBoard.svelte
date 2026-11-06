@@ -1,28 +1,24 @@
 <script lang="ts">
   import { api, isTauri } from "../api";
-  import type { Alternative } from "../types";
+  import type { Alternative, FreeBoardCell, FreeBoardData } from "../types";
 
   interface Props {
     packId: string | null;
     commercialOnly: boolean;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
     onExit: () => void;
+    initial?: FreeBoardData | null;
+    onSave?: (data: FreeBoardData) => Promise<void>;
   }
 
-  let { packId, commercialOnly, onToast, onExit }: Props = $props();
+  let { packId, commercialOnly, onToast, onExit, initial = null, onSave }: Props = $props();
 
-  type Cell = {
-    id: string;
-    label: string;
-    svg: string | null;
-    symbolId: string | null;
-    conceptId: string | null;
-    approximate: boolean;
-  };
+  type Cell = FreeBoardCell;
 
-  let title = $state("Progetto libero");
-  let columns = $state(4);
-  let cells = $state<Cell[]>([]);
+  let title = $state(initial?.title ?? "Progetto libero");
+  let columns = $state(initial?.columns ?? 4);
+  let cells = $state<Cell[]>(initial ? [...initial.cells] : []);
+  let saving = $state(false);
   let query = $state("");
   let results = $state<Alternative[]>([]);
   let busy = $state(false);
@@ -81,6 +77,19 @@
     cells = next;
   }
 
+  async function save() {
+    if (!onSave) {
+      onToast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    saving = true;
+    try {
+      await onSave({ title, columns, cells });
+    } finally {
+      saving = false;
+    }
+  }
+
   function print() {
     if (cells.length === 0) {
       onToast("Aggiungi almeno un elemento prima di stampare.", "warn");
@@ -116,6 +125,9 @@
     </label>
     <div class="board__spacer"></div>
     <button class="btn" onclick={addBlank}>+ Casella vuota</button>
+    <button class="btn" disabled={saving} onclick={() => void save()}>
+      {saving ? "Salvo…" : "Salva .caadoc"}
+    </button>
     <button class="btn btn--solid" onclick={print}>Stampa / PDF</button>
   </header>
 
@@ -189,8 +201,8 @@
   </main>
 
   <p class="hint board__ui board__note">
-    Il foglio libero si stampa o si salva in PDF. Il salvataggio nel formato <code>.caadoc</code> di un
-    progetto libero non è ancora disponibile: per conservarlo usa la stampa in PDF.
+    Il foglio libero si salva in <code>.caadoc</code> con titolo, colonne, celle e pittogrammi
+    incorporati, e si riapre dallo stesso file. La stampa/PDF resta disponibile.
   </p>
 </div>
 

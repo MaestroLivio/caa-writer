@@ -1412,9 +1412,30 @@
     view.focus();
   }
 
+  /// Cancella il carattere prima del cursore: serve alla tastiera visuale,
+  /// dove il tasto «Cancella» non può generare un backspace nativo.
+  export function backspace() {
+    if (!view) return;
+    const { from, to } = view.state.selection;
+    if (from !== to) {
+      view.dispatch(view.state.tr.deleteSelection());
+    } else if (from > 1) {
+      view.dispatch(view.state.tr.delete(from - 1, from));
+    }
+    view.focus();
+  }
+
   export function insertTextAtSelection(text: string) {
     if (!view || !text) return;
     view.dispatch(view.state.tr.insertText(text));
+    view.focus();
+  }
+
+  /// Nuovo paragrafo dalla tastiera visuale (il tasto Invio fisico funziona
+  /// già, ma un pulsante touch non può generare una transazione ProseMirror).
+  export function insertParagraph() {
+    if (!view) return;
+    splitBlockOrList(view.state, view.dispatch);
     view.focus();
   }
 

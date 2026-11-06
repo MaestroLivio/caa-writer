@@ -623,6 +623,27 @@ export interface LayoutGridSpec {
   gap_mm: number;
 }
 
+export interface FreeBoardCell {
+  id: string;
+  label: string;
+  svg: string | null;
+  symbolId: string | null;
+  conceptId: string | null;
+  approximate: boolean;
+}
+
+/** Contenuto del foglio libero, salvato dentro una specifica di layout. */
+export interface FreeBoardData {
+  title: string;
+  columns: number;
+  cells: FreeBoardCell[];
+}
+
+export interface LayoutAction {
+  type: "append" | "speak" | "navigate" | "back" | "home" | "clear" | string;
+  target_page?: number | null;
+}
+
 export interface LayoutElementSpec {
   id: string;
   kind: "symbol" | "text" | "label" | "checkbox" | "box" | string;
@@ -637,6 +658,8 @@ export interface LayoutElementSpec {
   column_span?: number;
   hidden?: boolean;
   locked?: boolean;
+  spoken_text?: string | null;
+  action?: LayoutAction | null;
 }
 
 export interface LayoutAccessibility {
@@ -663,6 +686,8 @@ export interface PlacedElement {
   svg: string | null;
   hidden: boolean;
   locked: boolean;
+  spoken_text: string | null;
+  action: LayoutAction | null;
   x_mm: number;
   y_mm: number;
   w_mm: number;

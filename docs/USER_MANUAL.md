@@ -187,3 +187,33 @@ Per correggere un pittogramma puoi scegliere l'ambito: solo questa occorrenza,
 tutte le occorrenze equivalenti nel documento, solo il profilo Utilizzatore
 attivo, tutti i documenti futuri oppure il vocabolario condiviso del Creator.
 Le associazioni bloccate non vengono mai sovrascritte.
+
+
+## Comunicatore e foglio libero (0.8.0)
+
+Nel comunicatore aperto da un materiale dello Studio premi **Modifica** per cambiare
+l'etichetta, il testo pronunciato, il pittogramma e l'azione di ogni cella. Puoi aggiungere
+celle e pagine, collegare una cella a un'altra pagina e salvare il comunicatore in
+`.caadoc`; riaprendo il file torni direttamente al comunicatore.
+
+Azioni disponibili: aggiungi alla frase, pronuncia la cella, vai alla pagina, indietro,
+home, svuota la frase. Sono le uniche azioni ammesse: il file non può eseguire codice,
+URL o comandi di sistema.
+
+Nel foglio libero il pulsante **Salva .caadoc** conserva titolo, colonne, celle e
+pittogrammi. Riaprendo il file ritrovi lo stesso foglio, modificabile e stampabile.
+
+## Editor Utilizzatore (0.8.0)
+
+La voce **Scrivo** della home Utilizzatore apre un editor diverso per ogni livello del
+profilo:
+
+- **Livello 1 — Solo simboli**: un grande vocabolario di base; tocchi i pittogrammi e
+  costruisci la frase, poi la ascolti.
+- **Livello 2 — Scrivo con aiuto**: editor CAA con tastiera visuale, parole frequenti e
+  lettura della frase.
+- **Livello 3 — Scrivo**: come il livello 2, con grassetto, corsivo, sottolineato e
+  annulla.
+
+L'editor Utilizzatore non mostra il Ribbon, lo Studio o i comandi del Creator. Il documento
+si salva in `.caadoc` e rispetta le funzionalità del profilo (per esempio la voce).

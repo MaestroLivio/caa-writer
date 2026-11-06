@@ -4,6 +4,52 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.8.0 — 2026-11-06
+
+### Comunicatore modificabile
+
+- Il comunicatore dello Studio non è più in sola lettura: una modalità
+  **Modifica** permette di cambiare etichetta, testo pronunciato, pittogramma e
+  azione di ogni cella, aggiungere o rimuovere celle e creare nuove pagine.
+- Azioni tipizzate e validate dal backend: `append`, `speak`, `navigate`,
+  `back`, `home`, `clear`. Ogni azione di navigazione deve puntare a una pagina
+  esistente; azioni sconosciute vengono rifiutate.
+- Pronuncia immediata per cella, categoria/sottopagina come cella con azione
+  `navigate`, rimozione di una singola parola dal messaggio.
+- Il comunicatore si salva in `.caadoc` con la specifica di layout completa e
+  si riapre direttamente nel comunicatore.
+
+### Foglio libero salvabile
+
+- Il foglio libero ha **Salva .caadoc**: titolo, colonne, celle, pittogrammi e
+  SVG vengono incorporati in una specifica `free_board`.
+- Riaprendo il file si torna al foglio libero con le stesse celle e colonne.
+- Le conversioni foglio↔layout sono funzioni pure testate (`freeboard.ts`,
+  4 test frontend); il backend conserva la specifica e gli asset.
+
+### Editor Utilizzatore a livelli
+
+- La voce **Scrivo** apre un editor reale, non un segnaposto, con tre livelli:
+  - **Livello 1**: solo simboli, grande vocabolario di base e barra della frase.
+  - **Livello 2**: scrittura con CAA automatica, tastiera visuale e parole
+    frequenti.
+  - **Livello 3**: come il livello 2, con grassetto, corsivo, sottolineato e
+    annulla.
+- Il livello viene dal profilo (`editor_level`); l'editor Utilizzatore non
+  espone Ribbon, Studio, import/export o comandi del Creator.
+- Il documento si salva in `.caadoc` con asset e preferenze; la voce «Ascolta»
+  rispetta la funzionalità `speech` del profilo.
+- Nuovo comando `common_symbols` per il vocabolario di base: restituisce solo
+  pittogrammi reali del repertorio, mai segnaposto inventati.
+
+### Limiti dichiarati
+
+- Le azioni del comunicatore sono volutamente un insieme chiuso: non eseguono
+  codice, URL o comandi di sistema.
+- Il livello 1 non consente testo libero per scelta progettuale; il livello 2
+  introduce la tastiera visuale.
+- Windows resta compilato in modo incrociato ma non eseguito su macchina reale.
+
 ## 0.7.0 — 2026-11-06
 
 ### Reattività dell'editor

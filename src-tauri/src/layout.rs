@@ -80,6 +80,18 @@ impl Default for LayoutGridSpec {
     }
 }
 
+/// Azione tipizzata di una cella comunicativa. Sono le stesse azioni che il
+/// comunicatore esegue: nessun codice o URL arbitrario viene salvato.
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct ElementAction {
+    /// `append` | `speak` | `navigate` | `back` | `home` | `clear`
+    #[serde(rename = "type", default)]
+    pub action_type: String,
+    /// Pagina di destinazione per `navigate` (indice 0-based).
+    #[serde(default)]
+    pub target_page: Option<u32>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ElementSpec {
     /// Identificativo stabile: non viene rigenerato durante la stampa.
@@ -109,6 +121,12 @@ pub struct ElementSpec {
     pub hidden: bool,
     #[serde(default)]
     pub locked: bool,
+    /// Testo pronunciato dall'azione `speak`/`append`; se vuoto si usa label.
+    #[serde(default)]
+    pub spoken_text: Option<String>,
+    /// Azione della cella nel comunicatore interattivo.
+    #[serde(default)]
+    pub action: Option<ElementAction>,
 }
 
 fn default_element_kind() -> String {
@@ -134,6 +152,8 @@ impl Default for ElementSpec {
             column_span: 1,
             hidden: false,
             locked: false,
+            spoken_text: None,
+            action: None,
         }
     }
 }
@@ -190,6 +210,8 @@ pub struct PlacedElement {
     pub svg: Option<String>,
     pub hidden: bool,
     pub locked: bool,
+    pub spoken_text: Option<String>,
+    pub action: Option<ElementAction>,
     pub x_mm: f32,
     pub y_mm: f32,
     pub w_mm: f32,
@@ -275,6 +297,18 @@ pub fn validate(spec: &LayoutSpecification) -> Result<(), String> {
         if element.row + element.row_span > spec.layout.rows {
             return Err(format!("{}: esce dalle righe della griglia", element.id));
         }
+        if let Some(action) = &element.action {
+            let kind = action.action_type.as_str();
+            if !matches!(kind, "" | "append" | "speak" | "navigate" | "back" | "home" | "clear") {
+                return Err(format!(
+                    "{}: azione non supportata «{}» (ammesse: append, speak, navigate, back, home, clear)",
+                    element.id, kind
+                ));
+            }
+            if kind == "navigate" && action.target_page.is_none() {
+                return Err(format!("{}: «navigate» richiede una pagina di destinazione", element.id));
+            }
+        }
     }
     Ok(())
 }
@@ -320,6 +354,8 @@ pub fn paginate(spec: &LayoutSpecification) -> Result<Vec<PageLayout>, String> {
             svg: element.svg.clone(),
             hidden: element.hidden,
             locked: element.locked,
+            spoken_text: element.spoken_text.clone(),
+            action: element.action.clone(),
             x_mm: round2(x),
             y_mm: round2(y),
             w_mm: round2(w),
@@ -375,6 +411,8 @@ mod tests {
             svg: None,
             hidden: false,
             locked: false,
+            spoken_text: None,
+            action: None,
             x_mm: 12.0,
             y_mm: 12.0,
             w_mm: round2((210.0 - 24.0 - 8.0) / 3.0),
@@ -478,6 +516,37 @@ mod tests {
             ..Default::default()
         });
         assert!(validate(&duplicate).unwrap_err().contains("duplicato"));
+    }
+
+    #[test]
+    fn communication_actions_are_typed_and_preserved() {
+        let mut spec = grid_spec(2, 2, 0.0);
+        spec.elements.push(ElementSpec {
+            id: "parla".to_string(),
+            label: "Parla".to_string(),
+            spoken_text: Some("Voglio parlare".to_string()),
+            action: Some(ElementAction {
+                action_type: "speak".to_string(),
+                target_page: None,
+            }),
+            ..Default::default()
+        });
+        let pages = paginate(&spec).unwrap();
+        let element = &pages[0].elements[0];
+        assert_eq!(element.spoken_text.as_deref(), Some("Voglio parlare"));
+        assert_eq!(element.action.as_ref().unwrap().action_type, "speak");
+
+        spec.elements[0].action = Some(ElementAction {
+            action_type: "esegui_script".to_string(),
+            target_page: None,
+        });
+        assert!(validate(&spec).unwrap_err().contains("azione non supportata"));
+
+        spec.elements[0].action = Some(ElementAction {
+            action_type: "navigate".to_string(),
+            target_page: None,
+        });
+        assert!(validate(&spec).unwrap_err().contains("pagina di destinazione"));
     }
 
     #[test]

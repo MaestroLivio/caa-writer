@@ -140,6 +140,7 @@ pub fn run() {
             commands::attributions,
             commands::suggest_symbols,
             commands::word_affinities,
+            commands::common_symbols,
         ])
         .build(tauri::generate_context!())
         .expect("errore irreversibile nell'avvio di CAA Writer")

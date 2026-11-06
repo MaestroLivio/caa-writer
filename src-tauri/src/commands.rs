@@ -1147,6 +1147,15 @@ pub fn attributions(state: State<'_, Engine>) -> Result<Vec<AttributionEntry>, S
     state.db()?.attributions().map_err(|e| e.to_string())
 }
 
+/// Vocabolario di base per l'editor Utilizzatore (livelli 1–3).
+#[tauri::command]
+pub fn common_symbols(
+    state: State<'_, Engine>,
+    limit: Option<u32>,
+) -> Result<Vec<Alternative>, String> {
+    state.common_symbols(limit.unwrap_or(48).clamp(8, 96) as usize)
+}
+
 /// Simboli usati dalle alternative di un testo libero (ricerca rapida).
 #[tauri::command]
 pub fn word_affinities(

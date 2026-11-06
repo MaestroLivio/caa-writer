@@ -17,12 +17,14 @@
   import DocumentAssistant from "./lib/components/DocumentAssistant.svelte";
   import CliConsole from "./lib/components/CliConsole.svelte";
   import UserHome from "./lib/components/UserHome.svelte";
+  import UserEditor from "./lib/components/UserEditor.svelte";
   import BoardPlayer from "./lib/components/BoardPlayer.svelte";
   import ProfileSetup from "./lib/components/ProfileSetup.svelte";
   import ProfileManager from "./lib/components/ProfileManager.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
   import FreeBoard from "./lib/components/FreeBoard.svelte";
   import { recordRecent } from "./lib/recent";
+  import { freeBoardFromLayout, freeBoardSpec } from "./lib/freeboard";
   import { api, isTauri } from "./lib/api";
   import { rasterizeSymbols } from "./lib/raster";
   import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -55,6 +57,7 @@
     type CreationMode,
     type DocumentSettings,
     type ExportDoc,
+    type FreeBoardData,
     type LayoutDocument,
     type LayoutSpecification,
     type LibraryStats,
@@ -94,6 +97,7 @@
   let recovery = $state<{ plain_text: string; content: unknown; title: string } | null>(null);
   let recovered = $state(false);
   let resourcePlan = $state<ResourcePlan | null>(null);
+  let freeBoardData = $state<FreeBoardData | null>(null);
   let resourceLayout = $state<LayoutDocument | null>(null);
   let showLayoutPreview = $state(false);
   let communicatorOpen = $state(false);
@@ -106,6 +110,7 @@
   let aiConfig = $state<AiConfig | null>(null);
   let analyzing = $state(false);
   let speechActive = $state(false);
+  let userEditorOpen = $state(false);
   let speechPoll: ReturnType<typeof setInterval> | null = null;
   let diagnostics = $state<RuntimeDiagnostics | null>(null);
   let editorMetrics = $state({
@@ -731,6 +736,9 @@
 
   function create(mode: CreationMode) {
     if (mode === "free") {
+      freeBoardData = null;
+      docPath = null;
+      docTitle = "Progetto libero";
       view = "board";
       return;
     }
@@ -890,6 +898,118 @@
     await loadFrom(String(picked));
   }
 
+  async function saveFreeBoard(data: FreeBoardData) {
+    if (!native) {
+      toast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    let path = docPath;
+    if (!path) {
+      const picked = await saveDialog({
+        title: "Salva foglio libero",
+        defaultPath: `${data.title || "progetto-libero"}.caadoc`,
+        filters: [{ name: "Documento CAA Writer", extensions: ["caadoc"] }],
+      });
+      if (!picked) return;
+      path = picked as string;
+    }
+    const spec = freeBoardSpec(data);
+    const assetMap = new Map<string, { symbol_id: string; svg: string | null; png_base64: null }>();
+    for (const cell of data.cells) {
+      if (cell.symbolId && cell.svg && !assetMap.has(cell.symbolId)) {
+        assetMap.set(cell.symbolId, {
+          symbol_id: cell.symbolId,
+          svg: cell.svg,
+          png_base64: null,
+        });
+      }
+    }
+    const assets = [...assetMap.values()];
+    try {
+      const result = await api.saveDocument(path, {
+        title: data.title || "Progetto libero",
+        content: { type: "doc", content: [] },
+        plain_text: data.cells.map((cell) => cell.label).filter(Boolean).join("\n"),
+        settings,
+        assets,
+        preferences: [],
+        layout: spec,
+      });
+      docPath = path;
+      docTitle = data.title || "Progetto libero";
+      freeBoardData = data;
+      recordRecent({ path, title: docTitle, excerpt: `${data.cells.length} caselle` });
+      if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
+      toast(`Foglio libero salvato in ${path}`, "info");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function applyCommunicatorSpec(spec: LayoutSpecification) {
+    try {
+      resourceLayout = await api.buildLayout(spec);
+      toast("Comunicatore aggiornato: celle, azioni e pagine sono state applicate.", "info");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      toast(`Comunicatore non applicato: ${message}`, "error");
+      throw error;
+    }
+  }
+
+  async function saveLayoutDocument(spec: LayoutSpecification) {
+    if (!native) {
+      toast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    // Il documento salvato dal comunicatore si riapre nel comunicatore, non
+    // come semplice materiale da stampa.
+    const savedSpec: LayoutSpecification = { ...spec, document_type: "communicator" };
+    const picked = await saveDialog({
+      title: "Salva comunicatore",
+      defaultPath: `${spec.title || "comunicatore"}.caadoc`,
+      filters: [{ name: "Documento CAA Writer", extensions: ["caadoc"] }],
+    });
+    if (!picked) return;
+    const path = picked as string;
+    const assetMap = new Map<string, { symbol_id: string; svg: string | null; png_base64: null }>();
+    for (const element of spec.elements ?? []) {
+      if (element.symbol_id && element.svg && !assetMap.has(element.symbol_id)) {
+        assetMap.set(element.symbol_id, {
+          symbol_id: element.symbol_id,
+          svg: element.svg,
+          png_base64: null,
+        });
+      }
+    }
+    const assets = [...assetMap.values()];
+    try {
+      const result = await api.saveDocument(path, {
+        title: spec.title || "Comunicatore",
+        content: { type: "doc", content: [] },
+        plain_text: (spec.elements ?? [])
+          .map((element) => element.label)
+          .filter(Boolean)
+          .join("\n"),
+        settings,
+        assets,
+        preferences: [],
+        layout: savedSpec,
+      });
+      docPath = path;
+      docTitle = spec.title || "Comunicatore";
+      recordRecent({
+        path,
+        title: docTitle,
+        excerpt: `${(spec.elements ?? []).length} celle comunicative`,
+      });
+      if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
+      toast(`Comunicatore salvato in ${path}`, "info");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
   async function loadFrom(path: string) {
     try {
       const loaded = await api.loadDocument(path);
@@ -898,6 +1018,18 @@
       docKey = `doc-${path}`;
       if (loaded.settings && typeof loaded.settings === "object") {
         settings = { ...defaultSettings, ...(loaded.settings as Partial<DocumentSettings>) };
+      }
+      const savedLayout = loaded.layout as
+        | { document_type?: string; layout?: { columns?: number }; elements?: Array<Record<string, unknown>> }
+        | null;
+      if (savedLayout?.document_type === "free_board") {
+        freeBoardData = freeBoardFromLayout(loaded.title, savedLayout);
+        selected = null;
+        view = "board";
+        recordRecent({ path, title: docTitle, excerpt: `${freeBoardData.cells.length} caselle` });
+        loaded.warnings.forEach((warning) => toast(warning, "warn"));
+        toast(`Aperto: ${docTitle}`, "info");
+        return;
       }
       // L'editor può non essere ancora montato (apertura dalla schermata
       // iniziale): prima si passa alla vista documento, poi si inserisce il
@@ -915,6 +1047,13 @@
       if (loaded.layout) {
         try {
           resourceLayout = await api.buildLayout(loaded.layout);
+          if (
+            typeof loaded.layout === "object" &&
+            loaded.layout !== null &&
+            (loaded.layout as { document_type?: string }).document_type === "communicator"
+          ) {
+            communicatorOpen = true;
+          }
         } catch (error) {
           toast(
             `Layout salvato non ricostruito: ${error instanceof Error ? error.message : String(error)}`,
@@ -2959,13 +3098,22 @@
   <title>{view === "editor" ? `${docTitle} · CAA Writer` : "CAA Writer"}</title>
 </svelte:head>
 
-{#if userMode && !boardPlayerId}
+{#if userMode && !boardPlayerId && !userEditorOpen}
   <UserHome
     profile={activeProfile!}
     boards={userBoards}
     onOpenBoard={(id) => (boardPlayerId = id)}
-    onOpenEditor={() => toast("L'editor semplificato dell'Utilizzatore è in preparazione.", "warn")}
+    onOpenEditor={() => (userEditorOpen = true)}
     onOpenCreator={() => void openCreator()}
+  />
+{/if}
+
+{#if userMode && userEditorOpen && activeProfile && !boardPlayerId}
+  <UserEditor
+    profile={activeProfile}
+    onBack={() => (userEditorOpen = false)}
+    onSpeak={(text) => void speak(text)}
+    onToast={toast}
   />
 {/if}
 
@@ -2989,6 +3137,8 @@
   <FreeBoard
     packId={settings.pack_id}
     commercialOnly={settings.commercial_only}
+    initial={freeBoardData}
+    onSave={saveFreeBoard}
     onToast={toast}
     onExit={() => (view = "home")}
   />
@@ -3209,6 +3359,8 @@
         doc={resourceLayout}
         onSpeak={(text) => void speak(text)}
         onClose={() => (communicatorOpen = false)}
+        onApplySpec={applyCommunicatorSpec}
+        onSave={saveLayoutDocument}
       />
     {/if}
 

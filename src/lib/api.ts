@@ -152,6 +152,7 @@ export const api = {
     call<WordAffinity>("word_affinities", { word, packId, commercialOnly }),
   suggestSymbols: (text: string, commercialOnly = false) =>
     call<Alternative[]>("suggest_symbols", { text, commercialOnly }),
+  commonSymbols: (limit = 48) => call<Alternative[]>("common_symbols", { limit }),
 
   setPreference: (preference: Preference) => call<void>("set_preference", { preference }),
   deletePreference: (scope: string, lemma: string, contextKey: string | null) =>

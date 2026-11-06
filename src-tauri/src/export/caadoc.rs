@@ -298,6 +298,33 @@ mod tests {
     }
 
     #[test]
+    fn free_board_and_communication_actions_survive_roundtrip() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("free.caadoc");
+        let mut data = payload();
+        data.layout = Some(serde_json::json!({
+            "schema_version": 1,
+            "document_type": "free_board",
+            "title": "Progetto libero",
+            "layout": { "kind": "grid", "columns": 3, "rows": 2, "gap_mm": 3 },
+            "elements": [{
+                "id": "c1",
+                "kind": "symbol",
+                "label": "Parla",
+                "spoken_text": "Voglio parlare",
+                "action": { "type": "speak", "target_page": null },
+                "page": 0, "row": 0, "column": 0
+            }]
+        }));
+        save(&path, &data, &[]).unwrap();
+        let loaded = load(&path).unwrap();
+        let layout = loaded.layout.unwrap();
+        assert_eq!(layout["document_type"], "free_board");
+        assert_eq!(layout["elements"][0]["action"]["type"], "speak");
+        assert_eq!(layout["elements"][0]["spoken_text"], "Voglio parlare");
+    }
+
+    #[test]
     fn v1_document_without_layout_still_loads() {
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("legacy.caadoc");

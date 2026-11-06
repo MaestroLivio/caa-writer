@@ -1,20 +1,19 @@
-# CAA Writer 0.7.0 — note di rilascio
+# CAA Writer 0.8.0 — note di rilascio
 
-Reattività dell'editor, selezione semantica più prudente, processi Windows senza
-console e interfaccia adattiva.
+Comunicatore modificabile, foglio libero salvabile in `.caadoc` ed editor Utilizzatore a
+tre livelli.
 
 ## Novità principali
 
-- Digitazione indipendente dall'IA: comandi pesanti asincroni, annullamento
-  delle analisi superate, coda neurale limitata e rendering differenziale.
-- Niente più associazioni per somiglianza di lettere: «sento» non è «sentiero»,
-  «bravo» non è «patatas bravas», «non» non è «nonna».
-- Fallback morfologico verificato, tutte le letture di una forma e preferenze
-  separate per occorrenza, documento, profilo, globale e vocabolario.
-- Sidebar con schede sempre visibili e intestazione fissa; pannello Diagnostica
-  con CPU/RAM e tempi misurati; profili prestazionali.
-- Processi llama.cpp, voce, PowerShell, curl e CLI avviati senza finestra
-  console su Windows.
+- Comunicatore con modalità **Modifica**: etichette, testi pronunciati, pittogrammi, azioni
+  tipizzate, celle e pagine; salvataggio e riapertura in `.caadoc`.
+- Azioni validate: aggiungi alla frase, pronuncia, vai alla pagina, indietro, home, svuota.
+  Nessun codice o URL viene eseguito.
+- Foglio libero con **Salva .caadoc**: titolo, colonne, celle e SVG incorporati; riapertura
+  nello stesso foglio.
+- Editor Utilizzatore reale: livello 1 solo simboli, livello 2 tastiera visuale, livello 3
+  formattazione essenziale. Nessun comando del Creator.
+- Nuovo vocabolario di base con soli pittogrammi reali del repertorio.
 
 ## Requisiti
 
@@ -27,7 +26,7 @@ console e interfaccia adattiva.
 
 ## Installazione
 
-- **Windows**: usare `CAA-Writer_0.7.0_windows-x64-setup.exe` (NSIS). In questa
+- **Windows**: usare `CAA-Writer_0.8.0_windows-x64-setup.exe` (NSIS). In questa
   release non è prodotto il `.msi`. Se SmartScreen avvisa, il pacchetto non è
   firmato: verificare il checksum SHA-256 e scegliere «Ulteriori informazioni»
   → «Esegui comunque».

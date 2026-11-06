@@ -1,6 +1,6 @@
 # Release e installer
 
-## Stato reale (versione 0.7.0, 6 novembre 2026)
+## Stato reale (versione 0.8.0, 6 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
@@ -13,14 +13,14 @@
 Artefatti macOS prodotti (in `dist-release/`, esclusa da Git):
 
 ```
-CAA-Writer_0.7.0_macos-arm64.dmg       793,30 MiB
-CAA-Writer_0.7.0_macos-arm64.app.zip   802,56 MiB
-CAA-Writer_0.7.0_macos-x64.dmg         793,95 MiB
-CAA-Writer_0.7.0_macos-x64.app.zip     803,28 MiB
-CAA-Writer_0.7.0_windows-x64-setup.exe 780,74 MiB (NSIS)
-CAA-Writer_0.7.0_cli-macos-arm64       4,8 MiB
-CAA-Writer_0.7.0_cli-macos-x64         5,1 MiB
-CAA-Writer_0.7.0_cli-windows-x64.exe   5,15 MiB
+CAA-Writer_0.8.0_macos-arm64.dmg       793,30 MiB
+CAA-Writer_0.8.0_macos-arm64.app.zip   802,58 MiB
+CAA-Writer_0.8.0_macos-x64.dmg         793,97 MiB
+CAA-Writer_0.8.0_macos-x64.app.zip     803,30 MiB
+CAA-Writer_0.8.0_windows-x64-setup.exe 780,72 MiB (NSIS)
+CAA-Writer_0.8.0_cli-macos-arm64       4,8 MiB
+CAA-Writer_0.8.0_cli-macos-x64         5,1 MiB
+CAA-Writer_0.8.0_cli-windows-x64.exe   5,15 MiB
 SHA256SUMS-macos-windows.txt
 SHA256SUMS-cli.txt
 AGENT.md

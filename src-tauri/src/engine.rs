@@ -2497,11 +2497,69 @@ impl Engine {
             }
         }
         let pages = crate::layout::paginate(&spec)?;
+        // Un collegamento deve puntare a una pagina che esiste davvero.
+        for element in &spec.elements {
+            if let Some(action) = &element.action {
+                if action.action_type == "navigate" {
+                    let target = action.target_page.unwrap_or(0) as usize;
+                    if target >= pages.len() {
+                        return Err(format!(
+                            "{}: la pagina di destinazione {} non esiste (pagine: {})",
+                            element.id,
+                            target + 1,
+                            pages.len()
+                        ));
+                    }
+                }
+            }
+        }
         Ok(crate::layout::LayoutDocument {
             spec,
             pages,
             notes,
         })
+    }
+
+    /// Vocabolario di base per l'editor Utilizzatore: parole frequenti della
+    /// comunicazione quotidiana risolte nel repertorio reale. Un vocabolo
+    /// senza pittogramma viene omesso, non inventato.
+    pub fn common_symbols(&self, limit: usize) -> Result<Vec<Alternative>, String> {
+        const WORDS: &[&str] = &[
+            "io", "tu", "noi", "mangiare", "bere", "giocare", "dormire", "leggere",
+            "scrivere", "parlare", "ascoltare", "andare", "venire", "fare", "volere",
+            "potere", "aiuto", "bene", "male", "felice", "triste", "arrabbiato",
+            "paura", "stanco", "casa", "scuola", "mamma", "papà", "nonna", "nonno",
+            "amico", "bambino", "cane", "gatto", "acqua", "pane", "mela", "pasta",
+            "gelato", "bagno", "cucina", "parco", "libro", "palla", "telefono",
+            "sole", "pioggia", "notte", "giorno", "grande", "piccolo", "caldo",
+            "freddo", "sì", "no", "grazie", "ciao", "più", "finire", "aprire",
+            "chiudere", "fuori", "dentro", "sopra", "sotto",
+        ];
+        let db = self.db.lock().map_err(|_| "database non disponibile".to_string())?;
+        let filters = SymbolFilters {
+            pack_id: None,
+            commercial_only: false,
+            collection_id: None,
+        };
+        let mut out: Vec<Alternative> = Vec::new();
+        let mut seen = HashSet::new();
+        for word in WORDS {
+            if out.len() >= limit {
+                break;
+            }
+            let Ok(page) = db.search_symbols(word, 6, 0, &filters) else {
+                continue;
+            };
+            let wanted = crate::linguistics::normalize::normalize_word(word);
+            if let Some(item) = page.items.into_iter().find(|item| {
+                crate::linguistics::normalize::normalize_word(&item.label) == wanted
+            }) {
+                if seen.insert(item.symbol_id.clone()) {
+                    out.push(item);
+                }
+            }
+        }
+        Ok(out)
     }
 
     pub fn clear_caches(&self) {
@@ -3721,6 +3779,42 @@ mod tests {
                     );
                 }
             }
+        }
+    }
+
+    #[test]
+    fn communicator_navigation_must_point_to_an_existing_page() {
+        let engine = test_engine();
+        let mut spec = crate::layout::LayoutSpecification::default();
+        spec.title = "Prova".to_string();
+        spec.elements.push(crate::layout::ElementSpec {
+            id: "vai".to_string(),
+            label: "Vai".to_string(),
+            action: Some(crate::layout::ElementAction {
+                action_type: "navigate".to_string(),
+                target_page: Some(3),
+            }),
+            ..Default::default()
+        });
+        let error = engine.layout_document(spec.clone()).unwrap_err();
+        assert!(error.contains("pagina di destinazione"));
+
+        spec.elements[0].action = Some(crate::layout::ElementAction {
+            action_type: "navigate".to_string(),
+            target_page: Some(0),
+        });
+        let built = engine.layout_document(spec).unwrap();
+        assert_eq!(built.pages.len(), 1);
+    }
+
+    #[test]
+    fn common_vocabulary_returns_only_real_symbols() {
+        let engine = test_engine();
+        let items = engine.common_symbols(24).unwrap();
+        assert!(items.len() >= 12, "vocabolario troppo piccolo: {}", items.len());
+        for item in &items {
+            assert!(!item.symbol_id.is_empty());
+            assert!(item.svg.is_some(), "simbolo senza SVG: {}", item.symbol_id);
         }
     }
 

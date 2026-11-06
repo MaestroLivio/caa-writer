@@ -472,6 +472,21 @@ Le preferenze manuali hanno cinque ambiti:
 Nessun ambito sovrascrive un blocco manuale; l'ordine è documento > profilo >
 contesto > globale > vocabolario.
 
+## 8quinquies. Comunicatore, foglio libero ed editor Utilizzatore
+
+- `build_layout` accetta elementi con `spoken_text` e `action`. Le azioni ammesse sono
+  `append`, `speak`, `navigate`, `back`, `home`, `clear`; `navigate` richiede
+  `target_page` e la pagina deve esistere. Non vengono eseguiti script o URL.
+- `Communicator.svelte` ha una modalità Modifica: cambia etichetta, testo pronunciato,
+  pittogramma e azione; aggiunge/rimuove celle e pagine; applica con `build_layout` e salva
+  in `.caadoc` con `document_type = "communicator"`.
+- `FreeBoard.svelte` salva una specifica `document_type = "free_board"`; la conversione
+  è in `src/lib/freeboard.ts` (funzioni pure, testate). La riapertura riporta al foglio.
+- `UserEditor.svelte` legge `profile.editor_level`: 1 solo simboli, 2 tastiera visuale,
+  3 formattazione essenziale. Non espone comandi Creator.
+- Comando Tauri `common_symbols` (GUI): vocabolario di base con soli simboli reali del
+  repertorio; nessun simbolo inventato.
+
 ## 9. Sicurezza, rete e licenze
 
 - La CLI non apre connessioni se non si chiamano `online.*` o `voice.*` che
