@@ -77,6 +77,15 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
   sufficientemente lunga può produrre un pittogramma affine marcato come
   approssimativo; il testo scritto resta invariato.
 
+### Apertura dei modelli nell'editor
+
+- Ogni modello del Visual Resource Studio può essere aperto nell'editor del
+  Word Processor con «Apri nell'editor»: titolo e voci diventano paragrafi
+  modificabili, con i pittogrammi ricalcolati automaticamente; il modello
+  originale non viene sovrascritto.
+- Rifinitura grafica generale: anello di focus, tab attive, hover di pulsanti
+  e schede, ombre e arrotondamenti coerenti.
+
 ### Correzioni
 
 - Applicazione manuale dei pittogrammi anche per parole senza concetto lessicale

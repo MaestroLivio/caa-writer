@@ -1572,6 +1572,34 @@
     }
   }
 
+  async function openPlanInEditor(plan: ResourcePlan) {
+    const content = {
+      type: "doc",
+      content: [
+        { type: "heading", attrs: { level: 1 }, content: [{ type: "text", text: plan.title }] },
+        ...plan.items.map((item) => ({
+          type: "paragraph",
+          attrs: {},
+          content: [{ type: "text", text: item.label }],
+        })),
+      ],
+    };
+    docTitle = plan.title;
+    docPath = null;
+    docKey = `doc-${Date.now().toString(36)}`;
+    selected = null;
+    view = "editor";
+    await tick();
+    editor?.setDocJson(content, plan.items.map((item) => item.label).join(" "));
+    if (get(workspace).sidebarMode === "overlay") {
+      updateWorkspace({ sidebarMode: "docked" });
+    }
+    toast(
+      `Modello «${plan.title}» aperto nell'editor: modifica liberamente testi e pittogrammi.`,
+      "info"
+    );
+  }
+
   async function generateResource(prompt: string, templateId: string | null): Promise<ResourcePlan | null> {
     if (!native) {
       toast("Il Visual Resource Studio richiede l'app desktop.", "warn");
@@ -3136,6 +3164,7 @@
           onSetAiConfig={setAiConfig}
           onStatusChange={refreshAiStatus}
           onGenerateResource={generateResource}
+          onOpenInEditor={openPlanInEditor}
           onPrintResource={printResource}
           onToast={toast}
           onClearHistory={clearHistory}

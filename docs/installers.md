@@ -13,11 +13,11 @@
 Artefatti macOS prodotti (in `dist-release/`, esclusa da Git):
 
 ```
-CAA-Writer_0.6.0_macos-arm64.dmg       793,24 MiB
+CAA-Writer_0.6.0_macos-arm64.dmg       793,23 MiB
 CAA-Writer_0.6.0_macos-arm64.app.zip   802,52 MiB
-CAA-Writer_0.6.0_macos-x64.dmg         793,88 MiB
+CAA-Writer_0.6.0_macos-x64.dmg         793,89 MiB
 CAA-Writer_0.6.0_macos-x64.app.zip     803,22 MiB
-CAA-Writer_0.6.0_windows-x64-setup.exe 780,81 MiB (NSIS)
+CAA-Writer_0.6.0_windows-x64-setup.exe 780,71 MiB (NSIS)
 CAA-Writer_0.6.0_cli-macos-arm64       4,8 MiB
 CAA-Writer_0.6.0_cli-macos-x64         5,1 MiB
 CAA-Writer_0.6.0_cli-windows-x64.exe   5,09 MiB

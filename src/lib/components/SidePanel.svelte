@@ -68,6 +68,7 @@
     onSetAiConfig: (config: AiConfig) => Promise<void>;
     onStatusChange: () => Promise<void>;
     onGenerateResource: (prompt: string, templateId: string | null) => Promise<ResourcePlan | null>;
+    onOpenInEditor: (plan: ResourcePlan) => void;
     onPrintResource: () => void;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
     onClearHistory: () => Promise<void>;
@@ -106,6 +107,7 @@
     onSetAiConfig,
     onStatusChange,
     onGenerateResource,
+    onOpenInEditor,
     onPrintResource,
     onToast,
     onClearHistory,
@@ -1496,9 +1498,14 @@
             {#each plan.notes as note}
               <p class="hint">{note}</p>
             {/each}
-            <div style="display:flex;gap:6px;margin-top:8px">
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+              <button class="btn btn--solid" onclick={() => onOpenInEditor(plan!)}>Apri nell'editor</button>
               <button class="btn btn--ghost" onclick={onPrintResource}>Stampa / PDF</button>
             </div>
+            <p class="hint">
+              Aprendo il modello nell'editor puoi modificare testi, formattazione e pittogrammi
+              liberamente; il modello originale non viene sovrascritto.
+            </p>
           </section>
         {/if}
       {/if}

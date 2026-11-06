@@ -2992,3 +2992,57 @@ textarea {
   margin-top: 12px;
   padding-top: 10px;
 }
+
+/* --- Rifinitura grafica --- */
+:root {
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn--solid {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.ribbon__tab[aria-selected="true"],
+.tab[aria-selected="true"] {
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+  background: var(--surface);
+}
+
+.tab {
+  transition: color var(--anim-hover) ease, border-color var(--anim-hover) ease,
+    background-color var(--anim-hover) ease;
+}
+
+.symbol-tile {
+  transition: transform var(--anim-hover) ease, border-color var(--anim-hover) ease,
+    box-shadow var(--anim-hover) ease;
+}
+
+.symbol-tile:hover,
+.symbol-tile:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.panel-section {
+  border-radius: 10px;
+}
+
+.report-dialog {
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.28);
+  border-radius: 14px;
+}
+
+.toast {
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+}
