@@ -1,0 +1,712 @@
+{
+  "id": "boards.musica",
+  "title": "Musica",
+  "description": "Strumenti, ascolto, pratica e canto, con generi musicali e frasi per regolare volume e preferenze.",
+  "ageTheme": "secondaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Musica",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Strumenti",
+          "symbolLabel": "strumenti_musica",
+          "spokenText": "Apri gli strumenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "strumenti"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Ascoltare",
+          "symbolLabel": "ascoltare_home",
+          "spokenText": "Apri l'ascolto",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "ascoltare"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Suonare",
+          "symbolLabel": "suonare_home",
+          "spokenText": "Apri la pratica",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "suonare"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Cantare",
+          "symbolLabel": "cantare_home",
+          "spokenText": "Apri il canto",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "cantare"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Preferenze",
+          "symbolLabel": "preferenze_home",
+          "spokenText": "Apri le preferenze",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "preferenze"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_musica",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Mi piace",
+          "symbolLabel": "mi_piace_musica",
+          "spokenText": "Mi piace",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Alza il volume",
+          "symbolLabel": "volume_su",
+          "spokenText": "Alza il volume",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "strumenti",
+      "title": "Strumenti",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Pianoforte",
+          "symbolLabel": "pianoforte",
+          "spokenText": "Suono il pianoforte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Chitarra",
+          "symbolLabel": "chitarra",
+          "spokenText": "Suono la chitarra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Batteria",
+          "symbolLabel": "batteria",
+          "spokenText": "Suono la batteria",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Flauto",
+          "symbolLabel": "flauto",
+          "spokenText": "Suono il flauto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Violino",
+          "symbolLabel": "violino",
+          "spokenText": "Suono il violino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Voce",
+          "symbolLabel": "voce_musica",
+          "spokenText": "Uso la voce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Tastiera",
+          "symbolLabel": "tastiera",
+          "spokenText": "Suono la tastiera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ascoltare",
+      "title": "Ascoltare",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Musica",
+          "symbolLabel": "musica",
+          "spokenText": "Ascolto la musica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Volume",
+          "symbolLabel": "volume",
+          "spokenText": "Regolo il volume",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Cuffie",
+          "symbolLabel": "cuffie",
+          "spokenText": "Uso le cuffie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Altoparlante",
+          "symbolLabel": "altoparlante",
+          "spokenText": "Accendo l'altoparlante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Playlist",
+          "symbolLabel": "playlist",
+          "spokenText": "Scelgo una playlist",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Silenzio",
+          "symbolLabel": "silenzio_musica",
+          "spokenText": "Vorrei silenzio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Generi",
+          "symbolLabel": "generi_nav",
+          "spokenText": "Apri i generi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "generi"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "generi",
+      "title": "Generi musicali",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Classica",
+          "symbolLabel": "classica",
+          "spokenText": "Ascolto musica classica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Pop",
+          "symbolLabel": "pop",
+          "spokenText": "Ascolto musica pop",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Rock",
+          "symbolLabel": "rock",
+          "spokenText": "Ascolto rock",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Jazz",
+          "symbolLabel": "jazz",
+          "spokenText": "Ascolto jazz",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Rap",
+          "symbolLabel": "rap",
+          "spokenText": "Ascolto rap",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Folk",
+          "symbolLabel": "folk",
+          "spokenText": "Ascolto folk",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Elettronica",
+          "symbolLabel": "elettronica",
+          "spokenText": "Ascolto elettronica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "suonare",
+      "title": "Suonare",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Provare",
+          "symbolLabel": "provare_musica",
+          "spokenText": "Provo il brano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Leggere",
+          "symbolLabel": "leggere_spartito",
+          "spokenText": "Leggo lo spartito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Ritmo",
+          "symbolLabel": "ritmo",
+          "spokenText": "Tengo il ritmo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Accordo",
+          "symbolLabel": "accordo",
+          "spokenText": "Faccio un accordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Melodia",
+          "symbolLabel": "melodia",
+          "spokenText": "Suono la melodia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Sbagliare",
+          "symbolLabel": "sbagliare",
+          "spokenText": "Ho sbagliato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Ripetere",
+          "symbolLabel": "ripetere_musica",
+          "spokenText": "Ripeto la parte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cantare",
+      "title": "Cantare",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Testo",
+          "symbolLabel": "testo_canzone",
+          "spokenText": "Leggo il testo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Tono",
+          "symbolLabel": "tono",
+          "spokenText": "Cerco il tono",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Coro",
+          "symbolLabel": "coro",
+          "spokenText": "Canto nel coro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Respiro",
+          "symbolLabel": "respiro_canto",
+          "spokenText": "Controllo il respiro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Microfono",
+          "symbolLabel": "microfono",
+          "spokenText": "Uso il microfono",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Insieme",
+          "symbolLabel": "insieme_musica",
+          "spokenText": "Cantiamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Applausi",
+          "symbolLabel": "applausi",
+          "spokenText": "Ricevo gli applausi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "preferenze",
+      "title": "Preferenze",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Mi piace",
+          "symbolLabel": "mi_piace_pref",
+          "spokenText": "Mi piace",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Non mi piace",
+          "symbolLabel": "non_mi_piace_musica",
+          "spokenText": "Non mi piace",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Bella",
+          "symbolLabel": "bella",
+          "spokenText": "È bella",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Noiosa",
+          "symbolLabel": "noiosa",
+          "spokenText": "È noiosa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Forte",
+          "symbolLabel": "forte_musica",
+          "spokenText": "È troppo forte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Dolce",
+          "symbolLabel": "dolce_musica",
+          "spokenText": "È dolce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Scegliere",
+          "symbolLabel": "scegliere_musica",
+          "spokenText": "Voglio scegliere",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Alza il volume",
+          "symbolLabel": "alza_volume",
+          "spokenText": "Alza il volume",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Abbassa la musica",
+          "symbolLabel": "abbassa_musica",
+          "spokenText": "Abbassa la musica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Mi piace questa canzone",
+          "symbolLabel": "canzone_piace",
+          "spokenText": "Mi piace questa canzone",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Posso provare?",
+          "symbolLabel": "posso_provare_musica",
+          "spokenText": "Posso provare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Non la conosco",
+          "symbolLabel": "non_conosco",
+          "spokenText": "Non la conosco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Suoniamo insieme",
+          "symbolLabel": "suoniamo_insieme",
+          "spokenText": "Suoniamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Faccio una pausa",
+          "symbolLabel": "pausa_musica",
+          "spokenText": "Faccio una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Bravo",
+          "symbolLabel": "bravo_musica",
+          "spokenText": "Bravo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

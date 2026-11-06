@@ -1,0 +1,712 @@
+{
+  "id": "boards.famiglia",
+  "title": "Famiglia",
+  "description": "Persone di famiglia, parentele, attività condivise e frasi affettive per stare in contatto.",
+  "ageTheme": "primaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Famiglia",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Persone",
+          "symbolLabel": "persone_famiglia",
+          "spokenText": "Apri le persone",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "persone"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Attività",
+          "symbolLabel": "attivita_famiglia",
+          "spokenText": "Apri le attività",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "attivita"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Casa",
+          "symbolLabel": "casa_famiglia",
+          "spokenText": "Apri gli spazi di casa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "casa"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Emozioni",
+          "symbolLabel": "emozioni_famiglia",
+          "spokenText": "Apri le emozioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "emozioni"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Incontri",
+          "symbolLabel": "incontri",
+          "spokenText": "Apri gli incontri",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "incontri"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_famiglia",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio vedere",
+          "symbolLabel": "voglio_vedere",
+          "spokenText": "Voglio vedere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Ti voglio bene",
+          "symbolLabel": "ti_voglio_bene_home",
+          "spokenText": "Ti voglio bene",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "persone",
+      "title": "Persone",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Mamma",
+          "symbolLabel": "mamma",
+          "spokenText": "Vorrei vedere la mamma",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Papà",
+          "symbolLabel": "papa",
+          "spokenText": "Vorrei vedere il papà",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Fratello",
+          "symbolLabel": "fratello",
+          "spokenText": "Dov'è mio fratello?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Sorella",
+          "symbolLabel": "sorella",
+          "spokenText": "Dov'è mia sorella?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Nonna",
+          "symbolLabel": "nonna",
+          "spokenText": "Vorrei chiamare la nonna",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Nonno",
+          "symbolLabel": "nonno",
+          "spokenText": "Vorrei chiamare il nonno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Parentele",
+          "symbolLabel": "parentele_nav",
+          "spokenText": "Apri le altre parentele",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "parentele"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "parentele",
+      "title": "Altre parentele",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Zia",
+          "symbolLabel": "zia",
+          "spokenText": "Vorrei sentire la zia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Zio",
+          "symbolLabel": "zio",
+          "spokenText": "Vorrei sentire lo zio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Cugino",
+          "symbolLabel": "cugino",
+          "spokenText": "Dov'è mio cugino?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Cugina",
+          "symbolLabel": "cugina",
+          "spokenText": "Dov'è mia cugina?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Suocera",
+          "symbolLabel": "suocera",
+          "spokenText": "Parlo con mia suocera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Suocero",
+          "symbolLabel": "suocero",
+          "spokenText": "Parlo con mio suocero",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Nipote",
+          "symbolLabel": "nipote",
+          "spokenText": "Gioco con mio nipote",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attivita",
+      "title": "Attività insieme",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Mangiare insieme",
+          "symbolLabel": "mangiare_insieme",
+          "spokenText": "Mangiamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Parlare",
+          "symbolLabel": "parlare_famiglia",
+          "spokenText": "Parliamo un po'",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Guardare foto",
+          "symbolLabel": "guardare_foto",
+          "spokenText": "Guardiamo le foto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Cucinare",
+          "symbolLabel": "cucinare_famiglia",
+          "spokenText": "Cuciniamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Passeggiare",
+          "symbolLabel": "passeggiare_famiglia",
+          "spokenText": "Facciamo una passeggiata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Giocare",
+          "symbolLabel": "giocare_famiglia",
+          "spokenText": "Giochiamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Telefonare",
+          "symbolLabel": "telefonare",
+          "spokenText": "Telefono a casa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "casa",
+      "title": "Spazi di casa",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Cucina",
+          "symbolLabel": "cucina_famiglia",
+          "spokenText": "Ci vediamo in cucina",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Salotto",
+          "symbolLabel": "salotto",
+          "spokenText": "Sono in salotto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Camera",
+          "symbolLabel": "camera_famiglia",
+          "spokenText": "Sono in camera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Giardino",
+          "symbolLabel": "giardino",
+          "spokenText": "Sono in giardino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Tavolo",
+          "symbolLabel": "tavolo_famiglia",
+          "spokenText": "Ci sediamo a tavola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Divano",
+          "symbolLabel": "divano",
+          "spokenText": "Sono sul divano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Porta",
+          "symbolLabel": "porta_famiglia",
+          "spokenText": "Apri la porta, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "emozioni",
+      "title": "Emozioni in famiglia",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Affetto",
+          "symbolLabel": "affetto",
+          "spokenText": "Vi voglio bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Nostalgia",
+          "symbolLabel": "nostalgia",
+          "spokenText": "Ho nostalgia di casa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Gioia",
+          "symbolLabel": "gioia",
+          "spokenText": "Sono felice di vedervi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Preoccupazione",
+          "symbolLabel": "preoccupazione",
+          "spokenText": "Sono preoccupato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Gratitudine",
+          "symbolLabel": "gratitudine",
+          "spokenText": "Vi sono grato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Vicinanza",
+          "symbolLabel": "vicinanza",
+          "spokenText": "Mi sento vicino a voi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Litigio",
+          "symbolLabel": "litigio_famiglia",
+          "spokenText": "Abbiamo litigato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "incontri",
+      "title": "Incontri",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Arrivare",
+          "symbolLabel": "arrivare",
+          "spokenText": "Sono arrivato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Salutare",
+          "symbolLabel": "salutare_famiglia",
+          "spokenText": "Saluto tutti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Abbracciare",
+          "symbolLabel": "abbracciare_famiglia",
+          "spokenText": "Vi abbraccio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Invitare",
+          "symbolLabel": "invitare",
+          "spokenText": "Vi invito a casa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Restare",
+          "symbolLabel": "restare",
+          "spokenText": "Resto ancora un po'",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Andare via",
+          "symbolLabel": "andare_via",
+          "spokenText": "Devo andare via",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Arrivederci",
+          "symbolLabel": "arrivederci_famiglia",
+          "spokenText": "Arrivederci, a presto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Voglio vedere",
+          "symbolLabel": "voglio_vedere_frase",
+          "spokenText": "Voglio vedere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Mi manchi",
+          "symbolLabel": "mi_manchi",
+          "spokenText": "Mi manchi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Ti voglio bene",
+          "symbolLabel": "ti_voglio_bene_frase",
+          "spokenText": "Ti voglio bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Come stai?",
+          "symbolLabel": "come_stai_famiglia",
+          "spokenText": "Come stai?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ci vediamo presto",
+          "symbolLabel": "ci_vediamo",
+          "spokenText": "Ci vediamo presto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Ho bisogno di parlare",
+          "symbolLabel": "bisogno_parlare",
+          "spokenText": "Ho bisogno di parlare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Grazie",
+          "symbolLabel": "grazie_famiglia",
+          "spokenText": "Grazie di tutto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "A presto",
+          "symbolLabel": "a_presto_famiglia",
+          "spokenText": "A presto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

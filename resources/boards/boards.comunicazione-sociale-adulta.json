@@ -1,0 +1,712 @@
+{
+  "id": "boards.comunicazione-sociale-adulta",
+  "title": "Comunicazione sociale adulta",
+  "description": "Conversazioni, opinioni, assertività, servizi e relazioni per partecipare alla vita sociale adulta.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Comunicazione sociale adulta",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Conversazione",
+          "symbolLabel": "conversazione_sociale",
+          "spokenText": "Apri la conversazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "conversazione"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Opinioni",
+          "symbolLabel": "opinioni_home",
+          "spokenText": "Apri le opinioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "opinioni"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Assertività",
+          "symbolLabel": "assertivita_home",
+          "spokenText": "Apri l'assertività",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "assertivita"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Servizi",
+          "symbolLabel": "servizi_sociali",
+          "spokenText": "Apri i servizi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "servizi"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Relazioni",
+          "symbolLabel": "relazioni_sociali",
+          "spokenText": "Apri le relazioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "relazioni"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_sociali",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Secondo me",
+          "symbolLabel": "secondo_me",
+          "spokenText": "Secondo me",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Vorrei dire la mia",
+          "symbolLabel": "dire_la_mia",
+          "spokenText": "Vorrei dire la mia",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "conversazione",
+      "title": "Conversazione",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Argomento",
+          "symbolLabel": "argomento",
+          "spokenText": "Scegliamo un argomento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Ascoltare",
+          "symbolLabel": "ascoltare_sociale",
+          "spokenText": "Ascolto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Intervenire",
+          "symbolLabel": "intervenire",
+          "spokenText": "Intervengo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Chiedere",
+          "symbolLabel": "chiedere_sociale",
+          "spokenText": "Chiedo una precisazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Chiarire",
+          "symbolLabel": "chiarire",
+          "spokenText": "Chiarisco il punto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Congedarsi",
+          "symbolLabel": "congedarsi",
+          "spokenText": "Mi congedo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Riunioni",
+          "symbolLabel": "riunioni_nav",
+          "spokenText": "Apri le riunioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "riunioni"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "riunioni",
+      "title": "Riunioni",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Ordine del giorno",
+          "symbolLabel": "ordine_giorno",
+          "spokenText": "Leggo l'ordine del giorno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Turno",
+          "symbolLabel": "turno_riunione",
+          "spokenText": "Aspetto il mio turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Proposta",
+          "symbolLabel": "proposta",
+          "spokenText": "Faccio una proposta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Obiezione",
+          "symbolLabel": "obiezione",
+          "spokenText": "Ho un'obiezione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Accordo",
+          "symbolLabel": "accordo",
+          "spokenText": "Troviamo un accordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Verbale",
+          "symbolLabel": "verbale",
+          "spokenText": "Leggo il verbale",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Conclusione",
+          "symbolLabel": "conclusione_riunione",
+          "spokenText": "Arriviamo alla conclusione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "opinioni",
+      "title": "Opinioni",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Penso che",
+          "symbolLabel": "penso_che",
+          "spokenText": "Penso che",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Secondo me",
+          "symbolLabel": "secondo_me_op",
+          "spokenText": "Secondo me",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Sono d'accordo",
+          "symbolLabel": "sono_daccordo",
+          "spokenText": "Sono d'accordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Non sono d'accordo",
+          "symbolLabel": "non_daccordo",
+          "spokenText": "Non sono d'accordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Forse",
+          "symbolLabel": "forse_sociale",
+          "spokenText": "Forse",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Dipende",
+          "symbolLabel": "dipende",
+          "spokenText": "Dipende",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Rispetto",
+          "symbolLabel": "rispetto_opinioni",
+          "spokenText": "Rispetto la tua opinione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "assertivita",
+      "title": "Assertività",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "No",
+          "symbolLabel": "no_assertivo",
+          "spokenText": "No",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Non voglio",
+          "symbolLabel": "non_voglio_sociale",
+          "spokenText": "Non voglio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Ho bisogno",
+          "symbolLabel": "ho_bisogno_sociale",
+          "spokenText": "Ho bisogno",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Chiedo",
+          "symbolLabel": "chiedo",
+          "spokenText": "Chiedo",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Mi sento",
+          "symbolLabel": "mi_sento_sociale",
+          "spokenText": "Mi sento",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Confine",
+          "symbolLabel": "confine",
+          "spokenText": "Metto un confine",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Compromesso",
+          "symbolLabel": "compromesso",
+          "spokenText": "Cerco un compromesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "servizi",
+      "title": "Servizi",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Medico",
+          "symbolLabel": "medico_servizi",
+          "spokenText": "Vado dal medico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Banca",
+          "symbolLabel": "banca",
+          "spokenText": "Vado in banca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Comune",
+          "symbolLabel": "comune",
+          "spokenText": "Vado al comune",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Posta",
+          "symbolLabel": "posta",
+          "spokenText": "Vado alla posta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Negozio",
+          "symbolLabel": "negozio",
+          "spokenText": "Vado al negozio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Assistenza",
+          "symbolLabel": "assistenza",
+          "spokenText": "Chiedo assistenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Appuntamento",
+          "symbolLabel": "appuntamento_servizi",
+          "spokenText": "Prendo un appuntamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "relazioni",
+      "title": "Relazioni",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Collega",
+          "symbolLabel": "collega",
+          "spokenText": "Parlo con un collega",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Amico",
+          "symbolLabel": "amico_sociale",
+          "spokenText": "Parlo con un amico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Famiglia",
+          "symbolLabel": "famiglia_sociale",
+          "spokenText": "Parlo con la famiglia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Vicino",
+          "symbolLabel": "vicino_sociale",
+          "spokenText": "Saluto il vicino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Gruppo",
+          "symbolLabel": "gruppo_sociale",
+          "spokenText": "Partecipo al gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Conflitto",
+          "symbolLabel": "conflitto_sociale",
+          "spokenText": "Gestisco un conflitto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Rispetto",
+          "symbolLabel": "rispetto_relazioni",
+          "spokenText": "Rispetto gli altri",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Vorrei dire la mia",
+          "symbolLabel": "dire_la_mia_frase",
+          "spokenText": "Vorrei dire la mia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Non sono d'accordo",
+          "symbolLabel": "non_daccordo_frase",
+          "spokenText": "Non sono d'accordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Possiamo parlarne?",
+          "symbolLabel": "possiamo_parlarne",
+          "spokenText": "Possiamo parlarne?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Ho bisogno di tempo",
+          "symbolLabel": "serve_tempo_sociale",
+          "spokenText": "Ho bisogno di tempo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Capisco il tuo punto",
+          "symbolLabel": "capisco_punto",
+          "spokenText": "Capisco il tuo punto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Mi sento ascoltato",
+          "symbolLabel": "mi_sento_ascoltato",
+          "spokenText": "Mi sento ascoltato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Chiudiamo qui",
+          "symbolLabel": "chiudiamo_qui",
+          "spokenText": "Chiudiamo qui",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_sociale",
+          "spokenText": "Grazie per il confronto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

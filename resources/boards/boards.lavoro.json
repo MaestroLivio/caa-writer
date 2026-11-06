@@ -1,0 +1,712 @@
+{
+  "id": "boards.lavoro",
+  "title": "Lavoro",
+  "description": "Mansioni, colleghi, strumenti, pause, problemi e sicurezza sul lavoro, con frasi per chiedere aiuto.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Lavoro",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Mansioni",
+          "symbolLabel": "mansioni_home",
+          "spokenText": "Apri le mansioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "mansioni"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Colleghi",
+          "symbolLabel": "colleghi_home",
+          "spokenText": "Apri i colleghi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "colleghi"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Strumenti",
+          "symbolLabel": "strumenti_home",
+          "spokenText": "Apri gli strumenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "strumenti"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Pausa",
+          "symbolLabel": "pausa_home",
+          "spokenText": "Apri la pausa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "pausa"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Problemi",
+          "symbolLabel": "problemi_home",
+          "spokenText": "Apri i problemi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "problemi"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_lavoro",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Devo fare",
+          "symbolLabel": "devo_fare",
+          "spokenText": "Devo fare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Ho bisogno di aiuto",
+          "symbolLabel": "aiuto_lavoro_home",
+          "spokenText": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mansioni",
+      "title": "Mansioni",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Iniziare",
+          "symbolLabel": "iniziare",
+          "spokenText": "Inizio il turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Finire",
+          "symbolLabel": "finire",
+          "spokenText": "Finisco il lavoro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Controllare",
+          "symbolLabel": "controllare",
+          "spokenText": "Controllo il risultato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Preparare",
+          "symbolLabel": "preparare",
+          "spokenText": "Preparo il materiale",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Consegnare",
+          "symbolLabel": "consegnare",
+          "spokenText": "Consegno il lavoro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Riordinare",
+          "symbolLabel": "riordinare_lavoro",
+          "spokenText": "Riordino la postazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Sicurezza",
+          "symbolLabel": "sicurezza_lavoro_nav",
+          "spokenText": "Apri la sicurezza",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "sicurezza-lavoro"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sicurezza-lavoro",
+      "title": "Sicurezza sul lavoro",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Casco",
+          "symbolLabel": "casco",
+          "spokenText": "Indosso il casco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Guanti",
+          "symbolLabel": "guanti",
+          "spokenText": "Indosso i guanti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Uscita",
+          "symbolLabel": "uscita_lavoro",
+          "spokenText": "Dov'è l'uscita?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Rischio",
+          "symbolLabel": "rischio",
+          "spokenText": "Segnalo un rischio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Segnalare",
+          "symbolLabel": "segnalare",
+          "spokenText": "Segnalo il problema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Formazione",
+          "symbolLabel": "formazione",
+          "spokenText": "Ho bisogno di formazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Infortunio",
+          "symbolLabel": "infortunio",
+          "spokenText": "C'è stato un infortunio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "colleghi",
+      "title": "Colleghi",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Chiedere aiuto",
+          "symbolLabel": "chiedere_aiuto_lavoro",
+          "spokenText": "Chiedo aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Collaborare",
+          "symbolLabel": "collaborare_lavoro",
+          "spokenText": "Collaboro con i colleghi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Riunione",
+          "symbolLabel": "riunione",
+          "spokenText": "Partecipo alla riunione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Turno",
+          "symbolLabel": "turno_lavoro",
+          "spokenText": "Cambio turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Capo",
+          "symbolLabel": "capo",
+          "spokenText": "Parlo con il responsabile",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Rispetto",
+          "symbolLabel": "rispetto_lavoro",
+          "spokenText": "Chiedo rispetto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Pausa",
+          "symbolLabel": "pausa_colleghi",
+          "spokenText": "Facciamo una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "strumenti",
+      "title": "Strumenti",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Computer",
+          "symbolLabel": "computer",
+          "spokenText": "Uso il computer",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Telefono",
+          "symbolLabel": "telefono_lavoro",
+          "spokenText": "Rispondo al telefono",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Stampante",
+          "symbolLabel": "stampante",
+          "spokenText": "Uso la stampante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Chiavi",
+          "symbolLabel": "chiavi_lavoro",
+          "spokenText": "Prendo le chiavi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Badge",
+          "symbolLabel": "badge",
+          "spokenText": "Passo il badge",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Carrello",
+          "symbolLabel": "carrello",
+          "spokenText": "Sposto il carrello",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Attrezzi",
+          "symbolLabel": "attrezzi_lavoro",
+          "spokenText": "Mi servono gli attrezzi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pausa",
+      "title": "Pausa",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Caffè",
+          "symbolLabel": "caffe_pausa",
+          "spokenText": "Prendo un caffè",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Mangiare",
+          "symbolLabel": "mangiare_pausa",
+          "spokenText": "Mangio qualcosa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Riposare",
+          "symbolLabel": "riposare_pausa",
+          "spokenText": "Riposo un momento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Bagno",
+          "symbolLabel": "bagno_lavoro",
+          "spokenText": "Vado in bagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Orario",
+          "symbolLabel": "orario_pausa",
+          "spokenText": "A che ora è la pausa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Tornare",
+          "symbolLabel": "tornare",
+          "spokenText": "Torno al lavoro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Permesso",
+          "symbolLabel": "permesso_lavoro",
+          "spokenText": "Chiedo un permesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "problemi",
+      "title": "Problemi",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Ritardo",
+          "symbolLabel": "ritardo_lavoro",
+          "spokenText": "Sono in ritardo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Errore",
+          "symbolLabel": "errore",
+          "spokenText": "Ho fatto un errore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Guasto",
+          "symbolLabel": "guasto",
+          "spokenText": "C'è un guasto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Troppa attività",
+          "symbolLabel": "troppa_attivita",
+          "spokenText": "Ho troppa attività",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_lavoro",
+          "spokenText": "Non capisco il compito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Bisogno di aiuto",
+          "symbolLabel": "bisogno_aiuto_lavoro",
+          "spokenText": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Segnalare",
+          "symbolLabel": "segnalare_problema",
+          "spokenText": "Segnalo il problema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Ho bisogno di una pausa",
+          "symbolLabel": "serve_pausa",
+          "spokenText": "Ho bisogno di una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Posso chiedere aiuto?",
+          "symbolLabel": "posso_aiuto",
+          "spokenText": "Posso chiedere aiuto?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Non ho capito",
+          "symbolLabel": "non_capito_lavoro",
+          "spokenText": "Non ho capito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Ho finito il turno",
+          "symbolLabel": "turno_finito",
+          "spokenText": "Ho finito il turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "C'è un problema",
+          "symbolLabel": "c_e_problema",
+          "spokenText": "C'è un problema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Devo andare in bagno",
+          "symbolLabel": "bagno_frase_lavoro",
+          "spokenText": "Devo andare in bagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Grazie per la collaborazione",
+          "symbolLabel": "grazie_collaborazione",
+          "spokenText": "Grazie per la collaborazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "A domani",
+          "symbolLabel": "a_domani",
+          "spokenText": "A domani",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

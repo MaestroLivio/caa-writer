@@ -1,0 +1,712 @@
+{
+  "id": "boards.sport",
+  "title": "Sport",
+  "description": "Sport, azioni, attrezzatura, squadra e regole, con una pagina di allenamento e frasi per il campo.",
+  "ageTheme": "secondaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Sport",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Sport",
+          "symbolLabel": "sport_home",
+          "spokenText": "Apri gli sport",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "sport"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Azioni",
+          "symbolLabel": "azioni_sport",
+          "spokenText": "Apri le azioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "azioni"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Attrezzatura",
+          "symbolLabel": "attrezzatura_home",
+          "spokenText": "Apri l'attrezzatura",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "attrezzatura"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Squadra",
+          "symbolLabel": "squadra_home",
+          "spokenText": "Apri la squadra",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "squadra"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Regole",
+          "symbolLabel": "regole_sport",
+          "spokenText": "Apri le regole",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "regole"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_sport",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio provare",
+          "symbolLabel": "voglio_provare",
+          "spokenText": "Voglio provare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Sono stanco",
+          "symbolLabel": "sono_stanco_home",
+          "spokenText": "Sono stanco",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sport",
+      "title": "Sport",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Calcio",
+          "symbolLabel": "calcio",
+          "spokenText": "Gioco a calcio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Basket",
+          "symbolLabel": "basket",
+          "spokenText": "Gioco a basket",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Nuoto",
+          "symbolLabel": "nuoto",
+          "spokenText": "Faccio nuoto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Corsa",
+          "symbolLabel": "corsa",
+          "spokenText": "Faccio corsa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Palestra",
+          "symbolLabel": "palestra_sport",
+          "spokenText": "Vado in palestra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Tennis",
+          "symbolLabel": "tennis",
+          "spokenText": "Gioco a tennis",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Bicicletta",
+          "symbolLabel": "bicicletta_sport",
+          "spokenText": "Vado in bicicletta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "azioni",
+      "title": "Azioni",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Correre",
+          "symbolLabel": "correre",
+          "spokenText": "Corro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Saltare",
+          "symbolLabel": "saltare",
+          "spokenText": "Salto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Lanciare",
+          "symbolLabel": "lanciare",
+          "spokenText": "Lancio la palla",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Prendere",
+          "symbolLabel": "prendere",
+          "spokenText": "Prendo la palla",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Passare",
+          "symbolLabel": "passare_sport",
+          "spokenText": "Passo la palla",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Fermarsi",
+          "symbolLabel": "fermarsi",
+          "spokenText": "Mi fermo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Allenamento",
+          "symbolLabel": "allenamento_nav",
+          "spokenText": "Apri l'allenamento",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "allenamento"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "allenamento",
+      "title": "Allenamento",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Riscaldamento",
+          "symbolLabel": "riscaldamento",
+          "spokenText": "Faccio il riscaldamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Stretching",
+          "symbolLabel": "stretching",
+          "spokenText": "Faccio stretching",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Serie",
+          "symbolLabel": "serie",
+          "spokenText": "Faccio una serie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Ripetizioni",
+          "symbolLabel": "ripetizioni",
+          "spokenText": "Conto le ripetizioni",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Recupero",
+          "symbolLabel": "recupero_sport",
+          "spokenText": "Mi riposo tra le serie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Fatica",
+          "symbolLabel": "fatica",
+          "spokenText": "Sento fatica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Costanza",
+          "symbolLabel": "costanza",
+          "spokenText": "Mi alleno con costanza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attrezzatura",
+      "title": "Attrezzatura",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Scarpe",
+          "symbolLabel": "scarpe_sport",
+          "spokenText": "Indosso le scarpe",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Maglia",
+          "symbolLabel": "maglia_sport",
+          "spokenText": "Indosso la maglia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Pallone",
+          "symbolLabel": "pallone",
+          "spokenText": "Prendo il pallone",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Racchetta",
+          "symbolLabel": "racchetta",
+          "spokenText": "Prendo la racchetta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Borraccia",
+          "symbolLabel": "borraccia",
+          "spokenText": "Mi serve la borraccia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Ginocchiera",
+          "symbolLabel": "ginocchiera",
+          "spokenText": "Metto la ginocchiera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Casco",
+          "symbolLabel": "casco_sport",
+          "spokenText": "Indosso il casco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "squadra",
+      "title": "Squadra",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Compagni",
+          "symbolLabel": "compagni_sport",
+          "spokenText": "Gioco con i compagni",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Allenatore",
+          "symbolLabel": "allenatore",
+          "spokenText": "Ascolto l'allenatore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Ruolo",
+          "symbolLabel": "ruolo",
+          "spokenText": "Conosco il mio ruolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Passaggio",
+          "symbolLabel": "passaggio",
+          "spokenText": "Faccio un passaggio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Difendere",
+          "symbolLabel": "difendere",
+          "spokenText": "Difendo la porta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Attaccare",
+          "symbolLabel": "attaccare",
+          "spokenText": "Attacco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Fair play",
+          "symbolLabel": "fair_play",
+          "spokenText": "Rispetto gli avversari",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "regole",
+      "title": "Regole",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Fallo",
+          "symbolLabel": "fallo",
+          "spokenText": "C'è un fallo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Fuorigioco",
+          "symbolLabel": "fuorigioco",
+          "spokenText": "È fuorigioco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Punteggio",
+          "symbolLabel": "punteggio",
+          "spokenText": "Controllo il punteggio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Tempo",
+          "symbolLabel": "tempo_sport",
+          "spokenText": "Quanto tempo manca?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Arbitro",
+          "symbolLabel": "arbitro",
+          "spokenText": "Parlo con l'arbitro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Rispetto",
+          "symbolLabel": "rispetto_sport",
+          "spokenText": "Rispetto le regole",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Pausa",
+          "symbolLabel": "pausa_sport",
+          "spokenText": "Facciamo una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Passami la palla",
+          "symbolLabel": "passami_palla",
+          "spokenText": "Passami la palla",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Sono stanco",
+          "symbolLabel": "sono_stanco_frase",
+          "spokenText": "Sono stanco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Facciamo pausa",
+          "symbolLabel": "facciamo_pausa",
+          "spokenText": "Facciamo una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Mi fa male",
+          "symbolLabel": "fa_male_sport",
+          "spokenText": "Mi fa male",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Bel gioco",
+          "symbolLabel": "bel_gioco",
+          "spokenText": "Bel gioco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Tocca a me",
+          "symbolLabel": "tocca_a_me_sport",
+          "spokenText": "Tocca a me",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ho bisogno di acqua",
+          "symbolLabel": "serve_acqua_sport",
+          "spokenText": "Ho bisogno di acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_sport",
+          "spokenText": "Grazie per la partita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

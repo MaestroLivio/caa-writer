@@ -15,6 +15,7 @@ use crate::engine::Engine;
 use crate::export::{caadoc, docx, html};
 use crate::model::*;
 use crate::pictogram_import;
+use crate::profiles;
 use crate::online_search;
 use crate::speech;
 use crate::studio;
@@ -716,6 +717,126 @@ pub fn run_cli(
         json,
         binary: binary.to_string_lossy().to_string(),
     })
+}
+
+#[tauri::command]
+pub fn profiles_list(state: State<'_, Engine>) -> Result<Vec<profiles::Profile>, String> {
+    let db = state.db()?;
+    profiles::list_profiles(&db)
+}
+
+#[tauri::command]
+pub fn profile_save(
+    state: State<'_, Engine>,
+    profile: profiles::Profile,
+    creator_pin: Option<String>,
+) -> Result<(), String> {
+    let db = state.db()?;
+    profiles::require_creator(&db, creator_pin.as_deref().unwrap_or(""))?;
+    profiles::save_profile(&db, &profile)
+}
+
+#[tauri::command]
+pub fn profile_delete(
+    state: State<'_, Engine>,
+    id: String,
+    creator_pin: Option<String>,
+) -> Result<(), String> {
+    let db = state.db()?;
+    profiles::require_creator(&db, creator_pin.as_deref().unwrap_or(""))?;
+    profiles::delete_profile(&db, &id)
+}
+
+#[tauri::command]
+pub fn profile_set_active(state: State<'_, Engine>, id: String) -> Result<(), String> {
+    let db = state.db()?;
+    profiles::set_active_profile(&db, &id)
+}
+
+#[tauri::command]
+pub fn profile_active(state: State<'_, Engine>) -> Result<Option<profiles::Profile>, String> {
+    let db = state.db()?;
+    match profiles::active_profile(&db) {
+        Some(id) => profiles::get_profile(&db, &id),
+        None => Ok(None),
+    }
+}
+
+#[tauri::command]
+pub fn profile_boards(
+    state: State<'_, Engine>,
+    profile_id: String,
+) -> Result<Vec<profiles::ProfileBoard>, String> {
+    let db = state.db()?;
+    let mut boards = profiles::list_profile_boards(&db, &profile_id)?;
+    let meta = profiles::list_boards(&state.paths.boards_dir()).unwrap_or_default();
+    for board in &mut boards {
+        if let Some(found) = meta.iter().find(|item| item.id == board.board_id) {
+            board.title = found.title.clone();
+            board.description = found.description.clone();
+            board.pages = found.pages;
+        }
+    }
+    Ok(boards)
+}
+
+#[tauri::command]
+pub fn profile_assign_board(
+    state: State<'_, Engine>,
+    profile_id: String,
+    board_id: String,
+    enabled: bool,
+    position: i64,
+    creator_pin: Option<String>,
+) -> Result<(), String> {
+    let db = state.db()?;
+    profiles::require_creator(&db, creator_pin.as_deref().unwrap_or(""))?;
+    profiles::assign_board(&db, &profile_id, &board_id, enabled, position)
+}
+
+#[tauri::command]
+pub fn profile_remove_board(
+    state: State<'_, Engine>,
+    profile_id: String,
+    board_id: String,
+    creator_pin: Option<String>,
+) -> Result<(), String> {
+    let db = state.db()?;
+    profiles::require_creator(&db, creator_pin.as_deref().unwrap_or(""))?;
+    profiles::remove_board(&db, &profile_id, &board_id)
+}
+
+#[tauri::command]
+pub fn boards_list(state: State<'_, Engine>) -> Result<Vec<profiles::BoardMeta>, String> {
+    profiles::list_boards(&state.paths.boards_dir())
+}
+
+#[tauri::command]
+pub fn board_build(state: State<'_, Engine>, id: String) -> Result<profiles::BoardSystem, String> {
+    profiles::build_board(&state, &state.paths.boards_dir(), &id)
+}
+
+#[tauri::command]
+pub fn creator_pin_status(state: State<'_, Engine>) -> Result<bool, String> {
+    let db = state.db()?;
+    Ok(profiles::pin_enabled(&db))
+}
+
+#[tauri::command]
+pub fn creator_set_pin(
+    state: State<'_, Engine>,
+    pin: Option<String>,
+    current_pin: Option<String>,
+) -> Result<(), String> {
+    let db = state.db()?;
+    profiles::require_creator(&db, current_pin.as_deref().unwrap_or(""))?;
+    profiles::set_pin(&db, pin.as_deref())
+}
+
+#[tauri::command]
+pub fn creator_verify_pin(state: State<'_, Engine>, pin: String) -> Result<bool, String> {
+    let db = state.db()?;
+    Ok(profiles::verify_pin(&db, &pin))
 }
 
 #[tauri::command]

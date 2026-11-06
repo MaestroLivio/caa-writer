@@ -1,0 +1,712 @@
+{
+  "id": "boards.autonomia",
+  "title": "Autonomia",
+  "description": "Cura di sé, gestione della casa, spostamenti, denaro e documenti per l'autonomia quotidiana.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Autonomia",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Cura personale",
+          "symbolLabel": "cura_home",
+          "spokenText": "Apri la cura personale",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "cura-persona"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Casa",
+          "symbolLabel": "casa_autonomia",
+          "spokenText": "Apri la casa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "casa"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Spostamenti",
+          "symbolLabel": "spostamenti_home",
+          "spokenText": "Apri gli spostamenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "spostamenti"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Soldi",
+          "symbolLabel": "soldi_home",
+          "spokenText": "Apri i soldi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "soldi"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Documenti",
+          "symbolLabel": "documenti_home",
+          "spokenText": "Apri i documenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "documenti"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_autonomia",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Devo fare",
+          "symbolLabel": "devo_fare_autonomia",
+          "spokenText": "Devo fare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Mi serve aiuto",
+          "symbolLabel": "mi_serve_aiuto",
+          "spokenText": "Mi serve aiuto",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cura-persona",
+      "title": "Cura personale",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Lavarsi",
+          "symbolLabel": "lavarsi",
+          "spokenText": "Mi lavo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Vestirsi",
+          "symbolLabel": "vestirsi",
+          "spokenText": "Mi vesto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Mangiare",
+          "symbolLabel": "mangiare_autonomia",
+          "spokenText": "Mangio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Medicine",
+          "symbolLabel": "medicine_autonomia",
+          "spokenText": "Prendo le medicine",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Sonno",
+          "symbolLabel": "sonno_autonomia",
+          "spokenText": "Dormo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Appuntamento",
+          "symbolLabel": "appuntamento_autonomia",
+          "spokenText": "Ho un appuntamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Chiedere aiuto",
+          "symbolLabel": "chiedere_aiuto_autonomia",
+          "spokenText": "Chiedo aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "casa",
+      "title": "Casa",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Pulire",
+          "symbolLabel": "pulire_autonomia",
+          "spokenText": "Pulisco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Cucinare",
+          "symbolLabel": "cucinare_autonomia",
+          "spokenText": "Cucino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Lavatrice",
+          "symbolLabel": "lavatrice",
+          "spokenText": "Uso la lavatrice",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Bollette",
+          "symbolLabel": "bollette",
+          "spokenText": "Pago le bollette",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Chiavi",
+          "symbolLabel": "chiavi_autonomia",
+          "spokenText": "Controllo le chiavi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Riparazione",
+          "symbolLabel": "riparazione_autonomia",
+          "spokenText": "Faccio riparare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Sicurezza",
+          "symbolLabel": "sicurezza_autonomia",
+          "spokenText": "Controllo la sicurezza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "spostamenti",
+      "title": "Spostamenti",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Autobus",
+          "symbolLabel": "autobus_autonomia",
+          "spokenText": "Prendo l'autobus",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Treno",
+          "symbolLabel": "treno_autonomia",
+          "spokenText": "Prendo il treno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Mappa",
+          "symbolLabel": "mappa_autonomia",
+          "spokenText": "Controllo la mappa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Biglietto",
+          "symbolLabel": "biglietto_autonomia",
+          "spokenText": "Prendo il biglietto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Orario",
+          "symbolLabel": "orario_autonomia",
+          "spokenText": "Controllo l'orario",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Taxi",
+          "symbolLabel": "taxi_autonomia",
+          "spokenText": "Chiamo un taxi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Camminare",
+          "symbolLabel": "camminare_autonomia",
+          "spokenText": "Cammino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "soldi",
+      "title": "Soldi",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Contanti",
+          "symbolLabel": "contanti_autonomia",
+          "spokenText": "Ho i contanti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Carta",
+          "symbolLabel": "carta_autonomia",
+          "spokenText": "Uso la carta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Bancomat",
+          "symbolLabel": "bancomat",
+          "spokenText": "Prelievo al bancomat",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Resto",
+          "symbolLabel": "resto_autonomia",
+          "spokenText": "Controllo il resto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Prezzo",
+          "symbolLabel": "prezzo_autonomia",
+          "spokenText": "Controllo il prezzo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Budget",
+          "symbolLabel": "budget",
+          "spokenText": "Rispetto il budget",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Spesa",
+          "symbolLabel": "spesa_nav",
+          "spokenText": "Apri la spesa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "spesa"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "spesa",
+      "title": "Fare la spesa",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Lista",
+          "symbolLabel": "lista_spesa",
+          "spokenText": "Preparo la lista",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Budget",
+          "symbolLabel": "budget_spesa",
+          "spokenText": "Controllo il budget",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Supermercato",
+          "symbolLabel": "supermercato_spesa",
+          "spokenText": "Vado al supermercato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Pagare",
+          "symbolLabel": "pagare_spesa",
+          "spokenText": "Pago alla cassa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Scontrino",
+          "symbolLabel": "scontrino_spesa",
+          "spokenText": "Controllo lo scontrino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Borsa",
+          "symbolLabel": "borsa_spesa",
+          "spokenText": "Prendo la borsa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Offerte",
+          "symbolLabel": "offerte_spesa",
+          "spokenText": "Cerco le offerte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "documenti",
+      "title": "Documenti",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Carta d'identità",
+          "symbolLabel": "carta_identita",
+          "spokenText": "Controllo la carta d'identità",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Tessera",
+          "symbolLabel": "tessera",
+          "spokenText": "Ho la tessera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Codice fiscale",
+          "symbolLabel": "codice_fiscale",
+          "spokenText": "Ho il codice fiscale",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Firma",
+          "symbolLabel": "firma",
+          "spokenText": "Devo firmare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Scadenza",
+          "symbolLabel": "scadenza_doc",
+          "spokenText": "Controllo la scadenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Fotocopia",
+          "symbolLabel": "fotocopia",
+          "spokenText": "Mi serve una fotocopia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Archivio",
+          "symbolLabel": "archivio",
+          "spokenText": "Archivio i documenti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Devo fare la spesa",
+          "symbolLabel": "devo_spesa",
+          "spokenText": "Devo fare la spesa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Quanto ho speso?",
+          "symbolLabel": "quanto_speso",
+          "spokenText": "Quanto ho speso?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Mi serve aiuto",
+          "symbolLabel": "serve_aiuto_autonomia",
+          "spokenText": "Mi serve aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Ho dimenticato le chiavi",
+          "symbolLabel": "dimenticato_chiavi",
+          "spokenText": "Ho dimenticato le chiavi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Devo pagare una bolletta",
+          "symbolLabel": "pagare_bolletta",
+          "spokenText": "Devo pagare una bolletta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Posso avere una ricevuta?",
+          "symbolLabel": "ricevuta_autonomia",
+          "spokenText": "Posso avere una ricevuta?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ho un appuntamento",
+          "symbolLabel": "appuntamento_frase",
+          "spokenText": "Ho un appuntamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_autonomia",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

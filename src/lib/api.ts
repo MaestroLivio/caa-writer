@@ -47,6 +47,10 @@ import type {
   OnlineProviderInfo,
   DocumentEditPlan,
   CliRunResult,
+  Profile,
+  ProfileBoard,
+  BoardMeta,
+  BoardSystem,
 } from "./types";
 
 export const isTauri = (): boolean =>
@@ -109,6 +113,37 @@ export const api = {
     call<DocumentEditPlan>("interpret_document_prompt", { prompt, useNeural }),
   runCli: (method: string, params: unknown) =>
     call<CliRunResult>("run_cli", { method, params }),
+  profilesList: () => call<Profile[]>("profiles_list"),
+  profileSave: (profile: Profile, creatorPin: string | null = null) =>
+    call<void>("profile_save", { profile, creatorPin }),
+  profileDelete: (id: string, creatorPin: string | null = null) =>
+    call<void>("profile_delete", { id, creatorPin }),
+  profileSetActive: (id: string) => call<void>("profile_set_active", { id }),
+  profileActive: () => call<Profile | null>("profile_active"),
+  profileBoards: (profileId: string) =>
+    call<ProfileBoard[]>("profile_boards", { profileId }),
+  profileAssignBoard: (
+    profileId: string,
+    boardId: string,
+    enabled: boolean,
+    position: number,
+    creatorPin: string | null = null
+  ) =>
+    call<void>("profile_assign_board", {
+      profileId,
+      boardId,
+      enabled,
+      position,
+      creatorPin,
+    }),
+  profileRemoveBoard: (profileId: string, boardId: string, creatorPin: string | null = null) =>
+    call<void>("profile_remove_board", { profileId, boardId, creatorPin }),
+  boardsList: () => call<BoardMeta[]>("boards_list"),
+  boardBuild: (id: string) => call<BoardSystem>("board_build", { id }),
+  creatorPinStatus: () => call<boolean>("creator_pin_status"),
+  creatorSetPin: (pin: string | null, currentPin: string | null = null) =>
+    call<void>("creator_set_pin", { pin, currentPin }),
+  creatorVerifyPin: (pin: string) => call<boolean>("creator_verify_pin", { pin }),
   conceptAlternatives: (conceptId: string, packId: string | null = null) =>
     call<Alternative[]>("concept_alternatives", { conceptId, packId }),
   wordAffinities: (word: string, packId: string | null = null, commercialOnly = false) =>

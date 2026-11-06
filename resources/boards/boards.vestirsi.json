@@ -1,0 +1,721 @@
+{
+  "id": "boards.vestirsi",
+  "title": "Vestirsi",
+  "description": "Capi, taglie, meteo e occasioni per scegliere cosa indossare e chiedere aiuto nella vestizione.",
+  "ageTheme": "primaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Vestirsi",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Vestiti",
+          "symbolLabel": "vestiti",
+          "spokenText": "Apri i vestiti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "vestiti"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Meteo",
+          "symbolLabel": "meteo",
+          "spokenText": "Apri il meteo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "meteo"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Occasioni",
+          "symbolLabel": "occasioni",
+          "spokenText": "Apri le occasioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "occasioni"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Vestizione",
+          "symbolLabel": "vestizione",
+          "spokenText": "Apri la vestizione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "vestizione"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Colori",
+          "symbolLabel": "colori",
+          "spokenText": "Apri i colori",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "colori"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio indossare",
+          "symbolLabel": "voglio_indossare",
+          "spokenText": "Voglio indossare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Mi aiuti a vestirmi",
+          "symbolLabel": "aiuto_vestirmi_home",
+          "spokenText": "Mi aiuti a vestirmi?",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vestiti",
+      "title": "Vestiti",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Maglietta",
+          "symbolLabel": "maglietta",
+          "spokenText": "Vorrei la maglietta",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Pantaloni",
+          "symbolLabel": "pantaloni",
+          "spokenText": "Vorrei i pantaloni",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Felpa",
+          "symbolLabel": "felpa",
+          "spokenText": "Vorrei la felpa",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Giacca",
+          "symbolLabel": "giacca",
+          "spokenText": "Vorrei la giacca",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Scarpe",
+          "symbolLabel": "scarpe",
+          "spokenText": "Vorrei le scarpe",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Calze",
+          "symbolLabel": "calze",
+          "spokenText": "Vorrei le calze",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Biancheria",
+          "symbolLabel": "biancheria",
+          "spokenText": "Mi serve la biancheria",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Taglie",
+          "symbolLabel": "taglie_nav",
+          "spokenText": "Apri le taglie",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "taglie"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c18",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "taglie",
+      "title": "Taglie",
+      "cells": [
+        {
+          "id": "c19",
+          "label": "Piccola",
+          "symbolLabel": "piccola",
+          "spokenText": "Va bene una taglia piccola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Media",
+          "symbolLabel": "media",
+          "spokenText": "Prendo una taglia media",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Grande",
+          "symbolLabel": "grande",
+          "spokenText": "Mi serve una taglia grande",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Stretta",
+          "symbolLabel": "stretta",
+          "spokenText": "È troppo stretta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Larga",
+          "symbolLabel": "larga",
+          "spokenText": "È troppo larga",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Lunga",
+          "symbolLabel": "lunga",
+          "spokenText": "È troppo lunga",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Corta",
+          "symbolLabel": "corta",
+          "spokenText": "È troppo corta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c27",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meteo",
+      "title": "Meteo",
+      "cells": [
+        {
+          "id": "c28",
+          "label": "Caldo",
+          "symbolLabel": "caldo_meteo",
+          "spokenText": "Fa caldo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Freddo",
+          "symbolLabel": "freddo_meteo",
+          "spokenText": "Fa freddo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Pioggia",
+          "symbolLabel": "pioggia",
+          "spokenText": "Sta piovendo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Vento",
+          "symbolLabel": "vento",
+          "spokenText": "C'è vento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Neve",
+          "symbolLabel": "neve",
+          "spokenText": "Nevica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Sole",
+          "symbolLabel": "sole",
+          "spokenText": "C'è il sole",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Nuvoloso",
+          "symbolLabel": "nuvoloso",
+          "spokenText": "È nuvoloso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c36",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "occasioni",
+      "title": "Occasioni",
+      "cells": [
+        {
+          "id": "c37",
+          "label": "Casa",
+          "symbolLabel": "casa_occ",
+          "spokenText": "Per stare in casa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Scuola",
+          "symbolLabel": "scuola_occ",
+          "spokenText": "Per andare a scuola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Lavoro",
+          "symbolLabel": "lavoro_occ",
+          "spokenText": "Per andare al lavoro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Festa",
+          "symbolLabel": "festa_occ",
+          "spokenText": "Per una festa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Sport",
+          "symbolLabel": "sport_occ",
+          "spokenText": "Per fare sport",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Cerimonia",
+          "symbolLabel": "cerimonia",
+          "spokenText": "Per una cerimonia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Mare",
+          "symbolLabel": "mare_occ",
+          "spokenText": "Per andare al mare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c45",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vestizione",
+      "title": "Vestizione",
+      "cells": [
+        {
+          "id": "c46",
+          "label": "Indossare",
+          "symbolLabel": "indossare",
+          "spokenText": "Indosso il capo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Togliere",
+          "symbolLabel": "togliere",
+          "spokenText": "Voglio togliermi questo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Allacciare",
+          "symbolLabel": "allacciare",
+          "spokenText": "Mi aiuti ad allacciare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Abbottonare",
+          "symbolLabel": "abbottonare",
+          "spokenText": "Devo abbottonare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Cerniera",
+          "symbolLabel": "cerniera",
+          "spokenText": "Chiudi la cerniera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_vest",
+          "spokenText": "Mi serve aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Specchio",
+          "symbolLabel": "specchio_vest",
+          "spokenText": "Mi guardo allo specchio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c54",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "colori",
+      "title": "Colori",
+      "cells": [
+        {
+          "id": "c55",
+          "label": "Bianco",
+          "symbolLabel": "bianco",
+          "spokenText": "Preferisco il bianco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Nero",
+          "symbolLabel": "nero",
+          "spokenText": "Preferisco il nero",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Blu",
+          "symbolLabel": "blu",
+          "spokenText": "Mi piace il blu",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Rosso",
+          "symbolLabel": "rosso",
+          "spokenText": "Vorrei il rosso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Verde",
+          "symbolLabel": "verde",
+          "spokenText": "Il verde va bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Chiaro",
+          "symbolLabel": "chiaro",
+          "spokenText": "Un colore chiaro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Scuro",
+          "symbolLabel": "scuro",
+          "spokenText": "Un colore scuro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c63",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c64",
+          "label": "Voglio indossare",
+          "symbolLabel": "voglio_indossare_frase",
+          "spokenText": "Voglio indossare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Mi aiuti a vestirmi",
+          "symbolLabel": "aiuto_vestirmi_frase",
+          "spokenText": "Mi aiuti a vestirmi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Non mi piace",
+          "symbolLabel": "non_mi_piace_vest",
+          "spokenText": "Non mi piace questo capo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Mi sta bene",
+          "symbolLabel": "mi_sta_bene",
+          "spokenText": "Mi sta bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Fa freddo",
+          "symbolLabel": "fa_freddo_vest",
+          "spokenText": "Fa freddo, mi copro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Posso togliermi?",
+          "symbolLabel": "posso_togliere",
+          "spokenText": "Posso togliermi la giacca?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Dov'è",
+          "symbolLabel": "dove_vest",
+          "spokenText": "Dov'è il mio capo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Grazie",
+          "symbolLabel": "grazie_vest",
+          "spokenText": "Grazie, mi aiuti molto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c73",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

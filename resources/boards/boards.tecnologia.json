@@ -1,0 +1,712 @@
+{
+  "id": "boards.tecnologia",
+  "title": "Tecnologia",
+  "description": "Dispositivi, azioni, problemi, internet e privacy per usare la tecnologia e chiedere aiuto.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Tecnologia",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Dispositivi",
+          "symbolLabel": "dispositivi_home",
+          "spokenText": "Apri i dispositivi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "dispositivi"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Azioni",
+          "symbolLabel": "azioni_tech",
+          "spokenText": "Apri le azioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "azioni"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Problemi",
+          "symbolLabel": "problemi_tech",
+          "spokenText": "Apri i problemi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "problemi"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Internet",
+          "symbolLabel": "internet_home",
+          "spokenText": "Apri internet",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "internet"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Privacy",
+          "symbolLabel": "privacy_home",
+          "spokenText": "Apri la privacy",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "privacy"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_tech",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio aprire",
+          "symbolLabel": "voglio_aprire",
+          "spokenText": "Voglio aprire",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Non funziona",
+          "symbolLabel": "non_funziona",
+          "spokenText": "Non funziona",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dispositivi",
+      "title": "Dispositivi",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Telefono",
+          "symbolLabel": "telefono_tech",
+          "spokenText": "Uso il telefono",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Computer",
+          "symbolLabel": "computer_tech",
+          "spokenText": "Uso il computer",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Tablet",
+          "symbolLabel": "tablet",
+          "spokenText": "Uso il tablet",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Stampante",
+          "symbolLabel": "stampante_tech",
+          "spokenText": "Uso la stampante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Cuffie",
+          "symbolLabel": "cuffie_tech",
+          "spokenText": "Uso le cuffie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Caricabatterie",
+          "symbolLabel": "caricabatterie_tech",
+          "spokenText": "Collego il caricabatterie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Impostazioni",
+          "symbolLabel": "impostazioni_nav",
+          "spokenText": "Apri le impostazioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "impostazioni"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "impostazioni",
+      "title": "Impostazioni",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Wifi",
+          "symbolLabel": "wifi_impostazioni",
+          "spokenText": "Attivo il wifi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Bluetooth",
+          "symbolLabel": "bluetooth",
+          "spokenText": "Attivo il bluetooth",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Volume",
+          "symbolLabel": "volume_tech",
+          "spokenText": "Regolo il volume",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Luminosità",
+          "symbolLabel": "luminosita",
+          "spokenText": "Regolo la luminosità",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Aggiornamento",
+          "symbolLabel": "aggiornamento_impostazioni",
+          "spokenText": "Faccio l'aggiornamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Account",
+          "symbolLabel": "account",
+          "spokenText": "Controllo l'account",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Batteria",
+          "symbolLabel": "batteria",
+          "spokenText": "Controllo la batteria",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "azioni",
+      "title": "Azioni",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Accendere",
+          "symbolLabel": "accendere",
+          "spokenText": "Accendo il dispositivo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Spegnere",
+          "symbolLabel": "spegnere",
+          "spokenText": "Spengo il dispositivo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Aprire",
+          "symbolLabel": "aprire",
+          "spokenText": "Apro l'app",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Chiudere",
+          "symbolLabel": "chiudere",
+          "spokenText": "Chiudo l'app",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Scaricare",
+          "symbolLabel": "scaricare",
+          "spokenText": "Scarico il file",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Inviare",
+          "symbolLabel": "inviare",
+          "spokenText": "Invio il messaggio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Salvare",
+          "symbolLabel": "salvare",
+          "spokenText": "Salvo il lavoro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "problemi",
+      "title": "Problemi",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Lento",
+          "symbolLabel": "lento_tech",
+          "spokenText": "Il dispositivo è lento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Bloccato",
+          "symbolLabel": "bloccato",
+          "spokenText": "Si è bloccato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Batteria",
+          "symbolLabel": "batteria_problema",
+          "spokenText": "La batteria è scarica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Connessione",
+          "symbolLabel": "connessione",
+          "spokenText": "Manca la connessione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Errore",
+          "symbolLabel": "errore_tech",
+          "spokenText": "C'è un errore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Aggiornamento",
+          "symbolLabel": "aggiornamento_problema",
+          "spokenText": "L'aggiornamento non parte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_tech",
+          "spokenText": "Mi serve aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "internet",
+      "title": "Internet",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Wifi",
+          "symbolLabel": "wifi_internet",
+          "spokenText": "Mi connetto al wifi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Password",
+          "symbolLabel": "password_internet",
+          "spokenText": "Inserisco la password",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Sito",
+          "symbolLabel": "sito",
+          "spokenText": "Apro il sito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Email",
+          "symbolLabel": "email",
+          "spokenText": "Controllo l'email",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Videochiamata",
+          "symbolLabel": "videochiamata",
+          "spokenText": "Faccio una videochiamata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Ricerca",
+          "symbolLabel": "ricerca_internet",
+          "spokenText": "Faccio una ricerca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Download",
+          "symbolLabel": "download",
+          "spokenText": "Faccio il download",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "title": "Privacy",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Password",
+          "symbolLabel": "password_privacy",
+          "spokenText": "Proteggo la password",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Permesso",
+          "symbolLabel": "permesso_tech",
+          "spokenText": "Chiedo il permesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Dati",
+          "symbolLabel": "dati",
+          "spokenText": "Proteggo i miei dati",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Condivisione",
+          "symbolLabel": "condivisione",
+          "spokenText": "Controllo la condivisione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Profilo",
+          "symbolLabel": "profilo",
+          "spokenText": "Controllo il profilo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Spam",
+          "symbolLabel": "spam",
+          "spokenText": "Segnalo lo spam",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Bloccare",
+          "symbolLabel": "bloccare",
+          "spokenText": "Blocco il contatto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Non funziona",
+          "symbolLabel": "non_funziona_frase",
+          "spokenText": "Non funziona",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Mi aiuti?",
+          "symbolLabel": "mi_aiuti_tech",
+          "spokenText": "Mi aiuti?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Come si fa?",
+          "symbolLabel": "come_si_fa",
+          "spokenText": "Come si fa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Ho dimenticato la password",
+          "symbolLabel": "dimenticato_password",
+          "spokenText": "Ho dimenticato la password",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Posso connettermi?",
+          "symbolLabel": "posso_connettermi",
+          "spokenText": "Posso connettermi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Il wifi non va",
+          "symbolLabel": "wifi_non_va",
+          "spokenText": "Il wifi non va",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ho salvato il file",
+          "symbolLabel": "salvato_file",
+          "spokenText": "Ho salvato il file",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_tech",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

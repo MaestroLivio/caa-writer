@@ -1,0 +1,712 @@
+{
+  "id": "boards.ristorante",
+  "title": "Ristorante",
+  "description": "Ordinare, scegliere piatti e bevande, segnalare problemi e allergie, chiedere il conto.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Ristorante",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Ordinare",
+          "symbolLabel": "ordinare_home",
+          "spokenText": "Apri le ordinazioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "ordinare"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Cibo",
+          "symbolLabel": "cibo_ristorante",
+          "spokenText": "Apri il cibo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "cibo"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Bevande",
+          "symbolLabel": "bevande_ristorante",
+          "spokenText": "Apri le bevande",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "bevande"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Problemi",
+          "symbolLabel": "problemi_ristorante",
+          "spokenText": "Apri i problemi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "problemi"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Pagare",
+          "symbolLabel": "pagare_home",
+          "spokenText": "Apri il pagamento",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "pagare"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_ristorante",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Vorrei ordinare",
+          "symbolLabel": "vorrei_ordinare",
+          "spokenText": "Vorrei ordinare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Il conto, per favore",
+          "symbolLabel": "conto_home",
+          "spokenText": "Il conto, per favore",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ordinare",
+      "title": "Ordinare",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Tavolo",
+          "symbolLabel": "tavolo_ristorante",
+          "spokenText": "Vorrei un tavolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Menù",
+          "symbolLabel": "menu",
+          "spokenText": "Posso vedere il menù?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Cameriere",
+          "symbolLabel": "cameriere",
+          "spokenText": "Chiamo il cameriere",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Vorrei",
+          "symbolLabel": "vorrei",
+          "spokenText": "Vorrei",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Ordinare",
+          "symbolLabel": "ordinare_azione",
+          "spokenText": "Ordino ora",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Aspettare",
+          "symbolLabel": "aspettare_ristorante",
+          "spokenText": "Aspetto il piatto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Consiglio",
+          "symbolLabel": "consiglio",
+          "spokenText": "Cosa mi consiglia?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cibo",
+      "title": "Cibo",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Primo",
+          "symbolLabel": "primo",
+          "spokenText": "Prendo un primo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Secondo",
+          "symbolLabel": "secondo",
+          "spokenText": "Prendo un secondo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Contorno",
+          "symbolLabel": "contorno",
+          "spokenText": "Prendo un contorno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Insalata",
+          "symbolLabel": "insalata_ristorante",
+          "spokenText": "Prendo un'insalata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Pizza",
+          "symbolLabel": "pizza",
+          "spokenText": "Vorrei una pizza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Dolce",
+          "symbolLabel": "dolce_ristorante",
+          "spokenText": "Vorrei un dolce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Allergie",
+          "symbolLabel": "allergie_nav",
+          "spokenText": "Apri le allergie",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "allergie"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "allergie",
+      "title": "Allergie e intolleranze",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Allergia",
+          "symbolLabel": "allergia",
+          "spokenText": "Ho un'allergia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Intolleranza",
+          "symbolLabel": "intolleranza",
+          "spokenText": "Ho un'intolleranza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Glutine",
+          "symbolLabel": "glutine",
+          "spokenText": "Sono celiaco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Lattosio",
+          "symbolLabel": "lattosio",
+          "spokenText": "Non posso prendere lattosio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Frutta secca",
+          "symbolLabel": "frutta_secca",
+          "spokenText": "Attenzione alla frutta secca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Pesce",
+          "symbolLabel": "pesce_allergia",
+          "spokenText": "Sono allergico al pesce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Ingredienti",
+          "symbolLabel": "ingredienti",
+          "spokenText": "Posso sapere gli ingredienti?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bevande",
+      "title": "Bevande",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Acqua",
+          "symbolLabel": "acqua_ristorante",
+          "spokenText": "Vorrei dell'acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Vino",
+          "symbolLabel": "vino",
+          "spokenText": "Vorrei un vino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Birra",
+          "symbolLabel": "birra",
+          "spokenText": "Vorrei una birra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Succo",
+          "symbolLabel": "succo_ristorante",
+          "spokenText": "Vorrei un succo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Caffè",
+          "symbolLabel": "caffe_ristorante",
+          "spokenText": "Vorrei un caffè",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Ghiaccio",
+          "symbolLabel": "ghiaccio_ristorante",
+          "spokenText": "Senza ghiaccio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Bicchiere",
+          "symbolLabel": "bicchiere",
+          "spokenText": "Mi serve un bicchiere",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "problemi",
+      "title": "Problemi",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Freddo",
+          "symbolLabel": "freddo_piatto",
+          "spokenText": "Il piatto è freddo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Sbagliato",
+          "symbolLabel": "sbagliato",
+          "spokenText": "Questo ordine è sbagliato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Troppo sale",
+          "symbolLabel": "troppo_sale",
+          "spokenText": "È troppo salato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Lento",
+          "symbolLabel": "lento",
+          "spokenText": "Il servizio è lento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Sporco",
+          "symbolLabel": "sporco",
+          "spokenText": "Il tavolo è sporco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Manca",
+          "symbolLabel": "manca",
+          "spokenText": "Manca il pane",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Cambiare",
+          "symbolLabel": "cambiare_piatto",
+          "spokenText": "Posso cambiare piatto?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pagare",
+      "title": "Pagare",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Conto",
+          "symbolLabel": "conto",
+          "spokenText": "Vorrei il conto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Carta",
+          "symbolLabel": "carta_pagamento",
+          "spokenText": "Pago con la carta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Contanti",
+          "symbolLabel": "contanti",
+          "spokenText": "Pago in contanti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Ricevuta",
+          "symbolLabel": "ricevuta",
+          "spokenText": "Vorrei la ricevuta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Mancia",
+          "symbolLabel": "mancia",
+          "spokenText": "Lascio la mancia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Dividere",
+          "symbolLabel": "dividere",
+          "spokenText": "Dividiamo il conto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Resto",
+          "symbolLabel": "resto",
+          "spokenText": "Il resto, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Vorrei ordinare",
+          "symbolLabel": "vorrei_ordinare_frase",
+          "spokenText": "Vorrei ordinare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Il conto, per favore",
+          "symbolLabel": "conto_frase",
+          "spokenText": "Il conto, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Sono allergico a",
+          "symbolLabel": "allergico_a",
+          "spokenText": "Sono allergico a",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Questo non è quello che ho ordinato",
+          "symbolLabel": "ordine_sbagliato",
+          "spokenText": "Questo non è quello che ho ordinato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "È buonissimo",
+          "symbolLabel": "buonissimo",
+          "spokenText": "È buonissimo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Posso avere dell'acqua?",
+          "symbolLabel": "posso_acqua",
+          "spokenText": "Posso avere dell'acqua?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Dov'è il bagno?",
+          "symbolLabel": "bagno_ristorante",
+          "spokenText": "Dov'è il bagno?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_ristorante",
+          "spokenText": "Grazie, tutto ottimo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

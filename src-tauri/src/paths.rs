@@ -52,6 +52,10 @@ impl AppPaths {
         self.resources_dir.join("ai")
     }
 
+    pub fn boards_dir(&self) -> PathBuf {
+        self.resources_dir.join("boards")
+    }
+
     pub fn templates_dir(&self) -> PathBuf {
         self.resources_dir.join("templates")
     }

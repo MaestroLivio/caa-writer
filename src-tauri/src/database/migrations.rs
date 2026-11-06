@@ -282,4 +282,31 @@ CREATE TABLE IF NOT EXISTS document_operations (
     created_at      TEXT NOT NULL
 );
 "#,
+}, Migration {
+    version: 4,
+    name: "profiles_and_boards",
+    sql: r#"
+-- Profili locali: nessun dato sanitario, solo preferenze operative.
+CREATE TABLE IF NOT EXISTS profiles (
+    id              TEXT PRIMARY KEY,
+    name            TEXT NOT NULL,
+    avatar          TEXT NOT NULL DEFAULT '',
+    age_theme       TEXT NOT NULL DEFAULT 'primaria',
+    editor_level    INTEGER NOT NULL DEFAULT 2,
+    features        TEXT NOT NULL DEFAULT '[]',
+    voice           TEXT NOT NULL DEFAULT '{}',
+    accessibility   TEXT NOT NULL DEFAULT '{}',
+    navigation      TEXT NOT NULL DEFAULT '{}',
+    created_at      TEXT NOT NULL,
+    updated_at      TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS profile_boards (
+    profile_id      TEXT NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    board_id        TEXT NOT NULL,
+    position        INTEGER NOT NULL DEFAULT 0,
+    enabled         INTEGER NOT NULL DEFAULT 1,
+    PRIMARY KEY(profile_id, board_id)
+);
+"#,
 }];

@@ -525,6 +525,24 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
             Ok(serde_json::to_value(caa_writer_lib::asset_manager::alternative_from_record(&record))
                 .map_err(|e| e.to_string())?)
         }
+        "boards.list" => Ok(serde_json::to_value(caa_writer_lib::profiles::list_boards(
+            &engine.paths.boards_dir(),
+        )?)
+        .map_err(|e| e.to_string())?),
+        "boards.build" => {
+            let id = as_string(params, "id").ok_or_else(|| "serve id".to_string())?;
+            let board = caa_writer_lib::profiles::build_board(
+                engine,
+                &engine.paths.boards_dir(),
+                &id,
+            )?;
+            Ok(serde_json::to_value(&board).map_err(|e| e.to_string())?)
+        }
+        "profiles.list" => {
+            let db = engine.db()?;
+            Ok(serde_json::to_value(caa_writer_lib::profiles::list_profiles(&db)?)
+                .map_err(|e| e.to_string())?)
+        }
         "prompt.interpret" => {
             let prompt = as_string(params, "prompt").ok_or_else(|| "serve prompt".to_string())?;
             let plan = engine.interpret_document_prompt(&prompt, as_bool(params, "use_neural", true));
@@ -615,6 +633,9 @@ const METHODS: &[&str] = &[
     "templates.list",
     "templates.get",
     "templates.plan",
+    "boards.list",
+    "boards.build",
+    "profiles.list",
     "layout.build",
     "layout.edit",
     "import.scan",

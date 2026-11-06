@@ -1,0 +1,712 @@
+{
+  "id": "boards.scuola-secondaria",
+  "title": "Scuola secondaria",
+  "description": "Materie, organizzazione, verifiche e relazioni della scuola secondaria, con un metodo di studio dedicato.",
+  "ageTheme": "secondaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Scuola secondaria",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Materie",
+          "symbolLabel": "materie_secondaria",
+          "spokenText": "Apri le materie",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "materie"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Organizzazione",
+          "symbolLabel": "organizzazione_scuola",
+          "spokenText": "Apri l'organizzazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "organizzazione"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Verifiche",
+          "symbolLabel": "verifiche_home",
+          "spokenText": "Apri le verifiche",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "verifiche"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Relazioni",
+          "symbolLabel": "relazioni_scuola",
+          "spokenText": "Apri le relazioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "relazioni"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Laboratori",
+          "symbolLabel": "laboratori_home",
+          "spokenText": "Apri i laboratori",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "laboratori"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_secondaria",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Devo studiare",
+          "symbolLabel": "devo_studiare",
+          "spokenText": "Devo studiare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Ho una domanda",
+          "symbolLabel": "ho_una_domanda",
+          "spokenText": "Ho una domanda",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "materie",
+      "title": "Materie",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Italiano",
+          "symbolLabel": "italiano_sec",
+          "spokenText": "Abbiamo italiano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Matematica",
+          "symbolLabel": "matematica_sec",
+          "spokenText": "Abbiamo matematica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Inglese",
+          "symbolLabel": "inglese",
+          "spokenText": "Abbiamo inglese",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Scienze",
+          "symbolLabel": "scienze_sec",
+          "spokenText": "Abbiamo scienze",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Storia",
+          "symbolLabel": "storia_sec",
+          "spokenText": "Abbiamo storia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Filosofia",
+          "symbolLabel": "filosofia",
+          "spokenText": "Abbiamo filosofia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Informatica",
+          "symbolLabel": "informatica",
+          "spokenText": "Abbiamo informatica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "organizzazione",
+      "title": "Organizzazione",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Orario",
+          "symbolLabel": "orario_scuola",
+          "spokenText": "Controllo l'orario",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Zaino",
+          "symbolLabel": "zaino",
+          "spokenText": "Preparo lo zaino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Compiti",
+          "symbolLabel": "compiti",
+          "spokenText": "Ho dei compiti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Scadenze",
+          "symbolLabel": "scadenze_scuola",
+          "spokenText": "Segno le scadenze",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Armadietto",
+          "symbolLabel": "armadietto",
+          "spokenText": "Apro l'armadietto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Registro",
+          "symbolLabel": "registro",
+          "spokenText": "Controllo il registro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Assenze",
+          "symbolLabel": "assenze",
+          "spokenText": "Devo giustificare un'assenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "verifiche",
+      "title": "Verifiche",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Interrogazione",
+          "symbolLabel": "interrogazione",
+          "spokenText": "Ho un'interrogazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Compito",
+          "symbolLabel": "compito_verifica",
+          "spokenText": "Ho un compito in classe",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Voto",
+          "symbolLabel": "voto",
+          "spokenText": "Ho preso un voto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Ripasso",
+          "symbolLabel": "ripasso",
+          "spokenText": "Devo ripassare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Ansia",
+          "symbolLabel": "ansia_verifica",
+          "spokenText": "Sono in ansia per la verifica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Recupero",
+          "symbolLabel": "recupero",
+          "spokenText": "Devo recuperare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Metodo di studio",
+          "symbolLabel": "metodo_studio_nav",
+          "spokenText": "Apri il metodo di studio",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "metodo-studio"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "metodo-studio",
+      "title": "Metodo di studio",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Riassumere",
+          "symbolLabel": "riassumere",
+          "spokenText": "Riassumo il capitolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Sottolineare",
+          "symbolLabel": "sottolineare",
+          "spokenText": "Sottolineo le parti importanti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Schematizzare",
+          "symbolLabel": "schematizzare",
+          "spokenText": "Faccio uno schema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Ripetere",
+          "symbolLabel": "ripetere_studio",
+          "spokenText": "Ripeto ad alta voce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Appunti",
+          "symbolLabel": "appunti",
+          "spokenText": "Rileggo gli appunti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Mappa",
+          "symbolLabel": "mappa",
+          "spokenText": "Costruisco una mappa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Tempo",
+          "symbolLabel": "tempo_studio",
+          "spokenText": "Mi prendo il tempo necessario",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "relazioni",
+      "title": "Relazioni a scuola",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Compagno",
+          "symbolLabel": "compagno_sec",
+          "spokenText": "Parlo con un compagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Gruppo",
+          "symbolLabel": "gruppo_sec",
+          "spokenText": "Lavoro in gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Conflitto",
+          "symbolLabel": "conflitto_scuola",
+          "spokenText": "C'è un conflitto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Rispetto",
+          "symbolLabel": "rispetto_scuola",
+          "spokenText": "Chiedo rispetto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Collaborare",
+          "symbolLabel": "collaborare",
+          "spokenText": "Collaboro con gli altri",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Chiedere aiuto",
+          "symbolLabel": "chiedere_aiuto_sec",
+          "spokenText": "Chiedo aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Insegnante",
+          "symbolLabel": "insegnante",
+          "spokenText": "Parlo con l'insegnante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "laboratori",
+      "title": "Laboratori",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Esperimento",
+          "symbolLabel": "esperimento",
+          "spokenText": "Facciamo un esperimento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Strumenti",
+          "symbolLabel": "strumenti_lab",
+          "spokenText": "Prendo gli strumenti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Sicurezza",
+          "symbolLabel": "sicurezza_lab",
+          "spokenText": "Rispetto la sicurezza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Gruppo",
+          "symbolLabel": "gruppo_lab",
+          "spokenText": "Lavoro con il gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Relazione",
+          "symbolLabel": "relazione_lab",
+          "spokenText": "Scrivo la relazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Osservare",
+          "symbolLabel": "osservare",
+          "spokenText": "Osservo il risultato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Conclusione",
+          "symbolLabel": "conclusione",
+          "spokenText": "Scrivo la conclusione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Ho una verifica",
+          "symbolLabel": "ho_verifica",
+          "spokenText": "Ho una verifica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Non ho capito",
+          "symbolLabel": "non_capito_sec",
+          "spokenText": "Non ho capito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Posso recuperare?",
+          "symbolLabel": "posso_recuperare",
+          "spokenText": "Posso recuperare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Mi serve una spiegazione",
+          "symbolLabel": "serve_spiegazione",
+          "spokenText": "Mi serve una spiegazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ho finito",
+          "symbolLabel": "ho_finito_sec",
+          "spokenText": "Ho finito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Sono in ritardo",
+          "symbolLabel": "sono_in_ritardo",
+          "spokenText": "Sono in ritardo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Posso uscire?",
+          "symbolLabel": "posso_uscire",
+          "spokenText": "Posso uscire?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_sec",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

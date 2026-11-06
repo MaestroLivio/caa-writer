@@ -1,0 +1,712 @@
+{
+  "id": "boards.benessere-dolore",
+  "title": "Benessere e dolore",
+  "description": "Localizzare il dolore, descriverne le caratteristiche, chiedere farmaci, riposo o un medico.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Benessere e dolore",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Dolore",
+          "symbolLabel": "dolore_home",
+          "spokenText": "Apri il dolore",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "dolore"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Sintomi",
+          "symbolLabel": "sintomi_home",
+          "spokenText": "Apri i sintomi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "sintomi"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Farmaci",
+          "symbolLabel": "farmaci_home",
+          "spokenText": "Apri i farmaci",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "farmaci"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Riposo",
+          "symbolLabel": "riposo_home",
+          "spokenText": "Apri il riposo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "riposo"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Medico",
+          "symbolLabel": "medico_home",
+          "spokenText": "Apri il medico",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "medico"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_benessere",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Mi fa male",
+          "symbolLabel": "mi_fa_male",
+          "spokenText": "Mi fa male",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Sto meglio",
+          "symbolLabel": "sto_meglio_home",
+          "spokenText": "Sto meglio",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dolore",
+      "title": "Dolore",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Testa",
+          "symbolLabel": "testa_dolore",
+          "spokenText": "Mi fa male la testa",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Schiena",
+          "symbolLabel": "schiena_dolore",
+          "spokenText": "Mi fa male la schiena",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Pancia",
+          "symbolLabel": "pancia_dolore",
+          "spokenText": "Mi fa male la pancia",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Gambe",
+          "symbolLabel": "gambe_dolore",
+          "spokenText": "Mi fanno male le gambe",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Braccia",
+          "symbolLabel": "braccia_dolore",
+          "spokenText": "Mi fanno male le braccia",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Denti",
+          "symbolLabel": "denti_dolore",
+          "spokenText": "Mi fa male un dente",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Dettagli",
+          "symbolLabel": "dettagli_dolore_nav",
+          "spokenText": "Apri i dettagli del dolore",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "dolore-dettagli"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dolore-dettagli",
+      "title": "Dettagli del dolore",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Forte",
+          "symbolLabel": "forte",
+          "spokenText": "Il dolore è forte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Lieve",
+          "symbolLabel": "lieve",
+          "spokenText": "Il dolore è lieve",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Continuo",
+          "symbolLabel": "continuo",
+          "spokenText": "Il dolore è continuo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Intermittente",
+          "symbolLabel": "intermittente",
+          "spokenText": "Il dolore va e viene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Bruciore",
+          "symbolLabel": "bruciore",
+          "spokenText": "Sento bruciore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Fitta",
+          "symbolLabel": "fitta",
+          "spokenText": "Sento una fitta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Intorpidimento",
+          "symbolLabel": "intorpidimento",
+          "spokenText": "Sento intorpidimento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sintomi",
+      "title": "Sintomi",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Febbre",
+          "symbolLabel": "febbre_sint",
+          "spokenText": "Ho la febbre",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Nausea",
+          "symbolLabel": "nausea_sint",
+          "spokenText": "Ho nausea",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Vertigini",
+          "symbolLabel": "vertigini_sint",
+          "spokenText": "Ho vertigini",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Tosse",
+          "symbolLabel": "tosse_sint",
+          "spokenText": "Ho la tosse",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Stanchezza",
+          "symbolLabel": "stanchezza_sint",
+          "spokenText": "Sono stanco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Respiro",
+          "symbolLabel": "respiro_sint",
+          "spokenText": "Faccio fatica a respirare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Brividi",
+          "symbolLabel": "brividi",
+          "spokenText": "Ho i brividi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "farmaci",
+      "title": "Farmaci",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Antidolorifico",
+          "symbolLabel": "antidolorifico",
+          "spokenText": "Mi serve un antidolorifico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Compressa",
+          "symbolLabel": "compressa",
+          "spokenText": "Devo prendere una compressa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Sciroppo",
+          "symbolLabel": "sciroppo",
+          "spokenText": "Mi serve lo sciroppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Crema",
+          "symbolLabel": "crema_farmaco",
+          "spokenText": "Devo mettere la crema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Dose",
+          "symbolLabel": "dose",
+          "spokenText": "Qual è la dose?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Orario",
+          "symbolLabel": "orario_farmaco",
+          "spokenText": "A che ora devo prenderlo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Effetto",
+          "symbolLabel": "effetto",
+          "spokenText": "Ha avuto effetto?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "riposo",
+      "title": "Riposo",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Letto",
+          "symbolLabel": "letto",
+          "spokenText": "Vorrei andare a letto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Cuscino",
+          "symbolLabel": "cuscino_riposo",
+          "spokenText": "Mi serve un cuscino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Buio",
+          "symbolLabel": "buio",
+          "spokenText": "Vorrei il buio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Silenzio",
+          "symbolLabel": "silenzio_riposo",
+          "spokenText": "Vorrei silenzio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Posizione",
+          "symbolLabel": "posizione_riposo",
+          "spokenText": "Mi aiuti a cambiare posizione?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Coperta",
+          "symbolLabel": "coperta_riposo",
+          "spokenText": "Vorrei una coperta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Sveglia",
+          "symbolLabel": "sveglia",
+          "spokenText": "Imposto la sveglia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "medico",
+      "title": "Medico",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Appuntamento",
+          "symbolLabel": "appuntamento_medico",
+          "spokenText": "Vorrei un appuntamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Visita",
+          "symbolLabel": "visita_medica",
+          "spokenText": "Devo fare una visita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Ricetta",
+          "symbolLabel": "ricetta",
+          "spokenText": "Mi serve una ricetta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Esame",
+          "symbolLabel": "esame_medico",
+          "spokenText": "Devo fare un esame",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Ospedale",
+          "symbolLabel": "ospedale",
+          "spokenText": "Devo andare in ospedale",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Farmacia",
+          "symbolLabel": "farmacia",
+          "spokenText": "Vado in farmacia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Chiamare",
+          "symbolLabel": "chiamare_medico",
+          "spokenText": "Chiamate un medico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Mi fa male",
+          "symbolLabel": "mi_fa_male_frase",
+          "spokenText": "Mi fa male",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Il dolore è forte",
+          "symbolLabel": "dolore_forte",
+          "spokenText": "Il dolore è forte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Ho bisogno di un medico",
+          "symbolLabel": "serve_medico",
+          "spokenText": "Ho bisogno di un medico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Mi serve un farmaco",
+          "symbolLabel": "serve_farmaco",
+          "spokenText": "Mi serve un farmaco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Non riesco a dormire",
+          "symbolLabel": "non_dormo",
+          "spokenText": "Non riesco a dormire",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Sto meglio",
+          "symbolLabel": "sto_meglio_frase",
+          "spokenText": "Sto meglio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Chiamate aiuto",
+          "symbolLabel": "chiamate_aiuto",
+          "spokenText": "Chiamate aiuto, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_benessere",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,712 @@
+{
+  "id": "boards.trasporti",
+  "title": "Trasporti",
+  "description": "Mezzi, biglietti, indicazioni, attesa e imprevisti per muoversi in città e fuori.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Trasporti",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Mezzi",
+          "symbolLabel": "mezzi_home",
+          "spokenText": "Apri i mezzi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "mezzi"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Biglietti",
+          "symbolLabel": "biglietti_home",
+          "spokenText": "Apri i biglietti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "biglietti"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Indicazioni",
+          "symbolLabel": "indicazioni_home",
+          "spokenText": "Apri le indicazioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "indicazioni"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Attesa",
+          "symbolLabel": "attesa_home",
+          "spokenText": "Apri l'attesa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "attesa"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Imprevisti",
+          "symbolLabel": "imprevisti_home",
+          "spokenText": "Apri gli imprevisti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "imprevisti"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_trasporti",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Devo andare",
+          "symbolLabel": "devo_andare",
+          "spokenText": "Devo andare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Dove devo scendere",
+          "symbolLabel": "dove_scendere",
+          "spokenText": "Dove devo scendere?",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mezzi",
+      "title": "Mezzi",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Autobus",
+          "symbolLabel": "autobus",
+          "spokenText": "Prendo l'autobus",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Treno",
+          "symbolLabel": "treno",
+          "spokenText": "Prendo il treno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Metro",
+          "symbolLabel": "metro",
+          "spokenText": "Prendo la metro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Tram",
+          "symbolLabel": "tram",
+          "spokenText": "Prendo il tram",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Taxi",
+          "symbolLabel": "taxi",
+          "spokenText": "Chiamo un taxi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Bicicletta",
+          "symbolLabel": "bicicletta_trasporti",
+          "spokenText": "Uso la bicicletta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "A piedi",
+          "symbolLabel": "a_piedi",
+          "spokenText": "Vado a piedi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "biglietti",
+      "title": "Biglietti",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Biglietto",
+          "symbolLabel": "biglietto",
+          "spokenText": "Vorrei un biglietto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Abbonamento",
+          "symbolLabel": "abbonamento",
+          "spokenText": "Ho l'abbonamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Convalida",
+          "symbolLabel": "convalida",
+          "spokenText": "Convalido il biglietto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Macchinetta",
+          "symbolLabel": "macchinetta",
+          "spokenText": "Uso la macchinetta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Controllore",
+          "symbolLabel": "controllore",
+          "spokenText": "Arriva il controllore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Tariffa",
+          "symbolLabel": "tariffa",
+          "spokenText": "Qual è la tariffa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Acquisto",
+          "symbolLabel": "acquisto",
+          "spokenText": "Faccio l'acquisto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "indicazioni",
+      "title": "Indicazioni",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Dove",
+          "symbolLabel": "dove_trasporti",
+          "spokenText": "Dove devo andare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Fermata",
+          "symbolLabel": "fermata",
+          "spokenText": "Dov'è la fermata?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Direzione",
+          "symbolLabel": "direzione",
+          "spokenText": "Qual è la direzione?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Cambio",
+          "symbolLabel": "cambio",
+          "spokenText": "Devo cambiare linea",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Uscita",
+          "symbolLabel": "uscita_trasporti",
+          "spokenText": "Qual è l'uscita?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Mappa",
+          "symbolLabel": "mappa_trasporti",
+          "spokenText": "Guardo la mappa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Chiedere",
+          "symbolLabel": "chiedere_indicazioni",
+          "spokenText": "Chiedo informazioni",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attesa",
+      "title": "Attesa",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Aspettare",
+          "symbolLabel": "aspettare_trasporti",
+          "spokenText": "Aspetto il mezzo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Banchina",
+          "symbolLabel": "banchina",
+          "spokenText": "Sono in banchina",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Sedile",
+          "symbolLabel": "sedile",
+          "spokenText": "Mi siedo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Annuncio",
+          "symbolLabel": "annuncio",
+          "spokenText": "Ascolto l'annuncio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Ritardo",
+          "symbolLabel": "ritardo_trasporti",
+          "spokenText": "C'è un ritardo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Arrivare",
+          "symbolLabel": "arrivare_trasporti",
+          "spokenText": "Sta arrivando",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Orari",
+          "symbolLabel": "orari_nav",
+          "spokenText": "Apri gli orari",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "orari"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "orari",
+      "title": "Orari",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Orario",
+          "symbolLabel": "orario_mezzi",
+          "spokenText": "Controllo l'orario",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Ritardo",
+          "symbolLabel": "ritardo_orario",
+          "spokenText": "Il treno è in ritardo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Binario",
+          "symbolLabel": "binario",
+          "spokenText": "Qual è il binario?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Coincidenza",
+          "symbolLabel": "coincidenza",
+          "spokenText": "Ho una coincidenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Frequenza",
+          "symbolLabel": "frequenza",
+          "spokenText": "Ogni quanto passa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Ultimo",
+          "symbolLabel": "ultimo",
+          "spokenText": "A che ora è l'ultimo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Primo",
+          "symbolLabel": "primo_mezzo",
+          "spokenText": "A che ora è il primo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "imprevisti",
+      "title": "Imprevisti",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Sciopero",
+          "symbolLabel": "sciopero",
+          "spokenText": "C'è uno sciopero",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Guasto",
+          "symbolLabel": "guasto_trasporti",
+          "spokenText": "C'è un guasto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Perso",
+          "symbolLabel": "perso_mezzo",
+          "spokenText": "Ho perso il mezzo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Salto",
+          "symbolLabel": "salto_corsa",
+          "spokenText": "Ho saltato la fermata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Affollato",
+          "symbolLabel": "affollato",
+          "spokenText": "È molto affollato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Taxi",
+          "symbolLabel": "taxi_imprevisto",
+          "spokenText": "Prendo un taxi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_trasporti",
+          "spokenText": "Chiedo aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Dove devo scendere?",
+          "symbolLabel": "dove_scendere_frase",
+          "spokenText": "Dove devo scendere?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Quale linea prendo?",
+          "symbolLabel": "quale_linea",
+          "spokenText": "Quale linea prendo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Quanto costa il biglietto?",
+          "symbolLabel": "costo_biglietto",
+          "spokenText": "Quanto costa il biglietto?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "È in ritardo?",
+          "symbolLabel": "in_ritardo",
+          "spokenText": "È in ritardo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ho perso la coincidenza",
+          "symbolLabel": "perso_coincidenza",
+          "spokenText": "Ho perso la coincidenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Posso sedermi?",
+          "symbolLabel": "posso_sedermi",
+          "spokenText": "Posso sedermi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Mi avvisi alla fermata?",
+          "symbolLabel": "avvisi_fermata",
+          "spokenText": "Mi avvisi alla fermata?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_trasporti",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

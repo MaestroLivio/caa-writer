@@ -1,0 +1,712 @@
+{
+  "id": "boards.scuola-primaria",
+  "title": "Scuola primaria",
+  "description": "Materie, materiali, attività e regole della classe, con una pagina per lettura e scrittura.",
+  "ageTheme": "primaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Scuola primaria",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Materie",
+          "symbolLabel": "materie_primaria",
+          "spokenText": "Apri le materie",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "materie"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Materiali",
+          "symbolLabel": "materiali",
+          "spokenText": "Apri i materiali",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "materiali"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Attività",
+          "symbolLabel": "attivita_scuola",
+          "spokenText": "Apri le attività",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "attivita"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Compagni",
+          "symbolLabel": "compagni",
+          "spokenText": "Apri i compagni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "compagni"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Regole",
+          "symbolLabel": "regole",
+          "spokenText": "Apri le regole",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "regole"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_scuola",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_home",
+          "spokenText": "Non capisco",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Posso andare in bagno",
+          "symbolLabel": "bagno_permesso",
+          "spokenText": "Posso andare in bagno?",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "materie",
+      "title": "Materie",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Italiano",
+          "symbolLabel": "italiano",
+          "spokenText": "Abbiamo italiano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Matematica",
+          "symbolLabel": "matematica",
+          "spokenText": "Abbiamo matematica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Scienze",
+          "symbolLabel": "scienze",
+          "spokenText": "Abbiamo scienze",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Storia",
+          "symbolLabel": "storia",
+          "spokenText": "Abbiamo storia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Geografia",
+          "symbolLabel": "geografia",
+          "spokenText": "Abbiamo geografia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Arte",
+          "symbolLabel": "arte",
+          "spokenText": "Abbiamo arte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Lettura e scrittura",
+          "symbolLabel": "lettura_scrittura_nav",
+          "spokenText": "Apri lettura e scrittura",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "lettura-scrittura"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lettura-scrittura",
+      "title": "Lettura e scrittura",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Leggere",
+          "symbolLabel": "leggere",
+          "spokenText": "Leggo ad alta voce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Scrivere",
+          "symbolLabel": "scrivere",
+          "spokenText": "Scrivo sul quaderno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Sillabe",
+          "symbolLabel": "sillabe",
+          "spokenText": "Divido in sillabe",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Parola",
+          "symbolLabel": "parola",
+          "spokenText": "Scrivo una parola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Frase",
+          "symbolLabel": "frase",
+          "spokenText": "Scrivo una frase",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Disegnare",
+          "symbolLabel": "disegnare",
+          "spokenText": "Disegno la storia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Dettato",
+          "symbolLabel": "dettato",
+          "spokenText": "Faccio il dettato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "materiali",
+      "title": "Materiali",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Quaderno",
+          "symbolLabel": "quaderno",
+          "spokenText": "Prendo il quaderno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Matita",
+          "symbolLabel": "matita",
+          "spokenText": "Ho perso la matita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Gomma",
+          "symbolLabel": "gomma",
+          "spokenText": "Mi serve la gomma",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Astuccio",
+          "symbolLabel": "astuccio",
+          "spokenText": "Apro l'astuccio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Libro",
+          "symbolLabel": "libro",
+          "spokenText": "Apro il libro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Forbici",
+          "symbolLabel": "forbici",
+          "spokenText": "Uso le forbici",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Colla",
+          "symbolLabel": "colla",
+          "spokenText": "Mi serve la colla",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attivita",
+      "title": "Attività",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Ascoltare",
+          "symbolLabel": "ascoltare_scuola",
+          "spokenText": "Ascolto la maestra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Rispondere",
+          "symbolLabel": "rispondere",
+          "spokenText": "Rispondo alla domanda",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Disegnare",
+          "symbolLabel": "disegnare_att",
+          "spokenText": "Disegno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Leggere",
+          "symbolLabel": "leggere_att",
+          "spokenText": "Leggo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Contare",
+          "symbolLabel": "contare_scuola",
+          "spokenText": "Conto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Lavorare in gruppo",
+          "symbolLabel": "gruppo_scuola",
+          "spokenText": "Lavoro in gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Ricreazione",
+          "symbolLabel": "ricreazione",
+          "spokenText": "Vado in ricreazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compagni",
+      "title": "Compagni",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Amico",
+          "symbolLabel": "amico_scuola",
+          "spokenText": "Gioco con il mio amico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Amica",
+          "symbolLabel": "amica_scuola",
+          "spokenText": "Parlo con la mia amica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Gruppo",
+          "symbolLabel": "gruppo_compagni",
+          "spokenText": "Sono nel gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Turno",
+          "symbolLabel": "turno_scuola",
+          "spokenText": "Aspetto il mio turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Condividere",
+          "symbolLabel": "condividere_scuola",
+          "spokenText": "Condivido i colori",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Aiutare",
+          "symbolLabel": "aiutare_compagno",
+          "spokenText": "Aiuto un compagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Litigare",
+          "symbolLabel": "litigare_scuola",
+          "spokenText": "Ho litigato con un compagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "regole",
+      "title": "Regole",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Alzare la mano",
+          "symbolLabel": "alzare_mano",
+          "spokenText": "Alzo la mano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Aspettare",
+          "symbolLabel": "aspettare_scuola",
+          "spokenText": "Aspetto il turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Ascoltare",
+          "symbolLabel": "ascoltare_regole",
+          "spokenText": "Ascolto in silenzio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Rispettare",
+          "symbolLabel": "rispettare_regole",
+          "spokenText": "Rispetto le regole",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Chiedere permesso",
+          "symbolLabel": "chiedere_permesso",
+          "spokenText": "Chiedo permesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Riordinare",
+          "symbolLabel": "riordinare_scuola",
+          "spokenText": "Riordino i materiali",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Silenzio",
+          "symbolLabel": "silenzio_scuola",
+          "spokenText": "Faccio silenzio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_scuola",
+          "spokenText": "Non capisco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Puoi ripetere?",
+          "symbolLabel": "ripetere_scuola",
+          "spokenText": "Puoi ripetere, per favore?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Mi aiuti?",
+          "symbolLabel": "mi_aiuti_scuola",
+          "spokenText": "Mi aiuti?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Ho finito",
+          "symbolLabel": "ho_finito",
+          "spokenText": "Ho finito il compito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Devo andare in bagno",
+          "symbolLabel": "bagno_scuola",
+          "spokenText": "Devo andare in bagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Posso bere?",
+          "symbolLabel": "posso_bere",
+          "spokenText": "Posso bere?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Non ho capito il compito",
+          "symbolLabel": "compito_non_capito",
+          "spokenText": "Non ho capito il compito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_scuola",
+          "spokenText": "Grazie, maestra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

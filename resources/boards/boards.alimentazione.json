@@ -1,0 +1,712 @@
+{
+  "id": "boards.alimentazione",
+  "title": "Alimentazione",
+  "description": "Cibi, bevande, pasti, gusti e consistenze per scegliere cosa mangiare e segnalare allergie o preferenze.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Alimentazione",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Cibi",
+          "symbolLabel": "cibi",
+          "spokenText": "Apri i cibi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "cibi"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Bevande",
+          "symbolLabel": "bevande",
+          "spokenText": "Apri le bevande",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "bevande"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Pasti",
+          "symbolLabel": "pasti",
+          "spokenText": "Apri i pasti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "pasti"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Gusti",
+          "symbolLabel": "gusti",
+          "spokenText": "Apri i gusti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "gusti"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Cucinare",
+          "symbolLabel": "cucina",
+          "spokenText": "Apri le azioni in cucina",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "cucina"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi",
+          "spokenText": "Apri le frasi per mangiare",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio mangiare",
+          "symbolLabel": "voglio_mangiare",
+          "spokenText": "Voglio mangiare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Non ho fame",
+          "symbolLabel": "non_ho_fame",
+          "spokenText": "Non ho fame",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cibi",
+      "title": "Cibi",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Pane",
+          "symbolLabel": "pane",
+          "spokenText": "Vorrei del pane",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Pasta",
+          "symbolLabel": "pasta",
+          "spokenText": "Vorrei della pasta",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Riso",
+          "symbolLabel": "riso",
+          "spokenText": "Vorrei del riso",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Carne",
+          "symbolLabel": "carne",
+          "spokenText": "Vorrei della carne",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Pesce",
+          "symbolLabel": "pesce",
+          "spokenText": "Vorrei del pesce",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Formaggio",
+          "symbolLabel": "formaggio",
+          "spokenText": "Vorrei del formaggio",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Consistenze",
+          "symbolLabel": "consistenze",
+          "spokenText": "Apri le consistenze",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "consistenze"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "consistenze",
+      "title": "Consistenze",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Morbido",
+          "symbolLabel": "morbido",
+          "spokenText": "Vorrei qualcosa di morbido",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Duro",
+          "symbolLabel": "duro",
+          "spokenText": "È troppo duro per me",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Liquido",
+          "symbolLabel": "liquido",
+          "spokenText": "Preferisco cibo liquido",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Frullato",
+          "symbolLabel": "frullato",
+          "spokenText": "Vorrei un frullato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Senza sale",
+          "symbolLabel": "senza_sale",
+          "spokenText": "Vorrei senza sale",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Piccante",
+          "symbolLabel": "piccante",
+          "spokenText": "Non posso mangiare piccante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Troppo caldo",
+          "symbolLabel": "troppo_caldo",
+          "spokenText": "È troppo caldo, aspetto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bevande",
+      "title": "Bevande",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Acqua",
+          "symbolLabel": "acqua",
+          "spokenText": "Vorrei dell'acqua",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Succo",
+          "symbolLabel": "succo",
+          "spokenText": "Vorrei un succo",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Latte",
+          "symbolLabel": "latte",
+          "spokenText": "Vorrei del latte",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Caffè",
+          "symbolLabel": "caffe",
+          "spokenText": "Vorrei un caffè",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Tè",
+          "symbolLabel": "te",
+          "spokenText": "Vorrei un tè",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Bibita",
+          "symbolLabel": "bibita",
+          "spokenText": "Vorrei una bibita",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Ghiaccio",
+          "symbolLabel": "ghiaccio",
+          "spokenText": "Senza ghiaccio, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pasti",
+      "title": "Pasti",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Colazione",
+          "symbolLabel": "colazione",
+          "spokenText": "Faccio colazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Pranzo",
+          "symbolLabel": "pranzo",
+          "spokenText": "È ora di pranzo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Cena",
+          "symbolLabel": "cena",
+          "spokenText": "Cosa c'è per cena?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Merenda",
+          "symbolLabel": "merenda",
+          "spokenText": "Vorrei una merenda",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Porzione",
+          "symbolLabel": "porzione",
+          "spokenText": "Una porzione piccola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Ancora",
+          "symbolLabel": "ancora",
+          "spokenText": "Vorrei ancora un po'",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Basta",
+          "symbolLabel": "basta",
+          "spokenText": "Basta così, grazie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "gusti",
+      "title": "Gusti",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Mi piace",
+          "symbolLabel": "mi_piace",
+          "spokenText": "Mi piace",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Non mi piace",
+          "symbolLabel": "non_mi_piace",
+          "spokenText": "Non mi piace",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Buono",
+          "symbolLabel": "buono",
+          "spokenText": "È buono",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Saporito",
+          "symbolLabel": "saporito",
+          "spokenText": "È molto saporito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Dolce",
+          "symbolLabel": "dolce",
+          "spokenText": "Preferisco il dolce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Salato",
+          "symbolLabel": "salato",
+          "spokenText": "È troppo salato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Amaro",
+          "symbolLabel": "amaro",
+          "spokenText": "Questo è amaro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cucina",
+      "title": "In cucina",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Cuocere",
+          "symbolLabel": "cuocere",
+          "spokenText": "Devo cuocere",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Tagliare",
+          "symbolLabel": "tagliare",
+          "spokenText": "Mi aiuti a tagliare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Scaldare",
+          "symbolLabel": "scaldare",
+          "spokenText": "Posso scaldare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Frigorifero",
+          "symbolLabel": "frigorifero",
+          "spokenText": "Metto in frigorifero",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Piatto",
+          "symbolLabel": "piatto",
+          "spokenText": "Mi passi un piatto?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Posate",
+          "symbolLabel": "posate",
+          "spokenText": "Mi servono le posate",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Tovagliolo",
+          "symbolLabel": "tovagliolo",
+          "spokenText": "Vorrei un tovagliolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Voglio mangiare",
+          "symbolLabel": "voglio_mangiare_frase",
+          "spokenText": "Voglio mangiare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Ho fame",
+          "symbolLabel": "ho_fame",
+          "spokenText": "Ho fame",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Non ho fame",
+          "symbolLabel": "non_ho_fame_frase",
+          "spokenText": "Non ho fame",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Sono a dieta",
+          "symbolLabel": "a_dieta",
+          "spokenText": "Sono a dieta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Sono allergico",
+          "symbolLabel": "allergico",
+          "spokenText": "Sono allergico a un alimento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Posso avere",
+          "symbolLabel": "posso_avere",
+          "spokenText": "Posso avere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Sono sazio",
+          "symbolLabel": "sazio",
+          "spokenText": "Sono sazio, grazie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Buon appetito",
+          "symbolLabel": "buon_appetito",
+          "spokenText": "Buon appetito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

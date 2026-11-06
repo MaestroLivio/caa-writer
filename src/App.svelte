@@ -16,6 +16,10 @@
   import ImportDialog from "./lib/components/ImportDialog.svelte";
   import DocumentAssistant from "./lib/components/DocumentAssistant.svelte";
   import CliConsole from "./lib/components/CliConsole.svelte";
+  import UserHome from "./lib/components/UserHome.svelte";
+  import BoardPlayer from "./lib/components/BoardPlayer.svelte";
+  import ProfileSetup from "./lib/components/ProfileSetup.svelte";
+  import ProfileManager from "./lib/components/ProfileManager.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
   import FreeBoard from "./lib/components/FreeBoard.svelte";
   import { recordRecent } from "./lib/recent";
@@ -39,7 +43,7 @@
     type AssociationScope,
     type WorkspacePanel,
   } from "./lib/workspace/layout";
-  import type { CollectionInfo, DocumentOperation, ImportReport } from "./lib/types";
+  import type { CollectionInfo, DocumentOperation, ImportReport, Profile, ProfileBoard } from "./lib/types";
   import {
     defaultSettings,
     type AiConfig,
@@ -145,6 +149,15 @@
   let pictogramCollections = $state<CollectionInfo[]>([]);
   let assistantOpen = $state(false);
   let cliOpen = $state(false);
+  let profiles = $state<Profile[]>([]);
+  let activeProfile = $state<Profile | null>(null);
+  let userBoards = $state<ProfileBoard[]>([]);
+  let creatorUnlocked = $state(true);
+  let creatorPin = $state("");
+  let setupOpen = $state(false);
+  let profileManagerOpen = $state(false);
+  let boardPlayerId = $state<string | null>(null);
+  const userMode = $derived(Boolean(activeProfile) && !creatorUnlocked);
   let lastDocumentEdit = $state<{
     settings: DocumentSettings;
     table: boolean;
@@ -246,6 +259,91 @@
       pictogramCollections = await api.listPictogramCollections();
     } catch {
       /* la libreria personale non deve bloccare l'avvio */
+    }
+  }
+
+  async function loadBoardsForProfile(profile: Profile) {
+    try {
+      userBoards = await api.profileBoards(profile.id);
+    } catch {
+      userBoards = [];
+    }
+  }
+
+  async function initializeProfiles() {
+    if (!native) return;
+    try {
+      profiles = await api.profilesList();
+      if (profiles.length === 0) {
+        activeProfile = null;
+        userBoards = [];
+        setupOpen = true;
+        creatorUnlocked = true;
+        return;
+      }
+      const active = await api.profileActive();
+      activeProfile = active ?? profiles[0];
+      if (activeProfile) await loadBoardsForProfile(activeProfile);
+      creatorUnlocked = false;
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function saveFirstProfile(profile: Profile, pin: string | null) {
+    await api.profileSave(profile, null);
+    if (pin) await api.creatorSetPin(pin, null);
+    await api.profileSetActive(profile.id);
+    try {
+      const available = await api.boardsList();
+      for (const [index, board] of available.slice(0, 3).entries()) {
+        await api.profileAssignBoard(profile.id, board.id, true, index, null);
+      }
+    } catch {
+      /* i materiali si possono assegnare in seguito dalla Gestione utenti */
+    }
+    await initializeProfiles();
+    setupOpen = false;
+    creatorUnlocked = true;
+    toast(`Profilo «${profile.name}» creato.`, "info");
+  }
+
+  async function openCreator() {
+    if (native) {
+      try {
+        const needsPin = await api.creatorPinStatus();
+        if (needsPin) {
+          const pin = window.prompt("PIN dell'Area Creator");
+          if (!pin) return;
+          if (!(await api.creatorVerifyPin(pin))) {
+            toast("PIN non valido.", "warn");
+            return;
+          }
+          creatorPin = pin;
+        }
+      } catch (error) {
+        toast(error instanceof Error ? error.message : String(error), "error");
+        return;
+      }
+    }
+    creatorUnlocked = true;
+    boardPlayerId = null;
+    if (activeProfile) await loadBoardsForProfile(activeProfile);
+  }
+
+  async function exitCreator() {
+    creatorUnlocked = false;
+    creatorPin = "";
+    boardPlayerId = null;
+    if (activeProfile) await loadBoardsForProfile(activeProfile);
+  }
+
+  async function refreshProfileData() {
+    profiles = await api.profilesList();
+    if (activeProfile) {
+      const current = profiles.find((profile) => profile.id === activeProfile!.id);
+      if (current) activeProfile = current;
+      await loadBoardsForProfile(activeProfile);
     }
   }
 
@@ -452,6 +550,7 @@
         preferences = await api.listPreferences();
         templates = await api.listTemplates();
         await refreshPictogramCollections();
+        await initializeProfiles();
         aiConfig = {
           enabled: aiStatus.enabled,
           binary_path: aiStatus.binary_path,
@@ -478,6 +577,7 @@
     })();
 
     const onKey = (event: KeyboardEvent) => {
+      if (userMode) return;
       if (event.key === "Escape") {
         if (findOpen) {
           findOpen = false;
@@ -539,6 +639,7 @@
       }
     };
     const onTypingKey = (event: KeyboardEvent) => {
+      if (userMode) return;
       const target = event.target as HTMLElement | null;
       if (!target?.closest(".ProseMirror")) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -2006,6 +2107,9 @@
       cmd("save", "Salva", "save", () => void saveDocument(false), { shortcut: "Ctrl+S" }),
       cmd("save-as", "Salva con nome", "save-all", () => void saveDocument(true)),
       cmd("import", "Importa", "import", () => void importDocument()),
+      cmd("exit-creator", "Esci dal Creator", "arrow-right", () => void exitCreator(), {
+        enabled: Boolean(activeProfile && creatorUnlocked),
+      }),
     ];
   }
 
@@ -2582,6 +2686,8 @@
           ]),
           group("ai-model", "Modello neurale", [
             cmd("open-cli", "Console CLI", "terminal", () => (cliOpen = true)),
+            cmd("manage-profiles", "Gestione utenti", "accessibility", () => (profileManagerOpen = true)),
+            cmd("exit-creator", "Torna all'Utilizzatore", "arrow-right", () => void exitCreator()),
             cmd("ai-status", "Stato del modello", "badge-check", () =>
               report = {
                 title: "Modello neurale",
@@ -2734,7 +2840,23 @@
 
 <svelte:head>
   <title>{view === "editor" ? `${docTitle} · CAA Writer` : "CAA Writer"}</title>
-</svelte:head>{#if view === "home"}
+</svelte:head>
+
+{#if userMode && !boardPlayerId}
+  <UserHome
+    profile={activeProfile!}
+    boards={userBoards}
+    onOpenBoard={(id) => (boardPlayerId = id)}
+    onOpenEditor={() => toast("L'editor semplificato dell'Utilizzatore è in preparazione.", "warn")}
+    onOpenCreator={() => void openCreator()}
+  />
+{/if}
+
+{#if boardPlayerId && activeProfile}
+  <BoardPlayer boardId={boardPlayerId} profile={activeProfile} onClose={() => (boardPlayerId = null)} />
+{/if}
+
+{#if view === "home"}
   <HomeScreen
     {stats}
     {templates}
@@ -3048,6 +3170,40 @@
     <button class="unit-menu__item" role="menuitem" onclick={resetModifiers}>Ripristina automatici</button>
     <button class="unit-menu__item unit-menu__item--close" role="menuitem" onclick={() => (unitMenu = null)}>Chiudi</button>
   </div>
+{/if}
+
+{#if setupOpen}
+  <ProfileSetup onSave={saveFirstProfile} />
+{/if}
+
+{#if profileManagerOpen}
+  <ProfileManager
+    profiles={profiles}
+    creatorPin={creatorPin}
+    onClose={() => (profileManagerOpen = false)}
+    onChanged={refreshProfileData}
+  />
+{/if}
+
+{#if cliOpen}
+  <CliConsole onClose={() => (cliOpen = false)} />
+{/if}
+
+{#if assistantOpen}
+  <DocumentAssistant
+    onClose={() => (assistantOpen = false)}
+    onApply={applyDocumentPlan}
+    onUndo={undoDocumentPlan}
+    neuralReady={neuralConfigured}
+  />
+{/if}
+
+{#if importPaths.length > 0}
+  <ImportDialog
+    paths={importPaths}
+    onClose={() => (importPaths = [])}
+    onImported={(report, collection) => void onPictogramsImported(report, collection)}
+  />
 {/if}
 
 {#if settingsOpen}

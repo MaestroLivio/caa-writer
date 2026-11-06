@@ -50,6 +50,7 @@
       "../resources/symbol-packs/**/*",
       "../resources/templates/**/*",
       "../resources/cli/*",
+      "../resources/boards/**/*",
       "../resources/ai/*"
     ],
     "macOS": {

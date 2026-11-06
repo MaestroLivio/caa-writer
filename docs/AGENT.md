@@ -223,6 +223,19 @@ ai quattro storici. I modelli sono `grid`, `schedule`, `sequence`, `tokens`,
 Restituiscono pagine in millimetri con simboli risolti. Le operazioni sono
 validate e gli elementi bloccati non vengono modificati.
 
+### 5.5b Profili e sistemi comunicativi
+
+| Metodo | Parametri |
+|---|---|
+| `profiles.list` | — |
+| `boards.list` | — |
+| `boards.build` | `id` |
+
+`boards.list` restituisce i 30 sistemi comunicativi con pagine e celle.
+`boards.build` risolve i pittogrammi delle celle e restituisce il grafo
+navigabile (pagine, celle, azioni `speak`/`append`/`navigate`/`back`/`home`).
+La modalità Utilizzatore usa questi sistemi; la console CLI li può ispezionare.
+
 ### 5.6 Importazione e collezioni
 
 | Metodo | Parametri |
@@ -406,7 +419,18 @@ completo.
 3. Applicare solo operazioni validate; per la GUI usare il pannello «Modifica
    con IA», che applica le operazioni alle transazioni ProseMirror.
 
-## 8bis. Console CLI nella GUI
+## 8bis. Modalità Utilizzatore e Creator
+
+All'avvio, se esiste un profilo attivo, CAA Writer mostra la home
+dell'Utilizzatore: solo schede dei sistemi assegnati e le funzioni abilitate.
+Il pulsante **Area Creator** richiede il PIN locale, se configurato, e apre
+l'ambiente completo (Ribbon, Studio, gestione profili, CLI).
+
+I profili sono in `profiles` (SQLite) e contengono nome, tema, livello editor,
+funzionalità, voce, accessibilità e navigazione. Le assegnazioni sono in
+`profile_boards`. La migrazione è la v4; non richiede dati sanitari.
+
+## 8ter. Console CLI nella GUI
 
 In CAA Writer: **Strumenti IA → Modello neurale → Console CLI** (il gruppo può
 essere nel menu «Gruppi»). La console esegue gli stessi metodi della CLI con

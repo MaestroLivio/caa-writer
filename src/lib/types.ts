@@ -781,3 +781,67 @@ export interface CliRunResult {
   json: unknown;
   binary: string;
 }
+
+export interface Profile {
+  id: string;
+  name: string;
+  avatar: string;
+  age_theme: string;
+  editor_level: number;
+  features: string[];
+  voice: Record<string, unknown>;
+  accessibility: Record<string, unknown>;
+  navigation: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProfileBoard {
+  profileId: string;
+  boardId: string;
+  position: number;
+  enabled: boolean;
+  title: string;
+  description: string;
+  pages: number;
+}
+
+export interface BoardMeta {
+  id: string;
+  title: string;
+  description: string;
+  ageTheme: string;
+  pages: number;
+  cells: number;
+}
+
+export interface BoardAction {
+  type: string;
+  targetPageId?: string | null;
+}
+
+export interface BoardCell {
+  id: string;
+  label: string;
+  symbolLabel: string;
+  spokenText: string;
+  action: BoardAction | null;
+  symbolId?: string | null;
+  svg?: string | null;
+  approximate?: boolean;
+}
+
+export interface BoardPage {
+  id: string;
+  title: string;
+  cells: BoardCell[];
+}
+
+export interface BoardSystem {
+  id: string;
+  title: string;
+  description: string;
+  ageTheme: string;
+  rootPageId: string;
+  pages: BoardPage[];
+}

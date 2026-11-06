@@ -1,0 +1,703 @@
+{
+  "id": "boards.igiene",
+  "title": "Igiene personale",
+  "description": "Routine di igiene per mani, denti, doccia, capelli e viso, con prodotti e richieste di aiuto o privacy.",
+  "ageTheme": "primaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Igiene personale",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Mani",
+          "symbolLabel": "mani",
+          "spokenText": "Apri il lavaggio delle mani",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "mani"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Denti",
+          "symbolLabel": "denti",
+          "spokenText": "Apri la cura dei denti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "denti"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Doccia",
+          "symbolLabel": "doccia",
+          "spokenText": "Apri la doccia",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "doccia"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Capelli",
+          "symbolLabel": "capelli",
+          "spokenText": "Apri la cura dei capelli",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "capelli"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Viso",
+          "symbolLabel": "viso",
+          "spokenText": "Apri la cura del viso",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "viso"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Devo lavarmi",
+          "symbolLabel": "devo_lavarmi",
+          "spokenText": "Devo lavarmi",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Sono pulito",
+          "symbolLabel": "sono_pulito",
+          "spokenText": "Sono pulito",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mani",
+      "title": "Mani",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Acqua",
+          "symbolLabel": "acqua_mani",
+          "spokenText": "Apro l'acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Sapone",
+          "symbolLabel": "sapone",
+          "spokenText": "Prendo il sapone",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Strofinare",
+          "symbolLabel": "strofinare",
+          "spokenText": "Strofino le mani",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Risciacquare",
+          "symbolLabel": "risciacquare",
+          "spokenText": "Risciacquo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Asciugare",
+          "symbolLabel": "asciugare",
+          "spokenText": "Asciugo le mani",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Unghie",
+          "symbolLabel": "unghie",
+          "spokenText": "Taglio le unghie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "denti",
+      "title": "Denti",
+      "cells": [
+        {
+          "id": "c17",
+          "label": "Spazzolino",
+          "symbolLabel": "spazzolino",
+          "spokenText": "Prendo lo spazzolino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c18",
+          "label": "Dentifricio",
+          "symbolLabel": "dentifricio",
+          "spokenText": "Metto il dentifricio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Spazzolare",
+          "symbolLabel": "spazzolare",
+          "spokenText": "Spazzolo i denti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Risciacquare",
+          "symbolLabel": "risciacquare_denti",
+          "spokenText": "Risciacquo la bocca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Filo",
+          "symbolLabel": "filo",
+          "spokenText": "Uso il filo interdentale",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Dentista",
+          "symbolLabel": "dentista",
+          "spokenText": "Ho un appuntamento dal dentista",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Due minuti",
+          "symbolLabel": "due_minuti",
+          "spokenText": "Spazzolo per due minuti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "doccia",
+      "title": "Doccia",
+      "cells": [
+        {
+          "id": "c26",
+          "label": "Doccia",
+          "symbolLabel": "doccia_azione",
+          "spokenText": "Faccio la doccia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c27",
+          "label": "Shampoo",
+          "symbolLabel": "shampoo",
+          "spokenText": "Uso lo shampoo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Bagnoschiuma",
+          "symbolLabel": "bagnoschiuma",
+          "spokenText": "Uso il bagnoschiuma",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Temperatura",
+          "symbolLabel": "temperatura",
+          "spokenText": "Regolo la temperatura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Salvietta",
+          "symbolLabel": "salvietta",
+          "spokenText": "Prendo la salvietta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Asciugamano",
+          "symbolLabel": "asciugamano",
+          "spokenText": "Mi passi l'asciugamano?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Prodotti",
+          "symbolLabel": "prodotti",
+          "spokenText": "Apri i prodotti per la cura",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "prodotti"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prodotti",
+      "title": "Prodotti per la cura",
+      "cells": [
+        {
+          "id": "c35",
+          "label": "Deodorante",
+          "symbolLabel": "deodorante",
+          "spokenText": "Uso il deodorante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c36",
+          "label": "Crema",
+          "symbolLabel": "crema",
+          "spokenText": "Metto la crema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Rasoio",
+          "symbolLabel": "rasoio",
+          "spokenText": "Uso il rasoio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Spazzola",
+          "symbolLabel": "spazzola",
+          "spokenText": "Uso la spazzola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Cotton fioc",
+          "symbolLabel": "cotton_fioc",
+          "spokenText": "Uso un cotton fioc",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Sapone liquido",
+          "symbolLabel": "sapone_liquido",
+          "spokenText": "Uso il sapone liquido",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Asciugacapelli",
+          "symbolLabel": "asciugacapelli",
+          "spokenText": "Uso l'asciugacapelli",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "capelli",
+      "title": "Capelli",
+      "cells": [
+        {
+          "id": "c44",
+          "label": "Lavare",
+          "symbolLabel": "lavare_capelli",
+          "spokenText": "Lavo i capelli",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c45",
+          "label": "Pettinare",
+          "symbolLabel": "pettinare",
+          "spokenText": "Mi pettino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Asciugare",
+          "symbolLabel": "asciugare_capelli",
+          "spokenText": "Asciugo i capelli",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Tagliare",
+          "symbolLabel": "tagliare_capelli",
+          "spokenText": "Vorrei tagliare i capelli",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Spazzola",
+          "symbolLabel": "spazzola_capelli",
+          "spokenText": "Dove è la spazzola?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Elastico",
+          "symbolLabel": "elastico",
+          "spokenText": "Mi serve un elastico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Specchio",
+          "symbolLabel": "specchio",
+          "spokenText": "Mi guardo allo specchio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "viso",
+      "title": "Viso",
+      "cells": [
+        {
+          "id": "c53",
+          "label": "Lavare",
+          "symbolLabel": "lavare_viso",
+          "spokenText": "Lavo il viso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c54",
+          "label": "Asciugare",
+          "symbolLabel": "asciugare_viso",
+          "spokenText": "Asciugo il viso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Crema",
+          "symbolLabel": "crema_viso",
+          "spokenText": "Metto la crema sul viso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Barba",
+          "symbolLabel": "barba",
+          "spokenText": "Devo fare la barba",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Trucco",
+          "symbolLabel": "trucco",
+          "spokenText": "Metto il trucco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Specchio",
+          "symbolLabel": "specchio_viso",
+          "spokenText": "Ho bisogno dello specchio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Brufolo",
+          "symbolLabel": "brufolo",
+          "spokenText": "Ho un brufolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c62",
+          "label": "Devo lavarmi",
+          "symbolLabel": "devo_lavarmi_frase",
+          "spokenText": "Devo lavarmi",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c63",
+          "label": "Mi aiuti?",
+          "symbolLabel": "mi_aiuti_igiene",
+          "spokenText": "Mi aiuti a lavarmi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Non voglio",
+          "symbolLabel": "non_voglio_igiene",
+          "spokenText": "Non voglio farlo adesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Fa male",
+          "symbolLabel": "fa_male_igiene",
+          "spokenText": "Fa male",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Sono pronto",
+          "symbolLabel": "sono_pronto",
+          "spokenText": "Sono pronto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Mi passi l'asciugamano?",
+          "symbolLabel": "passa_asciugamano",
+          "spokenText": "Mi passi l'asciugamano?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Ho bisogno di privacy",
+          "symbolLabel": "privacy",
+          "spokenText": "Ho bisogno di privacy",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Grazie",
+          "symbolLabel": "grazie_igiene",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

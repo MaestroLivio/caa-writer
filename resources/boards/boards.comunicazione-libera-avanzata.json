@@ -1,0 +1,712 @@
+{
+  "id": "boards.comunicazione-libera-avanzata",
+  "title": "Comunicazione libera avanzata",
+  "description": "Nuclei, verbi, descrizioni, argomentazione e strategie di riparazione per costruire messaggi liberi.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Comunicazione libera avanzata",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Nuclei",
+          "symbolLabel": "nuclei_home",
+          "spokenText": "Apri i nuclei",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "nuclei"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Verbi",
+          "symbolLabel": "verbi_home",
+          "spokenText": "Apri i verbi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "verbi"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Descrivere",
+          "symbolLabel": "descrivere_home",
+          "spokenText": "Apri le descrizioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "descrivere"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Argomentare",
+          "symbolLabel": "argomentare_home",
+          "spokenText": "Apri l'argomentazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "argomentare"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Strategie",
+          "symbolLabel": "strategie_home",
+          "spokenText": "Apri le strategie",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "strategie"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_libera",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio dire",
+          "symbolLabel": "voglio_dire",
+          "spokenText": "Voglio dire",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Puoi spiegarmi meglio",
+          "symbolLabel": "spiegami",
+          "spokenText": "Puoi spiegarmi meglio?",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nuclei",
+      "title": "Nuclei",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Io",
+          "symbolLabel": "io",
+          "spokenText": "Io",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Tu",
+          "symbolLabel": "tu",
+          "spokenText": "Tu",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Lui",
+          "symbolLabel": "lui",
+          "spokenText": "Lui",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Lei",
+          "symbolLabel": "lei",
+          "spokenText": "Lei",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Noi",
+          "symbolLabel": "noi",
+          "spokenText": "Noi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Voi",
+          "symbolLabel": "voi",
+          "spokenText": "Voi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Loro",
+          "symbolLabel": "loro",
+          "spokenText": "Loro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "verbi",
+      "title": "Verbi",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Essere",
+          "symbolLabel": "essere",
+          "spokenText": "Essere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Avere",
+          "symbolLabel": "avere",
+          "spokenText": "Avere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Volere",
+          "symbolLabel": "volere",
+          "spokenText": "Volere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Potere",
+          "symbolLabel": "potere",
+          "spokenText": "Potere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Dovere",
+          "symbolLabel": "dovere",
+          "spokenText": "Dovere",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Fare",
+          "symbolLabel": "fare",
+          "spokenText": "Fare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Dire",
+          "symbolLabel": "dire",
+          "spokenText": "Dire",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "descrivere",
+      "title": "Descrivere",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Grande",
+          "symbolLabel": "grande",
+          "spokenText": "È grande",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Piccolo",
+          "symbolLabel": "piccolo",
+          "spokenText": "È piccolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Caldo",
+          "symbolLabel": "caldo_desc",
+          "spokenText": "È caldo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Freddo",
+          "symbolLabel": "freddo_desc",
+          "spokenText": "È freddo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Bello",
+          "symbolLabel": "bello",
+          "spokenText": "È bello",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Brutto",
+          "symbolLabel": "brutto",
+          "spokenText": "È brutto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Importante",
+          "symbolLabel": "importante_desc",
+          "spokenText": "È importante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "argomentare",
+      "title": "Argomentare",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Perché",
+          "symbolLabel": "perche_arg",
+          "spokenText": "Perché",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Quindi",
+          "symbolLabel": "quindi",
+          "spokenText": "Quindi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Però",
+          "symbolLabel": "pero",
+          "spokenText": "Però",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Secondo me",
+          "symbolLabel": "secondo_me_arg",
+          "spokenText": "Secondo me",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Primo",
+          "symbolLabel": "primo_arg",
+          "spokenText": "Primo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Inoltre",
+          "symbolLabel": "inoltre",
+          "spokenText": "Inoltre",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Connettivi",
+          "symbolLabel": "connettivi_nav",
+          "spokenText": "Apri i connettivi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "connettivi"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "connettivi",
+      "title": "Connettivi",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Ma",
+          "symbolLabel": "ma",
+          "spokenText": "Ma",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Però",
+          "symbolLabel": "pero_conn",
+          "spokenText": "Però",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Quindi",
+          "symbolLabel": "quindi_conn",
+          "spokenText": "Quindi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Perché",
+          "symbolLabel": "perche_conn",
+          "spokenText": "Perché",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Anche",
+          "symbolLabel": "anche",
+          "spokenText": "Anche",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Invece",
+          "symbolLabel": "invece",
+          "spokenText": "Invece",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Infine",
+          "symbolLabel": "infine",
+          "spokenText": "Infine",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "strategie",
+      "title": "Strategie",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_libera",
+          "spokenText": "Non capisco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Ripeti",
+          "symbolLabel": "ripeti_libera",
+          "spokenText": "Ripeti, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Più lentamente",
+          "symbolLabel": "piu_lentamente_libera",
+          "spokenText": "Più lentamente",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Scrivi",
+          "symbolLabel": "scrivi",
+          "spokenText": "Puoi scriverlo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Esempio",
+          "symbolLabel": "esempio",
+          "spokenText": "Fammi un esempio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Pausa",
+          "symbolLabel": "pausa_libera",
+          "spokenText": "Ho bisogno di una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_libera",
+          "spokenText": "Mi serve aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Voglio dire che",
+          "symbolLabel": "voglio_dire_che",
+          "spokenText": "Voglio dire che",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Secondo me",
+          "symbolLabel": "secondo_me_frase",
+          "spokenText": "Secondo me",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Non sono d'accordo perché",
+          "symbolLabel": "non_daccordo_perche",
+          "spokenText": "Non sono d'accordo perché",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Puoi spiegarmi meglio?",
+          "symbolLabel": "spiegami_frase",
+          "spokenText": "Puoi spiegarmi meglio?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Facciamo un esempio",
+          "symbolLabel": "facciamo_esempio",
+          "spokenText": "Facciamo un esempio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "In conclusione",
+          "symbolLabel": "in_conclusione",
+          "spokenText": "In conclusione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ho bisogno di una pausa",
+          "symbolLabel": "pausa_frase_libera",
+          "spokenText": "Ho bisogno di una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie per l'ascolto",
+          "symbolLabel": "grazie_ascolto",
+          "spokenText": "Grazie per l'ascolto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

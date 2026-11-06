@@ -1,0 +1,712 @@
+{
+  "id": "boards.conversazione-quotidiana",
+  "title": "Conversazione quotidiana",
+  "description": "Saluti, domande, risposte e formule di cortesia, con una pagina per chiedere di ripetere o chiarire.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Conversazione quotidiana",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Saluti",
+          "symbolLabel": "saluti_home",
+          "spokenText": "Apri i saluti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "saluti"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Domande",
+          "symbolLabel": "domande_home",
+          "spokenText": "Apri le domande",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "domande"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Risposte",
+          "symbolLabel": "risposte_home",
+          "spokenText": "Apri le risposte",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "risposte"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Small talk",
+          "symbolLabel": "small_talk_home",
+          "spokenText": "Apri le conversazioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "small-talk"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Cortesia",
+          "symbolLabel": "cortesia_home",
+          "spokenText": "Apri la cortesia",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "cortesia"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_conv",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Come stai",
+          "symbolLabel": "come_stai_conv",
+          "spokenText": "Come stai",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_conv",
+          "spokenText": "Non capisco",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "saluti",
+      "title": "Saluti",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Ciao",
+          "symbolLabel": "ciao",
+          "spokenText": "Ciao",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Buongiorno",
+          "symbolLabel": "buongiorno",
+          "spokenText": "Buongiorno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Buonasera",
+          "symbolLabel": "buonasera",
+          "spokenText": "Buonasera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Arrivederci",
+          "symbolLabel": "arrivederci",
+          "spokenText": "Arrivederci",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "A presto",
+          "symbolLabel": "a_presto",
+          "spokenText": "A presto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Come stai",
+          "symbolLabel": "come_stai_saluti",
+          "spokenText": "Come stai?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Piacere",
+          "symbolLabel": "piacere",
+          "spokenText": "Piacere di conoscerti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "domande",
+      "title": "Domande",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Cosa",
+          "symbolLabel": "cosa",
+          "spokenText": "Cosa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Dove",
+          "symbolLabel": "dove",
+          "spokenText": "Dove?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Quando",
+          "symbolLabel": "quando",
+          "spokenText": "Quando?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Chi",
+          "symbolLabel": "chi",
+          "spokenText": "Chi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Perché",
+          "symbolLabel": "perche",
+          "spokenText": "Perché?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Come",
+          "symbolLabel": "come",
+          "spokenText": "Come?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Quanto",
+          "symbolLabel": "quanto",
+          "spokenText": "Quanto?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "risposte",
+      "title": "Risposte",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Sì",
+          "symbolLabel": "si",
+          "spokenText": "Sì",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "No",
+          "symbolLabel": "no",
+          "spokenText": "No",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Forse",
+          "symbolLabel": "forse",
+          "spokenText": "Forse",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Non so",
+          "symbolLabel": "non_so_conv",
+          "spokenText": "Non so",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Va bene",
+          "symbolLabel": "va_bene_conv",
+          "spokenText": "Va bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Certo",
+          "symbolLabel": "certo",
+          "spokenText": "Certo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_nav",
+          "spokenText": "Apri le richieste di chiarimento",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "non-capisco"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "non-capisco",
+      "title": "Chiedere di ripetere",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Non ho capito",
+          "symbolLabel": "non_ho_capito",
+          "spokenText": "Non ho capito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Ripeti",
+          "symbolLabel": "ripeti",
+          "spokenText": "Puoi ripetere?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Più lentamente",
+          "symbolLabel": "piu_lentamente",
+          "spokenText": "Parla più lentamente",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Cosa significa",
+          "symbolLabel": "cosa_significa",
+          "spokenText": "Cosa significa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Puoi scrivere",
+          "symbolLabel": "puoi_scrivere",
+          "spokenText": "Puoi scriverlo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Parla chiaro",
+          "symbolLabel": "parla_chiaro",
+          "spokenText": "Parla più chiaro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Scusa",
+          "symbolLabel": "scusa_conv",
+          "spokenText": "Scusa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "small-talk",
+      "title": "Conversazioni",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Meteo",
+          "symbolLabel": "meteo_conv",
+          "spokenText": "Parliamo del meteo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Weekend",
+          "symbolLabel": "weekend",
+          "spokenText": "Cosa fai nel weekend?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Famiglia",
+          "symbolLabel": "famiglia_conv",
+          "spokenText": "Come sta la famiglia?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Lavoro",
+          "symbolLabel": "lavoro_conv",
+          "spokenText": "Come va il lavoro?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Cibo",
+          "symbolLabel": "cibo_conv",
+          "spokenText": "Ti piace cucinare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Sport",
+          "symbolLabel": "sport_conv",
+          "spokenText": "Segui lo sport?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Novità",
+          "symbolLabel": "novita",
+          "spokenText": "Ci sono novità?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cortesia",
+      "title": "Cortesia",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Per favore",
+          "symbolLabel": "per_favore_conv",
+          "spokenText": "Per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Grazie",
+          "symbolLabel": "grazie_conv",
+          "spokenText": "Grazie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Scusa",
+          "symbolLabel": "scusa_cortesia",
+          "spokenText": "Scusa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Permesso",
+          "symbolLabel": "permesso_conv",
+          "spokenText": "Permesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Buon appetito",
+          "symbolLabel": "buon_appetito_conv",
+          "spokenText": "Buon appetito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Salve",
+          "symbolLabel": "salve",
+          "spokenText": "Salve",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Arrivederci",
+          "symbolLabel": "arrivederci_cortesia",
+          "spokenText": "Arrivederci",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Come stai?",
+          "symbolLabel": "come_stai_frase",
+          "spokenText": "Come stai?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Sto bene, grazie",
+          "symbolLabel": "sto_bene_grazie",
+          "spokenText": "Sto bene, grazie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_frase",
+          "spokenText": "Non capisco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Puoi ripetere?",
+          "symbolLabel": "puoi_ripetere",
+          "spokenText": "Puoi ripetere?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Di cosa parliamo?",
+          "symbolLabel": "di_cosa_parliamo",
+          "spokenText": "Di cosa parliamo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Interessante",
+          "symbolLabel": "interessante",
+          "spokenText": "Interessante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Devo andare",
+          "symbolLabel": "devo_andare",
+          "spokenText": "Devo andare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "A presto",
+          "symbolLabel": "a_presto_frase",
+          "spokenText": "A presto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

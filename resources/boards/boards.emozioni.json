@@ -1,0 +1,712 @@
+{
+  "id": "boards.emozioni",
+  "title": "Emozioni",
+  "description": "Riconoscere e nominare le emozioni, leggere i segnali del corpo, chiedere regolazione e bisogni emotivi.",
+  "ageTheme": "secondaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Emozioni",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Emozioni",
+          "symbolLabel": "emozioni_home",
+          "spokenText": "Apri le emozioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "emozioni"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Corpo",
+          "symbolLabel": "corpo_emoz",
+          "spokenText": "Apri i segnali del corpo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "corpo"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Regolazione",
+          "symbolLabel": "regolazione_home",
+          "spokenText": "Apri la regolazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "regolazione"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Intensità",
+          "symbolLabel": "intensita_home",
+          "spokenText": "Apri l'intensità",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "intensita"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Situazioni",
+          "symbolLabel": "situazioni_home",
+          "spokenText": "Apri le situazioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "situazioni"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_emoz",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Mi sento",
+          "symbolLabel": "mi_sento",
+          "spokenText": "Mi sento",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Ho bisogno di una pausa",
+          "symbolLabel": "pausa_home",
+          "spokenText": "Ho bisogno di una pausa",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "emozioni",
+      "title": "Emozioni",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Felice",
+          "symbolLabel": "felice",
+          "spokenText": "Sono felice",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Triste",
+          "symbolLabel": "triste",
+          "spokenText": "Sono triste",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Arrabbiato",
+          "symbolLabel": "arrabbiato",
+          "spokenText": "Sono arrabbiato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Ansioso",
+          "symbolLabel": "ansioso",
+          "spokenText": "Sono ansioso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Spaventato",
+          "symbolLabel": "spaventato",
+          "spokenText": "Ho paura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Sorpreso",
+          "symbolLabel": "sorpreso",
+          "spokenText": "Sono sorpreso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Calmo",
+          "symbolLabel": "calmo",
+          "spokenText": "Sono calmo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "corpo",
+      "title": "Segnali del corpo",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Cuore",
+          "symbolLabel": "cuore",
+          "spokenText": "Il cuore batte forte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Respiro",
+          "symbolLabel": "respiro_emoz",
+          "spokenText": "Il respiro è corto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Stomaco",
+          "symbolLabel": "stomaco_emoz",
+          "spokenText": "Ho lo stomaco stretto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Tensione",
+          "symbolLabel": "tensione",
+          "spokenText": "Sento tensione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Lacrime",
+          "symbolLabel": "lacrime",
+          "spokenText": "Mi vengono le lacrime",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Energia",
+          "symbolLabel": "energia",
+          "spokenText": "Non ho energia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Voce",
+          "symbolLabel": "voce",
+          "spokenText": "La voce trema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "regolazione",
+      "title": "Regolazione",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Respirare",
+          "symbolLabel": "respirare",
+          "spokenText": "Faccio respiri profondi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Pausa",
+          "symbolLabel": "pausa_emoz",
+          "spokenText": "Ho bisogno di una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Contare",
+          "symbolLabel": "contare",
+          "spokenText": "Conto fino a dieci",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Camminare",
+          "symbolLabel": "camminare",
+          "spokenText": "Faccio una camminata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Parlare",
+          "symbolLabel": "parlare_emoz",
+          "spokenText": "Ho bisogno di parlare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Abbraccio",
+          "symbolLabel": "abbraccio",
+          "spokenText": "Vorrei un abbraccio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Bisogni",
+          "symbolLabel": "bisogni_emotivi_nav",
+          "spokenText": "Apri i bisogni emotivi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "bisogni-emotivi"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bisogni-emotivi",
+      "title": "Bisogni emotivi",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Sicurezza",
+          "symbolLabel": "sicurezza_emotiva",
+          "spokenText": "Ho bisogno di sicurezza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Ascolto",
+          "symbolLabel": "ascolto",
+          "spokenText": "Ho bisogno di ascolto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Spazio",
+          "symbolLabel": "spazio",
+          "spokenText": "Ho bisogno di spazio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Compagnia",
+          "symbolLabel": "compagnia_emotiva",
+          "spokenText": "Vorrei compagnia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Riposo",
+          "symbolLabel": "riposo_emotivo",
+          "spokenText": "Ho bisogno di riposo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Rassicurazione",
+          "symbolLabel": "rassicurazione",
+          "spokenText": "Mi serve rassicurazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Rispetto",
+          "symbolLabel": "rispetto_emotivo",
+          "spokenText": "Chiedo rispetto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "intensita",
+      "title": "Intensità",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Poco",
+          "symbolLabel": "poco",
+          "spokenText": "Mi sento poco coinvolto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Abbastanza",
+          "symbolLabel": "abbastanza",
+          "spokenText": "Sono abbastanza teso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Molto",
+          "symbolLabel": "molto",
+          "spokenText": "Sono molto agitato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Troppo",
+          "symbolLabel": "troppo",
+          "spokenText": "È troppo per me",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Di più",
+          "symbolLabel": "di_piu",
+          "spokenText": "Vorrei sentirmi meglio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Di meno",
+          "symbolLabel": "di_meno",
+          "spokenText": "Vorrei meno pressione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Al limite",
+          "symbolLabel": "al_limite",
+          "spokenText": "Sono al limite",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "situazioni",
+      "title": "Situazioni",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Casa",
+          "symbolLabel": "casa_emoz",
+          "spokenText": "A casa mi sento così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Lavoro",
+          "symbolLabel": "lavoro_emoz",
+          "spokenText": "Al lavoro mi sento così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Scuola",
+          "symbolLabel": "scuola_emoz",
+          "spokenText": "A scuola mi sento così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Amici",
+          "symbolLabel": "amici_emoz",
+          "spokenText": "Con gli amici mi sento così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Famiglia",
+          "symbolLabel": "famiglia_emoz",
+          "spokenText": "In famiglia mi sento così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Da solo",
+          "symbolLabel": "da_solo_emoz",
+          "spokenText": "Da solo mi sento così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "In gruppo",
+          "symbolLabel": "in_gruppo",
+          "spokenText": "In gruppo mi sento così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Mi sento",
+          "symbolLabel": "mi_sento_frase",
+          "spokenText": "Mi sento",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Sono felice",
+          "symbolLabel": "sono_felice",
+          "spokenText": "Sono felice",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Sono triste",
+          "symbolLabel": "sono_triste",
+          "spokenText": "Sono triste",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Sono arrabbiato",
+          "symbolLabel": "sono_arrabbiato",
+          "spokenText": "Sono arrabbiato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ho paura",
+          "symbolLabel": "ho_paura",
+          "spokenText": "Ho paura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Ho bisogno di",
+          "symbolLabel": "ho_bisogno_emoz",
+          "spokenText": "Ho bisogno di",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Lasciami stare",
+          "symbolLabel": "lasciami_stare",
+          "spokenText": "Lasciami stare, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Mi aiuti?",
+          "symbolLabel": "mi_aiuti_emoz",
+          "spokenText": "Mi aiuti a calmarmi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

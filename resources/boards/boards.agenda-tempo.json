@@ -1,0 +1,712 @@
+{
+  "id": "boards.agenda-tempo",
+  "title": "Agenda e tempo",
+  "description": "Giorni, momenti della giornata, pianificazione, promemoria e scadenze per organizzare il tempo.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Agenda e tempo",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Giorni",
+          "symbolLabel": "giorni_home",
+          "spokenText": "Apri i giorni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "giorni"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Momenti",
+          "symbolLabel": "momenti_home",
+          "spokenText": "Apri i momenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "momenti"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Pianificare",
+          "symbolLabel": "pianificare_home",
+          "spokenText": "Apri la pianificazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "pianificare"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Promemoria",
+          "symbolLabel": "promemoria_home",
+          "spokenText": "Apri i promemoria",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "promemoria"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Scadenze",
+          "symbolLabel": "scadenze_home",
+          "spokenText": "Apri le scadenze",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "scadenze"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_agenda",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Oggi devo",
+          "symbolLabel": "oggi_devo",
+          "spokenText": "Oggi devo",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Che ore sono",
+          "symbolLabel": "che_ore_sono",
+          "spokenText": "Che ore sono?",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "giorni",
+      "title": "Giorni",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Lunedì",
+          "symbolLabel": "lunedi",
+          "spokenText": "Lunedì",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Martedì",
+          "symbolLabel": "martedi",
+          "spokenText": "Martedì",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Mercoledì",
+          "symbolLabel": "mercoledi",
+          "spokenText": "Mercoledì",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Giovedì",
+          "symbolLabel": "giovedi",
+          "spokenText": "Giovedì",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Venerdì",
+          "symbolLabel": "venerdi",
+          "spokenText": "Venerdì",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Sabato",
+          "symbolLabel": "sabato",
+          "spokenText": "Sabato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Settimana",
+          "symbolLabel": "settimana_nav",
+          "spokenText": "Apri la settimana",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "settimana"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "settimana",
+      "title": "La settimana",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Oggi",
+          "symbolLabel": "oggi",
+          "spokenText": "Oggi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Domani",
+          "symbolLabel": "domani",
+          "spokenText": "Domani",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Ieri",
+          "symbolLabel": "ieri",
+          "spokenText": "Ieri",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Questa settimana",
+          "symbolLabel": "questa_settimana",
+          "spokenText": "Questa settimana",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Prossima settimana",
+          "symbolLabel": "prossima_settimana",
+          "spokenText": "La prossima settimana",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Fine settimana",
+          "symbolLabel": "fine_settimana",
+          "spokenText": "Nel fine settimana",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Feriale",
+          "symbolLabel": "feriale",
+          "spokenText": "Nei giorni feriali",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "momenti",
+      "title": "Momenti",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Mattina",
+          "symbolLabel": "mattina",
+          "spokenText": "La mattina",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Pomeriggio",
+          "symbolLabel": "pomeriggio",
+          "spokenText": "Il pomeriggio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Sera",
+          "symbolLabel": "sera",
+          "spokenText": "La sera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Notte",
+          "symbolLabel": "notte",
+          "spokenText": "La notte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Adesso",
+          "symbolLabel": "adesso_agenda",
+          "spokenText": "Adesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Dopo",
+          "symbolLabel": "dopo",
+          "spokenText": "Dopo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Prima",
+          "symbolLabel": "prima",
+          "spokenText": "Prima",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pianificare",
+      "title": "Pianificare",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Appuntamento",
+          "symbolLabel": "appuntamento_agenda",
+          "spokenText": "Ho un appuntamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Calendario",
+          "symbolLabel": "calendario",
+          "spokenText": "Segno sul calendario",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Orario",
+          "symbolLabel": "orario_agenda",
+          "spokenText": "Controllo l'orario",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Spostare",
+          "symbolLabel": "spostare",
+          "spokenText": "Sposto l'impegno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Confermare",
+          "symbolLabel": "confermare",
+          "spokenText": "Confermo l'appuntamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Cancellare",
+          "symbolLabel": "cancellare",
+          "spokenText": "Cancello l'impegno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Aggiungere",
+          "symbolLabel": "aggiungere",
+          "spokenText": "Aggiungo un impegno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "promemoria",
+      "title": "Promemoria",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Sveglia",
+          "symbolLabel": "sveglia_agenda",
+          "spokenText": "Imposto la sveglia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Nota",
+          "symbolLabel": "nota",
+          "spokenText": "Scrivo una nota",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Telefono",
+          "symbolLabel": "telefono_agenda",
+          "spokenText": "Uso il telefono",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Avviso",
+          "symbolLabel": "avviso",
+          "spokenText": "Imposto un avviso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Ripetere",
+          "symbolLabel": "ripetere_agenda",
+          "spokenText": "Ripeto il promemoria",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Importante",
+          "symbolLabel": "importante",
+          "spokenText": "È importante",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Scadenza",
+          "symbolLabel": "scadenza_promemoria",
+          "spokenText": "Ricorda la scadenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "scadenze",
+      "title": "Scadenze",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Oggi",
+          "symbolLabel": "oggi_scadenza",
+          "spokenText": "Scade oggi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Entro",
+          "symbolLabel": "entro",
+          "spokenText": "Entro questa settimana",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Entro domani",
+          "symbolLabel": "entro_domani",
+          "spokenText": "Entro domani",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "In ritardo",
+          "symbolLabel": "in_ritardo_agenda",
+          "spokenText": "Sono in ritardo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Urgente",
+          "symbolLabel": "urgente",
+          "spokenText": "È urgente",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Finito",
+          "symbolLabel": "finito_agenda",
+          "spokenText": "Ho finito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Rimandare",
+          "symbolLabel": "rimandare",
+          "spokenText": "Devo rimandare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Che ore sono?",
+          "symbolLabel": "che_ore_frase",
+          "spokenText": "Che ore sono?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Quando?",
+          "symbolLabel": "quando_agenda",
+          "spokenText": "Quando?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Oggi non posso",
+          "symbolLabel": "oggi_non_posso",
+          "spokenText": "Oggi non posso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Facciamo domani",
+          "symbolLabel": "facciamo_domani",
+          "spokenText": "Facciamo domani",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Sono in ritardo",
+          "symbolLabel": "sono_in_ritardo_agenda",
+          "spokenText": "Sono in ritardo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Me lo ricordi?",
+          "symbolLabel": "me_lo_ricordi",
+          "spokenText": "Me lo ricordi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "È urgente",
+          "symbolLabel": "e_urgente",
+          "spokenText": "È urgente",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "A dopo",
+          "symbolLabel": "a_dopo",
+          "spokenText": "A dopo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

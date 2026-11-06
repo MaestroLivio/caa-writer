@@ -1,0 +1,800 @@
+{
+  "id": "boards.frutta-verdura",
+  "title": "Frutta e verdura",
+  "description": "Vocabolario di frutta, verdura, stagioni e mercato, con frasi per comprare, assaggiare e segnalare allergie.",
+  "ageTheme": "primaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Frutta e verdura",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Frutta",
+          "symbolLabel": "frutta",
+          "spokenText": "Apri la frutta",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frutta"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Verdura",
+          "symbolLabel": "verdura",
+          "spokenText": "Apri la verdura",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "verdura"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Mercato",
+          "symbolLabel": "mercato",
+          "spokenText": "Apri il mercato",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "mercato"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Preparazione",
+          "symbolLabel": "preparazione",
+          "spokenText": "Apri la preparazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "preparazione"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Gusto",
+          "symbolLabel": "gusto",
+          "spokenText": "Apri il gusto",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "gusto"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Vorrei della frutta",
+          "symbolLabel": "vorrei_frutta",
+          "spokenText": "Vorrei della frutta",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "È fresco",
+          "symbolLabel": "fresco_home",
+          "spokenText": "È fresco",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frutta",
+      "title": "Frutta",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Mela",
+          "symbolLabel": "mela",
+          "spokenText": "Vorrei una mela",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Banana",
+          "symbolLabel": "banana",
+          "spokenText": "Vorrei una banana",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Arancia",
+          "symbolLabel": "arancia",
+          "spokenText": "Vorrei un'arancia",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Pera",
+          "symbolLabel": "pera",
+          "spokenText": "Vorrei una pera",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Fragola",
+          "symbolLabel": "fragola",
+          "spokenText": "Vorrei delle fragole",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Uva",
+          "symbolLabel": "uva",
+          "spokenText": "Vorrei dell'uva",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Altri frutti",
+          "symbolLabel": "altri_frutti",
+          "spokenText": "Apri gli altri frutti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frutta-dettagli"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frutta-dettagli",
+      "title": "Altri frutti",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Ananas",
+          "symbolLabel": "ananas",
+          "spokenText": "Vorrei l'ananas",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Melone",
+          "symbolLabel": "melone",
+          "spokenText": "Vorrei del melone",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Anguria",
+          "symbolLabel": "anguria",
+          "spokenText": "Vorrei dell'anguria",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Kiwi",
+          "symbolLabel": "kiwi",
+          "spokenText": "Vorrei un kiwi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Limone",
+          "symbolLabel": "limone",
+          "spokenText": "Vorrei un limone",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Ciliegie",
+          "symbolLabel": "ciliegie",
+          "spokenText": "Vorrei delle ciliegie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Prugna",
+          "symbolLabel": "prugna",
+          "spokenText": "Vorrei una prugna",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "verdura",
+      "title": "Verdura",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Insalata",
+          "symbolLabel": "insalata",
+          "spokenText": "Vorrei dell'insalata",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Pomodoro",
+          "symbolLabel": "pomodoro",
+          "spokenText": "Vorrei un pomodoro",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Carota",
+          "symbolLabel": "carota",
+          "spokenText": "Vorrei una carota",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Zucchina",
+          "symbolLabel": "zucchina",
+          "spokenText": "Vorrei una zucchina",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Broccoli",
+          "symbolLabel": "broccoli",
+          "spokenText": "Vorrei dei broccoli",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Patata",
+          "symbolLabel": "patata",
+          "spokenText": "Vorrei una patata",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Cipolla",
+          "symbolLabel": "cipolla",
+          "spokenText": "Preferisco senza cipolla",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mercato",
+      "title": "Mercato",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Comprare",
+          "symbolLabel": "comprare",
+          "spokenText": "Vorrei comprare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Un chilo",
+          "symbolLabel": "un_chilo",
+          "spokenText": "Un chilo, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Maturo",
+          "symbolLabel": "maturo",
+          "spokenText": "È maturo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Fresco",
+          "symbolLabel": "fresco",
+          "spokenText": "È fresco?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Biologico",
+          "symbolLabel": "biologico",
+          "spokenText": "È biologico?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Prezzo",
+          "symbolLabel": "prezzo",
+          "spokenText": "Quanto costa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Stagioni",
+          "symbolLabel": "stagioni",
+          "spokenText": "Apri le stagioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "stagioni"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "stagioni",
+      "title": "Stagioni",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Primavera",
+          "symbolLabel": "primavera",
+          "spokenText": "In primavera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Estate",
+          "symbolLabel": "estate",
+          "spokenText": "In estate",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Autunno",
+          "symbolLabel": "autunno",
+          "spokenText": "In autunno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Inverno",
+          "symbolLabel": "inverno",
+          "spokenText": "In inverno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Di stagione",
+          "symbolLabel": "di_stagione",
+          "spokenText": "È di stagione?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Surgelato",
+          "symbolLabel": "surgelato",
+          "spokenText": "Va bene anche surgelato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Serra",
+          "symbolLabel": "serra",
+          "spokenText": "Viene dalla serra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "preparazione",
+      "title": "Preparazione",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Lavare",
+          "symbolLabel": "lavare",
+          "spokenText": "Devo lavare la verdura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Pelare",
+          "symbolLabel": "pelare",
+          "spokenText": "Mi aiuti a pelare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Tagliare",
+          "symbolLabel": "tagliare_frutta",
+          "spokenText": "Taglio a pezzi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Cuocere",
+          "symbolLabel": "cuocere_verdura",
+          "spokenText": "Lo cuocio al vapore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Crudo",
+          "symbolLabel": "crudo",
+          "spokenText": "Lo preferisco crudo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Cotto",
+          "symbolLabel": "cotto",
+          "spokenText": "Lo preferisco cotto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Servire",
+          "symbolLabel": "servire",
+          "spokenText": "Lo servo in tavola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "gusto",
+      "title": "Gusto",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Mi piace",
+          "symbolLabel": "mi_piace_frutta",
+          "spokenText": "Mi piace la frutta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Non mi piace",
+          "symbolLabel": "non_mi_piace_verdura",
+          "spokenText": "Non mi piace la verdura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Dolce",
+          "symbolLabel": "dolce_frutta",
+          "spokenText": "È dolce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Acido",
+          "symbolLabel": "acido",
+          "spokenText": "È troppo acido",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Maturo",
+          "symbolLabel": "maturo_gusto",
+          "spokenText": "È molto maturo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Sodo",
+          "symbolLabel": "sodo",
+          "spokenText": "È ancora sodo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Assaggiare",
+          "symbolLabel": "assaggiare",
+          "spokenText": "Posso assaggiare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c72",
+          "label": "Vorrei della frutta",
+          "symbolLabel": "vorrei_frutta_frase",
+          "spokenText": "Vorrei della frutta",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c73",
+          "label": "Vorrei della verdura",
+          "symbolLabel": "vorrei_verdura",
+          "spokenText": "Vorrei della verdura",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c74",
+          "label": "È fresco?",
+          "symbolLabel": "fresco_domanda",
+          "spokenText": "È fresco?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c75",
+          "label": "Quanto costa?",
+          "symbolLabel": "quanto_costa",
+          "spokenText": "Quanto costa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c76",
+          "label": "Non mi piace",
+          "symbolLabel": "non_mi_piace_frase",
+          "spokenText": "Non mi piace",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c77",
+          "label": "Sono allergico",
+          "symbolLabel": "allergico_frutta",
+          "spokenText": "Sono allergico a un frutto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c78",
+          "label": "Posso assaggiare?",
+          "symbolLabel": "posso_assaggiare",
+          "spokenText": "Posso assaggiare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c79",
+          "label": "Grazie",
+          "symbolLabel": "grazie_frutta",
+          "spokenText": "Grazie, molto gentile",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c80",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c81",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

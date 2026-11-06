@@ -1,0 +1,712 @@
+{
+  "id": "boards.gioco",
+  "title": "Gioco",
+  "description": "Giochi, turni, regole, richieste e emozioni durante il gioco con gli altri.",
+  "ageTheme": "infanzia",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Gioco",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Giochi",
+          "symbolLabel": "giochi_home",
+          "spokenText": "Apri i giochi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "giochi"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Turni",
+          "symbolLabel": "turni_home",
+          "spokenText": "Apri i turni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "turni"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Richieste",
+          "symbolLabel": "richieste_gioco",
+          "spokenText": "Apri le richieste",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "richieste"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Emozioni",
+          "symbolLabel": "emozioni_gioco",
+          "spokenText": "Apri le emozioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "emozioni"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Compagni",
+          "symbolLabel": "compagni_gioco",
+          "spokenText": "Apri i compagni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "compagni"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_gioco",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio giocare",
+          "symbolLabel": "voglio_giocare",
+          "spokenText": "Voglio giocare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Mi diverto",
+          "symbolLabel": "mi_diverto",
+          "spokenText": "Mi diverto",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "giochi",
+      "title": "Giochi",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Puzzle",
+          "symbolLabel": "puzzle",
+          "spokenText": "Facciamo un puzzle",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Carte",
+          "symbolLabel": "carte",
+          "spokenText": "Giochiamo a carte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Costruzioni",
+          "symbolLabel": "costruzioni",
+          "spokenText": "Costruisco con i blocchi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Palla",
+          "symbolLabel": "palla",
+          "spokenText": "Giochiamo con la palla",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Gioco da tavolo",
+          "symbolLabel": "gioco_tavolo",
+          "spokenText": "Prendo un gioco da tavolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Disegno",
+          "symbolLabel": "disegno_gioco",
+          "spokenText": "Disegniamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Nascondino",
+          "symbolLabel": "nascondino",
+          "spokenText": "Giochiamo a nascondino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "turni",
+      "title": "Turni",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Tocca a me",
+          "symbolLabel": "tocca_a_me",
+          "spokenText": "Tocca a me",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Tocca a te",
+          "symbolLabel": "tocca_a_te",
+          "spokenText": "Tocca a te",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Aspetta",
+          "symbolLabel": "aspetta_gioco",
+          "spokenText": "Aspetta il tuo turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Ancora",
+          "symbolLabel": "ancora_gioco",
+          "spokenText": "Ancora una volta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Basta",
+          "symbolLabel": "basta_gioco",
+          "spokenText": "Basta, mi fermo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Cambio",
+          "symbolLabel": "cambio_gioco",
+          "spokenText": "Cambio gioco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Regole",
+          "symbolLabel": "regole_nav",
+          "spokenText": "Apri le regole",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "regole-gioco"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "regole-gioco",
+      "title": "Regole del gioco",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Turno",
+          "symbolLabel": "turno_regola",
+          "spokenText": "Rispetto il turno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Aspettare",
+          "symbolLabel": "aspettare_regola",
+          "spokenText": "Aspetto con pazienza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Vincere",
+          "symbolLabel": "vincere",
+          "spokenText": "Ho vinto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Perdere",
+          "symbolLabel": "perdere",
+          "spokenText": "Ho perso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Barare",
+          "symbolLabel": "barare",
+          "spokenText": "Non si bara",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Rispettare",
+          "symbolLabel": "rispettare_gioco",
+          "spokenText": "Rispetto le regole",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Fine partita",
+          "symbolLabel": "fine_partita",
+          "spokenText": "La partita è finita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "richieste",
+      "title": "Richieste di gioco",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Giocare con me",
+          "symbolLabel": "giocare_con_me",
+          "spokenText": "Vuoi giocare con me?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Posso?",
+          "symbolLabel": "posso_gioco",
+          "spokenText": "Posso giocare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Prestami",
+          "symbolLabel": "prestami",
+          "spokenText": "Mi presti il gioco?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Scambiamo",
+          "symbolLabel": "scambiamo",
+          "spokenText": "Scambiamo i pezzi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Ancora una volta",
+          "symbolLabel": "ancora_una_volta",
+          "spokenText": "Ancora una partita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Smettiamo",
+          "symbolLabel": "smettiamo",
+          "spokenText": "Smettiamo per ora",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Scegli tu",
+          "symbolLabel": "scegli_tu",
+          "spokenText": "Scegli tu il gioco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "emozioni",
+      "title": "Emozioni nel gioco",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Divertito",
+          "symbolLabel": "divertito",
+          "spokenText": "Sono divertito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Annoiato",
+          "symbolLabel": "annoiato",
+          "spokenText": "Sono annoiato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Frustrato",
+          "symbolLabel": "frustrato",
+          "spokenText": "Sono frustrato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Orgoglioso",
+          "symbolLabel": "orgoglioso",
+          "spokenText": "Sono orgoglioso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Deluso",
+          "symbolLabel": "deluso",
+          "spokenText": "Sono deluso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Entusiasta",
+          "symbolLabel": "entusiasta",
+          "spokenText": "Sono entusiasta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Calmo",
+          "symbolLabel": "calmo_gioco",
+          "spokenText": "Sono calmo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compagni",
+      "title": "Compagni di gioco",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Amico",
+          "symbolLabel": "amico_gioco",
+          "spokenText": "Gioco con il mio amico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Gruppo",
+          "symbolLabel": "gruppo_gioco",
+          "spokenText": "Gioco in gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Squadra",
+          "symbolLabel": "squadra_gioco",
+          "spokenText": "Sono nella squadra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Condividere",
+          "symbolLabel": "condividere_gioco",
+          "spokenText": "Condivido i giochi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Invitare",
+          "symbolLabel": "invitare_gioco",
+          "spokenText": "Invito un amico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Aiutare",
+          "symbolLabel": "aiutare_gioco",
+          "spokenText": "Aiuto gli altri",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Salutare",
+          "symbolLabel": "salutare_gioco",
+          "spokenText": "Saluto i compagni",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Giochiamo?",
+          "symbolLabel": "giochiamo",
+          "spokenText": "Giochiamo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Tocca a me",
+          "symbolLabel": "tocca_a_me_frase",
+          "spokenText": "Tocca a me",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Non vale",
+          "symbolLabel": "non_vale",
+          "spokenText": "Non vale, hai barato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Mi diverto",
+          "symbolLabel": "mi_diverto_frase",
+          "spokenText": "Mi diverto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ho perso",
+          "symbolLabel": "ho_perso",
+          "spokenText": "Ho perso, riprovo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Ancora una partita",
+          "symbolLabel": "ancora_partita",
+          "spokenText": "Ancora una partita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Posso giocare con voi?",
+          "symbolLabel": "posso_giocare",
+          "spokenText": "Posso giocare con voi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_gioco",
+          "spokenText": "Grazie per il gioco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

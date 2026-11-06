@@ -61,6 +61,22 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
   menu «Gruppi (n)» per categoria; nessun gruppo tagliato oltre la finestra.
 - Dimensione minima della finestra 800×600.
 
+### Profili Utilizzatore e sistemi comunicativi
+
+- Profili locali (nome, tema, livello editor, funzionalità, voce, accessibilità,
+  navigazione) con assegnazione di materiali; nessun dato sanitario richiesto.
+- All'avvio, se esiste un profilo attivo, si apre la home Utilizzatore con solo
+  i sistemi assegnati e le funzioni abilitate. **Area Creator** è protetta da
+  PIN locale opzionale.
+- 30 sistemi comunicativi multilivello in `resources/boards/` (241 pagine,
+  2.166 celle), con navigazione Home/Indietro, Componi frase, Interagisci al
+  tocco, sintesi vocale e indicatori dei pittogrammi approssimativi.
+- Gestione utenti nel Creator: creazione/modifica/eliminazione, funzionalità
+  granulari, assegnazione e ordinamento dei sistemi, PIN.
+- Fallback semantico prudente: quando manca l’etichetta esatta, una radice
+  sufficientemente lunga può produrre un pittogramma affine marcato come
+  approssimativo; il testo scritto resta invariato.
+
 ### Correzioni
 
 - Applicazione manuale dei pittogrammi anche per parole senza concetto lessicale
@@ -82,7 +98,7 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
 
 ### Test
 
-- 174 test Rust, 23 frontend.
+- 178 test Rust, 23 frontend.
 - Corpus semantico: 98,11% (208/212), 0 approssimazioni fuorvianti, 20/20
   assenze rilevate.
 - Build 0 errori/0 avvisi; CLI release verificata con chiamate reali.

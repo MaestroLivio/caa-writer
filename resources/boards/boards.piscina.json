@@ -1,0 +1,712 @@
+{
+  "id": "boards.piscina",
+  "title": "Piscina",
+  "description": "Acqua, azioni in vasca, spogliatoio, sicurezza e istruzioni, con una pagina sulla respirazione.",
+  "ageTheme": "primaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Piscina",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Acqua",
+          "symbolLabel": "acqua_piscina",
+          "spokenText": "Apri l'acqua",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "acqua"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Azioni",
+          "symbolLabel": "azioni_piscina",
+          "spokenText": "Apri le azioni",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "azioni"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Spogliatoio",
+          "symbolLabel": "spogliatoio_home",
+          "spokenText": "Apri lo spogliatoio",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "spogliatoio"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Sicurezza",
+          "symbolLabel": "sicurezza_piscina",
+          "spokenText": "Apri la sicurezza",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "sicurezza"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Istruttore",
+          "symbolLabel": "istruttore_home",
+          "spokenText": "Apri l'istruttore",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "istruttore"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_piscina",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Voglio nuotare",
+          "symbolLabel": "voglio_nuotare",
+          "spokenText": "Voglio nuotare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Ho bisogno di aiuto",
+          "symbolLabel": "aiuto_piscina",
+          "spokenText": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "acqua",
+      "title": "Acqua",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Entrare",
+          "symbolLabel": "entrare",
+          "spokenText": "Entro in acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Uscire",
+          "symbolLabel": "uscire",
+          "spokenText": "Esco dall'acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Profondità",
+          "symbolLabel": "profondita",
+          "spokenText": "L'acqua è profonda",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Temperatura",
+          "symbolLabel": "temperatura_piscina",
+          "spokenText": "L'acqua è fredda",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Bordo",
+          "symbolLabel": "bordo",
+          "spokenText": "Mi avvicino al bordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Corsia",
+          "symbolLabel": "corsia",
+          "spokenText": "Sono nella corsia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Doccia",
+          "symbolLabel": "doccia_piscina",
+          "spokenText": "Faccio la doccia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "azioni",
+      "title": "Azioni in vasca",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Nuotare",
+          "symbolLabel": "nuotare",
+          "spokenText": "Nuoto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Galleggiare",
+          "symbolLabel": "galleggiare",
+          "spokenText": "Galleggio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Tuffarsi",
+          "symbolLabel": "tuffarsi",
+          "spokenText": "Mi tuffo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Remare",
+          "symbolLabel": "remare",
+          "spokenText": "Remo con le braccia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Scivolare",
+          "symbolLabel": "scivolare",
+          "spokenText": "Scivolo nell'acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Riposare",
+          "symbolLabel": "riposare_piscina",
+          "spokenText": "Mi riposo al bordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Respirazione",
+          "symbolLabel": "respirazione_nav",
+          "spokenText": "Apri la respirazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "respirazione"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "respirazione",
+      "title": "Respirazione",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Respirare",
+          "symbolLabel": "respirare_piscina",
+          "spokenText": "Respiro con calma",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Trattenere",
+          "symbolLabel": "trattenere",
+          "spokenText": "Trattengo il respiro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Espirare",
+          "symbolLabel": "espirare",
+          "spokenText": "Espiro sott'acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Capriola",
+          "symbolLabel": "capriola",
+          "spokenText": "Faccio una capriola",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Galleggiare",
+          "symbolLabel": "galleggiare_resp",
+          "spokenText": "Galleggio supino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Sott'acqua",
+          "symbolLabel": "sott_acqua",
+          "spokenText": "Vado sott'acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Riemergere",
+          "symbolLabel": "riemergere",
+          "spokenText": "Riemergo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "spogliatoio",
+      "title": "Spogliatoio",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Armadietto",
+          "symbolLabel": "armadietto_piscina",
+          "spokenText": "Apro l'armadietto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Costume",
+          "symbolLabel": "costume",
+          "spokenText": "Indosso il costume",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Cuffia",
+          "symbolLabel": "cuffia",
+          "spokenText": "Metto la cuffia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Occhiali",
+          "symbolLabel": "occhiali_piscina",
+          "spokenText": "Indosso gli occhiali",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Asciugamano",
+          "symbolLabel": "asciugamano_piscina",
+          "spokenText": "Prendo l'asciugamano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Doccia",
+          "symbolLabel": "doccia_spogliatoio",
+          "spokenText": "Faccio la doccia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Chiave",
+          "symbolLabel": "chiave_piscina",
+          "spokenText": "Dov'è la chiave?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sicurezza",
+      "title": "Sicurezza",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Scivolare",
+          "symbolLabel": "scivolare_sicurezza",
+          "spokenText": "Il pavimento è scivoloso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Correre",
+          "symbolLabel": "correre_piscina",
+          "spokenText": "Non corro sul bordo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Bagnino",
+          "symbolLabel": "bagnino",
+          "spokenText": "Chiamo il bagnino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Regole",
+          "symbolLabel": "regole_piscina",
+          "spokenText": "Rispetto le regole",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Fondo",
+          "symbolLabel": "fondo",
+          "spokenText": "Controllo il fondo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_sicurezza",
+          "spokenText": "Chiedo aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Chiamare",
+          "symbolLabel": "chiamare_piscina",
+          "spokenText": "Chiamo aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "istruttore",
+      "title": "Istruttore",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Ascoltare",
+          "symbolLabel": "ascoltare_istruttore",
+          "spokenText": "Ascolto l'istruttore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Dimostrare",
+          "symbolLabel": "dimostrare",
+          "spokenText": "Guardo la dimostrazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Correggere",
+          "symbolLabel": "correggere",
+          "spokenText": "Mi correggo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Provare",
+          "symbolLabel": "provare_piscina",
+          "spokenText": "Provo di nuovo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Pausa",
+          "symbolLabel": "pausa_piscina",
+          "spokenText": "Faccio una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Livello",
+          "symbolLabel": "livello",
+          "spokenText": "Sono a un nuovo livello",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Complimenti",
+          "symbolLabel": "complimenti",
+          "spokenText": "Ricevo i complimenti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Ho bisogno di aiuto",
+          "symbolLabel": "aiuto_frase_piscina",
+          "spokenText": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Non so nuotare",
+          "symbolLabel": "non_so_nuotare",
+          "spokenText": "Non so nuotare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Posso riposare?",
+          "symbolLabel": "posso_riposare",
+          "spokenText": "Posso riposare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "L'acqua è fredda",
+          "symbolLabel": "acqua_fredda",
+          "spokenText": "L'acqua è fredda",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Mi hai spruzzato",
+          "symbolLabel": "spruzzato",
+          "spokenText": "Mi hai spruzzato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Sto bene",
+          "symbolLabel": "sto_bene_piscina",
+          "spokenText": "Sto bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ancora una vasca",
+          "symbolLabel": "ancora_vasca",
+          "spokenText": "Ancora una vasca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_piscina",
+          "spokenText": "Grazie, istruttore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

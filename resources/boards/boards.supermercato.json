@@ -1,0 +1,712 @@
+{
+  "id": "boards.supermercato",
+  "title": "Supermercato",
+  "description": "Reparti, prodotti, quantità, prezzi e cassa per fare la spesa e chiedere aiuto.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Supermercato",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Reparti",
+          "symbolLabel": "reparti_home",
+          "spokenText": "Apri i reparti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "reparti"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Prodotti",
+          "symbolLabel": "prodotti_home",
+          "spokenText": "Apri i prodotti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "prodotti"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Quantità",
+          "symbolLabel": "quantita_home",
+          "spokenText": "Apri le quantità",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "quantita"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Prezzo",
+          "symbolLabel": "prezzo_home",
+          "spokenText": "Apri i prezzi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "prezzo"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Cassa",
+          "symbolLabel": "cassa_home",
+          "spokenText": "Apri la cassa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "cassa"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_super",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Vorrei comprare",
+          "symbolLabel": "vorrei_comprare",
+          "spokenText": "Vorrei comprare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Dove trovo",
+          "symbolLabel": "dove_trovo",
+          "spokenText": "Dove trovo",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "reparti",
+      "title": "Reparti",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Frutta",
+          "symbolLabel": "frutta_super",
+          "spokenText": "Vado al reparto frutta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Verdura",
+          "symbolLabel": "verdura_super",
+          "spokenText": "Vado al reparto verdura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Pane",
+          "symbolLabel": "pane_super",
+          "spokenText": "Vado al reparto pane",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Carne",
+          "symbolLabel": "carne_super",
+          "spokenText": "Vado al reparto carne",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Pesce",
+          "symbolLabel": "pesce_super",
+          "spokenText": "Vado al reparto pesce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Latticini",
+          "symbolLabel": "latticini",
+          "spokenText": "Vado ai latticini",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Surgelati",
+          "symbolLabel": "surgelati",
+          "spokenText": "Vado ai surgelati",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prodotti",
+      "title": "Prodotti",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Latte",
+          "symbolLabel": "latte_super",
+          "spokenText": "Prendo il latte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Uova",
+          "symbolLabel": "uova",
+          "spokenText": "Prendo le uova",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Pasta",
+          "symbolLabel": "pasta_super",
+          "spokenText": "Prendo la pasta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Riso",
+          "symbolLabel": "riso_super",
+          "spokenText": "Prendo il riso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Olio",
+          "symbolLabel": "olio",
+          "spokenText": "Prendo l'olio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Detersivo",
+          "symbolLabel": "detersivo",
+          "spokenText": "Prendo il detersivo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Carta",
+          "symbolLabel": "carta_casa",
+          "spokenText": "Prendo la carta casa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "quantita",
+      "title": "Quantità",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Un chilo",
+          "symbolLabel": "un_chilo_super",
+          "spokenText": "Un chilo, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Mezzo chilo",
+          "symbolLabel": "mezzo_chilo",
+          "spokenText": "Mezzo chilo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Un litro",
+          "symbolLabel": "un_litro",
+          "spokenText": "Un litro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Una confezione",
+          "symbolLabel": "una_confezione",
+          "spokenText": "Una confezione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Due",
+          "symbolLabel": "due",
+          "spokenText": "Ne prendo due",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Di più",
+          "symbolLabel": "di_piu_super",
+          "spokenText": "Ne voglio di più",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Basta",
+          "symbolLabel": "basta_super",
+          "spokenText": "Basta così",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prezzo",
+      "title": "Prezzo",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Quanto costa",
+          "symbolLabel": "quanto_costa_super",
+          "spokenText": "Quanto costa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Caro",
+          "symbolLabel": "caro",
+          "spokenText": "È troppo caro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Economico",
+          "symbolLabel": "economico",
+          "spokenText": "È economico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Totale",
+          "symbolLabel": "totale",
+          "spokenText": "Qual è il totale?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Scontrino",
+          "symbolLabel": "scontrino",
+          "spokenText": "Controllo lo scontrino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Carta",
+          "symbolLabel": "carta_super",
+          "spokenText": "Pago con la carta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Offerte",
+          "symbolLabel": "offerte_nav",
+          "spokenText": "Apri le offerte",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "offerte"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "offerte",
+      "title": "Offerte",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Sconto",
+          "symbolLabel": "sconto",
+          "spokenText": "C'è uno sconto?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Offerta",
+          "symbolLabel": "offerta",
+          "spokenText": "È in offerta?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Due per uno",
+          "symbolLabel": "due_per_uno",
+          "spokenText": "C'è il due per uno?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Scadenza",
+          "symbolLabel": "scadenza_super",
+          "spokenText": "Controllo la scadenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Marca",
+          "symbolLabel": "marca",
+          "spokenText": "Preferisco questa marca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Biologico",
+          "symbolLabel": "biologico_super",
+          "spokenText": "Scelgo il biologico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Risparmiare",
+          "symbolLabel": "risparmiare",
+          "spokenText": "Voglio risparmiare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cassa",
+      "title": "Cassa",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Coda",
+          "symbolLabel": "coda",
+          "spokenText": "Faccio la coda",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Pagare",
+          "symbolLabel": "pagare_super",
+          "spokenText": "Devo pagare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Scontrino",
+          "symbolLabel": "scontrino_cassa",
+          "spokenText": "Prendo lo scontrino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Borsa",
+          "symbolLabel": "borsa",
+          "spokenText": "Mi serve una borsa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Resto",
+          "symbolLabel": "resto_super",
+          "spokenText": "Il resto, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Self-service",
+          "symbolLabel": "self_service",
+          "spokenText": "Uso la cassa self-service",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_cassa",
+          "spokenText": "Chiedo aiuto alla cassa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Dove trovo?",
+          "symbolLabel": "dove_trovo_frase",
+          "spokenText": "Dove trovo?",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Quanto costa?",
+          "symbolLabel": "quanto_costa_frase",
+          "spokenText": "Quanto costa?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Vorrei un chilo di",
+          "symbolLabel": "vorrei_chilo",
+          "spokenText": "Vorrei un chilo di",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "È in offerta?",
+          "symbolLabel": "in_offerta",
+          "spokenText": "È in offerta?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ho finito la spesa",
+          "symbolLabel": "spesa_finita",
+          "spokenText": "Ho finito la spesa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Posso pagare con la carta?",
+          "symbolLabel": "pagare_carta",
+          "spokenText": "Posso pagare con la carta?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Mi serve una borsa",
+          "symbolLabel": "serve_borsa",
+          "spokenText": "Mi serve una borsa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_super",
+          "spokenText": "Grazie, arrivederci",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

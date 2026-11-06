@@ -677,6 +677,47 @@ impl Engine {
                     }
                     return Ok(out);
                 }
+                // Fallback semantico prudente: nessuna etichetta esatta, ma
+                // una radice sufficientemente lunga può trovare un simbolo
+                // affine (es. «governa» → «governo»). Resta marcato come
+                // approssimativo e il testo scritto non cambia.
+                if !token.is_function {
+                    let normalized = crate::linguistics::normalize::normalize_word(&token.surface);
+                    let mut chars: Vec<char> = normalized.chars().collect();
+                    let last_vowel = chars.last().map(|c| "aeiou".contains(*c)).unwrap_or(false);
+                    if last_vowel && chars.len() > 4 {
+                        chars.pop();
+                    }
+                    let stem: String = chars.iter().collect();
+                    if stem.chars().count() >= 4 {
+                        if let Ok(page) = db.search_symbols(&stem, 8, 0, filters) {
+                            if let Some(hit) = page.items.into_iter().next() {
+                                out.symbol_id = Some(hit.symbol_id.clone());
+                                out.pack_id = Some(hit.pack_id.clone());
+                                out.concept_id = hit.concept_id.clone();
+                                out.caption = token.surface.clone();
+                                out.symbol_label = Some(hit.label.clone());
+                                out.concept_label = Some(hit.label.clone());
+                                out.meaning = Some(format!(
+                                    "Pittogramma affine a «{}»: verificare il significato.",
+                                    token.surface
+                                ));
+                                out.strategy = Strategy::Related.as_str().to_string();
+                                out.approximate = true;
+                                out.confidence = 0.25;
+                                out.svg = hit.svg.clone();
+                                out.alternatives = self.library_alternatives(
+                                    db,
+                                    filters,
+                                    &hit.label,
+                                    &hit.symbol_id,
+                                    svg_cache,
+                                );
+                                return Ok(out);
+                            }
+                        }
+                    }
+                }
                 out.strategy = "none".to_string();
                 return Ok(out);
             }
@@ -2479,6 +2520,26 @@ mod tests {
     }
 
     /// Bloccare un pittogramma e poi cambiare il testo: il simbolo resta.
+    #[test]
+    fn unknown_verb_gets_an_approximate_affine_symbol() {
+        let engine = test_engine();
+        let result = engine
+            .symbolize(
+                "Io vorrei sapere chi governa il mondo.",
+                &SymbolizeOptions {
+                    intensity: Intensity::Completa,
+                    mode: CaaMode::Sopra,
+                    paragraph_id: "p1".to_string(),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let token = result.tokens.iter().find(|token| token.surface == "governa").unwrap();
+        assert!(token.symbol_id.is_some(), "governa deve avere un fallback affine");
+        assert!(token.approximate, "il fallback deve essere dichiarato approssimativo");
+        assert_eq!(token.caption, "governa");
+    }
+
     #[test]
     fn document_override_applies_to_a_single_word() {
         let engine = test_engine();

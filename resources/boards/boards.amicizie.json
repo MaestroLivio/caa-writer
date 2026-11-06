@@ -1,0 +1,712 @@
+{
+  "id": "boards.amicizie",
+  "title": "Amicizie",
+  "description": "Persone, attività e conversazioni tra amici, con pagine su conflitti, riparazione e rispetto dei confini.",
+  "ageTheme": "secondaria",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Amicizie",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Persone",
+          "symbolLabel": "persone_amici",
+          "spokenText": "Apri le persone",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "persone"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Attività",
+          "symbolLabel": "attivita_amici",
+          "spokenText": "Apri le attività",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "attivita"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Conversazione",
+          "symbolLabel": "conversazione_amici",
+          "spokenText": "Apri la conversazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "conversazione"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Conflitti",
+          "symbolLabel": "conflitti_home",
+          "spokenText": "Apri i conflitti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "conflitti"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Rispetto",
+          "symbolLabel": "rispetto_home",
+          "spokenText": "Apri il rispetto",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "rispetto"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_amici",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Ti va di",
+          "symbolLabel": "ti_va_di",
+          "spokenText": "Ti va di",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Mi dispiace",
+          "symbolLabel": "mi_dispiace_home",
+          "spokenText": "Mi dispiace",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "persone",
+      "title": "Persone",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Amico",
+          "symbolLabel": "amico",
+          "spokenText": "Sei mio amico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Amica",
+          "symbolLabel": "amica",
+          "spokenText": "Sei mia amica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Gruppo",
+          "symbolLabel": "gruppo_amici",
+          "spokenText": "Siamo un gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Conoscente",
+          "symbolLabel": "conoscente",
+          "spokenText": "È un conoscente",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Migliore amico",
+          "symbolLabel": "migliore_amico",
+          "spokenText": "Sei il mio migliore amico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Compagno",
+          "symbolLabel": "compagno_amici",
+          "spokenText": "È un compagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Vicino",
+          "symbolLabel": "vicino_amici",
+          "spokenText": "È il mio vicino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attivita",
+      "title": "Attività insieme",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Uscire",
+          "symbolLabel": "uscire_amici",
+          "spokenText": "Usciamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Parlare",
+          "symbolLabel": "parlare_amici",
+          "spokenText": "Parliamo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Mangiare insieme",
+          "symbolLabel": "mangiare_amici",
+          "spokenText": "Mangiamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Giocare",
+          "symbolLabel": "giocare_amici",
+          "spokenText": "Giochiamo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Cinema",
+          "symbolLabel": "cinema_amici",
+          "spokenText": "Andiamo al cinema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Passeggiata",
+          "symbolLabel": "passeggiata_amici",
+          "spokenText": "Facciamo una passeggiata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Chiamare",
+          "symbolLabel": "chiamare_amici",
+          "spokenText": "Ti chiamo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "conversazione",
+      "title": "Conversazione",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Come stai",
+          "symbolLabel": "come_stai_amici",
+          "spokenText": "Come stai?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Cosa fai",
+          "symbolLabel": "cosa_fai",
+          "spokenText": "Cosa fai?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Raccontare",
+          "symbolLabel": "raccontare",
+          "spokenText": "Ti racconto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Ascoltare",
+          "symbolLabel": "ascoltare_amici",
+          "spokenText": "Ti ascolto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Ridere",
+          "symbolLabel": "ridere",
+          "spokenText": "Ridiamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Interessi",
+          "symbolLabel": "interessi",
+          "spokenText": "Parliamo dei nostri interessi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Ricordi",
+          "symbolLabel": "ricordi",
+          "spokenText": "Ricordi quella volta?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "conflitti",
+      "title": "Conflitti",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Litigio",
+          "symbolLabel": "litigio_amici",
+          "spokenText": "Abbiamo litigato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Incomprensione",
+          "symbolLabel": "incomprensione",
+          "spokenText": "C'è stata un'incomprensione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Gelosia",
+          "symbolLabel": "gelosia",
+          "spokenText": "Provo gelosia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Offesa",
+          "symbolLabel": "offesa",
+          "spokenText": "Mi sono offeso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Allontanarsi",
+          "symbolLabel": "allontanarsi",
+          "spokenText": "Mi allontano un po'",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Scusarsi",
+          "symbolLabel": "scusarsi",
+          "spokenText": "Voglio scusarmi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Riparare",
+          "symbolLabel": "riparare_nav",
+          "spokenText": "Apri come riparare",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "riparare"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "riparare",
+      "title": "Riparare",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Scusa",
+          "symbolLabel": "scusa",
+          "spokenText": "Scusa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Non volevo",
+          "symbolLabel": "non_volevo",
+          "spokenText": "Non volevo ferirti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Capisco",
+          "symbolLabel": "capisco",
+          "spokenText": "Capisco il tuo punto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Parliamone",
+          "symbolLabel": "parliamone",
+          "spokenText": "Parliamone",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Tempo",
+          "symbolLabel": "tempo_riparare",
+          "spokenText": "Mi serve tempo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Riprovare",
+          "symbolLabel": "riprovare",
+          "spokenText": "Possiamo riprovare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Abbraccio",
+          "symbolLabel": "abbraccio_riparare",
+          "spokenText": "Ti abbraccio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rispetto",
+      "title": "Rispetto",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Ascoltare",
+          "symbolLabel": "ascoltare_rispetto",
+          "spokenText": "Ti ascolto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Spazio",
+          "symbolLabel": "spazio_rispetto",
+          "spokenText": "Ho bisogno di spazio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Confini",
+          "symbolLabel": "confini",
+          "spokenText": "Rispetto i tuoi confini",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "No",
+          "symbolLabel": "no_rispetto",
+          "spokenText": "So dire no",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Fiducia",
+          "symbolLabel": "fiducia",
+          "spokenText": "Ho fiducia in te",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Privacy",
+          "symbolLabel": "privacy_amici",
+          "spokenText": "Rispetto la tua privacy",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Gentilezza",
+          "symbolLabel": "gentilezza",
+          "spokenText": "Scelgo la gentilezza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Mi manchi",
+          "symbolLabel": "mi_manchi_amici",
+          "spokenText": "Mi manchi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Ti va di uscire?",
+          "symbolLabel": "ti_va_uscire",
+          "spokenText": "Ti va di uscire?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Sono arrabbiato con te",
+          "symbolLabel": "arrabbiato_te",
+          "spokenText": "Sono arrabbiato con te",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Mi dispiace",
+          "symbolLabel": "mi_dispiace_frase",
+          "spokenText": "Mi dispiace",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ti ascolto",
+          "symbolLabel": "ti_ascolto",
+          "spokenText": "Ti ascolto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Ho bisogno di spazio",
+          "symbolLabel": "spazio_frase",
+          "spokenText": "Ho bisogno di spazio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Sei importante per me",
+          "symbolLabel": "importante_per_me",
+          "spokenText": "Sei importante per me",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "A presto",
+          "symbolLabel": "a_presto_amici",
+          "spokenText": "A presto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

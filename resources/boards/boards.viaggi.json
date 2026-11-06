@@ -1,0 +1,712 @@
+{
+  "id": "boards.viaggi",
+  "title": "Viaggi",
+  "description": "Preparare la valigia, muoversi, gestire l'alloggio e risolvere problemi in viaggio.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Viaggi",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Preparare",
+          "symbolLabel": "preparare_home",
+          "spokenText": "Apri la preparazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "preparare"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Muoversi",
+          "symbolLabel": "muoversi_home",
+          "spokenText": "Apri gli spostamenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "muoversi"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Alloggio",
+          "symbolLabel": "alloggio_home",
+          "spokenText": "Apri l'alloggio",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "alloggio"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Problemi",
+          "symbolLabel": "problemi_viaggio",
+          "spokenText": "Apri i problemi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "problemi"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Documenti",
+          "symbolLabel": "documenti_viaggio",
+          "spokenText": "Apri i documenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "documenti"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_viaggio",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Ho bisogno di",
+          "symbolLabel": "ho_bisogno_viaggio",
+          "spokenText": "Ho bisogno di",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Parlo italiano",
+          "symbolLabel": "parlo_italiano",
+          "spokenText": "Parlo italiano",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "preparare",
+      "title": "Preparare",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Valigia",
+          "symbolLabel": "valigia",
+          "spokenText": "Preparo la valigia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Biglietti",
+          "symbolLabel": "biglietti_viaggio",
+          "spokenText": "Controllo i biglietti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Passaporto",
+          "symbolLabel": "passaporto_prep",
+          "spokenText": "Prendo il passaporto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Prenotazione",
+          "symbolLabel": "prenotazione_prep",
+          "spokenText": "Controllo la prenotazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Caricabatterie",
+          "symbolLabel": "caricabatterie_prep",
+          "spokenText": "Prendo il caricabatterie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Medicine",
+          "symbolLabel": "medicine_viaggio",
+          "spokenText": "Prendo le medicine",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Valigia dettagli",
+          "symbolLabel": "valigia_nav",
+          "spokenText": "Apri il contenuto della valigia",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "valigia"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "valigia",
+      "title": "Contenuto della valigia",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Vestiti",
+          "symbolLabel": "vestiti_valigia",
+          "spokenText": "Metto i vestiti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Scarpe",
+          "symbolLabel": "scarpe_valigia",
+          "spokenText": "Metto le scarpe",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Spazzolino",
+          "symbolLabel": "spazzolino_valigia",
+          "spokenText": "Metto lo spazzolino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Caricabatterie",
+          "symbolLabel": "caricabatterie_valigia",
+          "spokenText": "Metto il caricabatterie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Medicine",
+          "symbolLabel": "medicine_valigia",
+          "spokenText": "Metto le medicine",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Libri",
+          "symbolLabel": "libri_valigia",
+          "spokenText": "Metto un libro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Bagaglio a mano",
+          "symbolLabel": "bagaglio_mano",
+          "spokenText": "Preparo il bagaglio a mano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "muoversi",
+      "title": "Muoversi",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Aeroporto",
+          "symbolLabel": "aeroporto",
+          "spokenText": "Vado in aeroporto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Stazione",
+          "symbolLabel": "stazione_viaggio",
+          "spokenText": "Vado in stazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Hotel",
+          "symbolLabel": "hotel",
+          "spokenText": "Cerco l'hotel",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Taxi",
+          "symbolLabel": "taxi_viaggio",
+          "spokenText": "Prendo un taxi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Mappa",
+          "symbolLabel": "mappa_viaggio",
+          "spokenText": "Guardo la mappa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Orientarsi",
+          "symbolLabel": "orientarsi",
+          "spokenText": "Provo a orientarmi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Chiedere",
+          "symbolLabel": "chiedere_viaggio",
+          "spokenText": "Chiedo indicazioni",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "alloggio",
+      "title": "Alloggio",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Reception",
+          "symbolLabel": "reception",
+          "spokenText": "Vado alla reception",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Camera",
+          "symbolLabel": "camera_hotel",
+          "spokenText": "La camera è pronta?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Chiave",
+          "symbolLabel": "chiave_hotel",
+          "spokenText": "Prendo la chiave",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Colazione",
+          "symbolLabel": "colazione_hotel",
+          "spokenText": "A che ora è la colazione?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Check-in",
+          "symbolLabel": "check_in",
+          "spokenText": "Faccio il check-in",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Check-out",
+          "symbolLabel": "check_out",
+          "spokenText": "Faccio il check-out",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Wifi",
+          "symbolLabel": "wifi_hotel",
+          "spokenText": "Qual è la password del wifi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "problemi",
+      "title": "Problemi in viaggio",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Bagaglio perso",
+          "symbolLabel": "bagaglio_perso",
+          "spokenText": "Ho perso il bagaglio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Ritardo",
+          "symbolLabel": "ritardo_viaggio",
+          "spokenText": "C'è un ritardo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Prenotazione",
+          "symbolLabel": "problema_prenotazione",
+          "spokenText": "C'è un problema con la prenotazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Stanza",
+          "symbolLabel": "problema_stanza",
+          "spokenText": "La stanza non va bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Lingua",
+          "symbolLabel": "problema_lingua",
+          "spokenText": "Non capisco la lingua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Emergenza",
+          "symbolLabel": "emergenza_viaggio",
+          "spokenText": "È un'emergenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_viaggio",
+          "spokenText": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "documenti",
+      "title": "Documenti",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Passaporto",
+          "symbolLabel": "passaporto",
+          "spokenText": "Ecco il passaporto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Carta d'identità",
+          "symbolLabel": "carta_identita_viaggio",
+          "spokenText": "Ecco la carta d'identità",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Visto",
+          "symbolLabel": "visto",
+          "spokenText": "Ho il visto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Assicurazione",
+          "symbolLabel": "assicurazione",
+          "spokenText": "Ho l'assicurazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Prenotazione",
+          "symbolLabel": "prenotazione_doc",
+          "spokenText": "Ecco la prenotazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Indirizzo",
+          "symbolLabel": "indirizzo",
+          "spokenText": "Questo è l'indirizzo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Telefono",
+          "symbolLabel": "telefono_viaggio",
+          "spokenText": "Questo è il mio telefono",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Dov'è il bagno?",
+          "symbolLabel": "bagno_viaggio",
+          "spokenText": "Dov'è il bagno?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Parlo italiano",
+          "symbolLabel": "parlo_italiano_frase",
+          "spokenText": "Parlo italiano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_viaggio",
+          "spokenText": "Non capisco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Mi può aiutare?",
+          "symbolLabel": "mi_puo_aiutare",
+          "spokenText": "Mi può aiutare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ho una prenotazione",
+          "symbolLabel": "ho_prenotazione",
+          "spokenText": "Ho una prenotazione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Dov'è la fermata?",
+          "symbolLabel": "fermata_viaggio",
+          "spokenText": "Dov'è la fermata?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ho perso il bagaglio",
+          "symbolLabel": "perso_bagaglio",
+          "spokenText": "Ho perso il bagaglio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_viaggio",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

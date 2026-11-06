@@ -1,0 +1,685 @@
+{
+  "id": "boards.bisogni-essenziali",
+  "title": "Bisogni essenziali",
+  "description": "Sistema per esprimere bisogni fisici, malessere, richieste di aiuto e conforto, con un livello dedicato alle parti del corpo.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Bisogni essenziali",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Corpo",
+          "symbolLabel": "corpo",
+          "spokenText": "Apri i bisogni del corpo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "corpo"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Mi sento male",
+          "symbolLabel": "malessere",
+          "spokenText": "Apri come mi sento",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "malessere"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto",
+          "spokenText": "Apri le richieste di aiuto",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "aiuto"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Conforto",
+          "symbolLabel": "conforto",
+          "spokenText": "Apri le cose che mi danno conforto",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "conforto"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Oggetti personali",
+          "symbolLabel": "oggetti",
+          "spokenText": "Apri i miei oggetti personali",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "oggetti"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi utili",
+          "symbolLabel": "frasi",
+          "spokenText": "Apri le frasi utili",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Ho bisogno",
+          "symbolLabel": "ho_bisogno",
+          "spokenText": "Ho bisogno di qualcosa",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Sto bene",
+          "symbolLabel": "sto_bene",
+          "spokenText": "Sto bene",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "corpo",
+      "title": "Bisogni del corpo",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Sete",
+          "symbolLabel": "sete",
+          "spokenText": "Ho sete",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Fame",
+          "symbolLabel": "fame",
+          "spokenText": "Ho fame",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Sonno",
+          "symbolLabel": "sonno",
+          "spokenText": "Ho sonno",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Bagno",
+          "symbolLabel": "bagno",
+          "spokenText": "Devo andare in bagno",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Freddo",
+          "symbolLabel": "freddo",
+          "spokenText": "Ho freddo",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Caldo",
+          "symbolLabel": "caldo",
+          "spokenText": "Ho caldo",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Dettagli sul corpo",
+          "symbolLabel": "dettagli_corpo",
+          "spokenText": "Apri i dettagli sul corpo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "corpo-dettagli"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "corpo-dettagli",
+      "title": "Dettagli sul corpo",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Testa",
+          "symbolLabel": "testa",
+          "spokenText": "Mi fa male la testa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Pancia",
+          "symbolLabel": "pancia",
+          "spokenText": "Ho mal di pancia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Schiena",
+          "symbolLabel": "schiena",
+          "spokenText": "Mi fa male la schiena",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Gambe",
+          "symbolLabel": "gambe",
+          "spokenText": "Mi fanno male le gambe",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Braccia",
+          "symbolLabel": "braccia",
+          "spokenText": "Mi fanno male le braccia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Pelle",
+          "symbolLabel": "pelle",
+          "spokenText": "Mi prude la pelle",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Non sto bene",
+          "symbolLabel": "non_sto_bene",
+          "spokenText": "Non sto bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "malessere",
+      "title": "Come mi sento",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Nausea",
+          "symbolLabel": "nausea",
+          "spokenText": "Ho nausea",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Vertigini",
+          "symbolLabel": "vertigini",
+          "spokenText": "Ho le vertigini",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Febbre",
+          "symbolLabel": "febbre",
+          "spokenText": "Ho la febbre",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Tosse",
+          "symbolLabel": "tosse",
+          "spokenText": "Ho la tosse",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Respiro",
+          "symbolLabel": "respiro",
+          "spokenText": "Faccio fatica a respirare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Stanchezza",
+          "symbolLabel": "stanchezza",
+          "spokenText": "Sono molto stanco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aiuto",
+      "title": "Chiedere aiuto",
+      "cells": [
+        {
+          "id": "c35",
+          "label": "Aiuto",
+          "symbolLabel": "aiuto_chiamata",
+          "spokenText": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c36",
+          "label": "Chiama qualcuno",
+          "symbolLabel": "chiamare",
+          "spokenText": "Chiama qualcuno, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Acqua",
+          "symbolLabel": "acqua_aiuto",
+          "spokenText": "Mi porti dell'acqua, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Medicine",
+          "symbolLabel": "medicine",
+          "spokenText": "Mi servono le medicine",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Medico",
+          "symbolLabel": "medico_aiuto",
+          "spokenText": "Vorrei vedere un medico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Non capisco",
+          "symbolLabel": "non_capisco_aiuto",
+          "spokenText": "Non capisco, puoi ripetere?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Adesso",
+          "symbolLabel": "adesso",
+          "spokenText": "Ho bisogno di aiuto adesso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "conforto",
+      "title": "Conforto",
+      "cells": [
+        {
+          "id": "c44",
+          "label": "Coperta",
+          "symbolLabel": "coperta",
+          "spokenText": "Vorrei una coperta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c45",
+          "label": "Cuscino",
+          "symbolLabel": "cuscino",
+          "spokenText": "Vorrei un cuscino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Luce",
+          "symbolLabel": "luce",
+          "spokenText": "Puoi abbassare la luce?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Silenzio",
+          "symbolLabel": "silenzio",
+          "spokenText": "Vorrei un po' di silenzio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Compagnia",
+          "symbolLabel": "compagnia",
+          "spokenText": "Resta un po' con me",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Riposo",
+          "symbolLabel": "riposo",
+          "spokenText": "Ho bisogno di riposare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "oggetti",
+      "title": "Oggetti personali",
+      "cells": [
+        {
+          "id": "c52",
+          "label": "Occhiali",
+          "symbolLabel": "occhiali",
+          "spokenText": "Dove sono i miei occhiali?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Telefono",
+          "symbolLabel": "telefono",
+          "spokenText": "Dov'è il mio telefono?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c54",
+          "label": "Bastone",
+          "symbolLabel": "bastone",
+          "spokenText": "Mi passi il bastone?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Bottiglia",
+          "symbolLabel": "bottiglia",
+          "spokenText": "Vorrei la bottiglia dell'acqua",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Fazzoletto",
+          "symbolLabel": "fazzoletto",
+          "spokenText": "Mi serve un fazzoletto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Campanello",
+          "symbolLabel": "campanello",
+          "spokenText": "Suono il campanello",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c60",
+          "label": "Voglio",
+          "symbolLabel": "voglio",
+          "spokenText": "Voglio",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Ho bisogno di",
+          "symbolLabel": "ho_bisogno_di",
+          "spokenText": "Ho bisogno di",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Non voglio",
+          "symbolLabel": "non_voglio",
+          "spokenText": "Non voglio",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c63",
+          "label": "Per favore",
+          "symbolLabel": "per_favore",
+          "spokenText": "Per favore",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Sto male",
+          "symbolLabel": "sto_male",
+          "spokenText": "Sto male",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Mi sento meglio",
+          "symbolLabel": "meglio",
+          "spokenText": "Mi sento meglio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Puoi aiutarmi?",
+          "symbolLabel": "aiutarmi",
+          "spokenText": "Puoi aiutarmi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Grazie",
+          "symbolLabel": "grazie",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

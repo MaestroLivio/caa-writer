@@ -1,0 +1,712 @@
+{
+  "id": "boards.visite-mediche",
+  "title": "Visite mediche",
+  "description": "Sintomi, visita, farmaci, documenti e sala d'attesa per prepararsi e partecipare a una visita.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Visite mediche",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Sintomi",
+          "symbolLabel": "sintomi_visita",
+          "spokenText": "Apri i sintomi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "sintomi"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Visita",
+          "symbolLabel": "visita_home",
+          "spokenText": "Apri la visita",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "visita"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Farmaci",
+          "symbolLabel": "farmaci_visita",
+          "spokenText": "Apri i farmaci",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "farmaci"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Documenti",
+          "symbolLabel": "documenti_visita",
+          "spokenText": "Apri i documenti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "documenti"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Attesa",
+          "symbolLabel": "attesa_visita",
+          "spokenText": "Apri l'attesa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "attesa"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_visita",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Mi fa male",
+          "symbolLabel": "mi_fa_male_visita",
+          "spokenText": "Mi fa male",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Da tre giorni",
+          "symbolLabel": "da_tre_giorni_home",
+          "spokenText": "Da tre giorni",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sintomi",
+      "title": "Sintomi",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Dolore",
+          "symbolLabel": "dolore_visita",
+          "spokenText": "Ho dolore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Febbre",
+          "symbolLabel": "febbre_visita",
+          "spokenText": "Ho la febbre",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Tosse",
+          "symbolLabel": "tosse_visita",
+          "spokenText": "Ho la tosse",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Nausea",
+          "symbolLabel": "nausea_visita",
+          "spokenText": "Ho nausea",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Stanchezza",
+          "symbolLabel": "stanchezza_visita",
+          "spokenText": "Sono stanco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Vertigini",
+          "symbolLabel": "vertigini_visita",
+          "spokenText": "Ho vertigini",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Dettagli",
+          "symbolLabel": "dettagli_sintomi_nav",
+          "spokenText": "Apri i dettagli dei sintomi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "sintomi-dettagli"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sintomi-dettagli",
+      "title": "Dettagli dei sintomi",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Da quando",
+          "symbolLabel": "da_quando",
+          "spokenText": "Da quando?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Dove",
+          "symbolLabel": "dove_sintomo",
+          "spokenText": "Dove fa male?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Forte",
+          "symbolLabel": "forte_sintomo",
+          "spokenText": "Il sintomo è forte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Lieve",
+          "symbolLabel": "lieve_sintomo",
+          "spokenText": "Il sintomo è lieve",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Continuo",
+          "symbolLabel": "continuo_sintomo",
+          "spokenText": "È continuo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Peggiora",
+          "symbolLabel": "peggiora",
+          "spokenText": "Sta peggiorando",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Altro sintomo",
+          "symbolLabel": "altro_sintomo",
+          "spokenText": "Ho anche un altro sintomo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "visita",
+      "title": "Visita",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Medico",
+          "symbolLabel": "medico_visita",
+          "spokenText": "Parlo con il medico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Infermiere",
+          "symbolLabel": "infermiere",
+          "spokenText": "Parlo con l'infermiere",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Visita",
+          "symbolLabel": "visita_azione",
+          "spokenText": "Faccio la visita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Domande",
+          "symbolLabel": "domande_visita",
+          "spokenText": "Ho delle domande",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Esame",
+          "symbolLabel": "esame_visita",
+          "spokenText": "Devo fare un esame",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Diagnosi",
+          "symbolLabel": "diagnosi",
+          "spokenText": "Chiedo la diagnosi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Controllo",
+          "symbolLabel": "controllo",
+          "spokenText": "Ho un controllo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "farmaci",
+      "title": "Farmaci",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Ricetta",
+          "symbolLabel": "ricetta_visita",
+          "spokenText": "Mi serve una ricetta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Dose",
+          "symbolLabel": "dose_visita",
+          "spokenText": "Qual è la dose?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Orario",
+          "symbolLabel": "orario_terapia",
+          "spokenText": "A che ora lo prendo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Effetti",
+          "symbolLabel": "effetti",
+          "spokenText": "Quali sono gli effetti?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Allergia",
+          "symbolLabel": "allergia_visita",
+          "spokenText": "Ho un'allergia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Farmacia",
+          "symbolLabel": "farmacia_visita",
+          "spokenText": "Vado in farmacia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Terapia",
+          "symbolLabel": "terapia",
+          "spokenText": "Seguo la terapia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "documenti",
+      "title": "Documenti",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Tessera sanitaria",
+          "symbolLabel": "tessera_sanitaria",
+          "spokenText": "Ecco la tessera sanitaria",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Ricetta",
+          "symbolLabel": "ricetta_doc",
+          "spokenText": "Ecco la ricetta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Referto",
+          "symbolLabel": "referto",
+          "spokenText": "Ho il referto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Appuntamento",
+          "symbolLabel": "appuntamento_doc",
+          "spokenText": "Ho un appuntamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Moduli",
+          "symbolLabel": "moduli",
+          "spokenText": "Compilo i moduli",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Identità",
+          "symbolLabel": "identita",
+          "spokenText": "Mostro un documento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Cartella",
+          "symbolLabel": "cartella",
+          "spokenText": "Porto la cartella clinica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attesa",
+      "title": "Sala d'attesa",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Sala",
+          "symbolLabel": "sala_attesa",
+          "spokenText": "Sono in sala d'attesa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Numero",
+          "symbolLabel": "numero",
+          "spokenText": "Ho il numero",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Chiamare",
+          "symbolLabel": "chiamare_visita",
+          "spokenText": "Mi chiamano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Aspettare",
+          "symbolLabel": "aspettare_visita",
+          "spokenText": "Aspetto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Priorità",
+          "symbolLabel": "priorita_visita",
+          "spokenText": "Ho priorità",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Urgenza",
+          "symbolLabel": "urgenza",
+          "spokenText": "È un'urgenza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Uscire",
+          "symbolLabel": "uscire_visita",
+          "spokenText": "Devo uscire un momento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Mi fa male qui",
+          "symbolLabel": "male_qui",
+          "spokenText": "Mi fa male qui",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Da tre giorni",
+          "symbolLabel": "da_tre_giorni",
+          "spokenText": "Da tre giorni",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Sono allergico a",
+          "symbolLabel": "allergico_visita",
+          "spokenText": "Sono allergico a",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Prendo questi farmaci",
+          "symbolLabel": "prendo_farmaci",
+          "spokenText": "Prendo questi farmaci",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Ho bisogno di un certificato",
+          "symbolLabel": "serve_certificato",
+          "spokenText": "Ho bisogno di un certificato",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Quando devo tornare?",
+          "symbolLabel": "quando_tornare",
+          "spokenText": "Quando devo tornare?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ho paura",
+          "symbolLabel": "paura_visita",
+          "spokenText": "Ho paura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_visita",
+          "spokenText": "Grazie, dottore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

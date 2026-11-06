@@ -1,0 +1,712 @@
+{
+  "id": "boards.tempo-libero",
+  "title": "Tempo libero",
+  "description": "Attività, uscite, riposo e scelte per organizzare il tempo libero da soli o in compagnia.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Tempo libero",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Attività",
+          "symbolLabel": "attivita_libero",
+          "spokenText": "Apri le attività",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "attivita"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Uscire",
+          "symbolLabel": "uscire_home",
+          "spokenText": "Apri le uscite",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "uscire"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Riposo",
+          "symbolLabel": "riposo_libero",
+          "spokenText": "Apri il riposo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "riposo"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Scelte",
+          "symbolLabel": "scelte_home",
+          "spokenText": "Apri le scelte",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "scelte"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Compagnia",
+          "symbolLabel": "compagnia_libero",
+          "spokenText": "Apri la compagnia",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "compagnia"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_libero",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Oggi voglio",
+          "symbolLabel": "oggi_voglio",
+          "spokenText": "Oggi voglio",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Non ho voglia",
+          "symbolLabel": "non_ho_voglia",
+          "spokenText": "Non ho voglia",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attivita",
+      "title": "Attività",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Leggere",
+          "symbolLabel": "leggere_libero",
+          "spokenText": "Leggo un libro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Guardare film",
+          "symbolLabel": "guardare_film",
+          "spokenText": "Guardo un film",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Passeggiare",
+          "symbolLabel": "passeggiare_libero",
+          "spokenText": "Faccio una passeggiata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Cucinare",
+          "symbolLabel": "cucinare_libero",
+          "spokenText": "Cucino qualcosa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Disegnare",
+          "symbolLabel": "disegnare_libero",
+          "spokenText": "Disegno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Giocare",
+          "symbolLabel": "giocare_libero",
+          "spokenText": "Gioco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "A casa",
+          "symbolLabel": "a_casa_nav",
+          "spokenText": "Apri le attività a casa",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "casa-tempo"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "casa-tempo",
+      "title": "Attività a casa",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Serie TV",
+          "symbolLabel": "serie_tv",
+          "spokenText": "Guardo una serie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Libro",
+          "symbolLabel": "libro_libero",
+          "spokenText": "Leggo un libro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Puzzle",
+          "symbolLabel": "puzzle_libero",
+          "spokenText": "Faccio un puzzle",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Giardino",
+          "symbolLabel": "giardino_libero",
+          "spokenText": "Lavoro in giardino",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Riposare",
+          "symbolLabel": "riposare_casa",
+          "spokenText": "Riposo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Musica",
+          "symbolLabel": "musica_libero",
+          "spokenText": "Ascolto musica",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Ospiti",
+          "symbolLabel": "ospiti_libero",
+          "spokenText": "Invito degli ospiti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "uscire",
+      "title": "Uscire",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Passeggiata",
+          "symbolLabel": "passeggiata",
+          "spokenText": "Faccio una passeggiata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Parco",
+          "symbolLabel": "parco",
+          "spokenText": "Vado al parco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Cinema",
+          "symbolLabel": "cinema",
+          "spokenText": "Vado al cinema",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Bar",
+          "symbolLabel": "bar",
+          "spokenText": "Vado al bar",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Museo",
+          "symbolLabel": "museo",
+          "spokenText": "Visito un museo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Shopping",
+          "symbolLabel": "shopping",
+          "spokenText": "Vado a fare shopping",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Bicicletta",
+          "symbolLabel": "bicicletta_libero",
+          "spokenText": "Esco in bicicletta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "riposo",
+      "title": "Riposo",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Dormire",
+          "symbolLabel": "dormire",
+          "spokenText": "Dormo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Divano",
+          "symbolLabel": "divano_libero",
+          "spokenText": "Mi rilasso sul divano",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Silenzio",
+          "symbolLabel": "silenzio_libero",
+          "spokenText": "Cerco silenzio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Pausa",
+          "symbolLabel": "pausa_libero",
+          "spokenText": "Faccio una pausa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Sonno",
+          "symbolLabel": "sonno_libero",
+          "spokenText": "Ho sonno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Sveglia",
+          "symbolLabel": "sveglia_libero",
+          "spokenText": "Imposto la sveglia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Energia",
+          "symbolLabel": "energia_libero",
+          "spokenText": "Recupero energia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "scelte",
+      "title": "Scelte",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Cosa faccio",
+          "symbolLabel": "cosa_faccio",
+          "spokenText": "Cosa faccio?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Non so",
+          "symbolLabel": "non_so",
+          "spokenText": "Non so",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Decidi tu",
+          "symbolLabel": "decidi_tu",
+          "spokenText": "Decidi tu",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Va bene",
+          "symbolLabel": "va_bene_libero",
+          "spokenText": "Va bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Preferisco",
+          "symbolLabel": "preferisco",
+          "spokenText": "Preferisco",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Altro",
+          "symbolLabel": "altro_libero",
+          "spokenText": "Vorrei altro",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Cambio idea",
+          "symbolLabel": "cambio_idea",
+          "spokenText": "Cambio idea",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compagnia",
+      "title": "Compagnia",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Da solo",
+          "symbolLabel": "da_solo_libero",
+          "spokenText": "Sto da solo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Con amici",
+          "symbolLabel": "con_amici",
+          "spokenText": "Esco con gli amici",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Con famiglia",
+          "symbolLabel": "con_famiglia",
+          "spokenText": "Esco con la famiglia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Invitare",
+          "symbolLabel": "invitare_libero",
+          "spokenText": "Invito qualcuno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Insieme",
+          "symbolLabel": "insieme_libero",
+          "spokenText": "Facciamo insieme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Raggiungere",
+          "symbolLabel": "raggiungere",
+          "spokenText": "Raggiungo gli altri",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Salutare",
+          "symbolLabel": "salutare_libero",
+          "spokenText": "Saluto e vado",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Cosa facciamo?",
+          "symbolLabel": "cosa_facciamo",
+          "spokenText": "Cosa facciamo?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Non ho voglia",
+          "symbolLabel": "non_ho_voglia_frase",
+          "spokenText": "Non ho voglia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Mi va bene",
+          "symbolLabel": "mi_va_bene",
+          "spokenText": "Mi va bene",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Andiamo fuori?",
+          "symbolLabel": "andiamo_fuori",
+          "spokenText": "Andiamo fuori?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Sono stanco",
+          "symbolLabel": "stanco_libero",
+          "spokenText": "Sono stanco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Preferisco restare",
+          "symbolLabel": "preferisco_restare",
+          "spokenText": "Preferisco restare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Ci vediamo dopo",
+          "symbolLabel": "ci_vediamo_dopo",
+          "spokenText": "Ci vediamo dopo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Buon divertimento",
+          "symbolLabel": "buon_divertimento",
+          "spokenText": "Buon divertimento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

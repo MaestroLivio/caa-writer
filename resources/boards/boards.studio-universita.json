@@ -1,0 +1,712 @@
+{
+  "id": "boards.studio-universita",
+  "title": "Studio e università",
+  "description": "Studio, ricerca, esami e servizi universitari, con un metodo per pianificare sessioni e obiettivi.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Studio e università",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Studio",
+          "symbolLabel": "studio_home",
+          "spokenText": "Apri lo studio",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "studio"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Ricerca",
+          "symbolLabel": "ricerca_home",
+          "spokenText": "Apri la ricerca",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "ricerca"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Esami",
+          "symbolLabel": "esami_home",
+          "spokenText": "Apri gli esami",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "esami"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Organizzazione",
+          "symbolLabel": "organizzazione_univ",
+          "spokenText": "Apri l'organizzazione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "organizzazione"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Servizi",
+          "symbolLabel": "servizi_univ",
+          "spokenText": "Apri i servizi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "servizi"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_univ",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Devo consegnare",
+          "symbolLabel": "devo_consegnare",
+          "spokenText": "Devo consegnare",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Ho bisogno di un chiarimento",
+          "symbolLabel": "chiarimento",
+          "spokenText": "Ho bisogno di un chiarimento",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "studio",
+      "title": "Studio",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Leggere",
+          "symbolLabel": "leggere_univ",
+          "spokenText": "Leggo il testo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Riassumere",
+          "symbolLabel": "riassumere_univ",
+          "spokenText": "Riassumo il capitolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Appunti",
+          "symbolLabel": "appunti_univ",
+          "spokenText": "Prendo appunti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Mappa",
+          "symbolLabel": "mappa_univ",
+          "spokenText": "Costruisco una mappa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Ripetere",
+          "symbolLabel": "ripetere_univ",
+          "spokenText": "Ripeto ad alta voce",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Concentrarsi",
+          "symbolLabel": "concentrarsi",
+          "spokenText": "Provo a concentrarmi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Metodo",
+          "symbolLabel": "metodo_nav",
+          "spokenText": "Apri il metodo",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "metodo"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "metodo",
+      "title": "Metodo di studio",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Pianificare",
+          "symbolLabel": "pianificare",
+          "spokenText": "Pianifico la sessione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Obiettivo",
+          "symbolLabel": "obiettivo",
+          "spokenText": "Fisso un obiettivo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Sessione",
+          "symbolLabel": "sessione",
+          "spokenText": "Inizio una sessione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Timer",
+          "symbolLabel": "timer",
+          "spokenText": "Imposto il timer",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Rileggere",
+          "symbolLabel": "rileggere",
+          "spokenText": "Rileggo e correggo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Autocorrezione",
+          "symbolLabel": "autocorrezione",
+          "spokenText": "Verifico cosa ho capito",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Memoria",
+          "symbolLabel": "memoria",
+          "spokenText": "Ripasso a distanza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ricerca",
+      "title": "Ricerca",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Biblioteca",
+          "symbolLabel": "biblioteca_ricerca",
+          "spokenText": "Vado in biblioteca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Articolo",
+          "symbolLabel": "articolo",
+          "spokenText": "Cerco un articolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Database",
+          "symbolLabel": "database",
+          "spokenText": "Uso il database",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Parole chiave",
+          "symbolLabel": "parole_chiave",
+          "spokenText": "Scelgo le parole chiave",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Citare",
+          "symbolLabel": "citare",
+          "spokenText": "Devo citare la fonte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Fonte",
+          "symbolLabel": "fonte",
+          "spokenText": "Verifico la fonte",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Tesi",
+          "symbolLabel": "tesi",
+          "spokenText": "Lavoro alla tesi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "esami",
+      "title": "Esami",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Sessione",
+          "symbolLabel": "sessione_esame",
+          "spokenText": "È la sessione d'esame",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Appello",
+          "symbolLabel": "appello",
+          "spokenText": "Mi iscrivo all'appello",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Iscrizione",
+          "symbolLabel": "iscrizione",
+          "spokenText": "Faccio l'iscrizione",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Orale",
+          "symbolLabel": "orale",
+          "spokenText": "Ho un esame orale",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Scritto",
+          "symbolLabel": "scritto",
+          "spokenText": "Ho un esame scritto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Voto",
+          "symbolLabel": "voto_univ",
+          "spokenText": "Ho ricevuto un voto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Laurea",
+          "symbolLabel": "laurea",
+          "spokenText": "Discuto la laurea",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "organizzazione",
+      "title": "Organizzazione",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Calendario",
+          "symbolLabel": "calendario_univ",
+          "spokenText": "Segno sul calendario",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Scadenze",
+          "symbolLabel": "scadenze_univ",
+          "spokenText": "Controllo le scadenze",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Priorità",
+          "symbolLabel": "priorita",
+          "spokenText": "Metto in ordine di priorità",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Gruppo",
+          "symbolLabel": "gruppo_univ",
+          "spokenText": "Studio in gruppo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Relatore",
+          "symbolLabel": "relatore",
+          "spokenText": "Parlo con il relatore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Segreteria",
+          "symbolLabel": "segreteria",
+          "spokenText": "Contatto la segreteria",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Borsa",
+          "symbolLabel": "borsa_studio",
+          "spokenText": "Controllo la borsa di studio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "servizi",
+      "title": "Servizi",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Biblioteca",
+          "symbolLabel": "biblioteca_servizi",
+          "spokenText": "Uso la biblioteca",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Mensa",
+          "symbolLabel": "mensa",
+          "spokenText": "Vado in mensa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Sportello",
+          "symbolLabel": "sportello",
+          "spokenText": "Vado allo sportello",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Tutor",
+          "symbolLabel": "tutor",
+          "spokenText": "Parlo con il tutor",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Wifi",
+          "symbolLabel": "wifi_univ",
+          "spokenText": "Mi connetto al wifi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Stampa",
+          "symbolLabel": "stampa",
+          "spokenText": "Devo stampare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Orientamento",
+          "symbolLabel": "orientamento",
+          "spokenText": "Chiedo orientamento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Devo studiare",
+          "symbolLabel": "devo_studiare_univ",
+          "spokenText": "Devo studiare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Non capisco questo testo",
+          "symbolLabel": "testo_non_capito",
+          "spokenText": "Non capisco questo testo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Posso avere un chiarimento?",
+          "symbolLabel": "chiarimento_frase",
+          "spokenText": "Posso avere un chiarimento?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Ho un esame",
+          "symbolLabel": "ho_esame",
+          "spokenText": "Ho un esame",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Mi serve più tempo",
+          "symbolLabel": "serve_tempo",
+          "spokenText": "Mi serve più tempo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Ho finito la tesi",
+          "symbolLabel": "tesi_finita",
+          "spokenText": "Ho finito la tesi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Sono stanco",
+          "symbolLabel": "stanco_univ",
+          "spokenText": "Sono stanco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_univ",
+          "spokenText": "Grazie per l'aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}

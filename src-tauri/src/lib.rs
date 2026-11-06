@@ -18,6 +18,7 @@ pub mod layout_edit;
 pub mod linguistics;
 pub mod model;
 pub mod paths;
+pub mod profiles;
 pub mod pictogram_import;
 pub mod online_search;
 pub mod speech;
@@ -100,6 +101,19 @@ pub fn run() {
             commands::edit_layout,
             commands::interpret_document_prompt,
             commands::run_cli,
+            commands::profiles_list,
+            commands::profile_save,
+            commands::profile_delete,
+            commands::profile_set_active,
+            commands::profile_active,
+            commands::profile_boards,
+            commands::profile_assign_board,
+            commands::profile_remove_board,
+            commands::boards_list,
+            commands::board_build,
+            commands::creator_pin_status,
+            commands::creator_set_pin,
+            commands::creator_verify_pin,
             commands::import_svg_symbol,
             commands::scan_pictograms,
             commands::import_pictograms,

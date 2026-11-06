@@ -1,0 +1,712 @@
+{
+  "id": "boards.casa",
+  "title": "Casa",
+  "description": "Stanze, oggetti, faccende, manutenzione e sicurezza per orientarsi e chiedere aiuto in casa.",
+  "ageTheme": "adulto",
+  "rootPageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Casa",
+      "cells": [
+        {
+          "id": "c1",
+          "label": "Stanze",
+          "symbolLabel": "stanze_home",
+          "spokenText": "Apri le stanze",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "stanze"
+          }
+        },
+        {
+          "id": "c2",
+          "label": "Oggetti",
+          "symbolLabel": "oggetti_home",
+          "spokenText": "Apri gli oggetti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "oggetti"
+          }
+        },
+        {
+          "id": "c3",
+          "label": "Faccende",
+          "symbolLabel": "faccende_home",
+          "spokenText": "Apri le faccende",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "faccende"
+          }
+        },
+        {
+          "id": "c4",
+          "label": "Sicurezza",
+          "symbolLabel": "sicurezza_home",
+          "spokenText": "Apri la sicurezza",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "sicurezza"
+          }
+        },
+        {
+          "id": "c5",
+          "label": "Ospiti",
+          "symbolLabel": "ospiti_home",
+          "spokenText": "Apri gli ospiti",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "ospiti"
+          }
+        },
+        {
+          "id": "c6",
+          "label": "Frasi",
+          "symbolLabel": "frasi_casa_home",
+          "spokenText": "Apri le frasi",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "frasi"
+          }
+        },
+        {
+          "id": "c7",
+          "label": "Dove si trova",
+          "symbolLabel": "dove_si_trova",
+          "spokenText": "Dove si trova",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c8",
+          "label": "Mi scusi",
+          "symbolLabel": "mi_scusi_home",
+          "spokenText": "Mi scusi",
+          "action": {
+            "type": "speak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "stanze",
+      "title": "Stanze",
+      "cells": [
+        {
+          "id": "c9",
+          "label": "Cucina",
+          "symbolLabel": "cucina_casa",
+          "spokenText": "Vado in cucina",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c10",
+          "label": "Bagno",
+          "symbolLabel": "bagno_casa",
+          "spokenText": "Vado in bagno",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c11",
+          "label": "Camera",
+          "symbolLabel": "camera_casa",
+          "spokenText": "Vado in camera",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c12",
+          "label": "Salotto",
+          "symbolLabel": "salotto_casa",
+          "spokenText": "Vado in salotto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c13",
+          "label": "Ingresso",
+          "symbolLabel": "ingresso",
+          "spokenText": "Sono in ingresso",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c14",
+          "label": "Balcone",
+          "symbolLabel": "balcone",
+          "spokenText": "Vado sul balcone",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c15",
+          "label": "Cantina",
+          "symbolLabel": "cantina",
+          "spokenText": "Scendo in cantina",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c16",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c17",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "oggetti",
+      "title": "Oggetti",
+      "cells": [
+        {
+          "id": "c18",
+          "label": "Tavolo",
+          "symbolLabel": "tavolo_casa",
+          "spokenText": "Mi serve il tavolo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c19",
+          "label": "Sedia",
+          "symbolLabel": "sedia",
+          "spokenText": "Mi serve una sedia",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c20",
+          "label": "Letto",
+          "symbolLabel": "letto_casa",
+          "spokenText": "Vado a letto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c21",
+          "label": "Armadio",
+          "symbolLabel": "armadio",
+          "spokenText": "Apro l'armadio",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c22",
+          "label": "Lampada",
+          "symbolLabel": "lampada",
+          "spokenText": "Accendo la lampada",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c23",
+          "label": "Tappeto",
+          "symbolLabel": "tappeto",
+          "spokenText": "Il tappeto è sporco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c24",
+          "label": "Chiavi",
+          "symbolLabel": "chiavi_casa",
+          "spokenText": "Dove sono le chiavi?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c25",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c26",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "faccende",
+      "title": "Faccende",
+      "cells": [
+        {
+          "id": "c27",
+          "label": "Pulire",
+          "symbolLabel": "pulire",
+          "spokenText": "Devo pulire",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c28",
+          "label": "Lavare",
+          "symbolLabel": "lavare_casa",
+          "spokenText": "Devo lavare",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c29",
+          "label": "Stendere",
+          "symbolLabel": "stendere",
+          "spokenText": "Stendo i panni",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c30",
+          "label": "Spazzare",
+          "symbolLabel": "spazzare",
+          "spokenText": "Spazzo il pavimento",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c31",
+          "label": "Riordinare",
+          "symbolLabel": "riordinare",
+          "spokenText": "Riordino la stanza",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c32",
+          "label": "Buttare",
+          "symbolLabel": "buttare",
+          "spokenText": "Butto la spazzatura",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c33",
+          "label": "Manutenzione",
+          "symbolLabel": "manutenzione_nav",
+          "spokenText": "Apri la manutenzione",
+          "action": {
+            "type": "navigate",
+            "targetPageId": "manutenzione"
+          }
+        },
+        {
+          "id": "c34",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c35",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "manutenzione",
+      "title": "Manutenzione",
+      "cells": [
+        {
+          "id": "c36",
+          "label": "Riparare",
+          "symbolLabel": "riparare",
+          "spokenText": "Devo riparare qualcosa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c37",
+          "label": "Perdita",
+          "symbolLabel": "perdita",
+          "spokenText": "C'è una perdita",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c38",
+          "label": "Lampadina",
+          "symbolLabel": "lampadina",
+          "spokenText": "La lampadina è bruciata",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c39",
+          "label": "Presa",
+          "symbolLabel": "presa",
+          "spokenText": "La presa non funziona",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c40",
+          "label": "Tubo",
+          "symbolLabel": "tubo",
+          "spokenText": "Il tubo perde",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c41",
+          "label": "Attrezzi",
+          "symbolLabel": "attrezzi",
+          "spokenText": "Mi servono gli attrezzi",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c42",
+          "label": "Tecnico",
+          "symbolLabel": "tecnico",
+          "spokenText": "Devo chiamare un tecnico",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c43",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c44",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sicurezza",
+      "title": "Sicurezza",
+      "cells": [
+        {
+          "id": "c45",
+          "label": "Porta chiusa",
+          "symbolLabel": "porta_chiusa",
+          "spokenText": "La porta è chiusa",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c46",
+          "label": "Finestra",
+          "symbolLabel": "finestra_sicurezza",
+          "spokenText": "Chiudo la finestra",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c47",
+          "label": "Gas",
+          "symbolLabel": "gas",
+          "spokenText": "Sento odore di gas",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c48",
+          "label": "Fuoco",
+          "symbolLabel": "fuoco",
+          "spokenText": "C'è del fuoco",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c49",
+          "label": "Allarme",
+          "symbolLabel": "allarme",
+          "spokenText": "Suona l'allarme",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c50",
+          "label": "Chiave",
+          "symbolLabel": "chiave",
+          "spokenText": "Ho perso la chiave",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c51",
+          "label": "Uscita",
+          "symbolLabel": "uscita_casa",
+          "spokenText": "Dov'è l'uscita?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c52",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c53",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ospiti",
+      "title": "Ospiti",
+      "cells": [
+        {
+          "id": "c54",
+          "label": "Campanello",
+          "symbolLabel": "campanello_casa",
+          "spokenText": "Suona il campanello",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c55",
+          "label": "Accogliere",
+          "symbolLabel": "accogliere",
+          "spokenText": "Accolgo gli ospiti",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c56",
+          "label": "Offrire",
+          "symbolLabel": "offrire",
+          "spokenText": "Offro da bere",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c57",
+          "label": "Sedersi",
+          "symbolLabel": "sedersi",
+          "spokenText": "Prego, si sieda",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c58",
+          "label": "Conversare",
+          "symbolLabel": "conversare_casa",
+          "spokenText": "Conversiamo un po'",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c59",
+          "label": "Accompagnare",
+          "symbolLabel": "accompagnare",
+          "spokenText": "Accompagno alla porta",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c60",
+          "label": "Arrivederci",
+          "symbolLabel": "arrivederci_casa",
+          "spokenText": "Arrivederci, grazie",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c61",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c62",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frasi",
+      "title": "Frasi e richieste",
+      "cells": [
+        {
+          "id": "c63",
+          "label": "Dove si trova",
+          "symbolLabel": "dove_si_trova_frase",
+          "spokenText": "Dove si trova",
+          "action": {
+            "type": "append"
+          }
+        },
+        {
+          "id": "c64",
+          "label": "Posso aprire la finestra?",
+          "symbolLabel": "aprire_finestra",
+          "spokenText": "Posso aprire la finestra?",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c65",
+          "label": "Fa caldo",
+          "symbolLabel": "fa_caldo_casa",
+          "spokenText": "Fa caldo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c66",
+          "label": "Ho bisogno di aiuto",
+          "symbolLabel": "aiuto_casa",
+          "spokenText": "Ho bisogno di aiuto",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c67",
+          "label": "Il rubinetto perde",
+          "symbolLabel": "rubinetto_perde",
+          "spokenText": "Il rubinetto perde",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c68",
+          "label": "Chiudi la porta",
+          "symbolLabel": "chiudi_porta",
+          "spokenText": "Chiudi la porta, per favore",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c69",
+          "label": "Mi scusi",
+          "symbolLabel": "mi_scusi_casa",
+          "spokenText": "Mi scusi per il disturbo",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c70",
+          "label": "Grazie",
+          "symbolLabel": "grazie_casa",
+          "spokenText": "Grazie per l'ospitalità",
+          "action": {
+            "type": "speak"
+          }
+        },
+        {
+          "id": "c71",
+          "label": "Indietro",
+          "symbolLabel": "indietro",
+          "spokenText": "Torna indietro",
+          "action": {
+            "type": "back"
+          }
+        },
+        {
+          "id": "c72",
+          "label": "Home",
+          "symbolLabel": "home",
+          "spokenText": "Vai alla home",
+          "action": {
+            "type": "home"
+          }
+        }
+      ]
+    }
+  ]
+}
