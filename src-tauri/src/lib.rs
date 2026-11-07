@@ -7,6 +7,7 @@
 //! 4. registrazione dei comandi.
 
 pub mod ai_engine;
+pub mod ai_provider;
 pub mod asset_manager;
 pub mod commands;
 pub mod database;
@@ -111,6 +112,10 @@ pub fn run() {
             commands::document_apply,
             commands::universal_from_plan,
             commands::document_html,
+            commands::ai_provider_status,
+            commands::ai_provider_save,
+            commands::ai_provider_test,
+            commands::ai_provider_clear_key,
             commands::take_pending_open,
             commands::universal_import,
             commands::document_export,
@@ -157,6 +162,8 @@ pub fn run() {
             commands::delete_pictogram_symbols,
             commands::move_pictogram_symbols,
             commands::list_online_providers,
+            commands::save_online_provider,
+            commands::delete_online_provider,
             commands::search_online_pictograms,
             commands::online_thumbnail,
             commands::save_online_pictogram,

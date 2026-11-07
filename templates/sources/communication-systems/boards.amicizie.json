@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Persone",
-          "symbol": "persone amici",
+          "symbol": "Persone",
           "spoken_text": "Apri le persone",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Attività",
-          "symbol": "attivita amici",
+          "symbol": "Attività",
           "spoken_text": "Apri le attività",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Conversazione",
-          "symbol": "conversazione amici",
+          "symbol": "Conversazione",
           "spoken_text": "Apri la conversazione",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Conflitti",
-          "symbol": "conflitti home",
+          "symbol": "Conflitti",
           "spoken_text": "Apri i conflitti",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Rispetto",
-          "symbol": "rispetto home",
+          "symbol": "Rispetto",
           "spoken_text": "Apri il rispetto",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi amici",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Ti va di",
-          "symbol": "ti va di",
+          "symbol": "Ti va di",
           "spoken_text": "Ti va di",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Mi dispiace",
-          "symbol": "mi dispiace home",
+          "symbol": "Mi dispiace",
           "spoken_text": "Mi dispiace",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Amico",
-          "symbol": "amico",
+          "symbol": "Amico",
           "spoken_text": "Sei mio amico",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Amica",
-          "symbol": "amica",
+          "symbol": "Amica",
           "spoken_text": "Sei mia amica",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Gruppo",
-          "symbol": "gruppo amici",
+          "symbol": "Gruppo",
           "spoken_text": "Siamo un gruppo",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Conoscente",
-          "symbol": "conoscente",
+          "symbol": "Conoscente",
           "spoken_text": "È un conoscente",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Migliore amico",
-          "symbol": "migliore amico",
+          "symbol": "Migliore amico",
           "spoken_text": "Sei il mio migliore amico",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Compagno",
-          "symbol": "compagno amici",
+          "symbol": "Compagno",
           "spoken_text": "È un compagno",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Vicino",
-          "symbol": "vicino amici",
+          "symbol": "Vicino",
           "spoken_text": "È il mio vicino",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Uscire",
-          "symbol": "uscire amici",
+          "symbol": "Uscire",
           "spoken_text": "Usciamo insieme",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Parlare",
-          "symbol": "parlare amici",
+          "symbol": "Parlare",
           "spoken_text": "Parliamo",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Mangiare insieme",
-          "symbol": "mangiare amici",
+          "symbol": "Mangiare insieme",
           "spoken_text": "Mangiamo insieme",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Giocare",
-          "symbol": "giocare amici",
+          "symbol": "Giocare",
           "spoken_text": "Giochiamo",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Cinema",
-          "symbol": "cinema amici",
+          "symbol": "Cinema",
           "spoken_text": "Andiamo al cinema",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Passeggiata",
-          "symbol": "passeggiata amici",
+          "symbol": "Passeggiata",
           "spoken_text": "Facciamo una passeggiata",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Chiamare",
-          "symbol": "chiamare amici",
+          "symbol": "Chiamare",
           "spoken_text": "Ti chiamo",
           "action": {
             "type": "speak"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Come stai",
-          "symbol": "come stai amici",
+          "symbol": "Come stai",
           "spoken_text": "Come stai?",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Cosa fai",
-          "symbol": "cosa fai",
+          "symbol": "Cosa fai",
           "spoken_text": "Cosa fai?",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Raccontare",
-          "symbol": "raccontare",
+          "symbol": "Raccontare",
           "spoken_text": "Ti racconto",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Ascoltare",
-          "symbol": "ascoltare amici",
+          "symbol": "Ascoltare",
           "spoken_text": "Ti ascolto",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Ridere",
-          "symbol": "ridere",
+          "symbol": "Ridere",
           "spoken_text": "Ridiamo insieme",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Interessi",
-          "symbol": "interessi",
+          "symbol": "Interessi",
           "spoken_text": "Parliamo dei nostri interessi",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Ricordi",
-          "symbol": "ricordi",
+          "symbol": "Ricordi",
           "spoken_text": "Ricordi quella volta?",
           "action": {
             "type": "speak"
@@ -598,7 +598,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -614,7 +614,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -643,7 +643,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Litigio",
-          "symbol": "litigio amici",
+          "symbol": "Litigio",
           "spoken_text": "Abbiamo litigato",
           "action": {
             "type": "speak"
@@ -659,7 +659,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Incomprensione",
-          "symbol": "incomprensione",
+          "symbol": "Incomprensione",
           "spoken_text": "C'è stata un'incomprensione",
           "action": {
             "type": "speak"
@@ -675,7 +675,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Gelosia",
-          "symbol": "gelosia",
+          "symbol": "Gelosia",
           "spoken_text": "Provo gelosia",
           "action": {
             "type": "speak"
@@ -691,7 +691,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Offesa",
-          "symbol": "offesa",
+          "symbol": "Offesa",
           "spoken_text": "Mi sono offeso",
           "action": {
             "type": "speak"
@@ -707,7 +707,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Allontanarsi",
-          "symbol": "allontanarsi",
+          "symbol": "Allontanarsi",
           "spoken_text": "Mi allontano un po'",
           "action": {
             "type": "speak"
@@ -723,7 +723,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Scusarsi",
-          "symbol": "scusarsi",
+          "symbol": "Scusarsi",
           "spoken_text": "Voglio scusarmi",
           "action": {
             "type": "speak"
@@ -739,7 +739,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Riparare",
-          "symbol": "riparare nav",
+          "symbol": "Riparare",
           "spoken_text": "Apri come riparare",
           "action": {
             "type": "navigate",
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Scusa",
-          "symbol": "scusa",
+          "symbol": "Scusa",
           "spoken_text": "Scusa",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Non volevo",
-          "symbol": "non volevo",
+          "symbol": "Non volevo",
           "spoken_text": "Non volevo ferirti",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Capisco",
-          "symbol": "capisco",
+          "symbol": "Capisco",
           "spoken_text": "Capisco il tuo punto",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Parliamone",
-          "symbol": "parliamone",
+          "symbol": "Parliamone",
           "spoken_text": "Parliamone",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Tempo",
-          "symbol": "tempo riparare",
+          "symbol": "Tempo",
           "spoken_text": "Mi serve tempo",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Riprovare",
-          "symbol": "riprovare",
+          "symbol": "Riprovare",
           "spoken_text": "Possiamo riprovare?",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Abbraccio",
-          "symbol": "abbraccio riparare",
+          "symbol": "Abbraccio",
           "spoken_text": "Ti abbraccio",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Ascoltare",
-          "symbol": "ascoltare rispetto",
+          "symbol": "Ascoltare",
           "spoken_text": "Ti ascolto",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Spazio",
-          "symbol": "spazio rispetto",
+          "symbol": "Spazio",
           "spoken_text": "Ho bisogno di spazio",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Confini",
-          "symbol": "confini",
+          "symbol": "Confini",
           "spoken_text": "Rispetto i tuoi confini",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "No",
-          "symbol": "no rispetto",
+          "symbol": "No",
           "spoken_text": "So dire no",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Fiducia",
-          "symbol": "fiducia",
+          "symbol": "Fiducia",
           "spoken_text": "Ho fiducia in te",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Privacy",
-          "symbol": "privacy amici",
+          "symbol": "Privacy",
           "spoken_text": "Rispetto la tua privacy",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Gentilezza",
-          "symbol": "gentilezza",
+          "symbol": "Gentilezza",
           "spoken_text": "Scelgo la gentilezza",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Mi manchi",
-          "symbol": "mi manchi amici",
+          "symbol": "Mi manchi",
           "spoken_text": "Mi manchi",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Ti va di uscire?",
-          "symbol": "ti va uscire",
+          "symbol": "Ti va di uscire?",
           "spoken_text": "Ti va di uscire?",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Sono arrabbiato con te",
-          "symbol": "arrabbiato te",
+          "symbol": "Sono arrabbiato con te",
           "spoken_text": "Sono arrabbiato con te",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Mi dispiace",
-          "symbol": "mi dispiace frase",
+          "symbol": "Mi dispiace",
           "spoken_text": "Mi dispiace",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Ti ascolto",
-          "symbol": "ti ascolto",
+          "symbol": "Ti ascolto",
           "spoken_text": "Ti ascolto",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Ho bisogno di spazio",
-          "symbol": "spazio frase",
+          "symbol": "Ho bisogno di spazio",
           "spoken_text": "Ho bisogno di spazio",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Sei importante per me",
-          "symbol": "importante per me",
+          "symbol": "Sei importante per me",
           "spoken_text": "Sei importante per me",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "A presto",
-          "symbol": "a presto amici",
+          "symbol": "A presto",
           "spoken_text": "A presto",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

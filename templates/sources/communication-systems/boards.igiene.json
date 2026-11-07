@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Mani",
-          "symbol": "mani",
+          "symbol": "Mani",
           "spoken_text": "Apri il lavaggio delle mani",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Denti",
-          "symbol": "denti",
+          "symbol": "Denti",
           "spoken_text": "Apri la cura dei denti",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Doccia",
-          "symbol": "doccia",
+          "symbol": "Doccia",
           "spoken_text": "Apri la doccia",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Capelli",
-          "symbol": "capelli",
+          "symbol": "Capelli",
           "spoken_text": "Apri la cura dei capelli",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Viso",
-          "symbol": "viso",
+          "symbol": "Viso",
           "spoken_text": "Apri la cura del viso",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Devo lavarmi",
-          "symbol": "devo lavarmi",
+          "symbol": "Devo lavarmi",
           "spoken_text": "Devo lavarmi",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Sono pulito",
-          "symbol": "sono pulito",
+          "symbol": "Sono pulito",
           "spoken_text": "Sono pulito",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Acqua",
-          "symbol": "acqua mani",
+          "symbol": "Acqua",
           "spoken_text": "Apro l'acqua",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Sapone",
-          "symbol": "sapone",
+          "symbol": "Sapone",
           "spoken_text": "Prendo il sapone",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Strofinare",
-          "symbol": "strofinare",
+          "symbol": "Strofinare",
           "spoken_text": "Strofino le mani",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Risciacquare",
-          "symbol": "risciacquare",
+          "symbol": "Risciacquare",
           "spoken_text": "Risciacquo",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Asciugare",
-          "symbol": "asciugare",
+          "symbol": "Asciugare",
           "spoken_text": "Asciugo le mani",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Unghie",
-          "symbol": "unghie",
+          "symbol": "Unghie",
           "spoken_text": "Taglio le unghie",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -313,7 +313,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Spazzolino",
-          "symbol": "spazzolino",
+          "symbol": "Spazzolino",
           "spoken_text": "Prendo lo spazzolino",
           "action": {
             "type": "speak"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Dentifricio",
-          "symbol": "dentifricio",
+          "symbol": "Dentifricio",
           "spoken_text": "Metto il dentifricio",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Spazzolare",
-          "symbol": "spazzolare",
+          "symbol": "Spazzolare",
           "spoken_text": "Spazzolo i denti",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Risciacquare",
-          "symbol": "risciacquare denti",
+          "symbol": "Risciacquare",
           "spoken_text": "Risciacquo la bocca",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Filo",
-          "symbol": "filo",
+          "symbol": "Filo",
           "spoken_text": "Uso il filo interdentale",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Dentista",
-          "symbol": "dentista",
+          "symbol": "Dentista",
           "spoken_text": "Ho un appuntamento dal dentista",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Due minuti",
-          "symbol": "due minuti",
+          "symbol": "Due minuti",
           "spoken_text": "Spazzolo per due minuti",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -470,7 +470,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Doccia",
-          "symbol": "doccia azione",
+          "symbol": "Doccia",
           "spoken_text": "Faccio la doccia",
           "action": {
             "type": "speak"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Shampoo",
-          "symbol": "shampoo",
+          "symbol": "Shampoo",
           "spoken_text": "Uso lo shampoo",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Bagnoschiuma",
-          "symbol": "bagnoschiuma",
+          "symbol": "Bagnoschiuma",
           "spoken_text": "Uso il bagnoschiuma",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Temperatura",
-          "symbol": "temperatura",
+          "symbol": "Temperatura",
           "spoken_text": "Regolo la temperatura",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Salvietta",
-          "symbol": "salvietta",
+          "symbol": "Salvietta",
           "spoken_text": "Prendo la salvietta",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Asciugamano",
-          "symbol": "asciugamano",
+          "symbol": "Asciugamano",
           "spoken_text": "Mi passi l'asciugamano?",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Prodotti",
-          "symbol": "prodotti",
+          "symbol": "Prodotti",
           "spoken_text": "Apri i prodotti per la cura",
           "action": {
             "type": "navigate",
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -628,7 +628,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Deodorante",
-          "symbol": "deodorante",
+          "symbol": "Deodorante",
           "spoken_text": "Uso il deodorante",
           "action": {
             "type": "speak"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Crema",
-          "symbol": "crema",
+          "symbol": "Crema",
           "spoken_text": "Metto la crema",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Rasoio",
-          "symbol": "rasoio",
+          "symbol": "Rasoio",
           "spoken_text": "Uso il rasoio",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Spazzola",
-          "symbol": "spazzola",
+          "symbol": "Spazzola",
           "spoken_text": "Uso la spazzola",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Cotton fioc",
-          "symbol": "cotton fioc",
+          "symbol": "Cotton fioc",
           "spoken_text": "Uso un cotton fioc",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Sapone liquido",
-          "symbol": "sapone liquido",
+          "symbol": "Sapone liquido",
           "spoken_text": "Uso il sapone liquido",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Asciugacapelli",
-          "symbol": "asciugacapelli",
+          "symbol": "Asciugacapelli",
           "spoken_text": "Uso l'asciugacapelli",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -785,7 +785,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Lavare",
-          "symbol": "lavare capelli",
+          "symbol": "Lavare",
           "spoken_text": "Lavo i capelli",
           "action": {
             "type": "speak"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Pettinare",
-          "symbol": "pettinare",
+          "symbol": "Pettinare",
           "spoken_text": "Mi pettino",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Asciugare",
-          "symbol": "asciugare capelli",
+          "symbol": "Asciugare",
           "spoken_text": "Asciugo i capelli",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Tagliare",
-          "symbol": "tagliare capelli",
+          "symbol": "Tagliare",
           "spoken_text": "Vorrei tagliare i capelli",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Spazzola",
-          "symbol": "spazzola capelli",
+          "symbol": "Spazzola",
           "spoken_text": "Dove è la spazzola?",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Elastico",
-          "symbol": "elastico",
+          "symbol": "Elastico",
           "spoken_text": "Mi serve un elastico",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Specchio",
-          "symbol": "specchio",
+          "symbol": "Specchio",
           "spoken_text": "Mi guardo allo specchio",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -942,7 +942,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Lavare",
-          "symbol": "lavare viso",
+          "symbol": "Lavare",
           "spoken_text": "Lavo il viso",
           "action": {
             "type": "speak"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Asciugare",
-          "symbol": "asciugare viso",
+          "symbol": "Asciugare",
           "spoken_text": "Asciugo il viso",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Crema",
-          "symbol": "crema viso",
+          "symbol": "Crema",
           "spoken_text": "Metto la crema sul viso",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Barba",
-          "symbol": "barba",
+          "symbol": "Barba",
           "spoken_text": "Devo fare la barba",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Trucco",
-          "symbol": "trucco",
+          "symbol": "Trucco",
           "spoken_text": "Metto il trucco",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Specchio",
-          "symbol": "specchio viso",
+          "symbol": "Specchio",
           "spoken_text": "Ho bisogno dello specchio",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Brufolo",
-          "symbol": "brufolo",
+          "symbol": "Brufolo",
           "spoken_text": "Ho un brufolo",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1099,7 +1099,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Devo lavarmi",
-          "symbol": "devo lavarmi frase",
+          "symbol": "Devo lavarmi",
           "spoken_text": "Devo lavarmi",
           "action": {
             "type": "append"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Mi aiuti?",
-          "symbol": "mi aiuti igiene",
+          "symbol": "Mi aiuti?",
           "spoken_text": "Mi aiuti a lavarmi?",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Non voglio",
-          "symbol": "non voglio igiene",
+          "symbol": "Non voglio",
           "spoken_text": "Non voglio farlo adesso",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Fa male",
-          "symbol": "fa male igiene",
+          "symbol": "Fa male",
           "spoken_text": "Fa male",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Sono pronto",
-          "symbol": "sono pronto",
+          "symbol": "Sono pronto",
           "spoken_text": "Sono pronto",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Mi passi l'asciugamano?",
-          "symbol": "passa asciugamano",
+          "symbol": "Mi passi l'asciugamano?",
           "spoken_text": "Mi passi l'asciugamano?",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Ho bisogno di privacy",
-          "symbol": "privacy",
+          "symbol": "Ho bisogno di privacy",
           "spoken_text": "Ho bisogno di privacy",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie igiene",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'aiuto",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

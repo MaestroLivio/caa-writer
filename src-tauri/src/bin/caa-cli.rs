@@ -980,6 +980,14 @@ fn export_document(document: &UniversalDocument, format: &str, out: &Path) -> Re
             universal_png_export(document, out)?;
             Ok(json!({"ok": true, "format": "png", "path": out}))
         }
+        "docx" => {
+            let result = caa_writer_lib::export::universal_docx::write(out, document)?;
+            Ok(json!({"ok": true, "format": "docx", "path": result.path, "warnings": result.warnings}))
+        }
+        "pptx" => {
+            let result = caa_writer_lib::export::universal_pptx::write(out, document)?;
+            Ok(json!({"ok": true, "format": "pptx", "path": result.path, "warnings": result.warnings}))
+        }
         other => Err(format!("formato di esportazione non supportato: {other}")),
     }
 }

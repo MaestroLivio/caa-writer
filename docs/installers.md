@@ -1,6 +1,6 @@
 # Release e installer
 
-## Stato reale (versione 0.10.0, 7 novembre 2026)
+## Stato reale (versione 0.11.0, 7 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
@@ -13,11 +13,11 @@
 Artefatti macOS prodotti (in `dist-release/`, esclusa da Git):
 
 ```
-CAA-Writer_0.10.0_macos-arm64.dmg      832,49 MiB
-CAA-Writer_0.10.0_macos-arm64.app.zip  842,96 MiB
-CAA-Writer_0.10.0_macos-x64.dmg        833,60 MiB
-CAA-Writer_0.10.0_macos-x64.app.zip    844,03 MiB
-CAA-Writer_0.10.0_windows-x64-setup.exe 795,61 MiB (NSIS)
+CAA-Writer_0.11.0_macos-arm64.dmg      515,91 MiB
+CAA-Writer_0.11.0_macos-arm64.app.zip  516,44 MiB
+CAA-Writer_0.11.0_macos-x64.dmg        517,01 MiB
+CAA-Writer_0.11.0_macos-x64.app.zip    517,53 MiB
+CAA-Writer_0.11.0_windows-x64-setup.exe 490,57 MiB (NSIS)
 CAA-Writer_0.10.0_cli-macos-arm64      6,4 MiB
 CAA-Writer_0.10.0_cli-macos-x64        7,1 MiB
 CAA-Writer_0.10.0_cli-windows-x64.exe  7,2 MiB
@@ -29,7 +29,7 @@ AGENT.md
 I due bundle macOS sono stati aperti: Apple Silicon nativamente, Intel tramite Rosetta 2.
 L'installer Windows è stato controllato staticamente con 7-Zip: contiene `caa-writer.exe`
 (PE32+ x86-64), il runtime llama.cpp Windows, il modello, le 300 tabelle della biblioteca,
-i 30 sistemi comunicativi e la CLI (15.802 file).
+i 30 sistemi comunicativi e la CLI (1.795 file).
 Non è stato eseguito su Windows: la compilazione incrociata e i flag `CREATE_NO_WINDOW` sono
 verificati solo staticamente. Un tentativo sotto Wine si ferma sul bootstrapper WebView2.
 Non è prodotto il `.msi` perché WiX richiede un host Windows. La CLI è inclusa nel bundle

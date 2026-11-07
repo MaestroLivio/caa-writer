@@ -259,3 +259,19 @@ prima pagina e **Stampa** apre il dialogo di sistema con tutte le pagine.
 I file `.caadoc` e `.caaplay` possono essere aperti direttamente nel player.
 Dal player puoi aprire un altro documento, importarne una copia modificabile,
 passare all'editor, stampare, usare lo schermo intero o tornare alla home.
+
+
+## Repertori online, provider e default (0.11.0)
+
+L'app include un piccolo repertorio locale per l'uso offline; gli altri
+pittogrammi e le immagini si cercano tramite API pubbliche (ARASAAC, Wikimedia)
+o provider aggiunti in **Impostazioni → Librerie online**. Un risultato scelto
+viene salvato come copia offline con la sua licenza.
+
+La **sintesi vocale è disattivata** per default: attivala in Impostazioni →
+Accessibilità. Il profilo prestazionale predefinito è **Risparmio risorse**, adatto
+anche a computer con 4 GB di RAM.
+
+In **Provider IA** puoi scegliere il modello locale o un endpoint online
+compatibile OpenAI. La chiave API viene conservata nel portachiavi del sistema,
+non nel documento e non nei log; servono consenso esplicito e conferma privacy.

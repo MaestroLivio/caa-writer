@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Giorni",
-          "symbol": "giorni home",
+          "symbol": "Giorni",
           "spoken_text": "Apri i giorni",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Momenti",
-          "symbol": "momenti home",
+          "symbol": "Momenti",
           "spoken_text": "Apri i momenti",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Pianificare",
-          "symbol": "pianificare home",
+          "symbol": "Pianificare",
           "spoken_text": "Apri la pianificazione",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Promemoria",
-          "symbol": "promemoria home",
+          "symbol": "Promemoria",
           "spoken_text": "Apri i promemoria",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Scadenze",
-          "symbol": "scadenze home",
+          "symbol": "Scadenze",
           "spoken_text": "Apri le scadenze",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi agenda",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Oggi devo",
-          "symbol": "oggi devo",
+          "symbol": "Oggi devo",
           "spoken_text": "Oggi devo",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Che ore sono",
-          "symbol": "che ore sono",
+          "symbol": "Che ore sono",
           "spoken_text": "Che ore sono?",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Lunedì",
-          "symbol": "lunedi",
+          "symbol": "Lunedì",
           "spoken_text": "Lunedì",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Martedì",
-          "symbol": "martedi",
+          "symbol": "Martedì",
           "spoken_text": "Martedì",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Mercoledì",
-          "symbol": "mercoledi",
+          "symbol": "Mercoledì",
           "spoken_text": "Mercoledì",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Giovedì",
-          "symbol": "giovedi",
+          "symbol": "Giovedì",
           "spoken_text": "Giovedì",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Venerdì",
-          "symbol": "venerdi",
+          "symbol": "Venerdì",
           "spoken_text": "Venerdì",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Sabato",
-          "symbol": "sabato",
+          "symbol": "Sabato",
           "spoken_text": "Sabato",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Settimana",
-          "symbol": "settimana nav",
+          "symbol": "Settimana",
           "spoken_text": "Apri la settimana",
           "action": {
             "type": "navigate",
@@ -285,7 +285,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -330,7 +330,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Oggi",
-          "symbol": "oggi",
+          "symbol": "Oggi",
           "spoken_text": "Oggi",
           "action": {
             "type": "speak"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Domani",
-          "symbol": "domani",
+          "symbol": "Domani",
           "spoken_text": "Domani",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Ieri",
-          "symbol": "ieri",
+          "symbol": "Ieri",
           "spoken_text": "Ieri",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Questa settimana",
-          "symbol": "questa settimana",
+          "symbol": "Questa settimana",
           "spoken_text": "Questa settimana",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Prossima settimana",
-          "symbol": "prossima settimana",
+          "symbol": "Prossima settimana",
           "spoken_text": "La prossima settimana",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Fine settimana",
-          "symbol": "fine settimana",
+          "symbol": "Fine settimana",
           "spoken_text": "Nel fine settimana",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Feriale",
-          "symbol": "feriale",
+          "symbol": "Feriale",
           "spoken_text": "Nei giorni feriali",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -487,7 +487,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Mattina",
-          "symbol": "mattina",
+          "symbol": "Mattina",
           "spoken_text": "La mattina",
           "action": {
             "type": "speak"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Pomeriggio",
-          "symbol": "pomeriggio",
+          "symbol": "Pomeriggio",
           "spoken_text": "Il pomeriggio",
           "action": {
             "type": "speak"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Sera",
-          "symbol": "sera",
+          "symbol": "Sera",
           "spoken_text": "La sera",
           "action": {
             "type": "speak"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Notte",
-          "symbol": "notte",
+          "symbol": "Notte",
           "spoken_text": "La notte",
           "action": {
             "type": "speak"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Adesso",
-          "symbol": "adesso agenda",
+          "symbol": "Adesso",
           "spoken_text": "Adesso",
           "action": {
             "type": "speak"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Dopo",
-          "symbol": "dopo",
+          "symbol": "Dopo",
           "spoken_text": "Dopo",
           "action": {
             "type": "speak"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Prima",
-          "symbol": "prima",
+          "symbol": "Prima",
           "spoken_text": "Prima",
           "action": {
             "type": "speak"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Appuntamento",
-          "symbol": "appuntamento agenda",
+          "symbol": "Appuntamento",
           "spoken_text": "Ho un appuntamento",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Calendario",
-          "symbol": "calendario",
+          "symbol": "Calendario",
           "spoken_text": "Segno sul calendario",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Orario",
-          "symbol": "orario agenda",
+          "symbol": "Orario",
           "spoken_text": "Controllo l'orario",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Spostare",
-          "symbol": "spostare",
+          "symbol": "Spostare",
           "spoken_text": "Sposto l'impegno",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Confermare",
-          "symbol": "confermare",
+          "symbol": "Confermare",
           "spoken_text": "Confermo l'appuntamento",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Cancellare",
-          "symbol": "cancellare",
+          "symbol": "Cancellare",
           "spoken_text": "Cancello l'impegno",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Aggiungere",
-          "symbol": "aggiungere",
+          "symbol": "Aggiungere",
           "spoken_text": "Aggiungo un impegno",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Sveglia",
-          "symbol": "sveglia agenda",
+          "symbol": "Sveglia",
           "spoken_text": "Imposto la sveglia",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Nota",
-          "symbol": "nota",
+          "symbol": "Nota",
           "spoken_text": "Scrivo una nota",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Telefono",
-          "symbol": "telefono agenda",
+          "symbol": "Telefono",
           "spoken_text": "Uso il telefono",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Avviso",
-          "symbol": "avviso",
+          "symbol": "Avviso",
           "spoken_text": "Imposto un avviso",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Ripetere",
-          "symbol": "ripetere agenda",
+          "symbol": "Ripetere",
           "spoken_text": "Ripeto il promemoria",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Importante",
-          "symbol": "importante",
+          "symbol": "Importante",
           "spoken_text": "È importante",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Scadenza",
-          "symbol": "scadenza promemoria",
+          "symbol": "Scadenza",
           "spoken_text": "Ricorda la scadenza",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Oggi",
-          "symbol": "oggi scadenza",
+          "symbol": "Oggi",
           "spoken_text": "Scade oggi",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Entro",
-          "symbol": "entro",
+          "symbol": "Entro",
           "spoken_text": "Entro questa settimana",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Entro domani",
-          "symbol": "entro domani",
+          "symbol": "Entro domani",
           "spoken_text": "Entro domani",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "In ritardo",
-          "symbol": "in ritardo agenda",
+          "symbol": "In ritardo",
           "spoken_text": "Sono in ritardo",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Urgente",
-          "symbol": "urgente",
+          "symbol": "Urgente",
           "spoken_text": "È urgente",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Finito",
-          "symbol": "finito agenda",
+          "symbol": "Finito",
           "spoken_text": "Ho finito",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Rimandare",
-          "symbol": "rimandare",
+          "symbol": "Rimandare",
           "spoken_text": "Devo rimandare",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Che ore sono?",
-          "symbol": "che ore frase",
+          "symbol": "Che ore sono?",
           "spoken_text": "Che ore sono?",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Quando?",
-          "symbol": "quando agenda",
+          "symbol": "Quando?",
           "spoken_text": "Quando?",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Oggi non posso",
-          "symbol": "oggi non posso",
+          "symbol": "Oggi non posso",
           "spoken_text": "Oggi non posso",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Facciamo domani",
-          "symbol": "facciamo domani",
+          "symbol": "Facciamo domani",
           "spoken_text": "Facciamo domani",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Sono in ritardo",
-          "symbol": "sono in ritardo agenda",
+          "symbol": "Sono in ritardo",
           "spoken_text": "Sono in ritardo",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Me lo ricordi?",
-          "symbol": "me lo ricordi",
+          "symbol": "Me lo ricordi?",
           "spoken_text": "Me lo ricordi?",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "È urgente",
-          "symbol": "e urgente",
+          "symbol": "È urgente",
           "spoken_text": "È urgente",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "A dopo",
-          "symbol": "a dopo",
+          "symbol": "A dopo",
           "spoken_text": "A dopo",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

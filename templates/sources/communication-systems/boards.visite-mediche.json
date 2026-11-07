@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Sintomi",
-          "symbol": "sintomi visita",
+          "symbol": "Sintomi",
           "spoken_text": "Apri i sintomi",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Visita",
-          "symbol": "visita home",
+          "symbol": "Visita",
           "spoken_text": "Apri la visita",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Farmaci",
-          "symbol": "farmaci visita",
+          "symbol": "Farmaci",
           "spoken_text": "Apri i farmaci",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Documenti",
-          "symbol": "documenti visita",
+          "symbol": "Documenti",
           "spoken_text": "Apri i documenti",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Attesa",
-          "symbol": "attesa visita",
+          "symbol": "Attesa",
           "spoken_text": "Apri l'attesa",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi visita",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Mi fa male",
-          "symbol": "mi fa male visita",
+          "symbol": "Mi fa male",
           "spoken_text": "Mi fa male",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Da tre giorni",
-          "symbol": "da tre giorni home",
+          "symbol": "Da tre giorni",
           "spoken_text": "Da tre giorni",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Dolore",
-          "symbol": "dolore visita",
+          "symbol": "Dolore",
           "spoken_text": "Ho dolore",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Febbre",
-          "symbol": "febbre visita",
+          "symbol": "Febbre",
           "spoken_text": "Ho la febbre",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Tosse",
-          "symbol": "tosse visita",
+          "symbol": "Tosse",
           "spoken_text": "Ho la tosse",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Nausea",
-          "symbol": "nausea visita",
+          "symbol": "Nausea",
           "spoken_text": "Ho nausea",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Stanchezza",
-          "symbol": "stanchezza visita",
+          "symbol": "Stanchezza",
           "spoken_text": "Sono stanco",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Vertigini",
-          "symbol": "vertigini visita",
+          "symbol": "Vertigini",
           "spoken_text": "Ho vertigini",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Dettagli",
-          "symbol": "dettagli sintomi nav",
+          "symbol": "Dettagli",
           "spoken_text": "Apri i dettagli dei sintomi",
           "action": {
             "type": "navigate",
@@ -285,7 +285,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -330,7 +330,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Da quando",
-          "symbol": "da quando",
+          "symbol": "Da quando",
           "spoken_text": "Da quando?",
           "action": {
             "type": "speak"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Dove",
-          "symbol": "dove sintomo",
+          "symbol": "Dove",
           "spoken_text": "Dove fa male?",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Forte",
-          "symbol": "forte sintomo",
+          "symbol": "Forte",
           "spoken_text": "Il sintomo è forte",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Lieve",
-          "symbol": "lieve sintomo",
+          "symbol": "Lieve",
           "spoken_text": "Il sintomo è lieve",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Continuo",
-          "symbol": "continuo sintomo",
+          "symbol": "Continuo",
           "spoken_text": "È continuo",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Peggiora",
-          "symbol": "peggiora",
+          "symbol": "Peggiora",
           "spoken_text": "Sta peggiorando",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Altro sintomo",
-          "symbol": "altro sintomo",
+          "symbol": "Altro sintomo",
           "spoken_text": "Ho anche un altro sintomo",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -487,7 +487,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Medico",
-          "symbol": "medico visita",
+          "symbol": "Medico",
           "spoken_text": "Parlo con il medico",
           "action": {
             "type": "speak"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Infermiere",
-          "symbol": "infermiere",
+          "symbol": "Infermiere",
           "spoken_text": "Parlo con l'infermiere",
           "action": {
             "type": "speak"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Visita",
-          "symbol": "visita azione",
+          "symbol": "Visita",
           "spoken_text": "Faccio la visita",
           "action": {
             "type": "speak"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Domande",
-          "symbol": "domande visita",
+          "symbol": "Domande",
           "spoken_text": "Ho delle domande",
           "action": {
             "type": "speak"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Esame",
-          "symbol": "esame visita",
+          "symbol": "Esame",
           "spoken_text": "Devo fare un esame",
           "action": {
             "type": "speak"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Diagnosi",
-          "symbol": "diagnosi",
+          "symbol": "Diagnosi",
           "spoken_text": "Chiedo la diagnosi",
           "action": {
             "type": "speak"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Controllo",
-          "symbol": "controllo",
+          "symbol": "Controllo",
           "spoken_text": "Ho un controllo",
           "action": {
             "type": "speak"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Ricetta",
-          "symbol": "ricetta visita",
+          "symbol": "Ricetta",
           "spoken_text": "Mi serve una ricetta",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Dose",
-          "symbol": "dose visita",
+          "symbol": "Dose",
           "spoken_text": "Qual è la dose?",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Orario",
-          "symbol": "orario terapia",
+          "symbol": "Orario",
           "spoken_text": "A che ora lo prendo?",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Effetti",
-          "symbol": "effetti",
+          "symbol": "Effetti",
           "spoken_text": "Quali sono gli effetti?",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Allergia",
-          "symbol": "allergia visita",
+          "symbol": "Allergia",
           "spoken_text": "Ho un'allergia",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Farmacia",
-          "symbol": "farmacia visita",
+          "symbol": "Farmacia",
           "spoken_text": "Vado in farmacia",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Terapia",
-          "symbol": "terapia",
+          "symbol": "Terapia",
           "spoken_text": "Seguo la terapia",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Tessera sanitaria",
-          "symbol": "tessera sanitaria",
+          "symbol": "Tessera sanitaria",
           "spoken_text": "Ecco la tessera sanitaria",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Ricetta",
-          "symbol": "ricetta doc",
+          "symbol": "Ricetta",
           "spoken_text": "Ecco la ricetta",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Referto",
-          "symbol": "referto",
+          "symbol": "Referto",
           "spoken_text": "Ho il referto",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Appuntamento",
-          "symbol": "appuntamento doc",
+          "symbol": "Appuntamento",
           "spoken_text": "Ho un appuntamento",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Moduli",
-          "symbol": "moduli",
+          "symbol": "Moduli",
           "spoken_text": "Compilo i moduli",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Identità",
-          "symbol": "identita",
+          "symbol": "Identità",
           "spoken_text": "Mostro un documento",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Cartella",
-          "symbol": "cartella",
+          "symbol": "Cartella",
           "spoken_text": "Porto la cartella clinica",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Sala",
-          "symbol": "sala attesa",
+          "symbol": "Sala",
           "spoken_text": "Sono in sala d'attesa",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Numero",
-          "symbol": "numero",
+          "symbol": "Numero",
           "spoken_text": "Ho il numero",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Chiamare",
-          "symbol": "chiamare visita",
+          "symbol": "Chiamare",
           "spoken_text": "Mi chiamano",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Aspettare",
-          "symbol": "aspettare visita",
+          "symbol": "Aspettare",
           "spoken_text": "Aspetto",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Priorità",
-          "symbol": "priorita visita",
+          "symbol": "Priorità",
           "spoken_text": "Ho priorità",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Urgenza",
-          "symbol": "urgenza",
+          "symbol": "Urgenza",
           "spoken_text": "È un'urgenza",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Uscire",
-          "symbol": "uscire visita",
+          "symbol": "Uscire",
           "spoken_text": "Devo uscire un momento",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Mi fa male qui",
-          "symbol": "male qui",
+          "symbol": "Mi fa male qui",
           "spoken_text": "Mi fa male qui",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Da tre giorni",
-          "symbol": "da tre giorni",
+          "symbol": "Da tre giorni",
           "spoken_text": "Da tre giorni",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Sono allergico a",
-          "symbol": "allergico visita",
+          "symbol": "Sono allergico a",
           "spoken_text": "Sono allergico a",
           "action": {
             "type": "append"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Prendo questi farmaci",
-          "symbol": "prendo farmaci",
+          "symbol": "Prendo questi farmaci",
           "spoken_text": "Prendo questi farmaci",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Ho bisogno di un certificato",
-          "symbol": "serve certificato",
+          "symbol": "Ho bisogno di un certificato",
           "spoken_text": "Ho bisogno di un certificato",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Quando devo tornare?",
-          "symbol": "quando tornare",
+          "symbol": "Quando devo tornare?",
           "spoken_text": "Quando devo tornare?",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Ho paura",
-          "symbol": "paura visita",
+          "symbol": "Ho paura",
           "spoken_text": "Ho paura",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie visita",
+          "symbol": "Grazie",
           "spoken_text": "Grazie, dottore",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

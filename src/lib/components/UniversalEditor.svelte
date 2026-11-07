@@ -3,6 +3,7 @@
   import { api, isTauri } from "../api";
   import type {
     Alternative,
+    OnlineResult,
     Profile,
     RenderedDocument,
     RenderedElement,
@@ -24,7 +25,7 @@
     onClose: () => void;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
     onSpeak: (text: string) => void;
-    onExport?: (document: UniversalDocument, format: "html" | "svg" | "pdf" | "png") => Promise<void>;
+    onExport?: (document: UniversalDocument, format: "html" | "svg" | "pdf" | "png" | "docx" | "pptx") => Promise<void>;
     canEdit?: boolean;
     onOpen?: () => void;
     onImport?: () => void;
@@ -67,6 +68,9 @@
   let saving = $state(false);
   let searchQuery = $state("");
   let searchResults = $state<Alternative[]>([]);
+  let onlineResults = $state<Array<OnlineResult & { thumb?: string }>>([]);
+  let onlineBusy = $state(false);
+  let onlineNote = $state("");
   let searchBusy = $state(false);
   let history: UniversalDocument[] = [];
   let redoStack: UniversalDocument[] = [];
@@ -77,6 +81,8 @@
   let gridPanel = $state(false);
   let gridColumns = $state(4);
   let gridRows = $state(5);
+  let gridWidthsText = $state("");
+  let gridHeightsText = $state("");
 
   const page = $derived(rendered.pages[pageIndex] ?? rendered.pages[0]);
   const docPage = $derived(doc.pages[pageIndex] ?? doc.pages[0]);
@@ -115,6 +121,31 @@
     const chars = Math.max(1, element.text.length);
     const lines = Math.max(1, Math.ceil(chars / 32));
     return Math.max(8, lines * font * 1.5 + (element.style.padding_mm ?? 0) * 2);
+  }
+
+  function axisSizes(total: number, gap: number, count: number, weights?: number[]) {
+    const n = Math.max(1, count);
+    const usable = Math.max(1, total - gap * Math.max(0, n - 1));
+    const valid =
+      Array.isArray(weights) &&
+      weights.length === n &&
+      weights.every((value) => Number.isFinite(value) && value > 0);
+    const normalized = valid
+      ? (weights as number[]).map((value) => value / (weights as number[]).reduce((a, b) => a + b, 0))
+      : Array.from({ length: n }, () => 1 / n);
+    const sizes: number[] = [];
+    const offsets: number[] = [];
+    let cursor = 0;
+    for (let index = 0; index < n; index += 1) {
+      const size =
+        index === n - 1
+          ? Math.max(1, usable - sizes.reduce((a, b) => a + b, 0))
+          : Math.max(1, usable * normalized[index]);
+      offsets.push(cursor);
+      sizes.push(size);
+      cursor += size + gap;
+    }
+    return { sizes, offsets };
   }
 
   function localRender(document: UniversalDocument): RenderedDocument {
@@ -171,23 +202,47 @@
                 const columns = Math.max(1, element.grid.columns);
                 const rows = Math.max(1, element.grid.rows);
                 const gap = Math.max(0, element.grid.gap_mm);
-                const cw = (w - gap * (columns - 1)) / columns;
-                const ch = (h - gap * (rows - 1)) / rows;
-                return element.grid.cells.map((cell, index) => ({
-                  id: cell.id,
-                  text: cell.text,
-                  spoken_text: cell.spoken_text || cell.text,
-                  symbol_id: cell.symbol_id ?? null,
-                  concept_id: cell.concept_id ?? null,
-                  svg: cell.svg ?? null,
-                  action: cell.action ?? null,
-                  hidden: Boolean(cell.hidden),
-                  x_mm: (index % columns) * (cw + gap),
-                  y_mm: Math.floor(index / columns) * (ch + gap),
-                  w_mm: cw,
-                  h_mm: ch,
-                  style: cell.style ?? {},
-                }));
+                const col = axisSizes(w, gap, columns, element.grid.column_widths);
+                const row = axisSizes(h, gap, rows, element.grid.row_heights);
+                const legacy =
+                  element.grid.cells.length > 1 &&
+                  element.grid.cells.every(
+                    (cell) => (cell.row ?? 0) === 0 && (cell.column ?? 0) === 0
+                  );
+                return element.grid.cells.map((cell, index) => {
+                  const cellRow = legacy ? Math.floor(index / columns) : (cell.row ?? 0);
+                  const cellColumn = legacy ? index % columns : (cell.column ?? 0);
+                  const columnSpan = Math.max(
+                    1,
+                    Math.min(cell.column_span ?? 1, columns - cellColumn)
+                  );
+                  const rowSpan = Math.max(1, Math.min(cell.row_span ?? 1, rows - cellRow));
+                  const width =
+                    col.sizes.slice(cellColumn, cellColumn + columnSpan).reduce((a, b) => a + b, 0) +
+                    gap * Math.max(0, columnSpan - 1);
+                  const height =
+                    row.sizes.slice(cellRow, cellRow + rowSpan).reduce((a, b) => a + b, 0) +
+                    gap * Math.max(0, rowSpan - 1);
+                  return {
+                    id: cell.id,
+                    row: cellRow,
+                    column: cellColumn,
+                    row_span: rowSpan,
+                    column_span: columnSpan,
+                    text: cell.text,
+                    spoken_text: cell.spoken_text || cell.text,
+                    symbol_id: cell.symbol_id ?? null,
+                    concept_id: cell.concept_id ?? null,
+                    svg: cell.svg ?? null,
+                    action: cell.action ?? null,
+                    hidden: Boolean(cell.hidden),
+                    x_mm: col.offsets[cellColumn] ?? 0,
+                    y_mm: row.offsets[cellRow] ?? 0,
+                    w_mm: width,
+                    h_mm: height,
+                    style: cell.style ?? {},
+                  };
+                });
               })()
             : [];
           return {
@@ -472,6 +527,55 @@
     );
   }
 
+  function mergeCell(direction: "right" | "down") {
+    if (!selectedElement?.grid || !selectedCell || !docPage) return;
+    void apply(
+      [{
+        op: "merge_grid_cell",
+        page: docPage.id,
+        id: selectedElement.id,
+        cell_id: selectedCell.id,
+        direction,
+      }],
+      "Celle unite."
+    );
+  }
+
+  function splitCell() {
+    if (!selectedElement?.grid || !selectedCell || !docPage) return;
+    void apply(
+      [{
+        op: "split_grid_cell",
+        page: docPage.id,
+        id: selectedElement.id,
+        cell_id: selectedCell.id,
+      }],
+      "Cella divisa."
+    );
+  }
+
+  function applyGridSizes() {
+    if (!selectedElement?.grid || !docPage) return;
+    const widths = gridWidthsText
+      .split(",")
+      .map((value) => Number(value.trim()))
+      .filter((value) => Number.isFinite(value) && value > 0);
+    const heights = gridHeightsText
+      .split(",")
+      .map((value) => Number(value.trim()))
+      .filter((value) => Number.isFinite(value) && value > 0);
+    void apply(
+      [{
+        op: "set_grid_sizes",
+        page: docPage.id,
+        id: selectedElement.id,
+        column_widths: widths.length === selectedElement.grid.columns ? widths : null,
+        row_heights: heights.length === selectedElement.grid.rows ? heights : null,
+      }],
+      "Dimensioni della griglia aggiornate."
+    );
+  }
+
   function clearGridCells() {
     if (!selectedElement?.grid || !docPage) return;
     if (!confirm("Svuotare tutte le celle della griglia?")) return;
@@ -497,11 +601,62 @@
       return;
     }
     searchBusy = true;
+    onlineResults = [];
+    onlineNote = "";
     try {
       const result = await api.searchSymbols(query, 18, 0, null, false);
       searchResults = result.items;
+      if (result.items.length === 0) await searchOnlineSymbols(query);
     } finally {
       searchBusy = false;
+    }
+  }
+
+  async function searchOnlineSymbols(query: string) {
+    onlineBusy = true;
+    try {
+      const response = await api.searchOnlinePictograms([query], false);
+      const items = response.results.slice(0, 12);
+      const withThumbs = await Promise.all(
+        items.map(async (item) => {
+          let thumb: string | undefined;
+          try {
+            thumb = await api.onlineThumbnail(item.thumbnail_url ?? item.image_url);
+          } catch {
+            thumb = undefined;
+          }
+          return { ...item, thumb };
+        })
+      );
+      onlineResults = withThumbs;
+      onlineNote =
+        response.warnings[0] ??
+        (withThumbs.length > 0
+          ? "Risultati da API pubblica: scegli un simbolo per salvarlo offline."
+          : "Nessun risultato online.");
+    } catch (error) {
+      onlineNote = error instanceof Error ? error.message : String(error);
+    } finally {
+      onlineBusy = false;
+    }
+  }
+
+  async function useOnlineResult(result: OnlineResult) {
+    if (!isTauri() || !selectedId) return;
+    onlineBusy = true;
+    try {
+      const alternative = await api.saveOnlinePictogram(
+        result,
+        searchQuery.trim() || result.title,
+        "Ricerca online"
+      );
+      applySymbol(alternative);
+      onlineResults = [];
+      onlineNote = "";
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      onlineBusy = false;
     }
   }
 
@@ -917,6 +1072,8 @@
         <button class="btn" onclick={() => void onExport(doc, "html")}>HTML</button>
         <button class="btn" onclick={() => void onExport(doc, "pdf")}>PDF</button>
         <button class="btn" onclick={() => void onExport(doc, "png")}>PNG</button>
+        <button class="btn" onclick={() => void onExport(doc, "docx")}>DOCX</button>
+        <button class="btn" onclick={() => void onExport(doc, "pptx")}>PPTX</button>
       {/if}
     {:else}
       <button class="btn" onclick={onOpen}>Apri</button>
@@ -1139,6 +1296,22 @@
               {/each}
             </div>
           {/if}
+          {#if onlineBusy}
+            <p class="hint">Cerco nelle API pubbliche…</p>
+          {:else if onlineResults.length > 0}
+            <p class="hint">{onlineNote}</p>
+            <div class="ueditor__results">
+              {#each onlineResults as online (online.provider + online.id)}
+                <button class="ueditor__result" onclick={() => void useOnlineResult(online)} title={`${online.license} · ${online.source}`}>
+                  {#if online.thumb}<img class="ueditor__result-thumb" src={online.thumb} alt="" />{/if}
+                  <span>{online.title}</span>
+                  <small>{online.source}</small>
+                </button>
+              {/each}
+            </div>
+          {:else if onlineNote}
+            <p class="hint">{onlineNote}</p>
+          {/if}
           <h4>Azione</h4>
           <label class="ueditor__field"><span>Tipo</span>
             <select value={selectedElement.action?.type ?? "append"} onchange={(event) => setAction({ type: event.currentTarget.value, target_page: selectedElement.action?.target_page })}>
@@ -1230,6 +1403,11 @@
                 }
               }}>Sposta dopo</button>
             </div>
+            <div class="ueditor__row">
+              <button class="mini" onclick={() => mergeCell("right")}>Unisci a destra</button>
+              <button class="mini" onclick={() => mergeCell("down")}>Unisci sotto</button>
+              <button class="mini" onclick={splitCell}>Dividi</button>
+            </div>
           {/if}
           {#if selectedElement.grid}
             <h4>Griglia · {selectedElement.grid.columns * selectedElement.grid.rows} celle</h4>
@@ -1244,6 +1422,9 @@
               <button class="mini" onclick={() => resizeGrid(0, -1)}>− Colonna</button>
               <button class="mini mini--danger" onclick={clearGridCells}>Svuota celle</button>
             </div>
+            <label class="ueditor__field"><span>Larghezze colonne (pesi separati da virgola)</span><input bind:value={gridWidthsText} placeholder={Array.from({ length: selectedElement.grid.columns }, () => "1").join(",")} /></label>
+            <label class="ueditor__field"><span>Altezze righe (pesi separati da virgola)</span><input bind:value={gridHeightsText} placeholder={Array.from({ length: selectedElement.grid.rows }, () => "1").join(",")} /></label>
+            <button class="mini" onclick={applyGridSizes}>Applica dimensioni</button>
           {/if}
         {:else}
           <h3>Documento</h3>
@@ -1325,6 +1506,8 @@
   .ueditor__results { display: flex; flex-wrap: wrap; gap: 4px; max-height: 120px; overflow: auto; margin: 4px 0 8px; }
   .ueditor__result { display: flex; align-items: center; gap: 4px; border: 1px solid #cfd6e2; border-radius: 6px; background: #fff; padding: 3px 5px; cursor: pointer; font-size: 0.7rem; }
   .ueditor__result-media { width: 26px; height: 26px; }
+  .ueditor__result-thumb { width: 30px; height: 30px; object-fit: contain; }
+  .ueditor__result small { color: #667085; font-size: 0.62rem; }
   .ueditor__message { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; padding: 8px; background: #fff; border: 1px solid #d3d6e0; border-radius: 10px; }
   .ueditor__chips { flex: 1 1 240px; display: flex; flex-wrap: wrap; gap: 5px; min-height: 32px; }
   .ueditor__chip { border: 0; border-radius: 999px; background: #e8eefc; color: #12234a; padding: 4px 10px; font-weight: 600; cursor: pointer; }

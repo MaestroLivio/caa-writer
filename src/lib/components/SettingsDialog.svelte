@@ -4,7 +4,12 @@
   import ModelManager from "./ModelManager.svelte";
   import type {
     AiConfig,
+    AiProviderConfig,
+    AiProviderStatus,
+    AiProviderTest,
     AiStatus,
+    OnlineProviderInfo,
+    OnlineCustomProvider,
     AppInfo,
     DocumentSettings,
     LibraryStats,
@@ -56,9 +61,9 @@
     enabled: false,
     binary_path: "",
     model_path: "",
-    threads: 2,
-    context_size: 1024,
-    timeout_ms: 8000,
+    threads: 1,
+    context_size: 512,
+    timeout_ms: 4000,
     backend: "auto",
     extra_args: [],
   });
@@ -67,6 +72,28 @@
   let toolOutcome = $state<ToolOutcome | null>(null);
   let toolBusy = $state(false);
   let diagnosticsBusy = $state(false);
+  let provider = $state<AiProviderConfig>({
+    kind: "local",
+    endpoint: "",
+    model: "",
+    timeout_ms: 20000,
+    max_tokens: 512,
+    allow_online: false,
+    privacy_ack: false,
+  });
+  let providerStatus = $state<AiProviderStatus | null>(null);
+  let providerKey = $state("");
+  let providerTest = $state<AiProviderTest | null>(null);
+  let providerBusy = $state(false);
+  let onlineProviders = $state<OnlineProviderInfo[]>([]);
+  let customProvider = $state<OnlineCustomProvider>({
+    id: "",
+    name: "",
+    search_url: "",
+    enabled: true,
+    note: "",
+  });
+  let customProviderBusy = $state(false);
 
   const profiles = [
     {
@@ -151,6 +178,13 @@
 
   onMount(() => {
     dialog?.focus();
+    if (isTauri()) {
+      void api.listOnlineProviders().then((items) => (onlineProviders = items)).catch(() => {});
+      void api.aiProviderStatus().then((status) => {
+        providerStatus = status;
+        provider = { ...status.config };
+      }).catch(() => {});
+    }
     if (aiStatus) {
       aiDraft = {
         enabled: aiStatus.enabled,
@@ -169,6 +203,76 @@
     if (event.key === "Escape") {
       event.preventDefault();
       onClose();
+    }
+  }
+
+  async function saveCustomProvider() {
+    if (!isTauri()) return;
+    customProviderBusy = true;
+    try {
+      onlineProviders = await api.saveOnlineProvider(customProvider);
+      customProvider = { id: "", name: "", search_url: "", enabled: true, note: "" };
+      onToast("Provider online aggiunto.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      customProviderBusy = false;
+    }
+  }
+
+  async function removeCustomProvider(id: string) {
+    customProviderBusy = true;
+    try {
+      onlineProviders = await api.deleteOnlineProvider(id);
+      onToast("Provider rimosso.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      customProviderBusy = false;
+    }
+  }
+
+  async function saveProvider() {
+    providerBusy = true;
+    try {
+      providerStatus = await api.aiProviderSave(provider, providerKey || null);
+      provider = { ...providerStatus.config };
+      providerKey = "";
+      onToast(
+        providerStatus.usable
+          ? "Provider IA salvato. La chiave è nel portachiavi di sistema."
+          : "Provider salvato, ma non ancora utilizzabile: controlla i campi.",
+        providerStatus.usable ? "info" : "warn"
+      );
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      providerBusy = false;
+    }
+  }
+
+  async function testProvider() {
+    providerBusy = true;
+    providerTest = null;
+    try {
+      providerTest = await api.aiProviderTest();
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      providerBusy = false;
+    }
+  }
+
+  async function clearProviderKey() {
+    providerBusy = true;
+    try {
+      providerStatus = await api.aiProviderClearKey();
+      providerKey = "";
+      onToast("Chiave rimossa dal portachiavi.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      providerBusy = false;
     }
   }
 
@@ -413,10 +517,24 @@
           />
         </div>
         <div class="row">
+          <label for="dlg-speech-enabled">Sintesi vocale attiva</label>
+          <input
+            id="dlg-speech-enabled"
+            type="checkbox"
+            checked={settings.speech_enabled}
+            onchange={(event) => onUpdateSettings({ speech_enabled: (event.currentTarget as HTMLInputElement).checked })}
+          />
+        </div>
+        <p class="hint">
+          Disattivata per default: nessuna voce viene avviata finché non la abiliti.
+          La lettura usa la voce neurale locale se disponibile, altrimenti la voce di sistema.
+        </p>
+        <div class="row">
           <label for="dlg-speak-words">Pronuncia la parola premendo spazio o Invio</label>
           <input
             id="dlg-speak-words"
             type="checkbox"
+            disabled={!settings.speech_enabled}
             checked={settings.speak_words}
             onchange={(event) => onUpdateSettings({ speak_words: (event.currentTarget as HTMLInputElement).checked })}
           />
@@ -426,9 +544,42 @@
           <input
             id="dlg-speak-sentences"
             type="checkbox"
+            disabled={!settings.speech_enabled}
             checked={settings.speak_sentences}
             onchange={(event) => onUpdateSettings({ speak_sentences: (event.currentTarget as HTMLInputElement).checked })}
           />
+        </div>
+      </section>
+
+      <section class="block">
+        <h3>Librerie online</h3>
+        <p class="hint">
+          I repertori non sono più duplicati interamente in locale: ARASAAC e Wikimedia
+          vengono interrogati via API pubblica e i risultati scelti vengono salvati come copia
+          offline. Puoi aggiungere un provider pubblico che restituisca JSON con
+          <code>results</code>, <code>image_url</code>, <code>title</code>, <code>license</code>.
+        </p>
+        <ul class="prefs">
+          {#each onlineProviders as item (item.id)}
+            <li>
+              <strong>{item.name}</strong>
+              <span class="hint"> · {item.enabled ? "attivo" : "disattivato"} · {item.id}</span>
+              {#if !["arasaac", "wikimedia"].includes(item.id)}
+                <button class="btn btn--ghost" disabled={customProviderBusy} onclick={() => void removeCustomProvider(item.id)}>Rimuovi</button>
+              {/if}
+            </li>
+          {/each}
+        </ul>
+        <div class="row">
+          <label for="dlg-online-id">ID</label>
+          <input id="dlg-online-id" bind:value={customProvider.id} placeholder="mio-provider" style="width:120px" />
+          <label for="dlg-online-name">Nome</label>
+          <input id="dlg-online-name" bind:value={customProvider.name} placeholder="Repertorio personale" style="width:160px" />
+        </div>
+        <input bind:value={customProvider.search_url} placeholder={"https://api.example.org/search?q={query}"} aria-label="URL di ricerca del provider" style="width:100%" />
+        <div class="row">
+          <label><input type="checkbox" bind:checked={customProvider.enabled} /> Attivo</label>
+          <button class="btn btn--solid" disabled={customProviderBusy} onclick={() => void saveCustomProvider()}>Aggiungi provider</button>
         </div>
       </section>
 
@@ -522,6 +673,54 @@
             style="width:90px"
           />
         </div>
+      </section>
+
+      <section class="block">
+        <h3>Provider IA</h3>
+        <p class="hint">
+          Il provider locale resta il default e funziona offline. Un provider online viene
+          contattato solo dopo consenso esplicito. La chiave API è conservata nel portachiavi
+          del sistema operativo, mai nei documenti o nei log.
+        </p>
+        <div class="row">
+          <label for="dlg-provider-kind">Provider</label>
+          <select id="dlg-provider-kind" bind:value={provider.kind}>
+            <option value="local">Modello locale</option>
+            <option value="openai-compatible">Online compatibile OpenAI</option>
+          </select>
+        </div>
+        {#if provider.kind === "openai-compatible"}
+          <label class="hint" for="dlg-provider-endpoint">Endpoint</label>
+          <input id="dlg-provider-endpoint" type="text" bind:value={provider.endpoint} placeholder="https://api.example.com/v1" style="width:100%" />
+          <label class="hint" for="dlg-provider-model">Modello</label>
+          <input id="dlg-provider-model" type="text" bind:value={provider.model} placeholder="nome del modello" style="width:100%" />
+          <label class="hint" for="dlg-provider-key">Chiave API (salvata nel portachiavi, non nel documento)</label>
+          <input id="dlg-provider-key" type="password" bind:value={providerKey} autocomplete="off" style="width:100%" />
+          <div class="row">
+            <label><input type="checkbox" bind:checked={provider.allow_online} /> Consento l'invio online per azioni esplicite</label>
+          </div>
+          <div class="row">
+            <label><input type="checkbox" bind:checked={provider.privacy_ack} /> Ho letto l'informativa: non inviare dati personali degli alunni</label>
+          </div>
+        {/if}
+        <div class="row" style="flex-wrap:wrap;gap:6px">
+          <button class="btn btn--solid" disabled={providerBusy} onclick={() => void saveProvider()}>
+            {providerBusy ? "Salvo…" : "Salva provider"}
+          </button>
+          <button class="btn" disabled={providerBusy} onclick={() => void testProvider()}>Test connessione</button>
+          {#if providerStatus?.has_key}
+            <button class="btn" disabled={providerBusy} onclick={() => void clearProviderKey()}>Rimuovi chiave</button>
+          {/if}
+        </div>
+        {#if providerStatus}
+          <p class="hint">{providerStatus.note} · chiave: {providerStatus.has_key ? "presente" : "assente"} · {providerStatus.key_storage}</p>
+        {/if}
+        {#if providerTest}
+          <p class:ok={providerTest.ok} class:warn={!providerTest.ok}>
+            Test: {providerTest.ok ? "riuscito" : "fallito"} · HTTP {providerTest.status} · {providerTest.elapsed_ms} ms
+            {#if providerTest.reply}· «{providerTest.reply}»{/if}
+          </p>
+        {/if}
       </section>
 
       <section class="block">

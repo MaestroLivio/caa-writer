@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-11-06T21:01:37Z",
+  "generated_at": "2026-11-07T11:28:36Z",
   "entries": [
     {
       "id": "boards.agenda-tempo",
@@ -12,6 +12,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 62,
       "path": "library/boards/boards.agenda-tempo.caadoc"
     },
     {
@@ -24,6 +25,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 59,
       "path": "library/boards/boards.alimentazione.caadoc"
     },
     {
@@ -36,6 +38,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 54,
       "path": "library/boards/boards.amicizie.caadoc"
     },
     {
@@ -48,6 +51,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 56,
       "path": "library/boards/boards.autonomia.caadoc"
     },
     {
@@ -60,6 +64,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 63,
       "path": "library/boards/boards.benessere-dolore.caadoc"
     },
     {
@@ -72,6 +77,7 @@
       "pages": 8,
       "elements": 69,
       "interactive": true,
+      "missing_symbols": 55,
       "path": "library/boards/boards.bisogni-essenziali.caadoc"
     },
     {
@@ -84,6 +90,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 58,
       "path": "library/boards/boards.casa.caadoc"
     },
     {
@@ -96,6 +103,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 57,
       "path": "library/boards/boards.comunicazione-libera-avanzata.caadoc"
     },
     {
@@ -108,6 +116,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 60,
       "path": "library/boards/boards.comunicazione-sociale-adulta.caadoc"
     },
     {
@@ -120,6 +129,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 63,
       "path": "library/boards/boards.conversazione-quotidiana.caadoc"
     },
     {
@@ -132,6 +142,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 50,
       "path": "library/boards/boards.emozioni.caadoc"
     },
     {
@@ -144,6 +155,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 52,
       "path": "library/boards/boards.famiglia.caadoc"
     },
     {
@@ -156,6 +168,7 @@
       "pages": 9,
       "elements": 81,
       "interactive": true,
+      "missing_symbols": 72,
       "path": "library/boards/boards.frutta-verdura.caadoc"
     },
     {
@@ -168,6 +181,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 62,
       "path": "library/boards/boards.gioco.caadoc"
     },
     {
@@ -180,6 +194,7 @@
       "pages": 8,
       "elements": 71,
       "interactive": true,
+      "missing_symbols": 65,
       "path": "library/boards/boards.igiene.caadoc"
     },
     {
@@ -192,6 +207,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 59,
       "path": "library/boards/boards.lavoro.caadoc"
     },
     {
@@ -204,6 +220,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 66,
       "path": "library/boards/boards.musica.caadoc"
     },
     {
@@ -216,6 +233,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 59,
       "path": "library/boards/boards.piscina.caadoc"
     },
     {
@@ -228,6 +246,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 64,
       "path": "library/boards/boards.ristorante.caadoc"
     },
     {
@@ -240,6 +259,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 49,
       "path": "library/boards/boards.scuola-primaria.caadoc"
     },
     {
@@ -252,6 +272,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 63,
       "path": "library/boards/boards.scuola-secondaria.caadoc"
     },
     {
@@ -264,6 +285,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 60,
       "path": "library/boards/boards.sport.caadoc"
     },
     {
@@ -276,6 +298,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 64,
       "path": "library/boards/boards.studio-universita.caadoc"
     },
     {
@@ -288,6 +311,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 59,
       "path": "library/boards/boards.supermercato.caadoc"
     },
     {
@@ -300,6 +324,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 63,
       "path": "library/boards/boards.tecnologia.caadoc"
     },
     {
@@ -312,6 +337,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 50,
       "path": "library/boards/boards.tempo-libero.caadoc"
     },
     {
@@ -324,6 +350,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 63,
       "path": "library/boards/boards.trasporti.caadoc"
     },
     {
@@ -336,6 +363,7 @@
       "pages": 8,
       "elements": 73,
       "interactive": true,
+      "missing_symbols": 55,
       "path": "library/boards/boards.vestirsi.caadoc"
     },
     {
@@ -348,6 +376,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 62,
       "path": "library/boards/boards.viaggi.caadoc"
     },
     {
@@ -360,6 +389,7 @@
       "pages": 8,
       "elements": 72,
       "interactive": true,
+      "missing_symbols": 62,
       "path": "library/boards/boards.visite-mediche.caadoc"
     },
     {
@@ -372,6 +402,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 5,
       "path": "library/templates/lib_ag_calendario_mensile.caadoc"
     },
     {
@@ -384,6 +415,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_cambio_imprevisto.caadoc"
     },
     {
@@ -396,6 +428,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": true,
+      "missing_symbols": 7,
       "path": "library/templates/lib_ag_compleanno.caadoc"
     },
     {
@@ -408,6 +441,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_ag_doposcuola.caadoc"
     },
     {
@@ -420,6 +454,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": true,
+      "missing_symbols": 7,
       "path": "library/templates/lib_ag_extrascolastiche.caadoc"
     },
     {
@@ -432,6 +467,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 6,
       "path": "library/templates/lib_ag_festa_scuola.caadoc"
     },
     {
@@ -444,6 +480,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_giornata_infanzia.caadoc"
     },
     {
@@ -456,6 +493,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_ag_giornata_primaria.caadoc"
     },
     {
@@ -468,6 +506,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_ag_giornata_secondaria.caadoc"
     },
     {
@@ -480,6 +519,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 5,
       "path": "library/templates/lib_ag_gita_scolastica.caadoc"
     },
     {
@@ -492,6 +532,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_ag_mattina_casa.caadoc"
     },
     {
@@ -504,6 +545,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_mensa_settimanale.caadoc"
     },
     {
@@ -516,6 +558,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_ag_mese_scolastico.caadoc"
     },
     {
@@ -528,6 +571,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_ag_natale.caadoc"
     },
     {
@@ -540,6 +584,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 5,
       "path": "library/templates/lib_ag_piscina_settimanale.caadoc"
     },
     {
@@ -552,6 +597,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_pomeriggio_casa.caadoc"
     },
     {
@@ -564,6 +610,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_sera_casa.caadoc"
     },
     {
@@ -576,6 +623,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_ag_settimana_completa.caadoc"
     },
     {
@@ -588,6 +636,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_ag_settimana_scolastica.caadoc"
     },
     {
@@ -600,6 +649,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 5,
       "path": "library/templates/lib_ag_sport_settimanale.caadoc"
     },
     {
@@ -612,6 +662,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_ag_supplente.caadoc"
     },
     {
@@ -624,6 +675,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 5,
       "path": "library/templates/lib_ag_terapia_settimanale.caadoc"
     },
     {
@@ -636,6 +688,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_ag_trasporto_scuola.caadoc"
     },
     {
@@ -648,6 +701,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_uscita_biblioteca.caadoc"
     },
     {
@@ -660,6 +714,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_uscita_museo.caadoc"
     },
     {
@@ -672,6 +727,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_ag_uscita_parco.caadoc"
     },
     {
@@ -684,6 +740,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 5,
       "path": "library/templates/lib_ag_uscita_supermercato.caadoc"
     },
     {
@@ -696,6 +753,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_vacanze_estate.caadoc"
     },
     {
@@ -708,6 +766,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_ag_vacanze_inverno.caadoc"
     },
     {
@@ -720,6 +779,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_vacanze_mare.caadoc"
     },
     {
@@ -732,6 +792,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_vacanze_montagna.caadoc"
     },
     {
@@ -744,6 +805,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_ag_visita_dentista.caadoc"
     },
     {
@@ -756,6 +818,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_ag_visita_medico.caadoc"
     },
     {
@@ -768,6 +831,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_ag_visita_nonni.caadoc"
     },
     {
@@ -780,6 +844,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_ag_weekend_casa.caadoc"
     },
     {
@@ -792,6 +857,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_aut_casa_camera.caadoc"
     },
     {
@@ -804,6 +870,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_aut_casa_piatti.caadoc"
     },
     {
@@ -816,6 +883,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_aut_casa_zaino.caadoc"
     },
     {
@@ -828,6 +896,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_aut_cucina_apparecchiare.caadoc"
     },
     {
@@ -840,6 +909,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_aut_cucina_merenda.caadoc"
     },
     {
@@ -852,6 +922,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_aut_cucina_panino.caadoc"
     },
     {
@@ -864,6 +935,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_aut_denaro_cassa.caadoc"
     },
     {
@@ -876,6 +948,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_aut_denaro_monete.caadoc"
     },
     {
@@ -888,6 +961,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_aut_igiene_bagno.caadoc"
     },
     {
@@ -900,6 +974,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_aut_igiene_doccia.caadoc"
     },
     {
@@ -912,6 +987,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_aut_igiene_mani.caadoc"
     },
     {
@@ -924,6 +1000,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_aut_trasporti_autobus.caadoc"
     },
     {
@@ -936,6 +1013,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_aut_trasporti_strada.caadoc"
     },
     {
@@ -948,6 +1026,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_aut_vestirsi_mattina.caadoc"
     },
     {
@@ -960,6 +1039,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_aut_vestirsi_palestra.caadoc"
     },
     {
@@ -972,6 +1052,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_emo_acqua.caadoc"
     },
     {
@@ -984,6 +1065,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_emo_aiuto_emotivo.caadoc"
     },
     {
@@ -996,6 +1078,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_emo_angolo_calma.caadoc"
     },
     {
@@ -1008,6 +1091,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_emo_arrabbiato.caadoc"
     },
     {
@@ -1020,6 +1104,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_emo_calmo.caadoc"
     },
     {
@@ -1032,6 +1117,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_emo_contare.caadoc"
     },
     {
@@ -1044,6 +1130,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_emo_cosa_mi_aiuta.caadoc"
     },
     {
@@ -1056,6 +1143,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_emo_dopo_litigio.caadoc"
     },
     {
@@ -1068,6 +1156,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_emo_felice_triste.caadoc"
     },
     {
@@ -1080,6 +1169,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_emo_il_mio_viso.caadoc"
     },
     {
@@ -1092,6 +1182,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_emo_intensita.caadoc"
     },
     {
@@ -1104,6 +1195,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_emo_paura.caadoc"
     },
     {
@@ -1116,6 +1208,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_emo_pausa.caadoc"
     },
     {
@@ -1128,6 +1221,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_emo_respirazione.caadoc"
     },
     {
@@ -1140,6 +1234,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_emo_ruota.caadoc"
     },
     {
@@ -1152,6 +1247,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_emo_scelta_strategia.caadoc"
     },
     {
@@ -1164,6 +1260,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_emo_sorpresa.caadoc"
     },
     {
@@ -1176,6 +1273,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_emo_stanco.caadoc"
     },
     {
@@ -1188,6 +1286,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_emo_termometro_calma.caadoc"
     },
     {
@@ -1200,6 +1299,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_emo_termometro_rabbia.caadoc"
     },
     {
@@ -1212,6 +1312,7 @@
       "pages": 9,
       "elements": 33,
       "interactive": true,
+      "missing_symbols": 21,
       "path": "library/templates/lib_gio_domino_animali.caadoc"
     },
     {
@@ -1224,6 +1325,7 @@
       "pages": 9,
       "elements": 33,
       "interactive": true,
+      "missing_symbols": 9,
       "path": "library/templates/lib_gio_domino_azioni.caadoc"
     },
     {
@@ -1236,6 +1338,7 @@
       "pages": 7,
       "elements": 25,
       "interactive": true,
+      "missing_symbols": 10,
       "path": "library/templates/lib_gio_flashcard_emozioni.caadoc"
     },
     {
@@ -1248,6 +1351,7 @@
       "pages": 9,
       "elements": 33,
       "interactive": true,
+      "missing_symbols": 9,
       "path": "library/templates/lib_gio_flashcard_parole.caadoc"
     },
     {
@@ -1260,6 +1364,7 @@
       "pages": 9,
       "elements": 33,
       "interactive": true,
+      "missing_symbols": 15,
       "path": "library/templates/lib_gio_memory_animali.caadoc"
     },
     {
@@ -1272,6 +1377,7 @@
       "pages": 9,
       "elements": 33,
       "interactive": true,
+      "missing_symbols": 9,
       "path": "library/templates/lib_gio_memory_scuola.caadoc"
     },
     {
@@ -1284,6 +1390,7 @@
       "pages": 7,
       "elements": 25,
       "interactive": true,
+      "missing_symbols": 9,
       "path": "library/templates/lib_gio_scelte.caadoc"
     },
     {
@@ -1296,6 +1403,7 @@
       "pages": 7,
       "elements": 25,
       "interactive": true,
+      "missing_symbols": 10,
       "path": "library/templates/lib_gio_storie_illustrate.caadoc"
     },
     {
@@ -1308,6 +1416,7 @@
       "pages": 9,
       "elements": 33,
       "interactive": true,
+      "missing_symbols": 21,
       "path": "library/templates/lib_gio_tombola_animali.caadoc"
     },
     {
@@ -1320,6 +1429,7 @@
       "pages": 9,
       "elements": 33,
       "interactive": true,
+      "missing_symbols": 24,
       "path": "library/templates/lib_gio_tombola_colori.caadoc"
     },
     {
@@ -1332,6 +1442,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_aba_generalizzazione_casa.caadoc"
     },
     {
@@ -1344,6 +1455,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_aba_generalizzazione_cortile.caadoc"
     },
     {
@@ -1356,6 +1468,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_aba_generalizzazione_scuola.caadoc"
     },
     {
@@ -1368,6 +1481,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_aba_osservazione_attesa.caadoc"
     },
     {
@@ -1380,6 +1494,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_aba_osservazione_attivita.caadoc"
     },
     {
@@ -1392,6 +1507,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_aba_osservazione_richieste.caadoc"
     },
     {
@@ -1404,6 +1520,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_aba_osservazione_transizioni.caadoc"
     },
     {
@@ -1416,6 +1533,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_aba_prima_dopo_dopo.caadoc"
     },
     {
@@ -1428,6 +1546,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_aba_prima_poi.caadoc"
     },
     {
@@ -1440,6 +1559,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_aba_richiesta_aiuto.caadoc"
     },
     {
@@ -1452,6 +1572,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_aba_richiesta_oggetto.caadoc"
     },
     {
@@ -1464,6 +1585,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_aba_richiesta_pausa.caadoc"
     },
     {
@@ -1476,6 +1598,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_aba_rinforzo_premi.caadoc"
     },
     {
@@ -1488,6 +1611,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_aba_rinforzo_scelta.caadoc"
     },
     {
@@ -1500,6 +1624,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_aba_scelta_attivita.caadoc"
     },
     {
@@ -1512,6 +1637,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_aba_scelta_due.caadoc"
     },
     {
@@ -1524,6 +1650,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_aba_scelta_quattro.caadoc"
     },
     {
@@ -1536,6 +1663,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_aba_token_cinque.caadoc"
     },
     {
@@ -1548,6 +1676,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_aba_token_dieci.caadoc"
     },
     {
@@ -1560,6 +1689,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_aba_token_tre.caadoc"
     },
     {
@@ -1572,6 +1702,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_addizioni_10.caadoc"
     },
     {
@@ -1584,6 +1715,7 @@
       "pages": 4,
       "elements": 33,
       "interactive": false,
+      "missing_symbols": 33,
       "path": "library/templates/lib_did_alfabeto_maiuscolo.caadoc"
     },
     {
@@ -1596,6 +1728,7 @@
       "pages": 4,
       "elements": 33,
       "interactive": false,
+      "missing_symbols": 33,
       "path": "library/templates/lib_did_alfabeto_minuscolo.caadoc"
     },
     {
@@ -1608,6 +1741,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_alimentazione.caadoc"
     },
     {
@@ -1620,6 +1754,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_did_animali_ambienti.caadoc"
     },
     {
@@ -1632,6 +1767,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_did_categorie_animali.caadoc"
     },
     {
@@ -1644,6 +1780,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_did_categorie_frutta.caadoc"
     },
     {
@@ -1656,6 +1793,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_did_categorie_trasporti.caadoc"
     },
     {
@@ -1668,6 +1806,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_did_ciclo_pianta.caadoc"
     },
     {
@@ -1680,6 +1819,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_cinque_sensi.caadoc"
     },
     {
@@ -1692,6 +1832,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_did_civica_regole.caadoc"
     },
     {
@@ -1704,6 +1845,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_civica_riciclo.caadoc"
     },
     {
@@ -1716,6 +1858,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_did_comprensione_chi.caadoc"
     },
     {
@@ -1728,6 +1871,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_did_comprensione_dove.caadoc"
     },
     {
@@ -1740,6 +1884,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_did_comprensione_quando.caadoc"
     },
     {
@@ -1752,6 +1897,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_did_comprensione_sequenza.caadoc"
     },
     {
@@ -1764,6 +1910,7 @@
       "pages": 3,
       "elements": 25,
       "interactive": false,
+      "missing_symbols": 25,
       "path": "library/templates/lib_did_consonanti.caadoc"
     },
     {
@@ -1776,6 +1923,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_did_contrari.caadoc"
     },
     {
@@ -1788,6 +1936,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_did_emozioni_volti.caadoc"
     },
     {
@@ -1800,6 +1949,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_forme_geometriche.caadoc"
     },
     {
@@ -1812,6 +1962,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_did_frasi_minime.caadoc"
     },
     {
@@ -1824,6 +1975,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_giorni_settimana.caadoc"
     },
     {
@@ -1836,6 +1988,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_maggiore_minore.caadoc"
     },
     {
@@ -1848,6 +2001,7 @@
       "pages": 2,
       "elements": 18,
       "interactive": false,
+      "missing_symbols": 18,
       "path": "library/templates/lib_did_mesi.caadoc"
     },
     {
@@ -1860,6 +2014,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_misure_lunghezza.caadoc"
     },
     {
@@ -1872,6 +2027,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_misure_peso.caadoc"
     },
     {
@@ -1884,6 +2040,7 @@
       "pages": 2,
       "elements": 16,
       "interactive": false,
+      "missing_symbols": 16,
       "path": "library/templates/lib_did_numeri_11_20.caadoc"
     },
     {
@@ -1896,6 +2053,7 @@
       "pages": 2,
       "elements": 16,
       "interactive": false,
+      "missing_symbols": 16,
       "path": "library/templates/lib_did_numeri_1_10.caadoc"
     },
     {
@@ -1908,6 +2066,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_did_parole_bisillabe.caadoc"
     },
     {
@@ -1920,6 +2079,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_did_parole_trisillabe.caadoc"
     },
     {
@@ -1932,6 +2092,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_parti_corpo.caadoc"
     },
     {
@@ -1944,6 +2105,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_did_parti_pianta.caadoc"
     },
     {
@@ -1956,6 +2118,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_perimetro.caadoc"
     },
     {
@@ -1968,6 +2131,7 @@
       "pages": 2,
       "elements": 16,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_did_quantita_10.caadoc"
     },
     {
@@ -1980,6 +2144,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_did_quantita_5.caadoc"
     },
     {
@@ -1992,6 +2157,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_did_sequenze_mattina.caadoc"
     },
     {
@@ -2004,6 +2170,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_sequenze_stagioni.caadoc"
     },
     {
@@ -2016,6 +2183,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_did_sillabe_ba.caadoc"
     },
     {
@@ -2028,6 +2196,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_did_sillabe_ca.caadoc"
     },
     {
@@ -2040,6 +2209,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_did_sinonimi.caadoc"
     },
     {
@@ -2052,6 +2222,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_sottrazioni_10.caadoc"
     },
     {
@@ -2064,6 +2235,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_spazio_destra_sinistra.caadoc"
     },
     {
@@ -2076,6 +2248,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 9,
       "path": "library/templates/lib_did_spazio_sopra_sotto.caadoc"
     },
     {
@@ -2088,6 +2261,7 @@
       "pages": 1,
       "elements": 7,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_did_stagioni.caadoc"
     },
     {
@@ -2100,6 +2274,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_did_vocali.caadoc"
     },
     {
@@ -2112,6 +2287,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_tea_abbina_ombre.caadoc"
     },
     {
@@ -2124,6 +2300,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_tea_abbina_uguali.caadoc"
     },
     {
@@ -2136,6 +2313,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_tea_categoria_animali.caadoc"
     },
     {
@@ -2148,6 +2326,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_tea_categoria_frutta.caadoc"
     },
     {
@@ -2160,6 +2339,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_tea_categoria_vestiti.caadoc"
     },
     {
@@ -2172,6 +2352,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_tea_classifica_animali_oggetti.caadoc"
     },
     {
@@ -2184,6 +2365,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_tea_classifica_colori.caadoc"
     },
     {
@@ -2196,6 +2378,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_tea_classifica_forme.caadoc"
     },
     {
@@ -2208,6 +2391,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_tea_colori_cestini.caadoc"
     },
     {
@@ -2220,6 +2404,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_tea_copiatura.caadoc"
     },
     {
@@ -2232,6 +2417,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_tea_cubi.caadoc"
     },
     {
@@ -2244,6 +2430,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_tea_dentro_fuori.caadoc"
     },
     {
@@ -2256,6 +2443,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_tea_grande_piccolo.caadoc"
     },
     {
@@ -2268,6 +2456,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_tea_incollaggio.caadoc"
     },
     {
@@ -2280,6 +2469,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_tea_inizio_fine.caadoc"
     },
     {
@@ -2292,6 +2482,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_tea_numero_quantita.caadoc"
     },
     {
@@ -2304,6 +2495,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_tea_ordina_lunghezza.caadoc"
     },
     {
@@ -2316,6 +2508,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_tea_ordina_piccolo_grande.caadoc"
     },
     {
@@ -2328,6 +2521,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_tea_perline.caadoc"
     },
     {
@@ -2340,6 +2534,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_tea_piegatura.caadoc"
     },
     {
@@ -2352,6 +2547,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_tea_presenza.caadoc"
     },
     {
@@ -2364,6 +2560,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_tea_prima_dopo_scuola.caadoc"
     },
     {
@@ -2376,6 +2573,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_tea_puzzle.caadoc"
     },
     {
@@ -2388,6 +2586,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_tea_ritaglio.caadoc"
     },
     {
@@ -2400,6 +2599,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_tea_routine_mattina.caadoc"
     },
     {
@@ -2412,6 +2612,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_tea_scatola_incarichi.caadoc"
     },
     {
@@ -2424,6 +2625,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_tea_sequenza_quattro.caadoc"
     },
     {
@@ -2436,6 +2638,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_tea_sequenza_tre.caadoc"
     },
     {
@@ -2448,6 +2651,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_tea_vassoio_lavoro_1.caadoc"
     },
     {
@@ -2460,6 +2664,7 @@
       "pages": 1,
       "elements": 5,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_tea_vassoio_lavoro_2.caadoc"
     },
     {
@@ -2472,6 +2677,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_seq_apparecchiare_checklist.caadoc"
     },
     {
@@ -2484,6 +2690,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_seq_apparecchiare_lineare.caadoc"
     },
     {
@@ -2496,6 +2703,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_seq_bagno_checklist.caadoc"
     },
     {
@@ -2508,6 +2716,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_seq_bagno_verticale.caadoc"
     },
     {
@@ -2520,6 +2729,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_seq_cameretta.caadoc"
     },
     {
@@ -2532,6 +2742,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_cena.caadoc"
     },
     {
@@ -2544,6 +2755,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_seq_colazione.caadoc"
     },
     {
@@ -2556,6 +2768,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_dopo_palestra.caadoc"
     },
     {
@@ -2568,6 +2781,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_seq_fare_il_bagno.caadoc"
     },
     {
@@ -2580,6 +2794,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_lavare_piatti.caadoc"
     },
     {
@@ -2592,6 +2807,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_lavarsi_denti_checklist.caadoc"
     },
     {
@@ -2604,6 +2820,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_lavarsi_denti_verticale.caadoc"
     },
     {
@@ -2616,6 +2833,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_lavarsi_mani_checklist.caadoc"
     },
     {
@@ -2628,6 +2846,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_lavarsi_mani_lineare.caadoc"
     },
     {
@@ -2640,6 +2859,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_lavarsi_mani_orizzontale.caadoc"
     },
     {
@@ -2652,6 +2872,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_seq_lavarsi_viso.caadoc"
     },
     {
@@ -2664,6 +2885,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 10,
       "path": "library/templates/lib_seq_materiali_checklist.caadoc"
     },
     {
@@ -2676,6 +2898,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 10,
       "path": "library/templates/lib_seq_materiali_lineare.caadoc"
     },
     {
@@ -2688,6 +2911,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_seq_merenda_lineare.caadoc"
     },
     {
@@ -2700,6 +2924,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_seq_merenda_orizzontale.caadoc"
     },
     {
@@ -2712,6 +2937,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_seq_pettinarsi.caadoc"
     },
     {
@@ -2724,6 +2950,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_seq_piscina_checklist.caadoc"
     },
     {
@@ -2736,6 +2963,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_seq_piscina_lineare.caadoc"
     },
     {
@@ -2748,6 +2976,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_seq_pranzo.caadoc"
     },
     {
@@ -2760,6 +2989,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_seq_prepararsi_dormire.caadoc"
     },
     {
@@ -2772,6 +3002,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_seq_rientro_scuola.caadoc"
     },
     {
@@ -2784,6 +3015,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_seq_riordinare_checklist.caadoc"
     },
     {
@@ -2796,6 +3028,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_seq_riordinare_lineare.caadoc"
     },
     {
@@ -2808,6 +3041,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_strada_checklist.caadoc"
     },
     {
@@ -2820,6 +3054,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_seq_strada_lineare.caadoc"
     },
     {
@@ -2832,6 +3067,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_seq_svegliarsi.caadoc"
     },
     {
@@ -2844,6 +3080,7 @@
       "pages": 2,
       "elements": 14,
       "interactive": false,
+      "missing_symbols": 12,
       "path": "library/templates/lib_seq_vestirsi_lineare.caadoc"
     },
     {
@@ -2856,6 +3093,7 @@
       "pages": 2,
       "elements": 14,
       "interactive": false,
+      "missing_symbols": 12,
       "path": "library/templates/lib_seq_vestirsi_orizzontale.caadoc"
     },
     {
@@ -2868,6 +3106,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_seq_zaino_checklist.caadoc"
     },
     {
@@ -2880,6 +3119,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_seq_zaino_verticale.caadoc"
     },
     {
@@ -2892,6 +3132,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_sto_aspettare_turno.caadoc"
     },
     {
@@ -2904,6 +3145,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_sto_autobus.caadoc"
     },
     {
@@ -2916,6 +3158,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_sto_bagno_scuola.caadoc"
     },
     {
@@ -2928,6 +3171,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_sto_buio.caadoc"
     },
     {
@@ -2940,6 +3184,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_sto_cambio_attivita.caadoc"
     },
     {
@@ -2952,6 +3197,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_chiedere_aiuto.caadoc"
     },
     {
@@ -2964,6 +3210,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_sto_compagno_nuovo.caadoc"
     },
     {
@@ -2976,6 +3223,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 7,
       "path": "library/templates/lib_sto_compleanno.caadoc"
     },
     {
@@ -2988,6 +3236,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_sto_dentista.caadoc"
     },
     {
@@ -3000,6 +3249,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_sto_dire_no.caadoc"
     },
     {
@@ -3012,6 +3262,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_dormire_fuori.caadoc"
     },
     {
@@ -3024,6 +3275,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_fare_errore.caadoc"
     },
     {
@@ -3036,6 +3288,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_fila.caadoc"
     },
     {
@@ -3048,6 +3301,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 6,
       "path": "library/templates/lib_sto_gita.caadoc"
     },
     {
@@ -3060,6 +3314,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_litigio.caadoc"
     },
     {
@@ -3072,6 +3327,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_maestra_parla.caadoc"
     },
     {
@@ -3084,6 +3340,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_sto_medico.caadoc"
     },
     {
@@ -3096,6 +3353,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_parrucchiere.caadoc"
     },
     {
@@ -3108,6 +3366,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_sto_perdere_gioco.caadoc"
     },
     {
@@ -3120,6 +3379,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 5,
       "path": "library/templates/lib_sto_piscina.caadoc"
     },
     {
@@ -3132,6 +3392,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_pranzo_mensa.caadoc"
     },
     {
@@ -3144,6 +3405,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_sto_prestare.caadoc"
     },
     {
@@ -3156,6 +3418,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 0,
       "path": "library/templates/lib_sto_primo_giorno.caadoc"
     },
     {
@@ -3168,6 +3431,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_sto_ricevere_no.caadoc"
     },
     {
@@ -3180,6 +3444,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 1,
       "path": "library/templates/lib_sto_ricreazione.caadoc"
     },
     {
@@ -3192,6 +3457,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_sto_rumore_forte.caadoc"
     },
     {
@@ -3204,6 +3470,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 2,
       "path": "library/templates/lib_sto_stanchezza.caadoc"
     },
     {
@@ -3216,6 +3483,7 @@
       "pages": 2,
       "elements": 13,
       "interactive": false,
+      "missing_symbols": 8,
       "path": "library/templates/lib_sto_supermercato.caadoc"
     },
     {
@@ -3228,6 +3496,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 3,
       "path": "library/templates/lib_sto_supplente.caadoc"
     },
     {
@@ -3240,6 +3509,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": false,
+      "missing_symbols": 4,
       "path": "library/templates/lib_sto_temporale.caadoc"
     },
     {
@@ -3252,6 +3522,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_com_animali.caadoc"
     },
     {
@@ -3264,6 +3535,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bagno_casa.caadoc"
     },
     {
@@ -3276,6 +3548,7 @@
       "pages": 1,
       "elements": 4,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bagno_scuola.caadoc"
     },
     {
@@ -3288,6 +3561,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_bere_giornata.caadoc"
     },
     {
@@ -3300,6 +3574,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bere_scelte.caadoc"
     },
     {
@@ -3312,6 +3587,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_biblioteca.caadoc"
     },
     {
@@ -3324,6 +3600,7 @@
       "pages": 1,
       "elements": 20,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bisogni_20.caadoc"
     },
     {
@@ -3336,6 +3613,7 @@
       "pages": 1,
       "elements": 24,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bisogni_24.caadoc"
     },
     {
@@ -3348,6 +3626,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bisogni_casa.caadoc"
     },
     {
@@ -3360,6 +3639,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bisogni_essenziali.caadoc"
     },
     {
@@ -3372,6 +3652,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_bisogni_scuola.caadoc"
     },
     {
@@ -3384,6 +3665,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_bisogni_urgenti.caadoc"
     },
     {
@@ -3396,6 +3678,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_casa_stanze.caadoc"
     },
     {
@@ -3408,6 +3691,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_colazione.caadoc"
     },
     {
@@ -3420,6 +3704,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_conversazione.caadoc"
     },
     {
@@ -3432,6 +3717,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_core_12.caadoc"
     },
     {
@@ -3444,6 +3730,7 @@
       "pages": 1,
       "elements": 16,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_core_16.caadoc"
     },
     {
@@ -3456,6 +3743,7 @@
       "pages": 1,
       "elements": 36,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_core_36.caadoc"
     },
     {
@@ -3468,6 +3756,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_core_6.caadoc"
     },
     {
@@ -3480,6 +3769,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_core_9.caadoc"
     },
     {
@@ -3492,6 +3782,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 7,
       "path": "library/templates/lib_com_dolore_corpo.caadoc"
     },
     {
@@ -3504,6 +3795,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_com_dolore_medico.caadoc"
     },
     {
@@ -3516,6 +3808,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_com_domande_chi.caadoc"
     },
     {
@@ -3528,6 +3821,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_com_domande_dove.caadoc"
     },
     {
@@ -3540,6 +3834,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_domande_quando.caadoc"
     },
     {
@@ -3552,6 +3847,7 @@
       "pages": 1,
       "elements": 16,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_com_emergenza.caadoc"
     },
     {
@@ -3564,6 +3860,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_com_emozioni_base.caadoc"
     },
     {
@@ -3576,6 +3873,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_emozioni_scuola.caadoc"
     },
     {
@@ -3588,6 +3886,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_famiglia_attivita.caadoc"
     },
     {
@@ -3600,6 +3899,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_famiglia_casa.caadoc"
     },
     {
@@ -3612,6 +3912,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_giardino.caadoc"
     },
     {
@@ -3624,6 +3925,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_com_gioco.caadoc"
     },
     {
@@ -3636,6 +3938,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_igiene_mani_denti.caadoc"
     },
     {
@@ -3648,6 +3951,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_com_igiene_scuola.caadoc"
     },
     {
@@ -3660,6 +3964,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_mangiare_scelte.caadoc"
     },
     {
@@ -3672,6 +3977,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_mensa.caadoc"
     },
     {
@@ -3684,6 +3990,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_mensa_pasti.caadoc"
     },
     {
@@ -3696,6 +4003,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_musica.caadoc"
     },
     {
@@ -3708,6 +4016,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_com_opinioni_emozioni.caadoc"
     },
     {
@@ -3720,6 +4029,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_opinioni_preferenze.caadoc"
     },
     {
@@ -3732,6 +4042,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_palestra.caadoc"
     },
     {
@@ -3744,6 +4055,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_com_piscina.caadoc"
     },
     {
@@ -3756,6 +4068,7 @@
       "pages": 1,
       "elements": 20,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_quotidiano.caadoc"
     },
     {
@@ -3768,6 +4081,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_richieste_base.caadoc"
     },
     {
@@ -3780,6 +4094,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_richieste_scuola.caadoc"
     },
     {
@@ -3792,6 +4107,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_ricreazione.caadoc"
     },
     {
@@ -3804,6 +4120,7 @@
       "pages": 1,
       "elements": 6,
       "interactive": true,
+      "missing_symbols": 4,
       "path": "library/templates/lib_com_rifiuti.caadoc"
     },
     {
@@ -3816,6 +4133,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_rifiuti_cibo.caadoc"
     },
     {
@@ -3828,6 +4146,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 6,
       "path": "library/templates/lib_com_risposte_scelte.caadoc"
     },
     {
@@ -3840,6 +4159,7 @@
       "pages": 1,
       "elements": 2,
       "interactive": true,
+      "missing_symbols": 2,
       "path": "library/templates/lib_com_risposte_si_no.caadoc"
     },
     {
@@ -3852,6 +4172,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_scelte_cibo.caadoc"
     },
     {
@@ -3864,6 +4185,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 1,
       "path": "library/templates/lib_com_scelte_gioco.caadoc"
     },
     {
@@ -3876,6 +4198,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_scuola_materiali.caadoc"
     },
     {
@@ -3888,6 +4211,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_scuola_mattina.caadoc"
     },
     {
@@ -3900,6 +4224,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_sport.caadoc"
     },
     {
@@ -3912,6 +4237,7 @@
       "pages": 1,
       "elements": 12,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_tempo_libero.caadoc"
     },
     {
@@ -3924,6 +4250,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_trasporti.caadoc"
     },
     {
@@ -3936,6 +4263,7 @@
       "pages": 1,
       "elements": 9,
       "interactive": true,
+      "missing_symbols": 5,
       "path": "library/templates/lib_com_vestirsi_scelte.caadoc"
     },
     {
@@ -3948,6 +4276,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 3,
       "path": "library/templates/lib_com_vestirsi_scuola.caadoc"
     },
     {
@@ -3960,6 +4289,7 @@
       "pages": 1,
       "elements": 8,
       "interactive": true,
+      "missing_symbols": 0,
       "path": "library/templates/lib_com_viaggio_preparativi.caadoc"
     }
   ],
@@ -3969,7 +4299,40 @@
     "built": 330,
     "failed": 0,
     "failures": [],
-    "generated_at": "2026-11-06T21:01:37Z",
+    "generated_at": "2026-11-07T11:28:36Z",
+    "missing_examples": [
+      "boards.agenda-tempo: «Momenti» non ha un pittogramma: resta il testo",
+      "boards.agenda-tempo: «Pianificare» non ha un pittogramma: resta il testo",
+      "boards.agenda-tempo: «Promemoria» non ha un pittogramma: resta il testo",
+      "boards.alimentazione: «Cibi» non ha un pittogramma: resta il testo",
+      "boards.alimentazione: «Bevande» non ha un pittogramma: resta il testo",
+      "boards.alimentazione: «Pasti» non ha un pittogramma: resta il testo",
+      "boards.amicizie: «Persone» non ha un pittogramma: resta il testo",
+      "boards.amicizie: «Attività» non ha un pittogramma: resta il testo",
+      "boards.amicizie: «Conversazione» non ha un pittogramma: resta il testo",
+      "boards.autonomia: «Cura personale» non ha un pittogramma: resta il testo",
+      "boards.autonomia: «Spostamenti» non ha un pittogramma: resta il testo",
+      "boards.autonomia: «Documenti» non ha un pittogramma: resta il testo",
+      "boards.benessere-dolore: «Dolore» non ha un pittogramma: resta il testo",
+      "boards.benessere-dolore: «Sintomi» non ha un pittogramma: resta il testo",
+      "boards.benessere-dolore: «Farmaci» non ha un pittogramma: resta il testo",
+      "boards.bisogni-essenziali: «Corpo» non ha un pittogramma: resta il testo",
+      "boards.bisogni-essenziali: «Conforto» non ha un pittogramma: resta il testo",
+      "boards.bisogni-essenziali: «Oggetti personali» non ha un pittogramma: resta il testo",
+      "boards.casa: «Stanze» non ha un pittogramma: resta il testo",
+      "boards.casa: «Oggetti» non ha un pittogramma: resta il testo",
+      "boards.casa: «Faccende» non ha un pittogramma: resta il testo",
+      "boards.comunicazione-libera-avanzata: «Nuclei» non ha un pittogramma: resta il testo",
+      "boards.comunicazione-libera-avanzata: «Verbi» non ha un pittogramma: resta il testo",
+      "boards.comunicazione-libera-avanzata: «Descrivere» non ha un pittogramma: resta il testo",
+      "boards.comunicazione-sociale-adulta: «Conversazione» non ha un pittogramma: resta il testo",
+      "boards.comunicazione-sociale-adulta: «Opinioni» non ha un pittogramma: resta il testo",
+      "boards.comunicazione-sociale-adulta: «Assertività» non ha un pittogramma: resta il testo",
+      "boards.conversazione-quotidiana: «Saluti» non ha un pittogramma: resta il testo",
+      "boards.conversazione-quotidiana: «Domande» non ha un pittogramma: resta il testo",
+      "boards.conversazione-quotidiana: «Risposte» non ha un pittogramma: resta il testo"
+    ],
+    "missing_symbols": 3062,
     "modifiable": 330,
     "templates_built": 300,
     "templates_expected": 300,

@@ -146,6 +146,43 @@ fn add_asset(
         });
 }
 
+fn attach_licenses(engine: &Engine, document: &mut UniversalDocument) {
+    let Ok(db) = engine.db() else {
+        return;
+    };
+    let mut seen = std::collections::HashSet::new();
+    let ids: Vec<String> = document
+        .pages
+        .iter()
+        .flat_map(|page| page.elements.iter())
+        .flat_map(|element| {
+            let mut out = Vec::new();
+            if let Some(id) = &element.symbol_id {
+                out.push(id.clone());
+            }
+            if let Some(grid) = &element.grid {
+                out.extend(grid.cells.iter().filter_map(|cell| cell.symbol_id.clone()));
+            }
+            out
+        })
+        .collect();
+    for id in ids {
+        if !seen.insert(id.clone()) {
+            continue;
+        }
+        if let Ok(Some(record)) = db.symbol_by_id(&id) {
+            document.licenses.push(crate::universal::DocumentLicense {
+                symbol_id: record.id,
+                label: record.label,
+                author: record.author.unwrap_or_default(),
+                license: record.license,
+                license_url: record.license_url.unwrap_or_default(),
+                source_url: record.source_url.unwrap_or_default(),
+            });
+        }
+    }
+}
+
 /// Converte una specifica JSON in documento universale. La specifica è un
 /// input della CLI, non un formato della biblioteca: l'output è sempre un
 /// `UniversalDocument` completo.
@@ -345,6 +382,10 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                     };
                     cells.push(GridCell {
                         id: page_id(cell_spec, &format!("{}-cell-{}", element_id, cell_index + 1)),
+                        row: (cell_index / columns.max(1)) as u32,
+                        column: (cell_index % columns.max(1)) as u32,
+                        row_span: 1,
+                        column_span: 1,
                         text,
                         spoken_text: string(cell_spec, "spoken_text")
                             .or_else(|| string(cell_spec, "spokenText"))
@@ -378,6 +419,8 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                         .get("gap_mm")
                         .and_then(|v| v.as_f64())
                         .unwrap_or(3.0) as f32,
+                    column_widths: Vec::new(),
+                    row_heights: Vec::new(),
                     cells,
                 });
             }
@@ -443,6 +486,7 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
             notes: String::new(),
         });
     }
+    attach_licenses(engine, &mut document);
     universal::validate(&document)?;
     document.render()?;
     Ok(BuildOutcome {
@@ -630,6 +674,8 @@ pub struct LibraryBuildReport {
     pub valid: usize,
     pub modifiable: usize,
     pub failed: usize,
+    pub missing_symbols: usize,
+    pub missing_examples: Vec<String>,
     pub failures: Vec<Value>,
     pub generated_at: String,
 }
@@ -666,6 +712,8 @@ pub fn build_all(
     let mut valid = 0usize;
     let mut templates_built = 0usize;
     let mut boards_built = 0usize;
+    let mut missing_total = 0usize;
+    let mut missing_examples: Vec<String> = Vec::new();
     let cwd = std::env::current_dir().map_err(|e| format!("cartella corrente: {e}"))?;
     let out_root = if out.is_absolute() { out.to_path_buf() } else { cwd.join(out) };
     let resources_abs = if resources_root.is_absolute() {
@@ -758,8 +806,15 @@ pub fn build_all(
                 .get("interactive")
                 .and_then(|v| v.as_bool())
                 .unwrap_or(false),
+            missing_symbols: outcome.notes.len(),
             path: relative,
         });
+        missing_total += outcome.notes.len();
+        for note in outcome.notes.iter().take(3) {
+            if missing_examples.len() < 30 {
+                missing_examples.push(format!("{}: {note}", id));
+            }
+        }
         built += 1;
         if source_type == "board" {
             boards_built += 1;
@@ -778,6 +833,8 @@ pub fn build_all(
         valid,
         modifiable: valid,
         failed: failures.len(),
+        missing_symbols: missing_total,
+        missing_examples: missing_examples.clone(),
         failures: failures.clone(),
         generated_at: generated_at.clone(),
     };

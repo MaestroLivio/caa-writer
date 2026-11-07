@@ -237,6 +237,14 @@ impl Default for UniversalAction {
 pub struct GridCell {
     pub id: String,
     #[serde(default)]
+    pub row: u32,
+    #[serde(default)]
+    pub column: u32,
+    #[serde(default = "default_span")]
+    pub row_span: u32,
+    #[serde(default = "default_span")]
+    pub column_span: u32,
+    #[serde(default)]
     pub text: String,
     #[serde(default)]
     pub spoken_text: String,
@@ -264,6 +272,12 @@ pub struct GridData {
     pub rows: u32,
     #[serde(default)]
     pub gap_mm: f32,
+    /// Pesi delle colonne; vuoto = colonne uguali. Valori positivi.
+    #[serde(default)]
+    pub column_widths: Vec<f32>,
+    /// Pesi delle righe; vuoto = righe uguali.
+    #[serde(default)]
+    pub row_heights: Vec<f32>,
     #[serde(default)]
     pub cells: Vec<GridCell>,
 }
@@ -575,9 +589,19 @@ pub fn validate(document: &UniversalDocument) -> Result<(), String> {
             }
             if let Some(grid) = &element.grid {
                 let mut cell_ids = HashSet::new();
+                let legacy_positions = grid.cells.iter().all(|cell| cell.row == 0 && cell.column == 0)
+                    && grid.cells.len() > 1;
                 for cell in &grid.cells {
                     if cell.id.trim().is_empty() || !cell_ids.insert(cell.id.as_str()) {
                         return Err(format!("{}: cella senza ID o duplicata", element.id));
+                    }
+                    if !legacy_positions {
+                        if cell.column + cell.column_span.max(1) > grid.columns {
+                            return Err(format!("{}: cella fuori dalle colonne", cell.id));
+                        }
+                        if cell.row + cell.row_span.max(1) > grid.rows {
+                            return Err(format!("{}: cella fuori dalle righe", cell.id));
+                        }
                     }
                     if let Some(action) = &cell.action {
                         if action.action_type == "navigate"
@@ -702,6 +726,10 @@ pub struct RenderedElement {
 #[derive(Debug, Clone, Serialize)]
 pub struct RenderedGridCell {
     pub id: String,
+    pub row: u32,
+    pub column: u32,
+    pub row_span: u32,
+    pub column_span: u32,
     pub text: String,
     pub spoken_text: String,
     pub symbol_id: Option<String>,
@@ -909,23 +937,87 @@ fn text_height(element: &UniversalElement) -> f32 {
     (lines * font * 1.5 + element.style.padding_mm * 2.0).max(8.0)
 }
 
+fn axis_sizes(total: f32, gap: f32, count: u32, weights: &[f32]) -> (Vec<f32>, Vec<f32>) {
+    let count = count.max(1) as usize;
+    let usable = (total - gap * (count.saturating_sub(1)) as f32).max(1.0);
+    let weight_sum: f32 = if weights.len() == count
+        && weights.iter().all(|value| value.is_finite() && *value > 0.0)
+    {
+        weights.iter().sum()
+    } else {
+        count as f32
+    };
+    let normalized: Vec<f32> = if weights.len() == count
+        && weights.iter().all(|value| value.is_finite() && *value > 0.0)
+    {
+        weights.iter().map(|value| value / weight_sum).collect()
+    } else {
+        vec![1.0 / count as f32; count]
+    };
+    let mut sizes = Vec::with_capacity(count);
+    let mut offsets = Vec::with_capacity(count);
+    let mut cursor = 0.0;
+    for (index, weight) in normalized.iter().enumerate() {
+        let size = if index + 1 == count {
+            (usable - sizes.iter().sum::<f32>()).max(1.0)
+        } else {
+            (usable * weight).max(1.0)
+        };
+        offsets.push(cursor);
+        sizes.push(size);
+        cursor += size + gap;
+    }
+    (sizes, offsets)
+}
+
 fn render_grid_cells(element: &UniversalElement, w: f32, h: f32) -> Vec<RenderedGridCell> {
     let Some(grid) = &element.grid else {
         return Vec::new();
     };
-    let columns = grid.columns.max(1) as f32;
-    let rows = grid.rows.max(1) as f32;
     let gap = grid.gap_mm.max(0.0);
-    let cell_w = (w - gap * (columns - 1.0)) / columns;
-    let cell_h = (h - gap * (rows - 1.0)) / rows;
+    let (column_sizes, column_offsets) =
+        axis_sizes(w, gap, grid.columns, &grid.column_widths);
+    let (row_sizes, row_offsets) = axis_sizes(h, gap, grid.rows, &grid.row_heights);
+    // I documenti creati prima del supporto alle posizioni esplicite hanno
+    // tutte le celle in (0,0): in quel caso si usa l'ordine dell'array.
+    let legacy_positions = grid.cells.iter().all(|cell| cell.row == 0 && cell.column == 0)
+        && grid.cells.len() > 1;
     grid.cells
         .iter()
         .enumerate()
         .map(|(index, cell)| {
-            let row = index / grid.columns.max(1) as usize;
-            let column = index % grid.columns.max(1) as usize;
+            let row = if legacy_positions {
+                (index / grid.columns.max(1) as usize) as u32
+            } else {
+                cell.row
+            };
+            let column = if legacy_positions {
+                (index % grid.columns.max(1) as usize) as u32
+            } else {
+                cell.column
+            };
+            let column_span = cell.column_span.max(1).min(grid.columns.saturating_sub(column).max(1));
+            let row_span = cell.row_span.max(1).min(grid.rows.saturating_sub(row).max(1));
+            let x = column_offsets.get(column as usize).copied().unwrap_or(0.0);
+            let y = row_offsets.get(row as usize).copied().unwrap_or(0.0);
+            let width = column_sizes
+                .iter()
+                .skip(column as usize)
+                .take(column_span as usize)
+                .sum::<f32>()
+                + gap * column_span.saturating_sub(1) as f32;
+            let height = row_sizes
+                .iter()
+                .skip(row as usize)
+                .take(row_span as usize)
+                .sum::<f32>()
+                + gap * row_span.saturating_sub(1) as f32;
             RenderedGridCell {
                 id: cell.id.clone(),
+                row,
+                column,
+                row_span,
+                column_span,
                 text: cell.text.clone(),
                 spoken_text: if cell.spoken_text.is_empty() {
                     cell.text.clone()
@@ -937,10 +1029,10 @@ fn render_grid_cells(element: &UniversalElement, w: f32, h: f32) -> Vec<Rendered
                 svg: cell.svg.clone(),
                 action: cell.action.clone(),
                 hidden: cell.hidden,
-                x_mm: round2(column as f32 * (cell_w + gap)),
-                y_mm: round2(row as f32 * (cell_h + gap)),
-                w_mm: round2(cell_w),
-                h_mm: round2(cell_h),
+                x_mm: round2(x),
+                y_mm: round2(y),
+                w_mm: round2(width),
+                h_mm: round2(height),
                 style: cell.style.clone(),
             }
         })
@@ -1077,6 +1169,26 @@ pub enum DocumentCommand {
         gap_mm: Option<f32>,
         #[serde(default)]
         cells: Option<Vec<GridCell>>,
+    },
+    SetGridSizes {
+        page: String,
+        id: String,
+        #[serde(default)]
+        column_widths: Option<Vec<f32>>,
+        #[serde(default)]
+        row_heights: Option<Vec<f32>>,
+    },
+    MergeGridCell {
+        page: String,
+        id: String,
+        cell_id: String,
+        /// `right` | `down`
+        direction: String,
+    },
+    SplitGridCell {
+        page: String,
+        id: String,
+        cell_id: String,
     },
     SetPageGrid {
         page: String,
@@ -1425,9 +1537,15 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
                     columns: *columns,
                     rows: *rows,
                     gap_mm: gap_mm.unwrap_or(3.0),
+                    column_widths: Vec::new(),
+                    row_heights: Vec::new(),
                     cells: (0..(*columns * *rows))
                         .map(|index| GridCell {
                             id: format!("{id}-c{}", index + 1),
+                            row: (index / *columns) as u32,
+                            column: (index % *columns) as u32,
+                            row_span: 1,
+                            column_span: 1,
                             ..GridCell::default()
                         })
                         .collect(),
@@ -1483,8 +1601,13 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
                     }
                     index += 1;
                 };
+                let position = grid.cells.len();
                 grid.cells.push(GridCell {
                     id,
+                    row: (position / grid.columns.max(1) as usize) as u32,
+                    column: (position % grid.columns.max(1) as usize) as u32,
+                    row_span: 1,
+                    column_span: 1,
                     ..GridCell::default()
                 });
             }
@@ -1495,6 +1618,149 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
                 if grid.cells[index].id.trim().is_empty() {
                     grid.cells[index].id = format!("{id}-c{}", index + 1);
                 }
+            }
+            for cell in &mut grid.cells {
+                cell.column = cell.column.min(grid.columns.saturating_sub(1));
+                cell.row = cell.row.min(grid.rows.saturating_sub(1));
+                cell.column_span = cell.column_span.max(1).min(grid.columns - cell.column);
+                cell.row_span = cell.row_span.max(1).min(grid.rows - cell.row);
+            }
+        }
+        DocumentCommand::SetGridSizes {
+            page,
+            id,
+            column_widths,
+            row_heights,
+        } => {
+            let element = element_mut(document, page, id)?;
+            let grid = element
+                .grid
+                .as_mut()
+                .ok_or_else(|| format!("{id} non è una griglia"))?;
+            if let Some(widths) = column_widths {
+                if widths.len() != grid.columns as usize
+                    || widths.iter().any(|value| !value.is_finite() || *value <= 0.0)
+                {
+                    return Err("larghezze delle colonne non valide".to_string());
+                }
+                grid.column_widths = widths.clone();
+            }
+            if let Some(heights) = row_heights {
+                if heights.len() != grid.rows as usize
+                    || heights.iter().any(|value| !value.is_finite() || *value <= 0.0)
+                {
+                    return Err("altezze delle righe non valide".to_string());
+                }
+                grid.row_heights = heights.clone();
+            }
+        }
+        DocumentCommand::MergeGridCell {
+            page,
+            id,
+            cell_id,
+            direction,
+        } => {
+            let element = element_mut(document, page, id)?;
+            let grid = element
+                .grid
+                .as_mut()
+                .ok_or_else(|| format!("{id} non è una griglia"))?;
+            normalize_grid_positions(grid);
+            let position = grid
+                .cells
+                .iter()
+                .position(|cell| &cell.id == cell_id)
+                .ok_or_else(|| format!("cella inesistente: {cell_id}"))?;
+            let (row, column, row_span, column_span) = {
+                let cell = &grid.cells[position];
+                (cell.row, cell.column, cell.row_span.max(1), cell.column_span.max(1))
+            };
+            let (target_row, target_column) = match direction.as_str() {
+                "right" => (row, column + column_span),
+                "down" => (row + row_span, column),
+                other => return Err(format!("direzione non supportata: {other}")),
+            };
+            if target_column >= grid.columns || target_row >= grid.rows {
+                return Err("la cella non ha una vicina in quella direzione".to_string());
+            }
+            let Some(target) = grid
+                .cells
+                .iter_mut()
+                .find(|cell| cell.row == target_row && cell.column == target_column)
+            else {
+                return Err("cella vicina non trovata".to_string());
+            };
+            let target_id = target.id.clone();
+            let target_row_span = target.row_span.max(1);
+            let target_column_span = target.column_span.max(1);
+            if direction == "right" {
+                if target_row_span != row_span {
+                    return Err("le celle devono avere la stessa altezza per unirsi".to_string());
+                }
+                grid.cells[position].column_span += target_column_span;
+            } else {
+                if target_column_span != column_span {
+                    return Err("le celle devono avere la stessa larghezza per unirsi".to_string());
+                }
+                grid.cells[position].row_span += target_row_span;
+            }
+            grid.cells.retain(|cell| cell.id != target_id);
+        }
+        DocumentCommand::SplitGridCell {
+            page,
+            id,
+            cell_id,
+        } => {
+            let element = element_mut(document, page, id)?;
+            let grid = element
+                .grid
+                .as_mut()
+                .ok_or_else(|| format!("{id} non è una griglia"))?;
+            normalize_grid_positions(grid);
+            let position = grid
+                .cells
+                .iter()
+                .position(|cell| &cell.id == cell_id)
+                .ok_or_else(|| format!("cella inesistente: {cell_id}"))?;
+            let cell = &grid.cells[position];
+            if cell.row_span <= 1 && cell.column_span <= 1 {
+                return Err("la cella non è unita".to_string());
+            }
+            let (row, column, row_span, column_span, text, spoken, style) = (
+                cell.row,
+                cell.column,
+                cell.row_span.max(1),
+                cell.column_span.max(1),
+                cell.text.clone(),
+                cell.spoken_text.clone(),
+                cell.style.clone(),
+            );
+            if column_span > 1 {
+                grid.cells[position].column_span -= 1;
+                grid.cells.push(GridCell {
+                    id: format!("{cell_id}-split-{}", grid.cells.len() + 1),
+                    row,
+                    column: column + column_span - 1,
+                    row_span,
+                    column_span: 1,
+                    text,
+                    spoken_text: spoken,
+                    style,
+                    ..GridCell::default()
+                });
+            } else {
+                grid.cells[position].row_span -= 1;
+                grid.cells.push(GridCell {
+                    id: format!("{cell_id}-split-{}", grid.cells.len() + 1),
+                    row: row + row_span - 1,
+                    column,
+                    row_span: 1,
+                    column_span,
+                    text,
+                    spoken_text: spoken,
+                    style,
+                    ..GridCell::default()
+                });
             }
         }
         DocumentCommand::SetPageGrid {
@@ -1543,6 +1809,21 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
         }
     }
     Ok(())
+}
+
+fn normalize_grid_positions(grid: &mut GridData) {
+    let legacy = grid.cells.iter().all(|cell| cell.row == 0 && cell.column == 0)
+        && grid.cells.len() > 1;
+    if !legacy {
+        return;
+    }
+    let columns = grid.columns.max(1);
+    for (index, cell) in grid.cells.iter_mut().enumerate() {
+        cell.row = (index as u32) / columns;
+        cell.column = (index as u32) % columns;
+        cell.row_span = 1;
+        cell.column_span = 1;
+    }
 }
 
 fn element_mut<'a>(
@@ -2099,6 +2380,9 @@ pub struct LibraryEntry {
     pub elements: usize,
     #[serde(default)]
     pub interactive: bool,
+    /// Pittogrammi richiesti ma non trovati nel repertorio.
+    #[serde(default)]
+    pub missing_symbols: usize,
     #[serde(default)]
     pub path: String,
 }
@@ -2393,6 +2677,65 @@ mod tests {
         .unwrap();
         let grid = document.element("home", "grid").unwrap().grid.as_ref().unwrap();
         assert_eq!(grid.cells.len(), 9);
+    }
+
+    #[test]
+    fn grid_cells_can_be_merged_split_and_resized() {
+        let mut document = build_document("g", "Griglia", "mixed", "A4", "portrait");
+        document.pages.clear();
+        add_grid_page(&mut document, "home", "Home", 3, 2).unwrap();
+        apply_command(
+            &mut document,
+            &DocumentCommand::CreateGrid {
+                page: "home".to_string(),
+                id: "grid".to_string(),
+                columns: 3,
+                rows: 2,
+                gap_mm: Some(2.0),
+                x_mm: Some(10.0),
+                y_mm: Some(10.0),
+                w_mm: Some(180.0),
+                h_mm: Some(100.0),
+            },
+        )
+        .unwrap();
+        apply_command(
+            &mut document,
+            &DocumentCommand::MergeGridCell {
+                page: "home".to_string(),
+                id: "grid".to_string(),
+                cell_id: "grid-c1".to_string(),
+                direction: "right".to_string(),
+            },
+        )
+        .unwrap();
+        let grid = document.element("home", "grid").unwrap().grid.as_ref().unwrap();
+        assert_eq!(grid.cells.len(), 5);
+        assert_eq!(grid.cells[0].column_span, 2);
+        apply_command(
+            &mut document,
+            &DocumentCommand::SplitGridCell {
+                page: "home".to_string(),
+                id: "grid".to_string(),
+                cell_id: "grid-c1".to_string(),
+            },
+        )
+        .unwrap();
+        let grid = document.element("home", "grid").unwrap().grid.as_ref().unwrap();
+        assert_eq!(grid.cells.len(), 6);
+        apply_command(
+            &mut document,
+            &DocumentCommand::SetGridSizes {
+                page: "home".to_string(),
+                id: "grid".to_string(),
+                column_widths: Some(vec![2.0, 1.0, 1.0]),
+                row_heights: Some(vec![1.0, 2.0]),
+            },
+        )
+        .unwrap();
+        let rendered = document.render().unwrap();
+        let cells = &rendered.pages[0].elements[0].cells;
+        assert!(cells[0].w_mm > cells[1].w_mm);
     }
 
     #[test]

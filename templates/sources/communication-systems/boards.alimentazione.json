@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Cibi",
-          "symbol": "cibi",
+          "symbol": "Cibi",
           "spoken_text": "Apri i cibi",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Bevande",
-          "symbol": "bevande",
+          "symbol": "Bevande",
           "spoken_text": "Apri le bevande",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Pasti",
-          "symbol": "pasti",
+          "symbol": "Pasti",
           "spoken_text": "Apri i pasti",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Gusti",
-          "symbol": "gusti",
+          "symbol": "Gusti",
           "spoken_text": "Apri i gusti",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Cucinare",
-          "symbol": "cucina",
+          "symbol": "Cucinare",
           "spoken_text": "Apri le azioni in cucina",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi per mangiare",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Voglio mangiare",
-          "symbol": "voglio mangiare",
+          "symbol": "Voglio mangiare",
           "spoken_text": "Voglio mangiare",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Non ho fame",
-          "symbol": "non ho fame",
+          "symbol": "Non ho fame",
           "spoken_text": "Non ho fame",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Pane",
-          "symbol": "pane",
+          "symbol": "Pane",
           "spoken_text": "Vorrei del pane",
           "action": {
             "type": "append"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Pasta",
-          "symbol": "pasta",
+          "symbol": "Pasta",
           "spoken_text": "Vorrei della pasta",
           "action": {
             "type": "append"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Riso",
-          "symbol": "riso",
+          "symbol": "Riso",
           "spoken_text": "Vorrei del riso",
           "action": {
             "type": "append"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Carne",
-          "symbol": "carne",
+          "symbol": "Carne",
           "spoken_text": "Vorrei della carne",
           "action": {
             "type": "append"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Pesce",
-          "symbol": "pesce",
+          "symbol": "Pesce",
           "spoken_text": "Vorrei del pesce",
           "action": {
             "type": "append"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Formaggio",
-          "symbol": "formaggio",
+          "symbol": "Formaggio",
           "spoken_text": "Vorrei del formaggio",
           "action": {
             "type": "append"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Consistenze",
-          "symbol": "consistenze",
+          "symbol": "Consistenze",
           "spoken_text": "Apri le consistenze",
           "action": {
             "type": "navigate",
@@ -285,7 +285,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -330,7 +330,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Morbido",
-          "symbol": "morbido",
+          "symbol": "Morbido",
           "spoken_text": "Vorrei qualcosa di morbido",
           "action": {
             "type": "speak"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Duro",
-          "symbol": "duro",
+          "symbol": "Duro",
           "spoken_text": "È troppo duro per me",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Liquido",
-          "symbol": "liquido",
+          "symbol": "Liquido",
           "spoken_text": "Preferisco cibo liquido",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Frullato",
-          "symbol": "frullato",
+          "symbol": "Frullato",
           "spoken_text": "Vorrei un frullato",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Senza sale",
-          "symbol": "senza sale",
+          "symbol": "Senza sale",
           "spoken_text": "Vorrei senza sale",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Piccante",
-          "symbol": "piccante",
+          "symbol": "Piccante",
           "spoken_text": "Non posso mangiare piccante",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Troppo caldo",
-          "symbol": "troppo caldo",
+          "symbol": "Troppo caldo",
           "spoken_text": "È troppo caldo, aspetto",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -487,7 +487,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Acqua",
-          "symbol": "acqua",
+          "symbol": "Acqua",
           "spoken_text": "Vorrei dell'acqua",
           "action": {
             "type": "append"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Succo",
-          "symbol": "succo",
+          "symbol": "Succo",
           "spoken_text": "Vorrei un succo",
           "action": {
             "type": "append"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Latte",
-          "symbol": "latte",
+          "symbol": "Latte",
           "spoken_text": "Vorrei del latte",
           "action": {
             "type": "append"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Caffè",
-          "symbol": "caffe",
+          "symbol": "Caffè",
           "spoken_text": "Vorrei un caffè",
           "action": {
             "type": "append"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Tè",
-          "symbol": "te",
+          "symbol": "Tè",
           "spoken_text": "Vorrei un tè",
           "action": {
             "type": "append"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Bibita",
-          "symbol": "bibita",
+          "symbol": "Bibita",
           "spoken_text": "Vorrei una bibita",
           "action": {
             "type": "append"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Ghiaccio",
-          "symbol": "ghiaccio",
+          "symbol": "Ghiaccio",
           "spoken_text": "Senza ghiaccio, per favore",
           "action": {
             "type": "speak"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Colazione",
-          "symbol": "colazione",
+          "symbol": "Colazione",
           "spoken_text": "Faccio colazione",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Pranzo",
-          "symbol": "pranzo",
+          "symbol": "Pranzo",
           "spoken_text": "È ora di pranzo",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Cena",
-          "symbol": "cena",
+          "symbol": "Cena",
           "spoken_text": "Cosa c'è per cena?",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Merenda",
-          "symbol": "merenda",
+          "symbol": "Merenda",
           "spoken_text": "Vorrei una merenda",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Porzione",
-          "symbol": "porzione",
+          "symbol": "Porzione",
           "spoken_text": "Una porzione piccola",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Ancora",
-          "symbol": "ancora",
+          "symbol": "Ancora",
           "spoken_text": "Vorrei ancora un po'",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Basta",
-          "symbol": "basta",
+          "symbol": "Basta",
           "spoken_text": "Basta così, grazie",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Mi piace",
-          "symbol": "mi piace",
+          "symbol": "Mi piace",
           "spoken_text": "Mi piace",
           "action": {
             "type": "append"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Non mi piace",
-          "symbol": "non mi piace",
+          "symbol": "Non mi piace",
           "spoken_text": "Non mi piace",
           "action": {
             "type": "append"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Buono",
-          "symbol": "buono",
+          "symbol": "Buono",
           "spoken_text": "È buono",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Saporito",
-          "symbol": "saporito",
+          "symbol": "Saporito",
           "spoken_text": "È molto saporito",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Dolce",
-          "symbol": "dolce",
+          "symbol": "Dolce",
           "spoken_text": "Preferisco il dolce",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Salato",
-          "symbol": "salato",
+          "symbol": "Salato",
           "spoken_text": "È troppo salato",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Amaro",
-          "symbol": "amaro",
+          "symbol": "Amaro",
           "spoken_text": "Questo è amaro",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Cuocere",
-          "symbol": "cuocere",
+          "symbol": "Cuocere",
           "spoken_text": "Devo cuocere",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Tagliare",
-          "symbol": "tagliare",
+          "symbol": "Tagliare",
           "spoken_text": "Mi aiuti a tagliare?",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Scaldare",
-          "symbol": "scaldare",
+          "symbol": "Scaldare",
           "spoken_text": "Posso scaldare?",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Frigorifero",
-          "symbol": "frigorifero",
+          "symbol": "Frigorifero",
           "spoken_text": "Metto in frigorifero",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Piatto",
-          "symbol": "piatto",
+          "symbol": "Piatto",
           "spoken_text": "Mi passi un piatto?",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Posate",
-          "symbol": "posate",
+          "symbol": "Posate",
           "spoken_text": "Mi servono le posate",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Tovagliolo",
-          "symbol": "tovagliolo",
+          "symbol": "Tovagliolo",
           "spoken_text": "Vorrei un tovagliolo",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Voglio mangiare",
-          "symbol": "voglio mangiare frase",
+          "symbol": "Voglio mangiare",
           "spoken_text": "Voglio mangiare",
           "action": {
             "type": "append"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Ho fame",
-          "symbol": "ho fame",
+          "symbol": "Ho fame",
           "spoken_text": "Ho fame",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Non ho fame",
-          "symbol": "non ho fame frase",
+          "symbol": "Non ho fame",
           "spoken_text": "Non ho fame",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Sono a dieta",
-          "symbol": "a dieta",
+          "symbol": "Sono a dieta",
           "spoken_text": "Sono a dieta",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Sono allergico",
-          "symbol": "allergico",
+          "symbol": "Sono allergico",
           "spoken_text": "Sono allergico a un alimento",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Posso avere",
-          "symbol": "posso avere",
+          "symbol": "Posso avere",
           "spoken_text": "Posso avere",
           "action": {
             "type": "append"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Sono sazio",
-          "symbol": "sazio",
+          "symbol": "Sono sazio",
           "spoken_text": "Sono sazio, grazie",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Buon appetito",
-          "symbol": "buon appetito",
+          "symbol": "Buon appetito",
           "spoken_text": "Buon appetito",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

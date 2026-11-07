@@ -536,6 +536,9 @@
 
   function patchSettings(patch: Partial<DocumentSettings>) {
     settings = { ...settings, ...patch };
+    if (patch.speech_enabled !== undefined && native) {
+      void api.setSetting("speech.enabled", String(patch.speech_enabled));
+    }
     void persistSettings();
   }
 
@@ -622,6 +625,7 @@
             settings = { ...defaultSettings };
           }
         }
+        await api.setSetting("speech.enabled", String(settings.speech_enabled));
         await checkRecovery();
       } catch (error) {
         toast(error instanceof Error ? error.message : String(error), "error");
@@ -952,7 +956,7 @@
 
   async function exportUniversal(
     document: UniversalDocument,
-    format: "html" | "svg" | "pdf" | "png"
+    format: "html" | "svg" | "pdf" | "png" | "docx" | "pptx"
   ) {
     if (!native) {
       toast("L'esportazione richiede l'app desktop.", "warn");
@@ -1511,6 +1515,13 @@
   async function speak(text: string) {
     if (!text.trim()) {
       toast("Niente da leggere.", "warn");
+      return;
+    }
+    if (!settings.speech_enabled) {
+      toast(
+        "Sintesi vocale disattivata. Attivala in Impostazioni → Accessibilità.",
+        "warn"
+      );
       return;
     }
     if (!native) {

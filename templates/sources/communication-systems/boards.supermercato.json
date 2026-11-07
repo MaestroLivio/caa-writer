@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Reparti",
-          "symbol": "reparti home",
+          "symbol": "Reparti",
           "spoken_text": "Apri i reparti",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Prodotti",
-          "symbol": "prodotti home",
+          "symbol": "Prodotti",
           "spoken_text": "Apri i prodotti",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Quantità",
-          "symbol": "quantita home",
+          "symbol": "Quantità",
           "spoken_text": "Apri le quantità",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Prezzo",
-          "symbol": "prezzo home",
+          "symbol": "Prezzo",
           "spoken_text": "Apri i prezzi",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Cassa",
-          "symbol": "cassa home",
+          "symbol": "Cassa",
           "spoken_text": "Apri la cassa",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi super",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Vorrei comprare",
-          "symbol": "vorrei comprare",
+          "symbol": "Vorrei comprare",
           "spoken_text": "Vorrei comprare",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Dove trovo",
-          "symbol": "dove trovo",
+          "symbol": "Dove trovo",
           "spoken_text": "Dove trovo",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Frutta",
-          "symbol": "frutta super",
+          "symbol": "Frutta",
           "spoken_text": "Vado al reparto frutta",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Verdura",
-          "symbol": "verdura super",
+          "symbol": "Verdura",
           "spoken_text": "Vado al reparto verdura",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Pane",
-          "symbol": "pane super",
+          "symbol": "Pane",
           "spoken_text": "Vado al reparto pane",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Carne",
-          "symbol": "carne super",
+          "symbol": "Carne",
           "spoken_text": "Vado al reparto carne",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Pesce",
-          "symbol": "pesce super",
+          "symbol": "Pesce",
           "spoken_text": "Vado al reparto pesce",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Latticini",
-          "symbol": "latticini",
+          "symbol": "Latticini",
           "spoken_text": "Vado ai latticini",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Surgelati",
-          "symbol": "surgelati",
+          "symbol": "Surgelati",
           "spoken_text": "Vado ai surgelati",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Latte",
-          "symbol": "latte super",
+          "symbol": "Latte",
           "spoken_text": "Prendo il latte",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Uova",
-          "symbol": "uova",
+          "symbol": "Uova",
           "spoken_text": "Prendo le uova",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Pasta",
-          "symbol": "pasta super",
+          "symbol": "Pasta",
           "spoken_text": "Prendo la pasta",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Riso",
-          "symbol": "riso super",
+          "symbol": "Riso",
           "spoken_text": "Prendo il riso",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Olio",
-          "symbol": "olio",
+          "symbol": "Olio",
           "spoken_text": "Prendo l'olio",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Detersivo",
-          "symbol": "detersivo",
+          "symbol": "Detersivo",
           "spoken_text": "Prendo il detersivo",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Carta",
-          "symbol": "carta casa",
+          "symbol": "Carta",
           "spoken_text": "Prendo la carta casa",
           "action": {
             "type": "speak"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Un chilo",
-          "symbol": "un chilo super",
+          "symbol": "Un chilo",
           "spoken_text": "Un chilo, per favore",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Mezzo chilo",
-          "symbol": "mezzo chilo",
+          "symbol": "Mezzo chilo",
           "spoken_text": "Mezzo chilo",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Un litro",
-          "symbol": "un litro",
+          "symbol": "Un litro",
           "spoken_text": "Un litro",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Una confezione",
-          "symbol": "una confezione",
+          "symbol": "Una confezione",
           "spoken_text": "Una confezione",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Due",
-          "symbol": "due",
+          "symbol": "Due",
           "spoken_text": "Ne prendo due",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Di più",
-          "symbol": "di piu super",
+          "symbol": "Di più",
           "spoken_text": "Ne voglio di più",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Basta",
-          "symbol": "basta super",
+          "symbol": "Basta",
           "spoken_text": "Basta così",
           "action": {
             "type": "speak"
@@ -598,7 +598,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -614,7 +614,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -643,7 +643,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Quanto costa",
-          "symbol": "quanto costa super",
+          "symbol": "Quanto costa",
           "spoken_text": "Quanto costa?",
           "action": {
             "type": "speak"
@@ -659,7 +659,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Caro",
-          "symbol": "caro",
+          "symbol": "Caro",
           "spoken_text": "È troppo caro",
           "action": {
             "type": "speak"
@@ -675,7 +675,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Economico",
-          "symbol": "economico",
+          "symbol": "Economico",
           "spoken_text": "È economico",
           "action": {
             "type": "speak"
@@ -691,7 +691,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Totale",
-          "symbol": "totale",
+          "symbol": "Totale",
           "spoken_text": "Qual è il totale?",
           "action": {
             "type": "speak"
@@ -707,7 +707,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Scontrino",
-          "symbol": "scontrino",
+          "symbol": "Scontrino",
           "spoken_text": "Controllo lo scontrino",
           "action": {
             "type": "speak"
@@ -723,7 +723,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Carta",
-          "symbol": "carta super",
+          "symbol": "Carta",
           "spoken_text": "Pago con la carta",
           "action": {
             "type": "speak"
@@ -739,7 +739,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Offerte",
-          "symbol": "offerte nav",
+          "symbol": "Offerte",
           "spoken_text": "Apri le offerte",
           "action": {
             "type": "navigate",
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Sconto",
-          "symbol": "sconto",
+          "symbol": "Sconto",
           "spoken_text": "C'è uno sconto?",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Offerta",
-          "symbol": "offerta",
+          "symbol": "Offerta",
           "spoken_text": "È in offerta?",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Due per uno",
-          "symbol": "due per uno",
+          "symbol": "Due per uno",
           "spoken_text": "C'è il due per uno?",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Scadenza",
-          "symbol": "scadenza super",
+          "symbol": "Scadenza",
           "spoken_text": "Controllo la scadenza",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Marca",
-          "symbol": "marca",
+          "symbol": "Marca",
           "spoken_text": "Preferisco questa marca",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Biologico",
-          "symbol": "biologico super",
+          "symbol": "Biologico",
           "spoken_text": "Scelgo il biologico",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Risparmiare",
-          "symbol": "risparmiare",
+          "symbol": "Risparmiare",
           "spoken_text": "Voglio risparmiare",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Coda",
-          "symbol": "coda",
+          "symbol": "Coda",
           "spoken_text": "Faccio la coda",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Pagare",
-          "symbol": "pagare super",
+          "symbol": "Pagare",
           "spoken_text": "Devo pagare",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Scontrino",
-          "symbol": "scontrino cassa",
+          "symbol": "Scontrino",
           "spoken_text": "Prendo lo scontrino",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Borsa",
-          "symbol": "borsa",
+          "symbol": "Borsa",
           "spoken_text": "Mi serve una borsa",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Resto",
-          "symbol": "resto super",
+          "symbol": "Resto",
           "spoken_text": "Il resto, per favore",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Self-service",
-          "symbol": "self service",
+          "symbol": "Self-service",
           "spoken_text": "Uso la cassa self-service",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto cassa",
+          "symbol": "Aiuto",
           "spoken_text": "Chiedo aiuto alla cassa",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Dove trovo?",
-          "symbol": "dove trovo frase",
+          "symbol": "Dove trovo?",
           "spoken_text": "Dove trovo?",
           "action": {
             "type": "append"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Quanto costa?",
-          "symbol": "quanto costa frase",
+          "symbol": "Quanto costa?",
           "spoken_text": "Quanto costa?",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Vorrei un chilo di",
-          "symbol": "vorrei chilo",
+          "symbol": "Vorrei un chilo di",
           "spoken_text": "Vorrei un chilo di",
           "action": {
             "type": "append"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "È in offerta?",
-          "symbol": "in offerta",
+          "symbol": "È in offerta?",
           "spoken_text": "È in offerta?",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Ho finito la spesa",
-          "symbol": "spesa finita",
+          "symbol": "Ho finito la spesa",
           "spoken_text": "Ho finito la spesa",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Posso pagare con la carta?",
-          "symbol": "pagare carta",
+          "symbol": "Posso pagare con la carta?",
           "spoken_text": "Posso pagare con la carta?",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Mi serve una borsa",
-          "symbol": "serve borsa",
+          "symbol": "Mi serve una borsa",
           "spoken_text": "Mi serve una borsa",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie super",
+          "symbol": "Grazie",
           "spoken_text": "Grazie, arrivederci",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

@@ -4,6 +4,51 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.11.0 — 2026-11-07
+
+### Librerie tramite API pubbliche
+
+- I repertori completi non sono più duplicati nell'installer: resta il pacchetto
+  `core` per l'offline, mentre ARASAAC/Wikimedia e provider aggiuntivi vengono
+  interrogati via API pubblica quando servono.
+- I risultati scelti vengono scaricati e salvati come copia offline con autore,
+  licenza, URL della fonte e vincoli.
+- Nuovo provider personalizzato configurabile (nome, ID, URL con `{query}`,
+  attivo/disattivo) e contratti JSON documentati; download solo HTTPS pubblico,
+  con blocco di localhost/IP privati.
+- La ricerca del pittogramma nell'editor universale usa prima la libreria locale
+  e, se vuota, propone i risultati delle API pubbliche.
+- Le 330 risorse della biblioteca restano autonome: i pittogrammi usati sono
+  incorporati nei documenti.
+
+### Default prudenti
+
+- **Sintesi vocale disattivata** per default, sia nell'interfaccia sia nel
+  comando backend; si attiva da Impostazioni → Accessibilità.
+- **Profilo prestazionale «Risparmio risorse»** per default (debounce 420/1200
+  ms, modello locale 1 thread, contesto 512, timeout 4 s).
+- I nuovi profili Utilizzatore non includono la voce tra le funzioni predefinite.
+
+### Completamenti
+
+- Griglie con unione/divisione celle, dimensioni per riga/colonna e span.
+- Esportazione DOCX e PPTX (pagine/diapositive come immagini, perdita dichiarata
+  della modifica per singolo elemento); PDF multipagina e PNG prima pagina.
+- Provider IA online configurabile con chiave nel portachiavi del sistema
+  operativo, consenso esplicito e test di connessione.
+- Report della biblioteca con conteggio/esempi di pittogrammi mancanti.
+- Audit aggiornato.
+
+### Limiti dichiarati
+
+- DOCX/PPTX sono visivamente fedeli ma non modificabili elemento per elemento;
+  `.caadoc` resta il formato di riferimento.
+- Senza rete e senza cache, i simboli fuori dal pacchetto `core` non sono
+  disponibili: la ricerca online è esplicita e non blocca la scrittura.
+- Provider online: solo endpoint compatibili con chat completions OpenAI;
+  nessun invio automatico di documenti o dati personali.
+- Windows compilato in modo incrociato ma non eseguito; Linux non compilato.
+
 ## 0.10.0 — 2026-11-07
 
 ### Griglie reali

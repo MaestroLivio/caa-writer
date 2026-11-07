@@ -221,6 +221,37 @@ fn library_documents_export_real_pdf_and_png() {
 }
 
 #[test]
+fn library_documents_export_docx_pptx_and_interactive_html() {
+    let resources = resources();
+    let manifest = manifest();
+    let temp = tempfile::tempdir().unwrap();
+    for source_type in ["template", "board"] {
+        let entry = manifest.entries.iter().find(|e| e.source_type == source_type).unwrap();
+        let document = universal_build::load_universal(&resources.join(&entry.path)).unwrap();
+        let docx = temp.path().join(format!("{source_type}.docx"));
+        let result = caa_writer_lib::export::universal_docx::write(&docx, &document).unwrap();
+        assert!(result.warnings.iter().any(|w| w.contains("immagini")));
+        let file = std::fs::File::open(&docx).unwrap();
+        let mut archive = zip::ZipArchive::new(file).unwrap();
+        assert!(archive.by_name("word/document.xml").is_ok());
+        assert!(archive.by_name("word/media/page1.png").is_ok());
+
+        let pptx = temp.path().join(format!("{source_type}.pptx"));
+        let result = caa_writer_lib::export::universal_pptx::write(&pptx, &document).unwrap();
+        assert!(result.warnings.iter().any(|w| w.contains("diapositiva")));
+        let file = std::fs::File::open(&pptx).unwrap();
+        let mut archive = zip::ZipArchive::new(file).unwrap();
+        assert!(archive.by_name("ppt/presentation.xml").is_ok());
+        assert!(archive.by_name("ppt/slides/slide1.xml").is_ok());
+
+        let html = universal_build::export_html(&document).unwrap();
+        assert!(html.contains("caa-bar"));
+        assert!(html.contains("caaAppend"));
+        assert!(html.contains("data-page"));
+    }
+}
+
+#[test]
 fn legacy_layout_is_migrated_without_losing_symbols() {
     let mut spec = caa_writer_lib::layout::LayoutSpecification::default();
     spec.title = "Legacy".to_string();

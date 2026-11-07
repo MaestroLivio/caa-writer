@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Stanze",
-          "symbol": "stanze home",
+          "symbol": "Stanze",
           "spoken_text": "Apri le stanze",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Oggetti",
-          "symbol": "oggetti home",
+          "symbol": "Oggetti",
           "spoken_text": "Apri gli oggetti",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Faccende",
-          "symbol": "faccende home",
+          "symbol": "Faccende",
           "spoken_text": "Apri le faccende",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Sicurezza",
-          "symbol": "sicurezza home",
+          "symbol": "Sicurezza",
           "spoken_text": "Apri la sicurezza",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Ospiti",
-          "symbol": "ospiti home",
+          "symbol": "Ospiti",
           "spoken_text": "Apri gli ospiti",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi casa home",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Dove si trova",
-          "symbol": "dove si trova",
+          "symbol": "Dove si trova",
           "spoken_text": "Dove si trova",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Mi scusi",
-          "symbol": "mi scusi home",
+          "symbol": "Mi scusi",
           "spoken_text": "Mi scusi",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Cucina",
-          "symbol": "cucina casa",
+          "symbol": "Cucina",
           "spoken_text": "Vado in cucina",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Bagno",
-          "symbol": "bagno casa",
+          "symbol": "Bagno",
           "spoken_text": "Vado in bagno",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Camera",
-          "symbol": "camera casa",
+          "symbol": "Camera",
           "spoken_text": "Vado in camera",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Salotto",
-          "symbol": "salotto casa",
+          "symbol": "Salotto",
           "spoken_text": "Vado in salotto",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Ingresso",
-          "symbol": "ingresso",
+          "symbol": "Ingresso",
           "spoken_text": "Sono in ingresso",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Balcone",
-          "symbol": "balcone",
+          "symbol": "Balcone",
           "spoken_text": "Vado sul balcone",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Cantina",
-          "symbol": "cantina",
+          "symbol": "Cantina",
           "spoken_text": "Scendo in cantina",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Tavolo",
-          "symbol": "tavolo casa",
+          "symbol": "Tavolo",
           "spoken_text": "Mi serve il tavolo",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Sedia",
-          "symbol": "sedia",
+          "symbol": "Sedia",
           "spoken_text": "Mi serve una sedia",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Letto",
-          "symbol": "letto casa",
+          "symbol": "Letto",
           "spoken_text": "Vado a letto",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Armadio",
-          "symbol": "armadio",
+          "symbol": "Armadio",
           "spoken_text": "Apro l'armadio",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Lampada",
-          "symbol": "lampada",
+          "symbol": "Lampada",
           "spoken_text": "Accendo la lampada",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Tappeto",
-          "symbol": "tappeto",
+          "symbol": "Tappeto",
           "spoken_text": "Il tappeto è sporco",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Chiavi",
-          "symbol": "chiavi casa",
+          "symbol": "Chiavi",
           "spoken_text": "Dove sono le chiavi?",
           "action": {
             "type": "speak"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Pulire",
-          "symbol": "pulire",
+          "symbol": "Pulire",
           "spoken_text": "Devo pulire",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Lavare",
-          "symbol": "lavare casa",
+          "symbol": "Lavare",
           "spoken_text": "Devo lavare",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Stendere",
-          "symbol": "stendere",
+          "symbol": "Stendere",
           "spoken_text": "Stendo i panni",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Spazzare",
-          "symbol": "spazzare",
+          "symbol": "Spazzare",
           "spoken_text": "Spazzo il pavimento",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Riordinare",
-          "symbol": "riordinare",
+          "symbol": "Riordinare",
           "spoken_text": "Riordino la stanza",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Buttare",
-          "symbol": "buttare",
+          "symbol": "Buttare",
           "spoken_text": "Butto la spazzatura",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Manutenzione",
-          "symbol": "manutenzione nav",
+          "symbol": "Manutenzione",
           "spoken_text": "Apri la manutenzione",
           "action": {
             "type": "navigate",
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Riparare",
-          "symbol": "riparare",
+          "symbol": "Riparare",
           "spoken_text": "Devo riparare qualcosa",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Perdita",
-          "symbol": "perdita",
+          "symbol": "Perdita",
           "spoken_text": "C'è una perdita",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Lampadina",
-          "symbol": "lampadina",
+          "symbol": "Lampadina",
           "spoken_text": "La lampadina è bruciata",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Presa",
-          "symbol": "presa",
+          "symbol": "Presa",
           "spoken_text": "La presa non funziona",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Tubo",
-          "symbol": "tubo",
+          "symbol": "Tubo",
           "spoken_text": "Il tubo perde",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Attrezzi",
-          "symbol": "attrezzi",
+          "symbol": "Attrezzi",
           "spoken_text": "Mi servono gli attrezzi",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Tecnico",
-          "symbol": "tecnico",
+          "symbol": "Tecnico",
           "spoken_text": "Devo chiamare un tecnico",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Porta chiusa",
-          "symbol": "porta chiusa",
+          "symbol": "Porta chiusa",
           "spoken_text": "La porta è chiusa",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Finestra",
-          "symbol": "finestra sicurezza",
+          "symbol": "Finestra",
           "spoken_text": "Chiudo la finestra",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Gas",
-          "symbol": "gas",
+          "symbol": "Gas",
           "spoken_text": "Sento odore di gas",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Fuoco",
-          "symbol": "fuoco",
+          "symbol": "Fuoco",
           "spoken_text": "C'è del fuoco",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Allarme",
-          "symbol": "allarme",
+          "symbol": "Allarme",
           "spoken_text": "Suona l'allarme",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Chiave",
-          "symbol": "chiave",
+          "symbol": "Chiave",
           "spoken_text": "Ho perso la chiave",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Uscita",
-          "symbol": "uscita casa",
+          "symbol": "Uscita",
           "spoken_text": "Dov'è l'uscita?",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Campanello",
-          "symbol": "campanello casa",
+          "symbol": "Campanello",
           "spoken_text": "Suona il campanello",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Accogliere",
-          "symbol": "accogliere",
+          "symbol": "Accogliere",
           "spoken_text": "Accolgo gli ospiti",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Offrire",
-          "symbol": "offrire",
+          "symbol": "Offrire",
           "spoken_text": "Offro da bere",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Sedersi",
-          "symbol": "sedersi",
+          "symbol": "Sedersi",
           "spoken_text": "Prego, si sieda",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Conversare",
-          "symbol": "conversare casa",
+          "symbol": "Conversare",
           "spoken_text": "Conversiamo un po'",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Accompagnare",
-          "symbol": "accompagnare",
+          "symbol": "Accompagnare",
           "spoken_text": "Accompagno alla porta",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Arrivederci",
-          "symbol": "arrivederci casa",
+          "symbol": "Arrivederci",
           "spoken_text": "Arrivederci, grazie",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Dove si trova",
-          "symbol": "dove si trova frase",
+          "symbol": "Dove si trova",
           "spoken_text": "Dove si trova",
           "action": {
             "type": "append"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Posso aprire la finestra?",
-          "symbol": "aprire finestra",
+          "symbol": "Posso aprire la finestra?",
           "spoken_text": "Posso aprire la finestra?",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Fa caldo",
-          "symbol": "fa caldo casa",
+          "symbol": "Fa caldo",
           "spoken_text": "Fa caldo",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Ho bisogno di aiuto",
-          "symbol": "aiuto casa",
+          "symbol": "Ho bisogno di aiuto",
           "spoken_text": "Ho bisogno di aiuto",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Il rubinetto perde",
-          "symbol": "rubinetto perde",
+          "symbol": "Il rubinetto perde",
           "spoken_text": "Il rubinetto perde",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Chiudi la porta",
-          "symbol": "chiudi porta",
+          "symbol": "Chiudi la porta",
           "spoken_text": "Chiudi la porta, per favore",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Mi scusi",
-          "symbol": "mi scusi casa",
+          "symbol": "Mi scusi",
           "spoken_text": "Mi scusi per il disturbo",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie casa",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'ospitalità",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Preparare",
-          "symbol": "preparare home",
+          "symbol": "Preparare",
           "spoken_text": "Apri la preparazione",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Muoversi",
-          "symbol": "muoversi home",
+          "symbol": "Muoversi",
           "spoken_text": "Apri gli spostamenti",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Alloggio",
-          "symbol": "alloggio home",
+          "symbol": "Alloggio",
           "spoken_text": "Apri l'alloggio",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Problemi",
-          "symbol": "problemi viaggio",
+          "symbol": "Problemi",
           "spoken_text": "Apri i problemi",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Documenti",
-          "symbol": "documenti viaggio",
+          "symbol": "Documenti",
           "spoken_text": "Apri i documenti",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi viaggio",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Ho bisogno di",
-          "symbol": "ho bisogno viaggio",
+          "symbol": "Ho bisogno di",
           "spoken_text": "Ho bisogno di",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Parlo italiano",
-          "symbol": "parlo italiano",
+          "symbol": "Parlo italiano",
           "spoken_text": "Parlo italiano",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Valigia",
-          "symbol": "valigia",
+          "symbol": "Valigia",
           "spoken_text": "Preparo la valigia",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Biglietti",
-          "symbol": "biglietti viaggio",
+          "symbol": "Biglietti",
           "spoken_text": "Controllo i biglietti",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Passaporto",
-          "symbol": "passaporto prep",
+          "symbol": "Passaporto",
           "spoken_text": "Prendo il passaporto",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Prenotazione",
-          "symbol": "prenotazione prep",
+          "symbol": "Prenotazione",
           "spoken_text": "Controllo la prenotazione",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Caricabatterie",
-          "symbol": "caricabatterie prep",
+          "symbol": "Caricabatterie",
           "spoken_text": "Prendo il caricabatterie",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Medicine",
-          "symbol": "medicine viaggio",
+          "symbol": "Medicine",
           "spoken_text": "Prendo le medicine",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Valigia dettagli",
-          "symbol": "valigia nav",
+          "symbol": "Valigia dettagli",
           "spoken_text": "Apri il contenuto della valigia",
           "action": {
             "type": "navigate",
@@ -285,7 +285,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -330,7 +330,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Vestiti",
-          "symbol": "vestiti valigia",
+          "symbol": "Vestiti",
           "spoken_text": "Metto i vestiti",
           "action": {
             "type": "speak"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Scarpe",
-          "symbol": "scarpe valigia",
+          "symbol": "Scarpe",
           "spoken_text": "Metto le scarpe",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Spazzolino",
-          "symbol": "spazzolino valigia",
+          "symbol": "Spazzolino",
           "spoken_text": "Metto lo spazzolino",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Caricabatterie",
-          "symbol": "caricabatterie valigia",
+          "symbol": "Caricabatterie",
           "spoken_text": "Metto il caricabatterie",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Medicine",
-          "symbol": "medicine valigia",
+          "symbol": "Medicine",
           "spoken_text": "Metto le medicine",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Libri",
-          "symbol": "libri valigia",
+          "symbol": "Libri",
           "spoken_text": "Metto un libro",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Bagaglio a mano",
-          "symbol": "bagaglio mano",
+          "symbol": "Bagaglio a mano",
           "spoken_text": "Preparo il bagaglio a mano",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -487,7 +487,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Aeroporto",
-          "symbol": "aeroporto",
+          "symbol": "Aeroporto",
           "spoken_text": "Vado in aeroporto",
           "action": {
             "type": "speak"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Stazione",
-          "symbol": "stazione viaggio",
+          "symbol": "Stazione",
           "spoken_text": "Vado in stazione",
           "action": {
             "type": "speak"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Hotel",
-          "symbol": "hotel",
+          "symbol": "Hotel",
           "spoken_text": "Cerco l'hotel",
           "action": {
             "type": "speak"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Taxi",
-          "symbol": "taxi viaggio",
+          "symbol": "Taxi",
           "spoken_text": "Prendo un taxi",
           "action": {
             "type": "speak"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Mappa",
-          "symbol": "mappa viaggio",
+          "symbol": "Mappa",
           "spoken_text": "Guardo la mappa",
           "action": {
             "type": "speak"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Orientarsi",
-          "symbol": "orientarsi",
+          "symbol": "Orientarsi",
           "spoken_text": "Provo a orientarmi",
           "action": {
             "type": "speak"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Chiedere",
-          "symbol": "chiedere viaggio",
+          "symbol": "Chiedere",
           "spoken_text": "Chiedo indicazioni",
           "action": {
             "type": "speak"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Reception",
-          "symbol": "reception",
+          "symbol": "Reception",
           "spoken_text": "Vado alla reception",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Camera",
-          "symbol": "camera hotel",
+          "symbol": "Camera",
           "spoken_text": "La camera è pronta?",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Chiave",
-          "symbol": "chiave hotel",
+          "symbol": "Chiave",
           "spoken_text": "Prendo la chiave",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Colazione",
-          "symbol": "colazione hotel",
+          "symbol": "Colazione",
           "spoken_text": "A che ora è la colazione?",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Check-in",
-          "symbol": "check in",
+          "symbol": "Check-in",
           "spoken_text": "Faccio il check-in",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Check-out",
-          "symbol": "check out",
+          "symbol": "Check-out",
           "spoken_text": "Faccio il check-out",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Wifi",
-          "symbol": "wifi hotel",
+          "symbol": "Wifi",
           "spoken_text": "Qual è la password del wifi?",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Bagaglio perso",
-          "symbol": "bagaglio perso",
+          "symbol": "Bagaglio perso",
           "spoken_text": "Ho perso il bagaglio",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Ritardo",
-          "symbol": "ritardo viaggio",
+          "symbol": "Ritardo",
           "spoken_text": "C'è un ritardo",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Prenotazione",
-          "symbol": "problema prenotazione",
+          "symbol": "Prenotazione",
           "spoken_text": "C'è un problema con la prenotazione",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Stanza",
-          "symbol": "problema stanza",
+          "symbol": "Stanza",
           "spoken_text": "La stanza non va bene",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Lingua",
-          "symbol": "problema lingua",
+          "symbol": "Lingua",
           "spoken_text": "Non capisco la lingua",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Emergenza",
-          "symbol": "emergenza viaggio",
+          "symbol": "Emergenza",
           "spoken_text": "È un'emergenza",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto viaggio",
+          "symbol": "Aiuto",
           "spoken_text": "Ho bisogno di aiuto",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Passaporto",
-          "symbol": "passaporto",
+          "symbol": "Passaporto",
           "spoken_text": "Ecco il passaporto",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Carta d'identità",
-          "symbol": "carta identita viaggio",
+          "symbol": "Carta d'identità",
           "spoken_text": "Ecco la carta d'identità",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Visto",
-          "symbol": "visto",
+          "symbol": "Visto",
           "spoken_text": "Ho il visto",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Assicurazione",
-          "symbol": "assicurazione",
+          "symbol": "Assicurazione",
           "spoken_text": "Ho l'assicurazione",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Prenotazione",
-          "symbol": "prenotazione doc",
+          "symbol": "Prenotazione",
           "spoken_text": "Ecco la prenotazione",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Indirizzo",
-          "symbol": "indirizzo",
+          "symbol": "Indirizzo",
           "spoken_text": "Questo è l'indirizzo",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Telefono",
-          "symbol": "telefono viaggio",
+          "symbol": "Telefono",
           "spoken_text": "Questo è il mio telefono",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Dov'è il bagno?",
-          "symbol": "bagno viaggio",
+          "symbol": "Dov'è il bagno?",
           "spoken_text": "Dov'è il bagno?",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Parlo italiano",
-          "symbol": "parlo italiano frase",
+          "symbol": "Parlo italiano",
           "spoken_text": "Parlo italiano",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Non capisco",
-          "symbol": "non capisco viaggio",
+          "symbol": "Non capisco",
           "spoken_text": "Non capisco",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Mi può aiutare?",
-          "symbol": "mi puo aiutare",
+          "symbol": "Mi può aiutare?",
           "spoken_text": "Mi può aiutare?",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Ho una prenotazione",
-          "symbol": "ho prenotazione",
+          "symbol": "Ho una prenotazione",
           "spoken_text": "Ho una prenotazione",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Dov'è la fermata?",
-          "symbol": "fermata viaggio",
+          "symbol": "Dov'è la fermata?",
           "spoken_text": "Dov'è la fermata?",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Ho perso il bagaglio",
-          "symbol": "perso bagaglio",
+          "symbol": "Ho perso il bagaglio",
           "spoken_text": "Ho perso il bagaglio",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie viaggio",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'aiuto",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

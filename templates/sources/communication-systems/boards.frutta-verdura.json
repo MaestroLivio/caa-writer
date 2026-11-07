@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Frutta",
-          "symbol": "frutta",
+          "symbol": "Frutta",
           "spoken_text": "Apri la frutta",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Verdura",
-          "symbol": "verdura",
+          "symbol": "Verdura",
           "spoken_text": "Apri la verdura",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Mercato",
-          "symbol": "mercato",
+          "symbol": "Mercato",
           "spoken_text": "Apri il mercato",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Preparazione",
-          "symbol": "preparazione",
+          "symbol": "Preparazione",
           "spoken_text": "Apri la preparazione",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Gusto",
-          "symbol": "gusto",
+          "symbol": "Gusto",
           "spoken_text": "Apri il gusto",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Vorrei della frutta",
-          "symbol": "vorrei frutta",
+          "symbol": "Vorrei della frutta",
           "spoken_text": "Vorrei della frutta",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "È fresco",
-          "symbol": "fresco home",
+          "symbol": "È fresco",
           "spoken_text": "È fresco",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Mela",
-          "symbol": "mela",
+          "symbol": "Mela",
           "spoken_text": "Vorrei una mela",
           "action": {
             "type": "append"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Banana",
-          "symbol": "banana",
+          "symbol": "Banana",
           "spoken_text": "Vorrei una banana",
           "action": {
             "type": "append"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Arancia",
-          "symbol": "arancia",
+          "symbol": "Arancia",
           "spoken_text": "Vorrei un'arancia",
           "action": {
             "type": "append"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Pera",
-          "symbol": "pera",
+          "symbol": "Pera",
           "spoken_text": "Vorrei una pera",
           "action": {
             "type": "append"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Fragola",
-          "symbol": "fragola",
+          "symbol": "Fragola",
           "spoken_text": "Vorrei delle fragole",
           "action": {
             "type": "append"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Uva",
-          "symbol": "uva",
+          "symbol": "Uva",
           "spoken_text": "Vorrei dell'uva",
           "action": {
             "type": "append"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Altri frutti",
-          "symbol": "altri frutti",
+          "symbol": "Altri frutti",
           "spoken_text": "Apri gli altri frutti",
           "action": {
             "type": "navigate",
@@ -285,7 +285,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -330,7 +330,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Ananas",
-          "symbol": "ananas",
+          "symbol": "Ananas",
           "spoken_text": "Vorrei l'ananas",
           "action": {
             "type": "speak"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Melone",
-          "symbol": "melone",
+          "symbol": "Melone",
           "spoken_text": "Vorrei del melone",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Anguria",
-          "symbol": "anguria",
+          "symbol": "Anguria",
           "spoken_text": "Vorrei dell'anguria",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Kiwi",
-          "symbol": "kiwi",
+          "symbol": "Kiwi",
           "spoken_text": "Vorrei un kiwi",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Limone",
-          "symbol": "limone",
+          "symbol": "Limone",
           "spoken_text": "Vorrei un limone",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Ciliegie",
-          "symbol": "ciliegie",
+          "symbol": "Ciliegie",
           "spoken_text": "Vorrei delle ciliegie",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Prugna",
-          "symbol": "prugna",
+          "symbol": "Prugna",
           "spoken_text": "Vorrei una prugna",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -487,7 +487,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Insalata",
-          "symbol": "insalata",
+          "symbol": "Insalata",
           "spoken_text": "Vorrei dell'insalata",
           "action": {
             "type": "append"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Pomodoro",
-          "symbol": "pomodoro",
+          "symbol": "Pomodoro",
           "spoken_text": "Vorrei un pomodoro",
           "action": {
             "type": "append"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Carota",
-          "symbol": "carota",
+          "symbol": "Carota",
           "spoken_text": "Vorrei una carota",
           "action": {
             "type": "append"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Zucchina",
-          "symbol": "zucchina",
+          "symbol": "Zucchina",
           "spoken_text": "Vorrei una zucchina",
           "action": {
             "type": "append"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Broccoli",
-          "symbol": "broccoli",
+          "symbol": "Broccoli",
           "spoken_text": "Vorrei dei broccoli",
           "action": {
             "type": "append"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Patata",
-          "symbol": "patata",
+          "symbol": "Patata",
           "spoken_text": "Vorrei una patata",
           "action": {
             "type": "append"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Cipolla",
-          "symbol": "cipolla",
+          "symbol": "Cipolla",
           "spoken_text": "Preferisco senza cipolla",
           "action": {
             "type": "speak"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Comprare",
-          "symbol": "comprare",
+          "symbol": "Comprare",
           "spoken_text": "Vorrei comprare",
           "action": {
             "type": "append"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Un chilo",
-          "symbol": "un chilo",
+          "symbol": "Un chilo",
           "spoken_text": "Un chilo, per favore",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Maturo",
-          "symbol": "maturo",
+          "symbol": "Maturo",
           "spoken_text": "È maturo?",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Fresco",
-          "symbol": "fresco",
+          "symbol": "Fresco",
           "spoken_text": "È fresco?",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Biologico",
-          "symbol": "biologico",
+          "symbol": "Biologico",
           "spoken_text": "È biologico?",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Prezzo",
-          "symbol": "prezzo",
+          "symbol": "Prezzo",
           "spoken_text": "Quanto costa?",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Stagioni",
-          "symbol": "stagioni",
+          "symbol": "Stagioni",
           "spoken_text": "Apri le stagioni",
           "action": {
             "type": "navigate",
@@ -757,7 +757,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -773,7 +773,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -802,7 +802,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Primavera",
-          "symbol": "primavera",
+          "symbol": "Primavera",
           "spoken_text": "In primavera",
           "action": {
             "type": "speak"
@@ -818,7 +818,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Estate",
-          "symbol": "estate",
+          "symbol": "Estate",
           "spoken_text": "In estate",
           "action": {
             "type": "speak"
@@ -834,7 +834,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Autunno",
-          "symbol": "autunno",
+          "symbol": "Autunno",
           "spoken_text": "In autunno",
           "action": {
             "type": "speak"
@@ -850,7 +850,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Inverno",
-          "symbol": "inverno",
+          "symbol": "Inverno",
           "spoken_text": "In inverno",
           "action": {
             "type": "speak"
@@ -866,7 +866,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Di stagione",
-          "symbol": "di stagione",
+          "symbol": "Di stagione",
           "spoken_text": "È di stagione?",
           "action": {
             "type": "speak"
@@ -882,7 +882,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Surgelato",
-          "symbol": "surgelato",
+          "symbol": "Surgelato",
           "spoken_text": "Va bene anche surgelato",
           "action": {
             "type": "speak"
@@ -898,7 +898,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Serra",
-          "symbol": "serra",
+          "symbol": "Serra",
           "spoken_text": "Viene dalla serra",
           "action": {
             "type": "speak"
@@ -914,7 +914,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -930,7 +930,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -959,7 +959,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Lavare",
-          "symbol": "lavare",
+          "symbol": "Lavare",
           "spoken_text": "Devo lavare la verdura",
           "action": {
             "type": "speak"
@@ -975,7 +975,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Pelare",
-          "symbol": "pelare",
+          "symbol": "Pelare",
           "spoken_text": "Mi aiuti a pelare?",
           "action": {
             "type": "speak"
@@ -991,7 +991,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Tagliare",
-          "symbol": "tagliare frutta",
+          "symbol": "Tagliare",
           "spoken_text": "Taglio a pezzi",
           "action": {
             "type": "speak"
@@ -1007,7 +1007,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Cuocere",
-          "symbol": "cuocere verdura",
+          "symbol": "Cuocere",
           "spoken_text": "Lo cuocio al vapore",
           "action": {
             "type": "speak"
@@ -1023,7 +1023,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Crudo",
-          "symbol": "crudo",
+          "symbol": "Crudo",
           "spoken_text": "Lo preferisco crudo",
           "action": {
             "type": "speak"
@@ -1039,7 +1039,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Cotto",
-          "symbol": "cotto",
+          "symbol": "Cotto",
           "spoken_text": "Lo preferisco cotto",
           "action": {
             "type": "speak"
@@ -1055,7 +1055,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Servire",
-          "symbol": "servire",
+          "symbol": "Servire",
           "spoken_text": "Lo servo in tavola",
           "action": {
             "type": "speak"
@@ -1071,7 +1071,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1087,7 +1087,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1116,7 +1116,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Mi piace",
-          "symbol": "mi piace frutta",
+          "symbol": "Mi piace",
           "spoken_text": "Mi piace la frutta",
           "action": {
             "type": "speak"
@@ -1132,7 +1132,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Non mi piace",
-          "symbol": "non mi piace verdura",
+          "symbol": "Non mi piace",
           "spoken_text": "Non mi piace la verdura",
           "action": {
             "type": "speak"
@@ -1148,7 +1148,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Dolce",
-          "symbol": "dolce frutta",
+          "symbol": "Dolce",
           "spoken_text": "È dolce",
           "action": {
             "type": "speak"
@@ -1164,7 +1164,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Acido",
-          "symbol": "acido",
+          "symbol": "Acido",
           "spoken_text": "È troppo acido",
           "action": {
             "type": "speak"
@@ -1180,7 +1180,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Maturo",
-          "symbol": "maturo gusto",
+          "symbol": "Maturo",
           "spoken_text": "È molto maturo",
           "action": {
             "type": "speak"
@@ -1196,7 +1196,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Sodo",
-          "symbol": "sodo",
+          "symbol": "Sodo",
           "spoken_text": "È ancora sodo",
           "action": {
             "type": "speak"
@@ -1212,7 +1212,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Assaggiare",
-          "symbol": "assaggiare",
+          "symbol": "Assaggiare",
           "spoken_text": "Posso assaggiare?",
           "action": {
             "type": "speak"
@@ -1228,7 +1228,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1244,7 +1244,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1273,7 +1273,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Vorrei della frutta",
-          "symbol": "vorrei frutta frase",
+          "symbol": "Vorrei della frutta",
           "spoken_text": "Vorrei della frutta",
           "action": {
             "type": "append"
@@ -1289,7 +1289,7 @@
           "id": "c73",
           "kind": "symbol",
           "text": "Vorrei della verdura",
-          "symbol": "vorrei verdura",
+          "symbol": "Vorrei della verdura",
           "spoken_text": "Vorrei della verdura",
           "action": {
             "type": "append"
@@ -1305,7 +1305,7 @@
           "id": "c74",
           "kind": "symbol",
           "text": "È fresco?",
-          "symbol": "fresco domanda",
+          "symbol": "È fresco?",
           "spoken_text": "È fresco?",
           "action": {
             "type": "speak"
@@ -1321,7 +1321,7 @@
           "id": "c75",
           "kind": "symbol",
           "text": "Quanto costa?",
-          "symbol": "quanto costa",
+          "symbol": "Quanto costa?",
           "spoken_text": "Quanto costa?",
           "action": {
             "type": "speak"
@@ -1337,7 +1337,7 @@
           "id": "c76",
           "kind": "symbol",
           "text": "Non mi piace",
-          "symbol": "non mi piace frase",
+          "symbol": "Non mi piace",
           "spoken_text": "Non mi piace",
           "action": {
             "type": "speak"
@@ -1353,7 +1353,7 @@
           "id": "c77",
           "kind": "symbol",
           "text": "Sono allergico",
-          "symbol": "allergico frutta",
+          "symbol": "Sono allergico",
           "spoken_text": "Sono allergico a un frutto",
           "action": {
             "type": "speak"
@@ -1369,7 +1369,7 @@
           "id": "c78",
           "kind": "symbol",
           "text": "Posso assaggiare?",
-          "symbol": "posso assaggiare",
+          "symbol": "Posso assaggiare?",
           "spoken_text": "Posso assaggiare?",
           "action": {
             "type": "speak"
@@ -1385,7 +1385,7 @@
           "id": "c79",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie frutta",
+          "symbol": "Grazie",
           "spoken_text": "Grazie, molto gentile",
           "action": {
             "type": "speak"
@@ -1401,7 +1401,7 @@
           "id": "c80",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1417,7 +1417,7 @@
           "id": "c81",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

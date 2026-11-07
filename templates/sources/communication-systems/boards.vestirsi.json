@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Vestiti",
-          "symbol": "vestiti",
+          "symbol": "Vestiti",
           "spoken_text": "Apri i vestiti",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Meteo",
-          "symbol": "meteo",
+          "symbol": "Meteo",
           "spoken_text": "Apri il meteo",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Occasioni",
-          "symbol": "occasioni",
+          "symbol": "Occasioni",
           "spoken_text": "Apri le occasioni",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Vestizione",
-          "symbol": "vestizione",
+          "symbol": "Vestizione",
           "spoken_text": "Apri la vestizione",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Colori",
-          "symbol": "colori",
+          "symbol": "Colori",
           "spoken_text": "Apri i colori",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Voglio indossare",
-          "symbol": "voglio indossare",
+          "symbol": "Voglio indossare",
           "spoken_text": "Voglio indossare",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Mi aiuti a vestirmi",
-          "symbol": "aiuto vestirmi home",
+          "symbol": "Mi aiuti a vestirmi",
           "spoken_text": "Mi aiuti a vestirmi?",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Maglietta",
-          "symbol": "maglietta",
+          "symbol": "Maglietta",
           "spoken_text": "Vorrei la maglietta",
           "action": {
             "type": "append"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Pantaloni",
-          "symbol": "pantaloni",
+          "symbol": "Pantaloni",
           "spoken_text": "Vorrei i pantaloni",
           "action": {
             "type": "append"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Felpa",
-          "symbol": "felpa",
+          "symbol": "Felpa",
           "spoken_text": "Vorrei la felpa",
           "action": {
             "type": "append"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Giacca",
-          "symbol": "giacca",
+          "symbol": "Giacca",
           "spoken_text": "Vorrei la giacca",
           "action": {
             "type": "append"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Scarpe",
-          "symbol": "scarpe",
+          "symbol": "Scarpe",
           "spoken_text": "Vorrei le scarpe",
           "action": {
             "type": "append"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Calze",
-          "symbol": "calze",
+          "symbol": "Calze",
           "spoken_text": "Vorrei le calze",
           "action": {
             "type": "append"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Biancheria",
-          "symbol": "biancheria",
+          "symbol": "Biancheria",
           "spoken_text": "Mi serve la biancheria",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Taglie",
-          "symbol": "taglie nav",
+          "symbol": "Taglie",
           "spoken_text": "Apri le taglie",
           "action": {
             "type": "navigate",
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -317,7 +317,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Piccola",
-          "symbol": "piccola",
+          "symbol": "Piccola",
           "spoken_text": "Va bene una taglia piccola",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Media",
-          "symbol": "media",
+          "symbol": "Media",
           "spoken_text": "Prendo una taglia media",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Grande",
-          "symbol": "grande",
+          "symbol": "Grande",
           "spoken_text": "Mi serve una taglia grande",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Stretta",
-          "symbol": "stretta",
+          "symbol": "Stretta",
           "spoken_text": "È troppo stretta",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Larga",
-          "symbol": "larga",
+          "symbol": "Larga",
           "spoken_text": "È troppo larga",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Lunga",
-          "symbol": "lunga",
+          "symbol": "Lunga",
           "spoken_text": "È troppo lunga",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Corta",
-          "symbol": "corta",
+          "symbol": "Corta",
           "spoken_text": "È troppo corta",
           "action": {
             "type": "speak"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -474,7 +474,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Caldo",
-          "symbol": "caldo meteo",
+          "symbol": "Caldo",
           "spoken_text": "Fa caldo",
           "action": {
             "type": "speak"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Freddo",
-          "symbol": "freddo meteo",
+          "symbol": "Freddo",
           "spoken_text": "Fa freddo",
           "action": {
             "type": "speak"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Pioggia",
-          "symbol": "pioggia",
+          "symbol": "Pioggia",
           "spoken_text": "Sta piovendo",
           "action": {
             "type": "speak"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Vento",
-          "symbol": "vento",
+          "symbol": "Vento",
           "spoken_text": "C'è vento",
           "action": {
             "type": "speak"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Neve",
-          "symbol": "neve",
+          "symbol": "Neve",
           "spoken_text": "Nevica",
           "action": {
             "type": "speak"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Sole",
-          "symbol": "sole",
+          "symbol": "Sole",
           "spoken_text": "C'è il sole",
           "action": {
             "type": "speak"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Nuvoloso",
-          "symbol": "nuvoloso",
+          "symbol": "Nuvoloso",
           "spoken_text": "È nuvoloso",
           "action": {
             "type": "speak"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -631,7 +631,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Casa",
-          "symbol": "casa occ",
+          "symbol": "Casa",
           "spoken_text": "Per stare in casa",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Scuola",
-          "symbol": "scuola occ",
+          "symbol": "Scuola",
           "spoken_text": "Per andare a scuola",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Lavoro",
-          "symbol": "lavoro occ",
+          "symbol": "Lavoro",
           "spoken_text": "Per andare al lavoro",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Festa",
-          "symbol": "festa occ",
+          "symbol": "Festa",
           "spoken_text": "Per una festa",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Sport",
-          "symbol": "sport occ",
+          "symbol": "Sport",
           "spoken_text": "Per fare sport",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Cerimonia",
-          "symbol": "cerimonia",
+          "symbol": "Cerimonia",
           "spoken_text": "Per una cerimonia",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Mare",
-          "symbol": "mare occ",
+          "symbol": "Mare",
           "spoken_text": "Per andare al mare",
           "action": {
             "type": "speak"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -788,7 +788,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Indossare",
-          "symbol": "indossare",
+          "symbol": "Indossare",
           "spoken_text": "Indosso il capo",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Togliere",
-          "symbol": "togliere",
+          "symbol": "Togliere",
           "spoken_text": "Voglio togliermi questo",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Allacciare",
-          "symbol": "allacciare",
+          "symbol": "Allacciare",
           "spoken_text": "Mi aiuti ad allacciare?",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Abbottonare",
-          "symbol": "abbottonare",
+          "symbol": "Abbottonare",
           "spoken_text": "Devo abbottonare",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Cerniera",
-          "symbol": "cerniera",
+          "symbol": "Cerniera",
           "spoken_text": "Chiudi la cerniera",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto vest",
+          "symbol": "Aiuto",
           "spoken_text": "Mi serve aiuto",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Specchio",
-          "symbol": "specchio vest",
+          "symbol": "Specchio",
           "spoken_text": "Mi guardo allo specchio",
           "action": {
             "type": "speak"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -945,7 +945,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Bianco",
-          "symbol": "bianco",
+          "symbol": "Bianco",
           "spoken_text": "Preferisco il bianco",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Nero",
-          "symbol": "nero",
+          "symbol": "Nero",
           "spoken_text": "Preferisco il nero",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Blu",
-          "symbol": "blu",
+          "symbol": "Blu",
           "spoken_text": "Mi piace il blu",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Rosso",
-          "symbol": "rosso",
+          "symbol": "Rosso",
           "spoken_text": "Vorrei il rosso",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Verde",
-          "symbol": "verde",
+          "symbol": "Verde",
           "spoken_text": "Il verde va bene",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Chiaro",
-          "symbol": "chiaro",
+          "symbol": "Chiaro",
           "spoken_text": "Un colore chiaro",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Scuro",
-          "symbol": "scuro",
+          "symbol": "Scuro",
           "spoken_text": "Un colore scuro",
           "action": {
             "type": "speak"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1102,7 +1102,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Voglio indossare",
-          "symbol": "voglio indossare frase",
+          "symbol": "Voglio indossare",
           "spoken_text": "Voglio indossare",
           "action": {
             "type": "append"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Mi aiuti a vestirmi",
-          "symbol": "aiuto vestirmi frase",
+          "symbol": "Mi aiuti a vestirmi",
           "spoken_text": "Mi aiuti a vestirmi?",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Non mi piace",
-          "symbol": "non mi piace vest",
+          "symbol": "Non mi piace",
           "spoken_text": "Non mi piace questo capo",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Mi sta bene",
-          "symbol": "mi sta bene",
+          "symbol": "Mi sta bene",
           "spoken_text": "Mi sta bene",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Fa freddo",
-          "symbol": "fa freddo vest",
+          "symbol": "Fa freddo",
           "spoken_text": "Fa freddo, mi copro",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Posso togliermi?",
-          "symbol": "posso togliere",
+          "symbol": "Posso togliermi?",
           "spoken_text": "Posso togliermi la giacca?",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Dov'è",
-          "symbol": "dove vest",
+          "symbol": "Dov'è",
           "spoken_text": "Dov'è il mio capo?",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie vest",
+          "symbol": "Grazie",
           "spoken_text": "Grazie, mi aiuti molto",
           "action": {
             "type": "speak"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1275,7 +1275,7 @@
           "id": "c73",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

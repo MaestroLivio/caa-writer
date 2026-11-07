@@ -344,6 +344,12 @@ pub async fn speak(
     // essere interrotto da `stop_speaking`.
     on_blocking(move || {
         let state = app.state::<Engine>();
+        // Default prudente: la voce è disattivata finché l'utente non la abilita.
+        if state.db()?.setting("speech.enabled").as_deref() != Some("true") {
+            return Err(
+                "sintesi vocale disattivata: attivala in Impostazioni → Accessibilità".to_string(),
+            );
+        }
         // Voce neurale locale quando disponibile; altrimenti la voce di sistema
         // resta un fallback reale, non un pulsante finto.
         if let Some(paths) = crate::voice::resolve(
@@ -401,6 +407,43 @@ pub fn ai_status(state: State<'_, Engine>) -> AiStatus {
 
 /// Diagnostica misurata: CPU/RAM dei processi, coda neurale, tempi reali e
 /// richieste obsolete. Nessun valore è stimato o inventato.
+#[tauri::command]
+pub fn ai_provider_status(state: State<'_, Engine>) -> Result<crate::ai_provider::ProviderStatus, String> {
+    let db = state.db()?;
+    Ok(crate::ai_provider::status(&db))
+}
+
+#[tauri::command]
+pub fn ai_provider_save(
+    state: State<'_, Engine>,
+    config: crate::ai_provider::ProviderConfig,
+    api_key: Option<String>,
+) -> Result<crate::ai_provider::ProviderStatus, String> {
+    let db = state.db()?;
+    crate::ai_provider::save(&db, &config)?;
+    if let Some(key) = api_key.filter(|value| !value.trim().is_empty()) {
+        crate::ai_provider::set_key(&key)?;
+    }
+    Ok(crate::ai_provider::status(&db))
+}
+
+#[tauri::command]
+pub fn ai_provider_test(
+    state: State<'_, Engine>,
+) -> Result<crate::ai_provider::ProviderTest, String> {
+    let db = state.db()?;
+    crate::ai_provider::test(&db)
+}
+
+#[tauri::command]
+pub fn ai_provider_clear_key(
+    state: State<'_, Engine>,
+) -> Result<crate::ai_provider::ProviderStatus, String> {
+    crate::ai_provider::clear_key()?;
+    let db = state.db()?;
+    Ok(crate::ai_provider::status(&db))
+}
+
 #[tauri::command]
 pub fn document_validate(document: serde_json::Value) -> Result<serde_json::Value, String> {
     let document: crate::universal::UniversalDocument =
@@ -486,6 +529,12 @@ pub fn document_export(
                 path,
                 warnings: vec!["PNG esportato per la prima pagina; usa PDF per il documento completo".to_string()],
             });
+        }
+        "docx" => {
+            return crate::export::universal_docx::write(target, &document);
+        }
+        "pptx" => {
+            return crate::export::universal_pptx::write(target, &document);
         }
         other => return Err(format!("formato di esportazione non supportato: {other}")),
     };
@@ -1074,8 +1123,31 @@ pub fn interpret_document_prompt(
 }
 
 #[tauri::command]
-pub fn list_online_providers() -> Vec<online_search::OnlineProviderInfo> {
-    online_search::providers()
+pub fn list_online_providers(
+    state: State<'_, Engine>,
+) -> Result<Vec<online_search::OnlineProviderInfo>, String> {
+    let db = state.db()?;
+    Ok(online_search::providers_with_db(&db))
+}
+
+#[tauri::command]
+pub fn save_online_provider(
+    state: State<'_, Engine>,
+    provider: online_search::CustomProvider,
+) -> Result<Vec<online_search::OnlineProviderInfo>, String> {
+    let db = state.db()?;
+    online_search::save_custom_provider(&db, provider)?;
+    Ok(online_search::providers_with_db(&db))
+}
+
+#[tauri::command]
+pub fn delete_online_provider(
+    state: State<'_, Engine>,
+    id: String,
+) -> Result<Vec<online_search::OnlineProviderInfo>, String> {
+    let db = state.db()?;
+    online_search::delete_custom_provider(&db, &id)?;
+    Ok(online_search::providers_with_db(&db))
 }
 
 /// Cerca online usando solo lemmi/concetti generici già estratti localmente.
@@ -1085,10 +1157,19 @@ pub fn search_online_pictograms(
     terms: Vec<String>,
     force_refresh: Option<bool>,
 ) -> Result<online_search::OnlineResponse, String> {
-    let terms = online_search::known_terms(&state.lexicon, &terms);
+    let mut terms = online_search::known_terms(&state.lexicon, &terms);
+    if terms.is_empty() {
+        // Ricerca esplicita dell'utente: si invia solo un termine pulito
+        // (niente frasi, email, URL o numeri), non il documento.
+        terms = online_search::clean_terms(&terms)
+            .into_iter()
+            .take(1)
+            .filter(|term| term.chars().count() <= 40)
+            .collect();
+    }
     if terms.is_empty() {
         return Err(
-            "Nessun termine generico riconosciuto: la ricerca online non invia testo libero."
+            "Nessun termine valido: la ricerca online non invia testo libero, frasi o dati personali."
                 .to_string(),
         );
     }

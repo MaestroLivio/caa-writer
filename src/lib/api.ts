@@ -8,6 +8,9 @@
 import { invoke } from "@tauri-apps/api/core";
 import { noModifiers } from "./types";
 import type {
+  AiProviderConfig,
+  AiProviderStatus,
+  AiProviderTest,
   DocumentApplyResult,
   LibraryManifest,
   OpenedUniversalDocument,
@@ -52,6 +55,7 @@ import type {
   OnlineResult,
   OnlineResponse,
   OnlineProviderInfo,
+  OnlineCustomProvider,
   DocumentEditPlan,
   CliRunResult,
   Profile,
@@ -112,6 +116,10 @@ export const api = {
   movePictogramSymbols: (ids: string[], collectionId: string) =>
     call<number>("move_pictogram_symbols", { ids, collectionId }),
   listOnlineProviders: () => call<OnlineProviderInfo[]>("list_online_providers"),
+  saveOnlineProvider: (provider: OnlineCustomProvider) =>
+    call<OnlineProviderInfo[]>("save_online_provider", { provider }),
+  deleteOnlineProvider: (id: string) =>
+    call<OnlineProviderInfo[]>("delete_online_provider", { id }),
   searchOnlinePictograms: (terms: string[], forceRefresh = false) =>
     call<OnlineResponse>("search_online_pictograms", { terms, forceRefresh }),
   onlineThumbnail: (url: string) => call<string>("online_thumbnail", { url }),
@@ -174,7 +182,7 @@ export const api = {
     call<OpenedUniversalDocument>("universal_import", { source }),
   documentHtml: (document: UniversalDocument) =>
     call<string>("document_html", { document }),
-  documentExport: (document: UniversalDocument, format: "html" | "svg" | "pdf" | "png", path: string) =>
+  documentExport: (document: UniversalDocument, format: "html" | "svg" | "pdf" | "png" | "docx" | "pptx", path: string) =>
     call<{ path: string; warnings: string[] }>("document_export", { document, format, path }),
 
   setPreference: (preference: Preference) => call<void>("set_preference", { preference }),
@@ -229,6 +237,11 @@ export const api = {
   runtimeDiagnostics: () => call<RuntimeDiagnostics>("runtime_diagnostics"),
 
   aiStatus: () => call<AiStatus>("ai_status"),
+  aiProviderStatus: () => call<AiProviderStatus>("ai_provider_status"),
+  aiProviderSave: (config: AiProviderConfig, apiKey: string | null = null) =>
+    call<AiProviderStatus>("ai_provider_save", { config, apiKey }),
+  aiProviderTest: () => call<AiProviderTest>("ai_provider_test"),
+  aiProviderClearKey: () => call<AiProviderStatus>("ai_provider_clear_key"),
   setAiConfig: (config: AiConfig) => call<AiStatus>("set_ai_config", { config }),
   aiModels: () => call<ModelEntry[]>("ai_models"),
   aiInstallModel: (modelId: string) => call<InstallStatus>("ai_install_model", { modelId }),

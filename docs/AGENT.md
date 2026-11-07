@@ -544,6 +544,23 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
   `app_data_dir/library/imported/`.
 - Audit aggiornato in `docs/AUDIT_0_10.md`.
 
+## 8octies. Repertori remoti, provider e default (0.11.0)
+
+- Il bundle contiene `resources/symbol-packs/core` (88 simboli offline) e la
+  biblioteca `.caadoc` con i pittogrammi incorporati; il catalogo ARASAAC non è
+  più duplicato intero. La ricerca remota usa `online_search` (ARASAAC,
+  Wikimedia, provider personalizzati con URL contenente `{query}`), salva una
+  copia offline e conserva autore/licenza/fonte.
+- I provider personalizzati si configurano in Impostazioni → Librerie online;
+  download solo HTTPS pubblico, con blocco di localhost/IP privati.
+- Default: `speech.enabled=false` nel database e `speech_enabled=false` nelle
+  impostazioni UI; profilo `risparmio`, debounce 420/1200 ms; AI 1 thread,
+  contesto 512, timeout 4 s.
+- Provider IA online: `ai_provider_*`, chiave nel portachiavi di sistema, mai in
+  `.caadoc`, log o errori; consenso e privacy obbligatori.
+- Griglie: `set_grid_sizes`, `merge_grid_cell`, `split_grid_cell`.
+- Export universale: `pdf`, `png`, `docx`, `pptx`, `html`, `svg`.
+
 ## 9. Sicurezza, rete e licenze
 
 - La CLI non apre connessioni se non si chiamano `online.*` o `voice.*` che

@@ -1,27 +1,24 @@
-# CAA Writer 0.10.0 — note di rilascio
+# CAA Writer 0.11.0 — note di rilascio
 
-Griglie reali, PDF multipagina, player con associazione file e audit tecnico.
+Repertori via API, default prudenti, griglie complete e export Office.
 
-## Novità principali
+## Novità
 
-- **Griglia 4×5 = 20 celle reali**: dialogo righe/colonne, aggiunta/rimozione
-  righe e colonne, celle modificabili, svuotamento e riordino.
-- **PDF multipagina** generato dal renderer canonico, con pittogrammi, testi,
-  bordi, colori e formato pagina; **PNG** della prima pagina; **Stampa** con
-  tutte le pagine tramite dialogo di sistema.
-- **Player** per `.caadoc` e `.caaplay`, apertura da doppio clic/associazione,
-  menu Apri/Importa/Modifica/Stampa/Schermo intero/Home/Esci.
-- **Importazione** come copia modificabile nella biblioteca dell'utente.
-- **Audit** in `docs/AUDIT_0_10.md`; rimosso il simbolo personale di prova dal
-  database locale, senza toccare ARASAAC/core.
+- ARASAAC/Wikimedia e provider personalizzati via API pubblica, con cache
+  offline e metadati di licenza; il pacchetto locale `core` resta per l’offline.
+- Sintesi vocale disattivata per default; profilo «Risparmio risorse», AI locale
+  1 thread/512 token/4 s.
+- Griglie con unione/divisione celle, span, larghezze colonne e altezze righe.
+- DOCX/PPTX generati dal renderer canonico, PDF multipagina, PNG prima pagina.
+- Provider IA online con chiave nel portachiavi, consenso esplicito e test.
+- Report dei pittogrammi mancanti e audit aggiornato.
 
 ## Limiti
 
-- Unione/divisione celle e dimensioni indipendenti per cella non complete.
-- DOCX/PPTX non esportati; PNG solo prima pagina.
-- Testo del documento universale modificato dal pannello proprietà.
-- Stampa nativa e doppio clic non verificati su hardware reale in questa sessione.
-- Windows compilato in modo incrociato ma non eseguito; Linux non compilato.
+- DOCX/PPTX sono immagini di pagina, non elementi Word/PowerPoint modificabili.
+- Testo inline, unione multipla avanzata, stampa/doppio clic su hardware reale,
+  Windows runtime e Linux restano da verificare.
+- Provider online non provato con una chiave reale in questa sessione.
 
 ## Requisiti
 

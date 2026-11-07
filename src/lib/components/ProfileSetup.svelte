@@ -40,7 +40,7 @@
   let name = $state("");
   let ageTheme = $state("primaria");
   let editorLevel = $state(2);
-  let features = $state<string[]>(["boards", "speech", "compose", "search", "save"]);
+  let features = $state<string[]>(["boards", "compose", "search", "save"]);
   let pin = $state("");
   let busy = $state(false);
   let error = $state("");

@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Mezzi",
-          "symbol": "mezzi home",
+          "symbol": "Mezzi",
           "spoken_text": "Apri i mezzi",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Biglietti",
-          "symbol": "biglietti home",
+          "symbol": "Biglietti",
           "spoken_text": "Apri i biglietti",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Indicazioni",
-          "symbol": "indicazioni home",
+          "symbol": "Indicazioni",
           "spoken_text": "Apri le indicazioni",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Attesa",
-          "symbol": "attesa home",
+          "symbol": "Attesa",
           "spoken_text": "Apri l'attesa",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Imprevisti",
-          "symbol": "imprevisti home",
+          "symbol": "Imprevisti",
           "spoken_text": "Apri gli imprevisti",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi trasporti",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Devo andare",
-          "symbol": "devo andare",
+          "symbol": "Devo andare",
           "spoken_text": "Devo andare",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Dove devo scendere",
-          "symbol": "dove scendere",
+          "symbol": "Dove devo scendere",
           "spoken_text": "Dove devo scendere?",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Autobus",
-          "symbol": "autobus",
+          "symbol": "Autobus",
           "spoken_text": "Prendo l'autobus",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Treno",
-          "symbol": "treno",
+          "symbol": "Treno",
           "spoken_text": "Prendo il treno",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Metro",
-          "symbol": "metro",
+          "symbol": "Metro",
           "spoken_text": "Prendo la metro",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Tram",
-          "symbol": "tram",
+          "symbol": "Tram",
           "spoken_text": "Prendo il tram",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Taxi",
-          "symbol": "taxi",
+          "symbol": "Taxi",
           "spoken_text": "Chiamo un taxi",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Bicicletta",
-          "symbol": "bicicletta trasporti",
+          "symbol": "Bicicletta",
           "spoken_text": "Uso la bicicletta",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "A piedi",
-          "symbol": "a piedi",
+          "symbol": "A piedi",
           "spoken_text": "Vado a piedi",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Biglietto",
-          "symbol": "biglietto",
+          "symbol": "Biglietto",
           "spoken_text": "Vorrei un biglietto",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Abbonamento",
-          "symbol": "abbonamento",
+          "symbol": "Abbonamento",
           "spoken_text": "Ho l'abbonamento",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Convalida",
-          "symbol": "convalida",
+          "symbol": "Convalida",
           "spoken_text": "Convalido il biglietto",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Macchinetta",
-          "symbol": "macchinetta",
+          "symbol": "Macchinetta",
           "spoken_text": "Uso la macchinetta",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Controllore",
-          "symbol": "controllore",
+          "symbol": "Controllore",
           "spoken_text": "Arriva il controllore",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Tariffa",
-          "symbol": "tariffa",
+          "symbol": "Tariffa",
           "spoken_text": "Qual è la tariffa?",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Acquisto",
-          "symbol": "acquisto",
+          "symbol": "Acquisto",
           "spoken_text": "Faccio l'acquisto",
           "action": {
             "type": "speak"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Dove",
-          "symbol": "dove trasporti",
+          "symbol": "Dove",
           "spoken_text": "Dove devo andare?",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Fermata",
-          "symbol": "fermata",
+          "symbol": "Fermata",
           "spoken_text": "Dov'è la fermata?",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Direzione",
-          "symbol": "direzione",
+          "symbol": "Direzione",
           "spoken_text": "Qual è la direzione?",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Cambio",
-          "symbol": "cambio",
+          "symbol": "Cambio",
           "spoken_text": "Devo cambiare linea",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Uscita",
-          "symbol": "uscita trasporti",
+          "symbol": "Uscita",
           "spoken_text": "Qual è l'uscita?",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Mappa",
-          "symbol": "mappa trasporti",
+          "symbol": "Mappa",
           "spoken_text": "Guardo la mappa",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Chiedere",
-          "symbol": "chiedere indicazioni",
+          "symbol": "Chiedere",
           "spoken_text": "Chiedo informazioni",
           "action": {
             "type": "speak"
@@ -598,7 +598,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -614,7 +614,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -643,7 +643,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Aspettare",
-          "symbol": "aspettare trasporti",
+          "symbol": "Aspettare",
           "spoken_text": "Aspetto il mezzo",
           "action": {
             "type": "speak"
@@ -659,7 +659,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Banchina",
-          "symbol": "banchina",
+          "symbol": "Banchina",
           "spoken_text": "Sono in banchina",
           "action": {
             "type": "speak"
@@ -675,7 +675,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Sedile",
-          "symbol": "sedile",
+          "symbol": "Sedile",
           "spoken_text": "Mi siedo",
           "action": {
             "type": "speak"
@@ -691,7 +691,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Annuncio",
-          "symbol": "annuncio",
+          "symbol": "Annuncio",
           "spoken_text": "Ascolto l'annuncio",
           "action": {
             "type": "speak"
@@ -707,7 +707,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Ritardo",
-          "symbol": "ritardo trasporti",
+          "symbol": "Ritardo",
           "spoken_text": "C'è un ritardo",
           "action": {
             "type": "speak"
@@ -723,7 +723,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Arrivare",
-          "symbol": "arrivare trasporti",
+          "symbol": "Arrivare",
           "spoken_text": "Sta arrivando",
           "action": {
             "type": "speak"
@@ -739,7 +739,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Orari",
-          "symbol": "orari nav",
+          "symbol": "Orari",
           "spoken_text": "Apri gli orari",
           "action": {
             "type": "navigate",
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Orario",
-          "symbol": "orario mezzi",
+          "symbol": "Orario",
           "spoken_text": "Controllo l'orario",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Ritardo",
-          "symbol": "ritardo orario",
+          "symbol": "Ritardo",
           "spoken_text": "Il treno è in ritardo",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Binario",
-          "symbol": "binario",
+          "symbol": "Binario",
           "spoken_text": "Qual è il binario?",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Coincidenza",
-          "symbol": "coincidenza",
+          "symbol": "Coincidenza",
           "spoken_text": "Ho una coincidenza",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Frequenza",
-          "symbol": "frequenza",
+          "symbol": "Frequenza",
           "spoken_text": "Ogni quanto passa?",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Ultimo",
-          "symbol": "ultimo",
+          "symbol": "Ultimo",
           "spoken_text": "A che ora è l'ultimo?",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Primo",
-          "symbol": "primo mezzo",
+          "symbol": "Primo",
           "spoken_text": "A che ora è il primo?",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Sciopero",
-          "symbol": "sciopero",
+          "symbol": "Sciopero",
           "spoken_text": "C'è uno sciopero",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Guasto",
-          "symbol": "guasto trasporti",
+          "symbol": "Guasto",
           "spoken_text": "C'è un guasto",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Perso",
-          "symbol": "perso mezzo",
+          "symbol": "Perso",
           "spoken_text": "Ho perso il mezzo",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Salto",
-          "symbol": "salto corsa",
+          "symbol": "Salto",
           "spoken_text": "Ho saltato la fermata",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Affollato",
-          "symbol": "affollato",
+          "symbol": "Affollato",
           "spoken_text": "È molto affollato",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Taxi",
-          "symbol": "taxi imprevisto",
+          "symbol": "Taxi",
           "spoken_text": "Prendo un taxi",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto trasporti",
+          "symbol": "Aiuto",
           "spoken_text": "Chiedo aiuto",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Dove devo scendere?",
-          "symbol": "dove scendere frase",
+          "symbol": "Dove devo scendere?",
           "spoken_text": "Dove devo scendere?",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Quale linea prendo?",
-          "symbol": "quale linea",
+          "symbol": "Quale linea prendo?",
           "spoken_text": "Quale linea prendo?",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Quanto costa il biglietto?",
-          "symbol": "costo biglietto",
+          "symbol": "Quanto costa il biglietto?",
           "spoken_text": "Quanto costa il biglietto?",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "È in ritardo?",
-          "symbol": "in ritardo",
+          "symbol": "È in ritardo?",
           "spoken_text": "È in ritardo?",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Ho perso la coincidenza",
-          "symbol": "perso coincidenza",
+          "symbol": "Ho perso la coincidenza",
           "spoken_text": "Ho perso la coincidenza",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Posso sedermi?",
-          "symbol": "posso sedermi",
+          "symbol": "Posso sedermi?",
           "spoken_text": "Posso sedermi?",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Mi avvisi alla fermata?",
-          "symbol": "avvisi fermata",
+          "symbol": "Mi avvisi alla fermata?",
           "spoken_text": "Mi avvisi alla fermata?",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie trasporti",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'aiuto",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

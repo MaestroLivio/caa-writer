@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Corpo",
-          "symbol": "corpo",
+          "symbol": "Corpo",
           "spoken_text": "Apri i bisogni del corpo",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Mi sento male",
-          "symbol": "malessere",
+          "symbol": "Mi sento male",
           "spoken_text": "Apri come mi sento",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto",
+          "symbol": "Aiuto",
           "spoken_text": "Apri le richieste di aiuto",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Conforto",
-          "symbol": "conforto",
+          "symbol": "Conforto",
           "spoken_text": "Apri le cose che mi danno conforto",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Oggetti personali",
-          "symbol": "oggetti",
+          "symbol": "Oggetti personali",
           "spoken_text": "Apri i miei oggetti personali",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi utili",
-          "symbol": "frasi",
+          "symbol": "Frasi utili",
           "spoken_text": "Apri le frasi utili",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Ho bisogno",
-          "symbol": "ho bisogno",
+          "symbol": "Ho bisogno",
           "spoken_text": "Ho bisogno di qualcosa",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Sto bene",
-          "symbol": "sto bene",
+          "symbol": "Sto bene",
           "spoken_text": "Sto bene",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Sete",
-          "symbol": "sete",
+          "symbol": "Sete",
           "spoken_text": "Ho sete",
           "action": {
             "type": "append"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Fame",
-          "symbol": "fame",
+          "symbol": "Fame",
           "spoken_text": "Ho fame",
           "action": {
             "type": "append"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Sonno",
-          "symbol": "sonno",
+          "symbol": "Sonno",
           "spoken_text": "Ho sonno",
           "action": {
             "type": "append"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Bagno",
-          "symbol": "bagno",
+          "symbol": "Bagno",
           "spoken_text": "Devo andare in bagno",
           "action": {
             "type": "append"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Freddo",
-          "symbol": "freddo",
+          "symbol": "Freddo",
           "spoken_text": "Ho freddo",
           "action": {
             "type": "append"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Caldo",
-          "symbol": "caldo",
+          "symbol": "Caldo",
           "spoken_text": "Ho caldo",
           "action": {
             "type": "append"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Dettagli sul corpo",
-          "symbol": "dettagli corpo",
+          "symbol": "Dettagli sul corpo",
           "spoken_text": "Apri i dettagli sul corpo",
           "action": {
             "type": "navigate",
@@ -285,7 +285,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -330,7 +330,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Testa",
-          "symbol": "testa",
+          "symbol": "Testa",
           "spoken_text": "Mi fa male la testa",
           "action": {
             "type": "speak"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Pancia",
-          "symbol": "pancia",
+          "symbol": "Pancia",
           "spoken_text": "Ho mal di pancia",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Schiena",
-          "symbol": "schiena",
+          "symbol": "Schiena",
           "spoken_text": "Mi fa male la schiena",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Gambe",
-          "symbol": "gambe",
+          "symbol": "Gambe",
           "spoken_text": "Mi fanno male le gambe",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Braccia",
-          "symbol": "braccia",
+          "symbol": "Braccia",
           "spoken_text": "Mi fanno male le braccia",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Pelle",
-          "symbol": "pelle",
+          "symbol": "Pelle",
           "spoken_text": "Mi prude la pelle",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Non sto bene",
-          "symbol": "non sto bene",
+          "symbol": "Non sto bene",
           "spoken_text": "Non sto bene",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -487,7 +487,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Nausea",
-          "symbol": "nausea",
+          "symbol": "Nausea",
           "spoken_text": "Ho nausea",
           "action": {
             "type": "speak"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Vertigini",
-          "symbol": "vertigini",
+          "symbol": "Vertigini",
           "spoken_text": "Ho le vertigini",
           "action": {
             "type": "speak"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Febbre",
-          "symbol": "febbre",
+          "symbol": "Febbre",
           "spoken_text": "Ho la febbre",
           "action": {
             "type": "speak"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Tosse",
-          "symbol": "tosse",
+          "symbol": "Tosse",
           "spoken_text": "Ho la tosse",
           "action": {
             "type": "speak"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Respiro",
-          "symbol": "respiro",
+          "symbol": "Respiro",
           "spoken_text": "Faccio fatica a respirare",
           "action": {
             "type": "speak"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Stanchezza",
-          "symbol": "stanchezza",
+          "symbol": "Stanchezza",
           "spoken_text": "Sono molto stanco",
           "action": {
             "type": "speak"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -628,7 +628,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto chiamata",
+          "symbol": "Aiuto",
           "spoken_text": "Ho bisogno di aiuto",
           "action": {
             "type": "speak"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Chiama qualcuno",
-          "symbol": "chiamare",
+          "symbol": "Chiama qualcuno",
           "spoken_text": "Chiama qualcuno, per favore",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Acqua",
-          "symbol": "acqua aiuto",
+          "symbol": "Acqua",
           "spoken_text": "Mi porti dell'acqua, per favore",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Medicine",
-          "symbol": "medicine",
+          "symbol": "Medicine",
           "spoken_text": "Mi servono le medicine",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Medico",
-          "symbol": "medico aiuto",
+          "symbol": "Medico",
           "spoken_text": "Vorrei vedere un medico",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Non capisco",
-          "symbol": "non capisco aiuto",
+          "symbol": "Non capisco",
           "spoken_text": "Non capisco, puoi ripetere?",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Adesso",
-          "symbol": "adesso",
+          "symbol": "Adesso",
           "spoken_text": "Ho bisogno di aiuto adesso",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -785,7 +785,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Coperta",
-          "symbol": "coperta",
+          "symbol": "Coperta",
           "spoken_text": "Vorrei una coperta",
           "action": {
             "type": "speak"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Cuscino",
-          "symbol": "cuscino",
+          "symbol": "Cuscino",
           "spoken_text": "Vorrei un cuscino",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Luce",
-          "symbol": "luce",
+          "symbol": "Luce",
           "spoken_text": "Puoi abbassare la luce?",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Silenzio",
-          "symbol": "silenzio",
+          "symbol": "Silenzio",
           "spoken_text": "Vorrei un po' di silenzio",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Compagnia",
-          "symbol": "compagnia",
+          "symbol": "Compagnia",
           "spoken_text": "Resta un po' con me",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Riposo",
-          "symbol": "riposo",
+          "symbol": "Riposo",
           "spoken_text": "Ho bisogno di riposare",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -926,7 +926,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Occhiali",
-          "symbol": "occhiali",
+          "symbol": "Occhiali",
           "spoken_text": "Dove sono i miei occhiali?",
           "action": {
             "type": "speak"
@@ -942,7 +942,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Telefono",
-          "symbol": "telefono",
+          "symbol": "Telefono",
           "spoken_text": "Dov'è il mio telefono?",
           "action": {
             "type": "speak"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Bastone",
-          "symbol": "bastone",
+          "symbol": "Bastone",
           "spoken_text": "Mi passi il bastone?",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Bottiglia",
-          "symbol": "bottiglia",
+          "symbol": "Bottiglia",
           "spoken_text": "Vorrei la bottiglia dell'acqua",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Fazzoletto",
-          "symbol": "fazzoletto",
+          "symbol": "Fazzoletto",
           "spoken_text": "Mi serve un fazzoletto",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Campanello",
-          "symbol": "campanello",
+          "symbol": "Campanello",
           "spoken_text": "Suono il campanello",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1067,7 +1067,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Voglio",
-          "symbol": "voglio",
+          "symbol": "Voglio",
           "spoken_text": "Voglio",
           "action": {
             "type": "append"
@@ -1083,7 +1083,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Ho bisogno di",
-          "symbol": "ho bisogno di",
+          "symbol": "Ho bisogno di",
           "spoken_text": "Ho bisogno di",
           "action": {
             "type": "append"
@@ -1099,7 +1099,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Non voglio",
-          "symbol": "non voglio",
+          "symbol": "Non voglio",
           "spoken_text": "Non voglio",
           "action": {
             "type": "append"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Per favore",
-          "symbol": "per favore",
+          "symbol": "Per favore",
           "spoken_text": "Per favore",
           "action": {
             "type": "append"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Sto male",
-          "symbol": "sto male",
+          "symbol": "Sto male",
           "spoken_text": "Sto male",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Mi sento meglio",
-          "symbol": "meglio",
+          "symbol": "Mi sento meglio",
           "spoken_text": "Mi sento meglio",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Puoi aiutarmi?",
-          "symbol": "aiutarmi",
+          "symbol": "Puoi aiutarmi?",
           "spoken_text": "Puoi aiutarmi?",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'aiuto",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Dispositivi",
-          "symbol": "dispositivi home",
+          "symbol": "Dispositivi",
           "spoken_text": "Apri i dispositivi",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Azioni",
-          "symbol": "azioni tech",
+          "symbol": "Azioni",
           "spoken_text": "Apri le azioni",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Problemi",
-          "symbol": "problemi tech",
+          "symbol": "Problemi",
           "spoken_text": "Apri i problemi",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Internet",
-          "symbol": "internet home",
+          "symbol": "Internet",
           "spoken_text": "Apri internet",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Privacy",
-          "symbol": "privacy home",
+          "symbol": "Privacy",
           "spoken_text": "Apri la privacy",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi tech",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Voglio aprire",
-          "symbol": "voglio aprire",
+          "symbol": "Voglio aprire",
           "spoken_text": "Voglio aprire",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Non funziona",
-          "symbol": "non funziona",
+          "symbol": "Non funziona",
           "spoken_text": "Non funziona",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Telefono",
-          "symbol": "telefono tech",
+          "symbol": "Telefono",
           "spoken_text": "Uso il telefono",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Computer",
-          "symbol": "computer tech",
+          "symbol": "Computer",
           "spoken_text": "Uso il computer",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Tablet",
-          "symbol": "tablet",
+          "symbol": "Tablet",
           "spoken_text": "Uso il tablet",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Stampante",
-          "symbol": "stampante tech",
+          "symbol": "Stampante",
           "spoken_text": "Uso la stampante",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Cuffie",
-          "symbol": "cuffie tech",
+          "symbol": "Cuffie",
           "spoken_text": "Uso le cuffie",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Caricabatterie",
-          "symbol": "caricabatterie tech",
+          "symbol": "Caricabatterie",
           "spoken_text": "Collego il caricabatterie",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Impostazioni",
-          "symbol": "impostazioni nav",
+          "symbol": "Impostazioni",
           "spoken_text": "Apri le impostazioni",
           "action": {
             "type": "navigate",
@@ -285,7 +285,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -301,7 +301,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -330,7 +330,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Wifi",
-          "symbol": "wifi impostazioni",
+          "symbol": "Wifi",
           "spoken_text": "Attivo il wifi",
           "action": {
             "type": "speak"
@@ -346,7 +346,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Bluetooth",
-          "symbol": "bluetooth",
+          "symbol": "Bluetooth",
           "spoken_text": "Attivo il bluetooth",
           "action": {
             "type": "speak"
@@ -362,7 +362,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Volume",
-          "symbol": "volume tech",
+          "symbol": "Volume",
           "spoken_text": "Regolo il volume",
           "action": {
             "type": "speak"
@@ -378,7 +378,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Luminosità",
-          "symbol": "luminosita",
+          "symbol": "Luminosità",
           "spoken_text": "Regolo la luminosità",
           "action": {
             "type": "speak"
@@ -394,7 +394,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Aggiornamento",
-          "symbol": "aggiornamento impostazioni",
+          "symbol": "Aggiornamento",
           "spoken_text": "Faccio l'aggiornamento",
           "action": {
             "type": "speak"
@@ -410,7 +410,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Account",
-          "symbol": "account",
+          "symbol": "Account",
           "spoken_text": "Controllo l'account",
           "action": {
             "type": "speak"
@@ -426,7 +426,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Batteria",
-          "symbol": "batteria",
+          "symbol": "Batteria",
           "spoken_text": "Controllo la batteria",
           "action": {
             "type": "speak"
@@ -442,7 +442,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -458,7 +458,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -487,7 +487,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Accendere",
-          "symbol": "accendere",
+          "symbol": "Accendere",
           "spoken_text": "Accendo il dispositivo",
           "action": {
             "type": "speak"
@@ -503,7 +503,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Spegnere",
-          "symbol": "spegnere",
+          "symbol": "Spegnere",
           "spoken_text": "Spengo il dispositivo",
           "action": {
             "type": "speak"
@@ -519,7 +519,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Aprire",
-          "symbol": "aprire",
+          "symbol": "Aprire",
           "spoken_text": "Apro l'app",
           "action": {
             "type": "speak"
@@ -535,7 +535,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Chiudere",
-          "symbol": "chiudere",
+          "symbol": "Chiudere",
           "spoken_text": "Chiudo l'app",
           "action": {
             "type": "speak"
@@ -551,7 +551,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Scaricare",
-          "symbol": "scaricare",
+          "symbol": "Scaricare",
           "spoken_text": "Scarico il file",
           "action": {
             "type": "speak"
@@ -567,7 +567,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Inviare",
-          "symbol": "inviare",
+          "symbol": "Inviare",
           "spoken_text": "Invio il messaggio",
           "action": {
             "type": "speak"
@@ -583,7 +583,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Salvare",
-          "symbol": "salvare",
+          "symbol": "Salvare",
           "spoken_text": "Salvo il lavoro",
           "action": {
             "type": "speak"
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Lento",
-          "symbol": "lento tech",
+          "symbol": "Lento",
           "spoken_text": "Il dispositivo è lento",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Bloccato",
-          "symbol": "bloccato",
+          "symbol": "Bloccato",
           "spoken_text": "Si è bloccato",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Batteria",
-          "symbol": "batteria problema",
+          "symbol": "Batteria",
           "spoken_text": "La batteria è scarica",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Connessione",
-          "symbol": "connessione",
+          "symbol": "Connessione",
           "spoken_text": "Manca la connessione",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Errore",
-          "symbol": "errore tech",
+          "symbol": "Errore",
           "spoken_text": "C'è un errore",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Aggiornamento",
-          "symbol": "aggiornamento problema",
+          "symbol": "Aggiornamento",
           "spoken_text": "L'aggiornamento non parte",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto tech",
+          "symbol": "Aiuto",
           "spoken_text": "Mi serve aiuto",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Wifi",
-          "symbol": "wifi internet",
+          "symbol": "Wifi",
           "spoken_text": "Mi connetto al wifi",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Password",
-          "symbol": "password internet",
+          "symbol": "Password",
           "spoken_text": "Inserisco la password",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Sito",
-          "symbol": "sito",
+          "symbol": "Sito",
           "spoken_text": "Apro il sito",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Email",
-          "symbol": "email",
+          "symbol": "Email",
           "spoken_text": "Controllo l'email",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Videochiamata",
-          "symbol": "videochiamata",
+          "symbol": "Videochiamata",
           "spoken_text": "Faccio una videochiamata",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Ricerca",
-          "symbol": "ricerca internet",
+          "symbol": "Ricerca",
           "spoken_text": "Faccio una ricerca",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Download",
-          "symbol": "download",
+          "symbol": "Download",
           "spoken_text": "Faccio il download",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Password",
-          "symbol": "password privacy",
+          "symbol": "Password",
           "spoken_text": "Proteggo la password",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Permesso",
-          "symbol": "permesso tech",
+          "symbol": "Permesso",
           "spoken_text": "Chiedo il permesso",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Dati",
-          "symbol": "dati",
+          "symbol": "Dati",
           "spoken_text": "Proteggo i miei dati",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Condivisione",
-          "symbol": "condivisione",
+          "symbol": "Condivisione",
           "spoken_text": "Controllo la condivisione",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Profilo",
-          "symbol": "profilo",
+          "symbol": "Profilo",
           "spoken_text": "Controllo il profilo",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Spam",
-          "symbol": "spam",
+          "symbol": "Spam",
           "spoken_text": "Segnalo lo spam",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Bloccare",
-          "symbol": "bloccare",
+          "symbol": "Bloccare",
           "spoken_text": "Blocco il contatto",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Non funziona",
-          "symbol": "non funziona frase",
+          "symbol": "Non funziona",
           "spoken_text": "Non funziona",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Mi aiuti?",
-          "symbol": "mi aiuti tech",
+          "symbol": "Mi aiuti?",
           "spoken_text": "Mi aiuti?",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Come si fa?",
-          "symbol": "come si fa",
+          "symbol": "Come si fa?",
           "spoken_text": "Come si fa?",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Ho dimenticato la password",
-          "symbol": "dimenticato password",
+          "symbol": "Ho dimenticato la password",
           "spoken_text": "Ho dimenticato la password",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Posso connettermi?",
-          "symbol": "posso connettermi",
+          "symbol": "Posso connettermi?",
           "spoken_text": "Posso connettermi?",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Il wifi non va",
-          "symbol": "wifi non va",
+          "symbol": "Il wifi non va",
           "spoken_text": "Il wifi non va",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Ho salvato il file",
-          "symbol": "salvato file",
+          "symbol": "Ho salvato il file",
           "spoken_text": "Ho salvato il file",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie tech",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'aiuto",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

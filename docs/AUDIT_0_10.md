@@ -30,3 +30,18 @@ test; le ipotesi residue sono marcate come tali.
   l'apertura diretta nel player.
 - I 330 documenti della biblioteca sono generati dalla CLI e verificati con lo
   stesso motore della GUI.
+
+## Aggiornamento 0.11.0
+
+| # | Problema | File / funzione | Causa verificata | Gravità | Soluzione | Test | Stato |
+|---|---|---|---|---|---|---|---|
+| 16 | Catalogo ARASAAC completo duplicato nell'installer | `tauri.conf.json` `bundle.resources` | Il glob includeva tutti i pacchetti locali | Alta | Bundle solo `core`; repertori via API, cache offline, simboli incorporati nei documenti | build 0.11: 515 MiB DMG, 1.795 file Windows | Corretto |
+| 17 | Nessun provider personalizzato | `online_search.rs` | Provider fissi ARASAAC/Wikimedia | Media | `CustomProvider` con URL `{query}`, HTTPS pubblico, elenco in Impostazioni | test host HTTPS; UI | Corretto |
+| 18 | Sintesi vocale attiva per default | comando `speak`, impostazioni | Nessun interruttore globale | Alta | `speech.enabled=false`, master UI, blocco backend | build/check | Corretto |
+| 19 | Profilo prestazionale predefinito troppo alto | `defaultSettings`, `AiConfig` | Default 2 thread/1024/8 s, bilanciato | Alta | Risparmio: 1 thread, 512, 4 s, debounce 420/1200 | test build | Corretto |
+| 20 | Celle non unibili/divisibili e dimensioni uniformi | `GridData`, `GridCell` | Mancavano span e pesi riga/colonna | Alta | Comandi merge/split/set_grid_sizes, span, larghezze/altezze | `grid_cells_can_be_merged_split_and_resized` | Corretto |
+| 21 | DOCX/PPTX assenti | `export/universal_docx.rs`, `universal_pptx.rs` | Mancavano esportatori Office | Media | Export da renderer canonico, con perdita dichiarata della modifica per elemento | test zip DOCX/PPTX | Corretto |
+| 22 | Chiavi API provider online | `ai_provider.rs` | Nessuna integrazione provider | Media | Config endpoint/modello, consenso, test, chiave in keyring | compilazione; nessuna chiave reale provata | Parziale |
+
+I test PDF/PNG/DOCX/PPTX usano documenti reali della biblioteca; la stampa nativa
+e il doppio clic restano verifiche manuali.

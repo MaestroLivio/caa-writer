@@ -62,6 +62,178 @@ pub struct OnlineProviderInfo {
     pub note: String,
 }
 
+/// Provider aggiuntivo definito dall'utente. Deve esporre un JSON pubblico con
+/// `{ "results": [ { id,title,image_url,thumbnail_url,... } ] }` oppure un
+/// array diretto. La URL può contenere `{query}`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CustomProvider {
+    pub id: String,
+    pub name: String,
+    pub search_url: String,
+    #[serde(default = "default_true")]
+    pub enabled: bool,
+    #[serde(default)]
+    pub note: String,
+}
+
+fn default_true() -> bool {
+    true
+}
+
+pub fn custom_providers(db: &Database) -> Vec<CustomProvider> {
+    db.setting("online.custom_providers")
+        .and_then(|raw| serde_json::from_str::<Vec<CustomProvider>>(&raw).ok())
+        .unwrap_or_default()
+}
+
+pub fn save_custom_provider(db: &Database, provider: CustomProvider) -> Result<(), String> {
+    let id = provider.id.trim();
+    if id.is_empty() || provider.name.trim().is_empty() || provider.search_url.trim().is_empty() {
+        return Err("id, nome e URL del provider sono obbligatori".to_string());
+    }
+    if !provider.search_url.contains("{query}") {
+        return Err("l'URL del provider deve contenere {query}".to_string());
+    }
+    if !provider.search_url.starts_with("https://")
+        && !provider.search_url.starts_with("http://localhost")
+        && !provider.search_url.starts_with("http://127.0.0.1")
+    {
+        return Err("il provider deve usare HTTPS (o localhost per test)".to_string());
+    }
+    let mut providers = custom_providers(db);
+    if let Some(existing) = providers.iter_mut().find(|item| item.id == id) {
+        *existing = provider;
+    } else {
+        providers.push(provider);
+    }
+    db.set_setting(
+        "online.custom_providers",
+        &serde_json::to_string(&providers).map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())
+}
+
+pub fn delete_custom_provider(db: &Database, id: &str) -> Result<(), String> {
+    let mut providers = custom_providers(db);
+    providers.retain(|provider| provider.id != id);
+    db.set_setting(
+        "online.custom_providers",
+        &serde_json::to_string(&providers).map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())
+}
+
+pub fn providers_with_db(db: &Database) -> Vec<OnlineProviderInfo> {
+    let mut out = providers();
+    for provider in custom_providers(db) {
+        out.push(OnlineProviderInfo {
+            id: provider.id,
+            name: provider.name,
+            enabled: provider.enabled,
+            note: if provider.note.is_empty() {
+                format!("Provider personalizzato: {}", provider.search_url)
+            } else {
+                provider.note
+            },
+        });
+    }
+    out
+}
+
+fn fetch_custom(provider: &CustomProvider, query: &str) -> Result<OnlineResponse, String> {
+    let url = provider
+        .search_url
+        .replace("{query}", &urlencoding::encode(query));
+    let client = reqwest::blocking::Client::builder()
+        .timeout(Duration::from_secs(20))
+        .user_agent("CAA-Writer/0.10 (offline-first)")
+        .build()
+        .map_err(|e| format!("client provider: {e}"))?;
+    let response = client
+        .get(&url)
+        .send()
+        .map_err(|e| format!("{} non raggiungibile: {e}", provider.name))?;
+    if !response.status().is_success() {
+        return Err(format!("{} ha risposto con stato {}", provider.name, response.status()));
+    }
+    let value: Value = response
+        .json()
+        .map_err(|e| format!("risposta non valida da {}: {e}", provider.name))?;
+    let items = value
+        .get("results")
+        .and_then(|v| v.as_array())
+        .or_else(|| value.as_array())
+        .cloned()
+        .unwrap_or_default();
+    let mut results = Vec::new();
+    for item in items.into_iter().take(24) {
+        let image_url = item
+            .get("image_url")
+            .or_else(|| item.get("image"))
+            .or_else(|| item.get("url"))
+            .and_then(|v| v.as_str())
+            .unwrap_or("");
+        if !image_url.starts_with("https://") && !image_url.starts_with("http://localhost") {
+            continue;
+        }
+        results.push(OnlineResult {
+            provider: provider.id.clone(),
+            id: item
+                .get("id")
+                .map(|v| v.to_string().trim_matches('"').to_string())
+                .unwrap_or_else(|| format!("{}", results.len() + 1)),
+            title: item
+                .get("title")
+                .or_else(|| item.get("label"))
+                .and_then(|v| v.as_str())
+                .unwrap_or(query)
+                .to_string(),
+            thumbnail_url: item
+                .get("thumbnail_url")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            image_url: image_url.to_string(),
+            page_url: item.get("page_url").and_then(|v| v.as_str()).map(str::to_string),
+            mime: item
+                .get("mime")
+                .and_then(|v| v.as_str())
+                .unwrap_or("image/png")
+                .to_string(),
+            width: item.get("width").and_then(|v| v.as_u64()).map(|v| v as u32),
+            height: item.get("height").and_then(|v| v.as_u64()).map(|v| v as u32),
+            author: item.get("author").and_then(|v| v.as_str()).map(str::to_string),
+            license: item
+                .get("license")
+                .and_then(|v| v.as_str())
+                .unwrap_or("licenza da verificare")
+                .to_string(),
+            license_url: item.get("license_url").and_then(|v| v.as_str()).map(str::to_string),
+            source: provider.name.clone(),
+            commercial_ok: item
+                .get("commercial_ok")
+                .and_then(|v| v.as_bool())
+                .unwrap_or(false),
+            kind: item
+                .get("kind")
+                .and_then(|v| v.as_str())
+                .unwrap_or("immagine")
+                .to_string(),
+        });
+    }
+    let empty = results.is_empty();
+    Ok(OnlineResponse {
+        provider: provider.id.clone(),
+        query: query.to_string(),
+        results,
+        cached: false,
+        warnings: if empty {
+            vec![format!("Nessun risultato da {}.", provider.name)]
+        } else {
+            Vec::new()
+        },
+    })
+}
+
 pub fn providers() -> Vec<OnlineProviderInfo> {
     vec![
         OnlineProviderInfo {
@@ -508,13 +680,39 @@ pub fn search(
         }
     }
     let response = fetch_wikimedia(&query)?;
+    if !response.results.is_empty() {
+        cache_put(db, PROVIDER_WIKIMEDIA, &query, &response.results);
+        return Ok(response);
+    }
+    for provider in custom_providers(db).into_iter().filter(|provider| provider.enabled) {
+        if let Ok(custom) = fetch_custom(&provider, &query) {
+            if !custom.results.is_empty() {
+                cache_put(db, &provider.id, &query, &custom.results);
+                return Ok(custom);
+            }
+        }
+    }
     cache_put(db, PROVIDER_WIKIMEDIA, &query, &response.results);
     Ok(response)
 }
 
 fn allowed_image_host(url: &str) -> bool {
-    url.starts_with("https://upload.wikimedia.org/")
+    if url.starts_with("https://upload.wikimedia.org/")
         || url.starts_with("https://static.arasaac.org/pictograms/")
+    {
+        return true;
+    }
+    // Provider aggiuntivi espliciti: solo HTTPS pubblico, mai host locali/IP.
+    if let Some(rest) = url.strip_prefix("https://") {
+        let host = rest.split('/').next().unwrap_or("");
+        return host.contains('.')
+            && !host.starts_with("localhost")
+            && !host.starts_with("127.")
+            && !host.starts_with("10.")
+            && !host.starts_with("192.168.")
+            && !host.starts_with("172.16.");
+    }
+    false
 }
 
 pub fn download_bytes(url: &str) -> Result<Vec<u8>, String> {
@@ -772,9 +970,12 @@ mod tests {
     }
 
     #[test]
-    fn only_wikimedia_upload_hosts_are_downloaded() {
+    fn image_downloads_require_public_https() {
         assert!(allowed_image_host("https://upload.wikimedia.org/a.png"));
-        assert!(!allowed_image_host("https://example.com/a.png"));
+        assert!(allowed_image_host("https://provider.example.org/a.png"));
         assert!(!allowed_image_host("http://upload.wikimedia.org/a.png"));
+        assert!(!allowed_image_host("https://localhost/a.png"));
+        assert!(!allowed_image_host("https://127.0.0.1/a.png"));
+        assert!(!allowed_image_host("https://192.168.1.2/a.png"));
     }
 }

@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Cura personale",
-          "symbol": "cura home",
+          "symbol": "Cura personale",
           "spoken_text": "Apri la cura personale",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Casa",
-          "symbol": "casa autonomia",
+          "symbol": "Casa",
           "spoken_text": "Apri la casa",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Spostamenti",
-          "symbol": "spostamenti home",
+          "symbol": "Spostamenti",
           "spoken_text": "Apri gli spostamenti",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Soldi",
-          "symbol": "soldi home",
+          "symbol": "Soldi",
           "spoken_text": "Apri i soldi",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Documenti",
-          "symbol": "documenti home",
+          "symbol": "Documenti",
           "spoken_text": "Apri i documenti",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi autonomia",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Devo fare",
-          "symbol": "devo fare autonomia",
+          "symbol": "Devo fare",
           "spoken_text": "Devo fare",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Mi serve aiuto",
-          "symbol": "mi serve aiuto",
+          "symbol": "Mi serve aiuto",
           "spoken_text": "Mi serve aiuto",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Lavarsi",
-          "symbol": "lavarsi",
+          "symbol": "Lavarsi",
           "spoken_text": "Mi lavo",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Vestirsi",
-          "symbol": "vestirsi",
+          "symbol": "Vestirsi",
           "spoken_text": "Mi vesto",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Mangiare",
-          "symbol": "mangiare autonomia",
+          "symbol": "Mangiare",
           "spoken_text": "Mangio",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Medicine",
-          "symbol": "medicine autonomia",
+          "symbol": "Medicine",
           "spoken_text": "Prendo le medicine",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Sonno",
-          "symbol": "sonno autonomia",
+          "symbol": "Sonno",
           "spoken_text": "Dormo",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Appuntamento",
-          "symbol": "appuntamento autonomia",
+          "symbol": "Appuntamento",
           "spoken_text": "Ho un appuntamento",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Chiedere aiuto",
-          "symbol": "chiedere aiuto autonomia",
+          "symbol": "Chiedere aiuto",
           "spoken_text": "Chiedo aiuto",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Pulire",
-          "symbol": "pulire autonomia",
+          "symbol": "Pulire",
           "spoken_text": "Pulisco",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Cucinare",
-          "symbol": "cucinare autonomia",
+          "symbol": "Cucinare",
           "spoken_text": "Cucino",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Lavatrice",
-          "symbol": "lavatrice",
+          "symbol": "Lavatrice",
           "spoken_text": "Uso la lavatrice",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Bollette",
-          "symbol": "bollette",
+          "symbol": "Bollette",
           "spoken_text": "Pago le bollette",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Chiavi",
-          "symbol": "chiavi autonomia",
+          "symbol": "Chiavi",
           "spoken_text": "Controllo le chiavi",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Riparazione",
-          "symbol": "riparazione autonomia",
+          "symbol": "Riparazione",
           "spoken_text": "Faccio riparare",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Sicurezza",
-          "symbol": "sicurezza autonomia",
+          "symbol": "Sicurezza",
           "spoken_text": "Controllo la sicurezza",
           "action": {
             "type": "speak"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Autobus",
-          "symbol": "autobus autonomia",
+          "symbol": "Autobus",
           "spoken_text": "Prendo l'autobus",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Treno",
-          "symbol": "treno autonomia",
+          "symbol": "Treno",
           "spoken_text": "Prendo il treno",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Mappa",
-          "symbol": "mappa autonomia",
+          "symbol": "Mappa",
           "spoken_text": "Controllo la mappa",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Biglietto",
-          "symbol": "biglietto autonomia",
+          "symbol": "Biglietto",
           "spoken_text": "Prendo il biglietto",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Orario",
-          "symbol": "orario autonomia",
+          "symbol": "Orario",
           "spoken_text": "Controllo l'orario",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Taxi",
-          "symbol": "taxi autonomia",
+          "symbol": "Taxi",
           "spoken_text": "Chiamo un taxi",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Camminare",
-          "symbol": "camminare autonomia",
+          "symbol": "Camminare",
           "spoken_text": "Cammino",
           "action": {
             "type": "speak"
@@ -598,7 +598,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -614,7 +614,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -643,7 +643,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Contanti",
-          "symbol": "contanti autonomia",
+          "symbol": "Contanti",
           "spoken_text": "Ho i contanti",
           "action": {
             "type": "speak"
@@ -659,7 +659,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Carta",
-          "symbol": "carta autonomia",
+          "symbol": "Carta",
           "spoken_text": "Uso la carta",
           "action": {
             "type": "speak"
@@ -675,7 +675,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Bancomat",
-          "symbol": "bancomat",
+          "symbol": "Bancomat",
           "spoken_text": "Prelievo al bancomat",
           "action": {
             "type": "speak"
@@ -691,7 +691,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Resto",
-          "symbol": "resto autonomia",
+          "symbol": "Resto",
           "spoken_text": "Controllo il resto",
           "action": {
             "type": "speak"
@@ -707,7 +707,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Prezzo",
-          "symbol": "prezzo autonomia",
+          "symbol": "Prezzo",
           "spoken_text": "Controllo il prezzo",
           "action": {
             "type": "speak"
@@ -723,7 +723,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Budget",
-          "symbol": "budget",
+          "symbol": "Budget",
           "spoken_text": "Rispetto il budget",
           "action": {
             "type": "speak"
@@ -739,7 +739,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Spesa",
-          "symbol": "spesa nav",
+          "symbol": "Spesa",
           "spoken_text": "Apri la spesa",
           "action": {
             "type": "navigate",
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Lista",
-          "symbol": "lista spesa",
+          "symbol": "Lista",
           "spoken_text": "Preparo la lista",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Budget",
-          "symbol": "budget spesa",
+          "symbol": "Budget",
           "spoken_text": "Controllo il budget",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Supermercato",
-          "symbol": "supermercato spesa",
+          "symbol": "Supermercato",
           "spoken_text": "Vado al supermercato",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Pagare",
-          "symbol": "pagare spesa",
+          "symbol": "Pagare",
           "spoken_text": "Pago alla cassa",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Scontrino",
-          "symbol": "scontrino spesa",
+          "symbol": "Scontrino",
           "spoken_text": "Controllo lo scontrino",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Borsa",
-          "symbol": "borsa spesa",
+          "symbol": "Borsa",
           "spoken_text": "Prendo la borsa",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Offerte",
-          "symbol": "offerte spesa",
+          "symbol": "Offerte",
           "spoken_text": "Cerco le offerte",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Carta d'identità",
-          "symbol": "carta identita",
+          "symbol": "Carta d'identità",
           "spoken_text": "Controllo la carta d'identità",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Tessera",
-          "symbol": "tessera",
+          "symbol": "Tessera",
           "spoken_text": "Ho la tessera",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Codice fiscale",
-          "symbol": "codice fiscale",
+          "symbol": "Codice fiscale",
           "spoken_text": "Ho il codice fiscale",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Firma",
-          "symbol": "firma",
+          "symbol": "Firma",
           "spoken_text": "Devo firmare",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Scadenza",
-          "symbol": "scadenza doc",
+          "symbol": "Scadenza",
           "spoken_text": "Controllo la scadenza",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Fotocopia",
-          "symbol": "fotocopia",
+          "symbol": "Fotocopia",
           "spoken_text": "Mi serve una fotocopia",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Archivio",
-          "symbol": "archivio",
+          "symbol": "Archivio",
           "spoken_text": "Archivio i documenti",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Devo fare la spesa",
-          "symbol": "devo spesa",
+          "symbol": "Devo fare la spesa",
           "spoken_text": "Devo fare la spesa",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Quanto ho speso?",
-          "symbol": "quanto speso",
+          "symbol": "Quanto ho speso?",
           "spoken_text": "Quanto ho speso?",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Mi serve aiuto",
-          "symbol": "serve aiuto autonomia",
+          "symbol": "Mi serve aiuto",
           "spoken_text": "Mi serve aiuto",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Ho dimenticato le chiavi",
-          "symbol": "dimenticato chiavi",
+          "symbol": "Ho dimenticato le chiavi",
           "spoken_text": "Ho dimenticato le chiavi",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Devo pagare una bolletta",
-          "symbol": "pagare bolletta",
+          "symbol": "Devo pagare una bolletta",
           "spoken_text": "Devo pagare una bolletta",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Posso avere una ricevuta?",
-          "symbol": "ricevuta autonomia",
+          "symbol": "Posso avere una ricevuta?",
           "spoken_text": "Posso avere una ricevuta?",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Ho un appuntamento",
-          "symbol": "appuntamento frase",
+          "symbol": "Ho un appuntamento",
           "spoken_text": "Ho un appuntamento",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie autonomia",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'aiuto",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

@@ -387,9 +387,9 @@ impl Default for AiConfig {
             enabled: false,
             binary_path: String::new(),
             model_path: String::new(),
-            threads: 2,
-            context_size: 1024,
-            timeout_ms: 8000,
+            threads: 1,
+            context_size: 512,
+            timeout_ms: 4000,
             backend: "auto".to_string(),
             extra_args: Vec::new(),
         }

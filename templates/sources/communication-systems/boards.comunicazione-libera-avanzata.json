@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Nuclei",
-          "symbol": "nuclei home",
+          "symbol": "Nuclei",
           "spoken_text": "Apri i nuclei",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Verbi",
-          "symbol": "verbi home",
+          "symbol": "Verbi",
           "spoken_text": "Apri i verbi",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Descrivere",
-          "symbol": "descrivere home",
+          "symbol": "Descrivere",
           "spoken_text": "Apri le descrizioni",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Argomentare",
-          "symbol": "argomentare home",
+          "symbol": "Argomentare",
           "spoken_text": "Apri l'argomentazione",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Strategie",
-          "symbol": "strategie home",
+          "symbol": "Strategie",
           "spoken_text": "Apri le strategie",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi libera",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Voglio dire",
-          "symbol": "voglio dire",
+          "symbol": "Voglio dire",
           "spoken_text": "Voglio dire",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Puoi spiegarmi meglio",
-          "symbol": "spiegami",
+          "symbol": "Puoi spiegarmi meglio",
           "spoken_text": "Puoi spiegarmi meglio?",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Io",
-          "symbol": "io",
+          "symbol": "Io",
           "spoken_text": "Io",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Tu",
-          "symbol": "tu",
+          "symbol": "Tu",
           "spoken_text": "Tu",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Lui",
-          "symbol": "lui",
+          "symbol": "Lui",
           "spoken_text": "Lui",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Lei",
-          "symbol": "lei",
+          "symbol": "Lei",
           "spoken_text": "Lei",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Noi",
-          "symbol": "noi",
+          "symbol": "Noi",
           "spoken_text": "Noi",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Voi",
-          "symbol": "voi",
+          "symbol": "Voi",
           "spoken_text": "Voi",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Loro",
-          "symbol": "loro",
+          "symbol": "Loro",
           "spoken_text": "Loro",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Essere",
-          "symbol": "essere",
+          "symbol": "Essere",
           "spoken_text": "Essere",
           "action": {
             "type": "append"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Avere",
-          "symbol": "avere",
+          "symbol": "Avere",
           "spoken_text": "Avere",
           "action": {
             "type": "append"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Volere",
-          "symbol": "volere",
+          "symbol": "Volere",
           "spoken_text": "Volere",
           "action": {
             "type": "append"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Potere",
-          "symbol": "potere",
+          "symbol": "Potere",
           "spoken_text": "Potere",
           "action": {
             "type": "append"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Dovere",
-          "symbol": "dovere",
+          "symbol": "Dovere",
           "spoken_text": "Dovere",
           "action": {
             "type": "append"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Fare",
-          "symbol": "fare",
+          "symbol": "Fare",
           "spoken_text": "Fare",
           "action": {
             "type": "append"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Dire",
-          "symbol": "dire",
+          "symbol": "Dire",
           "spoken_text": "Dire",
           "action": {
             "type": "append"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Grande",
-          "symbol": "grande",
+          "symbol": "Grande",
           "spoken_text": "È grande",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Piccolo",
-          "symbol": "piccolo",
+          "symbol": "Piccolo",
           "spoken_text": "È piccolo",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Caldo",
-          "symbol": "caldo desc",
+          "symbol": "Caldo",
           "spoken_text": "È caldo",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Freddo",
-          "symbol": "freddo desc",
+          "symbol": "Freddo",
           "spoken_text": "È freddo",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Bello",
-          "symbol": "bello",
+          "symbol": "Bello",
           "spoken_text": "È bello",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Brutto",
-          "symbol": "brutto",
+          "symbol": "Brutto",
           "spoken_text": "È brutto",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Importante",
-          "symbol": "importante desc",
+          "symbol": "Importante",
           "spoken_text": "È importante",
           "action": {
             "type": "speak"
@@ -598,7 +598,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -614,7 +614,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -643,7 +643,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Perché",
-          "symbol": "perche arg",
+          "symbol": "Perché",
           "spoken_text": "Perché",
           "action": {
             "type": "speak"
@@ -659,7 +659,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Quindi",
-          "symbol": "quindi",
+          "symbol": "Quindi",
           "spoken_text": "Quindi",
           "action": {
             "type": "speak"
@@ -675,7 +675,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Però",
-          "symbol": "pero",
+          "symbol": "Però",
           "spoken_text": "Però",
           "action": {
             "type": "speak"
@@ -691,7 +691,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Secondo me",
-          "symbol": "secondo me arg",
+          "symbol": "Secondo me",
           "spoken_text": "Secondo me",
           "action": {
             "type": "append"
@@ -707,7 +707,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Primo",
-          "symbol": "primo arg",
+          "symbol": "Primo",
           "spoken_text": "Primo",
           "action": {
             "type": "speak"
@@ -723,7 +723,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Inoltre",
-          "symbol": "inoltre",
+          "symbol": "Inoltre",
           "spoken_text": "Inoltre",
           "action": {
             "type": "speak"
@@ -739,7 +739,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Connettivi",
-          "symbol": "connettivi nav",
+          "symbol": "Connettivi",
           "spoken_text": "Apri i connettivi",
           "action": {
             "type": "navigate",
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Ma",
-          "symbol": "ma",
+          "symbol": "Ma",
           "spoken_text": "Ma",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Però",
-          "symbol": "pero conn",
+          "symbol": "Però",
           "spoken_text": "Però",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Quindi",
-          "symbol": "quindi conn",
+          "symbol": "Quindi",
           "spoken_text": "Quindi",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Perché",
-          "symbol": "perche conn",
+          "symbol": "Perché",
           "spoken_text": "Perché",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Anche",
-          "symbol": "anche",
+          "symbol": "Anche",
           "spoken_text": "Anche",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Invece",
-          "symbol": "invece",
+          "symbol": "Invece",
           "spoken_text": "Invece",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Infine",
-          "symbol": "infine",
+          "symbol": "Infine",
           "spoken_text": "Infine",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Non capisco",
-          "symbol": "non capisco libera",
+          "symbol": "Non capisco",
           "spoken_text": "Non capisco",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Ripeti",
-          "symbol": "ripeti libera",
+          "symbol": "Ripeti",
           "spoken_text": "Ripeti, per favore",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Più lentamente",
-          "symbol": "piu lentamente libera",
+          "symbol": "Più lentamente",
           "spoken_text": "Più lentamente",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Scrivi",
-          "symbol": "scrivi",
+          "symbol": "Scrivi",
           "spoken_text": "Puoi scriverlo?",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Esempio",
-          "symbol": "esempio",
+          "symbol": "Esempio",
           "spoken_text": "Fammi un esempio",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Pausa",
-          "symbol": "pausa libera",
+          "symbol": "Pausa",
           "spoken_text": "Ho bisogno di una pausa",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Aiuto",
-          "symbol": "aiuto libera",
+          "symbol": "Aiuto",
           "spoken_text": "Mi serve aiuto",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Voglio dire che",
-          "symbol": "voglio dire che",
+          "symbol": "Voglio dire che",
           "spoken_text": "Voglio dire che",
           "action": {
             "type": "append"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Secondo me",
-          "symbol": "secondo me frase",
+          "symbol": "Secondo me",
           "spoken_text": "Secondo me",
           "action": {
             "type": "append"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Non sono d'accordo perché",
-          "symbol": "non daccordo perche",
+          "symbol": "Non sono d'accordo perché",
           "spoken_text": "Non sono d'accordo perché",
           "action": {
             "type": "append"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Puoi spiegarmi meglio?",
-          "symbol": "spiegami frase",
+          "symbol": "Puoi spiegarmi meglio?",
           "spoken_text": "Puoi spiegarmi meglio?",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Facciamo un esempio",
-          "symbol": "facciamo esempio",
+          "symbol": "Facciamo un esempio",
           "spoken_text": "Facciamo un esempio",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "In conclusione",
-          "symbol": "in conclusione",
+          "symbol": "In conclusione",
           "spoken_text": "In conclusione",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Ho bisogno di una pausa",
-          "symbol": "pausa frase libera",
+          "symbol": "Ho bisogno di una pausa",
           "spoken_text": "Ho bisogno di una pausa",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie per l'ascolto",
-          "symbol": "grazie ascolto",
+          "symbol": "Grazie per l'ascolto",
           "spoken_text": "Grazie per l'ascolto",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

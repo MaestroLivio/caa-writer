@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Emozioni",
-          "symbol": "emozioni home",
+          "symbol": "Emozioni",
           "spoken_text": "Apri le emozioni",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Corpo",
-          "symbol": "corpo emoz",
+          "symbol": "Corpo",
           "spoken_text": "Apri i segnali del corpo",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Regolazione",
-          "symbol": "regolazione home",
+          "symbol": "Regolazione",
           "spoken_text": "Apri la regolazione",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Intensità",
-          "symbol": "intensita home",
+          "symbol": "Intensità",
           "spoken_text": "Apri l'intensità",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Situazioni",
-          "symbol": "situazioni home",
+          "symbol": "Situazioni",
           "spoken_text": "Apri le situazioni",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi emoz",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Mi sento",
-          "symbol": "mi sento",
+          "symbol": "Mi sento",
           "spoken_text": "Mi sento",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Ho bisogno di una pausa",
-          "symbol": "pausa home",
+          "symbol": "Ho bisogno di una pausa",
           "spoken_text": "Ho bisogno di una pausa",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Felice",
-          "symbol": "felice",
+          "symbol": "Felice",
           "spoken_text": "Sono felice",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Triste",
-          "symbol": "triste",
+          "symbol": "Triste",
           "spoken_text": "Sono triste",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Arrabbiato",
-          "symbol": "arrabbiato",
+          "symbol": "Arrabbiato",
           "spoken_text": "Sono arrabbiato",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Ansioso",
-          "symbol": "ansioso",
+          "symbol": "Ansioso",
           "spoken_text": "Sono ansioso",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Spaventato",
-          "symbol": "spaventato",
+          "symbol": "Spaventato",
           "spoken_text": "Ho paura",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Sorpreso",
-          "symbol": "sorpreso",
+          "symbol": "Sorpreso",
           "spoken_text": "Sono sorpreso",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Calmo",
-          "symbol": "calmo",
+          "symbol": "Calmo",
           "spoken_text": "Sono calmo",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Cuore",
-          "symbol": "cuore",
+          "symbol": "Cuore",
           "spoken_text": "Il cuore batte forte",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Respiro",
-          "symbol": "respiro emoz",
+          "symbol": "Respiro",
           "spoken_text": "Il respiro è corto",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Stomaco",
-          "symbol": "stomaco emoz",
+          "symbol": "Stomaco",
           "spoken_text": "Ho lo stomaco stretto",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Tensione",
-          "symbol": "tensione",
+          "symbol": "Tensione",
           "spoken_text": "Sento tensione",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Lacrime",
-          "symbol": "lacrime",
+          "symbol": "Lacrime",
           "spoken_text": "Mi vengono le lacrime",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Energia",
-          "symbol": "energia",
+          "symbol": "Energia",
           "spoken_text": "Non ho energia",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Voce",
-          "symbol": "voce",
+          "symbol": "Voce",
           "spoken_text": "La voce trema",
           "action": {
             "type": "speak"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Respirare",
-          "symbol": "respirare",
+          "symbol": "Respirare",
           "spoken_text": "Faccio respiri profondi",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Pausa",
-          "symbol": "pausa emoz",
+          "symbol": "Pausa",
           "spoken_text": "Ho bisogno di una pausa",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Contare",
-          "symbol": "contare",
+          "symbol": "Contare",
           "spoken_text": "Conto fino a dieci",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Camminare",
-          "symbol": "camminare",
+          "symbol": "Camminare",
           "spoken_text": "Faccio una camminata",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Parlare",
-          "symbol": "parlare emoz",
+          "symbol": "Parlare",
           "spoken_text": "Ho bisogno di parlare",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Abbraccio",
-          "symbol": "abbraccio",
+          "symbol": "Abbraccio",
           "spoken_text": "Vorrei un abbraccio",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Bisogni",
-          "symbol": "bisogni emotivi nav",
+          "symbol": "Bisogni",
           "spoken_text": "Apri i bisogni emotivi",
           "action": {
             "type": "navigate",
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Sicurezza",
-          "symbol": "sicurezza emotiva",
+          "symbol": "Sicurezza",
           "spoken_text": "Ho bisogno di sicurezza",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Ascolto",
-          "symbol": "ascolto",
+          "symbol": "Ascolto",
           "spoken_text": "Ho bisogno di ascolto",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Spazio",
-          "symbol": "spazio",
+          "symbol": "Spazio",
           "spoken_text": "Ho bisogno di spazio",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Compagnia",
-          "symbol": "compagnia emotiva",
+          "symbol": "Compagnia",
           "spoken_text": "Vorrei compagnia",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Riposo",
-          "symbol": "riposo emotivo",
+          "symbol": "Riposo",
           "spoken_text": "Ho bisogno di riposo",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Rassicurazione",
-          "symbol": "rassicurazione",
+          "symbol": "Rassicurazione",
           "spoken_text": "Mi serve rassicurazione",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Rispetto",
-          "symbol": "rispetto emotivo",
+          "symbol": "Rispetto",
           "spoken_text": "Chiedo rispetto",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Poco",
-          "symbol": "poco",
+          "symbol": "Poco",
           "spoken_text": "Mi sento poco coinvolto",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Abbastanza",
-          "symbol": "abbastanza",
+          "symbol": "Abbastanza",
           "spoken_text": "Sono abbastanza teso",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Molto",
-          "symbol": "molto",
+          "symbol": "Molto",
           "spoken_text": "Sono molto agitato",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Troppo",
-          "symbol": "troppo",
+          "symbol": "Troppo",
           "spoken_text": "È troppo per me",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Di più",
-          "symbol": "di piu",
+          "symbol": "Di più",
           "spoken_text": "Vorrei sentirmi meglio",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Di meno",
-          "symbol": "di meno",
+          "symbol": "Di meno",
           "spoken_text": "Vorrei meno pressione",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Al limite",
-          "symbol": "al limite",
+          "symbol": "Al limite",
           "spoken_text": "Sono al limite",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Casa",
-          "symbol": "casa emoz",
+          "symbol": "Casa",
           "spoken_text": "A casa mi sento così",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Lavoro",
-          "symbol": "lavoro emoz",
+          "symbol": "Lavoro",
           "spoken_text": "Al lavoro mi sento così",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Scuola",
-          "symbol": "scuola emoz",
+          "symbol": "Scuola",
           "spoken_text": "A scuola mi sento così",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Amici",
-          "symbol": "amici emoz",
+          "symbol": "Amici",
           "spoken_text": "Con gli amici mi sento così",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Famiglia",
-          "symbol": "famiglia emoz",
+          "symbol": "Famiglia",
           "spoken_text": "In famiglia mi sento così",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Da solo",
-          "symbol": "da solo emoz",
+          "symbol": "Da solo",
           "spoken_text": "Da solo mi sento così",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "In gruppo",
-          "symbol": "in gruppo",
+          "symbol": "In gruppo",
           "spoken_text": "In gruppo mi sento così",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Mi sento",
-          "symbol": "mi sento frase",
+          "symbol": "Mi sento",
           "spoken_text": "Mi sento",
           "action": {
             "type": "append"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Sono felice",
-          "symbol": "sono felice",
+          "symbol": "Sono felice",
           "spoken_text": "Sono felice",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Sono triste",
-          "symbol": "sono triste",
+          "symbol": "Sono triste",
           "spoken_text": "Sono triste",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Sono arrabbiato",
-          "symbol": "sono arrabbiato",
+          "symbol": "Sono arrabbiato",
           "spoken_text": "Sono arrabbiato",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Ho paura",
-          "symbol": "ho paura",
+          "symbol": "Ho paura",
           "spoken_text": "Ho paura",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Ho bisogno di",
-          "symbol": "ho bisogno emoz",
+          "symbol": "Ho bisogno di",
           "spoken_text": "Ho bisogno di",
           "action": {
             "type": "append"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Lasciami stare",
-          "symbol": "lasciami stare",
+          "symbol": "Lasciami stare",
           "spoken_text": "Lasciami stare, per favore",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Mi aiuti?",
-          "symbol": "mi aiuti emoz",
+          "symbol": "Mi aiuti?",
           "spoken_text": "Mi aiuti a calmarmi?",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

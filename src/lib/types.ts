@@ -231,6 +231,32 @@ export interface AiConfig {
   extra_args: string[];
 }
 
+export interface AiProviderConfig {
+  kind: "local" | "openai-compatible" | string;
+  endpoint: string;
+  model: string;
+  timeout_ms: number;
+  max_tokens: number;
+  allow_online: boolean;
+  privacy_ack: boolean;
+}
+
+export interface AiProviderStatus {
+  config: AiProviderConfig;
+  has_key: boolean;
+  key_storage: string;
+  usable: boolean;
+  note: string;
+}
+
+export interface AiProviderTest {
+  ok: boolean;
+  status: number;
+  elapsed_ms: number;
+  reply: string;
+  note: string;
+}
+
 export interface AiStatus {
   enabled: boolean;
   binary_present: boolean;
@@ -526,6 +552,8 @@ export interface DocumentSettings {
   typing_sound: boolean;
   speak_words: boolean;
   speak_sentences: boolean;
+  /// Interruttore generale della sintesi vocale (default: disattivata).
+  speech_enabled: boolean;
   touch_mode: boolean;
   theme: "chiaro" | "scuro" | "contrasto";
   page: "a4" | "a4-orizzontale" | "a3" | "a5";
@@ -575,10 +603,11 @@ export const defaultSettings: DocumentSettings = {
   // Bordo attorno a immagine e testo: è l'aspetto storico dei chip.
   border_style: "immagine_testo",
   animations: "full",
-  online_search: "off",
+  online_search: "suggest",
   typing_sound: false,
   speak_words: false,
   speak_sentences: false,
+  speech_enabled: false,
   touch_mode: false,
   theme: "chiaro",
   page: "a4",
@@ -602,9 +631,9 @@ export const defaultSettings: DocumentSettings = {
   symbolize_articles: false,
   symbolize_prepositions: false,
   symbolize_conjunctions: false,
-  perf_profile: "bilanciato",
-  analysis_debounce_ms: 240,
-  refine_debounce_ms: 600,
+  perf_profile: "risparmio",
+  analysis_debounce_ms: 420,
+  refine_debounce_ms: 1200,
 };
 
 // ---------------------------------------------------------------------------
@@ -670,6 +699,10 @@ export interface UniversalAction {
 
 export interface UniversalGridCell {
   id: string;
+  row?: number;
+  column?: number;
+  row_span?: number;
+  column_span?: number;
   text: string;
   spoken_text: string;
   concept_id?: string | null;
@@ -685,6 +718,8 @@ export interface UniversalGridData {
   columns: number;
   rows: number;
   gap_mm: number;
+  column_widths?: number[];
+  row_heights?: number[];
   cells: UniversalGridCell[];
 }
 
@@ -780,6 +815,10 @@ export interface RenderedElement {
 
 export interface RenderedGridCell {
   id: string;
+  row: number;
+  column: number;
+  row_span: number;
+  column_span: number;
   text: string;
   spoken_text: string;
   symbol_id: string | null;
@@ -1049,6 +1088,14 @@ export interface OnlineResponse {
   results: OnlineResult[];
   cached: boolean;
   warnings: string[];
+}
+
+export interface OnlineCustomProvider {
+  id: string;
+  name: string;
+  search_url: string;
+  enabled: boolean;
+  note: string;
 }
 
 export interface OnlineProviderInfo {

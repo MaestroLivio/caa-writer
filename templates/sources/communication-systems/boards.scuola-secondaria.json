@@ -25,7 +25,7 @@
           "id": "c1",
           "kind": "symbol",
           "text": "Materie",
-          "symbol": "materie secondaria",
+          "symbol": "Materie",
           "spoken_text": "Apri le materie",
           "action": {
             "type": "navigate",
@@ -42,7 +42,7 @@
           "id": "c2",
           "kind": "symbol",
           "text": "Organizzazione",
-          "symbol": "organizzazione scuola",
+          "symbol": "Organizzazione",
           "spoken_text": "Apri l'organizzazione",
           "action": {
             "type": "navigate",
@@ -59,7 +59,7 @@
           "id": "c3",
           "kind": "symbol",
           "text": "Verifiche",
-          "symbol": "verifiche home",
+          "symbol": "Verifiche",
           "spoken_text": "Apri le verifiche",
           "action": {
             "type": "navigate",
@@ -76,7 +76,7 @@
           "id": "c4",
           "kind": "symbol",
           "text": "Relazioni",
-          "symbol": "relazioni scuola",
+          "symbol": "Relazioni",
           "spoken_text": "Apri le relazioni",
           "action": {
             "type": "navigate",
@@ -93,7 +93,7 @@
           "id": "c5",
           "kind": "symbol",
           "text": "Laboratori",
-          "symbol": "laboratori home",
+          "symbol": "Laboratori",
           "spoken_text": "Apri i laboratori",
           "action": {
             "type": "navigate",
@@ -110,7 +110,7 @@
           "id": "c6",
           "kind": "symbol",
           "text": "Frasi",
-          "symbol": "frasi secondaria",
+          "symbol": "Frasi",
           "spoken_text": "Apri le frasi",
           "action": {
             "type": "navigate",
@@ -127,7 +127,7 @@
           "id": "c7",
           "kind": "symbol",
           "text": "Devo studiare",
-          "symbol": "devo studiare",
+          "symbol": "Devo studiare",
           "spoken_text": "Devo studiare",
           "action": {
             "type": "append"
@@ -143,7 +143,7 @@
           "id": "c8",
           "kind": "symbol",
           "text": "Ho una domanda",
-          "symbol": "ho una domanda",
+          "symbol": "Ho una domanda",
           "spoken_text": "Ho una domanda",
           "action": {
             "type": "speak"
@@ -172,7 +172,7 @@
           "id": "c9",
           "kind": "symbol",
           "text": "Italiano",
-          "symbol": "italiano sec",
+          "symbol": "Italiano",
           "spoken_text": "Abbiamo italiano",
           "action": {
             "type": "speak"
@@ -188,7 +188,7 @@
           "id": "c10",
           "kind": "symbol",
           "text": "Matematica",
-          "symbol": "matematica sec",
+          "symbol": "Matematica",
           "spoken_text": "Abbiamo matematica",
           "action": {
             "type": "speak"
@@ -204,7 +204,7 @@
           "id": "c11",
           "kind": "symbol",
           "text": "Inglese",
-          "symbol": "inglese",
+          "symbol": "Inglese",
           "spoken_text": "Abbiamo inglese",
           "action": {
             "type": "speak"
@@ -220,7 +220,7 @@
           "id": "c12",
           "kind": "symbol",
           "text": "Scienze",
-          "symbol": "scienze sec",
+          "symbol": "Scienze",
           "spoken_text": "Abbiamo scienze",
           "action": {
             "type": "speak"
@@ -236,7 +236,7 @@
           "id": "c13",
           "kind": "symbol",
           "text": "Storia",
-          "symbol": "storia sec",
+          "symbol": "Storia",
           "spoken_text": "Abbiamo storia",
           "action": {
             "type": "speak"
@@ -252,7 +252,7 @@
           "id": "c14",
           "kind": "symbol",
           "text": "Filosofia",
-          "symbol": "filosofia",
+          "symbol": "Filosofia",
           "spoken_text": "Abbiamo filosofia",
           "action": {
             "type": "speak"
@@ -268,7 +268,7 @@
           "id": "c15",
           "kind": "symbol",
           "text": "Informatica",
-          "symbol": "informatica",
+          "symbol": "Informatica",
           "spoken_text": "Abbiamo informatica",
           "action": {
             "type": "speak"
@@ -284,7 +284,7 @@
           "id": "c16",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -300,7 +300,7 @@
           "id": "c17",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -329,7 +329,7 @@
           "id": "c18",
           "kind": "symbol",
           "text": "Orario",
-          "symbol": "orario scuola",
+          "symbol": "Orario",
           "spoken_text": "Controllo l'orario",
           "action": {
             "type": "speak"
@@ -345,7 +345,7 @@
           "id": "c19",
           "kind": "symbol",
           "text": "Zaino",
-          "symbol": "zaino",
+          "symbol": "Zaino",
           "spoken_text": "Preparo lo zaino",
           "action": {
             "type": "speak"
@@ -361,7 +361,7 @@
           "id": "c20",
           "kind": "symbol",
           "text": "Compiti",
-          "symbol": "compiti",
+          "symbol": "Compiti",
           "spoken_text": "Ho dei compiti",
           "action": {
             "type": "speak"
@@ -377,7 +377,7 @@
           "id": "c21",
           "kind": "symbol",
           "text": "Scadenze",
-          "symbol": "scadenze scuola",
+          "symbol": "Scadenze",
           "spoken_text": "Segno le scadenze",
           "action": {
             "type": "speak"
@@ -393,7 +393,7 @@
           "id": "c22",
           "kind": "symbol",
           "text": "Armadietto",
-          "symbol": "armadietto",
+          "symbol": "Armadietto",
           "spoken_text": "Apro l'armadietto",
           "action": {
             "type": "speak"
@@ -409,7 +409,7 @@
           "id": "c23",
           "kind": "symbol",
           "text": "Registro",
-          "symbol": "registro",
+          "symbol": "Registro",
           "spoken_text": "Controllo il registro",
           "action": {
             "type": "speak"
@@ -425,7 +425,7 @@
           "id": "c24",
           "kind": "symbol",
           "text": "Assenze",
-          "symbol": "assenze",
+          "symbol": "Assenze",
           "spoken_text": "Devo giustificare un'assenza",
           "action": {
             "type": "speak"
@@ -441,7 +441,7 @@
           "id": "c25",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -457,7 +457,7 @@
           "id": "c26",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -486,7 +486,7 @@
           "id": "c27",
           "kind": "symbol",
           "text": "Interrogazione",
-          "symbol": "interrogazione",
+          "symbol": "Interrogazione",
           "spoken_text": "Ho un'interrogazione",
           "action": {
             "type": "speak"
@@ -502,7 +502,7 @@
           "id": "c28",
           "kind": "symbol",
           "text": "Compito",
-          "symbol": "compito verifica",
+          "symbol": "Compito",
           "spoken_text": "Ho un compito in classe",
           "action": {
             "type": "speak"
@@ -518,7 +518,7 @@
           "id": "c29",
           "kind": "symbol",
           "text": "Voto",
-          "symbol": "voto",
+          "symbol": "Voto",
           "spoken_text": "Ho preso un voto",
           "action": {
             "type": "speak"
@@ -534,7 +534,7 @@
           "id": "c30",
           "kind": "symbol",
           "text": "Ripasso",
-          "symbol": "ripasso",
+          "symbol": "Ripasso",
           "spoken_text": "Devo ripassare",
           "action": {
             "type": "speak"
@@ -550,7 +550,7 @@
           "id": "c31",
           "kind": "symbol",
           "text": "Ansia",
-          "symbol": "ansia verifica",
+          "symbol": "Ansia",
           "spoken_text": "Sono in ansia per la verifica",
           "action": {
             "type": "speak"
@@ -566,7 +566,7 @@
           "id": "c32",
           "kind": "symbol",
           "text": "Recupero",
-          "symbol": "recupero",
+          "symbol": "Recupero",
           "spoken_text": "Devo recuperare",
           "action": {
             "type": "speak"
@@ -582,7 +582,7 @@
           "id": "c33",
           "kind": "symbol",
           "text": "Metodo di studio",
-          "symbol": "metodo studio nav",
+          "symbol": "Metodo di studio",
           "spoken_text": "Apri il metodo di studio",
           "action": {
             "type": "navigate",
@@ -599,7 +599,7 @@
           "id": "c34",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -615,7 +615,7 @@
           "id": "c35",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -644,7 +644,7 @@
           "id": "c36",
           "kind": "symbol",
           "text": "Riassumere",
-          "symbol": "riassumere",
+          "symbol": "Riassumere",
           "spoken_text": "Riassumo il capitolo",
           "action": {
             "type": "speak"
@@ -660,7 +660,7 @@
           "id": "c37",
           "kind": "symbol",
           "text": "Sottolineare",
-          "symbol": "sottolineare",
+          "symbol": "Sottolineare",
           "spoken_text": "Sottolineo le parti importanti",
           "action": {
             "type": "speak"
@@ -676,7 +676,7 @@
           "id": "c38",
           "kind": "symbol",
           "text": "Schematizzare",
-          "symbol": "schematizzare",
+          "symbol": "Schematizzare",
           "spoken_text": "Faccio uno schema",
           "action": {
             "type": "speak"
@@ -692,7 +692,7 @@
           "id": "c39",
           "kind": "symbol",
           "text": "Ripetere",
-          "symbol": "ripetere studio",
+          "symbol": "Ripetere",
           "spoken_text": "Ripeto ad alta voce",
           "action": {
             "type": "speak"
@@ -708,7 +708,7 @@
           "id": "c40",
           "kind": "symbol",
           "text": "Appunti",
-          "symbol": "appunti",
+          "symbol": "Appunti",
           "spoken_text": "Rileggo gli appunti",
           "action": {
             "type": "speak"
@@ -724,7 +724,7 @@
           "id": "c41",
           "kind": "symbol",
           "text": "Mappa",
-          "symbol": "mappa",
+          "symbol": "Mappa",
           "spoken_text": "Costruisco una mappa",
           "action": {
             "type": "speak"
@@ -740,7 +740,7 @@
           "id": "c42",
           "kind": "symbol",
           "text": "Tempo",
-          "symbol": "tempo studio",
+          "symbol": "Tempo",
           "spoken_text": "Mi prendo il tempo necessario",
           "action": {
             "type": "speak"
@@ -756,7 +756,7 @@
           "id": "c43",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -772,7 +772,7 @@
           "id": "c44",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -801,7 +801,7 @@
           "id": "c45",
           "kind": "symbol",
           "text": "Compagno",
-          "symbol": "compagno sec",
+          "symbol": "Compagno",
           "spoken_text": "Parlo con un compagno",
           "action": {
             "type": "speak"
@@ -817,7 +817,7 @@
           "id": "c46",
           "kind": "symbol",
           "text": "Gruppo",
-          "symbol": "gruppo sec",
+          "symbol": "Gruppo",
           "spoken_text": "Lavoro in gruppo",
           "action": {
             "type": "speak"
@@ -833,7 +833,7 @@
           "id": "c47",
           "kind": "symbol",
           "text": "Conflitto",
-          "symbol": "conflitto scuola",
+          "symbol": "Conflitto",
           "spoken_text": "C'è un conflitto",
           "action": {
             "type": "speak"
@@ -849,7 +849,7 @@
           "id": "c48",
           "kind": "symbol",
           "text": "Rispetto",
-          "symbol": "rispetto scuola",
+          "symbol": "Rispetto",
           "spoken_text": "Chiedo rispetto",
           "action": {
             "type": "speak"
@@ -865,7 +865,7 @@
           "id": "c49",
           "kind": "symbol",
           "text": "Collaborare",
-          "symbol": "collaborare",
+          "symbol": "Collaborare",
           "spoken_text": "Collaboro con gli altri",
           "action": {
             "type": "speak"
@@ -881,7 +881,7 @@
           "id": "c50",
           "kind": "symbol",
           "text": "Chiedere aiuto",
-          "symbol": "chiedere aiuto sec",
+          "symbol": "Chiedere aiuto",
           "spoken_text": "Chiedo aiuto",
           "action": {
             "type": "speak"
@@ -897,7 +897,7 @@
           "id": "c51",
           "kind": "symbol",
           "text": "Insegnante",
-          "symbol": "insegnante",
+          "symbol": "Insegnante",
           "spoken_text": "Parlo con l'insegnante",
           "action": {
             "type": "speak"
@@ -913,7 +913,7 @@
           "id": "c52",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -929,7 +929,7 @@
           "id": "c53",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -958,7 +958,7 @@
           "id": "c54",
           "kind": "symbol",
           "text": "Esperimento",
-          "symbol": "esperimento",
+          "symbol": "Esperimento",
           "spoken_text": "Facciamo un esperimento",
           "action": {
             "type": "speak"
@@ -974,7 +974,7 @@
           "id": "c55",
           "kind": "symbol",
           "text": "Strumenti",
-          "symbol": "strumenti lab",
+          "symbol": "Strumenti",
           "spoken_text": "Prendo gli strumenti",
           "action": {
             "type": "speak"
@@ -990,7 +990,7 @@
           "id": "c56",
           "kind": "symbol",
           "text": "Sicurezza",
-          "symbol": "sicurezza lab",
+          "symbol": "Sicurezza",
           "spoken_text": "Rispetto la sicurezza",
           "action": {
             "type": "speak"
@@ -1006,7 +1006,7 @@
           "id": "c57",
           "kind": "symbol",
           "text": "Gruppo",
-          "symbol": "gruppo lab",
+          "symbol": "Gruppo",
           "spoken_text": "Lavoro con il gruppo",
           "action": {
             "type": "speak"
@@ -1022,7 +1022,7 @@
           "id": "c58",
           "kind": "symbol",
           "text": "Relazione",
-          "symbol": "relazione lab",
+          "symbol": "Relazione",
           "spoken_text": "Scrivo la relazione",
           "action": {
             "type": "speak"
@@ -1038,7 +1038,7 @@
           "id": "c59",
           "kind": "symbol",
           "text": "Osservare",
-          "symbol": "osservare",
+          "symbol": "Osservare",
           "spoken_text": "Osservo il risultato",
           "action": {
             "type": "speak"
@@ -1054,7 +1054,7 @@
           "id": "c60",
           "kind": "symbol",
           "text": "Conclusione",
-          "symbol": "conclusione",
+          "symbol": "Conclusione",
           "spoken_text": "Scrivo la conclusione",
           "action": {
             "type": "speak"
@@ -1070,7 +1070,7 @@
           "id": "c61",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1086,7 +1086,7 @@
           "id": "c62",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"
@@ -1115,7 +1115,7 @@
           "id": "c63",
           "kind": "symbol",
           "text": "Ho una verifica",
-          "symbol": "ho verifica",
+          "symbol": "Ho una verifica",
           "spoken_text": "Ho una verifica",
           "action": {
             "type": "speak"
@@ -1131,7 +1131,7 @@
           "id": "c64",
           "kind": "symbol",
           "text": "Non ho capito",
-          "symbol": "non capito sec",
+          "symbol": "Non ho capito",
           "spoken_text": "Non ho capito",
           "action": {
             "type": "speak"
@@ -1147,7 +1147,7 @@
           "id": "c65",
           "kind": "symbol",
           "text": "Posso recuperare?",
-          "symbol": "posso recuperare",
+          "symbol": "Posso recuperare?",
           "spoken_text": "Posso recuperare?",
           "action": {
             "type": "speak"
@@ -1163,7 +1163,7 @@
           "id": "c66",
           "kind": "symbol",
           "text": "Mi serve una spiegazione",
-          "symbol": "serve spiegazione",
+          "symbol": "Mi serve una spiegazione",
           "spoken_text": "Mi serve una spiegazione",
           "action": {
             "type": "speak"
@@ -1179,7 +1179,7 @@
           "id": "c67",
           "kind": "symbol",
           "text": "Ho finito",
-          "symbol": "ho finito sec",
+          "symbol": "Ho finito",
           "spoken_text": "Ho finito",
           "action": {
             "type": "speak"
@@ -1195,7 +1195,7 @@
           "id": "c68",
           "kind": "symbol",
           "text": "Sono in ritardo",
-          "symbol": "sono in ritardo",
+          "symbol": "Sono in ritardo",
           "spoken_text": "Sono in ritardo",
           "action": {
             "type": "speak"
@@ -1211,7 +1211,7 @@
           "id": "c69",
           "kind": "symbol",
           "text": "Posso uscire?",
-          "symbol": "posso uscire",
+          "symbol": "Posso uscire?",
           "spoken_text": "Posso uscire?",
           "action": {
             "type": "speak"
@@ -1227,7 +1227,7 @@
           "id": "c70",
           "kind": "symbol",
           "text": "Grazie",
-          "symbol": "grazie sec",
+          "symbol": "Grazie",
           "spoken_text": "Grazie per l'aiuto",
           "action": {
             "type": "speak"
@@ -1243,7 +1243,7 @@
           "id": "c71",
           "kind": "symbol",
           "text": "Indietro",
-          "symbol": "indietro",
+          "symbol": "Indietro",
           "spoken_text": "Torna indietro",
           "action": {
             "type": "back"
@@ -1259,7 +1259,7 @@
           "id": "c72",
           "kind": "symbol",
           "text": "Home",
-          "symbol": "home",
+          "symbol": "Home",
           "spoken_text": "Vai alla home",
           "action": {
             "type": "home"

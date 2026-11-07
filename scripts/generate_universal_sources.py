@@ -253,7 +253,10 @@ def build_board_spec(board: dict) -> dict:
                 "id": cell.get("id", f"c{index + 1}"),
                 "kind": "symbol",
                 "text": cell.get("label", ""),
-                "symbol": (cell.get("symbolLabel") or cell.get("label", "")).replace("_", " "),
+                # Le etichette `symbolLabel` storiche contenevano slug artificiali
+                # (es. momenti_home): per i documenti nativi si usa il testo
+                # visibile, che è la parola realmente cercata nel repertorio.
+                "symbol": (cell.get("label") or cell.get("symbolLabel", "")).replace("_", " "),
                 "spoken_text": cell.get("spokenText") or cell.get("label", ""),
                 "action": mapped,
                 "style": {"font_size": 4.2, "align": "center", "border_width": 1, "border_color": "#4b5563"},

@@ -93,7 +93,7 @@
       avatar: "",
       age_theme: "primaria",
       editor_level: 2,
-      features: ["boards", "speech", "compose", "search", "save"],
+      features: ["boards", "compose", "search", "save"],
       voice: {},
       accessibility: {},
       navigation: { mode: "compose" },
