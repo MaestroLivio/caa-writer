@@ -491,7 +491,7 @@
             onchange={(event) => onUpdateSettings({ online_search: (event.currentTarget as HTMLSelectElement).value as never })}
           >
             <option value="off">Disattivata</option>
-            <option value="suggest">Suggerisci nel pannello</option>
+            <option value="suggest">Suggerisci automaticamente nel pannello</option>
             <option value="auto">Cerca automaticamente l'unità senza simbolo</option>
           </select>
         </div>

@@ -4,6 +4,28 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## Non rilasciato (dopo 0.13.0)
+
+### Ricerca online ripristinata
+
+- La ricerca esplicita di una parola nuova non viene più scartata: il filtro
+  del lessico conserva l'input originale e invia solo la parola pulita. Prima
+  filtrava una lista già vuota, quindi molte ricerche non contattavano le API.
+- I risultati ARASAAC non vengono più eliminati quando `aac` è `false`: quel
+  campo non indica l'idoneità CAA e tagliava quasi tutti i pittogrammi validi,
+  facendo ripiegare sulle fotografie di Wikimedia.
+- Le miniature ARASAAC usano il formato `_300.png`, l'unico realmente
+  disponibile; `_100.png` restituisce 404 e lasciava i riquadri vuoti.
+- La cache online è versionata: i risultati vuoti o le fotografie salvate dalla
+  versione precedente non vengono riusati per 24 ore.
+- Le chiamate di ricerca, anteprima e salvataggio non bloccano più il thread
+  dell'interfaccia.
+- Con «Suggerisci automaticamente nel pannello» i risultati vengono caricati
+  appena si seleziona un'unità senza simbolo, senza dover premere il pulsante.
+
+Le release non sono state rigenerate: questi cambiamenti sono nel sorgente e
+saranno inclusi nella prossima build richiesta.
+
 ## 0.13.0 — 2026-11-07
 
 ### DOCX e PPTX modificabili per singolo elemento

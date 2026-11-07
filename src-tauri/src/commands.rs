@@ -1151,59 +1151,63 @@ pub fn delete_online_provider(
 }
 
 /// Cerca online usando solo lemmi/concetti generici già estratti localmente.
+/// La rete non deve bloccare il thread dell'interfaccia: un provider lento
+/// lascerebbe il pannello su «Cerco…» senza spiegare perché.
 #[tauri::command]
-pub fn search_online_pictograms(
-    state: State<'_, Engine>,
+pub async fn search_online_pictograms(
+    app: tauri::AppHandle,
     terms: Vec<String>,
     force_refresh: Option<bool>,
 ) -> Result<online_search::OnlineResponse, String> {
-    let mut terms = online_search::known_terms(&state.lexicon, &terms);
-    if terms.is_empty() {
-        // Ricerca esplicita dell'utente: si invia solo un termine pulito
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        // I termini noti al lessico sono la prima scelta; se l'utente cerca
+        // esplicitamente una parola nuova, si invia solo quella parola pulita
         // (niente frasi, email, URL o numeri), non il documento.
-        terms = online_search::clean_terms(&terms)
-            .into_iter()
-            .take(1)
-            .filter(|term| term.chars().count() <= 40)
-            .collect();
-    }
-    if terms.is_empty() {
-        return Err(
-            "Nessun termine valido: la ricerca online non invia testo libero, frasi o dati personali."
-                .to_string(),
-        );
-    }
-    let db = state.db()?;
-    online_search::search(&db, &terms, force_refresh.unwrap_or(false))
+        let terms = online_search::terms_for_search(&state.lexicon, &terms);
+        if terms.is_empty() {
+            return Err(
+                "Nessun termine valido: la ricerca online non invia testo libero, frasi o dati personali."
+                    .to_string(),
+            );
+        }
+        let db = state.db()?;
+        online_search::search(&db, &terms, force_refresh.unwrap_or(false))
+    })
+    .await
 }
 
 /// Scarica un risultato, lo salva nella libreria personale (copia offline) e
 /// restituisce l'alternativa pronta da applicare all'unità selezionata.
 #[tauri::command]
-pub fn online_thumbnail(url: String) -> Result<String, String> {
-    online_search::download_thumbnail(&url)
+pub async fn online_thumbnail(url: String) -> Result<String, String> {
+    on_blocking(move || online_search::download_thumbnail(&url)).await
 }
 
 #[tauri::command]
-pub fn save_online_pictogram(
-    state: State<'_, Engine>,
+pub async fn save_online_pictogram(
+    app: tauri::AppHandle,
     result: online_search::OnlineResult,
     lemma: String,
     collection: String,
 ) -> Result<Alternative, String> {
-    let db = state.db()?;
-    let symbol_id = online_search::save_result(
-        &db,
-        &state.paths.assets_dir,
-        &result,
-        &lemma,
-        &collection,
-    )?;
-    state.clear_caches();
-    let record = db
-        .symbol_by_id(&symbol_id)?
-        .ok_or_else(|| "simbolo importato non trovato".to_string())?;
-    Ok(alternative_from_record(&record))
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let db = state.db()?;
+        let symbol_id = online_search::save_result(
+            &db,
+            &state.paths.assets_dir,
+            &result,
+            &lemma,
+            &collection,
+        )?;
+        state.clear_caches();
+        let record = db
+            .symbol_by_id(&symbol_id)?
+            .ok_or_else(|| "simbolo importato non trovato".to_string())?;
+        Ok(alternative_from_record(&record))
+    })
+    .await
 }
 
 /// Importa un SVG originale come simbolo personalizzato locale.

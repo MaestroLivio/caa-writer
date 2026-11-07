@@ -681,9 +681,9 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
                 .and_then(|value| value.as_array())
                 .map(|items| items.iter().filter_map(|item| item.as_str().map(str::to_string)).collect())
                 .unwrap_or_default();
-            let terms = online_search::known_terms(&engine.lexicon, &terms);
+            let terms = online_search::terms_for_search(&engine.lexicon, &terms);
             if terms.is_empty() {
-                return Err("nessun termine generico riconosciuto".to_string());
+                return Err("nessun termine valido per la ricerca online".to_string());
             }
             let db = engine.db()?;
             let response = online_search::search(&db, &terms, as_bool(params, "force_refresh", false))?;

@@ -364,7 +364,11 @@
   }
 
   $effect(() => {
-    if (settings.online_search !== "auto" || tab !== "alternative" || !selected) return;
+    // «Suggerisci» carica davvero i suggerimenti appena si apre l'unità
+    // selezionata: senza questo, l'utente vedeva solo un pulsante e poteva
+    // credere che le API non rispondessero. «Automatico» mantiene lo stesso
+    // comportamento; «Disattivata» è l'unica modalità senza rete.
+    if (settings.online_search === "off" || tab !== "alternative" || !selected) return;
     if (selected.token.symbol_id) return;
     const key = `${selected.pid}:${selected.token.index}:${selected.token.surface}`;
     if (key === autoOnlineKey) return;
@@ -777,7 +781,7 @@
                 class="btn"
                 onclick={() => void searchOnline()}
                 disabled={onlineBusy || !selected}
-              >{onlineBusy ? "Cerco…" : "Cerca su Wikimedia Commons"}</button>
+              >{onlineBusy ? "Cerco…" : "Ripeti ricerca online"}</button>
             {/if}
             {#if onlineError}
               <p class="import-error">{onlineError}</p>
@@ -785,7 +789,8 @@
             {#if onlineResults.length > 0}
               <p class="hint">
                 «{onlineQuery}» · {onlineCached ? "cache locale" : "richiesta appena eseguita"} ·
-                controlla sempre la licenza prima dell'uso. Le fotografie sono distinte dai pittogrammi CAA.
+                ARASAAC è la prima fonte; Wikimedia resta il ripiego. Controlla sempre la licenza:
+                le fotografie sono distinte dai pittogrammi CAA.
               </p>
               <div class="online-grid">
                 {#each onlineResults as result (result.provider + result.id)}
@@ -1162,7 +1167,7 @@
                 onUpdateSettings({ online_search: (event.currentTarget as HTMLSelectElement).value as never })}
             >
               <option value="off">Disattivata</option>
-              <option value="suggest">Suggerisci nel pannello</option>
+              <option value="suggest">Suggerisci automaticamente nel pannello</option>
               <option value="auto">Cerca automaticamente l'unità senza simbolo</option>
             </select>
           </div>

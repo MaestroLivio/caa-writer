@@ -269,8 +269,10 @@ passare all'editor, stampare, usare lo schermo intero o tornare alla home.
 
 L'app include un piccolo repertorio locale per l'uso offline; gli altri
 pittogrammi e le immagini si cercano tramite API pubbliche (ARASAAC, Wikimedia)
-o provider aggiunti in **Impostazioni → Librerie online**. Un risultato scelto
-viene salvato come copia offline con la sua licenza.
+o provider aggiunti in **Impostazioni → Librerie online**. Selezionando una
+parola senza simbolo, i suggerimenti online si caricano automaticamente nel
+pannello (modalità predefinita); con «Disattivata» non parte alcuna richiesta.
+Un risultato scelto viene salvato come copia offline con la sua licenza.
 
 La **sintesi vocale è disattivata** per default: attivala in Impostazioni →
 Accessibilità. Il profilo prestazionale predefinito è **Risparmio risorse**, adatto

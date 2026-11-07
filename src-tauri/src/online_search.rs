@@ -23,6 +23,9 @@ pub const PROVIDER_ARASAAC: &str = "arasaac";
 const CACHE_TTL_HOURS: i64 = 24;
 const MAX_DOWNLOAD_BYTES: usize = 10 * 1024 * 1024;
 const MAX_TERMS: usize = 4;
+/// Cambia quando cambia la semantica dei risultati: invalida la cache vecchia
+/// senza cancellare il database (le righe precedenti restano inutilizzate).
+const CACHE_VERSION: &str = "2";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OnlineResult {
@@ -327,12 +330,36 @@ pub fn known_terms(lexicon: &crate::linguistics::lexicon::Lexicon, terms: &[Stri
         .collect()
 }
 
+/// Termini da inviare per una ricerca esplicita. Prima si usano le parole
+/// riconosciute dal lessico; se l'utente cerca una parola nuova, si invia solo
+/// quella parola pulita. Non si invia mai la frase o il documento.
+pub fn terms_for_search(
+    lexicon: &crate::linguistics::lexicon::Lexicon,
+    terms: &[String],
+) -> Vec<String> {
+    let requested = clean_terms(terms);
+    let known = known_terms(lexicon, &requested);
+    if !known.is_empty() {
+        return known;
+    }
+    requested
+        .into_iter()
+        .take(1)
+        .filter(|term| term.chars().count() <= 40)
+        .collect()
+}
+
+fn cache_key(query: &str) -> String {
+    format!("{CACHE_VERSION}:{query}")
+}
+
 fn cache_get(db: &Database, provider: &str, query: &str) -> Option<Vec<OnlineResult>> {
+    let key = cache_key(query);
     let row: Option<(String, String)> = db
         .conn()
         .query_row(
             "SELECT payload, fetched_at FROM online_cache WHERE provider = ?1 AND query = ?2",
-            rusqlite::params![provider, query],
+            rusqlite::params![provider, key],
             |row| Ok((row.get(0)?, row.get(1)?)),
         )
         .ok();
@@ -353,11 +380,12 @@ fn cache_put(db: &Database, provider: &str, query: &str, results: &[OnlineResult
     let Ok(payload) = serde_json::to_string(results) else {
         return;
     };
+    let key = cache_key(query);
     let _ = db.conn().execute(
         "INSERT INTO online_cache(provider, query, payload, fetched_at) VALUES (?1, ?2, ?3, ?4)
          ON CONFLICT(provider, query) DO UPDATE SET payload=excluded.payload,
             fetched_at=excluded.fetched_at",
-        rusqlite::params![provider, query, payload, now_iso()],
+        rusqlite::params![provider, key, payload, now_iso()],
     );
 }
 
@@ -514,10 +542,10 @@ fn parse_arasaac(value: &Value, query: &str) -> OnlineResponse {
             if item.get("violence").and_then(|value| value.as_bool()) == Some(true) {
                 continue;
             }
-            if item.get("aac").and_then(|value| value.as_bool()) == Some(false) {
-                // L'API può restituire anche immagini non pensate per la CAA.
-                continue;
-            }
+            // `aac` non indica l'idoneità CAA: molti pittogrammi ARASAAC
+            // validi hanno `aac: false`. Scartarli lasciava la ricerca vuota
+            // per gran parte delle parole e faceva ripiegare sulle fotografie
+            // di Wikimedia. Si filtra solo la violenza esplicita.
             let Some(id) = item.get("_id").and_then(|value| value.as_i64()) else {
                 continue;
             };
@@ -543,8 +571,11 @@ fn parse_arasaac(value: &Value, query: &str) -> OnlineResponse {
                 provider: PROVIDER_ARASAAC.to_string(),
                 id: id.to_string(),
                 title,
+                // ARASAAC non espone più le miniature _100: il 300 è il
+                // formato più piccolo realmente disponibile e va bene per
+                // l'anteprima nel pannello.
                 thumbnail_url: Some(format!(
-                    "https://static.arasaac.org/pictograms/{id}/{id}_100.png"
+                    "https://static.arasaac.org/pictograms/{id}/{id}_300.png"
                 )),
                 image_url,
                 page_url: Some(format!("https://arasaac.org/pictograms/{id}")),
@@ -717,7 +748,7 @@ fn allowed_image_host(url: &str) -> bool {
 
 pub fn download_bytes(url: &str) -> Result<Vec<u8>, String> {
     if !allowed_image_host(url) {
-        return Err("URL immagine non autorizzato: sono ammessi solo i file di Wikimedia Commons."
+        return Err("URL immagine non autorizzato: serve HTTPS pubblico."
             .to_string());
     }
     let client = reqwest::blocking::Client::builder()
@@ -949,16 +980,24 @@ mod tests {
             r#"[{"_id":7202,"aac":true,"violence":false,
                  "keywords":[{"type":2,"keyword":"cane"}],
                  "categories":["mammal"]},
-                {"_id":1,"aac":true,"violence":true,"keywords":[{"keyword":"cane"}]}]"#,
+                {"_id":1,"aac":true,"violence":true,"keywords":[{"keyword":"cane"}]},
+                {"_id":4569,"aac":false,"violence":false,
+                 "keywords":[{"type":2,"keyword":"astronauta"}]}]"#,
         )
         .unwrap();
         let response = parse_arasaac(&value, "cane");
-        assert_eq!(response.results.len(), 1);
+        assert_eq!(response.results.len(), 2);
         let result = &response.results[0];
+        assert_eq!(response.results[1].id, "4569");
         assert_eq!(result.kind, "pittogramma");
         assert_eq!(result.license, "CC BY-NC-SA 4.0");
         assert!(!result.commercial_ok);
         assert!(result.image_url.contains("/7202/7202_300.png"));
+        assert!(result
+            .thumbnail_url
+            .as_deref()
+            .unwrap_or("")
+            .ends_with("/7202_300.png"));
     }
 
     #[test]
@@ -967,6 +1006,26 @@ mod tests {
         assert!(license_allows_commercial("CC0"));
         assert!(license_allows_commercial("Public domain"));
         assert!(!license_allows_commercial("Licenza da verificare"));
+    }
+
+    #[test]
+    fn explicit_new_words_fall_back_to_the_cleaned_term() {
+        let path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../resources/dictionaries/it-core.json");
+        let lexicon = crate::linguistics::lexicon::Lexicon::load(&path).unwrap();
+        // «cane» è nel lessico: resta la scelta lessicale.
+        let known = terms_for_search(&lexicon, &["cane".to_string()]);
+        assert!(known.iter().any(|term| term == "cane"));
+        // «astronauta» non è nel lessico, ma una ricerca esplicita deve
+        // comunque inviare la parola pulita, non una lista già vuota.
+        let fresh = terms_for_search(&lexicon, &["astronauta".to_string()]);
+        assert_eq!(fresh, vec!["astronauta".to_string()]);
+        // Frasi, email, URL e numeri restano esclusi.
+        assert!(terms_for_search(
+            &lexicon,
+            &["scrivi a mario@example.com".to_string()]
+        )
+        .is_empty());
     }
 
     #[test]

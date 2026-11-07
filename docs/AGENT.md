@@ -555,6 +555,12 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
   copia offline e conserva autore/licenza/fonte.
 - I provider personalizzati si configurano in Impostazioni → Librerie online;
   download solo HTTPS pubblico, con blocco di localhost/IP privati.
+- I risultati ARASAAC non vengono filtrati con il campo `aac` (non indica
+  l'idoneità CAA); le miniature usano `_300.png`. La cache è versionata.
+- Con l'impostazione «Suggerisci automaticamente nel pannello», la ricerca
+  parte quando si seleziona un'unità senza simbolo; «Disattivata» è l'unica
+  modalità senza rete. Ricerca, anteprima e salvataggio girano fuori dal thread
+  dell'interfaccia.
 - Default: `speech.enabled=false` nel database e `speech_enabled=false` nelle
   impostazioni UI; profilo `risparmio`, debounce 420/1200 ms; AI 1 thread,
   contesto 512, timeout 4 s.
