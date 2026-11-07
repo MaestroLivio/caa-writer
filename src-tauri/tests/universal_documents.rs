@@ -228,21 +228,52 @@ fn library_documents_export_docx_pptx_and_interactive_html() {
     for source_type in ["template", "board"] {
         let entry = manifest.entries.iter().find(|e| e.source_type == source_type).unwrap();
         let document = universal_build::load_universal(&resources.join(&entry.path)).unwrap();
+        let has_svg = document.pages.iter().flat_map(|page| page.elements.iter()).any(|element| {
+            element.svg.is_some()
+                || element
+                    .grid
+                    .as_ref()
+                    .map(|grid| grid.cells.iter().any(|cell| cell.svg.is_some()))
+                    .unwrap_or(false)
+        });
         let docx = temp.path().join(format!("{source_type}.docx"));
         let result = caa_writer_lib::export::universal_docx::write(&docx, &document).unwrap();
-        assert!(result.warnings.iter().any(|w| w.contains("immagini")));
+        assert!(result.warnings.iter().any(|w| w.contains("modificabili")));
         let file = std::fs::File::open(&docx).unwrap();
         let mut archive = zip::ZipArchive::new(file).unwrap();
-        assert!(archive.by_name("word/document.xml").is_ok());
-        assert!(archive.by_name("word/media/page1.png").is_ok());
+        let mut docx_xml = String::new();
+        {
+            use std::io::Read;
+            archive
+                .by_name("word/document.xml")
+                .unwrap()
+                .read_to_string(&mut docx_xml)
+                .unwrap();
+        }
+        assert!(docx_xml.contains("wps:txbx") || docx_xml.contains("<w:tbl>"));
+        if has_svg {
+            assert!(archive.file_names().any(|name| name.starts_with("word/media/")));
+        }
 
         let pptx = temp.path().join(format!("{source_type}.pptx"));
         let result = caa_writer_lib::export::universal_pptx::write(&pptx, &document).unwrap();
-        assert!(result.warnings.iter().any(|w| w.contains("diapositiva")));
+        assert!(result.warnings.iter().any(|w| w.contains("modificabili")));
         let file = std::fs::File::open(&pptx).unwrap();
         let mut archive = zip::ZipArchive::new(file).unwrap();
         assert!(archive.by_name("ppt/presentation.xml").is_ok());
-        assert!(archive.by_name("ppt/slides/slide1.xml").is_ok());
+        let mut pptx_xml = String::new();
+        {
+            use std::io::Read;
+            archive
+                .by_name("ppt/slides/slide1.xml")
+                .unwrap()
+                .read_to_string(&mut pptx_xml)
+                .unwrap();
+        }
+        assert!(pptx_xml.contains("<p:sp>") || pptx_xml.contains("<p:pic>"));
+        if has_svg {
+            assert!(archive.file_names().any(|name| name.starts_with("ppt/media/")));
+        }
 
         let html = universal_build::export_html(&document).unwrap();
         assert!(html.contains("caa-bar"));

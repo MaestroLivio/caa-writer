@@ -40,8 +40,11 @@ test; le ipotesi residue sono marcate come tali.
 | 18 | Sintesi vocale attiva per default | comando `speak`, impostazioni | Nessun interruttore globale | Alta | `speech.enabled=false`, master UI, blocco backend | build/check | Corretto |
 | 19 | Profilo prestazionale predefinito troppo alto | `defaultSettings`, `AiConfig` | Default 2 thread/1024/8 s, bilanciato | Alta | Risparmio: 1 thread, 512, 4 s, debounce 420/1200 | test build | Corretto |
 | 20 | Celle non unibili/divisibili e dimensioni uniformi | `GridData`, `GridCell` | Mancavano span e pesi riga/colonna | Alta | Comandi merge/split/set_grid_sizes, span, larghezze/altezze | `grid_cells_can_be_merged_split_and_resized` | Corretto |
-| 21 | DOCX/PPTX assenti | `export/universal_docx.rs`, `universal_pptx.rs` | Mancavano esportatori Office | Media | Export da renderer canonico, con perdita dichiarata della modifica per elemento | test zip DOCX/PPTX | Corretto |
+| 21 | DOCX/PPTX assenti | `export/universal_docx.rs`, `universal_pptx.rs` | Mancavano esportatori Office | Media | Export da renderer canonico; dalla 0.13 testo, immagini e celle sono elementi nativi modificabili | test DOCX/PPTX + python-docx/python-pptx | Corretto |
 | 22 | Chiavi API provider online | `ai_provider.rs` | Nessuna integrazione provider | Media | Config endpoint/modello, consenso, test, chiave in keyring | compilazione; nessuna chiave reale provata | Parziale |
+| 23 | DOCX/PPTX non modificabili per elemento | `universal_docx.rs`, `universal_pptx.rs` | Le pagine erano rasterizzate in un'unica immagine | Alta | DOCX: caselle ancorate, immagini e tabelle; PPTX: forme testo/immagini per elemento e per cella | python-docx 1.2.0, python-pptx 1.0.2, `textutil`, `unzip -t`; resa Office non provata | Corretto |
+| 24 | Offset DOCX in EMU invece di twip | `universal_docx.rs` `anchored_*` | `wp:posOffset` è in twip | Alta | Conversione con `TWIPS_PER_MM`; test che limita gli offset alla pagina | unit test + ispezione XML | Corretto |
+| 25 | Avviso voce a ogni parola scritta | `App.svelte` `speak` | Le chiamate automatiche usavano il percorso dei pulsanti | Media | Parametro `silent` per lettura automatica; avvisi solo su azione esplicita | build frontend e test | Corretto |
 
 I test PDF/PNG/DOCX/PPTX usano documenti reali della biblioteca; la stampa nativa
 e il doppio clic restano verifiche manuali.

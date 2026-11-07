@@ -6,7 +6,7 @@ materiali CAA, ABA e TEACCH. Applicazione desktop Tauri 2 (Rust + Svelte), pensa
 
 ## Stato attuale (verificare sempre su questa macchina)
 
-Ultima release locale: **0.6.0** (6 novembre 2026), non pubblicata su GitHub.
+Ultima release locale: **0.13.0** (7 novembre 2026), non pubblicata su GitHub.
 
 Il software è in sviluppo attivo. La documentazione tecnica di stato — cosa è completo, cosa è
 parziale, quali test sono stati eseguiti e con quali risultati — vive in `Contesto.md`, che è
@@ -39,7 +39,7 @@ Sintesi onesta di ciò che esiste nel codice:
 | Preferenze globale / contestuale / documento con blocchi manuali | implementato |
 | Pannello alternative, ricerca simboli, importazione SVG | implementato |
 | Formato nativo `.caadoc` (ZIP, manifest versionato, salvataggio atomico) | implementato |
-| Export HTML, DOCX, PDF via stampa di sistema | implementato |
+| Export HTML, PDF, PNG, DOCX e PPTX modificabili per elemento | implementato |
 | Visual Resource Studio (modelli + prompt → specifica JSON → layout) | implementato (layout essenziale) |
 | Sintesi vocale di sistema (macOS `say`, Windows SAPI) | implementato |
 | IA locale via llama.cpp + GGUF | **inclusa**: runtime e Qwen2.5-0.5B-Instruct nel pacchetto; 1.5B, 3B e SmolLM2 1.7B scaricabili da un catalogo con URL e sha256 verificati, oppure importabili come file GGUF locali |

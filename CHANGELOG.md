@@ -4,6 +4,35 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.13.0 — 2026-11-07
+
+### DOCX e PPTX modificabili per singolo elemento
+
+- **DOCX**: le pagine libere e a griglia usano caselle di testo e immagini
+  ancorate alle coordinate reali; il testo resta testo Word, i pittogrammi
+  restano immagini selezionabili e le griglie a flusso diventano tabelle Word.
+- **PPTX**: ogni elemento diventa una forma di testo o un'immagine indipendente;
+  le celle delle griglie sono forme separate, con sfondo, bordo, colore e
+  rotazione conservati.
+- Le coordinate DOCX usano i twip corretti (`wp:posOffset`), non gli EMU usati
+  per le dimensioni; il tema PPTX rispetta la matrice di stili richiesta.
+- Resta dichiarato che azioni e collegamenti del player non hanno equivalente
+  in Word/PowerPoint: per la versione completa resta `.caadoc`.
+
+### Sintesi vocale silenziosa durante la scrittura
+
+- La lettura automatica di parola o frase non mostra più il messaggio
+  «attiva la sintesi vocale» a ogni carattere: le chiamate automatiche sono
+  silenziose, mentre i pulsanti espliciti continuano a spiegare lo stato.
+- La voce resta disattivata per default.
+
+### Verifiche
+
+- DOCX/PPTX aperti con **python-docx 1.2.0** e **python-pptx 1.0.2**;
+  `textutil` estrae il testo reale dal DOCX; `unzip -t` e `file` confermano
+  l'integrità. La resa visiva in Word/PowerPoint non è stata provata perché
+  non sono installati su questa macchina.
+
 ## 0.12.0 — 2026-11-07
 
 - Testo modificabile direttamente nell'editor universale: doppio clic/focus sulla

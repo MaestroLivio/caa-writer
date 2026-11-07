@@ -1,6 +1,6 @@
 # Release e installer
 
-## Stato reale (versione 0.12.0, 7 novembre 2026)
+## Stato reale (versione 0.13.0, 7 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
@@ -13,14 +13,14 @@
 Artefatti macOS prodotti (in `dist-release/`, esclusa da Git):
 
 ```
-CAA-Writer_0.12.0_macos-arm64.dmg      515,91 MiB
-CAA-Writer_0.12.0_macos-arm64.app.zip  516,44 MiB
-CAA-Writer_0.12.0_macos-x64.dmg        517,01 MiB
-CAA-Writer_0.12.0_macos-x64.app.zip    517,53 MiB
-CAA-Writer_0.12.0_windows-x64-setup.exe 490,67 MiB (NSIS)
-CAA-Writer_0.10.0_cli-macos-arm64      6,4 MiB
-CAA-Writer_0.10.0_cli-macos-x64        7,1 MiB
-CAA-Writer_0.10.0_cli-windows-x64.exe  7,2 MiB
+CAA-Writer_0.13.0_macos-arm64.dmg      515,95 MiB
+CAA-Writer_0.13.0_macos-arm64.app.zip  516,45 MiB
+CAA-Writer_0.13.0_macos-x64.dmg        516,97 MiB
+CAA-Writer_0.13.0_macos-x64.app.zip    517,54 MiB
+CAA-Writer_0.13.0_windows-x64-setup.exe 490,58 MiB (NSIS)
+CAA-Writer_0.13.0_cli-macos-arm64      6,5 MiB
+CAA-Writer_0.13.0_cli-macos-x64        7,2 MiB
+CAA-Writer_0.13.0_cli-windows-x64.exe  7,3 MiB
 SHA256SUMS-macos-windows.txt
 SHA256SUMS-cli.txt
 AGENT.md
@@ -29,7 +29,8 @@ AGENT.md
 I due bundle macOS sono stati aperti: Apple Silicon nativamente, Intel tramite Rosetta 2.
 L'installer Windows è stato controllato staticamente con 7-Zip: contiene `caa-writer.exe`
 (PE32+ x86-64), il runtime llama.cpp Windows, il modello, le 300 tabelle della biblioteca,
-i 30 sistemi comunicativi e la CLI (1.795 file).
+i 30 sistemi comunicativi e la CLI (1.795 file). Il bundle contiene solo il repertorio
+offline `core`: gli altri simboli si cercano via API e restano incorporati nei documenti.
 Non è stato eseguito su Windows: la compilazione incrociata e i flag `CREATE_NO_WINDOW` sono
 verificati solo staticamente. Un tentativo sotto Wine si ferma sul bootstrapper WebView2.
 Non è prodotto il `.msi` perché WiX richiede un host Windows. La CLI è inclusa nel bundle
@@ -41,15 +42,16 @@ primo avvio macOS può richiedere «Apri comunque» dal menu contestuale del Fin
 ## Asset non versionati
 
 Il repository non contiene `resources/ai/` (491 MB di modello, oltre i limiti GitHub) né
-`resources/symbol-packs/arasaac/` (439 MB). Prima di una build di release:
+`resources/symbol-packs/arasaac/` (439 MB, solo asset di sviluppo). Prima di una build di release:
 
 ```bash
 python3 scripts/fetch_release_assets.py
 ```
 
 Lo script scarica il modello Qwen2.5-0.5B-Instruct, ne verifica lo sha256, scarica il runtime
-llama.cpp per il sistema corrente e il catalogo ARASAAC. `--skip-arasaac` limita la build ai soli
-simboli originali; `--llama-asset bin-macos-x64` serve a costruire l'app Intel da un host ARM.
+llama.cpp per il sistema corrente. `--skip-arasaac` limita la build ai soli simboli originali;
+`--llama-asset bin-macos-x64` serve a costruire l'app Intel da un host ARM. Il catalogo ARASAAC
+completo non viene incluso nell'installer: resta come asset di sviluppo per la ricerca locale.
 
 ## Comandi per piattaforma
 

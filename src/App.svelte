@@ -724,10 +724,10 @@
         if (event.key === "Enter") {
           const text = editor?.currentBlockText() ?? "";
           const match = text.match(/[\p{L}\p{N}][\p{L}\p{N}'’\-]*\s*$/u);
-          if (match) void speak(match[0].trim());
+          if (match) void speak(match[0].trim(), true);
         } else {
           const word = editor?.wordBeforeCursor();
-          if (word) void speak(word);
+          if (word) void speak(word, true);
         }
       }
     };
@@ -1509,23 +1509,28 @@
     lastSpokenSentence = sentence;
     lastSpokenAt = now;
     lastSentenceTrigger = trigger;
-    void speak(sentence);
+    void speak(sentence, true);
   }
 
-  async function speak(text: string) {
+  /// `silent` serve alle chiamate automatiche (lettura di parola o frase
+  /// durante la scrittura): non devono mostrare avvisi a ogni tasto. I
+  /// pulsanti espliciti restano invece sempre spiegati all'utente.
+  async function speak(text: string, silent = false) {
     if (!text.trim()) {
-      toast("Niente da leggere.", "warn");
+      if (!silent) toast("Niente da leggere.", "warn");
       return;
     }
     if (!settings.speech_enabled) {
-      toast(
-        "Sintesi vocale disattivata. Attivala in Impostazioni → Accessibilità.",
-        "warn"
-      );
+      if (!silent) {
+        toast(
+          "Sintesi vocale disattivata. Attivala in Impostazioni → Accessibilità.",
+          "warn"
+        );
+      }
       return;
     }
     if (!native) {
-      toast("La sintesi vocale richiede l'app desktop.", "warn");
+      if (!silent) toast("La sintesi vocale richiede l'app desktop.", "warn");
       return;
     }
     // Il comando è asincrono: la UI mostra subito lo stato e resta scrivibile.
@@ -1535,7 +1540,9 @@
       trackSpeech();
     } catch (error) {
       speechActive = false;
-      toast(error instanceof Error ? error.message : String(error), "error");
+      if (!silent) {
+        toast(error instanceof Error ? error.message : String(error), "error");
+      }
     }
   }
 

@@ -101,7 +101,11 @@ Importa solo materiale che hai il diritto di usare.
 - **Apri** ripristina il documento completo, anche senza connessione.
 - **Importa** accetta TXT, DOCX, HTML e Markdown: il testo viene conservato, la formattazione
   complessa no. L'applicazione te lo segnala.
-- **DOCX** esporta testo e pittogrammi rasterizzati in PNG.
+- **DOCX** esporta testo, pittogrammi e griglie come elementi Word nativi:
+  caselle di testo e immagini si possono selezionare e modificare singolarmente;
+  le griglie a flusso diventano tabelle.
+- **PPTX** esporta ogni elemento e ogni cella come forma indipendente in
+  PowerPoint, con colori, sfondi, bordi e rotazione.
 - **HTML** esporta un file autonomo con gli SVG incorporati.
 - **PDF** usa la stampa di sistema: scegli «Salva come PDF» nel dialogo. È il modo previsto per
   ottenere un PDF con proporzioni corrette.

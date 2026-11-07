@@ -1,25 +1,29 @@
-# CAA Writer 0.12.0 — note di rilascio
+# CAA Writer 0.13.0 — note di rilascio
 
-Repertori via API, default prudenti, griglie complete, export Office e testo inline.
+DOCX/PPTX modificabili elemento per elemento e sintesi vocale silenziosa durante la scrittura.
 
 ## Novità
 
-- ARASAAC/Wikimedia e provider personalizzati via API pubblica, con cache
-  offline e metadati di licenza; il pacchetto locale `core` resta per l’offline.
-- Sintesi vocale disattivata per default; profilo «Risparmio risorse», AI locale
-  1 thread/512 token/4 s.
-- Griglie con unione/divisione celle, span, larghezze colonne e altezze righe;
-  testo di celle ed elementi modificabile inline.
-- DOCX/PPTX generati dal renderer canonico, PDF multipagina, PNG prima pagina.
-- Provider IA online con chiave nel portachiavi, consenso esplicito e test.
-- Report dei pittogrammi mancanti e audit aggiornato.
+- **DOCX**: testo, pittogrammi e griglie diventano elementi Word nativi
+  modificabili singolarmente; le griglie a flusso sono tabelle reali.
+- **PPTX**: ogni elemento e ogni cella sono forme indipendenti, con colori,
+  sfondi, bordi e rotazione; il tema è conforme alla matrice di stili.
+- Coordinate DOCX corrette in twip; niente più offset in EMU che spostavano le
+  caselle fuori pagina.
+- La lettura automatica durante la digitazione non mostra più avvisi: i
+  messaggi restano solo per i pulsanti espliciti.
+- Restano le funzioni della 0.12: repertori via API, default prudenti, griglie
+  complete, testo inline, provider IA con chiave nel portachiavi.
 
 ## Limiti
 
-- DOCX/PPTX sono immagini di pagina, non elementi Word/PowerPoint modificabili.
+- Azioni e collegamenti del player non sono rappresentati in Word/PowerPoint;
+  `.caadoc` resta il formato completo.
+- La resa visiva in Word/PowerPoint non è stata verificata su questa macchina
+  (applicazioni non installate); DOCX/PPTX sono stati aperti con python-docx,
+  python-pptx, `textutil`, `unzip -t` e `file`.
 - Stampa/doppio clic non verificati su hardware reale; Windows non eseguito;
   Linux non compilato.
-- Provider online non provato con una chiave reale in questa sessione.
 
 ## Requisiti
 
@@ -32,7 +36,7 @@ Repertori via API, default prudenti, griglie complete, export Office e testo inl
 
 ## Installazione
 
-- **Windows**: usare `CAA-Writer_0.8.0_windows-x64-setup.exe` (NSIS). In questa
+- **Windows**: usare `CAA-Writer_0.13.0_windows-x64-setup.exe` (NSIS). In questa
   release non è prodotto il `.msi`. Se SmartScreen avvisa, il pacchetto non è
   firmato: verificare il checksum SHA-256 e scegliere «Ulteriori informazioni»
   → «Esegui comunque».

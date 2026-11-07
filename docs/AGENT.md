@@ -301,9 +301,10 @@ generici; il backend li filtra ulteriormente con il lessico locale
 (`known_terms`) e scarta email, URL, numeri e nomi propri non presenti nel
 lessico. La frase completa non lascia il dispositivo.
 
-`online.save` scarica l'immagine (solo host ARASAAC/Wikimedia), la importa nella
-collezione indicata e restituisce l'`Alternative` pronta per l'applicazione.
-Dopo il salvataggio il documento resta utilizzabile offline.
+`online.save` scarica l'immagine (ARASAAC/Wikimedia o provider personalizzato su
+HTTPS pubblico, mai localhost/IP privati), la importa nella collezione indicata e
+restituisce l'`Alternative` pronta per l'applicazione. Dopo il salvataggio il
+documento resta utilizzabile offline.
 
 ### 5.8 Prompt per il documento
 
@@ -343,6 +344,7 @@ riconosce nulla; non esegue codice.
 | `document.save` | `path`, `payload` (`DocumentPayload`) |
 | `export.html` | `path`, `document` (`ExportDoc`) |
 | `export.docx` | `path`, `document` |
+| `document export` | `--format pdf\|png\|html\|svg\|docx\|pptx`, `--out` |
 
 ### 5.10 Voce
 
@@ -559,7 +561,11 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
 - Provider IA online: `ai_provider_*`, chiave nel portachiavi di sistema, mai in
   `.caadoc`, log o errori; consenso e privacy obbligatori.
 - Griglie: `set_grid_sizes`, `merge_grid_cell`, `split_grid_cell`.
-- Export universale: `pdf`, `png`, `docx`, `pptx`, `html`, `svg`.
+- Export universale: `pdf`, `png`, `docx`, `pptx`, `html`, `svg`. DOCX e PPTX
+  contengono testo, immagini e celle come elementi nativi modificabili; azioni e
+  collegamenti del player restano solo in `.caadoc`.
+- Lettura automatica durante la scrittura: le chiamate sono silenziose e non
+  mostrano avvisi; i pulsanti espliciti spiegano lo stato della voce.
 
 ## 9. Sicurezza, rete e licenze
 

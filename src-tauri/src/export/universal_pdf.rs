@@ -16,6 +16,32 @@ use crate::universal::{render_page_svg, RenderedPage, UniversalDocument};
 
 const MM_TO_PT: f32 = 2.834_645_7;
 
+/// Rasterizza un singolo SVG (pittogramma o elemento) alle dimensioni richieste.
+/// Serve a DOCX/PPTX per incorporare immagini modificabili separatamente.
+pub fn svg_to_png(svg: &str, width_mm: f32, height_mm: f32, scale: f32) -> Result<Vec<u8>, String> {
+    let mut options = resvg::usvg::Options::default();
+    options.fontdb_mut().load_system_fonts();
+    let tree = resvg::usvg::Tree::from_str(svg, &options)
+        .map_err(|error| format!("SVG non valido: {error}"))?;
+    let size = tree.size();
+    let target_w = (width_mm.max(1.0) * 3.779_527_6 * scale).max(8.0);
+    let target_h = (height_mm.max(1.0) * 3.779_527_6 * scale).max(8.0);
+    let fit = (target_w / size.width()).min(target_h / size.height());
+    let mut pixmap = resvg::tiny_skia::Pixmap::new(
+        target_w.round().max(1.0) as u32,
+        target_h.round().max(1.0) as u32,
+    )
+    .ok_or_else(|| "elemento troppo grande per la rasterizzazione".to_string())?;
+    let offset_x = (target_w - size.width() * fit) / 2.0;
+    let offset_y = (target_h - size.height() * fit) / 2.0;
+    let transform = resvg::tiny_skia::Transform::from_translate(offset_x, offset_y)
+        .pre_scale(fit, fit);
+    resvg::render(&tree, transform, &mut pixmap.as_mut());
+    pixmap
+        .encode_png()
+        .map_err(|error| format!("codifica PNG elemento: {error}"))
+}
+
 pub fn page_to_png(page: &RenderedPage, scale: f32) -> Result<Vec<u8>, String> {
     let svg = render_page_svg(page);
     let mut options = resvg::usvg::Options::default();
