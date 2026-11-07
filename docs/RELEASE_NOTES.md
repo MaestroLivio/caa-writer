@@ -1,32 +1,27 @@
-# CAA Writer 0.9.0 — note di rilascio
+# CAA Writer 0.10.0 — note di rilascio
 
-Un unico motore documentale e un unico editor per tutti i materiali.
+Griglie reali, PDF multipagina, player con associazione file e audit tecnico.
 
 ## Novità principali
 
-- **CAA Universal Document Engine**: documenti, presentazioni, tabelle,
-  agende, storie, sequenze e sistemi comunicativi usano lo stesso modello,
-  gli stessi comandi e lo stesso rendering.
-- **Editor universale**: pagine flow/absolute/grid, miniature, trascinamento,
-  ridimensionamento, rotazione, livelli, gruppi, proprietà, celle, azioni e
-  collegamenti.
-- **`.caadoc` v3**: documento universale incorporato, migrazione automatica dei
-  file precedenti, risorse e licenze conservate.
-- **CLI ufficiale**: `document`, `page`, `element`, `board`, `template`, con
-  creazione, validazione, rendering, esportazione e `template build-all`.
-- **Biblioteca rigenerata**: 300 modelli + 30 sistemi = 330 documenti nativi,
-  644 pagine e 4.919 elementi, tutti validati e testati in modifica/salvataggio/
-  riapertura; 0 overflow.
+- **Griglia 4×5 = 20 celle reali**: dialogo righe/colonne, aggiunta/rimozione
+  righe e colonne, celle modificabili, svuotamento e riordino.
+- **PDF multipagina** generato dal renderer canonico, con pittogrammi, testi,
+  bordi, colori e formato pagina; **PNG** della prima pagina; **Stampa** con
+  tutte le pagine tramite dialogo di sistema.
+- **Player** per `.caadoc` e `.caaplay`, apertura da doppio clic/associazione,
+  menu Apri/Importa/Modifica/Stampa/Schermo intero/Home/Esci.
+- **Importazione** come copia modificabile nella biblioteca dell'utente.
+- **Audit** in `docs/AUDIT_0_10.md`; rimosso il simbolo personale di prova dal
+  database locale, senza toccare ARASAAC/core.
 
 ## Limiti
 
-- DOCX, PPTX e PNG dal documento universale non sono ancora esportati; sono
-  disponibili `.caadoc`, HTML interattivo, SVG e stampa/PDF di sistema.
-- Intestazioni/piè di pagina, numerazione automatica e guide magnetiche non sono
-  completi.
-- Windows è compilato in modo incrociato ma non eseguito; Linux non compilato.
-- L'editor universale modifica il testo nel pannello proprietà; la scrittura
-  fluida continua a usare il Word Processor ProseMirror.
+- Unione/divisione celle e dimensioni indipendenti per cella non complete.
+- DOCX/PPTX non esportati; PNG solo prima pagina.
+- Testo del documento universale modificato dal pannello proprietà.
+- Stampa nativa e doppio clic non verificati su hardware reale in questa sessione.
+- Windows compilato in modo incrociato ma non eseguito; Linux non compilato.
 
 ## Requisiti
 

@@ -192,6 +192,35 @@ fn library_paths_are_resolved_inside_the_library() {
 }
 
 #[test]
+fn library_documents_export_real_pdf_and_png() {
+    let resources = resources();
+    let manifest = manifest();
+    let temp = tempfile::tempdir().unwrap();
+    for source_type in ["template", "board"] {
+        let entry = manifest
+            .entries
+            .iter()
+            .find(|entry| entry.source_type == source_type)
+            .unwrap();
+        let document = universal_build::load_universal(&resources.join(&entry.path)).unwrap();
+        let pages = document.pages.len();
+        let pdf = temp.path().join(format!("{source_type}.pdf"));
+        caa_writer_lib::export::universal_pdf::export_pdf(&document, &pdf).unwrap();
+        let bytes = std::fs::read(&pdf).unwrap();
+        assert!(bytes.starts_with(b"%PDF-1.4"));
+        assert!(bytes.ends_with(b"%%EOF\n"));
+        let text = String::from_utf8_lossy(&bytes);
+        assert!(text.contains(&format!("/Count {pages}")));
+        assert_eq!(text.matches("/Type /Page").count(), pages + 1);
+        let png = temp.path().join(format!("{source_type}.png"));
+        caa_writer_lib::export::universal_pdf::export_first_page_png(&document, &png).unwrap();
+        let image = image::load_from_memory(&std::fs::read(&png).unwrap()).unwrap();
+        assert!(image.width() > 300);
+        assert!(image.height() > 300);
+    }
+}
+
+#[test]
 fn legacy_layout_is_migrated_without_losing_symbols() {
     let mut spec = caa_writer_lib::layout::LayoutSpecification::default();
     spec.title = "Legacy".to_string();

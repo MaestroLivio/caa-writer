@@ -29,6 +29,7 @@
   import { api, isTauri } from "./lib/api";
   import { rasterizeSymbols } from "./lib/raster";
   import { getCurrentWindow } from "@tauri-apps/api/window";
+  import { listen } from "@tauri-apps/api/event";
   import { equivalentTargets } from "./lib/association/scope";
   import type { FormattingState } from "./lib/editor/formatting";
   import { emptyFormatting } from "./lib/editor/formatting";
@@ -500,6 +501,26 @@
   };
 
   const native = isTauri();
+
+  onMount(() => {
+    if (!native) return;
+    let unlisten: (() => void) | null = null;
+    void (async () => {
+      try {
+        const pending = await api.takePendingOpen();
+        if (pending) await loadFrom(pending, true);
+        unlisten = await listen<string>("open-document", (event) => {
+          if (event.payload) void loadFrom(event.payload, true);
+        });
+      } catch {
+        /* il player resta utilizzabile anche se l'evento non è disponibile */
+      }
+    })();
+    return () => {
+      if (unlisten) unlisten();
+    };
+  });
+
   onDestroy(() => {
     if (speechPoll) clearInterval(speechPoll);
   });
@@ -838,21 +859,7 @@
     if (!opened) boardPlayerId = boardId;
   }
 
-  async function saveUniversal(document: UniversalDocument) {
-    if (!native) {
-      toast("Il salvataggio richiede l'app desktop.", "warn");
-      return;
-    }
-    let path = universalPath;
-    if (!path || universalFromLibrary || universalReadOnly) {
-      const picked = await saveDialog({
-        title: "Salva documento universale",
-        defaultPath: `${document.title || "documento"}.caadoc`,
-        filters: [{ name: "Documento CAA Writer", extensions: ["caadoc"] }],
-      });
-      if (!picked) return;
-      path = picked as string;
-    }
+  async function saveUniversalTo(document: UniversalDocument, path: string) {
     const assets = new Map<string, { symbol_id: string; svg: string | null; png_base64: null }>();
     for (const page of document.pages) {
       for (const element of page.elements) {
@@ -884,29 +891,69 @@
       ])
       .filter(Boolean)
       .join("\n");
-    try {
-      const result = await api.saveDocument(path, {
-        title: document.title || "Documento",
-        content: { type: "doc", content: [] },
-        plain_text: plain,
-        settings,
-        assets: [...assets.values()],
-        preferences: [],
-        layout: null,
-        universal: document,
+    const result = await api.saveDocument(path, {
+      title: document.title || "Documento",
+      content: { type: "doc", content: [] },
+      plain_text: plain,
+      settings,
+      assets: [...assets.values()],
+      preferences: [],
+      layout: null,
+      universal: document,
+    });
+    universalPath = path;
+    universalFromLibrary = false;
+    docTitle = document.title;
+    recordRecent({ path, title: docTitle, excerpt: plain.slice(0, 160) });
+    if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
+    toast(`Documento salvato in ${path}`, "info");
+  }
+
+  async function saveUniversal(document: UniversalDocument) {
+    if (!native) {
+      toast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    let path = universalPath;
+    if (!path || universalFromLibrary || universalReadOnly) {
+      const picked = await saveDialog({
+        title: "Salva documento universale",
+        defaultPath: `${document.title || "documento"}.caadoc`,
+        filters: [{ name: "Documento CAA Writer", extensions: ["caadoc"] }],
       });
-      universalPath = path;
-      universalFromLibrary = false;
-      docTitle = document.title;
-      recordRecent({ path, title: docTitle, excerpt: plain.slice(0, 160) });
-      if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
-      toast(`Documento salvato in ${path}`, "info");
+      if (!picked) return;
+      path = picked as string;
+    }
+    try {
+      await saveUniversalTo(document, path);
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
   }
 
-  async function exportUniversal(document: UniversalDocument, format: "html" | "svg") {
+  async function saveUniversalPlayer(document: UniversalDocument) {
+    if (!native) {
+      toast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    const picked = await saveDialog({
+      title: "Salva copia per il player",
+      defaultPath: `${document.title || "documento"}.caaplay`,
+      filters: [{ name: "CAA Writer Player", extensions: ["caaplay"] }],
+    });
+    if (!picked) return;
+    try {
+      await saveUniversalTo(document, picked as string);
+      universalReadOnly = true;
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function exportUniversal(
+    document: UniversalDocument,
+    format: "html" | "svg" | "pdf" | "png"
+  ) {
     if (!native) {
       toast("L'esportazione richiede l'app desktop.", "warn");
       return;
@@ -923,6 +970,50 @@
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
+  }
+
+  async function openUniversalFile(asPlayer: boolean) {
+    if (!native) {
+      toast("L'apertura dei documenti richiede l'app desktop.", "warn");
+      return;
+    }
+    const picked = await openDialog({
+      title: asPlayer ? "Apri nel player" : "Apri documento",
+      multiple: false,
+      filters: [{ name: "Documento CAA Writer", extensions: ["caadoc", "caaplay"] }],
+    });
+    if (!picked) return;
+    await loadFrom(String(picked), asPlayer);
+  }
+
+  async function importUniversalFile() {
+    if (!native) {
+      toast("L'importazione richiede l'app desktop.", "warn");
+      return;
+    }
+    const picked = await openDialog({
+      title: "Importa una copia modificabile",
+      multiple: false,
+      filters: [{ name: "Documento CAA Writer", extensions: ["caadoc", "caaplay"] }],
+    });
+    if (!picked) return;
+    try {
+      const imported = await api.universalImport(String(picked));
+      universalDoc = imported.document;
+      universalPath = imported.path;
+      universalFromLibrary = false;
+      universalReadOnly = false;
+      docTitle = imported.document.title;
+      view = "universal";
+      toast("Documento importato come copia modificabile.", "info");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  function editUniversalCopy() {
+    universalReadOnly = false;
+    universalFromLibrary = true;
   }
 
   function openTemplate(templateId: string) {
@@ -1138,7 +1229,7 @@
     }
   }
 
-  async function loadFrom(path: string) {
+  async function loadFrom(path: string, asPlayer = false) {
     try {
       const loaded = await api.loadDocument(path);
       docTitle = loaded.title || path.split(/[\\/]/).pop() || "Documento";
@@ -1151,7 +1242,7 @@
         universalDoc = loaded.universal as UniversalDocument;
         universalPath = path;
         universalFromLibrary = false;
-        universalReadOnly = false;
+        universalReadOnly = asPlayer;
         selected = null;
         view = "universal";
         recordRecent({
@@ -3275,6 +3366,7 @@
     readOnly={universalReadOnly || userMode}
     profile={activeProfile}
     onSave={saveUniversal}
+    onSavePlayer={saveUniversalPlayer}
     onClose={() => {
       view = "home";
       universalDoc = null;
@@ -3282,6 +3374,11 @@
     onToast={toast}
     onSpeak={(text) => void speak(text)}
     onExport={exportUniversal}
+    canEdit={!userMode}
+    onOpen={() => void openUniversalFile(true)}
+    onImport={() => void importUniversalFile()}
+    onEdit={editUniversalCopy}
+    onToggleFullscreen={() => void toggleFullscreen()}
   />
   {/key}
 {:else if view === "board"}

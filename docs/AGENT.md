@@ -530,6 +530,20 @@ caa-cli template build-all --sources templates/sources --out resources/library
 motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
 `manifest.json` e `report.json`. Non pubblica se un documento fallisce.
 
+## 8septies. Griglie, PDF e player (0.10.0)
+
+- `create_grid` crea automaticamente `columns × rows` celle; `update_grid` le
+  ridimensiona senza perdere il contenuto. La GUI offre un dialogo righe/colonne
+  e comandi +/− riga/colonna.
+- `document export --format pdf|png` e `document export --format html|svg`
+  usano lo stesso renderer dell'editor. Il PDF è multipagina e rasterizza le
+  pagine con resvg; il PNG è la prima pagina.
+- La stampa usa `document_html` (tutte le pagine) e il dialogo di sistema.
+- Il player si apre da `.caadoc`/`.caaplay`, da `take_pending_open` o
+  dall'evento `open-document`; «Importa» crea una copia in
+  `app_data_dir/library/imported/`.
+- Audit aggiornato in `docs/AUDIT_0_10.md`.
+
 ## 9. Sicurezza, rete e licenze
 
 - La CLI non apre connessioni se non si chiamano `online.*` o `voice.*` che

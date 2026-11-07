@@ -4,6 +4,57 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.10.0 — 2026-11-07
+
+### Griglie reali
+
+- Il comando **Griglia** chiede righe e colonne e crea davvero `righe × colonne`
+  celle (4×5 = 20), con ID stabili.
+- Aggiunta/rimozione di righe e colonne con conservazione del contenuto;
+  ridimensionamento della griglia; svuotamento celle; modifica di testo, voce,
+  pittogramma, azione e ordine delle singole celle.
+- Test dedicato `grid_4_by_5_creates_twenty_real_cells`.
+
+### PDF, PNG e stampa
+
+- Nuovo esportatore PDF multipagina (`export/universal_pdf.rs`): rasterizza le
+  pagine dal rendering canonico con resvg e produce un PDF valido, con pittogrammi,
+  testi, bordi, colori e formato pagina.
+- Caricamento dei font di sistema: senza di essi i testi sparivano dal PDF.
+- Correzione degli attributi SVG duplicati dei pittogrammi ARASAAC.
+- PNG della prima pagina con lo stesso renderer.
+- Stampa tramite HTML server-side di tutte le pagine e dialogo di sistema.
+- Test di esportazione su documenti reali della biblioteca.
+
+### Player e associazione file
+
+- Associazioni `.caadoc` e `.caaplay` nel bundle; gestione di
+  `RunEvent::Opened` su macOS e del percorso passato all'avvio (`PendingOpen`).
+- Apertura diretta in modalità Player; menu minimale con Apri, Importa,
+  Modifica, Stampa, Schermo intero, Home pagina, Esci.
+- Importazione come copia modificabile nella biblioteca dell'utente, senza
+  sovrascrivere l'originale.
+- `.caaplay` è una copia dello stesso contenitore canonico, non un formato
+  alternativo incompatibile.
+
+### Pulizia e audit
+
+- Rimosso il simbolo personale di prova `custom.cane.cdefa9e7` dal database
+  locale (backup conservato); i repertori ARASAAC/core non sono stati modificati.
+- Nuovo `docs/AUDIT_0_10.md` con problema, file, causa, gravità, soluzione,
+  test e stato.
+- Confermata la separazione tra repertori di pittogrammi e documenti della
+  biblioteca.
+
+### Limiti dichiarati
+
+- Unione/divisione di celle e ridimensionamento per singola cella non sono
+  ancora completi.
+- DOCX e PPTX non sono esportati; PNG è solo prima pagina, PDF è multipagina.
+- Il testo nell'editor universale si modifica dal pannello proprietà, non inline.
+- La stampa è verificata come HTML generato, non con una finestra nativa reale.
+- Windows compilato in modo incrociato ma non eseguito; Linux non compilato.
+
 ## 0.9.0 — 2026-11-06
 
 ### CAA Universal Document Engine

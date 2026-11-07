@@ -4,6 +4,7 @@ pub mod atomic;
 pub mod caadoc;
 pub mod docx;
 pub mod html;
+pub mod universal_pdf;
 
 pub use atomic::write_atomic;
 

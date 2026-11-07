@@ -33,12 +33,28 @@ pub mod symbol_search;
 pub mod util;
 
 use tauri::Manager;
+#[cfg(target_os = "macos")]
+use tauri::Emitter;
+
+#[derive(Default)]
+pub struct PendingOpen(pub std::sync::Mutex<Option<String>>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
+            let pending = PendingOpen::default();
+            if let Ok(mut slot) = pending.0.lock() {
+                for argument in std::env::args().skip(1) {
+                    let lower = argument.to_lowercase();
+                    if lower.ends_with(".caadoc") || lower.ends_with(".caaplay") {
+                        *slot = Some(argument);
+                        break;
+                    }
+                }
+            }
+            app.manage(pending);
             let data_dir = app.path().app_data_dir().unwrap_or_else(|_| {
                 std::env::temp_dir().join("caa-writer")
             });
@@ -94,6 +110,9 @@ pub fn run() {
             commands::document_render,
             commands::document_apply,
             commands::universal_from_plan,
+            commands::document_html,
+            commands::take_pending_open,
+            commands::universal_import,
             commands::document_export,
             commands::universal_library,
             commands::universal_open,
@@ -153,13 +172,32 @@ pub fn run() {
         ])
         .build(tauri::generate_context!())
         .expect("errore irreversibile nell'avvio di CAA Writer")
-        .run(|app_handle, event| {
+        .run(|app_handle, event| match event {
             // All'uscita si ferma `llama-server`: altrimenti il processo figlio
             // resta attivo e occupa RAM anche dopo la chiusura della finestra.
-            if matches!(event, tauri::RunEvent::Exit) {
+            tauri::RunEvent::Exit => {
                 if let Some(engine) = app_handle.try_state::<engine::Engine>() {
                     engine.shutdown();
                 }
             }
+            // Doppio clic su `.caadoc`/`.caaplay` (macOS): la finestra può
+            // essere già aperta, quindi il percorso viene inviato al frontend.
+            #[cfg(target_os = "macos")]
+            tauri::RunEvent::Opened { urls } => {
+                for url in urls {
+                    if let Ok(path) = url.to_file_path() {
+                        let value = path.to_string_lossy().to_string();
+                        // Se il frontend non è ancora pronto, il percorso resta
+                        // in attesa e viene letto al primo mount.
+                        if let Some(pending) = app_handle.try_state::<PendingOpen>() {
+                            if let Ok(mut slot) = pending.0.lock() {
+                                *slot = Some(value.clone());
+                            }
+                        }
+                        let _ = app_handle.emit("open-document", value);
+                    }
+                }
+            }
+            _ => {}
         });
 }

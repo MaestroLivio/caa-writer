@@ -948,6 +948,14 @@ fn render_to_dir(document: &UniversalDocument, out: &Path) -> Result<Value, Stri
     }))
 }
 
+fn universal_pdf_export(document: &UniversalDocument, out: &Path) -> Result<(), String> {
+    caa_writer_lib::export::universal_pdf::export_pdf(document, out)
+}
+
+fn universal_png_export(document: &UniversalDocument, out: &Path) -> Result<(), String> {
+    caa_writer_lib::export::universal_pdf::export_first_page_png(document, out)
+}
+
 fn export_document(document: &UniversalDocument, format: &str, out: &Path) -> Result<Value, String> {
     match format {
         "html" => {
@@ -964,6 +972,14 @@ fn export_document(document: &UniversalDocument, format: &str, out: &Path) -> Re
             Ok(json!({"ok": true, "format": "json", "path": out}))
         }
         "svg" => render_to_dir(document, out),
+        "pdf" => {
+            universal_pdf_export(document, out)?;
+            Ok(json!({"ok": true, "format": "pdf", "path": out}))
+        }
+        "png" => {
+            universal_png_export(document, out)?;
+            Ok(json!({"ok": true, "format": "png", "path": out}))
+        }
         other => Err(format!("formato di esportazione non supportato: {other}")),
     }
 }

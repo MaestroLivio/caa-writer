@@ -1425,7 +1425,12 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
                     columns: *columns,
                     rows: *rows,
                     gap_mm: gap_mm.unwrap_or(3.0),
-                    cells: Vec::new(),
+                    cells: (0..(*columns * *rows))
+                        .map(|index| GridCell {
+                            id: format!("{id}-c{}", index + 1),
+                            ..GridCell::default()
+                        })
+                        .collect(),
                 }),
                 ..UniversalElement::default()
             });
@@ -1458,11 +1463,38 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
             if let Some(gap) = gap_mm {
                 grid.gap_mm = *gap;
             }
+            let capacity = (grid.columns * grid.rows) as usize;
             if let Some(cells) = cells {
-                if cells.len() > (grid.columns * grid.rows) as usize {
+                if cells.len() > capacity {
                     return Err("più celle dello spazio disponibile".to_string());
                 }
                 grid.cells = cells.clone();
+            }
+            // Ridimensionare la griglia non deve lasciare celle fantasma né
+            // celle senza ID: le nuove celle sono reali e modificabili.
+            let mut used: std::collections::HashSet<String> =
+                grid.cells.iter().map(|cell| cell.id.clone()).collect();
+            while grid.cells.len() < capacity {
+                let mut index = grid.cells.len() + 1;
+                let id = loop {
+                    let candidate = format!("{id}-c{index}");
+                    if used.insert(candidate.clone()) {
+                        break candidate;
+                    }
+                    index += 1;
+                };
+                grid.cells.push(GridCell {
+                    id,
+                    ..GridCell::default()
+                });
+            }
+            if grid.cells.len() > capacity {
+                grid.cells.truncate(capacity);
+            }
+            for index in 0..grid.cells.len() {
+                if grid.cells[index].id.trim().is_empty() {
+                    grid.cells[index].id = format!("{id}-c{}", index + 1);
+                }
             }
         }
         DocumentCommand::SetPageGrid {
@@ -1760,23 +1792,59 @@ fn escape_xml(value: &str) -> String {
         .replace('\'', "&apos;")
 }
 
+fn remove_attribute(tag: &str, name: &str) -> String {
+    let needle = format!("{name}=");
+    let mut out = tag.to_string();
+    let mut search = 0usize;
+    while let Some(relative) = out[search..].find(&needle) {
+        let start = search + relative;
+        let before_ok = start == 0
+            || out[..start]
+                .chars()
+                .next_back()
+                .map(|c| c.is_whitespace() || c == '<')
+                .unwrap_or(true);
+        if !before_ok {
+            search = start + needle.len();
+            continue;
+        }
+        let value_start = start + needle.len();
+        let quote = out[value_start..].chars().next().unwrap_or('"');
+        if quote == '"' || quote == '\'' {
+            if let Some(close_rel) = out[value_start + 1..].find(quote) {
+                let end = value_start + 1 + close_rel + 1;
+                out.replace_range(start..end, "");
+                search = start;
+                continue;
+            }
+        }
+        search = value_start;
+    }
+    out
+}
+
 fn embed_symbol(svg: &str, x: f32, y: f32, w: f32, h: f32) -> String {
     let trimmed = svg.trim();
     if !trimmed.starts_with("<svg") && !trimmed.starts_with("<?xml") {
         return String::new();
     }
     // Inserisce l'SVG come SVG annidato: conserva viewBox e contenuto, senza
-    // dipendere da un browser o da una risorsa esterna.
+    // dipendere da un browser o da una risorsa esterna. Le dimensioni già
+    // presenti nell'SVG originale vengono rimosse per evitare attributi
+    // duplicati (errore reale di resvg con i pittogrammi ARASAAC).
     let start = trimmed.find("<svg").unwrap_or(0);
     let head = &trimmed[start..];
-    let injected = head.replacen(
-        "<svg",
-        &format!(
-            "<svg x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" preserveAspectRatio=\"xMidYMid meet\""
-        ),
-        1,
-    );
-    injected
+    let mut opening_end = head.find('>').unwrap_or(head.len());
+    let mut opening = head[..opening_end].to_string();
+    for attribute in ["x", "y", "width", "height", "preserveAspectRatio"] {
+        opening = remove_attribute(&opening, attribute);
+    }
+    let rest = &head[opening_end..];
+    opening_end = head.len();
+    let _ = opening_end;
+    format!(
+        "{opening} x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" preserveAspectRatio=\"xMidYMid meet\"{rest}"
+    )
 }
 
 fn render_element_svg(element: &RenderedElement) -> String {
@@ -1812,22 +1880,36 @@ fn render_element_svg(element: &RenderedElement) -> String {
     if let Some(svg) = &element.svg {
         out.push_str(&embed_symbol(svg, 1.0, 1.0, element.w_mm - 2.0, (element.h_mm - 2.0).max(2.0)));
     }
-    if !element.text.is_empty() && element.kind != "symbol" {
+    if !element.text.is_empty() {
         let font = element.style.font_size.max(2.0);
-        let anchor = match element.style.align.as_str() {
-            "center" => "middle",
-            "right" => "end",
-            _ => "start",
+        let is_symbol = element.kind == "symbol" || element.kind == "image";
+        let anchor = if is_symbol {
+            "middle"
+        } else {
+            match element.style.align.as_str() {
+                "center" => "middle",
+                "right" => "end",
+                _ => "start",
+            }
         };
-        let tx = match element.style.align.as_str() {
-            "center" => element.w_mm / 2.0,
-            "right" => element.w_mm - 1.0,
-            _ => 1.0,
+        let tx = if is_symbol {
+            element.w_mm / 2.0
+        } else {
+            match element.style.align.as_str() {
+                "center" => element.w_mm / 2.0,
+                "right" => element.w_mm - 1.0,
+                _ => 1.0,
+            }
+        };
+        let ty = if is_symbol {
+            (element.h_mm * 0.9).max(font + 1.0)
+        } else {
+            (element.h_mm / 2.0 + font / 3.0).max(font)
         };
         out.push_str(&format!(
             "<text x=\"{}\" y=\"{}\" font-size=\"{}\" text-anchor=\"{}\" fill=\"{}\">{}</text>",
             tx,
-            (element.h_mm / 2.0 + font / 3.0).max(font),
+            ty,
             font,
             anchor,
             escape_xml(if element.style.color.is_empty() { "#111111" } else { &element.style.color }),
@@ -1973,16 +2055,26 @@ pub fn render_html(document: &RenderedDocument) -> String {
 .caa-cell svg,.caa-el svg{{width:14mm;height:14mm}}\
 .caa-nav{{position:fixed;top:4mm;left:4mm;z-index:5}}\
 .caa-nav button{{font:inherit;padding:2mm 4mm;margin-right:2mm}}\
-@media print{{.caa-nav{{display:none}}.caa-page{{box-shadow:none;margin:0;page-break-after:always}}}}\
+.caa-bar{{position:fixed;bottom:0;left:0;right:0;display:flex;gap:2mm;align-items:center;background:#fff;border-top:1px solid #ccd;padding:2mm;z-index:6}}\
+.caa-bar #msg{{flex:1;min-height:8mm;border:1px dashed #99a;border-radius:2mm;padding:1mm 2mm}}\
+.caa-bar button{{font:inherit;padding:2mm 4mm}}\
+@media print{{.caa-nav,.caa-bar{{display:none}}.caa-page{{box-shadow:none;margin:0;page-break-after:always}}}}\
 </style><body><nav class=\"caa-nav\"><button onclick=\"caaGo(0)\">Home</button><button onclick=\"caaBack()\">Indietro</button></nav>{}\
-<script>const pages=[...document.querySelectorAll('.caa-page')];let current=0,stack=[];\
+<div class=\"caa-bar\"><span id=\"msg\">Tocca i pittogrammi per comporre la frase.</span>\
+<button onclick=\"caaSpeakMessage()\">Parla frase</button><button onclick=\"caaClear()\">Svuota</button></div>\
+<script>const pages=[...document.querySelectorAll('.caa-page')];let current=0,stack=[],msg=[];\
 function show(i){{if(i<0||i>=pages.length)return;pages[current].hidden=true;pages[i].hidden=false;current=i;}}\
 function caaGo(i){{stack.push(current);show(i);}}\
 function caaBack(){{const i=stack.pop();if(i!==undefined)show(i);}}\
 function speak(t){{if(!t)return;if('speechSynthesis' in window){{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(t));}}}}\
+function renderMsg(){{const el=document.getElementById('msg');if(!el)return;el.textContent=msg.length?msg.join(' '):'Tocca i pittogrammi per comporre la frase.';}}\
+function caaAppend(t){{if(!t)return;msg.push(t);renderMsg();speak(t);}}\
+function caaClear(){{msg=[];renderMsg();}}\
+function caaSpeakMessage(){{if(msg.length)speak(msg.join(' ')+'.');}}\
 document.querySelectorAll('[data-element]').forEach((el)=>{{el.addEventListener('click',()=>{{const action=el.dataset.action;const target=el.dataset.target;\
 if(action==='navigate'&&target){{const p=pages.findIndex(p=>p.dataset.page===target);if(p>=0)caaGo(p);}}else if(action==='back')caaBack();else if(action==='home')caaGo(0);\
-else if(action==='speak')speak(el.dataset.speech);}});}});</script></body></html>",
+else if(action==='speak')speak(el.dataset.speech);else if(action==='clear')caaClear();\
+else if(action==='append')caaAppend(el.dataset.speech||el.textContent);}});}});</script></body></html>",
         escape_xml(&document.title),
         body
     )
@@ -2170,7 +2262,9 @@ mod tests {
         let rendered = document.render().unwrap();
         assert_eq!(rendered.pages.len(), 2);
         assert_eq!(rendered.pages[0].layout, "grid");
-        assert!(rendered.pages[0].elements[0].cells.len() == 2);
+        // La griglia 3×2 ha sempre sei celle reali; le due compilate sono le prime.
+        assert_eq!(rendered.pages[0].elements[0].cells.len(), 6);
+        assert_eq!(rendered.pages[0].elements[0].cells[0].text, "Frutta");
         let encoded = serde_json::to_string(&document).unwrap();
         let decoded: UniversalDocument = serde_json::from_str(&encoded).unwrap();
         validate(&decoded).unwrap();
@@ -2243,6 +2337,62 @@ mod tests {
             document.element("story", "t1").unwrap().group_id.as_deref(),
             Some("g1")
         );
+    }
+
+    #[test]
+    fn grid_4_by_5_creates_twenty_real_cells() {
+        let mut document = build_document("g", "Griglia", "mixed", "A4", "portrait");
+        document.pages.clear();
+        add_grid_page(&mut document, "home", "Home", 4, 5).unwrap();
+        apply_command(
+            &mut document,
+            &DocumentCommand::CreateGrid {
+                page: "home".to_string(),
+                id: "grid".to_string(),
+                columns: 4,
+                rows: 5,
+                gap_mm: Some(2.0),
+                x_mm: Some(12.0),
+                y_mm: Some(12.0),
+                w_mm: Some(180.0),
+                h_mm: Some(220.0),
+            },
+        )
+        .unwrap();
+        let grid = document.element("home", "grid").unwrap().grid.as_ref().unwrap();
+        assert_eq!(grid.cells.len(), 20);
+        assert!(grid.cells.iter().all(|cell| !cell.id.is_empty()));
+        let ids: HashSet<&str> = grid.cells.iter().map(|cell| cell.id.as_str()).collect();
+        assert_eq!(ids.len(), 20);
+
+        apply_command(
+            &mut document,
+            &DocumentCommand::UpdateGrid {
+                page: "home".to_string(),
+                id: "grid".to_string(),
+                columns: Some(5),
+                rows: Some(4),
+                gap_mm: None,
+                cells: None,
+            },
+        )
+        .unwrap();
+        let grid = document.element("home", "grid").unwrap().grid.as_ref().unwrap();
+        assert_eq!(grid.cells.len(), 20);
+        apply_command(
+            &mut document,
+            &DocumentCommand::UpdateGrid {
+                page: "home".to_string(),
+                id: "grid".to_string(),
+                columns: Some(3),
+                rows: Some(3),
+                gap_mm: None,
+                cells: None,
+            },
+        )
+        .unwrap();
+        let grid = document.element("home", "grid").unwrap().grid.as_ref().unwrap();
+        assert_eq!(grid.cells.len(), 9);
     }
 
     #[test]

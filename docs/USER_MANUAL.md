@@ -244,3 +244,18 @@ caa-cli template build-all --sources templates/sources --out resources/library
 
 Le specifiche sorgente sono in `templates/sources/`; i documenti generati sono
 in `resources/library/` con anteprime e report.
+
+
+## Griglie, PDF e player (0.10.0)
+
+Il pulsante **Griglia** chiede righe e colonne e crea tutte le celle richieste
+(per esempio 4×5 = 20). Dalla scheda proprietà puoi aggiungere o togliere righe
+e colonne, svuotare le celle e modificare testo, voce, pittogramma e azione di
+ogni cella.
+
+**PDF** genera un file multipagina con pittogrammi e testi, **PNG** esporta la
+prima pagina e **Stampa** apre il dialogo di sistema con tutte le pagine.
+
+I file `.caadoc` e `.caaplay` possono essere aperti direttamente nel player.
+Dal player puoi aprire un altro documento, importarne una copia modificabile,
+passare all'editor, stampare, usare lo schermo intero o tornare alla home.

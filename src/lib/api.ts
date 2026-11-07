@@ -169,7 +169,12 @@ export const api = {
   universalLibrary: () => call<LibraryManifest>("universal_library"),
   universalOpen: (id: string, sourceType: string | null = null) =>
     call<OpenedUniversalDocument>("universal_open", { id, sourceType }),
-  documentExport: (document: UniversalDocument, format: "html" | "svg", path: string) =>
+  takePendingOpen: () => call<string | null>("take_pending_open"),
+  universalImport: (source: string) =>
+    call<OpenedUniversalDocument>("universal_import", { source }),
+  documentHtml: (document: UniversalDocument) =>
+    call<string>("document_html", { document }),
+  documentExport: (document: UniversalDocument, format: "html" | "svg" | "pdf" | "png", path: string) =>
     call<{ path: string; warnings: string[] }>("document_export", { document, format, path }),
 
   setPreference: (preference: Preference) => call<void>("set_preference", { preference }),

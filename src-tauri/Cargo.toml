@@ -1,6 +1,6 @@
 [package]
 name = "caa-writer"
-version = "0.9.0"
+version = "0.10.0"
 description = "Word processor CAA offline con motore semantico locale"
 authors = ["CAA Writer contributors"]
 edition = "2021"
@@ -33,6 +33,8 @@ walkdir = "2"
 reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
 urlencoding = "2"
 clap = { version = "4", features = ["derive"] }
+resvg = "0.45.1"
+flate2 = "1.1.11"
 
 # AVIF decodificabile solo dove è disponibile dav1d: su macOS arm64 (Homebrew).
 # Gli altri target compilano il supporto AVIF in sola codifica e dichiarano il

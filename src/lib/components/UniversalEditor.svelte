@@ -20,10 +20,16 @@
     readOnly?: boolean;
     profile?: Profile | null;
     onSave: (document: UniversalDocument) => Promise<void>;
+    onSavePlayer?: (document: UniversalDocument) => Promise<void>;
     onClose: () => void;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
     onSpeak: (text: string) => void;
-    onExport?: (document: UniversalDocument, format: "html" | "svg") => Promise<void>;
+    onExport?: (document: UniversalDocument, format: "html" | "svg" | "pdf" | "png") => Promise<void>;
+    canEdit?: boolean;
+    onOpen?: () => void;
+    onImport?: () => void;
+    onEdit?: () => void;
+    onToggleFullscreen?: () => void;
   }
 
   let {
@@ -32,10 +38,16 @@
     readOnly = false,
     profile = null,
     onSave,
+    onSavePlayer,
     onClose,
     onToast,
     onSpeak,
     onExport,
+    canEdit = false,
+    onOpen,
+    onImport,
+    onEdit,
+    onToggleFullscreen,
   }: Props = $props();
 
   let doc = $state<UniversalDocument>(clone(initial));
@@ -45,6 +57,12 @@
   let extraSelected = $state<string[]>([]);
   let selectedCellId = $state<string | null>(null);
   let mode = $state<"edit" | "play">(readOnly ? "play" : "edit");
+  let lastReadOnly = readOnly;
+  $effect(() => {
+    if (readOnly === lastReadOnly) return;
+    lastReadOnly = readOnly;
+    mode = readOnly ? "play" : "edit";
+  });
   let busy = $state(false);
   let saving = $state(false);
   let searchQuery = $state("");
@@ -56,6 +74,9 @@
   let pageHistory = $state<number[]>([]);
   let zoom = $state(0.78);
   let dirty = $state(false);
+  let gridPanel = $state(false);
+  let gridColumns = $state(4);
+  let gridRows = $state(5);
 
   const page = $derived(rendered.pages[pageIndex] ?? rendered.pages[0]);
   const docPage = $derived(doc.pages[pageIndex] ?? doc.pages[0]);
@@ -390,23 +411,82 @@
 
   function addGrid() {
     if (!docPage) return;
+    const columns = Math.max(1, Math.min(20, Math.round(gridColumns)));
+    const rows = Math.max(1, Math.min(40, Math.round(gridRows)));
     const id = `grid-${Date.now().toString(36)}`;
+    const [pageW, pageH] = pageDimensions(doc);
+    const margin = doc.page.margin_mm || 12;
     void apply(
       [{
         op: "create_grid",
         page: docPage.id,
         id,
-        columns: 3,
-        rows: 3,
+        columns,
+        rows,
         gap_mm: 3,
-        x_mm: doc.page.margin_mm || 12,
-        y_mm: doc.page.margin_mm || 12,
-        w_mm: 180,
-        h_mm: 150,
+        x_mm: margin,
+        y_mm: margin,
+        w_mm: Math.max(40, pageW - 2 * margin),
+        h_mm: Math.max(40, pageH - 2 * margin),
       }],
-      "Griglia aggiunta."
+      `Griglia ${columns}×${rows}: ${columns * rows} celle create.`
     );
     selectedId = id;
+    gridPanel = false;
+  }
+
+  function resizeGrid(deltaRows: number, deltaColumns: number) {
+    if (!selectedElement?.grid || !docPage) return;
+    const columns = Math.max(1, selectedElement.grid.columns + deltaColumns);
+    const rows = Math.max(1, selectedElement.grid.rows + deltaRows);
+    void apply(
+      [{
+        op: "update_grid",
+        page: docPage.id,
+        id: selectedElement.id,
+        columns,
+        rows,
+        cells: null,
+      }],
+      `Griglia ${columns}×${rows}.`
+    );
+  }
+
+  function setGridSize(columns?: number, rows?: number) {
+    if (!selectedElement?.grid || !docPage) return;
+    const nextColumns = Math.max(
+      1,
+      Math.min(20, Math.round(columns ?? selectedElement.grid.columns))
+    );
+    const nextRows = Math.max(1, Math.min(40, Math.round(rows ?? selectedElement.grid.rows)));
+    void apply(
+      [{
+        op: "update_grid",
+        page: docPage.id,
+        id: selectedElement.id,
+        columns: nextColumns,
+        rows: nextRows,
+        cells: null,
+      }],
+      `Griglia ${nextColumns}×${nextRows}.`
+    );
+  }
+
+  function clearGridCells() {
+    if (!selectedElement?.grid || !docPage) return;
+    if (!confirm("Svuotare tutte le celle della griglia?")) return;
+    const cells = selectedElement.grid.cells.map((cell) => ({
+      ...cell,
+      text: "",
+      spoken_text: "",
+      symbol_id: null,
+      concept_id: null,
+      svg: null,
+      action: null,
+    }));
+    updateElement(selectedElement.id, {
+      grid: { ...selectedElement.grid, cells },
+    });
   }
 
   async function searchSymbol() {
@@ -782,6 +862,33 @@
     }
   });
 
+  async function printDocument() {
+    try {
+      const html = isTauri()
+        ? await api.documentHtml(doc)
+        : "<html><body>La stampa richiede l'app desktop.</body></html>";
+      const frame = document.createElement("iframe");
+      frame.setAttribute("aria-hidden", "true");
+      frame.style.position = "fixed";
+      frame.style.width = "1px";
+      frame.style.height = "1px";
+      frame.style.opacity = "0";
+      frame.style.pointerEvents = "none";
+      frame.srcdoc = html;
+      frame.onload = () => {
+        try {
+          frame.contentWindow?.focus();
+          frame.contentWindow?.print();
+        } finally {
+          window.setTimeout(() => frame.remove(), 2000);
+        }
+      };
+      document.body.append(frame);
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
   function save() {
     saving = true;
     void onSave(doc).finally(() => (saving = false));
@@ -800,14 +907,26 @@
     {#if mode === "edit"}
       <button class="btn" disabled={busy || history.length === 0} onclick={undo}>Annulla</button>
       <button class="btn" disabled={busy || redoStack.length === 0} onclick={redo}>Ripeti</button>
+      <button class="btn" onclick={printDocument}>Stampa</button>
       <button class="btn" onclick={() => (mode = "play")}>Anteprima</button>
       <button class="btn" onclick={save} disabled={saving}>{saving ? "Salvo…" : "Salva .caadoc"}</button>
+      {#if onSavePlayer}
+        <button class="btn" onclick={() => void onSavePlayer(doc)}>Salva .caaplay</button>
+      {/if}
       {#if onExport}
-        <button class="btn" onclick={() => void onExport(doc, "html")}>Esporta HTML</button>
+        <button class="btn" onclick={() => void onExport(doc, "html")}>HTML</button>
+        <button class="btn" onclick={() => void onExport(doc, "pdf")}>PDF</button>
+        <button class="btn" onclick={() => void onExport(doc, "png")}>PNG</button>
       {/if}
     {:else}
-      {#if !readOnly}
-        <button class="btn" onclick={() => (mode = "edit")}>Modifica</button>
+      <button class="btn" onclick={onOpen}>Apri</button>
+      <button class="btn" onclick={onImport}>Importa</button>
+      {#if canEdit}
+        <button class="btn" onclick={onEdit}>Modifica</button>
+      {/if}
+      <button class="btn" onclick={printDocument}>Stampa</button>
+      {#if onToggleFullscreen}
+        <button class="btn" onclick={onToggleFullscreen}>Schermo intero</button>
       {/if}
       <button class="btn" onclick={() => (pageHistory = [...pageHistory, pageIndex], pageIndex = Math.max(0, doc.pages.findIndex((p) => p.is_home)))}>Home pagina</button>
     {/if}
@@ -873,7 +992,14 @@
           <button class="btn" onclick={() => addElement("button")}>Pulsante</button>
           <button class="btn" onclick={() => addElement("shape")}>Forma</button>
           <button class="btn" onclick={() => addElement("placeholder")}>Segnaposto</button>
-          <button class="btn" onclick={addGrid}>Griglia</button>
+          <button class="btn" onclick={() => (gridPanel = !gridPanel)}>Griglia</button>
+          {#if gridPanel}
+            <span class="ueditor__gridbox">
+              <label>Righe <input type="number" min="1" max="40" bind:value={gridRows} /></label>
+              <label>Colonne <input type="number" min="1" max="20" bind:value={gridColumns} /></label>
+              <button class="btn btn--solid" onclick={addGrid}>Crea {gridColumns}×{gridRows} ({gridColumns * gridRows} celle)</button>
+            </span>
+          {/if}
           <button class="btn" onclick={groupSelection}>Raggruppa</button>
           <button class="btn" onclick={ungroupSelection}>Separa</button>
           <label class="ueditor__zoom">Zoom <input type="range" min="0.45" max="1.3" step="0.05" bind:value={zoom} /></label>
@@ -1106,9 +1232,17 @@
             </div>
           {/if}
           {#if selectedElement.grid}
+            <h4>Griglia · {selectedElement.grid.columns * selectedElement.grid.rows} celle</h4>
             <div class="ueditor__two">
-              <label class="ueditor__field"><span>Colonne griglia</span><input type="number" min="1" max="20" value={selectedElement.grid.columns} onchange={(event) => void apply([{ op: "update_grid", page: docPage.id, id: selectedElement.id, columns: Number(event.currentTarget.value) }], "Griglia aggiornata.")} /></label>
-              <label class="ueditor__field"><span>Righe griglia</span><input type="number" min="1" max="40" value={selectedElement.grid.rows} onchange={(event) => void apply([{ op: "update_grid", page: docPage.id, id: selectedElement.id, rows: Number(event.currentTarget.value) }], "Griglia aggiornata.")} /></label>
+              <label class="ueditor__field"><span>Colonne</span><input type="number" min="1" max="20" value={selectedElement.grid.columns} onchange={(event) => setGridSize(Number(event.currentTarget.value), undefined)} /></label>
+              <label class="ueditor__field"><span>Righe</span><input type="number" min="1" max="40" value={selectedElement.grid.rows} onchange={(event) => setGridSize(undefined, Number(event.currentTarget.value))} /></label>
+            </div>
+            <div class="ueditor__row">
+              <button class="mini" onclick={() => resizeGrid(1, 0)}>+ Riga</button>
+              <button class="mini" onclick={() => resizeGrid(-1, 0)}>− Riga</button>
+              <button class="mini" onclick={() => resizeGrid(0, 1)}>+ Colonna</button>
+              <button class="mini" onclick={() => resizeGrid(0, -1)}>− Colonna</button>
+              <button class="mini mini--danger" onclick={clearGridCells}>Svuota celle</button>
             </div>
           {/if}
         {:else}
@@ -1160,6 +1294,8 @@
   .mini--danger:hover { background: #fdecec; border-color: #d64545; }
   .ueditor__stage { overflow: auto; padding: 10px 14px 30px; min-width: 0; }
   .ueditor__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
+  .ueditor__gridbox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #d3d6e0; border-radius: 8px; background: #fff; font-size: 0.75rem; }
+  .ueditor__gridbox input { width: 54px; }
   .ueditor__zoom { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; }
   .ueditor__zoom input { width: 90px; }
   .ueditor__pagewrap { display: flex; justify-content: center; }

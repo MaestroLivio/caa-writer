@@ -443,6 +443,16 @@ pub fn universal_from_plan(
     crate::universal_build::from_plan(&plan)
 }
 
+/// HTML completo del documento, usato per la stampa di sistema senza
+/// dipendere dal DOM dell'editor.
+#[tauri::command]
+pub fn document_html(document: serde_json::Value) -> Result<String, String> {
+    let document: crate::universal::UniversalDocument =
+        serde_json::from_value(document).map_err(|e| format!("documento non valido: {e}"))?;
+    crate::universal::validate(&document)?;
+    crate::universal_build::export_html(&document)
+}
+
 #[tauri::command]
 pub fn document_export(
     document: serde_json::Value,
@@ -463,12 +473,55 @@ pub fn document_export(
                 .ok_or_else(|| "documento senza pagine".to_string())?;
             crate::universal::render_page_svg(page)
         }
+        "pdf" => {
+            crate::export::universal_pdf::export_pdf(&document, target)?;
+            return Ok(crate::model::ExportResult {
+                path,
+                warnings: Vec::new(),
+            });
+        }
+        "png" => {
+            crate::export::universal_pdf::export_first_page_png(&document, target)?;
+            return Ok(crate::model::ExportResult {
+                path,
+                warnings: vec!["PNG esportato per la prima pagina; usa PDF per il documento completo".to_string()],
+            });
+        }
         other => return Err(format!("formato di esportazione non supportato: {other}")),
     };
     std::fs::write(target, content).map_err(|e| format!("{}: {e}", target.display()))?;
     Ok(crate::model::ExportResult {
         path,
         warnings: Vec::new(),
+    })
+}
+
+#[tauri::command]
+pub fn take_pending_open(
+    pending: State<'_, crate::PendingOpen>,
+) -> Option<String> {
+    pending.0.lock().ok().and_then(|mut slot| slot.take())
+}
+
+/// Importa una copia modificabile nella biblioteca dell'utente. Non sovrascrive
+/// il file originale e non tocca le risorse del pacchetto.
+#[tauri::command]
+pub fn universal_import(
+    state: State<'_, Engine>,
+    source: String,
+) -> Result<OpenedUniversalDocument, String> {
+    let source_path = std::path::PathBuf::from(&source);
+    let document = crate::universal::load_from_caadoc(&source_path)?;
+    let folder = state.paths.data_dir.join("library/imported");
+    std::fs::create_dir_all(&folder).map_err(|e| format!("cartella import: {e}"))?;
+    let slug = crate::pictogram_import::slugify(&document.title);
+    let slug = if slug.is_empty() { document.id.clone() } else { slug };
+    let target = folder.join(format!("{slug}.caadoc"));
+    let assets = crate::universal_build::assets_from_document(&document);
+    crate::universal_build::save_universal(&target, &document, &assets)?;
+    Ok(OpenedUniversalDocument {
+        document,
+        path: target.to_string_lossy().to_string(),
     })
 }
 
