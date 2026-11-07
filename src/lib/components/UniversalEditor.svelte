@@ -576,6 +576,16 @@
     );
   }
 
+  function setCellText(cellId: string, value: string) {
+    if (!selectedElement?.grid || !docPage) return;
+    const cells = selectedElement.grid.cells.map((cell) =>
+      cell.id === cellId ? { ...cell, text: value } : cell
+    );
+    updateElement(selectedElement.id, {
+      grid: { ...selectedElement.grid, cells },
+    });
+  }
+
   function clearGridCells() {
     if (!selectedElement?.grid || !docPage) return;
     if (!confirm("Svuotare tutte le celle della griglia?")) return;
@@ -835,6 +845,8 @@
 
   function startDrag(event: PointerEvent, element: RenderedElement, resize = false) {
     if (mode !== "edit" || element.locked || readOnly) return;
+    const target = event.target as HTMLElement | null;
+    if (!resize && target?.closest('[contenteditable="true"]')) return;
     event.preventDefault();
     event.stopPropagation();
     selectedId = element.id;
@@ -1050,6 +1062,31 @@
   }
 </script>
 
+{#snippet inlineLabel(element: RenderedElement)}
+  <span
+    class="uel__label"
+    contenteditable={mode === "edit" && !element.locked}
+    spellcheck="false"
+    onfocus={() => (selectedId = element.id)}
+    onpointerdown={(event) => event.stopPropagation()}
+    onkeydown={(event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        (event.currentTarget as HTMLElement).blur();
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        (event.currentTarget as HTMLElement).textContent = element.text;
+        (event.currentTarget as HTMLElement).blur();
+      }
+    }}
+    onblur={(event) => {
+      const value = (event.currentTarget as HTMLElement).textContent ?? "";
+      if (value !== element.text) setText(value);
+    }}
+  >{element.text || (element.kind === "text" || element.kind === "text_box" ? "" : element.kind)}</span>
+{/snippet}
+
 <svelte:window on:keydown={handleKey} />
 
 <div class="ueditor" class:ueditor--play={mode === "play"} data-profile-size={profile?.accessibility?.large_symbols ? "large" : "normal"}>
@@ -1194,10 +1231,10 @@
                   onpointercancel={endDrag}
                 >
                   {#if element.kind === "button" || element.kind === "shape"}
-                    <span class="uel__label">{element.text}</span>
+                    {@render inlineLabel(element)}
                   {:else if element.svg}
                     <span class="uel__symbol">{@html element.svg}</span>
-                    {#if element.text}<span class="uel__label">{element.text}</span>{/if}
+                    {@render inlineLabel(element)}
                   {:else if element.cells?.length}
                     <span class="uel__grid">
                       {#each element.cells as cell (cell.id)}
@@ -1216,13 +1253,27 @@
                             }}
                           >
                             {#if cell.svg}<span class="uel__cell-symbol">{@html cell.svg}</span>{/if}
-                            <span>{cell.text}</span>
+                            <span
+                              contenteditable={mode === "edit"}
+                              spellcheck="false"
+                              onpointerdown={(event) => event.stopPropagation()}
+                              onkeydown={(event) => {
+                                if (event.key === "Enter") {
+                                  event.preventDefault();
+                                  (event.currentTarget as HTMLElement).blur();
+                                }
+                              }}
+                              onblur={(event) => {
+                                const value = (event.currentTarget as HTMLElement).textContent ?? "";
+                                if (value !== cell.text) setCellText(cell.id, value);
+                              }}
+                            >{cell.text}</span>
                           </button>
                         {/if}
                       {/each}
                     </span>
                   {:else}
-                    <span class="uel__label">{element.text || element.kind}</span>
+                    {@render inlineLabel(element)}
                   {/if}
                   {#if element.locked}<span class="uel__lock">🔒</span>{/if}
                   {#if mode === "edit" && selectedId === element.id && !element.locked}
@@ -1488,7 +1539,8 @@
   .uel--locked { cursor: default; }
   .uel__symbol { width: 100%; height: 62%; display: flex; align-items: center; justify-content: center; min-height: 0; }
   .uel__symbol :global(svg), .ueditor__result-media :global(svg), .uel__cell-symbol :global(svg) { width: 100%; height: 100%; }
-  .uel__label { font-size: inherit; line-height: 1.15; text-align: center; pointer-events: none; }
+  .uel__label { font-size: inherit; line-height: 1.15; text-align: center; pointer-events: auto; cursor: text; outline: none; min-width: 2mm; }
+  .uel__label[contenteditable="true"]:focus { outline: 1px dashed #2463eb; background: #fff8d8; }
   .uel__grid { position: absolute; inset: 0; }
   .uel__cell { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5mm; background: #fff; color: #111; font: inherit; font-size: 3.2mm; padding: 0.8mm; cursor: pointer; overflow: hidden; }
   .uel__cell-symbol { width: 60%; height: 55%; }

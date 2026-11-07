@@ -4,6 +4,14 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.12.0 — 2026-11-07
+
+- Testo modificabile direttamente nell'editor universale: doppio clic/focus sulla
+  didascalia di un elemento o di una cella, invio conferma, Esc annulla.
+- Celle della griglia modificabili inline, oltre al pannello proprietà.
+- Ultime rifiniture ai default prudenti e ai repertori via API della 0.11.
+- Documentazione e audit allineati.
+
 ## 0.11.0 — 2026-11-07
 
 ### Librerie tramite API pubbliche

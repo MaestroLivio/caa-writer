@@ -1,6 +1,6 @@
-# CAA Writer 0.11.0 — note di rilascio
+# CAA Writer 0.12.0 — note di rilascio
 
-Repertori via API, default prudenti, griglie complete e export Office.
+Repertori via API, default prudenti, griglie complete, export Office e testo inline.
 
 ## Novità
 
@@ -8,7 +8,8 @@ Repertori via API, default prudenti, griglie complete e export Office.
   offline e metadati di licenza; il pacchetto locale `core` resta per l’offline.
 - Sintesi vocale disattivata per default; profilo «Risparmio risorse», AI locale
   1 thread/512 token/4 s.
-- Griglie con unione/divisione celle, span, larghezze colonne e altezze righe.
+- Griglie con unione/divisione celle, span, larghezze colonne e altezze righe;
+  testo di celle ed elementi modificabile inline.
 - DOCX/PPTX generati dal renderer canonico, PDF multipagina, PNG prima pagina.
 - Provider IA online con chiave nel portachiavi, consenso esplicito e test.
 - Report dei pittogrammi mancanti e audit aggiornato.
@@ -16,8 +17,8 @@ Repertori via API, default prudenti, griglie complete e export Office.
 ## Limiti
 
 - DOCX/PPTX sono immagini di pagina, non elementi Word/PowerPoint modificabili.
-- Testo inline, unione multipla avanzata, stampa/doppio clic su hardware reale,
-  Windows runtime e Linux restano da verificare.
+- Stampa/doppio clic non verificati su hardware reale; Windows non eseguito;
+  Linux non compilato.
 - Provider online non provato con una chiave reale in questa sessione.
 
 ## Requisiti
