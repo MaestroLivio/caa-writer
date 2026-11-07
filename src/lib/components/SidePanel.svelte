@@ -674,12 +674,6 @@
       aria-selected={tab === "collezioni"}
       onclick={() => selectTab("collezioni")}>Collezioni</button
     >
-    <button
-      class="tab"
-      role="tab"
-      aria-selected={tab === "impostazioni"}
-      onclick={() => selectTab("impostazioni")}>Impostazioni</button
-    >
     <button class="tab" role="tab" aria-selected={tab === "studio"} onclick={() => selectTab("studio")}
       >Studio</button
     >
@@ -1098,15 +1092,6 @@
               <option value="media">Intermedia</option>
               <option value="completa">Completa</option>
             </select>
-          </div>
-          <div class="settings-row">
-            <label for="caption-toggle">Didascalie visibili</label>
-            <input
-              id="caption-toggle"
-              type="checkbox"
-              checked={settings.show_captions}
-              onchange={(event) => onUpdateSettings({ show_captions: (event.currentTarget as HTMLInputElement).checked })}
-            />
           </div>
           <div class="settings-row">
             <label for="border-select">Bordo del pittogramma</label>

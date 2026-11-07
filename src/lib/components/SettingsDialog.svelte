@@ -426,15 +426,6 @@
           />
         </div>
         <div class="row">
-          <label for="dlg-captions">Didascalie visibili</label>
-          <input
-            id="dlg-captions"
-            type="checkbox"
-            checked={settings.show_captions}
-            onchange={(event) => onUpdateSettings({ show_captions: (event.currentTarget as HTMLInputElement).checked })}
-          />
-        </div>
-        <div class="row">
           <label for="dlg-border">Bordo del pittogramma</label>
           <select
             id="dlg-border"

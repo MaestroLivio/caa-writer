@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { api, isTauri } from "../api";
   import type {
     Alternative,
@@ -83,6 +83,14 @@
   let gridRows = $state(5);
   let gridWidthsText = $state("");
   let gridHeightsText = $state("");
+  let pagesOpen = $state(true);
+  let showRuler = $state(false);
+  let marginPreview = $state<number | null>(null);
+  let rulerSide = $state<"left" | "right" | "top" | "bottom" | null>(null);
+  let rulerStart = 0;
+  let rulerStartMargin = 0;
+  let snapGuides = $state<{ x: number | null; y: number | null }>({ x: null, y: null });
+  let paginating = false;
 
   const page = $derived(rendered.pages[pageIndex] ?? rendered.pages[0]);
   const docPage = $derived(doc.pages[pageIndex] ?? doc.pages[0]);
@@ -307,6 +315,55 @@
     dirty = true;
   }
 
+  /// Porta su una nuova pagina gli elementi che superano il margine
+  /// inferiore. È voluto per i documenti a flusso: l'utente continua a
+  /// scrivere e il foglio successivo nasce senza un comando manuale.
+  async function autoPaginateFlow() {
+    if (mode !== "edit" || readOnly || paginating || !docPage || docPage.layout !== "flow") {
+      return;
+    }
+    const current = rendered.pages[pageIndex];
+    if (!current || current.elements.length < 2) return;
+    const limit = current.height_mm - doc.page.margin_mm + 0.5;
+    const overflow = current.elements.filter(
+      (element) => element.y_mm + element.h_mm > limit
+    );
+    if (overflow.length === 0) return;
+    const firstId = overflow[0].id;
+    const start = docPage.elements.findIndex((element) => element.id === firstId);
+    if (start <= 0) return;
+    const moving = docPage.elements.slice(start);
+    const newPageId = `page-${Date.now().toString(36)}`;
+    const commands: UniversalCommand[] = [
+      {
+        op: "add_page",
+        id: newPageId,
+        title: `${docPage.title} · ${doc.pages.length + 1}`,
+        layout: "flow",
+        after: docPage.id,
+      },
+      ...moving.map((element) => ({
+        op: "remove_element",
+        page: docPage.id,
+        id: element.id,
+      })),
+      ...moving.map((element) => ({
+        op: "add_element",
+        page: newPageId,
+        element: { ...element, x_mm: 0, y_mm: 0, row: 0, column: 0 },
+      })),
+    ];
+    paginating = true;
+    try {
+      await apply(commands, "Spazio esaurito: creata una nuova pagina.");
+      await tick();
+      const nextIndex = doc.pages.findIndex((item) => item.id === newPageId);
+      if (nextIndex >= 0) pageIndex = nextIndex;
+    } finally {
+      paginating = false;
+    }
+  }
+
   async function apply(commands: UniversalCommand[], label: string) {
     if (commands.length === 0) return;
     if (!isTauri()) {
@@ -323,6 +380,9 @@
       dirty = true;
       if (!doc.pages[pageIndex]) pageIndex = Math.max(0, doc.pages.length - 1);
       if (label) onToast(label, "info");
+      if (!commands.some((command) => command.op === "add_page")) {
+        setTimeout(() => void autoPaginateFlow(), 0);
+      }
     } catch (error) {
       onToast(error instanceof Error ? error.message : String(error), "error");
     } finally {
@@ -843,6 +903,55 @@
     return value / zoom / 3.779527559;
   }
 
+  function snapTo(value: number, candidates: number[], threshold = 2): [number, number | null] {
+    let best = value;
+    let guide: number | null = null;
+    for (const candidate of candidates) {
+      if (!Number.isFinite(candidate)) continue;
+      const distance = Math.abs(value - candidate);
+      if (distance <= threshold && (guide === null || distance < Math.abs(best - guide))) {
+        best = candidate;
+        guide = candidate;
+      }
+    }
+    return [best, guide];
+  }
+
+  function startRuler(event: PointerEvent, side: "left" | "right" | "top" | "bottom") {
+    if (mode !== "edit" || readOnly) return;
+    event.preventDefault();
+    event.stopPropagation();
+    rulerSide = side;
+    rulerStart = side === "left" || side === "right" ? event.clientX : event.clientY;
+    rulerStartMargin = doc.page.margin_mm;
+    (event.currentTarget as HTMLElement).setPointerCapture?.(event.pointerId);
+  }
+
+  function moveRuler(event: PointerEvent) {
+    if (!rulerSide || !page) return;
+    const delta =
+      rulerSide === "left" || rulerSide === "right"
+        ? pxToMm(event.clientX - rulerStart)
+        : pxToMm(event.clientY - rulerStart);
+    const limit = (rulerSide === "left" || rulerSide === "right" ? page.width_mm : page.height_mm) / 2 - 5;
+    const value =
+      rulerSide === "left" || rulerSide === "top"
+        ? rulerStartMargin + delta
+        : rulerStartMargin - delta;
+    marginPreview = Math.max(0, Math.min(limit, value));
+  }
+
+  function endRuler() {
+    if (!rulerSide) return;
+    const value = Math.round((marginPreview ?? doc.page.margin_mm) * 2) / 2;
+    rulerSide = null;
+    marginPreview = null;
+    void apply(
+      [{ op: "update_document", patch: { page: { margin_mm: value } } }],
+      "Margini aggiornati."
+    );
+  }
+
   function startDrag(event: PointerEvent, element: RenderedElement, resize = false) {
     if (mode !== "edit" || element.locked || readOnly) return;
     const target = event.target as HTMLElement | null;
@@ -873,23 +982,47 @@
 
   function moveDrag(event: PointerEvent) {
     if (!drag) return;
-    const dx = pxToMm(event.clientX - drag.startX);
-    const dy = pxToMm(event.clientY - drag.startY);
-    if (drag.mode === "move") {
+    const current = drag;
+    const dx = pxToMm(event.clientX - current.startX);
+    const dy = pxToMm(event.clientY - current.startY);
+    if (current.mode === "move") {
+      let x = Math.max(0, drag.originalX + dx);
+      let y = Math.max(0, drag.originalY + dy);
+      let guideX: number | null = null;
+      let guideY: number | null = null;
+      if (docPage?.layout !== "grid" && page) {
+        const margin = doc.page.margin_mm;
+        const others = page.elements.filter((item) => item.id !== current.id);
+        const xs = [
+          margin,
+          page.width_mm - margin - current.originalW,
+          (page.width_mm - current.originalW) / 2,
+          ...others.flatMap((item) => [item.x_mm, item.x_mm + item.w_mm - current.originalW]),
+        ];
+        const ys = [
+          margin,
+          page.height_mm - margin - current.originalH,
+          (page.height_mm - current.originalH) / 2,
+          ...others.flatMap((item) => [item.y_mm, item.y_mm + item.h_mm - current.originalH]),
+        ];
+        [x, guideX] = snapTo(x, xs);
+        [y, guideY] = snapTo(y, ys);
+      }
+      snapGuides = { x: guideX, y: guideY };
       dragPreview = {
-        id: drag.id,
-        x: Math.max(0, drag.originalX + dx),
-        y: Math.max(0, drag.originalY + dy),
-        w: drag.originalW,
-        h: drag.originalH,
+        id: current.id,
+        x,
+        y,
+        w: current.originalW,
+        h: current.originalH,
       };
     } else {
       dragPreview = {
-        id: drag.id,
-        x: drag.originalX,
-        y: drag.originalY,
-        w: Math.max(5, drag.originalW + dx),
-        h: Math.max(5, drag.originalH + dy),
+        id: current.id,
+        x: current.originalX,
+        y: current.originalY,
+        w: Math.max(5, current.originalW + dx),
+        h: Math.max(5, current.originalH + dy),
       };
     }
   }
@@ -904,6 +1037,7 @@
     const target = drag;
     drag = null;
     dragPreview = null;
+    snapGuides = { x: null, y: null };
     if (docPage.layout === "grid") {
       const page = rendered.pages[pageIndex];
       const margin = doc.page.margin_mm;
@@ -926,6 +1060,69 @@
         "Dimensioni aggiornate."
       );
     }
+  }
+
+  function anchorValue(z: number): "inline" | "front" | "behind" {
+    if (z < 0) return "behind";
+    if (z > 0) return "front";
+    return "inline";
+  }
+
+  function setAnchor(kind: string) {
+    if (!selectedElement) return;
+    const z = kind === "behind" ? -1000 : kind === "front" ? 1000 : 0;
+    updateElement(selectedElement.id, { z });
+  }
+
+  async function detachSelectedCell() {
+    if (!selectedElement?.grid || !selectedCell || !selectedRendered || !docPage) return;
+    const cell = selectedCell;
+    const geometry = selectedRendered.cells.find((item) => item.id === cell.id);
+    if (!geometry) return;
+    const freeId = `free-${Date.now().toString(36)}`;
+    const free = {
+      id: freeId,
+      kind: cell.symbol_id ? "symbol" : "text",
+      text: cell.text,
+      spoken_text: cell.spoken_text,
+      concept_id: cell.concept_id,
+      symbol_id: cell.symbol_id,
+      svg: cell.svg,
+      x_mm: selectedRendered.x_mm + geometry.x_mm,
+      y_mm: selectedRendered.y_mm + geometry.y_mm,
+      w_mm: geometry.w_mm,
+      h_mm: geometry.h_mm,
+      rotation: 0,
+      z: selectedElement.z + 1,
+      visible: true,
+      locked: false,
+      opacity: 1,
+      style: cell.style,
+      action: cell.action,
+      link_page: null,
+      group_id: null,
+      children: [],
+      grid: null,
+    };
+    const remaining = selectedElement.grid.cells.filter((item) => item.id !== cell.id);
+    const commands: UniversalCommand[] = [];
+    if (docPage.layout === "grid") {
+      commands.push({ op: "convert_layout", page: docPage.id, to: "absolute" });
+    }
+    commands.push({ op: "add_element", page: docPage.id, element: free });
+    if (remaining.length > 0) {
+      commands.push({
+        op: "update_grid",
+        page: docPage.id,
+        id: selectedElement.id,
+        cells: remaining,
+      });
+    } else {
+      commands.push({ op: "remove_element", page: docPage.id, id: selectedElement.id });
+    }
+    await apply(commands, "Cella svincolata: ora puoi trascinarla liberamente.");
+    selectedId = freeId;
+    selectedCellId = null;
   }
 
   function elementStyle(element: RenderedElement): string {
@@ -1126,7 +1323,8 @@
     {/if}
   </header>
 
-  <div class="ueditor__body">
+  <div class="ueditor__body" class:ueditor__body--nopages={!pagesOpen}>
+    {#if pagesOpen}
     <aside class="ueditor__pages" aria-label="Pagine">
       <div class="ueditor__pages-head">
         <strong>Pagine</strong>
@@ -1177,6 +1375,7 @@
         {/if}
       {/if}
     </aside>
+    {/if}
 
     <main class="ueditor__stage" class:ueditor__stage--play={mode === "play"}>
       {#if mode === "edit"}
@@ -1196,6 +1395,12 @@
           {/if}
           <button class="btn" onclick={groupSelection}>Raggruppa</button>
           <button class="btn" onclick={ungroupSelection}>Separa</button>
+          <button class="btn" onclick={() => (pagesOpen = !pagesOpen)}>
+            {pagesOpen ? "Nascondi pagine" : "Mostra pagine"}
+          </button>
+          <button class="btn" class:btn--solid={showRuler} onclick={() => (showRuler = !showRuler)}>
+            Righello
+          </button>
           <label class="ueditor__zoom">Zoom <input type="range" min="0.45" max="1.3" step="0.05" bind:value={zoom} /></label>
         </div>
       {/if}
@@ -1207,6 +1412,64 @@
             role={mode === "play" ? "group" : "application"}
             aria-label={`${page.title} (${page.width_mm}×${page.height_mm} mm)`}
           >
+            {#if showRuler}
+              <span class="ueditor__ruler ueditor__ruler--top" aria-hidden="true"></span>
+              <span class="ueditor__ruler ueditor__ruler--left" aria-hidden="true"></span>
+              <span
+                class="ueditor__margin-line ueditor__margin-line--left"
+                style={`left:${marginPreview ?? doc.page.margin_mm}mm`}
+              ></span>
+              <span
+                class="ueditor__margin-line ueditor__margin-line--right"
+                style={`right:${marginPreview ?? doc.page.margin_mm}mm`}
+              ></span>
+              <span
+                class="ueditor__margin-line ueditor__margin-line--top"
+                style={`top:${marginPreview ?? doc.page.margin_mm}mm`}
+              ></span>
+              <span
+                class="ueditor__margin-line ueditor__margin-line--bottom"
+                style={`bottom:${marginPreview ?? doc.page.margin_mm}mm`}
+              ></span>
+              <button
+                class="ueditor__margin-handle ueditor__margin-handle--left"
+                aria-label="Trascina il margine sinistro"
+                style={`left:${marginPreview ?? doc.page.margin_mm}mm`}
+                onpointerdown={(event) => startRuler(event, "left")}
+                onpointermove={moveRuler}
+                onpointerup={endRuler}
+              ></button>
+              <button
+                class="ueditor__margin-handle ueditor__margin-handle--right"
+                aria-label="Trascina il margine destro"
+                style={`right:${marginPreview ?? doc.page.margin_mm}mm`}
+                onpointerdown={(event) => startRuler(event, "right")}
+                onpointermove={moveRuler}
+                onpointerup={endRuler}
+              ></button>
+              <button
+                class="ueditor__margin-handle ueditor__margin-handle--top"
+                aria-label="Trascina il margine superiore"
+                style={`top:${marginPreview ?? doc.page.margin_mm}mm`}
+                onpointerdown={(event) => startRuler(event, "top")}
+                onpointermove={moveRuler}
+                onpointerup={endRuler}
+              ></button>
+              <button
+                class="ueditor__margin-handle ueditor__margin-handle--bottom"
+                aria-label="Trascina il margine inferiore"
+                style={`bottom:${marginPreview ?? doc.page.margin_mm}mm`}
+                onpointerdown={(event) => startRuler(event, "bottom")}
+                onpointermove={moveRuler}
+                onpointerup={endRuler}
+              ></button>
+            {/if}
+            {#if snapGuides.x !== null}
+              <span class="ueditor__snap ueditor__snap--v" style={`left:${snapGuides.x}mm`}></span>
+            {/if}
+            {#if snapGuides.y !== null}
+              <span class="ueditor__snap ueditor__snap--h" style={`top:${snapGuides.y}mm`}></span>
+            {/if}
             {#each page.elements as element (element.id)}
               {#if element.visible}
                 <div
@@ -1321,7 +1584,15 @@
             <label class="ueditor__field"><span>Altezza</span><input type="number" step="0.5" value={selectedRendered.h_mm} onchange={(event) => setNumber("h_mm", Number(event.currentTarget.value))} /></label>
             <label class="ueditor__field"><span>Rotazione</span><input type="number" min="-360" max="360" step="1" value={selectedElement.rotation} onchange={(event) => setNumber("rotation", Number(event.currentTarget.value))} /></label>
             <label class="ueditor__field"><span>Livello</span><input type="number" value={selectedElement.z} onchange={(event) => updateElement(selectedElement.id, { z: Number(event.currentTarget.value) })} /></label>
+            <label class="ueditor__field"><span>Ancoraggio</span>
+              <select value={anchorValue(selectedElement.z)} onchange={(event) => setAnchor(event.currentTarget.value)}>
+                <option value="inline">In linea con il testo</option>
+                <option value="front">Davanti al testo</option>
+                <option value="behind">Dietro al testo</option>
+              </select>
+            </label>
           </div>
+          <p class="hint">L'ancoraggio cambia il livello di sovrapposizione: davanti/dietro non modificano il testo.</p>
           <div class="ueditor__two">
             <label class="ueditor__field"><span>Colore testo</span><input type="color" value={selectedElement.style.color || "#111111"} onchange={(event) => setStyle({ color: event.currentTarget.value })} /></label>
             <label class="ueditor__field"><span>Sfondo</span><input type="color" value={selectedElement.style.background || "#ffffff"} onchange={(event) => setStyle({ background: event.currentTarget.value })} /></label>
@@ -1332,6 +1603,11 @@
             <label><input type="checkbox" checked={selectedElement.visible} onchange={(event) => updateElement(selectedElement.id, { visible: event.currentTarget.checked })} /> Visibile</label>
             <label><input type="checkbox" checked={selectedElement.locked} onchange={(event) => updateElement(selectedElement.id, { locked: event.currentTarget.checked })} /> Bloccato</label>
           </div>
+          {#if selectedElement.grid && selectedCell}
+            <button class="btn" onclick={() => void detachSelectedCell()}>
+              Svincola cella e trascinala
+            </button>
+          {/if}
           <h4>Pittogramma</h4>
           <div class="ueditor__row">
             <input bind:value={searchQuery} placeholder="Cerca un simbolo…" onkeydown={(event) => { if (event.key === "Enter") { event.preventDefault(); void searchSymbol(); } }} />
@@ -1565,5 +1841,40 @@
   .ueditor__chip { border: 0; border-radius: 999px; background: #e8eefc; color: #12234a; padding: 4px 10px; font-weight: 600; cursor: pointer; }
   .ueditor__message-actions { display: flex; gap: 6px; }
   @media (max-width: 1100px) { .ueditor__body { grid-template-columns: 140px minmax(0, 1fr); } .ueditor__properties { display: none; } }
+  .ueditor__body--nopages { grid-template-columns: minmax(0, 1fr) 300px; }
+  .ueditor--play .ueditor__body--nopages { grid-template-columns: minmax(0, 1fr); }
+  .ueditor__ruler { position: absolute; z-index: 50; pointer-events: none; opacity: 0.7; }
+  .ueditor__ruler--top {
+    left: 0; right: 0; top: 0; height: 5mm;
+    background-image:
+      repeating-linear-gradient(to right, #64748b 0 0.18mm, transparent 0.18mm 10mm),
+      repeating-linear-gradient(to right, #94a3b8 0 0.12mm, transparent 0.12mm 5mm);
+    background-size: 100% 100%, 100% 55%;
+    background-position: top left, bottom left;
+    background-repeat: no-repeat;
+  }
+  .ueditor__ruler--left {
+    left: 0; top: 0; bottom: 0; width: 5mm;
+    background-image:
+      repeating-linear-gradient(to bottom, #64748b 0 0.18mm, transparent 0.18mm 10mm),
+      repeating-linear-gradient(to bottom, #94a3b8 0 0.12mm, transparent 0.12mm 5mm);
+    background-size: 100% 100%, 55% 100%;
+    background-position: top left, right top;
+    background-repeat: no-repeat;
+  }
+  .ueditor__margin-line { position: absolute; z-index: 51; background: #2463eb; opacity: 0.5; pointer-events: none; }
+  .ueditor__margin-line--left, .ueditor__margin-line--right { top: 0; bottom: 0; width: 0.3mm; }
+  .ueditor__margin-line--top, .ueditor__margin-line--bottom { left: 0; right: 0; height: 0.3mm; }
+  .ueditor__margin-handle {
+    position: absolute; z-index: 52; width: 9px; height: 9px; padding: 0;
+    border-radius: 50%; border: 1px solid #fff; background: #2463eb; cursor: ew-resize;
+  }
+  .ueditor__margin-handle--left, .ueditor__margin-handle--right { top: 50%; transform: translate(-50%, -50%); }
+  .ueditor__margin-handle--right { transform: translate(50%, -50%); }
+  .ueditor__margin-handle--top, .ueditor__margin-handle--bottom { left: 50%; transform: translate(-50%, -50%); cursor: ns-resize; }
+  .ueditor__margin-handle--bottom { transform: translate(-50%, 50%); }
+  .ueditor__snap { position: absolute; z-index: 49; background: #e0663a; pointer-events: none; opacity: 0.9; }
+  .ueditor__snap--v { top: 0; bottom: 0; width: 0.3mm; }
+  .ueditor__snap--h { left: 0; right: 0; height: 0.3mm; }
   @media (max-width: 720px) { .ueditor__body { grid-template-columns: minmax(0, 1fr); } .ueditor__pages { display: none; } }
 </style>

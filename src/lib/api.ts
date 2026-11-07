@@ -78,6 +78,7 @@ async function call<T>(command: string, args?: Record<string, unknown>): Promise
 
 export const api = {
   appInfo: () => call<AppInfo>("app_info"),
+  printWindow: () => call<void>("print_window"),
   libraryStats: () => call<LibraryStats>("library_stats"),
   listPacks: () => call<PackInfo[]>("list_packs"),
 

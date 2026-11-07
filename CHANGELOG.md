@@ -6,6 +6,32 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
 
 ## Non rilasciato (dopo 0.13.0)
 
+### Stampa, comunicatore e impostazioni
+
+- Stampa nativa tramite `WebviewWindow::print()`: il pulsante del generatore e
+  il comando di stampa non dipendono più da `window.print()`, che nel WebView
+  poteva non aprire nulla.
+- Comunicatore con due modalità: **Componi frase** (accumula e poi «Parla
+  frase») e **Tocca per parlare** (pronuncia immediatamente il simbolo). Anche
+  il player delle tabelle non aggiunge più la parola alla frase in modalità
+  tocco.
+- Rimosso il pannello Impostazioni dalla barra laterale; le impostazioni si
+  aprono dal pulsante ⚙ nella barra superiore.
+- Rimosso il controllo «Didascalie visibili»: le didascalie compaiono
+  automaticamente quando il bordo è «Immagine e testo», «Separato» o
+  «Divisore», oppure in modalità «Simboli con didascalia sotto».
+
+### Editor visuale: pagine, righello e ancoraggio
+
+- Barra delle miniature richiudibile.
+- Righello attivabile dall'editor, con margini trascinabili e anteprima.
+- Guide magnetiche durante il trascinamento (margini, centro, bordi degli
+  altri elementi).
+- Cella di griglia svincolabile: diventa un elemento libero trascinabile.
+- Menu di ancoraggio: in linea, davanti al testo, dietro al testo (livello z).
+- Nei documenti a flusso, gli elementi che superano il margine inferiore
+  vengono spostati automaticamente in una nuova pagina.
+
 ### Blocco dell'analisi risolto
 
 - Corretto un deadlock in `svg_for`: la cache SVG veniva richiesta due volte

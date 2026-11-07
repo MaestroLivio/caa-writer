@@ -99,12 +99,11 @@
       return;
     }
     if (action === "append") {
-      if (!canCompose) {
+      if (mode === "touch" || !canCompose) {
         void speak(cell.spokenText || cell.label);
         return;
       }
       message = [...message, { label: cell.spokenText || cell.label, svg: cell.svg }];
-      if (mode === "touch") void speak(cell.spokenText || cell.label);
       return;
     }
     if (action === "speak") {

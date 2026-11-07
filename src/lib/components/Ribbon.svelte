@@ -26,6 +26,7 @@
     onTogglePin: () => void;
     topbarMinimized: boolean;
     onToggleTopbar: () => void;
+    onSettings: () => void;
   }
 
   let {
@@ -50,6 +51,7 @@
     onTogglePin,
     topbarMinimized,
     onToggleTopbar,
+    onSettings,
   }: Props = $props();
 
   let root: HTMLElement | undefined = $state();
@@ -323,6 +325,13 @@
         {#if savedAt}<span class="hint"> · bozza {savedAt}</span>{/if}
       </span>
     </div>
+
+    <button
+      class="btn btn--ghost ribbon__settings"
+      onclick={onSettings}
+      title="Impostazioni"
+      aria-label="Apri le impostazioni"
+    >⚙</button>
 
     <div class="ribbon__file" role="group" aria-label="File">
       {#each fileCommands as command (command.id)}

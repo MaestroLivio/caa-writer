@@ -575,7 +575,13 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
 - Provider IA online: `ai_provider_*`, chiave nel portachiavi di sistema, mai in
   `.caadoc`, log o errori; consenso e privacy obbligatori.
 - Griglie: `set_grid_sizes`, `merge_grid_cell`, `split_grid_cell`.
-- Export universale: `pdf`, `png`, `docx`, `pptx`, `html`, `svg`. DOCX e PPTX
+- Export universale: `pdf`, `png`, `docx`, `pptx`, `html`, `svg`.
+- Stampa dell'interfaccia: comando Tauri `print_window` (`WebviewWindow::print`).
+- Editor visuale: pagine con miniature richiudibili, righello e margini
+  trascinabili, guide magnetiche, celle svincolabili, ancoraggio z e
+  ripaginazione automatica dei documenti a flusso.
+- Comunicatore: modalità «Componi frase» e «Tocca per parlare»; in quest'ultima
+  il simbolo viene pronunciato subito. DOCX e PPTX
   contengono testo, immagini e celle come elementi nativi modificabili; azioni e
   collegamenti del player restano solo in `.caadoc`.
 - Lettura automatica durante la scrittura: le chiamate sono silenziose e non

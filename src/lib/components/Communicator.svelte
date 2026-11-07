@@ -28,6 +28,8 @@
   type MessageUnit = { key: string; label: string };
 
   let message = $state<MessageUnit[]>([]);
+  /// «Componi frase» accumula i simboli; «Tocca per parlare» pronuncia subito.
+  let mode = $state<"compose" | "touch">("compose");
   let pageIndex = $state(0);
   let history = $state<number[]>([]);
   let unitSeq = 0;
@@ -125,6 +127,28 @@
 
   function runAction(element: PlacedElement) {
     const action = element.action?.type ?? "append";
+    const spoken = element.spoken_text || element.label || "";
+    if (mode === "touch") {
+      if (action === "navigate") {
+        if (spoken) onSpeak(spoken);
+        goTo(Number(element.action?.target_page ?? 0));
+        return;
+      }
+      if (action === "back") {
+        back();
+        return;
+      }
+      if (action === "home") {
+        home();
+        return;
+      }
+      if (action === "clear") {
+        clearMessage();
+        return;
+      }
+      if (spoken) onSpeak(spoken);
+      return;
+    }
     if (action === "navigate") {
       goTo(Number(element.action?.target_page ?? 0));
       return;
@@ -329,6 +353,16 @@
       <h2>{doc.spec.title || copy.communicator.titleFallback}</h2>
     {/if}
     <span class="hint">{copy.communicator.page(pageIndex + 1, totalPages)}</span>
+    {#if !editing}
+      <div class="communicator__mode" role="group" aria-label="Modalità comunicazione">
+        <button type="button" class="btn" class:btn--solid={mode === "compose"} onclick={() => (mode = "compose")}>
+          Componi frase
+        </button>
+        <button type="button" class="btn" class:btn--solid={mode === "touch"} onclick={() => (mode = "touch")}>
+          Tocca per parlare
+        </button>
+      </div>
+    {/if}
     <span class="grow"></span>
     {#if editable && !editing}
       <button type="button" class="btn" onclick={startEditing}>Modifica</button>
@@ -461,7 +495,7 @@
           type="button"
           class="cell"
           onclick={() => runAction(cell)}
-          aria-label={copy.communicator.add(cell.label || copy.communicator.unnamedSymbol)}
+          aria-label={mode === "touch" ? `Pronuncia ${cell.label || copy.communicator.unnamedSymbol}` : copy.communicator.add(cell.label || copy.communicator.unnamedSymbol)}
         >
           {#if cell.svg}
             <span class="cell__symbol">{@html cell.svg}</span>
@@ -478,6 +512,7 @@
     {/if}
   </div>
 
+  {#if mode === "compose"}
   <footer class="communicator__message">
     <div class="message" aria-live="polite" aria-label={copy.communicator.messageLabel}>
       {#if message.length === 0}
@@ -510,6 +545,7 @@
       </button>
     </div>
   </footer>
+  {/if}
 </section>
 
 <style>
@@ -703,6 +739,8 @@
     background: #fdecec;
     border-color: #d64545;
   }
+
+  .communicator__mode { display: inline-flex; gap: 6px; flex-wrap: wrap; }
 
   .communicator__message {
     display: flex;

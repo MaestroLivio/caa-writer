@@ -1378,7 +1378,9 @@
       title: docTitle,
       paragraphs,
       include_symbols: settings.mode !== "testo",
-      include_captions: settings.show_captions,
+      include_captions:
+        settings.mode === "sotto" ||
+        ["immagine_testo", "separato", "divisore"].includes(settings.border_style),
       mode: settings.mode,
       attributions: [],
       metadata: {
@@ -1462,10 +1464,26 @@
     }
   }
 
+  async function runPrint() {
+    // Il WebView non stampa in modo affidabile con window.print(): si usa
+    // l'API nativa della finestra dopo aver lasciato aggiornare il DOM.
+    await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+    await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+    try {
+      if (native) {
+        await api.printWindow();
+      } else {
+        window.print();
+      }
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
   function printDocument() {
     printingResource = false;
     document.body.dataset.print = "document";
-    window.print();
+    void runPrint();
   }
 
   function printResource() {
@@ -1473,7 +1491,7 @@
     showLayoutPreview = false;
     printingResource = true;
     document.body.dataset.print = "resource";
-    window.print();
+    void runPrint();
   }
 
   onMount(() => {
@@ -3221,7 +3239,7 @@
             toggle("panel-toggle", "Pannello laterale", "panel-right", !panelClosed, () =>
               (panelClosed ? openSidebar() : closeSidebar())
             ),
-            cmd("panel-settings", "Proprietà", "settings", () => openPanelTab("impostazioni")),
+            cmd("panel-settings", "Impostazioni", "settings", () => openSettingsPanel()),
           ]),
           group("workspace", "Area di lavoro", [
             select(
@@ -3447,6 +3465,7 @@
     onTogglePin={() => updateWorkspace({ ribbonPinned: !$workspace.ribbonPinned })}
     topbarMinimized={$workspace.topbarMinimized}
     onToggleTopbar={() => withStageScroll(() => updateWorkspace({ topbarMinimized: !$workspace.topbarMinimized }))}
+    onSettings={openSettingsPanel}
   />
   {#if findOpen}
     <FindReplace
@@ -3508,7 +3527,6 @@
           commercialOnly={settings.commercial_only}
           packId={settings.pack_id}
           selectedUnit={selected ? { pid: selected.pid, index: selected.token.index } : null}
-          showCaptions={settings.show_captions}
           borderStyle={settings.border_style}
           onSelectToken={(pid, token) => (selected = { pid, token })}
           onError={(message) => toast(message, "error")}

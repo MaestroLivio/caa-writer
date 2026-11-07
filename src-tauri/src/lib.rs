@@ -83,6 +83,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             commands::app_info,
+            commands::print_window,
             commands::symbolize_paragraph,
             commands::refine_paragraph,
             commands::cancel_refine,

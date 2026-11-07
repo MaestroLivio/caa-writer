@@ -34,6 +34,14 @@ pub struct AppInfo {
     pub platform: String,
 }
 
+/// Apre il dialogo di stampa nativo della finestra. `window.print()` nel
+/// WebView non è affidabile su tutte le piattaforme: questo comando usa
+/// direttamente l'API del webview.
+#[tauri::command]
+pub async fn print_window(window: tauri::WebviewWindow) -> Result<(), String> {
+    window.print().map_err(|e| format!("stampa non disponibile: {e}"))
+}
+
 #[tauri::command]
 pub fn app_info(state: State<'_, Engine>) -> Result<AppInfo, String> {
     let schema_version = state.db()?.schema_version().map_err(|e| e.to_string())?;

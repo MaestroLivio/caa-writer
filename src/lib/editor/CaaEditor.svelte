@@ -41,9 +41,6 @@
     intensity: Intensity;
     documentKey: string;
     commercialOnly: boolean;
-    /// Didascalia del repertorio sotto il pittogramma. Spenta per default:
-    /// la parola scritta è già nel testo sotto la striscia.
-    showCaptions: boolean;
     /// Bordo del pittogramma (nessuno, immagine, immagine+testo, separato, divisore).
     borderStyle: string;
     packId: string | null;
@@ -96,7 +93,6 @@
     intensity,
     documentKey,
     commercialOnly,
-    showCaptions,
     borderStyle,
     packId,
     selectedUnit,
@@ -1728,6 +1724,6 @@
   class="editor"
   bind:this={host}
   data-mode={mode}
-  data-captions={showCaptions ? "true" : "false"}
+  data-captions={mode === "sotto" || ["immagine_testo", "separato", "divisore"].includes(borderStyle) ? "true" : "false"}
   data-border={borderStyle}
 ></div>

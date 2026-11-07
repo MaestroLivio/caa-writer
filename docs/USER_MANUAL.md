@@ -107,8 +107,9 @@ Importa solo materiale che hai il diritto di usare.
 - **PPTX** esporta ogni elemento e ogni cella come forma indipendente in
   PowerPoint, con colori, sfondi, bordi e rotazione.
 - **HTML** esporta un file autonomo con gli SVG incorporati.
-- **PDF** usa la stampa di sistema: scegli «Salva come PDF» nel dialogo. È il modo previsto per
-  ottenere un PDF con proporzioni corrette.
+- **Stampa** apre il dialogo nativo della finestra; da lì si può anche scegliere «Salva come PDF».
+- **Comunicatore**: scegli «Tocca per parlare» per pronunciare subito ogni simbolo, oppure
+  «Componi frase» per accumulare le parole e usare «Parla frase».
 - **Licenze** esporta il registro delle attribuzioni dei simboli usati.
 
 Ogni 20 secondi, se ci sono modifiche non salvate, viene scritta una bozza di recupero. All'avvio,

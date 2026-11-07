@@ -291,8 +291,7 @@
           intensity="media"
           documentKey={documentKey}
           commercialOnly={false}
-          showCaptions={level >= 2}
-          borderStyle="immagine_testo"
+          borderStyle={level >= 2 ? "immagine_testo" : "immagine"}
           packId={null}
           selectedUnit={null}
           autoEnabled={true}
