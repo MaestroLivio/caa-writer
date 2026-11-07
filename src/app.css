@@ -3135,3 +3135,28 @@ textarea {
     bottom: 48px;
   }
 }
+
+/* Righello del word processor: attivabile dal pannello Layout. */
+.paper { position: relative; }
+.paper-ruler { position: absolute; z-index: 6; pointer-events: none; opacity: 0.55; }
+.paper-ruler--top {
+  left: 0; right: 0; top: 0; height: 14px;
+  background-image:
+    repeating-linear-gradient(to right, #64748b 0 1px, transparent 1px 10px),
+    repeating-linear-gradient(to right, #94a3b8 0 1px, transparent 1px 5px);
+  background-size: 100% 100%, 100% 55%;
+  background-position: top left, bottom left;
+  background-repeat: no-repeat;
+}
+.paper-ruler--left {
+  left: 0; top: 0; bottom: 0; width: 14px;
+  background-image:
+    repeating-linear-gradient(to bottom, #64748b 0 1px, transparent 1px 10px),
+    repeating-linear-gradient(to bottom, #94a3b8 0 1px, transparent 1px 5px);
+  background-size: 100% 100%, 55% 100%;
+  background-position: top left, right top;
+  background-repeat: no-repeat;
+}
+.paper-margin-line { position: absolute; z-index: 5; background: #2463eb; opacity: 0.35; pointer-events: none; }
+.paper-margin-line--top, .paper-margin-line--bottom { left: 0; right: 0; height: 1px; }
+.paper-margin-line--left, .paper-margin-line--right { top: 0; bottom: 0; width: 1px; }

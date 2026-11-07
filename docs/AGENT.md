@@ -581,7 +581,13 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
   trascinabili, guide magnetiche, celle svincolabili, ancoraggio z e
   ripaginazione automatica dei documenti a flusso.
 - Comunicatore: modalità «Componi frase» e «Tocca per parlare»; in quest'ultima
-  il simbolo viene pronunciato subito. DOCX e PPTX
+  il simbolo viene pronunciato subito.
+- Profili: `profile_boards` assegna uno qualunque dei 330 documenti della
+  biblioteca; `profile_boards` restituisce titolo/pagine anche per i template.
+  La scheda **Utenti** è visibile solo nell'Area Creator. `profileSetActive`
+  cambia il profilo attivo della sessione.
+- Permessi finestra: `core:window:allow-set-fullscreen` e
+  `core:window:allow-is-fullscreen` in `capabilities/default.json`. DOCX e PPTX
   contengono testo, immagini e celle come elementi nativi modificabili; azioni e
   collegamenti del player restano solo in `.caadoc`.
 - Lettura automatica durante la scrittura: le chiamate sono silenziose e non

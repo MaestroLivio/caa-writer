@@ -6,6 +6,30 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
 
 ## Non rilasciato (dopo 0.13.0)
 
+### Profili, assegnazioni e controllo utenti
+
+- Ogni profilo può ricevere uno qualunque dei 330 documenti della biblioteca
+  (template, schede, sistemi comunicativi) e nella schermata Utilizzatore vede
+  solo quelli assegnati.
+- Gestione utenti con ricerca tra i materiali, conteggio degli assegnati,
+  creazione/modifica/eliminazione profili, cambio profilo predefinito e PIN
+  dell'Area Creator.
+- Nuova scheda **Utenti** nell'Area Creator con «Gestione utenti», «PIN Area
+  Creator» e «Torna all'Utilizzatore».
+- «Torna all'Utilizzatore» chiude sempre l'eventuale documento aperto e riporta
+  alla schermata del profilo attivo.
+- Il cambio di profilo predefinito aggiorna subito il profilo attivo, non solo
+  il database.
+
+### Contrasto, schermo intero e layout
+
+- «Alto contrasto» ora è un interruttore: la seconda pressione ripristina il
+  tema chiaro e i colori dei bordi. In Visualizza è disponibile il selettore
+  Chiaro/Scuro/Alto contrasto.
+- Aggiunti i permessi Tauri `allow-set-fullscreen` e `allow-is-fullscreen`:
+  lo schermo intero non viene più rifiutato.
+- Righello anche nel word processor, attivabile da Layout → Pagina.
+
 ### Stampa, comunicatore e impostazioni
 
 - Stampa nativa tramite `WebviewWindow::print()`: il pulsante del generatore,

@@ -1049,8 +1049,19 @@ pub fn profile_boards(
     let db = state.db()?;
     let mut boards = profiles::list_profile_boards(&db, &profile_id)?;
     let meta = profiles::list_boards(&state.paths.boards_dir()).unwrap_or_default();
+    // Oltre ai 30 sistemi in resources/boards si possono assegnare i 330
+    // documenti della biblioteca universale (template e materiali didattici).
+    let library = crate::universal::load_library_manifest(&state.paths.resources_dir);
     for board in &mut boards {
         if let Some(found) = meta.iter().find(|item| item.id == board.board_id) {
+            board.title = found.title.clone();
+            board.description = found.description.clone();
+            board.pages = found.pages;
+        } else if let Some(found) = library
+            .entries
+            .iter()
+            .find(|entry| entry.id == board.board_id)
+        {
             board.title = found.title.clone();
             board.description = found.description.clone();
             board.pages = found.pages;

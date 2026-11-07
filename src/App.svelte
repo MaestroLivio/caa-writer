@@ -114,6 +114,7 @@
   let layoutRedo = $state<LayoutSpecification[]>([]);
   let layoutApplied = $state<string[]>([]);
   let printingResource = $state(false);
+  let showEditorRuler = $state(false);
   let aiConfig = $state<AiConfig | null>(null);
   let analyzing = $state(false);
   let speechActive = $state(false);
@@ -322,9 +323,9 @@
     if (pin) await api.creatorSetPin(pin, null);
     await api.profileSetActive(profile.id);
     try {
-      const available = await api.boardsList();
-      for (const [index, board] of available.slice(0, 3).entries()) {
-        await api.profileAssignBoard(profile.id, board.id, true, index, null);
+      const library = await api.universalLibrary();
+      for (const [index, entry] of library.entries.slice(0, 3).entries()) {
+        await api.profileAssignBoard(profile.id, entry.id, true, index, pin);
       }
     } catch {
       /* i materiali si possono assegnare in seguito dalla Gestione utenti */
@@ -362,16 +363,22 @@
     creatorUnlocked = false;
     creatorPin = "";
     boardPlayerId = null;
+    userEditorOpen = false;
+    universalDoc = null;
+    universalPath = null;
+    // Si torna sempre alla schermata dell'Utilizzatore: senza questo, un
+    // documento aperto in Area Creator restava visibile dopo il cambio modo.
+    view = "home";
     if (activeProfile) await loadBoardsForProfile(activeProfile);
   }
 
   async function refreshProfileData() {
     profiles = await api.profilesList();
-    if (activeProfile) {
-      const current = profiles.find((profile) => profile.id === activeProfile!.id);
-      if (current) activeProfile = current;
-      await loadBoardsForProfile(activeProfile);
-    }
+    const active = await api.profileActive();
+    const next = active ?? profiles[0] ?? null;
+    activeProfile = next;
+    if (next) await loadBoardsForProfile(next);
+    else userBoards = [];
   }
 
   async function importPictogramImages() {
@@ -859,7 +866,9 @@
   }
 
   async function openBoardUniversal(boardId: string) {
-    const opened = await openUniversalDocument(boardId, "board", true);
+    // Ora un profilo può avere assegnato un template, una scheda o un sistema:
+    // si cerca nell'intera biblioteca, non solo nei 30 sistemi comunicativi.
+    const opened = await openUniversalDocument(boardId, null, true);
     if (!opened) boardPlayerId = boardId;
   }
 
@@ -2886,6 +2895,9 @@
             color("page-color", "Colore pagina", settings.page_color, (value) =>
               patchSettings({ page_color: value })
             ),
+            cmd("ruler", "Righello", "layout", () => (showEditorRuler = !showEditorRuler), {
+              active: showEditorRuler,
+            }),
           ]),
           group("pictograms-layout", "Pittogrammi", [
             select(
@@ -2978,7 +2990,24 @@
           group("presets", "Layout predefiniti", [
             cmd("preset-essential", "Essenziale", "layout-template", () => applyPreset("essenziale")),
             cmd("preset-classic", "Classico CAA", "layout-template", () => applyPreset("classico")),
-            cmd("preset-contrast", "Alto contrasto", "contrast", () => applyPreset("contrasto")),
+            cmd(
+              "preset-contrast",
+              settings.theme === "contrasto" ? "Disattiva alto contrasto" : "Alto contrasto",
+              "contrast",
+              () => {
+                if (settings.theme === "contrasto") {
+                  patchSettings({
+                    theme: "chiaro",
+                    chip_border_color: "",
+                    chip_border_width: 1,
+                    chip_background: "",
+                  });
+                } else {
+                  applyPreset("contrasto");
+                }
+              },
+              { active: settings.theme === "contrasto" }
+            ),
             cmd("preset-large", "Grandi pittogrammi", "maximize", () => applyPreset("grandi")),
             cmd("preset-cards", "Schede comunicative", "layout-grid", () => applyPreset("schede")),
             cmd("preset-illustrated", "Testo illustrato", "book-open", () => applyPreset("illustrato")),
@@ -3250,6 +3279,18 @@
               (panelClosed ? openSidebar() : closeSidebar())
             ),
             cmd("panel-settings", "Impostazioni", "settings", () => openSettingsPanel()),
+            select(
+              "theme",
+              "Tema",
+              settings.theme,
+              [
+                { value: "chiaro", label: "Chiaro" },
+                { value: "scuro", label: "Scuro" },
+                { value: "contrasto", label: "Alto contrasto" },
+              ],
+              (value) => patchSettings({ theme: value as never }),
+              { width: "130px" }
+            ),
           ]),
           group("workspace", "Area di lavoro", [
             select(
@@ -3294,7 +3335,7 @@
           group("preview", "Anteprima", [
             cmd("print-preview", "Anteprima di stampa / PDF", "printer", printDocument),
             cmd("caa-preview", "Anteprima CAA", "eye", () =>
-              patchSettings({ mode: "sopra", show_captions: true })
+              patchSettings({ mode: "sopra", border_style: "immagine_testo" })
             ),
             cmd("toggle-borders", "Mostra/nascondi bordi", "frame", () =>
               patchSettings({
@@ -3305,6 +3346,20 @@
         ],
       },
     ];
+
+    if (creatorUnlocked) {
+      tabs.push({
+        id: "users",
+        label: "Utenti",
+        groups: [
+          group("users-admin", "Profili e accessi", [
+            cmd("manage-profiles", "Gestione utenti", "accessibility", () => (profileManagerOpen = true)),
+            cmd("exit-creator", "Torna all'Utilizzatore", "arrow-right", () => void exitCreator()),
+            cmd("manage-pin", "PIN Area Creator", "lock", () => (profileManagerOpen = true)),
+          ]),
+        ],
+      });
+    }
 
     if (selected) {
       tabs.push({
@@ -3522,6 +3577,26 @@
         data-uppercase={settings.uppercase ? "true" : "false"}
         style={`${settings.font_family ? `font-family:${settings.font_family};` : ""}zoom:${zoom}`}
       >
+        {#if showEditorRuler}
+          <div class="paper-ruler paper-ruler--top" aria-hidden="true"></div>
+          <div class="paper-ruler paper-ruler--left" aria-hidden="true"></div>
+          <div
+            class="paper-margin-line paper-margin-line--top"
+            style={`top:${settings.page_margin === "stretto" ? 24 : settings.page_margin === "ampio" ? 56 : 40}px`}
+          ></div>
+          <div
+            class="paper-margin-line paper-margin-line--bottom"
+            style={`bottom:${settings.page_margin === "stretto" ? 32 : settings.page_margin === "ampio" ? 72 : 56}px`}
+          ></div>
+          <div
+            class="paper-margin-line paper-margin-line--left"
+            style={`left:${settings.page_margin === "stretto" ? 30 : settings.page_margin === "ampio" ? 72 : 48}px`}
+          ></div>
+          <div
+            class="paper-margin-line paper-margin-line--right"
+            style={`right:${settings.page_margin === "stretto" ? 30 : settings.page_margin === "ampio" ? 72 : 48}px`}
+          ></div>
+        {/if}
         <CaaEditor
           bind:this={editor}
           mode={effectiveMode}

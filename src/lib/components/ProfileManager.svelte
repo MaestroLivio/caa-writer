@@ -1,6 +1,6 @@
 <script lang="ts">
   import { api } from "../api";
-  import type { BoardMeta, Profile } from "../types";
+  import type { LibraryEntry, Profile } from "../types";
 
   interface Props {
     profiles: Profile[];
@@ -46,7 +46,8 @@
     ai: "Strumenti IA",
   };
 
-  let boards = $state<BoardMeta[]>([]);
+  let materials = $state<LibraryEntry[]>([]);
+  let materialQuery = $state("");
   let selectedId = $state(profiles[0]?.id ?? "");
   let draft = $state<Profile | null>(profiles[0] ? { ...profiles[0] } : null);
   let assigned = $state<Record<string, boolean>>({});
@@ -60,13 +61,31 @@
   $effect(() => {
     void (async () => {
       try {
-        boards = await api.boardsList();
+        const library = await api.universalLibrary();
+        materials = [...library.entries].sort((a, b) =>
+          a.title.localeCompare(b.title, "it")
+        );
         if (selectedId) await loadAssignments(selectedId);
       } catch (err) {
         error = err instanceof Error ? err.message : String(err);
       }
     })();
   });
+
+  const filteredMaterials = $derived.by(() => {
+    const query = materialQuery.trim().toLowerCase();
+    if (!query) return materials;
+    return materials.filter(
+      (item) =>
+        item.title.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query) ||
+        item.kind.toLowerCase().includes(query)
+    );
+  });
+
+  const assignedCount = $derived(
+    Object.values(assigned).filter(Boolean).length
+  );
 
   async function loadAssignments(profileId: string) {
     assigned = {};
@@ -119,24 +138,14 @@
     try {
       await api.profileSave(draft, creatorPin || null);
       const position = 0;
-      for (const board of boards) {
-        if (assigned[board.id]) {
-          await api.profileAssignBoard(
-            draft.id,
-            board.id,
-            true,
-            boards.indexOf(board),
-            creatorPin || null
-          );
-        } else {
-          await api.profileAssignBoard(
-            draft.id,
-            board.id,
-            false,
-            boards.indexOf(board),
-            creatorPin || null
-          );
-        }
+      for (const [index, material] of materials.entries()) {
+        await api.profileAssignBoard(
+          draft.id,
+          material.id,
+          Boolean(assigned[material.id]),
+          index,
+          creatorPin || null
+        );
       }
       void position;
       if (!profiles.some((profile) => profile.id === draft!.id)) {
@@ -256,14 +265,26 @@
           </fieldset>
 
           <fieldset class="profile-boards">
-            <legend>Materiali nella schermata iniziale</legend>
-            {#each boards as board (board.id)}
-              <label>
-                <input type="checkbox" bind:checked={assigned[board.id]} />
-                <span>{board.title}</span>
-                <span class="hint">{board.pages} pagine</span>
-              </label>
-            {/each}
+            <legend>Materiali assegnati ({assignedCount})</legend>
+            <p class="hint">
+              Il profilo vede nella propria schermata solo i documenti selezionati.
+              Filtra per titolo, categoria o tipo.
+            </p>
+            <input
+              class="profile-search"
+              bind:value={materialQuery}
+              placeholder="Cerca tra i 330 materiali…"
+              aria-label="Cerca materiali da assegnare"
+            />
+            <div class="profile-materials">
+              {#each filteredMaterials as material (material.id)}
+                <label>
+                  <input type="checkbox" bind:checked={assigned[material.id]} />
+                  <span>{material.title}</span>
+                  <span class="hint">{material.category || material.kind} · {material.pages} pagine</span>
+                </label>
+              {/each}
+            </div>
           </fieldset>
 
           <div class="profile-actions">

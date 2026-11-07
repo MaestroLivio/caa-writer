@@ -279,6 +279,10 @@ maiuscola, numeri, email e URL non vengono inviati. Ogni simbolo scaricato è
 una copia offline con la sua licenza; le scelte manuali restano prioritarie.
 Con «Disattivata» non parte alcuna richiesta.
 
+Nell'**Area Creator → Utenti** puoi creare profili, assegnare a ciascuno i
+documenti della biblioteca che deve vedere e impostare il profilo predefinito.
+«Torna all'Utilizzatore» riporta alla schermata del profilo attivo.
+
 La **sintesi vocale è disattivata** per default: attivala in Impostazioni →
 Accessibilità. Il profilo prestazionale predefinito è **Risparmio risorse**, adatto
 anche a computer con 4 GB di RAM.
