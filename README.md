@@ -6,7 +6,7 @@ materiali CAA, ABA e TEACCH. Applicazione desktop Tauri 2 (Rust + Svelte), pensa
 
 ## Stato attuale (verificare sempre su questa macchina)
 
-Ultima release locale: **0.13.0** (7 novembre 2026), non pubblicata su GitHub.
+Ultima release locale: **0.14.0** (7 novembre 2026), non pubblicata su GitHub.
 
 Il software è in sviluppo attivo. La documentazione tecnica di stato — cosa è completo, cosa è
 parziale, quali test sono stati eseguiti e con quali risultati — vive in `Contesto.md`, che è

@@ -1,29 +1,35 @@
-# CAA Writer 0.13.0 — note di rilascio
+# CAA Writer 0.14.0 — note di rilascio
 
-DOCX/PPTX modificabili elemento per elemento e sintesi vocale silenziosa durante la scrittura.
+Profili con materiali assegnati, stampa nativa, comunicatore tocco e layout visuale.
 
 ## Novità
 
-- **DOCX**: testo, pittogrammi e griglie diventano elementi Word nativi
-  modificabili singolarmente; le griglie a flusso sono tabelle reali.
-- **PPTX**: ogni elemento e ogni cella sono forme indipendenti, con colori,
-  sfondi, bordi e rotazione; il tema è conforme alla matrice di stili.
-- Coordinate DOCX corrette in twip; niente più offset in EMU che spostavano le
-  caselle fuori pagina.
-- La lettura automatica durante la digitazione non mostra più avvisi: i
-  messaggi restano solo per i pulsanti espliciti.
-- Restano le funzioni della 0.12: repertori via API, default prudenti, griglie
-  complete, testo inline, provider IA con chiave nel portachiavi.
+- **Profili e utenti**: ogni profilo vede solo i materiali assegnati; gestione
+  utenti con ricerca tra i 330 documenti, PIN Creator e cambio profilo.
+- **Ritorno alla modalità Utilizzatore** dall’Area Creator; il documento aperto
+  viene chiuso e si torna alla schermata del profilo.
+- **Stampa nativa** (`WebviewWindow::print`) per documento, generatore e foglio
+  libero. Il vecchio `window.print()` non è più il percorso principale.
+- **Comunicatore**: «Componi frase» e «Tocca per parlare», con pronuncia
+  immediata in modalità tocco.
+- **Didascalie automatiche** quando il bordo include il testo; rimossa
+  l’opzione separata «Didascalie visibili».
+- **Alto contrasto reversibile** e selettore tema in Visualizza; **schermo
+  intero** con i permessi Tauri necessari.
+- **Editor visuale**: miniature richiudibili, righello con margini
+  trascinabili, guide magnetiche, celle svincolabili, ancoraggio
+  davanti/dietro/in linea e ripaginazione automatica dei documenti a flusso.
+- **Righello** anche nel word processor da Layout → Pagina.
 
 ## Limiti
 
-- Azioni e collegamenti del player non sono rappresentati in Word/PowerPoint;
-  `.caadoc` resta il formato completo.
-- La resa visiva in Word/PowerPoint non è stata verificata su questa macchina
-  (applicazioni non installate); DOCX/PPTX sono stati aperti con python-docx,
-  python-pptx, `textutil`, `unzip -t` e `file`.
-- Stampa/doppio clic non verificati su hardware reale; Windows non eseguito;
-  Linux non compilato.
+- La stampa è collegata al dialogo nativo; l’apertura reale del dialogo non è
+  stata automatizzata in questa sessione.
+- I file `.caadoc` arbitrari fuori dalla biblioteca non hanno ancora un elenco
+  dedicato per l’assegnazione ai profili.
+- Windows è compilato e ispezionato staticamente ma non eseguito; Linux non è
+  compilato.
+- La resa visiva in Word/PowerPoint non è stata verificata su questa macchina.
 
 ## Requisiti
 
@@ -36,7 +42,7 @@ DOCX/PPTX modificabili elemento per elemento e sintesi vocale silenziosa durante
 
 ## Installazione
 
-- **Windows**: usare `CAA-Writer_0.13.0_windows-x64-setup.exe` (NSIS). In questa
+- **Windows**: usare `CAA-Writer_0.14.0_windows-x64-setup.exe` (NSIS). In questa
   release non è prodotto il `.msi`. Se SmartScreen avvisa, il pacchetto non è
   firmato: verificare il checksum SHA-256 e scegliere «Ulteriori informazioni»
   → «Esegui comunque».

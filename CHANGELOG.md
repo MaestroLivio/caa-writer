@@ -4,7 +4,7 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
-## Non rilasciato (dopo 0.13.0)
+## 0.14.0 — 2026-11-07
 
 ### Profili, assegnazioni e controllo utenti
 
