@@ -136,7 +136,7 @@ const builtinPresets: Record<string, Partial<WorkspaceLayout>> = {
   Impaginazione: {
     ribbonMode: "full",
     sidebarMode: "docked",
-    activeSidebarPanel: "impostazioni",
+    activeSidebarPanel: "studio",
     focusMode: false,
     zoom: 1,
   },

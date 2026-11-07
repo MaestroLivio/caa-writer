@@ -8,9 +8,9 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
 
 ### Stampa, comunicatore e impostazioni
 
-- Stampa nativa tramite `WebviewWindow::print()`: il pulsante del generatore e
-  il comando di stampa non dipendono più da `window.print()`, che nel WebView
-  poteva non aprire nulla.
+- Stampa nativa tramite `WebviewWindow::print()`: il pulsante del generatore,
+  il foglio libero (`Progetto libero`) e il comando di stampa non dipendono più
+  da `window.print()`, che nel WebView poteva non aprire nulla.
 - Comunicatore con due modalità: **Componi frase** (accumula e poi «Parla
   frase») e **Tocca per parlare** (pronuncia immediatamente il simbolo). Anche
   il player delle tabelle non aggiunge più la parola alla frase in modalità

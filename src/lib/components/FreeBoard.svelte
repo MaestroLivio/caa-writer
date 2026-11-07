@@ -90,14 +90,23 @@
     }
   }
 
-  function print() {
+  async function print() {
     if (cells.length === 0) {
       onToast("Aggiungi almeno un elemento prima di stampare.", "warn");
       return;
     }
     document.body.dataset.print = "board";
     printed = true;
-    window.print();
+    await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+    try {
+      if (isTauri()) {
+        await api.printWindow();
+      } else {
+        window.print();
+      }
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
   }
 
   $effect(() => {

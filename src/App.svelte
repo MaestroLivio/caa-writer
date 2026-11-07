@@ -2289,6 +2289,12 @@
   }
 
   function openSidebar(tab: WorkspacePanel = $workspace.activeSidebarPanel) {
+    // La vecchia scheda «Impostazioni» della barra laterale era vuota: ora
+    // apre la finestra modale unica, sia dai preferiti sia dai preset.
+    if (tab === "impostazioni") {
+      openSettingsPanel();
+      return;
+    }
     withStageScroll(() =>
       updateWorkspace({
         activeSidebarPanel: tab,
@@ -2424,6 +2430,10 @@
   }
 
   function openPanelTab(tab: SideTab) {
+    if (tab === "impostazioni") {
+      openSettingsPanel();
+      return;
+    }
     updateWorkspace({
       activeSidebarPanel: tab,
       sidebarMode: $workspace.sidebarMode === "collapsed" ? "overlay" : $workspace.sidebarMode,
