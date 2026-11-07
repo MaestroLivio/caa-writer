@@ -776,13 +776,21 @@ pub fn ensure_arasaac_symbols(
     limit: usize,
 ) -> Result<Vec<String>, String> {
     let filters = crate::database::SymbolFilters::default();
+    // Solo la copia personale evita di riscaricare un simbolo già importato
+    // automaticamente. Un simbolo presente nel catalogo ARASAAC locale non
+    // basta: il motore lo usa nel percorso lessicale, non per le parole fuori
+    // lessico, quindi qui serve una copia personale collegabile.
+    let personal = crate::database::SymbolFilters {
+        pack_id: Some("personal".to_string()),
+        ..Default::default()
+    };
     let mut saved = Vec::new();
     for raw in words.iter().take(limit.clamp(1, 12)) {
         let Some(word) = automatic_word(raw) else {
             continue;
         };
         if db
-            .symbol_by_label(&word, &filters)
+            .symbol_by_label(&word, &personal)
             .map_err(|e| e.to_string())?
             .is_some()
         {
