@@ -300,6 +300,17 @@ impl Engine {
             }
         }
 
+        // Il database può essere stato creato da una copia dell'app in un
+        // percorso diverso: riallinea i file dei simboli alla cartella risorse
+        // corrente prima di usarli.
+        if let Ok(repaired) = db.repair_asset_paths(&paths.resources_dir) {
+            if repaired > 0 {
+                warnings.push(format!(
+                    "Riparati {repaired} percorsi di pittogrammi dopo lo spostamento dell'app."
+                ));
+            }
+        }
+
         let mut ai_config = db
             .setting("ai.config")
             .and_then(|raw| serde_json::from_str::<AiConfig>(&raw).ok())
@@ -1108,13 +1119,11 @@ impl Engine {
         if let Some(cached) = cache.get(symbol_id) {
             return cached;
         }
-        let value = from_row.or_else(|| {
-            self.svg_cache
-                .lock()
-                .ok()
-                .and_then(|mut c| c.get(symbol_id))
-                .flatten()
-        });
+        // Il chiamante tiene già il lock della cache (passata come `cache`):
+        // riacquisire `self.svg_cache` qui provocava un deadlock quando il
+        // simbolo aveva un file non leggibile (per esempio un percorso della
+        // vecchia installazione). La cache è la stessa: si usa direttamente.
+        let value = from_row;
         cache.insert(symbol_id.to_string(), value.clone());
         value
     }
@@ -2854,6 +2863,25 @@ mod tests {
     }
 
     /// Caso di riferimento del capitolato: «da sole» non è il Sole.
+    #[test]
+    fn off_lexicon_word_uses_exact_library_symbol_without_hanging() {
+        let engine = test_engine();
+        let options = SymbolizeOptions {
+            intensity: Intensity::Completa,
+            paragraph_id: "p1".to_string(),
+            ..Default::default()
+        };
+        let result = engine.symbolize("astronauta", &options).unwrap();
+        let token = result
+            .tokens
+            .iter()
+            .find(|token| token.surface == "astronauta")
+            .unwrap();
+        assert_eq!(token.symbol_id.as_deref(), Some("arasaac.picto.4569"));
+        assert!(token.svg.is_some(), "il pittogramma deve essere leggibile");
+        assert_eq!(result.symbolized, 1);
+    }
+
     #[test]
     fn reference_case_da_sole_is_not_the_sun() {
         let engine = test_engine();

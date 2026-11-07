@@ -6,6 +6,17 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
 
 ## Non rilasciato (dopo 0.13.0)
 
+### Blocco dell'analisi risolto
+
+- Corretto un deadlock in `svg_for`: la cache SVG veniva richiesta due volte
+  quando un pittogramma aveva un file non leggibile. L'analisi restava su
+  «Analisi in corso» e nessun simbolo veniva mostrato.
+- I percorsi degli asset vengono riallineati alla cartella risorse corrente
+  all'avvio: un database creato da una vecchia installazione (o da `/Applications`)
+  non lascia più i pittogrammi su file inaccessibili.
+- Aggiunto un test di regressione: una parola fuori lessico con simbolo esatto
+  nel catalogo locale viene simbolizzata senza bloccarsi.
+
 ### Inserimento automatico dei pittogrammi ARASAAC
 
 - Le parole minuscole senza simbolo vengono cercate su ARASAAC dopo l'analisi,

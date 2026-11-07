@@ -201,6 +201,58 @@ impl Database {
         })
     }
 
+    /// Ripara i percorsi degli asset dopo uno spostamento dell'app o un
+    /// aggiornamento che ha cambiato la cartella risorse. Senza questo, i
+    /// simboli su disco risultano illeggibili e l'editor può bloccarsi.
+    pub fn repair_asset_paths(&mut self, resources_dir: &Path) -> DbResult<usize> {
+        let rows: Vec<(i64, String, String)> = {
+            let mut stmt = self.conn.prepare(
+                "SELECT id, symbol_id, path FROM symbol_assets
+                 WHERE storage = 'file' AND path IS NOT NULL",
+            )?;
+            let mapped = stmt.query_map([], |row| {
+                Ok((row.get(0)?, row.get(1)?, row.get(2)?))
+            })?;
+            let mut out = Vec::new();
+            for row in mapped {
+                out.push(row?);
+            }
+            out
+        };
+        let mut updates: Vec<(i64, String, String)> = Vec::new();
+        for (id, symbol_id, path) in rows {
+            if Path::new(&path).exists() {
+                continue;
+            }
+            let candidate = if let Some(index) = path.find("symbol-packs/") {
+                resources_dir.join(&path[index..])
+            } else if Path::new(&path).is_relative() {
+                resources_dir.join(&path)
+            } else {
+                continue;
+            };
+            if candidate.exists() {
+                updates.push((id, symbol_id, candidate.to_string_lossy().to_string()));
+            }
+        }
+        if updates.is_empty() {
+            return Ok(0);
+        }
+        let tx = self.conn.transaction()?;
+        for (id, symbol_id, path) in &updates {
+            tx.execute(
+                "UPDATE symbol_assets SET path = ?1 WHERE id = ?2",
+                params![path, id],
+            )?;
+            tx.execute(
+                "UPDATE symbols SET data_path = ?1 WHERE id = ?2",
+                params![path, symbol_id],
+            )?;
+        }
+        tx.commit()?;
+        Ok(updates.len())
+    }
+
     pub fn symbols_for_concept(
         &self,
         concept_id: &str,

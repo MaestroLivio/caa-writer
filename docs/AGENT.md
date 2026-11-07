@@ -566,6 +566,9 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
   lessico, salva copie offline e restituisce le parole elaborate. Il frontend
   lo chiama dopo l'analisi se `online_auto_insert` è attivo, poi rianalizza:
   `symbol_by_label` collega il simbolo per etichetta/parola chiave esatta.
+- All'avvio `repair_asset_paths` riallinea i file dei simboli alla cartella
+  risorse corrente. Senza questo, un database creato da un'altra installazione
+  può bloccare `svg_for` (doppio lock della cache) e lasciare l'analisi appesa.
 - Default: `speech.enabled=false` nel database e `speech_enabled=false` nelle
   impostazioni UI; profilo `risparmio`, debounce 420/1200 ms; AI 1 thread,
   contesto 512, timeout 4 s.
