@@ -1172,6 +1172,17 @@
             </select>
           </div>
           <div class="settings-row">
+            <label for="online-auto-select">Inserisci ARASAAC mentre scrivi</label>
+            <input
+              id="online-auto-select"
+              type="checkbox"
+              disabled={settings.online_search === "off"}
+              checked={settings.online_auto_insert}
+              onchange={(event) =>
+                onUpdateSettings({ online_auto_insert: (event.currentTarget as HTMLInputElement).checked })}
+            />
+          </div>
+          <div class="settings-row">
             <label for="animations-select">Animazioni</label>
             <select
               id="animations-select"

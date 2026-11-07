@@ -3498,6 +3498,7 @@
           mode={effectiveMode}
           autoEnabled={settings.auto_caa}
           neural={neuralReady}
+          onlineAutoInsert={settings.online_auto_insert && settings.online_search !== "off"}
           symbolizeArticles={settings.symbolize_articles}
           symbolizePrepositions={settings.symbolize_prepositions}
           symbolizeConjunctions={settings.symbolize_conjunctions}

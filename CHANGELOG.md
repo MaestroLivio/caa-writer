@@ -6,6 +6,20 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
 
 ## Non rilasciato (dopo 0.13.0)
 
+### Inserimento automatico dei pittogrammi ARASAAC
+
+- Le parole minuscole senza simbolo vengono cercate su ARASAAC dopo l'analisi,
+  scaricate come copia offline e inserite nella striscia CAA mentre si scrive.
+- L'inserimento avviene in background, senza bloccare la digitazione; ogni
+  parola viene tentata una sola volta per sessione.
+- La rianalisi riconosce i simboli appena salvati per etichetta esatta, anche
+  per parole fuori lessico: prima il pittogramma spariva al passaggio
+  successivo.
+- Nuova impostazione «Inserisci i pittogrammi ARASAAC mentre scrivi», attiva
+  per default; «Disattivata» ferma ogni richiesta di rete.
+- Nomi propri con maiuscola, frasi, numeri, email e URL non vengono inviati
+  automaticamente; i simboli personali e le scelte manuali restano prioritari.
+
 ### Ricerca online ripristinata
 
 - La ricerca esplicita di una parola nuova non viene più scartata: il filtro

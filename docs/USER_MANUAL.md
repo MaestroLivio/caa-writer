@@ -271,8 +271,12 @@ L'app include un piccolo repertorio locale per l'uso offline; gli altri
 pittogrammi e le immagini si cercano tramite API pubbliche (ARASAAC, Wikimedia)
 o provider aggiunti in **Impostazioni → Librerie online**. Selezionando una
 parola senza simbolo, i suggerimenti online si caricano automaticamente nel
-pannello (modalità predefinita); con «Disattivata» non parte alcuna richiesta.
-Un risultato scelto viene salvato come copia offline con la sua licenza.
+pannello. Con **«Inserisci i pittogrammi ARASAAC mentre scrivi»** (attivo per
+default) le parole minuscole fuori lessico vengono cercate su ARASAAC e
+inserite automaticamente nella striscia, in background. Nomi propri con
+maiuscola, numeri, email e URL non vengono inviati. Ogni simbolo scaricato è
+una copia offline con la sua licenza; le scelte manuali restano prioritarie.
+Con «Disattivata» non parte alcuna richiesta.
 
 La **sintesi vocale è disattivata** per default: attivala in Impostazioni →
 Accessibilità. Il profilo prestazionale predefinito è **Risparmio risorse**, adatto

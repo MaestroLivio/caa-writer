@@ -746,6 +746,80 @@ fn allowed_image_host(url: &str) -> bool {
     false
 }
 
+/// Parola singola accettabile per l'inserimento automatico: niente frasi,
+/// numeri, email, URL o spazi. La rete riceve solo questo termine.
+fn automatic_word(raw: &str) -> Option<String> {
+    let word = raw.trim().to_lowercase();
+    if word.chars().count() < 2 || word.chars().count() > 40 {
+        return None;
+    }
+    if word.contains('@') || word.contains("http") || word.chars().any(|c| c.is_ascii_digit()) {
+        return None;
+    }
+    if !word
+        .chars()
+        .all(|c| c.is_alphabetic() || c == '\'' || c == '’' || c == '-')
+    {
+        return None;
+    }
+    Some(word)
+}
+
+/// Cerca su ARASAAC le parole indicate, salva i pittogrammi come copie offline
+/// e restituisce quelle davvero importate. Non usa Wikimedia: durante la
+/// scrittura servono pittogrammi CAA, non fotografie generiche. Le parole già
+/// presenti nella libreria non vengono riscaricate.
+pub fn ensure_arasaac_symbols(
+    db: &Database,
+    assets_dir: &Path,
+    words: &[String],
+    limit: usize,
+) -> Result<Vec<String>, String> {
+    let filters = crate::database::SymbolFilters::default();
+    let mut saved = Vec::new();
+    for raw in words.iter().take(limit.clamp(1, 12)) {
+        let Some(word) = automatic_word(raw) else {
+            continue;
+        };
+        if db
+            .symbol_by_label(&word, &filters)
+            .map_err(|e| e.to_string())?
+            .is_some()
+        {
+            // Già presente: segnalarlo permette alla rianalisi di collegarlo
+            // anche se la cache precedente non lo aveva ancora visto.
+            saved.push(word);
+            continue;
+        }
+        let Ok(response) = fetch_arasaac(&word) else {
+            continue;
+        };
+        // Solo un'etichetta esattamente uguale: un pittogramma sbagliato è
+        // peggio di nessun pittogramma. Le corrispondenze vaghe restano nel
+        // pannello, dove l'utente può sceglierle.
+        let wanted = crate::linguistics::normalize::normalize_word(&word);
+        let Some(result) = response.results.into_iter().find(|result| {
+            result.kind == "pittogramma"
+                && crate::linguistics::normalize::normalize_word(&result.title) == wanted
+        }) else {
+            continue;
+        };
+        if save_result(db, assets_dir, &result, &word, "ARASAAC automatico").is_ok() {
+            saved.push(word);
+        } else if db
+            .symbol_by_label(&word, &filters)
+            .ok()
+            .flatten()
+            .is_some()
+        {
+            // Il file era già nella libreria ma l'import ha segnalato un
+            // duplicato: la parola è comunque collegabile.
+            saved.push(word);
+        }
+    }
+    Ok(saved)
+}
+
 pub fn download_bytes(url: &str) -> Result<Vec<u8>, String> {
     if !allowed_image_host(url) {
         return Err("URL immagine non autorizzato: serve HTTPS pubblico."
@@ -1026,6 +1100,16 @@ mod tests {
             &["scrivi a mario@example.com".to_string()]
         )
         .is_empty());
+    }
+
+    #[test]
+    fn automatic_words_reject_sentences_and_personal_data() {
+        assert_eq!(automatic_word(" Astronauta "), Some("astronauta".to_string()));
+        assert_eq!(automatic_word("cane"), Some("cane".to_string()));
+        assert_eq!(automatic_word("mario.rossi@example.com"), None);
+        assert_eq!(automatic_word("https://example.com"), None);
+        assert_eq!(automatic_word("12345"), None);
+        assert_eq!(automatic_word("due parole"), None);
     }
 
     #[test]

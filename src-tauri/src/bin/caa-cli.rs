@@ -689,6 +689,29 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
             let response = online_search::search(&db, &terms, as_bool(params, "force_refresh", false))?;
             Ok(serde_json::to_value(&response).map_err(|e| e.to_string())?)
         }
+        "online.ensure" => {
+            let words: Vec<String> = params
+                .get("words")
+                .and_then(|value| value.as_array())
+                .map(|items| {
+                    items
+                        .iter()
+                        .filter_map(|item| item.as_str().map(str::to_string))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let db = engine.db()?;
+            let saved = online_search::ensure_arasaac_symbols(
+                &db,
+                &engine.paths.assets_dir,
+                &words,
+                12,
+            )?;
+            if !saved.is_empty() {
+                engine.clear_caches();
+            }
+            Ok(serde_json::json!({ "saved": saved }))
+        }
         "online.save" => {
             let result: online_search::OnlineResult = params
                 .get("result")
@@ -832,6 +855,7 @@ const METHODS: &[&str] = &[
     "collections.move",
     "online.providers",
     "online.search",
+    "online.ensure",
     "online.save",
     "prompt.interpret",
     "export.html",

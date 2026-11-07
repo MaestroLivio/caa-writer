@@ -10,7 +10,7 @@ use serde::Serialize;
 use tauri::{Manager, State};
 
 use crate::asset_manager::{alternative_from_record, svg as svg_tool};
-use crate::database::SymbolFilters;
+use crate::database::{Database, SymbolFilters};
 use crate::engine::Engine;
 use crate::export::{caadoc, docx, html};
 use crate::model::*;
@@ -1173,6 +1173,33 @@ pub async fn search_online_pictograms(
         }
         let db = state.db()?;
         online_search::search(&db, &terms, force_refresh.unwrap_or(false))
+    })
+    .await
+}
+
+/// Inserimento automatico durante la scrittura: cerca solo pittogrammi ARASAAC
+/// per le parole fuori lessico, li salva come copie offline e restituisce le
+/// parole importate. Usa una connessione separata per non tenere bloccato il
+/// database principale durante la rete.
+#[tauri::command]
+pub async fn ensure_online_symbols(
+    app: tauri::AppHandle,
+    words: Vec<String>,
+) -> Result<Vec<String>, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let db = Database::open(&state.paths.db_path)
+            .map_err(|e| format!("database online: {e}"))?;
+        let saved = online_search::ensure_arasaac_symbols(
+            &db,
+            &state.paths.assets_dir,
+            &words,
+            6,
+        )?;
+        if !saved.is_empty() {
+            state.clear_caches();
+        }
+        Ok(saved)
     })
     .await
 }

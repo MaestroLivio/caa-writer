@@ -496,6 +496,21 @@
           </select>
         </div>
         <div class="row">
+          <label for="dlg-online-auto">Inserisci i pittogrammi ARASAAC mentre scrivi</label>
+          <input
+            id="dlg-online-auto"
+            type="checkbox"
+            disabled={settings.online_search === "off"}
+            checked={settings.online_auto_insert}
+            onchange={(event) => onUpdateSettings({ online_auto_insert: (event.currentTarget as HTMLInputElement).checked })}
+          />
+        </div>
+        <p class="hint">
+          Le parole minuscole senza simbolo vengono cercate su ARASAAC e salvate come copia
+          offline; la frase completa non lascia il dispositivo. Nomi propri, numeri, email e URL
+          sono esclusi. Disattiva questa opzione per usare solo il pannello.
+        </p>
+        <div class="row">
           <label for="dlg-animations">Animazioni</label>
           <select
             id="dlg-animations"

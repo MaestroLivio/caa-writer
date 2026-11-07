@@ -566,6 +566,61 @@ impl Engine {
                     index += 1;
                 }
             }
+
+            // Pittogrammi arrivati dalle API e salvati nella libreria: valgono
+            // anche per parole fuori lessico. La corrispondenza è esatta su
+            // etichetta/parola chiave, mai per somiglianza, così la rianalisi
+            // non cancella il simbolo automatico né ne applica uno sbagliato.
+            if opts.mode != CaaMode::Testo {
+                // Solo la libreria personale: i simboli ARASAAC salvati dalle
+                // API (anche automaticamente) e le scelte manuali. Il catalogo
+                // completo resta gestito dal percorso lessicale, altrimenti
+                // parole che il corpus considera senza simbolo verrebbero
+                // collegate solo perché esiste un'etichetta omonima.
+                let personal_filters = SymbolFilters {
+                    pack_id: Some("personal".to_string()),
+                    commercial_only: filters.commercial_only,
+                    collection_id: None,
+                };
+                for caa in tokens.iter_mut() {
+                    if caa.symbol_id.is_some()
+                        || !caa.composition.is_empty()
+                        || caa.is_punct
+                        || caa.is_function
+                    {
+                        continue;
+                    }
+                    let query = caa.lemma.clone().unwrap_or_else(|| caa.surface.clone());
+                    let normalized = crate::linguistics::normalize::normalize_word(&query);
+                    if normalized.is_empty() {
+                        continue;
+                    }
+                    let Ok(Some(symbol)) = db.symbol_by_label(&normalized, &personal_filters) else {
+                        continue;
+                    };
+                    caa.symbol_id = Some(symbol.id.clone());
+                    caa.pack_id = Some(symbol.pack_id.clone());
+                    caa.concept_id = symbol.concept_id.clone();
+                    caa.caption = caa.surface.clone();
+                    caa.symbol_label = Some(symbol.label.clone());
+                    if caa.concept_label.is_none() {
+                        caa.concept_label = Some(symbol.label.clone());
+                    }
+                    caa.meaning = symbol.meaning.clone();
+                    caa.strategy = Strategy::Exact.as_str().to_string();
+                    caa.confidence = 0.9;
+                    caa.svg = self.svg_for(&db, &symbol.id, symbol.svg.clone(), &mut svg_cache);
+                }
+                symbolized = tokens
+                    .iter()
+                    .filter(|t| t.symbol_id.is_some() || !t.composition.is_empty())
+                    .count();
+                approximate = tokens.iter().filter(|t| t.approximate).count();
+                missing = tokens
+                    .iter()
+                    .filter(|t| t.key && t.symbol_id.is_none() && t.composition.is_empty())
+                    .count();
+            }
             (tokens, symbolized, approximate, missing)
         };
 

@@ -53,6 +53,9 @@
     autoEnabled: boolean;
     /// Reranking contestuale con il modello locale (già verificato come disponibile).
     neural: boolean;
+    /// Inserisce automaticamente i pittogrammi ARASAAC per le parole fuori
+    /// lessico, dopo l'analisi e senza bloccare la digitazione.
+    onlineAutoInsert?: boolean;
     /// Simbolizzazione delle parole grammaticali, per categoria.
     symbolizeArticles: boolean;
     symbolizePrepositions: boolean;
@@ -99,6 +102,7 @@
     selectedUnit,
     autoEnabled,
     neural,
+    onlineAutoInsert = false,
     symbolizeArticles,
     symbolizePrepositions,
     symbolizeConjunctions,
@@ -129,6 +133,10 @@
   let refineRequestId = "";
   const refinedSignature = new Map<string, string>();
   let analyzeSeq = 0;
+  let onlineBusy = false;
+  /// Parole già richieste alle API in questa sessione: evita richieste
+  /// ripetute e il ciclo analisi → rete → analisi.
+  const onlineAttempted = new Set<string>();
 
   // Misure raccolte nel WebView: sono tempi reali, non stime. Gli array
   // contengono gli ultimi 200 campioni, sufficienti per un p95 significativo
@@ -694,6 +702,64 @@
     };
   }
 
+  /// Arricchimento automatico con ARASAAC. Parte solo dopo l'analisi locale,
+  /// in background: il testo resta subito scrivibile. Le parole sono singole,
+  /// minuscole e ripulite; nomi propri, frasi, numeri, email e URL restano fuori.
+  async function ensureOnlineSymbols() {
+    if (!onlineAutoInsert || !autoEnabled || mode === "testo" || !isTauri() || onlineBusy) {
+      return;
+    }
+    const words = new Set<string>();
+    const pidsByWord = new Map<string, Set<string>>();
+    for (const [pid, tokens] of tokensByPid) {
+      for (const token of tokens) {
+        if (
+          token.is_punct ||
+          token.is_function ||
+          token.symbol_id ||
+          token.composition.length > 0
+        ) {
+          continue;
+        }
+        const surface = token.surface.trim();
+        const lower = surface.toLocaleLowerCase("it");
+        // Le parole con maiuscola iniziale possono essere nomi propri:
+        // l'inserimento automatico non li invia alla rete.
+        if (!surface || surface !== lower) continue;
+        if (lower.length < 2 || lower.length > 40) continue;
+        if (!/^[\p{L}][\p{L}'’\-]*$/u.test(lower)) continue;
+        if (onlineAttempted.has(lower)) continue;
+        words.add(lower);
+        if (!pidsByWord.has(lower)) pidsByWord.set(lower, new Set());
+        pidsByWord.get(lower)?.add(pid);
+      }
+    }
+    const pending = [...words].slice(0, 6);
+    if (pending.length === 0) return;
+    for (const word of pending) onlineAttempted.add(word);
+    onlineBusy = true;
+    try {
+      const saved = await api.ensureOnlineSymbols(pending);
+      if (saved.length > 0) {
+        // I simboli sono ora nel database: la prossima analisi li trova per
+        // etichetta esatta. Si invalidano solo i paragrafi coinvolti, non
+        // l'intero documento, per non innescare rianalisi inutili.
+        let touched = false;
+        for (const word of saved) {
+          for (const pid of pidsByWord.get(word) ?? []) {
+            analyzedSignature.delete(pid);
+            touched = true;
+          }
+        }
+        if (touched) setTimeout(() => schedule(60), 0);
+      }
+    } catch {
+      // La rete è facoltativa: un errore non interrompe la scrittura.
+    } finally {
+      onlineBusy = false;
+    }
+  }
+
   async function analyzeAll() {
     if (!view) return;
     if (analyzing) {
@@ -748,6 +814,7 @@
       onAnalyzed(new Map(tokensByPid));
       refreshStrips();
       scheduleRefine();
+      void ensureOnlineSymbols();
     } finally {
       analyzing = false;
       if (run === analyzeSeq) {

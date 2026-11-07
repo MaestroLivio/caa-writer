@@ -123,6 +123,8 @@ export const api = {
   searchOnlinePictograms: (terms: string[], forceRefresh = false) =>
     call<OnlineResponse>("search_online_pictograms", { terms, forceRefresh }),
   onlineThumbnail: (url: string) => call<string>("online_thumbnail", { url }),
+  ensureOnlineSymbols: (words: string[]) =>
+    call<string[]>("ensure_online_symbols", { words }),
   saveOnlinePictogram: (result: OnlineResult, lemma: string, collection: string) =>
     call<Alternative>("save_online_pictogram", { result, lemma, collection }),
   interpretDocumentPrompt: (prompt: string, useNeural = true) =>

@@ -289,6 +289,7 @@ caa-cli call import.run - < import.json
 |---|---|
 | `online.providers` | — |
 | `online.search` | `terms` (array), `force_refresh` |
+| `online.ensure` | `words` (array): cerca solo ARASAAC e salva le copie offline |
 | `online.save` | `result`, `lemma`, `collection` |
 
 Provider attivi: **ARASAAC** (prima scelta, pittogrammi CAA, CC BY-NC-SA 4.0) e
@@ -561,6 +562,10 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
   parte quando si seleziona un'unità senza simbolo; «Disattivata» è l'unica
   modalità senza rete. Ricerca, anteprima e salvataggio girano fuori dal thread
   dell'interfaccia.
+- `ensure_online_symbols` cerca solo ARASAAC per le parole minuscole fuori
+  lessico, salva copie offline e restituisce le parole elaborate. Il frontend
+  lo chiama dopo l'analisi se `online_auto_insert` è attivo, poi rianalizza:
+  `symbol_by_label` collega il simbolo per etichetta/parola chiave esatta.
 - Default: `speech.enabled=false` nel database e `speech_enabled=false` nelle
   impostazioni UI; profilo `risparmio`, debounce 420/1200 ms; AI 1 thread,
   contesto 512, timeout 4 s.

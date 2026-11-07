@@ -549,6 +549,8 @@ export interface DocumentSettings {
   border_style: BorderStyle;
   animations: "full" | "reduced" | "off";
   online_search: "off" | "suggest" | "auto";
+  /// Inserisce i pittogrammi ARASAAC per le parole fuori lessico mentre si scrive.
+  online_auto_insert: boolean;
   typing_sound: boolean;
   speak_words: boolean;
   speak_sentences: boolean;
@@ -604,6 +606,7 @@ export const defaultSettings: DocumentSettings = {
   border_style: "immagine_testo",
   animations: "full",
   online_search: "suggest",
+  online_auto_insert: true,
   typing_sound: false,
   speak_words: false,
   speak_sentences: false,

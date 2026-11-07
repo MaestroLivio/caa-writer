@@ -164,6 +164,7 @@ pub fn run() {
             commands::list_online_providers,
             commands::save_online_provider,
             commands::delete_online_provider,
+            commands::ensure_online_symbols,
             commands::search_online_pictograms,
             commands::online_thumbnail,
             commands::save_online_pictogram,

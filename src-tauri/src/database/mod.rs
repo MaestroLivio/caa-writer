@@ -226,6 +226,41 @@ impl Database {
         Ok(out)
     }
 
+    /// Simbolo con etichetta o parola chiave esattamente uguale al termine.
+    /// Serve alle parole fuori lessico salvate dalle API: senza questo
+    /// controllo la rianalisi cancellava il pittogramma appena inserito.
+    pub fn symbol_by_label(
+        &self,
+        label: &str,
+        filters: &SymbolFilters,
+    ) -> DbResult<Option<SymbolRecord>> {
+        let needle = label.trim().to_lowercase();
+        if needle.is_empty() {
+            return Ok(None);
+        }
+        let sql = format!(
+            "{SYMBOL_SELECT}
+             WHERE s.hide = 0
+               AND (lower(trim(s.label)) = ?1
+                    OR EXISTS (SELECT 1 FROM symbol_keywords k
+                               WHERE k.symbol_id = s.id AND lower(trim(k.term)) = ?1))
+               AND (?2 IS NULL OR s.pack_id = ?2)
+               AND (?3 = 0 OR p.commercial_ok = 1)
+             ORDER BY CASE WHEN s.pack_id = 'personal' THEN 0 ELSE 1 END,
+                      CASE s.status WHEN 'approved' THEN 0 ELSE 1 END, s.id
+             LIMIT 1"
+        );
+        let mut stmt = self.conn.prepare(&sql)?;
+        let mut rows = stmt.query_map(
+            params![needle, filters.pack_id, filters.commercial_only as i64],
+            Self::map_symbol,
+        )?;
+        if let Some(row) = rows.next() {
+            return Ok(Some(row?));
+        }
+        Ok(None)
+    }
+
     pub fn symbol_by_id(&self, symbol_id: &str) -> DbResult<Option<SymbolRecord>> {
         let sql = format!("{SYMBOL_SELECT} WHERE s.id = ?1");
         let mut stmt = self.conn.prepare(&sql)?;
