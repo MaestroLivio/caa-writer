@@ -84,22 +84,29 @@ pub fn resolve(
     language: Option<&str>,
 ) -> Option<VoicePaths> {
     let voice = voice_for(language);
-    let engine = std::env::var("CAA_PIPER")
-        .ok()
-        .map(PathBuf::from)
-        .filter(|path| path.is_file())
-        .or_else(|| {
-            let path = resources_dir.join("voice").join("bin").join("piper");
-            path.is_file().then_some(path)
-        })
-        .or_else(|| {
-            let path = resources_dir
-                .parent()?
-                .join(".voice-venv")
-                .join("bin")
-                .join("piper");
-            path.is_file().then_some(path)
-        })?;
+    // Il runtime Piper è incluso nelle risorse in una cartella per piattaforma
+    // (`piper/piper` su macOS, `piper-win` su Windows); in sviluppo resta il
+    // fallback `.voice-venv`. Su Windows l'eseguibile ha estensione `.exe`.
+    let engine_name = if cfg!(windows) { "piper.exe" } else { "piper" };
+    let mut candidates: Vec<PathBuf> = Vec::new();
+    if let Ok(custom) = std::env::var("CAA_PIPER") {
+        candidates.push(PathBuf::from(custom));
+    }
+    let voice_dir = resources_dir.join("voice");
+    for directory in [
+        voice_dir.join("bin"),
+        voice_dir.join("piper-win"),
+        voice_dir.join("piper").join("piper"),
+        voice_dir.join("piper"),
+    ] {
+        candidates.push(directory.join(engine_name));
+    }
+    if let Some(parent) = resources_dir.parent() {
+        candidates.push(parent.join(".voice-venv").join("bin").join(engine_name));
+    }
+    let engine = candidates
+        .into_iter()
+        .find(|path| path.is_file())?;
 
     let base = std::env::var("CAA_VOICE_MODEL")
         .ok()
@@ -219,7 +226,15 @@ pub fn synthesize(text: &str, paths: &VoicePaths) -> Result<PathBuf, String> {
         return Ok(output);
     }
 
+    // Piper cerca `espeak-ng-data` e le DLL accanto all'eseguibile: il
+    // processo parte dalla sua cartella, non dalla cartella dell'app.
+    let engine_dir = paths
+        .engine
+        .parent()
+        .map(Path::to_path_buf)
+        .unwrap_or_else(|| PathBuf::from("."));
     let mut child = crate::process::command(&paths.engine)
+        .current_dir(engine_dir)
         .arg("-m")
         .arg(&paths.model)
         .arg("-c")

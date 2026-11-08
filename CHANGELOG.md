@@ -4,6 +4,14 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.2 — 2026-11-08
+
+### Windows
+
+- Corretto lo sfarfallio del Ribbon quando i gruppi non entrano in orizzontale: misure
+  memorizzate, nessun reset a tutti i gruppi durante il ridimensionamento, isteresi sulle soglie
+  compatta/nascosta.
+
 ## 0.15.1 — 2026-11-08
 
 ### Editor unico e stampa

@@ -1,6 +1,6 @@
 # Release e installer
 
-## Stato reale (versione 0.15.1, 8 novembre 2026)
+## Stato reale (versione 0.15.2, 8 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
@@ -126,9 +126,12 @@ questa sessione**: richiede un repository GitHub e il push del tag.
 
 ## Voce neurale nell'installer
 
-Il runtime vocale **non è incluso nel bundle**: `voice::resolve` cerca `resources/voice/bin/piper`
-oppure `.voice-venv/bin/piper`, e nella build di release nessuno dei due esiste. Senza runtime, la
-lettura usa la voce di sistema e `voice_status` lo dichiara con `backend: "system"`.
+Il runtime vocale neurale è **incluso nell’installer Windows**: voci `it_IT-serena-medium` e
+`en_GB-cori-high` in `resources/voice/*.onnx`, motore `resources/voice/piper-win/piper.exe` con
+DLL ed `espeak-ng-data`. `voice::resolve` cerca `piper-win/piper.exe`; il processo parte dalla
+cartella del runtime per caricare le DLL. Su macOS il runtime Piper arm64 non è incluso e la
+lettura usa la voce di sistema (in sviluppo è possibile usare `.voice-venv/bin/piper`). Se il
+motore manca, `voice_status` lo dichiara con `backend: "system"`.
 
 Per avere la voce neurale in una installazione confezionata serve impacchettare Piper con le sue
 dylib (il pacchetto macOS ufficiale è incompleto) oppure distribuire un runtime Python dedicato.

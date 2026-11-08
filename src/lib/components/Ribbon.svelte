@@ -83,8 +83,21 @@
 
   // Sotto i 1200 px il Ribbon completo diventa compatto; sotto i 980 px si
   // nasconde, ma le schede restano e un clic le riapre temporaneamente.
-  const autoCompact = $derived(width < 1200);
-  const autoHidden = $derived(width < 980);
+  // Isteresi sui due confini: senza di essa un ridimensionamento pari a pochi
+  // pixel attorno alla soglia faceva commutare continuamente modalità e
+  // larghezze, producendo sfarfallio.
+  let compactLatch = $state(false);
+  let hiddenLatch = $state(false);
+  $effect(() => {
+    if (width < 1160) compactLatch = true;
+    else if (width > 1240) compactLatch = false;
+  });
+  $effect(() => {
+    if (width < 940) hiddenLatch = true;
+    else if (width > 1020) hiddenLatch = false;
+  });
+  const autoCompact = $derived(compactLatch);
+  const autoHidden = $derived(hiddenLatch);
   const overlaid = $derived(
     (mode === "hidden" && (temporaryExpanded || pinned)) ||
       (mode === "compact" && autoHidden && temporaryExpanded)
@@ -170,9 +183,35 @@
     groupsMenuOpen = false;
   }
 
-  /// Misura i gruppi renderizzati e nasconde quelli che non entrano,
-  /// lasciando sempre il menu «Gruppi (n)». La larghezza del corpo è quella
-  /// reale del viewport, non quella del contenuto.
+  function availableWidth(): number {
+    if (!bodyEl) return 140;
+    return Math.max(140, bodyEl.clientWidth);
+  }
+
+  /// Calcola quanti gruppi entrano usando le larghezze misurate. Prima prova
+  /// senza menu «Gruppi (n)»; se non basta riserva lo spazio del menu. Non
+  /// tocca il DOM: durante il ridimensionamento non si torna mai a mostrare
+  /// tutti i gruppi (era questa la causa dello sfarfallio su Windows).
+  function computeHiddenFrom(): number {
+    const groups = currentGroups;
+    if (groups.length === 0) return 0;
+    const widths = groups.map((group) => groupWidths.get(group.id) ?? 190);
+    const available = availableWidth();
+    const total = widths.reduce((sum, value) => sum + value, 0);
+    if (total <= available) return groups.length;
+    const menuReserve = 112;
+    let used = 0;
+    for (let index = 0; index < widths.length; index += 1) {
+      if (used + widths[index] + menuReserve > available && index > 0) {
+        return index;
+      }
+      used += widths[index];
+    }
+    return Math.max(1, groups.length - 1);
+  }
+
+  /// Misura i gruppi renderizzati una volta per scheda/modalità e aggiorna la
+  /// cache. Le misurazioni successive usano solo la cache.
   function measureGroups() {
     if (!bodyEl) return;
     const groups = currentGroups;
@@ -180,41 +219,48 @@
       hiddenFrom = 0;
       return;
     }
-    const available = Math.max(140, bodyEl.clientWidth - 112);
-    let used = 0;
-    let cut = groups.length;
-    for (let index = 0; index < groups.length; index += 1) {
-      const group = groups[index];
+    for (const group of groups) {
       const element = bodyEl.querySelector<HTMLElement>(
         `[data-group-id="${group.id}"]`
       );
       const measured = element?.getBoundingClientRect().width ?? 0;
-      const cached = groupWidths.get(group.id) ?? 0;
-      const groupWidth = measured > 0 ? measured : cached > 0 ? cached : 190;
       if (measured > 0) groupWidths.set(group.id, measured);
-      if (used + groupWidth > available && index > 0) {
-        cut = index;
-        break;
-      }
-      used += groupWidth;
     }
-    hiddenFrom = Math.max(1, cut);
+    hiddenFrom = computeHiddenFrom();
   }
+
+  // Identità strutturale dei gruppi: gli aggiornamenti di stato dei comandi
+  // (attivo/disattivo) non devono invalidare le misure e far ricomparire tutti
+  // i gruppi per un frame.
+  const groupsSignature = $derived(
+    currentGroups
+      .map((group) => `${group.id}:${group.commands.length}:${group.visible ?? "auto"}`)
+      .join("|")
+  );
 
   const visibleGroups = $derived(currentGroups.slice(0, hiddenFrom));
   const hiddenGroups = $derived(currentGroups.slice(hiddenFrom));
 
+  // Scheda o modalità cambiate: servono nuove misure perché cambiano le
+  // larghezze dei gruppi (etichette e controlli compatti).
   $effect(() => {
     void activeTab;
     void effectiveMode;
-    void width;
-    void currentGroups;
+    void groupsSignature;
+    groupWidths.clear();
     hiddenFrom = 999;
-    const frame = requestAnimationFrame(() => {
-      hiddenFrom = 999;
-      requestAnimationFrame(measureGroups);
-    });
+    const frame = requestAnimationFrame(measureGroups);
     return () => cancelAnimationFrame(frame);
+  });
+
+  // Ridimensionamento: si usano le larghezze già misurate. Nessun reset a 999,
+  // quindi i gruppi non ricompaiono per un frame e non si genera il flicker.
+  $effect(() => {
+    void width;
+    if (!bodyEl || currentGroups.length === 0) return;
+    if (groupWidths.size < currentGroups.length) return;
+    const next = computeHiddenFrom();
+    if (next !== hiddenFrom) hiddenFrom = next;
   });
 
   $effect(() => {
