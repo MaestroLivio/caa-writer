@@ -1,0 +1,1278 @@
+{
+  "id": "pilota_libro_caa",
+  "title": "Il gatto e la farfalla",
+  "description": "Libro CAA di quattro pagine con striscia di pittogrammi, testo e domande di comprensione.",
+  "category": "Storie sociali",
+  "source_type": "template",
+  "kind": "story",
+  "interactive": false,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "margin_mm": 10,
+  "taxonomy": {
+    "category_id": "storie-caa",
+    "subcategory_id": "sopra-testo",
+    "audience": "primaria",
+    "objective": "Leggere una storia breve in CAA, collegare pittogrammi e parole e rispondere a domande.",
+    "tags": [
+      "libro",
+      "caa",
+      "lettura",
+      "storia",
+      "pittogrammi",
+      "comprensione"
+    ],
+    "complexity": "intermedio",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "featured": true
+  },
+  "pages": [
+    {
+      "id": "home",
+      "title": "Copertina",
+      "layout": "absolute",
+      "home": true,
+      "elements": [
+        {
+          "id": "hdr-badge-1",
+          "kind": "badge",
+          "text": "LIBRO CAA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-1",
+          "kind": "title",
+          "text": "Il gatto e la farfalla",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-1",
+          "kind": "subtitle",
+          "text": "Un libro con pittogrammi, testo e una domanda finale.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-1",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 6",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "cover-cat",
+          "kind": "symbol",
+          "text": "gatto",
+          "x_mm": 40,
+          "y_mm": 58,
+          "w_mm": 60,
+          "h_mm": 60,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "gatto",
+          "symbol_id": null
+        },
+        {
+          "id": "cover-butterfly",
+          "kind": "symbol",
+          "text": "farfalla",
+          "x_mm": 110,
+          "y_mm": 58,
+          "w_mm": 60,
+          "h_mm": 60,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "farfalla",
+          "symbol_id": null
+        },
+        {
+          "id": "cover-line",
+          "kind": "text_box",
+          "text": "Leggi la storia. Puoi toccare i pittogrammi per ascoltare le parole.",
+          "x_mm": 30,
+          "y_mm": 132,
+          "w_mm": 150,
+          "h_mm": 20,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#1f2937",
+            "background": "#ecfdf5",
+            "border_color": "#0f766e",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 2.0,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "p1",
+      "title": "Il gatto vede",
+      "layout": "absolute",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-2",
+          "kind": "badge",
+          "text": "LIBRO CAA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-2",
+          "kind": "title",
+          "text": "Il gatto vede",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-2",
+          "kind": "subtitle",
+          "text": "Pagina 1 di 4",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-2",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 6",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "p1-big",
+          "kind": "symbol",
+          "text": "",
+          "x_mm": 55,
+          "y_mm": 40,
+          "w_mm": 100,
+          "h_mm": 110,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "gatto",
+          "symbol_id": null
+        },
+        {
+          "id": "p1-strip",
+          "kind": "grid",
+          "text": "",
+          "x_mm": 10,
+          "y_mm": 156,
+          "w_mm": 190,
+          "h_mm": 40,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.0,
+            "padding_mm": 1.0,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "columns": 3,
+          "rows": 1,
+          "gap_mm": 2.0,
+          "cells": [
+            {
+              "text": "gatto",
+              "symbol": "gatto",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "gatto"
+            },
+            {
+              "text": "vedere",
+              "symbol": "vedere",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "vedere"
+            },
+            {
+              "text": "farfalla",
+              "symbol": "farfalla",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "farfalla"
+            }
+          ]
+        },
+        {
+          "id": "p1-sentence",
+          "kind": "text_box",
+          "text": "Il gatto vede una farfalla.",
+          "x_mm": 10,
+          "y_mm": 204,
+          "w_mm": 190,
+          "h_mm": 30,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 2.5,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "title": "La farfalla vola",
+      "layout": "absolute",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-3",
+          "kind": "badge",
+          "text": "LIBRO CAA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-3",
+          "kind": "title",
+          "text": "La farfalla vola",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-3",
+          "kind": "subtitle",
+          "text": "Pagina 2 di 4",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-3",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 3 di 6",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "p2-big",
+          "kind": "symbol",
+          "text": "",
+          "x_mm": 55,
+          "y_mm": 40,
+          "w_mm": 100,
+          "h_mm": 110,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "farfalla",
+          "symbol_id": null
+        },
+        {
+          "id": "p2-strip",
+          "kind": "grid",
+          "text": "",
+          "x_mm": 10,
+          "y_mm": 156,
+          "w_mm": 190,
+          "h_mm": 40,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.0,
+            "padding_mm": 1.0,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "columns": 3,
+          "rows": 1,
+          "gap_mm": 2.0,
+          "cells": [
+            {
+              "text": "farfalla",
+              "symbol": "farfalla",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "farfalla"
+            },
+            {
+              "text": "volare",
+              "symbol": "volare",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "volare"
+            },
+            {
+              "text": "prato",
+              "symbol": "prato",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "prato"
+            }
+          ]
+        },
+        {
+          "id": "p2-sentence",
+          "kind": "text_box",
+          "text": "La farfalla vola sopra il prato.",
+          "x_mm": 10,
+          "y_mm": 204,
+          "w_mm": 190,
+          "h_mm": 30,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 2.5,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "title": "Il gatto salta",
+      "layout": "absolute",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-4",
+          "kind": "badge",
+          "text": "LIBRO CAA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-4",
+          "kind": "title",
+          "text": "Il gatto salta",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-4",
+          "kind": "subtitle",
+          "text": "Pagina 3 di 4",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-4",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 4 di 6",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "p3-big",
+          "kind": "symbol",
+          "text": "",
+          "x_mm": 55,
+          "y_mm": 40,
+          "w_mm": 100,
+          "h_mm": 110,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "gatto",
+          "symbol_id": null
+        },
+        {
+          "id": "p3-strip",
+          "kind": "grid",
+          "text": "",
+          "x_mm": 10,
+          "y_mm": 156,
+          "w_mm": 190,
+          "h_mm": 40,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.0,
+            "padding_mm": 1.0,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "columns": 3,
+          "rows": 1,
+          "gap_mm": 2.0,
+          "cells": [
+            {
+              "text": "gatto",
+              "symbol": "gatto",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "gatto"
+            },
+            {
+              "text": "saltare",
+              "symbol": "saltare",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "saltare"
+            },
+            {
+              "text": "giocare",
+              "symbol": "giocare",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "giocare"
+            }
+          ]
+        },
+        {
+          "id": "p3-sentence",
+          "kind": "text_box",
+          "text": "Il gatto salta per giocare.",
+          "x_mm": 10,
+          "y_mm": 204,
+          "w_mm": 190,
+          "h_mm": 30,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 2.5,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "title": "Insieme",
+      "layout": "absolute",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-5",
+          "kind": "badge",
+          "text": "LIBRO CAA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-5",
+          "kind": "title",
+          "text": "Insieme",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-5",
+          "kind": "subtitle",
+          "text": "Pagina 4 di 4",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-5",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 5 di 6",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "p4-big",
+          "kind": "symbol",
+          "text": "",
+          "x_mm": 55,
+          "y_mm": 40,
+          "w_mm": 100,
+          "h_mm": 110,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "farfalla",
+          "symbol_id": null
+        },
+        {
+          "id": "p4-strip",
+          "kind": "grid",
+          "text": "",
+          "x_mm": 10,
+          "y_mm": 156,
+          "w_mm": 190,
+          "h_mm": 40,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.0,
+            "padding_mm": 1.0,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "columns": 3,
+          "rows": 1,
+          "gap_mm": 2.0,
+          "cells": [
+            {
+              "text": "gatto",
+              "symbol": "gatto",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "gatto"
+            },
+            {
+              "text": "farfalla",
+              "symbol": "farfalla",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "farfalla"
+            },
+            {
+              "text": "insieme",
+              "symbol": "unire",
+              "action": {
+                "type": "speak"
+              },
+              "spoken_text": "insieme"
+            }
+          ]
+        },
+        {
+          "id": "p4-sentence",
+          "kind": "text_box",
+          "text": "Il gatto e la farfalla restano insieme.",
+          "x_mm": 10,
+          "y_mm": 204,
+          "w_mm": 190,
+          "h_mm": 30,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 2.5,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "domande",
+      "title": "Domande",
+      "layout": "absolute",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-6",
+          "kind": "badge",
+          "text": "LIBRO CAA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-6",
+          "kind": "title",
+          "text": "Domande",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-6",
+          "kind": "subtitle",
+          "text": "Rispondi con una frase o con i pittogrammi.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-6",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 6 di 6",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "q-0",
+          "kind": "question",
+          "text": "Che cosa vede il gatto?",
+          "x_mm": 10,
+          "y_mm": 46,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-0-line",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 10,
+          "y_mm": 58,
+          "w_mm": 190,
+          "h_mm": 22,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "metadata": {
+            "lines": 2
+          }
+        },
+        {
+          "id": "q-1",
+          "kind": "question",
+          "text": "Dove vola la farfalla?",
+          "x_mm": 10,
+          "y_mm": 100,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-1-line",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 10,
+          "y_mm": 112,
+          "w_mm": 190,
+          "h_mm": 22,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "metadata": {
+            "lines": 2
+          }
+        },
+        {
+          "id": "q-2",
+          "kind": "question",
+          "text": "Che cosa fa il gatto per giocare?",
+          "x_mm": 10,
+          "y_mm": 154,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-2-line",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 10,
+          "y_mm": 166,
+          "w_mm": 190,
+          "h_mm": 22,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "metadata": {
+            "lines": 2
+          }
+        }
+      ]
+    }
+  ]
+}

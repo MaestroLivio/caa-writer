@@ -21,11 +21,12 @@ export function freeBoardSpec(data: FreeBoardData): LayoutSpecification {
   const rows = Math.max(1, Math.ceil(cells.length / columns));
   const elements: LayoutElementSpec[] = cells.map((cell, index) => ({
     id: cell.id,
-    kind: cell.svg || cell.symbolId ? "symbol" : "box",
+    kind: cell.svg || cell.image || cell.symbolId ? "symbol" : "box",
     label: cell.label,
     concept_id: cell.conceptId,
     symbol_id: cell.symbolId,
     svg: cell.svg,
+    image: cell.image,
     page: 0,
     row: Math.floor(index / columns),
     column: index % columns,
@@ -65,6 +66,7 @@ export function freeBoardFromLayout(
       id: String(element.id ?? `cell-${index}`),
       label: String(element.label ?? ""),
       svg: typeof element.svg === "string" ? element.svg : null,
+      image: typeof element.image === "string" ? element.image : null,
       symbolId: typeof element.symbol_id === "string" ? element.symbol_id : null,
       conceptId: typeof element.concept_id === "string" ? element.concept_id : null,
       approximate: false,

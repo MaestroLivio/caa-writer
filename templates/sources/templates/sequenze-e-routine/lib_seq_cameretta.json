@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_seq_cameretta-p1-field-title",
-          "kind": "text",
-          "text": "Mettere in ordine la cameretta",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_seq_cameretta-p1-field-layout",
           "kind": "text",
           "text": "orizzontale",

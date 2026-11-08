@@ -5,7 +5,7 @@ import { get, writable } from "svelte/store";
 
 export type WorkspaceRibbonMode = "full" | "compact" | "hidden";
 export type WorkspaceSidebarMode = "docked" | "overlay" | "collapsed";
-export type WorkspacePanel = "alternative" | "cerca" | "collezioni" | "impostazioni" | "studio";
+export type WorkspacePanel = "simbolo" | "collezioni" | "impostazioni" | "studio" | "ia" | "documento";
 export type AssociationScope = "occurrence" | "document" | "profile" | "global" | "vocabulary";
 
 export interface WorkspaceLayout {
@@ -16,6 +16,9 @@ export interface WorkspaceLayout {
   /// sottile con i comandi rapidi. Indipendente da `ribbonMode`.
   topbarMinimized: boolean;
   sidebarMode: WorkspaceSidebarMode;
+  /// Vero solo dopo una scelta esplicita dell'utente (pulsante del pannello o
+  /// preset). Le installazioni precedenti ripartono dal pannello ancorato.
+  sidebarOverlayChoice: boolean;
   sidebarWidth: number;
   sidebarLastWidth: number;
   activeSidebarPanel: WorkspacePanel;
@@ -41,9 +44,10 @@ export const defaultWorkspace: WorkspaceLayout = {
   ribbonPinned: false,
   topbarMinimized: false,
   sidebarMode: "docked",
+  sidebarOverlayChoice: false,
   sidebarWidth: 372,
   sidebarLastWidth: 372,
-  activeSidebarPanel: "alternative",
+  activeSidebarPanel: "simbolo",
   focusMode: false,
   fullscreen: false,
   quickAccess: defaultQuickAccess,
@@ -62,10 +66,16 @@ function loadWorkspace(): WorkspaceLayout {
   try {
     const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null") as Partial<WorkspaceLayout> | null;
     if (!raw || raw.version !== 1) return { ...defaultWorkspace };
-    return {
+    const legacyPanel = String(raw.activeSidebarPanel ?? "");
+    const loaded: WorkspaceLayout = {
       ...defaultWorkspace,
       ...raw,
       version: 1,
+      // I pannelli «Alternative» e «Cerca» sono stati unificati in «Simbolo».
+      activeSidebarPanel:
+        legacyPanel === "alternative" || legacyPanel === "cerca"
+          ? "simbolo"
+          : (raw.activeSidebarPanel ?? "simbolo"),
       sidebarWidth: clampSidebarWidth(Number(raw.sidebarWidth) || 372),
       sidebarLastWidth: clampSidebarWidth(Number(raw.sidebarLastWidth) || 372),
       quickAccess: Array.isArray(raw.quickAccess) && raw.quickAccess.length
@@ -73,6 +83,11 @@ function loadWorkspace(): WorkspaceLayout {
         : defaultQuickAccess,
       zoom: Math.min(1.8, Math.max(0.5, Number(raw.zoom) || 1)),
     };
+    // Migrazione: il vecchio default sovrapposto non è una scelta esplicita.
+    if (!loaded.sidebarOverlayChoice && loaded.sidebarMode === "overlay") {
+      loaded.sidebarMode = "docked";
+    }
+    return loaded;
   } catch {
     return { ...defaultWorkspace };
   }
@@ -129,7 +144,7 @@ const builtinPresets: Record<string, Partial<WorkspaceLayout>> = {
   "Ricerca pittogrammi": {
     ribbonMode: "compact",
     sidebarMode: "overlay",
-    activeSidebarPanel: "cerca",
+    activeSidebarPanel: "simbolo",
     focusMode: false,
     zoom: 1,
   },
@@ -182,7 +197,11 @@ export function presetNames(): string[] {
 
 export function applyPreset(name: string): boolean {
   if (builtinPresets[name]) {
-    updateWorkspace({ ...builtinPresets[name], preset: name });
+    updateWorkspace({
+      ...builtinPresets[name],
+      sidebarOverlayChoice: true,
+      preset: name,
+    });
     return true;
   }
   const custom = get(customStore)[name];
@@ -194,6 +213,7 @@ export function applyPreset(name: string): boolean {
     focusMode: custom.focusMode,
     zoom: custom.zoom,
     quickLabels: custom.quickLabels,
+    sidebarOverlayChoice: true,
     preset: name,
   });
   return true;

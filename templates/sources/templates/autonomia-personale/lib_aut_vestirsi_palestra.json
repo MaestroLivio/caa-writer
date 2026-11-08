@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_aut_vestirsi_palestra-p1-field-title",
-          "kind": "text",
-          "text": "Cambiarsi dopo la palestra",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_aut_vestirsi_palestra-p1-field-layout",
           "kind": "text",
           "text": "lineare",

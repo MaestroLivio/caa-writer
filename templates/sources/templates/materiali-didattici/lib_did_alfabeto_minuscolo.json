@@ -4,7 +4,7 @@
   "description": "Scheda dell'alfabeto italiano in stampato minuscolo. 21 voci, tra cui a, b, c, d e altre ancora.",
   "category": "Materiali didattici",
   "source_type": "template",
-  "kind": "teaching",
+  "kind": "worksheet",
   "interactive": false,
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
@@ -13,452 +13,762 @@
     {
       "id": "home",
       "title": "Alfabeto minuscolo",
-      "layout": "flow",
+      "layout": "absolute",
       "home": true,
       "elements": [
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-title",
-          "kind": "text",
+          "id": "lib_did_alfabeto_minuscolo-badge",
+          "kind": "badge",
+          "text": "DISCIPLINA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": true,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-title",
+          "kind": "title",
           "text": "Alfabeto minuscolo",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 8.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-field-title",
-          "kind": "text",
-          "text": "Alfabeto minuscolo",
+          "id": "lib_did_alfabeto_minuscolo-sub",
+          "kind": "subtitle",
+          "text": "Scheda operativa · materiale modificabile",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
+          "id": "lib_did_alfabeto_minuscolo-instr",
+          "kind": "instruction",
+          "text": "Osserva l'immagine, leggi la parola e ricopiala. Poi usala in una frase.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 10,
           "style": {
-            "font_size": 4.6,
-            "italic": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-1",
+          "id": "lib_did_alfabeto_minuscolo-img-0",
           "kind": "symbol",
-          "text": "a",
+          "text": "",
           "symbol": "a",
-          "concept": null,
-          "spoken_text": "a",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 56,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-2",
+          "id": "lib_did_alfabeto_minuscolo-word-0",
+          "kind": "text",
+          "text": "a",
+          "x_mm": 42,
+          "y_mm": 60,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-line-0",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 58,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-img-1",
           "kind": "symbol",
-          "text": "b",
+          "text": "",
           "symbol": "b",
-          "concept": null,
-          "spoken_text": "b",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 83,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-3",
+          "id": "lib_did_alfabeto_minuscolo-word-1",
+          "kind": "text",
+          "text": "b",
+          "x_mm": 42,
+          "y_mm": 87,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-line-1",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 85,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-img-2",
           "kind": "symbol",
-          "text": "c",
+          "text": "",
           "symbol": "c",
-          "concept": null,
-          "spoken_text": "c",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 110,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-4",
+          "id": "lib_did_alfabeto_minuscolo-word-2",
+          "kind": "text",
+          "text": "c",
+          "x_mm": 42,
+          "y_mm": 114,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-line-2",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 112,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-img-3",
           "kind": "symbol",
-          "text": "d",
+          "text": "",
           "symbol": "d",
-          "concept": null,
-          "spoken_text": "d",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 137,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-5",
+          "id": "lib_did_alfabeto_minuscolo-word-3",
+          "kind": "text",
+          "text": "d",
+          "x_mm": 42,
+          "y_mm": 141,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-line-3",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 139,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-img-4",
           "kind": "symbol",
-          "text": "e",
+          "text": "",
           "symbol": "e",
-          "concept": null,
-          "spoken_text": "e",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 164,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p1-6",
+          "id": "lib_did_alfabeto_minuscolo-word-4",
+          "kind": "text",
+          "text": "e",
+          "x_mm": 42,
+          "y_mm": 168,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-line-4",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 166,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-img-5",
           "kind": "symbol",
-          "text": "f",
+          "text": "",
           "symbol": "f",
-          "concept": null,
-          "spoken_text": "f",
-          "action": {
-            "type": "speak"
+          "x_mm": 10,
+          "y_mm": 191,
+          "w_mm": 28,
+          "h_mm": 24,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-word-5",
+          "kind": "text",
+          "text": "f",
+          "x_mm": 42,
+          "y_mm": 195,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-line-5",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 193,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           },
-          "style": {
-            "font_size": 4.6
-          }
-        }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
-    },
-    {
-      "id": "pagina-2",
-      "title": "Alfabeto minuscolo · 2",
-      "layout": "flow",
-      "home": false,
-      "elements": [
-        {
-          "id": "lib_did_alfabeto_minuscolo-p2-title",
-          "kind": "text",
-          "text": "Alfabeto minuscolo · 2",
-          "style": {
-            "font_size": 8,
-            "bold": true
+          "metadata": {
+            "lines": 1
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p2-field-title",
-          "kind": "text",
-          "text": "Alfabeto minuscolo",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p2-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
-          "style": {
-            "font_size": 4.6,
-            "italic": true
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p2-1",
+          "id": "lib_did_alfabeto_minuscolo-img-6",
           "kind": "symbol",
-          "text": "g",
+          "text": "",
           "symbol": "g",
-          "concept": null,
-          "spoken_text": "g",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 218,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p2-2",
+          "id": "lib_did_alfabeto_minuscolo-word-6",
+          "kind": "text",
+          "text": "g",
+          "x_mm": 42,
+          "y_mm": 222,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-line-6",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 220,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-img-7",
           "kind": "symbol",
-          "text": "h",
+          "text": "",
           "symbol": "h",
-          "concept": null,
-          "spoken_text": "h",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 245,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p2-3",
-          "kind": "symbol",
-          "text": "i",
-          "symbol": "i",
-          "concept": null,
-          "spoken_text": "i",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_alfabeto_minuscolo-word-7",
+          "kind": "text",
+          "text": "h",
+          "x_mm": 42,
+          "y_mm": 249,
+          "w_mm": 46,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p2-4",
-          "kind": "symbol",
-          "text": "l",
-          "symbol": "l",
-          "concept": null,
-          "spoken_text": "l",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_alfabeto_minuscolo-line-7",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 247,
+          "w_mm": 100,
+          "h_mm": 18,
           "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p2-5",
-          "kind": "symbol",
-          "text": "m",
-          "symbol": "m",
-          "concept": null,
-          "spoken_text": "m",
-          "action": {
-            "type": "speak"
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p2-6",
-          "kind": "symbol",
-          "text": "n",
-          "symbol": "n",
-          "concept": null,
-          "spoken_text": "n",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
+          "metadata": {
+            "lines": 1
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
     },
     {
-      "id": "pagina-3",
-      "title": "Alfabeto minuscolo · 3",
-      "layout": "flow",
-      "home": false,
+      "id": "soluzioni",
+      "title": "Soluzioni",
+      "layout": "absolute",
       "elements": [
         {
-          "id": "lib_did_alfabeto_minuscolo-p3-title",
+          "id": "lib_did_alfabeto_minuscolo-sol-title",
+          "kind": "title",
+          "text": "Soluzioni e note per il docente",
+          "x_mm": 10,
+          "y_mm": 18,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 7.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_alfabeto_minuscolo-sol-list",
           "kind": "text",
-          "text": "Alfabeto minuscolo · 3",
+          "text": "Parole della scheda: a, b, c, d, e, f, g, h.",
+          "x_mm": 10,
+          "y_mm": 38,
+          "w_mm": 190,
+          "h_mm": 40,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_alfabeto_minuscolo-p3-field-title",
-          "kind": "text",
-          "text": "Alfabeto minuscolo",
+          "id": "lib_did_alfabeto_minuscolo-sol-note",
+          "kind": "note",
+          "text": "Obiettivo: consolidare lettura, scrittura e uso del lessico. Adattamento: ridurre le parole, aumentare il carattere, fornire la prima lettera o leggere ad alta voce. Accettare risposte corrette anche con grafia non convenzionale.",
+          "x_mm": 10,
+          "y_mm": 90,
+          "w_mm": 190,
+          "h_mm": 34,
           "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p3-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
-          "style": {
-            "font_size": 4.6,
-            "italic": true
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p3-1",
-          "kind": "symbol",
-          "text": "o",
-          "symbol": "o",
-          "concept": null,
-          "spoken_text": "o",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p3-2",
-          "kind": "symbol",
-          "text": "p",
-          "symbol": "p",
-          "concept": null,
-          "spoken_text": "p",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p3-3",
-          "kind": "symbol",
-          "text": "q",
-          "symbol": "q",
-          "concept": null,
-          "spoken_text": "q",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p3-4",
-          "kind": "symbol",
-          "text": "r",
-          "symbol": "r",
-          "concept": null,
-          "spoken_text": "r",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p3-5",
-          "kind": "symbol",
-          "text": "s",
-          "symbol": "s",
-          "concept": null,
-          "spoken_text": "s",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p3-6",
-          "kind": "symbol",
-          "text": "t",
-          "symbol": "t",
-          "concept": null,
-          "spoken_text": "t",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 3.5,
+            "bold": false,
+            "italic": true,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
-    },
-    {
-      "id": "pagina-4",
-      "title": "Alfabeto minuscolo · 4",
-      "layout": "flow",
-      "home": false,
-      "elements": [
-        {
-          "id": "lib_did_alfabeto_minuscolo-p4-title",
-          "kind": "text",
-          "text": "Alfabeto minuscolo · 4",
-          "style": {
-            "font_size": 8,
-            "bold": true
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p4-field-title",
-          "kind": "text",
-          "text": "Alfabeto minuscolo",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p4-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
-          "style": {
-            "font_size": 4.6,
-            "italic": true
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p4-1",
-          "kind": "symbol",
-          "text": "u",
-          "symbol": "u",
-          "concept": null,
-          "spoken_text": "u",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p4-2",
-          "kind": "symbol",
-          "text": "v",
-          "symbol": "v",
-          "concept": null,
-          "spoken_text": "v",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_alfabeto_minuscolo-p4-3",
-          "kind": "symbol",
-          "text": "z",
-          "symbol": "z",
-          "concept": null,
-          "spoken_text": "z",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
     }
   ]
 }

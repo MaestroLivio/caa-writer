@@ -16,7 +16,7 @@ use caa_writer_lib::model::*;
 use caa_writer_lib::paths::AppPaths;
 use caa_writer_lib::export::{caadoc, docx, html};
 use caa_writer_lib::universal::{self, DocumentCommand, UniversalDocument};
-use caa_writer_lib::{online_search, pictogram_import, universal_build};
+use caa_writer_lib::{asset_manager, online_search, pictogram_import, universal_build};
 
 #[derive(Parser)]
 #[command(
@@ -77,6 +77,75 @@ enum Command {
         #[command(subcommand)]
         action: TemplateAction,
     },
+    /// Catalogo organizzato, ricerca e controllo qualità della biblioteca.
+    Library {
+        #[command(subcommand)]
+        action: LibraryAction,
+    },
+    /// Storie illustrate in CAA con scene vettoriali modificabili.
+    Story {
+        #[command(subcommand)]
+        action: StoryAction,
+    },
+}
+
+#[derive(Subcommand)]
+enum StoryAction {
+    /// Crea un .caadoc multipagina da una specifica JSON.
+    Create {
+        #[arg(long)]
+        spec: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Valida una storia già creata.
+    Validate { input: PathBuf },
+    /// Esporta PDF o PNG usando il renderer dell'editor.
+    Render {
+        input: PathBuf,
+        #[arg(long, default_value = "pdf")]
+        format: String,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Copia la storia in un nuovo .caadoc.
+    Package {
+        input: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+}
+
+#[derive(Subcommand)]
+enum LibraryAction {
+    /// Categorie, sottocategorie e conteggi reali.
+    Catalog,
+    /// Ricerca per parola, categoria, pubblico e tipo di interazione.
+    Search {
+        #[arg(long, default_value = "")]
+        query: String,
+        #[arg(long)]
+        category: Option<String>,
+        #[arg(long)]
+        subcategory: Option<String>,
+        #[arg(long)]
+        audience: Option<String>,
+        #[arg(long)]
+        interactive: bool,
+        #[arg(long, default_value = "rilevanza")]
+        sort: String,
+        #[arg(long, default_value_t = 24)]
+        limit: usize,
+        #[arg(long, default_value_t = 0)]
+        offset: usize,
+    },
+    /// Controlli strutturali ed editoriali su tutti i documenti.
+    Validate {
+        #[arg(long)]
+        only_pilots: bool,
+        #[arg(long, default_value_t = 80)]
+        max_issues: usize,
+    },
 }
 
 #[derive(Subcommand)]
@@ -97,6 +166,9 @@ enum DocumentAction {
         file: PathBuf,
         #[arg(long)]
         out: PathBuf,
+        /// Scrive anche un PNG per ogni pagina (controllo visivo).
+        #[arg(long)]
+        png: bool,
     },
     /// Esporta HTML interattivo, SVG o JSON.
     Export {
@@ -344,6 +416,7 @@ fn strip_svg(mut value: Value) -> Value {
         for token in tokens {
             if let Some(object) = token.as_object_mut() {
                 object.remove("svg");
+                object.remove("image");
             }
         }
     }
@@ -756,6 +829,42 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
             let plan = engine.interpret_document_prompt(&prompt, as_bool(params, "use_neural", true));
             Ok(serde_json::to_value(&plan).map_err(|e| e.to_string())?)
         }
+        "library.catalog" => {
+            let manifest = caa_writer_lib::universal::load_library_manifest(&engine.paths.resources_dir);
+            Ok(serde_json::to_value(caa_writer_lib::template_catalog::overview(&manifest))
+                .map_err(|e| e.to_string())?)
+        }
+        "library.search" => {
+            let manifest = caa_writer_lib::universal::load_library_manifest(&engine.paths.resources_dir);
+            let raw = params
+                .get("query")
+                .cloned()
+                .unwrap_or_else(|| params.clone());
+            let query: caa_writer_lib::template_catalog::CatalogQuery =
+                serde_json::from_value(raw).map_err(|e| format!("query: {e}"))?;
+            let query = if query.query.is_none() {
+                caa_writer_lib::template_catalog::CatalogQuery {
+                    query: as_string(params, "q"),
+                    ..query
+                }
+            } else {
+                query
+            };
+            let mut page = caa_writer_lib::template_catalog::search(&manifest, &query);
+            for item in &mut page.items {
+                item.preview_svg =
+                    caa_writer_lib::template_catalog::preview_svg(&engine.paths.resources_dir, &item.entry);
+            }
+            Ok(serde_json::to_value(page).map_err(|e| e.to_string())?)
+        }
+        "library.validate" => {
+            let manifest = caa_writer_lib::universal::load_library_manifest(&engine.paths.resources_dir);
+            let report = caa_writer_lib::library_quality::validate_manifest(
+                &engine.paths.resources_dir,
+                &manifest,
+            );
+            Ok(serde_json::to_value(report).map_err(|e| e.to_string())?)
+        }
         "export.html" | "export.docx" => {
             let path = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
             let document: ExportDoc = params
@@ -800,13 +909,243 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
             caa_writer_lib::speech::speak(&text, None, None)?;
             Ok(json!({ "engine": "system" }))
         }
+        "ai.chat" => {
+            let messages: Vec<caa_writer_lib::ai_provider::ChatMessage> = params
+                .get("messages")
+                .cloned()
+                .ok_or_else(|| "serve messages".to_string())
+                .and_then(|value| serde_json::from_value(value).map_err(|e| format!("messages: {e}")))?;
+            let reply = engine.chat(messages)?;
+            Ok(serde_json::to_value(&reply).map_err(|e| e.to_string())?)
+        }
         "ai.status" => Ok(serde_json::to_value(engine.ai_status()).map_err(|e| e.to_string())?),
         "ai.models" => Ok(serde_json::to_value(engine.ai_models()).map_err(|e| e.to_string())?),
+        "ai.words" => {
+            let word = as_string(params, "word").ok_or_else(|| "serve il parametro word".to_string())?;
+            Ok(json!({ "word": word, "words": engine.ai_suggested_words(&word) }))
+        }
+        "ai.affinity" => {
+            let word = as_string(params, "word").ok_or_else(|| "serve il parametro word".to_string())?;
+            let items = engine.ai_affinity_symbols(&word);
+            Ok(json!({ "word": word, "items": items }))
+        }
         "ai.tool" => {
             let tool = as_string(params, "tool").ok_or_else(|| "serve tool".to_string())?;
             let input = params.get("input").cloned().unwrap_or_else(|| json!({}));
             let outcome = engine.run_ai_tool(&tool, &input)?;
             Ok(serde_json::to_value(&outcome).map_err(|e| e.to_string())?)
+        }
+        "translate.search" => {
+            let text = as_string(params, "text").ok_or_else(|| "serve text".to_string())?;
+            let translated = engine.translate_search_term(&text)?;
+            Ok(json!({ "source": text, "translated": translated }))
+        }
+        "document.pdf" => {
+            let document: Value = params
+                .get("document")
+                .cloned()
+                .ok_or_else(|| "serve document".to_string())?;
+            let document: UniversalDocument = serde_json::from_value(document)
+                .map_err(|e| format!("documento non valido: {e}"))?;
+            caa_writer_lib::universal::validate(&document)?;
+            let out = as_string(params, "out")
+                .ok_or_else(|| "serve out".to_string())?;
+            let bytes = caa_writer_lib::export::universal_pdf::build_pdf(&document, 2.0)?;
+            std::fs::write(&out, &bytes).map_err(|e| format!("scrittura PDF: {e}"))?;
+            Ok(json!({ "ok": true, "path": out, "bytes": bytes.len() }))
+        }
+        "symbol.get" => {
+            let id = as_string(params, "id").ok_or_else(|| "serve id".to_string())?;
+            let db = engine.db()?;
+            let record = db.symbol_by_id(&id)?.ok_or_else(|| "simbolo non trovato".to_string())?;
+            Ok(json!({
+                "id": record.id,
+                "label": record.label,
+                "pack_id": record.pack_id,
+                "svg_len": record.svg.as_ref().map(|value| value.len()).unwrap_or(0),
+                "image_len": record.image.as_ref().map(|value| value.len()).unwrap_or(0),
+            }))
+        }
+        "symbol.hydrate" => {
+            let ids: Vec<String> = params
+                .get("ids")
+                .and_then(|value| value.as_array())
+                .map(|items| {
+                    items
+                        .iter()
+                        .filter_map(|item| item.as_str().map(str::to_string))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let db = engine.db()?;
+            let map = online_search::hydrate_arasaac_symbols(
+                &db,
+                &engine.paths.assets_dir,
+                &ids,
+            )?;
+            if !map.is_empty() {
+                engine.clear_caches();
+            }
+            Ok(json!({ "hydrated": map.keys().collect::<Vec<_>>(), "count": map.len() }))
+        }
+        "online.english" => {
+            let word = as_string(params, "word").ok_or_else(|| "serve il parametro word".to_string())?;
+            let limit = params
+                .get("limit")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(3)
+                .clamp(1, 8) as usize;
+            let term = engine.translate_to_english(&word)?;
+            let db = engine.db()?;
+            let response = online_search::search_global_symbols(&db, &term)?;
+            let mut saved = Vec::new();
+            let mut warnings = response.warnings;
+            for result in response
+                .results
+                .into_iter()
+                .filter(|result| {
+                    result.kind == "pittogramma"
+                        && !result.source.to_ascii_lowercase().contains("arasaac")
+                })
+                .take(limit)
+            {
+                let label = if result.title.trim().is_empty() {
+                    term.clone()
+                } else {
+                    result.title.clone()
+                };
+                match online_search::save_result(
+                    &db,
+                    &engine.paths.assets_dir,
+                    &result,
+                    &label,
+                    "Inglese (Global Symbols)",
+                ) {
+                    Ok(symbol_id) => {
+                        if let Ok(Some(record)) = db.symbol_by_id(&symbol_id) {
+                            let mut alternative = asset_manager::alternative_from_record(&record);
+                            alternative.pack_name = "Global Symbols (EN)".to_string();
+                            saved.push(alternative);
+                        }
+                    }
+                    Err(error) => warnings.push(error),
+                }
+            }
+            engine.clear_caches();
+            Ok(json!({ "term": term, "items": saved, "warnings": warnings }))
+        }
+        "online.global" => {
+            let term = as_string(params, "term").ok_or_else(|| "serve il parametro term".to_string())?;
+            let db = engine.db()?;
+            let response = online_search::search_global_symbols(&db, &term)?;
+            Ok(json!({
+                "term": term,
+                "results": response.results,
+                "warnings": response.warnings,
+            }))
+        }
+        "online.autofill" => {
+            let words: Vec<String> = params
+                .get("words")
+                .and_then(|value| value.as_array())
+                .map(|items| {
+                    items
+                        .iter()
+                        .filter_map(|item| item.as_str().map(str::to_string))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let db = engine.db()?;
+            let saved = online_search::autofill_arasaac(
+                &db,
+                &engine.paths.assets_dir,
+                &words,
+                12,
+            )?;
+            if !saved.is_empty() {
+                engine.clear_caches();
+            }
+            Ok(json!({ "saved": saved }))
+        }
+        "image.status" => {
+            let db = engine.db()?;
+            let status = caa_writer_lib::image_engine::status(&engine.paths, &db);
+            Ok(serde_json::to_value(&status).map_err(|e| e.to_string())?)
+        }
+        "image.generate" => {
+            let prompt = as_string(params, "prompt").ok_or_else(|| "serve prompt".to_string())?;
+            let negative = as_string(params, "negative").unwrap_or_default();
+            let db = engine.db()?;
+            let image = caa_writer_lib::image_engine::generate(
+                &engine.paths,
+                &db,
+                &prompt,
+                &negative,
+            )?;
+            let mut value = serde_json::to_value(&image).map_err(|e| e.to_string())?;
+            if let Some(out) = as_string(params, "out") {
+                std::fs::copy(&image.path, &out)
+                    .map_err(|e| format!("copia immagine in {out}: {e}"))?;
+                value["saved_to"] = serde_json::Value::String(out);
+            }
+            if !as_bool(params, "include_base64", false) {
+                value["png_base64"] = serde_json::Value::String(String::new());
+            }
+            Ok(value)
+        }
+        "image.install" => {
+            let message = caa_writer_lib::image_engine::install_runtime(&engine.paths)?;
+            Ok(json!({ "ok": true, "message": message }))
+        }
+        "image.download" => {
+            let model = as_string(params, "model").ok_or_else(|| "serve model".to_string())?;
+            let message = caa_writer_lib::image_engine::download_model(&engine.paths, &model)?;
+            Ok(json!({ "ok": true, "message": message }))
+        }
+        "translate.english" => {
+            let text = as_string(params, "text").ok_or_else(|| "serve text".to_string())?;
+            let translated = engine.translate_to_english(&text)?;
+            Ok(json!({ "source": text, "translated": translated }))
+        }
+        "english.alternatives" => {
+            let word = as_string(params, "word").ok_or_else(|| "serve word".to_string())?;
+            let limit = params
+                .get("limit")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(4) as usize;
+            let term = engine.translate_to_english(&word)?;
+            let response = online_search::fetch_arasaac_in_language(&term, "en")?;
+            let db = engine.db()?;
+            let lemma = term.clone();
+            let mut items = Vec::new();
+            let mut warnings = response.warnings;
+            for result in response.results.into_iter().take(limit.clamp(1, 8)) {
+                match online_search::save_result(
+                    &db,
+                    &engine.paths.assets_dir,
+                    &result,
+                    &lemma,
+                    "Inglese (ARASAAC)",
+                ) {
+                    Ok(symbol_id) => {
+                        if let Ok(Some(record)) = db.symbol_by_id(&symbol_id) {
+                            let alternative =
+                                caa_writer_lib::asset_manager::alternative_from_record(&record);
+                            if items
+                                .iter()
+                                .all(|item: &serde_json::Value| item["symbol_id"] != alternative.symbol_id)
+                            {
+                                items.push(serde_json::to_value(&alternative).map_err(|e| e.to_string())?);
+                            }
+                        }
+                    }
+                    Err(error) => warnings.push(error),
+                }
+            }
+            if !items.is_empty() {
+                engine.clear_caches();
+            }
+            Ok(json!({ "term": term, "items": items, "warnings": warnings }))
         }
         "speak" => {
             let text = as_string(params, "text").ok_or_else(|| "serve text".to_string())?;
@@ -856,16 +1195,35 @@ const METHODS: &[&str] = &[
     "online.providers",
     "online.search",
     "online.ensure",
+    "online.autofill",
+    "online.global",
+    "online.english",
+    "symbol.hydrate",
+    "symbol.get",
     "online.save",
     "prompt.interpret",
+    "library.catalog",
+    "library.search",
+    "library.validate",
     "export.html",
     "export.docx",
     "voice.status",
     "voice.speak",
     "speak",
     "ai.status",
+    "ai.chat",
     "ai.models",
     "ai.tool",
+    "ai.affinity",
+    "ai.words",
+    "document.pdf",
+    "translate.search",
+    "image.status",
+    "image.generate",
+    "image.install",
+    "image.download",
+    "translate.english",
+    "english.alternatives",
 ];
 
 fn read_input(input: &str) -> Result<Value, String> {
@@ -951,6 +1309,14 @@ fn document_summary(document: &UniversalDocument) -> Value {
 }
 
 fn render_to_dir(document: &UniversalDocument, out: &Path) -> Result<Value, String> {
+    render_to_dir_with_png(document, out, false)
+}
+
+fn render_to_dir_with_png(
+    document: &UniversalDocument,
+    out: &Path,
+    png: bool,
+) -> Result<Value, String> {
     std::fs::create_dir_all(out).map_err(|error| format!("{}: {error}", out.display()))?;
     let rendered = document.render()?;
     std::fs::write(
@@ -963,6 +1329,12 @@ fn render_to_dir(document: &UniversalDocument, out: &Path) -> Result<Value, Stri
         let path = out.join(format!("page-{}.svg", page.index + 1));
         std::fs::write(&path, universal::render_page_svg(page)).map_err(|e| e.to_string())?;
         files.push(path.to_string_lossy().to_string());
+        if png {
+            let bitmap = caa_writer_lib::export::universal_pdf::page_to_png(page, 2.0)?;
+            let png_path = out.join(format!("page-{}.png", page.index + 1));
+            std::fs::write(&png_path, bitmap).map_err(|e| e.to_string())?;
+            files.push(png_path.to_string_lossy().to_string());
+        }
     }
     Ok(json!({
         "ok": true,
@@ -1098,9 +1470,9 @@ fn main() {
                         let document = load_document(&file)?;
                         Ok(json!({"ok": true, "document": document_summary(&document)}))
                     }
-                    DocumentAction::Render { file, out } => {
+                    DocumentAction::Render { file, out, png } => {
                         let document = load_document(&file)?;
-                        render_to_dir(&document, &out)
+                        render_to_dir_with_png(&document, &out, png)
                     }
                     DocumentAction::Export { file, format, out } => {
                         let document = load_document(&file)?;
@@ -1239,6 +1611,144 @@ fn main() {
                             "report": report,
                             "manifest": result.manifest,
                         }))
+                    }
+                }
+            })(),
+            cli.compact,
+        ),
+        Command::Library { action } => output(
+            (|| -> Result<Value, String> {
+                match action {
+                    LibraryAction::Catalog => {
+                        let manifest = caa_writer_lib::universal::load_library_manifest(
+                            &engine.paths.resources_dir,
+                        );
+                        serde_json::to_value(caa_writer_lib::template_catalog::overview(&manifest))
+                            .map_err(|e| e.to_string())
+                    }
+                    LibraryAction::Search {
+                        query,
+                        category,
+                        subcategory,
+                        audience,
+                        interactive,
+                        sort,
+                        limit,
+                        offset,
+                    } => {
+                        let manifest = caa_writer_lib::universal::load_library_manifest(
+                            &engine.paths.resources_dir,
+                        );
+                        let request = caa_writer_lib::template_catalog::CatalogQuery {
+                            query: Some(query),
+                            category,
+                            subcategory,
+                            audience,
+                            interactive: if interactive { Some(true) } else { None },
+                            printable: None,
+                            needs_symbols: None,
+                            source_type: None,
+                            sort: Some(sort),
+                            offset: Some(offset),
+                            limit: Some(limit),
+                        };
+                        let mut page =
+                            caa_writer_lib::template_catalog::search(&manifest, &request);
+                        for item in &mut page.items {
+                            item.preview_svg = caa_writer_lib::template_catalog::preview_svg(
+                                &engine.paths.resources_dir,
+                                &item.entry,
+                            );
+                        }
+                        serde_json::to_value(page).map_err(|e| e.to_string())
+                    }
+                    LibraryAction::Validate {
+                        only_pilots,
+                        max_issues,
+                    } => {
+                        let manifest = caa_writer_lib::universal::load_library_manifest(
+                            &engine.paths.resources_dir,
+                        );
+                        let mut report = caa_writer_lib::library_quality::validate_manifest(
+                            &engine.paths.resources_dir,
+                            &manifest,
+                        );
+                        if only_pilots {
+                            report.issues.retain(|issue| issue.document_id.starts_with("pilota_"));
+                            report.documents = manifest
+                                .entries
+                                .iter()
+                                .filter(|entry| entry.id.starts_with("pilota_"))
+                                .count();
+                            report.errors = report
+                                .issues
+                                .iter()
+                                .filter(|issue| issue.severity == "errore")
+                                .count();
+                            report.warnings = report
+                                .issues
+                                .iter()
+                                .filter(|issue| issue.severity == "avviso")
+                                .count();
+                            let with_issues: std::collections::HashSet<&str> = report
+                                .issues
+                                .iter()
+                                .map(|issue| issue.document_id.as_str())
+                                .collect();
+                            report.valid = report.documents.saturating_sub(with_issues.len());
+                            report.by_category.clear();
+                        }
+                        let total_issues = report.issues.len();
+                        report.issues.truncate(max_issues);
+                        let mut value =
+                            serde_json::to_value(report).map_err(|e| e.to_string())?;
+                        if let Some(object) = value.as_object_mut() {
+                            object.insert("issues_total".to_string(), json!(total_issues));
+                        }
+                        Ok(value)
+                    }
+                }
+            })(),
+            cli.compact,
+        ),
+        Command::Story { action } => output(
+            (|| -> Result<Value, String> {
+                match action {
+                    StoryAction::Create { spec, out } => {
+                        let value = read_json_file(&spec)?;
+                        let outcome = caa_writer_lib::story::build_story(&engine, &value)?;
+                        let saved = caa_writer_lib::story::save_story(
+                            &out,
+                            &outcome.document,
+                            &outcome.assets,
+                        )?;
+                        Ok(json!({
+                            "ok": true,
+                            "path": saved.path,
+                            "document": document_summary(&outcome.document),
+                            "notes": outcome.notes,
+                            "assets": outcome.assets.len()
+                        }))
+                    }
+                    StoryAction::Validate { input } => {
+                        let document = load_document(&input)?;
+                        universal::validate(&document)?;
+                        let rendered = document.render()?;
+                        Ok(json!({
+                            "ok": true,
+                            "valid": true,
+                            "document": document_summary(&document),
+                            "pages": rendered.pages.len(),
+                            "warnings": rendered.warnings
+                        }))
+                    }
+                    StoryAction::Render { input, format, out } => {
+                        let document = load_document(&input)?;
+                        export_document(&document, &format, &out)
+                    }
+                    StoryAction::Package { input, out } => {
+                        let document = load_document(&input)?;
+                        save_document(&out, &document)
                     }
                 }
             })(),

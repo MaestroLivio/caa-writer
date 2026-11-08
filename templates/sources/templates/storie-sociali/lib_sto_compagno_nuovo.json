@@ -12,179 +12,437 @@
   "pages": [
     {
       "id": "home",
-      "title": "Un compagno nuovo",
-      "layout": "flow",
+      "title": "Copertina",
+      "layout": "absolute",
       "home": true,
       "elements": [
         {
-          "id": "lib_sto_compagno_nuovo-p1-title",
-          "kind": "text",
+          "id": "lib_sto_compagno_nuovo-badge",
+          "kind": "badge",
+          "text": "STORIA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 24,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": true,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-title",
+          "kind": "title",
           "text": "Un compagno nuovo",
+          "x_mm": 10,
+          "y_mm": 24,
+          "w_mm": 190,
+          "h_mm": 32,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 9.0,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_sto_compagno_nuovo-p1-field-title",
-          "kind": "text",
-          "text": "Un compagno nuovo",
+          "id": "lib_sto_compagno_nuovo-desc",
+          "kind": "text_box",
+          "text": "Storia sociale sull'accogliere un nuovo compagno. Storia in 7 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+          "x_mm": 10,
+          "y_mm": 70,
+          "w_mm": 190,
+          "h_mm": 50,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#ecfdf5",
+            "border_color": "#0f766e",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_sto_compagno_nuovo-p1-field-adult-guide",
-          "kind": "text",
-          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "id": "lib_sto_compagno_nuovo-note",
+          "kind": "note",
+          "text": "Storia descrittiva e di anticipazione. Non è una Social Story certificata secondo i criteri 10.4: la revisione dell'adulto è necessaria. Adattare le frasi alla persona.",
+          "x_mm": 10,
+          "y_mm": 150,
+          "w_mm": 190,
+          "h_mm": 40,
           "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
-          "id": "lib_sto_compagno_nuovo-p1-1",
-          "kind": "symbol",
-          "text": "Arriva un compagno nuovo in classe.",
-          "symbol": "Arriva un compagno nuovo in classe.",
-          "concept": null,
-          "spoken_text": "Arriva un compagno nuovo in classe.",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_sto_compagno_nuovo-p1-2",
-          "kind": "symbol",
-          "text": "Posso dirgli il mio nome.",
-          "symbol": "Posso dirgli il mio nome.",
-          "concept": null,
-          "spoken_text": "Posso dirgli il mio nome.",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_sto_compagno_nuovo-p1-3",
-          "kind": "symbol",
-          "text": "Posso mostrargli dove mettere lo zaino.",
-          "symbol": "Posso mostrargli dove mettere lo zaino.",
-          "concept": null,
-          "spoken_text": "Posso mostrargli dove mettere lo zaino.",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_sto_compagno_nuovo-p1-4",
-          "kind": "symbol",
-          "text": "Posso invitarlo a giocare.",
-          "symbol": "Posso invitarlo a giocare.",
-          "concept": null,
-          "spoken_text": "Posso invitarlo a giocare.",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 3.5,
+            "bold": false,
+            "italic": true,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
     },
     {
       "id": "pagina-2",
-      "title": "Un compagno nuovo · 2",
-      "layout": "flow",
-      "home": false,
+      "title": "Parte 2",
+      "layout": "absolute",
       "elements": [
         {
           "id": "lib_sto_compagno_nuovo-p2-title",
-          "kind": "text",
-          "text": "Un compagno nuovo · 2",
+          "kind": "subtitle",
+          "text": "Parte 2",
+          "x_mm": 10,
+          "y_mm": 12,
+          "w_mm": 190,
+          "h_mm": 8,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_sto_compagno_nuovo-p2-field-title",
-          "kind": "text",
-          "text": "Un compagno nuovo",
+          "id": "lib_sto_compagno_nuovo-p2-s0",
+          "kind": "text_box",
+          "text": "Arriva un compagno nuovo in classe.",
+          "x_mm": 10,
+          "y_mm": 32,
+          "w_mm": 190,
+          "h_mm": 70,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_sto_compagno_nuovo-p2-field-adult-guide",
-          "kind": "text",
-          "text": "Leggere una frase alla volta e lasciare spazio alle domande.",
+          "id": "lib_sto_compagno_nuovo-p2-s1",
+          "kind": "text_box",
+          "text": "Posso dirgli il mio nome.",
+          "x_mm": 10,
+          "y_mm": 124,
+          "w_mm": 190,
+          "h_mm": 70,
           "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
-          "id": "lib_sto_compagno_nuovo-p2-1",
-          "kind": "symbol",
-          "text": "Lui può essere timido all'inizio.",
-          "symbol": "Lui può essere timido all'inizio.",
-          "concept": null,
-          "spoken_text": "Lui può essere timido all'inizio.",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_sto_compagno_nuovo-p2-2",
-          "kind": "symbol",
-          "text": "Posso dargli tempo.",
-          "symbol": "Posso dargli tempo.",
-          "concept": null,
-          "spoken_text": "Posso dargli tempo.",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_sto_compagno_nuovo-p2-3",
-          "kind": "symbol",
-          "text": "Se ha bisogno, posso aiutarlo.",
-          "symbol": "Se ha bisogno, posso aiutarlo.",
-          "concept": null,
-          "spoken_text": "Se ha bisogno, posso aiutarlo.",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
+    },
+    {
+      "id": "pagina-3",
+      "title": "Parte 3",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_sto_compagno_nuovo-p3-title",
+          "kind": "subtitle",
+          "text": "Parte 3",
+          "x_mm": 10,
+          "y_mm": 12,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p3-s0",
+          "kind": "text_box",
+          "text": "Posso mostrargli dove mettere lo zaino.",
+          "x_mm": 10,
+          "y_mm": 32,
+          "w_mm": 190,
+          "h_mm": 70,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p3-s1",
+          "kind": "text_box",
+          "text": "Posso invitarlo a giocare.",
+          "x_mm": 10,
+          "y_mm": 124,
+          "w_mm": 190,
+          "h_mm": 70,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "pagina-4",
+      "title": "Parte 4",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_sto_compagno_nuovo-p4-title",
+          "kind": "subtitle",
+          "text": "Parte 4",
+          "x_mm": 10,
+          "y_mm": 12,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p4-s0",
+          "kind": "text_box",
+          "text": "Lui può essere timido all'inizio.",
+          "x_mm": 10,
+          "y_mm": 32,
+          "w_mm": 190,
+          "h_mm": 70,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p4-s1",
+          "kind": "text_box",
+          "text": "Posso dargli tempo.",
+          "x_mm": 10,
+          "y_mm": 124,
+          "w_mm": 190,
+          "h_mm": 70,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "pagina-5",
+      "title": "Parte 5",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_sto_compagno_nuovo-p5-title",
+          "kind": "subtitle",
+          "text": "Parte 5",
+          "x_mm": 10,
+          "y_mm": 12,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-p5-s0",
+          "kind": "text_box",
+          "text": "Se ha bisogno, posso aiutarlo.",
+          "x_mm": 10,
+          "y_mm": 32,
+          "w_mm": 190,
+          "h_mm": 70,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.4,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "nota-adulto",
+      "title": "Nota per l'adulto",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_sto_compagno_nuovo-adult-title",
+          "kind": "title",
+          "text": "Nota per l'adulto",
+          "x_mm": 10,
+          "y_mm": 18,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 7.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_sto_compagno_nuovo-adult-text",
+          "kind": "text_box",
+          "text": "Leggere una frase alla volta, lasciare spazio alle domande e verificare che la storia sia comprensibile. Non presentare il testo come una prescrizione: la persona può avere reazioni diverse. Se la storia non aiuta, provare una sequenza visiva o una conversazione con un adulto.",
+          "x_mm": 10,
+          "y_mm": 38,
+          "w_mm": 190,
+          "h_mm": 80,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "#fffbeb",
+            "border_color": "#f59e0b",
+            "border_width": 0.5,
+            "border_radius": 2.5,
+            "padding_mm": 1.2
+          }
+        }
+      ]
     }
   ]
 }

@@ -70,7 +70,7 @@ export interface CardStrings {
 const it: UiStrings = {
   tagline: "Scrivere e comunicare con i pittogrammi, anche senza connessione.",
   openDocument: "Apri documento",
-  library: "Libreria pittogrammi",
+  library: "Libreria dei materiali",
   settings: "Impostazioni",
   createTitle: "Cosa vuoi creare?",
   recentTitle: "Documenti recenti",
@@ -148,7 +148,7 @@ const it: UiStrings = {
 const enGB: UiStrings = {
   tagline: "Write and communicate with pictograms, even without a connection.",
   openDocument: "Open document",
-  library: "Pictogram library",
+  library: "Materials library",
   settings: "Settings",
   createTitle: "What would you like to create?",
   recentTitle: "Recent documents",

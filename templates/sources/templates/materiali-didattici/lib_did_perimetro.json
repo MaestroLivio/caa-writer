@@ -4,7 +4,7 @@
   "description": "Scheda sul numero di lati delle figure piane. 6 voci, tra cui quadrato: 4 lati, rettangolo: 4 lati, triangolo: 3 lati, cerchio: 1 bordo e altre ancora.",
   "category": "Materiali didattici",
   "source_type": "template",
-  "kind": "teaching",
+  "kind": "worksheet",
   "interactive": false,
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
@@ -13,125 +13,616 @@
     {
       "id": "home",
       "title": "Perimetro delle figure",
-      "layout": "flow",
+      "layout": "absolute",
       "home": true,
       "elements": [
         {
-          "id": "lib_did_perimetro-p1-title",
-          "kind": "text",
+          "id": "lib_did_perimetro-badge",
+          "kind": "badge",
+          "text": "DISCIPLINA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": true,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-title",
+          "kind": "title",
           "text": "Perimetro delle figure",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 8.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-field-title",
-          "kind": "text",
-          "text": "Perimetro delle figure",
+          "id": "lib_did_perimetro-sub",
+          "kind": "subtitle",
+          "text": "Scheda operativa · materiale modificabile",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
+          "id": "lib_did_perimetro-instr",
+          "kind": "instruction",
+          "text": "Osserva l'immagine, leggi la parola e ricopiala. Poi usala in una frase.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 10,
           "style": {
-            "font_size": 4.6,
-            "italic": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-1",
+          "id": "lib_did_perimetro-img-0",
           "kind": "symbol",
-          "text": "quadrato: 4 lati",
+          "text": "",
           "symbol": "quadrato: 4 lati",
-          "concept": null,
-          "spoken_text": "quadrato: 4 lati",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 56,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-2",
+          "id": "lib_did_perimetro-word-0",
+          "kind": "text",
+          "text": "quadrato: 4 lati",
+          "x_mm": 42,
+          "y_mm": 60,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-line-0",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 58,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_perimetro-img-1",
           "kind": "symbol",
-          "text": "rettangolo: 4 lati",
+          "text": "",
           "symbol": "rettangolo: 4 lati",
-          "concept": null,
-          "spoken_text": "rettangolo: 4 lati",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 83,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-3",
+          "id": "lib_did_perimetro-word-1",
+          "kind": "text",
+          "text": "rettangolo: 4 lati",
+          "x_mm": 42,
+          "y_mm": 87,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-line-1",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 85,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_perimetro-img-2",
           "kind": "symbol",
-          "text": "triangolo: 3 lati",
+          "text": "",
           "symbol": "triangolo: 3 lati",
-          "concept": null,
-          "spoken_text": "triangolo: 3 lati",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 110,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-4",
+          "id": "lib_did_perimetro-word-2",
+          "kind": "text",
+          "text": "triangolo: 3 lati",
+          "x_mm": 42,
+          "y_mm": 114,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-line-2",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 112,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_perimetro-img-3",
           "kind": "symbol",
-          "text": "cerchio: 1 bordo",
+          "text": "",
           "symbol": "cerchio: 1 bordo",
-          "concept": null,
-          "spoken_text": "cerchio: 1 bordo",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 137,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-5",
+          "id": "lib_did_perimetro-word-3",
+          "kind": "text",
+          "text": "cerchio: 1 bordo",
+          "x_mm": 42,
+          "y_mm": 141,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-line-3",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 139,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_perimetro-img-4",
           "kind": "symbol",
-          "text": "pentagono: 5 lati",
+          "text": "",
           "symbol": "pentagono: 5 lati",
-          "concept": null,
-          "spoken_text": "pentagono: 5 lati",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 164,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_perimetro-p1-6",
-          "kind": "symbol",
-          "text": "esagono: 6 lati",
-          "symbol": "esagono: 6 lati",
-          "concept": null,
-          "spoken_text": "esagono: 6 lati",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_perimetro-word-4",
+          "kind": "text",
+          "text": "pentagono: 5 lati",
+          "x_mm": 42,
+          "y_mm": 168,
+          "w_mm": 46,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-line-4",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 166,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_perimetro-img-5",
+          "kind": "symbol",
+          "text": "",
+          "symbol": "esagono: 6 lati",
+          "x_mm": 10,
+          "y_mm": 191,
+          "w_mm": 28,
+          "h_mm": 24,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-word-5",
+          "kind": "text",
+          "text": "esagono: 6 lati",
+          "x_mm": 42,
+          "y_mm": 195,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-line-5",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 193,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
+    },
+    {
+      "id": "soluzioni",
+      "title": "Soluzioni",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_did_perimetro-sol-title",
+          "kind": "title",
+          "text": "Soluzioni e note per il docente",
+          "x_mm": 10,
+          "y_mm": 18,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 7.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-sol-list",
+          "kind": "text",
+          "text": "Parole della scheda: quadrato: 4 lati, rettangolo: 4 lati, triangolo: 3 lati, cerchio: 1 bordo, pentagono: 5 lati, esagono: 6 lati.",
+          "x_mm": 10,
+          "y_mm": 38,
+          "w_mm": 190,
+          "h_mm": 40,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_perimetro-sol-note",
+          "kind": "note",
+          "text": "Obiettivo: consolidare lettura, scrittura e uso del lessico. Adattamento: ridurre le parole, aumentare il carattere, fornire la prima lettera o leggere ad alta voce. Accettare risposte corrette anche con grafia non convenzionale.",
+          "x_mm": 10,
+          "y_mm": 90,
+          "w_mm": 190,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.5,
+            "bold": false,
+            "italic": true,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        }
+      ]
     }
   ]
 }

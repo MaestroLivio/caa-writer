@@ -148,6 +148,8 @@ nomi `snake_case`.
 | `ai.status` | — | stato del modello neurale |
 | `ai.models` | — | catalogo modelli installabili |
 | `ai.tool` | `tool`, `input` | esecuzione di uno strumento IA tipizzato |
+| `ai.affinity` | `word`: sinonimi/concetti affini con il modello locale, senza modificare il documento |
+| `ai.words` | `word`: parole grezze proposte dal modello (diagnostica) |
 
 Strumenti IA utilizzabili (`tool`): `analyse_text_clarity`, `simplify_sentence`,
 `explain_application_feature`, `prepare_svg_description` (vedi
@@ -180,7 +182,9 @@ Strumenti IA utilizzabili (`tool`): `analyse_text_clarity`, `simplify_sentence`,
 ```
 
 `manual_units` e `split_ranges` usano offset UTF-16, come ProseMirror.
-`include_svg: false` (default) rimuove gli SVG dalla risposta per alleggerirla.
+`include_svg: false` (default) rimuove sia gli SVG sia le immagini PNG (campo `image`, data
+URL) dalla risposta per alleggerirla. I pittogrammi ARASAAC e quelli importati sono PNG usati
+direttamente; `svg` resta per i pittogrammi vettoriali. `symbol.hydrate` scarica i PNG mancanti.
 
 Esempio:
 
@@ -197,6 +201,8 @@ caa-cli call symbolize '{
 |---|---|
 | `search` | `query`, `limit`, `offset`, `pack_id`, `collection_id`, `commercial_only` |
 | `affinities` | `word`, `pack_id`, `commercial_only` |
+| `symbol.get` | `id`: restituisce etichetta, repertorio e lunghezza dell'SVG letto dal file |
+| `symbol.hydrate` | `ids` (array): scarica gli SVG ARASAAC mancanti nella cartella dati dell'utente e aggiorna il database |
 
 La ricerca usa FTS5 e mette i pittogrammi personali prima dei repertori
 installati. `query` vuota con `collection_id` elenca la collezione.
@@ -260,7 +266,10 @@ dichiarato supportato.
 `import.run` copia i file in `assets/imported/<collezione>/`, crea un concetto
 `custom.<lemma>`, inserisce il simbolo nel pacchetto `personal`, aggiunge FTS,
 sinonimi e licenza. Il nome della collezione è quello suggerito dalla cartella,
-modificabile.
+modificabile. Gli SVG restano vettoriali; PNG/JPEG/WebP/GIF/BMP/TIFF/ICO/AVIF
+vengono salvati come PNG diretto (niente wrapper SVG) e restituiti nel campo
+`image` come data URL. Il comando Tauri `import_image_symbol` importa una
+singola immagine da base64 (usato dalla scheda Simbolo).
 
 Esempio completo:
 
@@ -290,6 +299,10 @@ caa-cli call import.run - < import.json
 | `online.providers` | — |
 | `online.search` | `terms` (array), `force_refresh` |
 | `online.ensure` | `words` (array): cerca solo ARASAAC e salva le copie offline |
+| `online.autofill` | `words` (array): se manca un'etichetta ARASAAC esatta, importa il primo pittogramma disponibile |
+| `online.global` | `term`: cerca solo su Global Symbols (utile per verificare la ricerca inglese) |
+| `online.english` | `word`, `limit`: traduce in inglese, cerca su Global Symbols, importa le copie e restituisce le alternative (ARASAAC inglese escluso) |
+| `symbol.hydrate` | `ids` (array): ripristina gli SVG ARASAAC da `static.arasaac.org`, utile dopo aver rimosso il catalogo locale |
 | `online.save` | `result`, `lemma`, `collection` |
 
 Provider attivi: **ARASAAC** (prima scelta, pittogrammi CAA, CC BY-NC-SA 4.0) e
@@ -438,7 +451,7 @@ funzionalità, voce, accessibilità e navigazione. Le assegnazioni sono in
 In CAA Writer: **Strumenti IA → Modello neurale → Console CLI** (il gruppo può
 essere nel menu «Gruppi»). La console esegue gli stessi metodi della CLI con
 `--data-dir` e `--resources` dell'app, mostra stdout/stderr e il JSON. Il
-binario è in `resources/cli/` nei bundle; in sviluppo viene cercato anche in
+la CLI è distribuita come binario separato (non è più inclusa nel bundle); in sviluppo viene cercata anche in
 `target/release` e `target/debug`. Non usa una shell: metodo e parametri sono
 dati, non comandi di sistema.
 
@@ -657,3 +670,165 @@ stato solo compilato.
   dichiarate.
 - Ribbon: i gruppi che non entrano vengono raccolti nel menu «Gruppi (n)», senza
   scorrimento orizzontale oltre la finestra.
+
+## 13. Libreria organizzata, ricerca inglese e controlli smartboard (novembre 2026)
+
+### 13.1 Catalogo
+
+- `library.catalog`, `library.search`, `library.validate` sono metodi CLI/RPC. I comandi Tauri
+  corrispondenti sono `library_catalog`, `library_search`, `library_by_ids`, `library_preview`,
+  `library_validate`.
+- La tassonomia è in `src-tauri/src/template_catalog.rs` (categorie A–L, sottocategorie, sinonimi,
+  pubblico, obiettivi). Il manifest della biblioteca espone categoria, sottocategoria, pubblico,
+  obiettivo, tag, complessità, formati, anteprima e numero di pittogrammi mancanti.
+- `library validate` controlla schema, elementi fuori pagina, celle vuote, griglie incomplete,
+  token board senza gettoni, istruzioni/esercizi/soluzioni mancanti, titoli duplicati e simboli
+  assenti. Il report distingue `errore` e `avviso`.
+
+Esempi:
+
+```bash
+caa-cli library catalog
+caa-cli library search --query "token board" --category comportamentali
+caa-cli library search --query "sillabe" --category schede --subcategory italiano
+caa-cli library validate --only-pilots
+caa-cli template build-all --sources templates/sources --out resources/library
+```
+
+### 13.2 Ricerca in inglese nel pannello Simbolo
+
+- Il pannello unico si chiama **Simbolo** (le vecchie schede Alternative e Cerca sono confluite).
+- Il selettore `IT / EN` traduce la richiesta prima della ricerca locale:
+  - glossario deterministico per il vocabolario CAA di base;
+  - modello neurale locale per gli altri termini;
+  - se il modello non è disponibile, la ricerca non parte e viene mostrato un errore esplicito.
+- Metodo CLI: `translate.search` con `{"text":"dog"}` → `{"source":"dog","translated":"cane"}`.
+- Il pannello mostra **prima i pittogrammi possibili** per la parola selezionata (alternative
+  automatiche + risultati inglesi), poi la ricerca nel repertorio e quindi i dettagli.
+- **Ricerca inglese automatica**: alla selezione di una parola il pannello traduce in inglese e
+  cerca su **Global Symbols** (language `eng`), aggiungendo i risultati alle alternative con il
+  badge `EN`. I symbolset ARASAAC di Global Symbols sono esclusi perché duplicano il catalogo
+  italiano.
+  - Metodo CLI: `translate.english` con `{"text":"gatto"}` → `{"translated":"cat"}`;
+  - `online.global` con `{"term":"cat"}` mostra direttamente i risultati Global Symbols;
+  - `online.english` con `{"word":"gatto","limit":3}` traduce, cerca, importa le copie offline e
+    restituisce `{"term":"cat","items":[...],"warnings":[]}`;
+  - senza modello e senza voce nel glossario la traduzione fallisce in modo esplicito.
+- **Sinonimi e concetti affini**: il pannello chiede in background al modello locale parole vicine
+  (priorità bassa, debounce 1200 ms) e mostra i pittogrammi trovati con il badge «IA affine».
+  `ai.affinity` con `{"word":"ancorare"}` restituisce le alternative; `ai.words` mostra le parole
+  grezze proposte dal modello. Se il modello è spento non viene inventato nulla.
+- La ricerca FTS5 privilegia l'etichetta esatta, quindi `cane` restituisce prima i simboli «cane»
+  e non parole che iniziano per «cane» (es. «canestro»).
+
+### 13.3 Repertori online
+
+- Provider attivi: ARASAAC, Global Symbols, Wikimedia Commons, Openverse.
+- Global Symbols usa `https://globalsymbols.com/api/v1/labels/search` e conserva autore e licenza
+  del symbolset; Openverse usa `https://api.openverse.org/v1/images/` e dichiara le immagini come
+  fotografie, non come pittogrammi CAA.
+- La ricerca online è **federata**: interroga ARASAAC, Global Symbols, Wikimedia e Openverse (più
+  provider personalizzati) e unisce i risultati, max 8 per provider e deduplicati. Non si ferma al
+  primo provider che risponde. I risultati scelti vengono salvati come copia offline.
+- Nel pannello Simbolo i risultati sono divisi in **pertinenti** (etichetta uguale o che inizia con
+  la parola) e **altri**, nascosti dietro un pulsante. La ricerca delle alternative parte
+  automaticamente quando cambia l'unità selezionata.
+- Se la traduzione inglese non risponde, il pannello cerca comunque il termine originale e mostra
+  un avviso; il glossario copre il vocabolario CAA di base.
+
+### 13.4 IA: chat, immagini e modelli diffusion
+
+- Pannello → scheda **IA**: chat, generazione immagini, modelli di diffusione e stato del runtime.
+  Gli stessi comandi sono raggiungibili da **Strumenti IA → Immagini e chat** nel Ribbon.
+- Backend immagini `auto` | `mlx` | `gpu` | `online` | `off`.
+  - Su Apple Silicon il motore locale usa **MPS** (GPU Apple); se è presente un runtime **MLX
+    Stable Diffusion** completo (`mlx` + `stable_diffusion`) lo preferisce.
+  - Il runtime Python (`torch`, `diffusers`, `transformers`, …) e i modelli **non sono nel
+    bundle**: si installano da Impostazioni con «Installa runtime immagini» e «Scarica modello»;
+    restano nei dati dell'utente (`image-venv`, `models/image`).
+  - Il provider **online** è compatibile con `POST {endpoint}/images/generations` (OpenAI e
+    compatibili). Endpoint, modello e chiave si configurano nel pannello; la chiave va nel
+    portachiavi di sistema, mai nel database o nei documenti.
+- Nell'editor, con una parola selezionata, il pannello Simbolo offre **«Genera un pittogramma con
+  l'IA»**: il prompt viene inviato solo al motore configurato, l'immagine viene importata come
+  simbolo personale e applicata alla parola. Resta una scelta manuale (concept `custom.ai.*`), non
+  viene applicata automaticamente ad altre occorrenze.
+- Le immagini generate si possono **applicare alla parola selezionata** (pittogramma personale) oppure
+  **inserire nel documento universale** aperto come elemento `image` con SVG incorporato.
+- **Chat**: la scheda IA usa il modello locale se attivo, altrimenti il provider online
+  configurato. Metodo CLI `ai.chat` con
+  `{"messages":[{"role":"user","content":"..."}]}` → `{"reply":...,"backend":...,"elapsed_ms":...}`.
+- Metodi CLI immagini: `image.status`, `image.generate` (parametri `prompt`, `negative?`, `out?`,
+  `include_base64?`), `image.install`, `image.download` (`model`).
+- Nessun modello viene dichiarato disponibile se il runtime o i pesi non ci sono: `image.status`
+  riporta `mlx`, `torch`, `mps`, `diffusers` e la nota reale.
+
+### 13.5 Editor completo e modelli di documento
+
+- Ogni modello della biblioteca e ogni materiale generato si apre nell'**editor completo**
+  (`UniversalEditor`), in modifica, con il selettore di layout `absolute` / `flow` / `grid` sempre
+  disponibile. Non esiste più un ripiego silenzioso sull'editor di testo: se il modello non si apre,
+  l'errore viene dichiarato.
+- L'anteprima dei modelli resta in sola lettura finché non si preme **Modifica layout e contenuti**
+  (banner in alto o pulsante nella barra); il salvataggio crea una copia e non sovrascrive il modello.
+- Anche i sistemi comunicativi aperti dal Creator sono modificabili; la sola lettura resta per
+  l'Utilizzatore.
+- Il Ribbon **Strumenti IA → Creazione** contiene **Storia dal testo** e **Materiale dal testo**:
+  usano il testo selezionato (o tutto il documento) e aprono il risultato nello stesso editor
+  completo, con pagine, testi e pittogrammi modificabili.
+- Nell'editor completo la barra offre **IA** (chat/immagini) e **Genera** (Studio), così generazione
+  e modifica avvengono nello stesso posto.
+- **Miniature delle pagine**: il pannello Pagine a sinistra disegna il contenuto reale di ogni
+  pagina (testi, pittogrammi SVG, celle di griglia, forme, sfondi) in scala, non più blocchi grigi.
+  Il pannello si riduce con « e si riapre con «Pagine».
+- **Un solo interfaccia**: nell'editor completo la barra interna (Home, titolo, undo, salva, export)
+  è nascosta; i comandi sono nel Ribbon (scheda **Documento** e gruppo **Elementi** in Inserisci).
+  Lo zoom è in basso a destra e si regola anche con Ctrl/⌘+rotella o pinch sul documento.
+- **Formato foglio**: A4/A3/A5/Letter/16:9/4:3 o larghezza×altezza in mm; le dimensioni restano
+  stabili e valgono anche per la pagina di testo. Il righello (attivo di default) trascina i margini
+  e il pannello proprietà permette di inserirli in mm.
+- **Stampa**: genera un PDF con il renderer reale (formato e orientamento corretti) e lo apre nel
+  visualizzatore di sistema; non usa il dialogo WKWebView, non affidabile su macOS.
+- **Ponte dall'editor di testo**: il comando **Apri nell'editor completo** (Strumenti IA →
+  Creazione) converte il documento di testo in un documento universale con una pagina per gruppo
+  di paragrafi, i pittogrammi disponibili sopra il testo e layout modificabile. Il file originale
+  non viene sovrascritto; il nuovo documento si salva con un nome proprio.
+
+### 13.6 Contenuti espliciti e controlli smartboard
+
+- Impostazioni → Rappresentazione CAA → **Mostra contenuti espliciti (adulti)**, disattivato per
+  default. Quando è spento, `src/lib/content-filter.ts` esclude termini sessuali/anatomici
+  espliciti da alternative, ricerca locale, ricerca online, documento ed esportazioni. I risultati
+  esclusi sono conteggiati; non vengono mostrati come elementi attenuati. Le scelte manuali non
+  esplicite restano visibili.
+- Il vecchio significato «nascondi i simboli applicati a mano» è stato rimosso: non confondere
+  l'interruttore con la visibilità delle scelte manuali.
+- In modalità touch compare in basso a sinistra il pulsante **Controlli**: apre una barra compatta
+  con tastiera a schermo, spazio, cancellazione, invio, annulla/ripeti e ascolto. La tastiera si
+  apre solo su richiesta e non riduce stabilmente l'area di lavoro.
+- **Layout predefiniti → Pittogrammi sulla parola** (`settings.symbol_layout = "parola"`): ogni
+  pittogramma viene centrato sul range DOM della parola a cui si riferisce, invece di stare in una
+  striscia unica sopra il paragrafo. Il testo non viene modificato; la scelta si salva con le
+  impostazioni del documento. La stampa nativa usa il DOM corrente, quindi rispetta la disposizione;
+  le esportazioni DOCX/HTML restano quelle del documento strutturato.
+
+### 13.5 Storie illustrate
+
+- `caa-cli story create --spec story.json --out storia.caadoc` costruisce una storia multipagina
+  con scene vettoriali modificabili, testo CAA, striscia di pittogrammi e pulsanti di navigazione.
+- Specifica minima: `title`, `kind` (`social`, `routine`, `emotion`, `educational`, `narrative`),
+  `layout` (`image_top`, `pictograms_top`, `image_left`, `image_right`), `pages` (10–20),
+  `setting`, `characters`, `subject`, `sentences` opzionale.
+- `story validate`, `story render --format pdf|png`, `story package` usano lo stesso renderer e lo
+  stesso formato `.caadoc` dell'editor.
+- Nella GUI: schermata iniziale → **Crea una storia illustrata in CAA** → Story Studio. Il documento
+  generato si apre nell'editor universale.
+- Il backend immagini disponibile è **vettoriale offline**. I modelli diffusion locali/online non
+  sono attivi e non vengono proposti come compatibili senza download, caricamento e benchmark reali.
+
+### 13.6 Avvio
+
+- Con profili esistenti l'app mostra una schermata di scelta: **Utente** (uno dei profili) oppure
+  **Modalità Creator** (con PIN se configurato). Non entra più automaticamente nell'ultimo profilo.
+- Al primo avvio la procedura guidata permette anche di entrare come Creator senza creare subito un
+  profilo.

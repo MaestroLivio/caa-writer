@@ -1,0 +1,1783 @@
+{
+  "id": "pilota_abbinamento",
+  "title": "Collega l'animale al suo ambiente",
+  "description": "Scheda di abbinamento stampabile e verifica interattiva con feedback immediato.",
+  "category": "Giochi e attività interattive",
+  "source_type": "template",
+  "kind": "game",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "margin_mm": 10,
+  "taxonomy": {
+    "category_id": "giochi",
+    "subcategory_id": "associazioni",
+    "audience": "primaria",
+    "objective": "Associare animali e ambienti, motivando la scelta e verificandola con feedback.",
+    "tags": [
+      "gioco",
+      "abbinamento",
+      "associazioni",
+      "animali",
+      "ambienti",
+      "scienze"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "featured": true
+  },
+  "pages": [
+    {
+      "id": "home",
+      "title": "Collega",
+      "layout": "absolute",
+      "home": true,
+      "elements": [
+        {
+          "id": "hdr-badge-1",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-1",
+          "kind": "title",
+          "text": "Collega l'animale al suo ambiente",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-1",
+          "kind": "subtitle",
+          "text": "Leggi le due colonne. Scrivi la lettera giusta nella casella.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-1",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 2",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "instr",
+          "kind": "instruction",
+          "text": "Ogni animale ha un ambiente. Scrivi la lettera dell'ambiente accanto all'animale.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.3,
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "animal-0",
+          "kind": "symbol",
+          "text": "cane",
+          "x_mm": 10,
+          "y_mm": 54,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "cane",
+          "symbol_id": null
+        },
+        {
+          "id": "animal-0-box",
+          "kind": "text_box",
+          "text": "",
+          "x_mm": 94,
+          "y_mm": 61,
+          "w_mm": 22,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.6,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          }
+        },
+        {
+          "id": "animal-1",
+          "kind": "symbol",
+          "text": "pesce",
+          "x_mm": 10,
+          "y_mm": 94,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "pesce",
+          "symbol_id": "arasaac.picto.2520"
+        },
+        {
+          "id": "animal-1-box",
+          "kind": "text_box",
+          "text": "",
+          "x_mm": 94,
+          "y_mm": 101,
+          "w_mm": 22,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.6,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          }
+        },
+        {
+          "id": "animal-2",
+          "kind": "symbol",
+          "text": "uccello",
+          "x_mm": 10,
+          "y_mm": 134,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "uccello",
+          "symbol_id": null
+        },
+        {
+          "id": "animal-2-box",
+          "kind": "text_box",
+          "text": "",
+          "x_mm": 94,
+          "y_mm": 141,
+          "w_mm": 22,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.6,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          }
+        },
+        {
+          "id": "animal-3",
+          "kind": "symbol",
+          "text": "cammello",
+          "x_mm": 10,
+          "y_mm": 174,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "cammello",
+          "symbol_id": null
+        },
+        {
+          "id": "animal-3-box",
+          "kind": "text_box",
+          "text": "",
+          "x_mm": 94,
+          "y_mm": 181,
+          "w_mm": 22,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.6,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          }
+        },
+        {
+          "id": "animal-4",
+          "kind": "symbol",
+          "text": "pinguino",
+          "x_mm": 10,
+          "y_mm": 214,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "pinguino",
+          "symbol_id": null
+        },
+        {
+          "id": "animal-4-box",
+          "kind": "text_box",
+          "text": "",
+          "x_mm": 94,
+          "y_mm": 221,
+          "w_mm": 22,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 5.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.6,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          }
+        },
+        {
+          "id": "env-0",
+          "kind": "symbol",
+          "text": "deserto",
+          "x_mm": 146,
+          "y_mm": 54,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "deserto",
+          "symbol_id": null
+        },
+        {
+          "id": "env-0-label",
+          "kind": "text",
+          "text": "A · deserto",
+          "x_mm": 182,
+          "y_mm": 63,
+          "w_mm": 26,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "env-1",
+          "kind": "symbol",
+          "text": "casa",
+          "x_mm": 146,
+          "y_mm": 94,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "casa",
+          "symbol_id": null
+        },
+        {
+          "id": "env-1-label",
+          "kind": "text",
+          "text": "B · casa",
+          "x_mm": 182,
+          "y_mm": 103,
+          "w_mm": 26,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "env-2",
+          "kind": "symbol",
+          "text": "acqua",
+          "x_mm": 146,
+          "y_mm": 134,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "acqua",
+          "symbol_id": null
+        },
+        {
+          "id": "env-2-label",
+          "kind": "text",
+          "text": "C · acqua",
+          "x_mm": 182,
+          "y_mm": 143,
+          "w_mm": 26,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "env-3",
+          "kind": "symbol",
+          "text": "ghiaccio",
+          "x_mm": 146,
+          "y_mm": 174,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "ghiaccio",
+          "symbol_id": null
+        },
+        {
+          "id": "env-3-label",
+          "kind": "text",
+          "text": "D · ghiaccio",
+          "x_mm": 182,
+          "y_mm": 183,
+          "w_mm": 26,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "env-4",
+          "kind": "symbol",
+          "text": "nido",
+          "x_mm": 146,
+          "y_mm": 214,
+          "w_mm": 34,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "nido",
+          "symbol_id": null
+        },
+        {
+          "id": "env-4-label",
+          "kind": "text",
+          "text": "E · nido",
+          "x_mm": 182,
+          "y_mm": 223,
+          "w_mm": 26,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "verifica",
+      "title": "Verifica",
+      "layout": "absolute",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-2",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-2",
+          "kind": "title",
+          "text": "Verifica: scegli l'ambiente",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-2",
+          "kind": "subtitle",
+          "text": "Tocca l'ambiente giusto. Il materiale mostra subito se la scelta è corretta.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-2",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 2",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "instr2",
+          "kind": "instruction",
+          "text": "Tocca una sola risposta per ogni animale.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.3,
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-0-animal",
+          "kind": "symbol",
+          "text": "cane",
+          "x_mm": 10,
+          "y_mm": 52,
+          "w_mm": 28,
+          "h_mm": 28,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "cane",
+          "symbol_id": null
+        },
+        {
+          "id": "q-0-label",
+          "kind": "text",
+          "text": "cane",
+          "x_mm": 42,
+          "y_mm": 59,
+          "w_mm": 34,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-0-opt-0",
+          "kind": "checkbox",
+          "text": "A deserto",
+          "x_mm": 80,
+          "y_mm": 58,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-0",
+            "feedback": "cane: deserto"
+          }
+        },
+        {
+          "id": "q-0-opt-1",
+          "kind": "checkbox",
+          "text": "B casa",
+          "x_mm": 102,
+          "y_mm": 58,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": true,
+            "group": "q-0",
+            "feedback": "cane: casa"
+          }
+        },
+        {
+          "id": "q-0-opt-2",
+          "kind": "checkbox",
+          "text": "C acqua",
+          "x_mm": 124,
+          "y_mm": 58,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-0",
+            "feedback": "cane: acqua"
+          }
+        },
+        {
+          "id": "q-0-opt-3",
+          "kind": "checkbox",
+          "text": "D ghiaccio",
+          "x_mm": 146,
+          "y_mm": 58,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-0",
+            "feedback": "cane: ghiaccio"
+          }
+        },
+        {
+          "id": "q-0-opt-4",
+          "kind": "checkbox",
+          "text": "E nido",
+          "x_mm": 168,
+          "y_mm": 58,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-0",
+            "feedback": "cane: nido"
+          }
+        },
+        {
+          "id": "q-1-animal",
+          "kind": "symbol",
+          "text": "pesce",
+          "x_mm": 10,
+          "y_mm": 95,
+          "w_mm": 28,
+          "h_mm": 28,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "pesce",
+          "symbol_id": "arasaac.picto.2520"
+        },
+        {
+          "id": "q-1-label",
+          "kind": "text",
+          "text": "pesce",
+          "x_mm": 42,
+          "y_mm": 102,
+          "w_mm": 34,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-1-opt-0",
+          "kind": "checkbox",
+          "text": "A deserto",
+          "x_mm": 80,
+          "y_mm": 101,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-1",
+            "feedback": "pesce: deserto"
+          }
+        },
+        {
+          "id": "q-1-opt-1",
+          "kind": "checkbox",
+          "text": "B casa",
+          "x_mm": 102,
+          "y_mm": 101,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-1",
+            "feedback": "pesce: casa"
+          }
+        },
+        {
+          "id": "q-1-opt-2",
+          "kind": "checkbox",
+          "text": "C acqua",
+          "x_mm": 124,
+          "y_mm": 101,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": true,
+            "group": "q-1",
+            "feedback": "pesce: acqua"
+          }
+        },
+        {
+          "id": "q-1-opt-3",
+          "kind": "checkbox",
+          "text": "D ghiaccio",
+          "x_mm": 146,
+          "y_mm": 101,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-1",
+            "feedback": "pesce: ghiaccio"
+          }
+        },
+        {
+          "id": "q-1-opt-4",
+          "kind": "checkbox",
+          "text": "E nido",
+          "x_mm": 168,
+          "y_mm": 101,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-1",
+            "feedback": "pesce: nido"
+          }
+        },
+        {
+          "id": "q-2-animal",
+          "kind": "symbol",
+          "text": "uccello",
+          "x_mm": 10,
+          "y_mm": 138,
+          "w_mm": 28,
+          "h_mm": 28,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "uccello",
+          "symbol_id": null
+        },
+        {
+          "id": "q-2-label",
+          "kind": "text",
+          "text": "uccello",
+          "x_mm": 42,
+          "y_mm": 145,
+          "w_mm": 34,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-2-opt-0",
+          "kind": "checkbox",
+          "text": "A deserto",
+          "x_mm": 80,
+          "y_mm": 144,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-2",
+            "feedback": "uccello: deserto"
+          }
+        },
+        {
+          "id": "q-2-opt-1",
+          "kind": "checkbox",
+          "text": "B casa",
+          "x_mm": 102,
+          "y_mm": 144,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-2",
+            "feedback": "uccello: casa"
+          }
+        },
+        {
+          "id": "q-2-opt-2",
+          "kind": "checkbox",
+          "text": "C acqua",
+          "x_mm": 124,
+          "y_mm": 144,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-2",
+            "feedback": "uccello: acqua"
+          }
+        },
+        {
+          "id": "q-2-opt-3",
+          "kind": "checkbox",
+          "text": "D ghiaccio",
+          "x_mm": 146,
+          "y_mm": 144,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-2",
+            "feedback": "uccello: ghiaccio"
+          }
+        },
+        {
+          "id": "q-2-opt-4",
+          "kind": "checkbox",
+          "text": "E nido",
+          "x_mm": 168,
+          "y_mm": 144,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": true,
+            "group": "q-2",
+            "feedback": "uccello: nido"
+          }
+        },
+        {
+          "id": "q-3-animal",
+          "kind": "symbol",
+          "text": "cammello",
+          "x_mm": 10,
+          "y_mm": 181,
+          "w_mm": 28,
+          "h_mm": 28,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "cammello",
+          "symbol_id": null
+        },
+        {
+          "id": "q-3-label",
+          "kind": "text",
+          "text": "cammello",
+          "x_mm": 42,
+          "y_mm": 188,
+          "w_mm": 34,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-3-opt-0",
+          "kind": "checkbox",
+          "text": "A deserto",
+          "x_mm": 80,
+          "y_mm": 187,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": true,
+            "group": "q-3",
+            "feedback": "cammello: deserto"
+          }
+        },
+        {
+          "id": "q-3-opt-1",
+          "kind": "checkbox",
+          "text": "B casa",
+          "x_mm": 102,
+          "y_mm": 187,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-3",
+            "feedback": "cammello: casa"
+          }
+        },
+        {
+          "id": "q-3-opt-2",
+          "kind": "checkbox",
+          "text": "C acqua",
+          "x_mm": 124,
+          "y_mm": 187,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-3",
+            "feedback": "cammello: acqua"
+          }
+        },
+        {
+          "id": "q-3-opt-3",
+          "kind": "checkbox",
+          "text": "D ghiaccio",
+          "x_mm": 146,
+          "y_mm": 187,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-3",
+            "feedback": "cammello: ghiaccio"
+          }
+        },
+        {
+          "id": "q-3-opt-4",
+          "kind": "checkbox",
+          "text": "E nido",
+          "x_mm": 168,
+          "y_mm": 187,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-3",
+            "feedback": "cammello: nido"
+          }
+        },
+        {
+          "id": "q-4-animal",
+          "kind": "symbol",
+          "text": "pinguino",
+          "x_mm": 10,
+          "y_mm": 224,
+          "w_mm": 28,
+          "h_mm": 28,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "pinguino",
+          "symbol_id": null
+        },
+        {
+          "id": "q-4-label",
+          "kind": "text",
+          "text": "pinguino",
+          "x_mm": 42,
+          "y_mm": 231,
+          "w_mm": 34,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          }
+        },
+        {
+          "id": "q-4-opt-0",
+          "kind": "checkbox",
+          "text": "A deserto",
+          "x_mm": 80,
+          "y_mm": 230,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-4",
+            "feedback": "pinguino: deserto"
+          }
+        },
+        {
+          "id": "q-4-opt-1",
+          "kind": "checkbox",
+          "text": "B casa",
+          "x_mm": 102,
+          "y_mm": 230,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-4",
+            "feedback": "pinguino: casa"
+          }
+        },
+        {
+          "id": "q-4-opt-2",
+          "kind": "checkbox",
+          "text": "C acqua",
+          "x_mm": 124,
+          "y_mm": 230,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-4",
+            "feedback": "pinguino: acqua"
+          }
+        },
+        {
+          "id": "q-4-opt-3",
+          "kind": "checkbox",
+          "text": "D ghiaccio",
+          "x_mm": 146,
+          "y_mm": 230,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": true,
+            "group": "q-4",
+            "feedback": "pinguino: ghiaccio"
+          }
+        },
+        {
+          "id": "q-4-opt-4",
+          "kind": "checkbox",
+          "text": "E nido",
+          "x_mm": 168,
+          "y_mm": 230,
+          "w_mm": 21,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.9,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "toggle"
+          },
+          "metadata": {
+            "correct": false,
+            "group": "q-4",
+            "feedback": "pinguino: nido"
+          }
+        }
+      ]
+    }
+  ]
+}

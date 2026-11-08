@@ -4,7 +4,57 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.1 — 2026-11-08
+
+### Editor unico e stampa
+
+- Un solo editor (UniversalEditor) con pagina di testo CAA incorporata, Ribbon unico e scheda
+  Documento nella barra laterale; miniature reali, pannello pagine minimizzabile, zoom con
+  Ctrl/⌘+rotella e pinch, formato foglio in mm, righello per i margini.
+- Stampa PDF valida generata dal renderer reale e aperta nel visualizzatore di sistema.
+- TUTTO MAIUSCOLE applicato anche alla pagina di testo dell'editor unificato.
+
+### Pittogrammi
+
+- ARASAAC e immagini importate usano **PNG diretti**, senza wrapper o conversioni in SVG; i
+  pittogrammi mancanti si scaricano on demand in `assets/arasaac` con `symbol.hydrate` /
+  `hydrate_symbols` e compaiono in editor, alternative e stampa.
+- Import dalla scheda Simbolo per PNG, JPEG, WebP, GIF, BMP, TIFF, ICO, AVIF e SVG.
+- Sinonimi e concetti affini proposti dal modello locale in background (priorità bassa), con
+  ricerca delle forme base e badge «IA affine».
+- Ricerca inglese automatica su **Global Symbols**, con badge `EN`; i symbolset ARASAAC sono
+  esclusi perché duplicano il catalogo italiano.
+- Barra laterale senza sfarfallio (debounce, cache per parola e miniature).
+
+### Installer
+
+- macOS arm64 e Windows x64; Windows usa la feature `custom-protocol` e include runtime
+  llama.cpp Windows + modello. Riparazione automatica dei percorsi IA dopo lo spostamento del
+  progetto.
+
 ## 0.14.0 — 2026-11-07
+
+### Libreria, ricerca e storie
+
+- Libreria organizzata con categorie, sottocategorie, ricerca per sinonimi, filtri, preferiti,
+  recenti, documenti personali e anteprime reali generate dallo stesso renderer.
+- 181 modelli nuovi validati (12 piloti + 56 + 56 + 57 del quarto lotto); 511 documenti totali,
+  0 errori di validazione. Corrette 45 schede senza esercizio, 45 senza soluzioni, 30 storie di
+  una pagina e 125 titoli duplicati.
+- Griglie con area contenuto, origini, pesi di righe/colonne; testo SVG con a capo; componenti
+  didattici nativi (righe, caselle, dieci frame, linee dei numeri, token slot).
+- Pannello unico **Simbolo** con ricerca italiana e inglese. La traduzione usa un glossario
+  deterministico e, per gli altri termini, il modello locale; se il modello non risponde, la
+  ricerca continua con il termine originale.
+- Risultati di ricerca divisi in pertinenti e altri; l'interruttore **Mostra i simboli espliciti**
+  nasconde anche alternative, risultati di ricerca e risultati online.
+- Ricerca online federata: ARASAAC, Global Symbols, Wikimedia e Openverse vengono interrogati
+  tutti; non ci si ferma al primo provider.
+- **Story Studio**: storie multipagina in CAA con scene vettoriali modificabili, layout immagine
+  sopra/sotto/sinistra/destra, striscia di pittogrammi, navigazione e pagina finale. CLI:
+  `caa-cli story create|validate|render|package`.
+- Il backend immagini attivo è vettoriale/offline; i modelli diffusion locali e online non sono
+  dichiarati disponibili senza download, caricamento e benchmark verificati.
 
 ### Profili, assegnazioni e controllo utenti
 

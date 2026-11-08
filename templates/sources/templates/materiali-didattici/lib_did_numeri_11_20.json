@@ -4,7 +4,7 @@
   "description": "Scheda dei numeri da undici a venti. 10 voci, tra cui 11 undici, 12 dodici, 13 tredici, 14 quattordici e altre ancora.",
   "category": "Materiali didattici",
   "source_type": "template",
-  "kind": "teaching",
+  "kind": "worksheet",
   "interactive": false,
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
@@ -13,220 +13,754 @@
     {
       "id": "home",
       "title": "Numeri da 11 a 20",
-      "layout": "flow",
+      "layout": "absolute",
       "home": true,
       "elements": [
         {
-          "id": "lib_did_numeri_11_20-p1-title",
-          "kind": "text",
+          "id": "lib_did_numeri_11_20-badge",
+          "kind": "badge",
+          "text": "MATEMATICA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": true,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-title",
+          "kind": "title",
           "text": "Numeri da 11 a 20",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 8.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p1-field-title",
-          "kind": "text",
-          "text": "Numeri da 11 a 20",
+          "id": "lib_did_numeri_11_20-sub",
+          "kind": "subtitle",
+          "text": "Scheda operativa · materiale modificabile",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p1-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
+          "id": "lib_did_numeri_11_20-instr",
+          "kind": "instruction",
+          "text": "Completa le addizioni. Puoi usare la linea dei numeri o i gettoni.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 10,
           "style": {
-            "font_size": 4.6,
-            "italic": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p1-1",
-          "kind": "symbol",
+          "id": "lib_did_numeri_11_20-prompt-0",
+          "kind": "question",
           "text": "11 undici",
-          "symbol": "11 undici",
-          "concept": null,
-          "spoken_text": "11 undici",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 58,
+          "w_mm": 110,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p1-2",
-          "kind": "symbol",
+          "id": "lib_did_numeri_11_20-line-0",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 58,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-prompt-1",
+          "kind": "question",
           "text": "12 dodici",
-          "symbol": "12 dodici",
-          "concept": null,
-          "spoken_text": "12 dodici",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 84,
+          "w_mm": 110,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p1-3",
-          "kind": "symbol",
+          "id": "lib_did_numeri_11_20-line-1",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 84,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-prompt-2",
+          "kind": "question",
           "text": "13 tredici",
-          "symbol": "13 tredici",
-          "concept": null,
-          "spoken_text": "13 tredici",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 110,
+          "w_mm": 110,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p1-4",
-          "kind": "symbol",
+          "id": "lib_did_numeri_11_20-line-2",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 110,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-prompt-3",
+          "kind": "question",
           "text": "14 quattordici",
-          "symbol": "14 quattordici",
-          "concept": null,
-          "spoken_text": "14 quattordici",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 136,
+          "w_mm": 110,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p1-5",
-          "kind": "symbol",
-          "text": "15 quindici",
-          "symbol": "15 quindici",
-          "concept": null,
-          "spoken_text": "15 quindici",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_numeri_11_20-line-3",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 136,
+          "w_mm": 72,
+          "h_mm": 14,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-prompt-4",
+          "kind": "question",
+          "text": "15 quindici",
+          "x_mm": 10,
+          "y_mm": 162,
+          "w_mm": 110,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-line-4",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 162,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-prompt-5",
+          "kind": "question",
+          "text": "16 sedici",
+          "x_mm": 10,
+          "y_mm": 188,
+          "w_mm": 110,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-line-5",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 188,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-prompt-6",
+          "kind": "question",
+          "text": "17 diciassette",
+          "x_mm": 10,
+          "y_mm": 214,
+          "w_mm": 110,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-line-6",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 214,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-prompt-7",
+          "kind": "question",
+          "text": "18 diciotto",
+          "x_mm": 10,
+          "y_mm": 240,
+          "w_mm": 110,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-line-7",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 240,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
     },
     {
-      "id": "pagina-2",
-      "title": "Numeri da 11 a 20 · 2",
-      "layout": "flow",
-      "home": false,
+      "id": "soluzioni",
+      "title": "Soluzioni",
+      "layout": "absolute",
       "elements": [
         {
-          "id": "lib_did_numeri_11_20-p2-title",
-          "kind": "text",
-          "text": "Numeri da 11 a 20 · 2",
+          "id": "lib_did_numeri_11_20-sol-title",
+          "kind": "title",
+          "text": "Soluzioni per il docente",
+          "x_mm": 10,
+          "y_mm": 18,
+          "w_mm": 190,
+          "h_mm": 12,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 7.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p2-field-title",
-          "kind": "text",
-          "text": "Numeri da 11 a 20",
+          "id": "lib_did_numeri_11_20-sol-instr",
+          "kind": "instruction",
+          "text": "Risposte, obiettivo e indicazioni per l'adattamento.",
+          "x_mm": 10,
+          "y_mm": 32,
+          "w_mm": 190,
+          "h_mm": 8,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p2-field-instructions",
+          "id": "lib_did_numeri_11_20-sol-0",
           "kind": "text",
-          "text": "Osserva, scegli e completa.",
+          "text": "11 undici",
+          "x_mm": 10,
+          "y_mm": 48,
+          "w_mm": 88,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6,
-            "italic": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p2-1",
-          "kind": "symbol",
+          "id": "lib_did_numeri_11_20-sol-1",
+          "kind": "text",
+          "text": "12 dodici",
+          "x_mm": 106,
+          "y_mm": 48,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-sol-2",
+          "kind": "text",
+          "text": "13 tredici",
+          "x_mm": 10,
+          "y_mm": 64,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-sol-3",
+          "kind": "text",
+          "text": "14 quattordici",
+          "x_mm": 106,
+          "y_mm": 64,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-sol-4",
+          "kind": "text",
+          "text": "15 quindici",
+          "x_mm": 10,
+          "y_mm": 80,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_numeri_11_20-sol-5",
+          "kind": "text",
           "text": "16 sedici",
-          "symbol": "16 sedici",
-          "concept": null,
-          "spoken_text": "16 sedici",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 106,
+          "y_mm": 80,
+          "w_mm": 88,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p2-2",
-          "kind": "symbol",
+          "id": "lib_did_numeri_11_20-sol-6",
+          "kind": "text",
           "text": "17 diciassette",
-          "symbol": "17 diciassette",
-          "concept": null,
-          "spoken_text": "17 diciassette",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 96,
+          "w_mm": 88,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p2-3",
-          "kind": "symbol",
+          "id": "lib_did_numeri_11_20-sol-7",
+          "kind": "text",
           "text": "18 diciotto",
-          "symbol": "18 diciotto",
-          "concept": null,
-          "spoken_text": "18 diciotto",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 106,
+          "y_mm": 96,
+          "w_mm": 88,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_numeri_11_20-p2-4",
-          "kind": "symbol",
-          "text": "19 diciannove",
-          "symbol": "19 diciannove",
-          "concept": null,
-          "spoken_text": "19 diciannove",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_numeri_11_20-sol-note",
+          "kind": "note",
+          "text": "Obiettivo: consolidare il calcolo e il ragionamento matematico. Adattamento: ridurre gli esercizi, ingrandire il testo o fornire gettoni e linea dei numeri. Verificare le risposte prima della stampa.",
+          "x_mm": 10,
+          "y_mm": 190,
+          "w_mm": 190,
+          "h_mm": 34,
           "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_numeri_11_20-p2-5",
-          "kind": "symbol",
-          "text": "20 venti",
-          "symbol": "20 venti",
-          "concept": null,
-          "spoken_text": "20 venti",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 3.5,
+            "bold": false,
+            "italic": true,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
     }
   ]
 }

@@ -1532,6 +1532,47 @@ textarea {
   margin: 6px 0 2px;
 }
 
+/* Disposizione «pittogrammi sulla parola»: la striscia è un livello assoluto
+   sopra il testo e ogni chip è centrato sul range della propria unità. */
+.caa-block--on-word,
+.caa-block--on-word-below {
+  position: relative;
+}
+.caa-block--on-word > .caa-strip,
+.caa-block--on-word-below > .caa-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+  margin: 0;
+  display: block;
+  pointer-events: none;
+  overflow: visible;
+}
+.caa-block--on-word-below > .caa-strip {
+  top: 0;
+}
+.caa-block--on-word .caa-chip,
+.caa-block--on-word-below .caa-chip {
+  position: absolute;
+  transform: translateX(-50%);
+  margin: 0;
+  min-width: 0;
+  max-width: 82px;
+  padding: 2px 3px;
+  pointer-events: auto;
+}
+.caa-block--on-word .caa-chip__caption,
+.caa-block--on-word-below .caa-chip__caption {
+  font-size: 0.58rem;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 78px;
+}
+
 /* CAA automatica spenta: le strisce restano nascoste anche con display:flex */
 .caa-strip[hidden] {
   display: none !important;
@@ -1720,12 +1761,15 @@ textarea {
   height: var(--symbol-size);
 }
 
-.caa-chip__media svg {
+.caa-chip__media svg,
+.caa-chip__media img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
-.caa-chip__media--composition svg {
+.caa-chip__media--composition svg,
+.caa-chip__media--composition img {
   width: 50%;
   height: 100%;
 }
@@ -1802,6 +1846,14 @@ textarea {
 }
 
 /* --- Simboli in griglia (ricerca / alternative / studio) --- */
+.result-heading {
+  margin: 10px 0 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.other-results { display: block; width: 100%; margin-top: 10px; }
 .symbol-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
@@ -1835,9 +1887,11 @@ textarea {
   height: 52px;
 }
 
-.symbol-tile__media svg {
+.symbol-tile__media svg,
+.symbol-tile__media img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .symbol-tile__label {
@@ -1945,9 +1999,11 @@ textarea {
   min-height: 80px;
 }
 
-.studio-cell svg {
+.studio-cell svg,
+.studio-cell img {
   width: 44px;
   height: 44px;
+  object-fit: contain;
 }
 
 .studio-cell input {
@@ -2007,9 +2063,11 @@ textarea {
   gap: 4px;
 }
 
-.print-cell svg {
+.print-cell svg,
+.print-cell img {
   width: 72px;
   height: 72px;
+  object-fit: contain;
 }
 
 .print-cell__label {
@@ -3160,3 +3218,115 @@ textarea {
 .paper-margin-line { position: absolute; z-index: 5; background: #2463eb; opacity: 0.35; pointer-events: none; }
 .paper-margin-line--top, .paper-margin-line--bottom { left: 0; right: 0; height: 1px; }
 .paper-margin-line--left, .paper-margin-line--right { top: 0; bottom: 0; width: 1px; }
+
+.image-prompt {
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  background: var(--surface);
+  color: inherit;
+}
+
+.image-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.chat-log {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 280px;
+  overflow: auto;
+  margin-bottom: 8px;
+}
+
+.chat-bubble {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 9px;
+  font-size: 0.86rem;
+  white-space: pre-wrap;
+  max-width: 92%;
+}
+
+.chat-bubble--user {
+  align-self: flex-end;
+  background: var(--accent-soft, #dff0ea);
+}
+
+.chat-bubble--pending {
+  opacity: 0.6;
+}
+
+.stage__unified {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  width: 100%;
+}
+
+.stage .stage__unified .ueditor {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+/* --- Stampa del documento nell'editor completo --- */
+.universal-print {
+  display: none;
+}
+
+@media print {
+  body[data-print] .ribbon,
+  body[data-print] .panel-wrap,
+  body[data-print] .sidebar-rail,
+  body[data-print] .analysis-pill,
+  body[data-print] .toast-area {
+    display: none !important;
+  }
+  body[data-print="document"] #app {
+    display: block !important;
+    height: auto !important;
+  }
+  body[data-print="document"] .app,
+  body[data-print="document"] .workspace,
+  body[data-print="document"] .stage {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body[data-print="document"] .stage {
+    padding: 0 !important;
+  }
+  body[data-print="document"] .paper {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+  body[data-print="universal"] {
+    margin: 0 !important;
+    background: #fff !important;
+  }
+  body[data-print="universal"] #app {
+    display: none !important;
+  }
+  body[data-print="universal"] .universal-print {
+    display: block !important;
+  }
+  body[data-print="universal"] .universal-print .caa-page {
+    display: block !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    page-break-after: always;
+  }
+}

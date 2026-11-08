@@ -26,7 +26,11 @@ pub fn write(path: &Path, doc: &ExportDoc) -> Result<ExportResult, String> {
             body.push_str("<div class=\"caa-units\">\n");
             for unit in &paragraph.units {
                 let mut media = String::new();
-                if let Some(svg) = &unit.svg {
+                if let Some(image) = &unit.image {
+                    media.push_str("<span class=\"caa-symbol\"><img src=\"");
+                    media.push_str(&xml_escape(image));
+                    media.push_str("\" alt=\"\"/></span>");
+                } else if let Some(svg) = &unit.svg {
                     media.push_str("<span class=\"caa-symbol\">");
                     media.push_str(svg);
                     media.push_str("</span>");
@@ -126,6 +130,7 @@ mod tests {
                     caption: "pesca".to_string(),
                     symbol_id: None,
                     svg: None,
+                    image: None,
                     png_base64: None,
                     approximate: false,
                 }],
@@ -166,7 +171,7 @@ body { font-family: "Helvetica Neue", Arial, sans-serif; color: #1f2933; margin:
 .caa-units { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.4rem; }
 .caa-unit { display: flex; flex-direction: column; align-items: center; width: 84px; }
 .caa-symbol { display: block; width: 64px; height: 64px; }
-.caa-symbol svg { width: 100%; height: 100%; }
+.caa-symbol svg, .caa-symbol img { width: 100%; height: 100%; object-fit: contain; }
 .caa-symbol--empty { border: 2px dashed #9aa6b8; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #9aa6b8; font-weight: bold; }
 .caa-caption { font-size: 0.75rem; text-align: center; word-break: break-word; }
 .caa-unit--approx .caa-symbol { border: 2px dashed #d68b00; border-radius: 8px; padding: 2px; }

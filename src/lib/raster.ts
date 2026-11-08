@@ -60,8 +60,16 @@ export async function rasterizeSymbols(
 ): Promise<{ pngs: Map<string, string>; failed: string[] }> {
   const pngs = new Map<string, string>();
   const failed: string[] = [];
-  for (const [symbolId, svg] of symbols) {
-    const png = await svgToPngBase64(svg);
+  for (const [symbolId, media] of symbols) {
+    // I pittogrammi ARASAAC/import sono già PNG: nessuna rasterizzazione.
+    if (media.startsWith("data:image/")) {
+      const base64 = media.split(",", 2)[1];
+      if (base64) {
+        pngs.set(symbolId, base64);
+        continue;
+      }
+    }
+    const png = await svgToPngBase64(media);
     if (png) pngs.set(symbolId, png);
     else failed.push(symbolId);
   }

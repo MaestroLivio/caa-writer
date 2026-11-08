@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_aut_trasporti_strada-p1-field-title",
-          "kind": "text",
-          "text": "Trasporti: attraversare la strada",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_aut_trasporti_strada-p1-field-layout",
           "kind": "text",
           "text": "checklist",

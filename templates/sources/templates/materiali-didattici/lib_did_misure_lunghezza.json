@@ -4,7 +4,7 @@
   "description": "Scheda sulle equivalenze di lunghezza. 4 voci, tra cui 1 metro = 100 centimetri, 1 chilometro = 1000 metri, mezzo metro = 50 centimetri, 1 decimetro = 10 centimetri.",
   "category": "Materiali didattici",
   "source_type": "template",
-  "kind": "teaching",
+  "kind": "worksheet",
   "interactive": false,
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
@@ -13,97 +13,466 @@
     {
       "id": "home",
       "title": "Misure di lunghezza",
-      "layout": "flow",
+      "layout": "absolute",
       "home": true,
       "elements": [
         {
-          "id": "lib_did_misure_lunghezza-p1-title",
-          "kind": "text",
+          "id": "lib_did_misure_lunghezza-badge",
+          "kind": "badge",
+          "text": "MATEMATICA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": true,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-title",
+          "kind": "title",
           "text": "Misure di lunghezza",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 8.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_misure_lunghezza-p1-field-title",
-          "kind": "text",
-          "text": "Misure di lunghezza",
+          "id": "lib_did_misure_lunghezza-sub",
+          "kind": "subtitle",
+          "text": "Scheda operativa · materiale modificabile",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_misure_lunghezza-p1-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
+          "id": "lib_did_misure_lunghezza-instr",
+          "kind": "instruction",
+          "text": "Completa le addizioni. Puoi usare la linea dei numeri o i gettoni.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 10,
           "style": {
-            "font_size": 4.6,
-            "italic": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_misure_lunghezza-p1-1",
-          "kind": "symbol",
+          "id": "lib_did_misure_lunghezza-prompt-0",
+          "kind": "question",
           "text": "1 metro = 100 centimetri",
-          "symbol": "1 metro = 100 centimetri",
-          "concept": null,
-          "spoken_text": "1 metro = 100 centimetri",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 58,
+          "w_mm": 110,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_misure_lunghezza-p1-2",
-          "kind": "symbol",
+          "id": "lib_did_misure_lunghezza-line-0",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 58,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-prompt-1",
+          "kind": "question",
           "text": "1 chilometro = 1000 metri",
-          "symbol": "1 chilometro = 1000 metri",
-          "concept": null,
-          "spoken_text": "1 chilometro = 1000 metri",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 84,
+          "w_mm": 110,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_misure_lunghezza-p1-3",
-          "kind": "symbol",
+          "id": "lib_did_misure_lunghezza-line-1",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 84,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-prompt-2",
+          "kind": "question",
           "text": "mezzo metro = 50 centimetri",
-          "symbol": "mezzo metro = 50 centimetri",
-          "concept": null,
-          "spoken_text": "mezzo metro = 50 centimetri",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 110,
+          "w_mm": 110,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_misure_lunghezza-p1-4",
-          "kind": "symbol",
-          "text": "1 decimetro = 10 centimetri",
-          "symbol": "1 decimetro = 10 centimetri",
-          "concept": null,
-          "spoken_text": "1 decimetro = 10 centimetri",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_misure_lunghezza-line-2",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 110,
+          "w_mm": 72,
+          "h_mm": 14,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-prompt-3",
+          "kind": "question",
+          "text": "1 decimetro = 10 centimetri",
+          "x_mm": 10,
+          "y_mm": 136,
+          "w_mm": 110,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-line-3",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 122,
+          "y_mm": 136,
+          "w_mm": 72,
+          "h_mm": 14,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
+    },
+    {
+      "id": "soluzioni",
+      "title": "Soluzioni",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_did_misure_lunghezza-sol-title",
+          "kind": "title",
+          "text": "Soluzioni per il docente",
+          "x_mm": 10,
+          "y_mm": 18,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 7.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-sol-instr",
+          "kind": "instruction",
+          "text": "Risposte, obiettivo e indicazioni per l'adattamento.",
+          "x_mm": 10,
+          "y_mm": 32,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-sol-0",
+          "kind": "text",
+          "text": "1 metro = 100 centimetri",
+          "x_mm": 10,
+          "y_mm": 48,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-sol-1",
+          "kind": "text",
+          "text": "1 chilometro = 1000 metri",
+          "x_mm": 106,
+          "y_mm": 48,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-sol-2",
+          "kind": "text",
+          "text": "mezzo metro = 50 centimetri",
+          "x_mm": 10,
+          "y_mm": 64,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-sol-3",
+          "kind": "text",
+          "text": "1 decimetro = 10 centimetri",
+          "x_mm": 106,
+          "y_mm": 64,
+          "w_mm": 88,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_misure_lunghezza-sol-note",
+          "kind": "note",
+          "text": "Obiettivo: consolidare il calcolo e il ragionamento matematico. Adattamento: ridurre gli esercizi, ingrandire il testo o fornire gettoni e linea dei numeri. Verificare le risposte prima della stampa.",
+          "x_mm": 10,
+          "y_mm": 190,
+          "w_mm": 190,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.5,
+            "bold": false,
+            "italic": true,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        }
+      ]
     }
   ]
 }

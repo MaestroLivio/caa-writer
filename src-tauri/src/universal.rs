@@ -139,6 +139,30 @@ pub struct GridSettings {
     pub rows: u32,
     #[serde(default = "default_gap")]
     pub gap_mm: f32,
+    /// Pesi delle colonne; vuoto = colonne uguali.
+    #[serde(default)]
+    pub column_widths: Vec<f32>,
+    /// Pesi delle righe; vuoto = righe uguali.
+    #[serde(default)]
+    pub row_heights: Vec<f32>,
+    /// Area occupata dalla griglia. Se assente resta l'intera area utile:
+    /// i documenti precedenti mantengono la geometria di prima.
+    #[serde(default)]
+    pub content_width_mm: Option<f32>,
+    #[serde(default)]
+    pub content_height_mm: Option<f32>,
+    /// left | center | right
+    #[serde(default)]
+    pub align: String,
+    /// top | middle | bottom
+    #[serde(default)]
+    pub valign: String,
+    /// Origine dell'area griglia, in millimetri dal bordo pagina. Se assente
+    /// vale il margine; permette intestazioni e piedi senza sovrapposizioni.
+    #[serde(default)]
+    pub origin_x_mm: Option<f32>,
+    #[serde(default)]
+    pub origin_y_mm: Option<f32>,
 }
 
 impl Default for GridSettings {
@@ -147,6 +171,14 @@ impl Default for GridSettings {
             columns: 3,
             rows: 3,
             gap_mm: 3.0,
+            column_widths: Vec::new(),
+            row_heights: Vec::new(),
+            content_width_mm: None,
+            content_height_mm: None,
+            align: String::new(),
+            valign: String::new(),
+            origin_x_mm: None,
+            origin_y_mm: None,
         }
     }
 }
@@ -256,12 +288,19 @@ pub struct GridCell {
     pub lemma: Option<String>,
     #[serde(default)]
     pub svg: Option<String>,
+    /// PNG come data URL; alternativa raster a `svg`.
+    #[serde(default)]
+    pub image_asset: Option<String>,
     #[serde(default)]
     pub action: Option<UniversalAction>,
     #[serde(default)]
     pub style: ElementStyle,
     #[serde(default)]
     pub hidden: bool,
+    /// Vero quando il testo è presente ma il repertorio non offre un
+    /// pittogramma: il dato non viene nascosto, viene dichiarato.
+    #[serde(default)]
+    pub missing_symbol: bool,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -322,6 +361,10 @@ pub struct UniversalElement {
     pub visible: bool,
     #[serde(default)]
     pub locked: bool,
+    /// Su una pagina a griglia, l'elemento conserva le coordinate assolute:
+    /// serve per intestazioni, barre della frase e piè di pagina.
+    #[serde(default)]
+    pub absolute: bool,
     #[serde(default = "default_opacity")]
     pub opacity: f32,
     #[serde(default)]
@@ -379,6 +422,7 @@ impl Default for UniversalElement {
             z: 0,
             visible: true,
             locked: false,
+            absolute: false,
             opacity: 1.0,
             row: 0,
             column: 0,
@@ -550,6 +594,28 @@ pub fn validate(document: &UniversalDocument) -> Result<(), String> {
             if page.grid.rows == 0 || page.grid.rows > 60 {
                 return Err(format!("{}: righe fuori intervallo (1-60)", page.id));
             }
+            if let Some(width) = page.grid.content_width_mm {
+                if !width.is_finite() || width <= 0.0 {
+                    return Err(format!("{}: larghezza dell'area griglia non valida", page.id));
+                }
+            }
+            if let Some(height) = page.grid.content_height_mm {
+                if !height.is_finite() || height <= 0.0 {
+                    return Err(format!("{}: altezza dell'area griglia non valida", page.id));
+                }
+            }
+            if !page.grid.column_widths.is_empty()
+                && (page.grid.column_widths.len() != page.grid.columns as usize
+                    || page.grid.column_widths.iter().any(|v| !v.is_finite() || *v <= 0.0))
+            {
+                return Err(format!("{}: pesi delle colonne non validi", page.id));
+            }
+            if !page.grid.row_heights.is_empty()
+                && (page.grid.row_heights.len() != page.grid.rows as usize
+                    || page.grid.row_heights.iter().any(|v| !v.is_finite() || *v <= 0.0))
+            {
+                return Err(format!("{}: pesi delle righe non validi", page.id));
+            }
         }
         if page.flow.columns == 0 || page.flow.columns > 4 {
             return Err(format!("{}: colonne di flusso fuori intervallo (1-4)", page.id));
@@ -642,6 +708,23 @@ fn validate_element(element: &UniversalElement, page: &UniversalPage) -> Result<
         "container",
         "group",
         "placeholder",
+        "title",
+        "subtitle",
+        "instruction",
+        "question",
+        "answer_line",
+        "handwriting_line",
+        "checkbox",
+        "number_line",
+        "ten_frame",
+        "timeline",
+        "token_slot",
+        "badge",
+        "note",
+        "matching",
+        "sequence",
+        "word_bank",
+        "example",
     ];
     if !allowed.contains(&element.kind.as_str()) {
         return Err(format!("{}: tipo di elemento sconosciuto «{}»", element.id, element.kind));
@@ -666,7 +749,8 @@ fn validate_element(element: &UniversalElement, page: &UniversalPage) -> Result<
         let kind = action.action_type.as_str();
         if !matches!(
             kind,
-            "" | "append" | "speak" | "navigate" | "back" | "home" | "clear" | "open_document"
+            "" | "append" | "speak" | "navigate" | "back" | "home" | "clear" | "toggle"
+                | "open_document"
         ) {
             return Err(format!("{}: azione non supportata «{}»", element.id, kind));
         }
@@ -674,7 +758,7 @@ fn validate_element(element: &UniversalElement, page: &UniversalPage) -> Result<
             return Err(format!("{}: «navigate» richiede una pagina", element.id));
         }
     }
-    if page.layout == "grid" {
+    if page.layout == "grid" && !element.absolute {
         if element.column + element.column_span.max(1) > page.grid.columns {
             return Err(format!("{}: esce dalle colonne della griglia", element.id));
         }
@@ -721,6 +805,21 @@ pub struct RenderedElement {
     pub group_id: Option<String>,
     pub cells: Vec<RenderedGridCell>,
     pub accessibility: Accessibility,
+    /// Metadati del componente (es. `lines`, `min`, `max`, `filled`).
+    pub metadata: Value,
+}
+
+impl RenderedElement {
+    /// Contenuto grafico del pittogramma: SVG oppure PNG come data URL.
+    pub fn media(&self) -> Option<&str> {
+        self.svg.as_deref().or(self.image_asset.as_deref())
+    }
+}
+
+impl RenderedGridCell {
+    pub fn media(&self) -> Option<&str> {
+        self.svg.as_deref().or(self.image_asset.as_deref())
+    }
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -735,8 +834,10 @@ pub struct RenderedGridCell {
     pub symbol_id: Option<String>,
     pub concept_id: Option<String>,
     pub svg: Option<String>,
+    pub image_asset: Option<String>,
     pub action: Option<UniversalAction>,
     pub hidden: bool,
+    pub missing_symbol: bool,
     pub x_mm: f32,
     pub y_mm: f32,
     pub w_mm: f32,
@@ -787,12 +888,40 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
         } else {
             flow_w
         };
-        let grid_w = (page_w - 2.0 * margin
-            - page.grid.gap_mm * (page.grid.columns.saturating_sub(1)) as f32)
-            / page.grid.columns.max(1) as f32;
-        let grid_h = (page_h - 2.0 * margin
-            - page.grid.gap_mm * (page.grid.rows.saturating_sub(1)) as f32)
-            / page.grid.rows.max(1) as f32;
+        // L'area della griglia può essere più piccola della pagina: è questo
+        // che impedisce a una riga di cinque gettoni di diventare alta 186 mm.
+        let area_x = page
+            .grid
+            .origin_x_mm
+            .filter(|value| value.is_finite())
+            .unwrap_or(margin)
+            .max(margin);
+        let area_y = page
+            .grid
+            .origin_y_mm
+            .filter(|value| value.is_finite())
+            .unwrap_or(margin)
+            .max(margin);
+        let available_w = (page_w - margin - area_x).max(1.0);
+        let available_h = (page_h - margin - area_y).max(1.0);
+        let content_w = page
+            .grid
+            .content_width_mm
+            .filter(|value| value.is_finite() && *value > 0.0)
+            .unwrap_or(available_w)
+            .min(available_w);
+        let content_h = page
+            .grid
+            .content_height_mm
+            .filter(|value| value.is_finite() && *value > 0.0)
+            .unwrap_or(available_h)
+            .min(available_h);
+        let grid_area_x = area_x + align_offset(available_w, content_w, &page.grid.align);
+        let grid_area_y = area_y + align_offset(available_h, content_h, &page.grid.valign);
+        let (grid_columns, grid_column_offsets) =
+            axis_sizes(content_w, page.grid.gap_mm.max(0.0), page.grid.columns, &page.grid.column_widths);
+        let (grid_rows, grid_row_offsets) =
+            axis_sizes(content_h, page.grid.gap_mm.max(0.0), page.grid.rows, &page.grid.row_heights);
 
         let mut sorted: Vec<&UniversalElement> = page.elements.iter().collect();
         sorted.sort_by(|a, b| {
@@ -802,7 +931,21 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
         });
 
         for element in sorted {
-            let (x, y, w, h) = match page.layout.as_str() {
+            let absolute_override = element.absolute && page.layout == "grid";
+            let (x, y, w, h) = if absolute_override {
+                let w = if element.w_mm > 0.0 {
+                    element.w_mm
+                } else {
+                    (page_w - 2.0 * margin).min(120.0)
+                };
+                let h = if element.h_mm > 0.0 {
+                    element.h_mm
+                } else {
+                    text_height(element)
+                };
+                (element.x_mm, element.y_mm, w, h)
+            } else {
+                match page.layout.as_str() {
                 "flow" => {
                     let width = if element.w_mm > 0.0 {
                         element.w_mm.min(flow_w)
@@ -827,12 +970,22 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
                     let row = element.row.min(page.grid.rows.saturating_sub(1));
                     let span_cols = element.column_span.max(1).min(page.grid.columns - col);
                     let span_rows = element.row_span.max(1).min(page.grid.rows - row);
-                    let w = grid_w * span_cols as f32
+                    let w = grid_columns
+                        .iter()
+                        .skip(col as usize)
+                        .take(span_cols as usize)
+                        .sum::<f32>()
                         + page.grid.gap_mm * (span_cols.saturating_sub(1)) as f32;
-                    let h = grid_h * span_rows as f32
+                    let h = grid_rows
+                        .iter()
+                        .skip(row as usize)
+                        .take(span_rows as usize)
+                        .sum::<f32>()
                         + page.grid.gap_mm * (span_rows.saturating_sub(1)) as f32;
-                    let x = margin + col as f32 * (grid_w + page.grid.gap_mm);
-                    let y = margin + row as f32 * (grid_h + page.grid.gap_mm);
+                    let x = grid_area_x
+                        + grid_column_offsets.get(col as usize).copied().unwrap_or(0.0);
+                    let y = grid_area_y
+                        + grid_row_offsets.get(row as usize).copied().unwrap_or(0.0);
                     (x, y, w, h)
                 }
                 _ => {
@@ -848,8 +1001,9 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
                     };
                     (element.x_mm, element.y_mm, w, h)
                 }
+                }
             };
-            if page.layout == "absolute" {
+            if page.layout == "absolute" || absolute_override {
                 if x + w > page_w - margin + 0.1 {
                     warnings.push(format!(
                         "{}: elemento oltre il margine destro della pagina {}",
@@ -895,6 +1049,7 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
                 group_id: element.group_id.clone(),
                 cells,
                 accessibility: element.accessibility.clone(),
+                metadata: element.metadata.clone(),
             });
         }
         if page.layout == "flow" && flow_y > page_h - margin {
@@ -935,6 +1090,15 @@ fn text_height(element: &UniversalElement) -> f32 {
     let chars = element.text.chars().count().max(1) as f32;
     let lines = (chars / 32.0).ceil().max(1.0);
     (lines * font * 1.5 + element.style.padding_mm * 2.0).max(8.0)
+}
+
+fn align_offset(available: f32, content: f32, align: &str) -> f32 {
+    let free = (available - content).max(0.0);
+    match align {
+        "center" | "middle" => free / 2.0,
+        "right" | "bottom" => free,
+        _ => 0.0,
+    }
 }
 
 fn axis_sizes(total: f32, gap: f32, count: u32, weights: &[f32]) -> (Vec<f32>, Vec<f32>) {
@@ -1027,8 +1191,10 @@ fn render_grid_cells(element: &UniversalElement, w: f32, h: f32) -> Vec<Rendered
                 symbol_id: cell.symbol_id.clone(),
                 concept_id: cell.concept_id.clone(),
                 svg: cell.svg.clone(),
+                image_asset: cell.image_asset.clone(),
                 action: cell.action.clone(),
                 hidden: cell.hidden,
+                missing_symbol: cell.missing_symbol,
                 x_mm: round2(x),
                 y_mm: round2(y),
                 w_mm: round2(width),
@@ -1113,6 +1279,9 @@ pub enum DocumentCommand {
         concept_id: Option<String>,
         #[serde(default)]
         svg: Option<String>,
+        /// PNG come data URL, alternativa raster a `svg`.
+        #[serde(default)]
+        image_asset: Option<String>,
         #[serde(default)]
         label: Option<String>,
     },
@@ -1196,6 +1365,22 @@ pub enum DocumentCommand {
         rows: u32,
         #[serde(default)]
         gap_mm: Option<f32>,
+        #[serde(default)]
+        column_widths: Option<Vec<f32>>,
+        #[serde(default)]
+        row_heights: Option<Vec<f32>>,
+        #[serde(default)]
+        content_width_mm: Option<f32>,
+        #[serde(default)]
+        content_height_mm: Option<f32>,
+        #[serde(default)]
+        align: Option<String>,
+        #[serde(default)]
+        valign: Option<String>,
+        #[serde(default)]
+        origin_x_mm: Option<f32>,
+        #[serde(default)]
+        origin_y_mm: Option<f32>,
     },
     ConvertLayout {
         page: String,
@@ -1423,6 +1608,7 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
             symbol_id,
             concept_id,
             svg,
+            image_asset,
             label,
         } => {
             let element = element_mut(document, page, id)?;
@@ -1430,6 +1616,7 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
             element.symbol_id = Some(symbol_id.clone());
             element.concept_id = concept_id.clone();
             element.svg = svg.clone();
+            element.image_asset = image_asset.clone();
             if let Some(label) = label {
                 // La sostituzione del pittogramma non deve cancellare il testo
                 // scritto dall'utente; viene usata solo per un elemento vuoto.
@@ -1768,6 +1955,14 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
             columns,
             rows,
             gap_mm,
+            column_widths,
+            row_heights,
+            content_width_mm,
+            content_height_mm,
+            align,
+            valign,
+            origin_x_mm,
+            origin_y_mm,
         } => {
             let target = document
                 .page_mut(page)
@@ -1781,7 +1976,56 @@ pub fn apply_command(document: &mut UniversalDocument, command: &DocumentCommand
             if let Some(gap) = gap_mm {
                 target.grid.gap_mm = *gap;
             }
+            if let Some(widths) = column_widths {
+                if widths.len() != *columns as usize
+                    || widths.iter().any(|value| !value.is_finite() || *value <= 0.0)
+                {
+                    return Err("pesi delle colonne non validi".to_string());
+                }
+                target.grid.column_widths = widths.clone();
+            }
+            if let Some(heights) = row_heights {
+                if heights.len() != *rows as usize
+                    || heights.iter().any(|value| !value.is_finite() || *value <= 0.0)
+                {
+                    return Err("pesi delle righe non validi".to_string());
+                }
+                target.grid.row_heights = heights.clone();
+            }
+            if let Some(width) = content_width_mm {
+                if !width.is_finite() || *width <= 0.0 {
+                    return Err("larghezza dell'area griglia non valida".to_string());
+                }
+                target.grid.content_width_mm = Some(*width);
+            }
+            if let Some(height) = content_height_mm {
+                if !height.is_finite() || *height <= 0.0 {
+                    return Err("altezza dell'area griglia non valida".to_string());
+                }
+                target.grid.content_height_mm = Some(*height);
+            }
+            if let Some(value) = align {
+                target.grid.align = value.clone();
+            }
+            if let Some(value) = valign {
+                target.grid.valign = value.clone();
+            }
+            if let Some(value) = origin_x_mm {
+                if !value.is_finite() || *value < 0.0 {
+                    return Err("origine orizzontale della griglia non valida".to_string());
+                }
+                target.grid.origin_x_mm = Some(*value);
+            }
+            if let Some(value) = origin_y_mm {
+                if !value.is_finite() || *value < 0.0 {
+                    return Err("origine verticale della griglia non valida".to_string());
+                }
+                target.grid.origin_y_mm = Some(*value);
+            }
             for element in &mut target.elements {
+                if element.absolute {
+                    continue;
+                }
                 element.column = element.column.min(columns.saturating_sub(1));
                 element.row = element.row.min(rows.saturating_sub(1));
                 element.column_span = element.column_span.min(*columns - element.column);
@@ -1921,6 +2165,7 @@ pub fn from_layout(spec: &crate::layout::LayoutSpecification) -> UniversalDocume
                 columns: spec.layout.columns,
                 rows: spec.layout.rows,
                 gap_mm: spec.layout.gap_mm,
+                ..Default::default()
             },
             elements: Vec::new(),
             is_home: index == 0,
@@ -1961,6 +2206,7 @@ pub fn from_layout(spec: &crate::layout::LayoutSpecification) -> UniversalDocume
             z: 0,
             visible: !element.hidden,
             locked: element.locked,
+            absolute: false,
             opacity: 1.0,
             row: element.row,
             column: element.column,
@@ -2037,6 +2283,14 @@ pub fn add_grid_page(
             columns,
             rows,
             gap_mm: Some(3.0),
+            column_widths: None,
+            row_heights: None,
+            content_width_mm: None,
+            content_height_mm: None,
+            align: None,
+            valign: None,
+            origin_x_mm: None,
+            origin_y_mm: None,
         },
     )
 }
@@ -2106,6 +2360,14 @@ fn remove_attribute(tag: &str, name: &str) -> String {
 
 fn embed_symbol(svg: &str, x: f32, y: f32, w: f32, h: f32) -> String {
     let trimmed = svg.trim();
+    // I pittogrammi raster arrivano già come data URL PNG: si inseriscono
+    // direttamente come <image>, senza costruire un SVG di contenimento.
+    if trimmed.starts_with("data:image/") {
+        return format!(
+            "<image x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" preserveAspectRatio=\"xMidYMid meet\" href=\"{}\" />",
+            escape_xml(trimmed)
+        );
+    }
     if !trimmed.starts_with("<svg") && !trimmed.starts_with("<?xml") {
         return String::new();
     }
@@ -2126,6 +2388,305 @@ fn embed_symbol(svg: &str, x: f32, y: f32, w: f32, h: f32) -> String {
     format!(
         "{opening} x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" preserveAspectRatio=\"xMidYMid meet\"{rest}"
     )
+}
+
+fn wrap_text(text: &str, max_chars: usize) -> Vec<String> {
+    let limit = max_chars.max(1);
+    let mut lines = Vec::new();
+    for paragraph in text.split('\n') {
+        let words: Vec<&str> = paragraph.split_whitespace().collect();
+        if words.is_empty() {
+            lines.push(String::new());
+            continue;
+        }
+        let mut current = String::new();
+        for word in words {
+            let word_len = word.chars().count();
+            if current.is_empty() {
+                if word_len <= limit {
+                    current.push_str(word);
+                } else {
+                    // Una parola più lunga della riga viene spezzata, non persa.
+                    let mut chunk = String::new();
+                    for (index, ch) in word.chars().enumerate() {
+                        chunk.push(ch);
+                        if (index + 1) % limit == 0 {
+                            lines.push(chunk.clone());
+                            chunk.clear();
+                        }
+                    }
+                    if !chunk.is_empty() {
+                        current = chunk;
+                    }
+                }
+            } else if current.chars().count() + 1 + word_len <= limit {
+                current.push(' ');
+                current.push_str(word);
+            } else {
+                lines.push(current.clone());
+                current.clear();
+                if word_len <= limit {
+                    current.push_str(word);
+                } else {
+                    let mut chunk = String::new();
+                    for (index, ch) in word.chars().enumerate() {
+                        chunk.push(ch);
+                        if (index + 1) % limit == 0 {
+                            lines.push(chunk.clone());
+                            chunk.clear();
+                        }
+                    }
+                    current = chunk;
+                }
+            }
+        }
+        if !current.is_empty() {
+            lines.push(current);
+        }
+    }
+    if lines.is_empty() {
+        lines.push(String::new());
+    }
+    lines
+}
+
+fn text_attributes(style: &ElementStyle, font: f32) -> String {
+    let family = if style.font_family.trim().is_empty() {
+        String::new()
+    } else {
+        format!(" font-family=\"{}\"", escape_xml(&style.font_family))
+    };
+    let weight = if style.bold { " font-weight=\"700\"" } else { "" };
+    let italic = if style.italic { " font-style=\"italic\"" } else { "" };
+    let underline = if style.underline {
+        " text-decoration=\"underline\""
+    } else {
+        ""
+    };
+    format!(
+        " font-size=\"{}\" fill=\"{}\"{family}{weight}{italic}{underline}",
+        font,
+        escape_xml(if style.color.is_empty() { "#111111" } else { &style.color })
+    )
+}
+
+fn render_text_lines(
+    out: &mut String,
+    lines: &[String],
+    x: f32,
+    y: f32,
+    width: f32,
+    align: &str,
+    font: f32,
+    style: &ElementStyle,
+) {
+    let (anchor, text_x) = match align {
+        "center" => ("middle", x + width / 2.0),
+        "right" => ("end", x + width),
+        _ => ("start", x),
+    };
+    let attrs = text_attributes(style, font);
+    let line_height = font * 1.28;
+    for (index, line) in lines.iter().enumerate() {
+        if line.is_empty() {
+            continue;
+        }
+        out.push_str(&format!(
+            "<text x=\"{}\" y=\"{}\" text-anchor=\"{}\"{}>{}</text>",
+            text_x,
+            y + index as f32 * line_height,
+            anchor,
+            attrs,
+            escape_xml(line)
+        ));
+    }
+}
+
+/// Disegna i componenti didattici che non sono semplici caselle di testo.
+/// La geometria resta nel documento: stampa, PDF e anteprima usano questa
+/// stessa funzione.
+fn render_special_kind(out: &mut String, element: &RenderedElement, w: f32, h: f32) {
+    let ink = if element.style.color.is_empty() {
+        "#1f2937"
+    } else {
+        &element.style.color
+    };
+    let stroke = if element.style.border_color.is_empty() {
+        "#94a3b8"
+    } else {
+        &element.style.border_color
+    };
+    let font = element.style.font_size.max(2.0);
+    match element.kind.as_str() {
+        "answer_line" | "handwriting_line" => {
+            let lines = element
+                .metadata
+                .get("lines")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(1)
+                .clamp(1, 12) as usize;
+            let handwriting = element.kind == "handwriting_line";
+            let label_h = if element.text.is_empty() { 0.0 } else { font * 1.4 };
+            if !element.text.is_empty() {
+                render_text_lines(
+                    out,
+                    &[element.text.clone()],
+                    0.0,
+                    font,
+                    w,
+                    &element.style.align,
+                    font,
+                    &element.style,
+                );
+            }
+            let available = (h - label_h).max(4.0);
+            let step = available / lines as f32;
+            for index in 0..lines {
+                let y = label_h + step * (index as f32 + 1.0) - 1.2;
+                out.push_str(&format!(
+                    "<line x1=\"0\" y1=\"{y}\" x2=\"{w}\" y2=\"{y}\" stroke=\"{}\" stroke-width=\"0.35\"/>",
+                    escape_xml(stroke)
+                ));
+                if handwriting {
+                    out.push_str(&format!(
+                        "<line x1=\"0\" y1=\"{}\" x2=\"{w}\" y2=\"{}\" stroke=\"{}\" stroke-width=\"0.2\" stroke-dasharray=\"1.5 1.5\"/>",
+                        y - step / 2.0,
+                        y - step / 2.0,
+                        escape_xml(stroke)
+                    ));
+                }
+            }
+        }
+        "checkbox" => {
+            let size = (h - 2.0).min(5.2).max(3.0);
+            let y = (h - size) / 2.0;
+            out.push_str(&format!(
+                "<rect x=\"0\" y=\"{y}\" width=\"{size}\" height=\"{size}\" rx=\"0.7\" fill=\"#ffffff\" stroke=\"{}\" stroke-width=\"0.45\"/>",
+                escape_xml(stroke)
+            ));
+            if !element.text.is_empty() {
+                let max_chars = ((w - size - 2.0) / (font * 0.55)).max(3.0) as usize;
+                let lines = wrap_text(&element.text, max_chars);
+                let start_y = (h - lines.len() as f32 * font * 1.28) / 2.0 + font;
+                render_text_lines(
+                    out,
+                    &lines,
+                    (size + 1.8).min(w),
+                    start_y,
+                    (w - size - 2.0).max(2.0),
+                    &element.style.align,
+                    font,
+                    &element.style,
+                );
+            }
+        }
+        "token_slot" => {
+            let diameter = (w.min(h) - 2.0).max(3.0);
+            let cx = w / 2.0;
+            let cy = h / 2.0;
+            let filled = element
+                .metadata
+                .get("filled")
+                .and_then(|value| value.as_bool())
+                .unwrap_or(false);
+            out.push_str(&format!(
+                "<circle cx=\"{cx}\" cy=\"{cy}\" r=\"{}\" fill=\"{}\" stroke=\"{}\" stroke-width=\"0.6\"{} />",
+                diameter / 2.0,
+                if filled { "#fbbf24" } else { "#ffffff" },
+                escape_xml(stroke),
+                if filled { "" } else { " stroke-dasharray=\"1.8 1.4\"" }
+            ));
+            if !element.text.is_empty() {
+                render_text_lines(
+                    out,
+                    &[element.text.clone()],
+                    0.0,
+                    cy + font / 3.0,
+                    w,
+                    "center",
+                    font,
+                    &element.style,
+                );
+            }
+        }
+        "number_line" => {
+            let min = element.metadata.get("min").and_then(|v| v.as_f64()).unwrap_or(0.0);
+            let max = element.metadata.get("max").and_then(|v| v.as_f64()).unwrap_or(10.0);
+            let step = element
+                .metadata
+                .get("step")
+                .and_then(|v| v.as_f64())
+                .unwrap_or(1.0)
+                .max(0.5);
+            let count = (((max - min) / step).round() as i64 + 1).max(2) as usize;
+            let y = h * 0.55;
+            out.push_str(&format!(
+                "<line x1=\"0\" y1=\"{y}\" x2=\"{w}\" y2=\"{y}\" stroke=\"{}\" stroke-width=\"0.45\"/>",
+                escape_xml(stroke)
+            ));
+            let font_small = (font * 0.7).max(2.0);
+            for index in 0..count {
+                let x = if count == 1 { 0.0 } else { w * index as f32 / (count - 1) as f32 };
+                out.push_str(&format!(
+                    "<line x1=\"{x}\" y1=\"{}\" x2=\"{x}\" y2=\"{}\" stroke=\"{}\" stroke-width=\"0.4\"/>",
+                    y - 1.4,
+                    y + 1.4,
+                    escape_xml(stroke)
+                ));
+                let value = min + step * index as f64;
+                out.push_str(&format!(
+                    "<text x=\"{x}\" y=\"{}\" font-size=\"{font_small}\" text-anchor=\"middle\" fill=\"{}\">{}</text>",
+                    y + font_small + 1.0,
+                    escape_xml(ink),
+                    escape_xml(&format!("{}", value as i64))
+                ));
+            }
+        }
+        "ten_frame" => {
+            let columns = 5usize;
+            let rows = 2usize;
+            let filled = element
+                .metadata
+                .get("filled")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0)
+                .min(10) as usize;
+            let cell_w = w / columns as f32;
+            let cell_h = h / rows as f32;
+            for index in 0..columns * rows {
+                let col = index % columns;
+                let row = index / columns;
+                out.push_str(&format!(
+                    "<rect x=\"{}\" y=\"{}\" width=\"{cell_w}\" height=\"{cell_h}\" fill=\"{}\" stroke=\"{}\" stroke-width=\"0.35\"/>",
+                    col as f32 * cell_w,
+                    row as f32 * cell_h,
+                    if index < filled { "#a7f3d0" } else { "#ffffff" },
+                    escape_xml(stroke)
+                ));
+            }
+        }
+        "timeline" => {
+            let steps = element
+                .metadata
+                .get("steps")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(4)
+                .clamp(2, 8) as usize;
+            let y = h * 0.4;
+            out.push_str(&format!(
+                "<line x1=\"0\" y1=\"{y}\" x2=\"{w}\" y2=\"{y}\" stroke=\"{}\" stroke-width=\"0.5\"/>",
+                escape_xml(stroke)
+            ));
+            for index in 0..steps {
+                let x = if steps == 1 { 0.0 } else { w * index as f32 / (steps - 1) as f32 };
+                out.push_str(&format!(
+                    "<circle cx=\"{x}\" cy=\"{y}\" r=\"1.8\" fill=\"#ffffff\" stroke=\"{}\" stroke-width=\"0.45\"/>",
+                    escape_xml(stroke)
+                ));
+            }
+        }
+        _ => {}
+    }
 }
 
 fn render_element_svg(element: &RenderedElement) -> String {
@@ -2158,44 +2719,77 @@ fn render_element_svg(element: &RenderedElement) -> String {
             border
         ));
     }
-    if let Some(svg) = &element.svg {
-        out.push_str(&embed_symbol(svg, 1.0, 1.0, element.w_mm - 2.0, (element.h_mm - 2.0).max(2.0)));
-    }
-    if !element.text.is_empty() {
-        let font = element.style.font_size.max(2.0);
-        let is_symbol = element.kind == "symbol" || element.kind == "image";
-        let anchor = if is_symbol {
-            "middle"
-        } else {
-            match element.style.align.as_str() {
-                "center" => "middle",
-                "right" => "end",
-                _ => "start",
-            }
-        };
-        let tx = if is_symbol {
-            element.w_mm / 2.0
-        } else {
-            match element.style.align.as_str() {
-                "center" => element.w_mm / 2.0,
-                "right" => element.w_mm - 1.0,
-                _ => 1.0,
-            }
-        };
-        let ty = if is_symbol {
-            (element.h_mm * 0.9).max(font + 1.0)
-        } else {
-            (element.h_mm / 2.0 + font / 3.0).max(font)
-        };
+    let padding = element.style.padding_mm.max(0.0);
+    let inner_w = (element.w_mm - 2.0 * padding).max(1.0);
+    let inner_h = (element.h_mm - 2.0 * padding).max(1.0);
+    let font = element.style.font_size.max(2.0);
+    let special = matches!(
+        element.kind.as_str(),
+        "answer_line" | "handwriting_line" | "checkbox" | "token_slot" | "number_line"
+            | "ten_frame" | "timeline"
+    );
+    if special {
         out.push_str(&format!(
-            "<text x=\"{}\" y=\"{}\" font-size=\"{}\" text-anchor=\"{}\" fill=\"{}\">{}</text>",
-            tx,
-            ty,
-            font,
-            anchor,
-            escape_xml(if element.style.color.is_empty() { "#111111" } else { &element.style.color }),
-            escape_xml(&element.text)
+            "<g transform=\"translate({padding} {padding})\">"
         ));
+        render_special_kind(&mut out, element, inner_w, inner_h);
+        out.push_str("</g>");
+    } else if let Some(svg) = element
+        .svg
+        .as_deref()
+        .or(element.image_asset.as_deref())
+        .filter(|value| !value.trim().is_empty())
+    {
+        let caption_h = if element.text.is_empty() {
+            0.0
+        } else {
+            let max_chars = (inner_w / (font * 0.55)).max(3.0) as usize;
+            let lines = wrap_text(&element.text, max_chars);
+            (lines.len() as f32 * font * 1.26 + 1.0).min(inner_h * 0.55)
+        };
+        let symbol_h = (inner_h - caption_h).max(2.0);
+        out.push_str(&embed_symbol(svg, padding, padding, inner_w, symbol_h));
+        if !element.text.is_empty() {
+            let max_chars = (inner_w / (font * 0.55)).max(3.0) as usize;
+            let lines = wrap_text(&element.text, max_chars);
+            let line_height = font * 1.26;
+            let text_h = lines.len() as f32 * line_height;
+            let start_y = (element.h_mm - padding - text_h + font * 0.92).max(font);
+            render_text_lines(
+                &mut out,
+                &lines,
+                padding,
+                start_y,
+                inner_w,
+                if element.style.align.is_empty() {
+                    "center"
+                } else {
+                    &element.style.align
+                },
+                font,
+                &element.style,
+            );
+        }
+    } else if !element.text.is_empty() {
+        let max_chars = (inner_w / (font * 0.55)).max(3.0) as usize;
+        let lines = wrap_text(&element.text, max_chars);
+        let line_height = font * 1.28;
+        let text_h = lines.len() as f32 * line_height;
+        let start_y = match element.style.valign.as_str() {
+            "bottom" => (element.h_mm - padding - text_h + font).max(font),
+            "middle" => ((element.h_mm - text_h) / 2.0 + font).max(font),
+            _ => padding + font,
+        };
+        render_text_lines(
+            &mut out,
+            &lines,
+            padding,
+            start_y,
+            inner_w,
+            &element.style.align,
+            font,
+            &element.style,
+        );
     }
     // Celle di una griglia interna.
     if !element.cells.is_empty() {
@@ -2209,25 +2803,71 @@ fn render_element_svg(element: &RenderedElement) -> String {
                 "<g transform=\"translate({} {})\">",
                 x, y
             ));
-            if !cell.style.background.is_empty() {
+            let cell_border = if cell.style.border_width > 0.0 {
+                format!(
+                    " stroke=\"{}\" stroke-width=\"{}\"",
+                    escape_xml(if cell.style.border_color.is_empty() {
+                        "#94a3b8"
+                    } else {
+                        &cell.style.border_color
+                    }),
+                    cell.style.border_width
+                )
+            } else {
+                String::new()
+            };
+            if !cell.style.background.is_empty() || !cell_border.is_empty() {
                 out.push_str(&format!(
-                    "<rect x=\"0\" y=\"0\" width=\"{}\" height=\"{}\" fill=\"{}\"/>",
+                    "<rect x=\"0\" y=\"0\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{}\"{}/>",
                     cell.w_mm,
                     cell.h_mm,
-                    escape_xml(&cell.style.background)
+                    cell.style.border_radius,
+                    escape_xml(if cell.style.background.is_empty() {
+                        "#ffffff"
+                    } else {
+                        &cell.style.background
+                    }),
+                    cell_border
                 ));
             }
-            if let Some(svg) = &cell.svg {
-                out.push_str(&embed_symbol(svg, 1.0, 1.0, cell.w_mm - 2.0, (cell.h_mm * 0.65).max(2.0)));
+            let cell_font = cell.style.font_size.max(2.4);
+            let caption_h = if cell.text.is_empty() {
+                0.0
+            } else {
+                let max_chars = ((cell.w_mm - 2.0) / (cell_font * 0.55)).max(2.0) as usize;
+                let lines = wrap_text(&cell.text, max_chars);
+                (lines.len() as f32 * cell_font * 1.22 + 0.8).min(cell.h_mm * 0.5)
+            };
+            if let Some(svg) = cell
+                .svg
+                .as_deref()
+                .or(cell.image_asset.as_deref())
+                .filter(|value| !value.trim().is_empty())
+            {
+                out.push_str(&embed_symbol(
+                    svg,
+                    1.0,
+                    1.0,
+                    (cell.w_mm - 2.0).max(2.0),
+                    (cell.h_mm - caption_h - 1.0).max(2.0),
+                ));
             }
             if !cell.text.is_empty() {
-                out.push_str(&format!(
-                    "<text x=\"{}\" y=\"{}\" font-size=\"{}\" text-anchor=\"middle\" fill=\"#111111\">{}</text>",
-                    cell.w_mm / 2.0,
-                    (cell.h_mm * 0.86).max(4.0),
-                    cell.style.font_size.max(2.4),
-                    escape_xml(&cell.text)
-                ));
+                let max_chars = ((cell.w_mm - 2.0) / (cell_font * 0.55)).max(2.0) as usize;
+                let lines = wrap_text(&cell.text, max_chars);
+                let line_height = cell_font * 1.22;
+                let text_h = lines.len() as f32 * line_height;
+                let start_y = (cell.h_mm - 0.8 - text_h + cell_font * 0.92).max(cell_font);
+                render_text_lines(
+                    &mut out,
+                    &lines,
+                    1.0,
+                    start_y,
+                    (cell.w_mm - 2.0).max(2.0),
+                    "center",
+                    cell_font,
+                    &cell.style,
+                );
             }
             out.push_str("</g>");
         }
@@ -2307,15 +2947,36 @@ pub fn render_html(document: &RenderedDocument) -> String {
                         escape_xml(cell.action.as_ref().and_then(|a| a.target_page.as_deref()).unwrap_or("")),
                         escape_xml(&cell.spoken_text)
                     ));
-                    if let Some(svg) = &cell.svg {
+                    if let Some(svg) = cell
+                        .svg
+                        .as_deref()
+                        .or(cell.image_asset.as_deref())
+                        .filter(|value| !value.trim().is_empty())
+                    {
                         body.push_str(&embed_symbol(svg, 0.0, 0.0, 20.0, 20.0));
                     }
                     body.push_str(&format!("<span>{}</span></button>", escape_xml(&cell.text)));
                 }
                 body.push_str("</div>");
+            } else if element.kind == "token_slot" {
+                body.push_str(&format!(
+                    "<button class=\"caa-el caa-token\" style=\"{}\"{}><span class=\"caa-token__circle\"></span>{}</button>",
+                    style,
+                    data,
+                    if element.text.is_empty() {
+                        String::new()
+                    } else {
+                        format!("<span>{}</span>", escape_xml(&element.text))
+                    }
+                ));
             } else {
                 body.push_str(&format!("<div class=\"caa-el caa-{}\" style=\"{}\"{}>", escape_xml(&element.kind), style, data));
-                if let Some(svg) = &element.svg {
+                if let Some(svg) = element
+                    .svg
+                    .as_deref()
+                    .or(element.image_asset.as_deref())
+                    .filter(|value| !value.trim().is_empty())
+                {
                     body.push_str(&embed_symbol(svg, 0.0, 0.0, element.w_mm.max(4.0), (element.h_mm * 0.7).max(4.0)));
                 }
                 if !element.text.is_empty() {
@@ -2334,6 +2995,9 @@ pub fn render_html(document: &RenderedDocument) -> String {
 .caa-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(20mm,1fr));gap:2mm;border:0;background:transparent;padding:0}}\
 .caa-cell{{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;border:1px solid #9aa7bb;border-radius:3mm;background:#fff;font:inherit;color:#111;cursor:pointer;min-height:18mm}}\
 .caa-cell svg,.caa-el svg{{width:14mm;height:14mm}}\
+.caa-token{{border:0;background:transparent;padding:0;display:flex;align-items:center;justify-content:center}}\
+.caa-token__circle{{display:block;width:82%;max-width:34mm;aspect-ratio:1;border:2px dashed #0f766e;border-radius:50%;background:#fff}}\
+.caa-token.is-on .caa-token__circle{{border-style:solid;background:#fbbf24}}\
 .caa-nav{{position:fixed;top:4mm;left:4mm;z-index:5}}\
 .caa-nav button{{font:inherit;padding:2mm 4mm;margin-right:2mm}}\
 .caa-bar{{position:fixed;bottom:0;left:0;right:0;display:flex;gap:2mm;align-items:center;background:#fff;border-top:1px solid #ccd;padding:2mm;z-index:6}}\
@@ -2354,14 +3018,14 @@ function caaClear(){{msg=[];renderMsg();}}\
 function caaSpeakMessage(){{if(msg.length)speak(msg.join(' ')+'.');}}\
 document.querySelectorAll('[data-element]').forEach((el)=>{{el.addEventListener('click',()=>{{const action=el.dataset.action;const target=el.dataset.target;\
 if(action==='navigate'&&target){{const p=pages.findIndex(p=>p.dataset.page===target);if(p>=0)caaGo(p);}}else if(action==='back')caaBack();else if(action==='home')caaGo(0);\
-else if(action==='speak')speak(el.dataset.speech);else if(action==='clear')caaClear();\
+else if(action==='speak')speak(el.dataset.speech);else if(action==='toggle'){{el.classList.toggle('is-on');speak(el.dataset.speech);}}else if(action==='clear')caaClear();\
 else if(action==='append')caaAppend(el.dataset.speech||el.textContent);}});}});</script></body></html>",
         escape_xml(&document.title),
         body
     )
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LibraryEntry {
     pub id: String,
     pub title: String,
@@ -2385,6 +3049,30 @@ pub struct LibraryEntry {
     pub missing_symbols: usize,
     #[serde(default)]
     pub path: String,
+    #[serde(default)]
+    pub preview: String,
+    #[serde(default)]
+    pub category_id: String,
+    #[serde(default)]
+    pub subcategory_id: String,
+    #[serde(default)]
+    pub subcategory: String,
+    #[serde(default)]
+    pub audience: String,
+    #[serde(default)]
+    pub objective: String,
+    #[serde(default)]
+    pub tags: Vec<String>,
+    #[serde(default)]
+    pub complexity: String,
+    #[serde(default)]
+    pub needs_symbols: bool,
+    #[serde(default)]
+    pub printable: bool,
+    #[serde(default)]
+    pub customizable: bool,
+    #[serde(default)]
+    pub featured: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -2567,6 +3255,34 @@ mod tests {
     }
 
     #[test]
+    fn image_elements_keep_embedded_svg() {
+        let mut document = sample();
+        let svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 8 8\"><image href=\"data:image/png;base64,AAAA\"/></svg>";
+        let mut element = new_element("img1", "image", "Immagine generata");
+        element.svg = Some(svg.to_string());
+        apply_command(
+            &mut document,
+            &DocumentCommand::AddElement {
+                page: "story".to_string(),
+                element: serde_json::to_value(&element).unwrap(),
+                index: None,
+            },
+        )
+        .unwrap();
+        let stored = document.element("story", "img1").unwrap();
+        assert_eq!(stored.kind, "image");
+        assert_eq!(stored.svg.as_deref(), Some(svg));
+    }
+
+    #[test]
+    fn png_symbols_are_embedded_as_image_not_wrapped_svg() {
+        let markup = embed_symbol("data:image/png;base64,AAAA", 1.0, 2.0, 3.0, 4.0);
+        assert!(markup.starts_with("<image "));
+        assert!(markup.contains("href=\"data:image/png;base64,AAAA\""));
+        assert!(!markup.contains("<svg"));
+    }
+
+    #[test]
     fn commands_move_resize_and_group() {
         let mut document = sample();
         apply_command(
@@ -2677,6 +3393,69 @@ mod tests {
         .unwrap();
         let grid = document.element("home", "grid").unwrap().grid.as_ref().unwrap();
         assert_eq!(grid.cells.len(), 9);
+    }
+
+    #[test]
+    fn grid_content_box_prevents_page_height_cells() {
+        let mut document = sample();
+        document.pages.clear();
+        add_grid_page(&mut document, "home", "Home", 4, 1).unwrap();
+        let page = document.page_mut("home").unwrap();
+        page.grid.origin_y_mm = Some(50.0);
+        page.grid.content_height_mm = Some(36.0);
+        page.elements.push(new_element("cell-1", "text", "uno"));
+        let rendered = document.render().unwrap();
+        let element = &rendered.pages[0].elements[0];
+        assert!((element.y_mm - 50.0).abs() < 0.1, "origine verticale: {}", element.y_mm);
+        assert!(element.h_mm <= 36.1, "altezza non limitata: {}", element.h_mm);
+    }
+
+    #[test]
+    fn absolute_element_on_grid_page_keeps_its_coordinates() {
+        let mut document = sample();
+        document.pages.clear();
+        add_grid_page(&mut document, "home", "Home", 4, 4).unwrap();
+        let page = document.page_mut("home").unwrap();
+        page.grid.content_height_mm = Some(100.0);
+        let mut header = new_element("header", "title", "Titolo");
+        header.absolute = true;
+        header.x_mm = 12.0;
+        header.y_mm = 8.0;
+        header.w_mm = 120.0;
+        header.h_mm = 10.0;
+        page.elements.push(header);
+        page.elements.push(new_element("cell-1", "symbol", "cane"));
+        let rendered = document.render().unwrap();
+        let header = rendered.pages[0]
+            .elements
+            .iter()
+            .find(|element| element.id == "header")
+            .unwrap();
+        assert!((header.x_mm - 12.0).abs() < 0.1);
+        assert!((header.y_mm - 8.0).abs() < 0.1);
+        assert!((header.w_mm - 120.0).abs() < 0.1);
+    }
+
+    #[test]
+    fn long_text_is_wrapped_in_multiple_lines() {
+        let mut document = sample();
+        document.pages.clear();
+        add_flow_page(&mut document, "story", "Storia").unwrap();
+        let page = document.page_mut("story").unwrap();
+        let mut paragraph = new_element(
+            "paragraph",
+            "text",
+            "Questa frase è abbastanza lunga da richiedere più righe nel rendering della pagina.",
+        );
+        paragraph.w_mm = 90.0;
+        paragraph.h_mm = 30.0;
+        paragraph.style.font_size = 4.0;
+        paragraph.style.align = "left".to_string();
+        page.elements.push(paragraph);
+        let rendered = document.render().unwrap();
+        let svg = render_page_svg(&rendered.pages[0]);
+        let count = svg.matches("<text ").count();
+        assert!(count >= 2, "il testo lungo non è stato mandato a capo: {count} righe");
     }
 
     #[test]

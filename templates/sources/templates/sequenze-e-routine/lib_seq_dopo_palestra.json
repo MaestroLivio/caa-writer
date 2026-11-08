@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_seq_dopo_palestra-p1-field-title",
-          "kind": "text",
-          "text": "Dopo la palestra",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_seq_dopo_palestra-p1-field-layout",
           "kind": "text",
           "text": "lineare",

@@ -88,7 +88,11 @@
   <div class="report-dialog profile-setup" role="dialog" aria-modal="true" aria-label="Configura il profilo">
     <header class="report-dialog__head">
       <h2>Configura il primo profilo</h2>
-      {#if onCancel}<button class="btn btn--ghost" onclick={onCancel} aria-label="Chiudi">×</button>{/if}
+      {#if onCancel}
+        <button class="btn btn--ghost" onclick={onCancel} aria-label="Entra nell'Area Creator senza creare un profilo">
+          Entra come Creator
+        </button>
+      {/if}
     </header>
     <p class="hint">
       Il profilo contiene solo preferenze operative. Non servono diagnosi o dati sanitari.

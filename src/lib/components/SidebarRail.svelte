@@ -16,8 +16,7 @@
     short: string;
     icon: keyof typeof ribbonIcons;
   }[] = [
-    { id: "alternative", label: "Alternative", short: "Alt.", icon: "list" },
-    { id: "cerca", label: "Ricerca pittogrammi", short: "Cerca", icon: "search" },
+    { id: "simbolo", label: "Simbolo: alternative e ricerca", short: "Simbolo", icon: "search" },
     { id: "collezioni", label: "Collezioni personali", short: "Coll.", icon: "library" },
     { id: "studio", label: "Visual Resource Studio", short: "Studio", icon: "layout-grid" },
   ];

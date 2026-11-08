@@ -23,6 +23,248 @@ use crate::util::now_iso;
 const CACHE_LIMIT: usize = 96;
 const MAX_ALTERNATIVES: usize = 12;
 
+/// Glossario deterministico per la ricerca inglese. Non sostituisce il motore
+/// neurale: copre le parole CAA più frequenti, così la ricerca funziona anche
+/// quando il modello locale è spento o è troppo piccolo per tradurre bene.
+fn translation_glossary(term: &str) -> Option<&'static str> {
+    let key = term
+        .trim()
+        .to_lowercase()
+        .replace(['’', '\''], "")
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
+    let value = match key.as_str() {
+        "dog" => "cane",
+        "cat" => "gatto",
+        "bird" => "uccello",
+        "fish" => "pesce",
+        "horse" => "cavallo",
+        "cow" => "mucca",
+        "pig" => "maiale",
+        "sheep" => "pecora",
+        "mouse" => "topo",
+        "butterfly" => "farfalla",
+        "eat" | "eating" => "mangiare",
+        "drink" | "drinking" => "bere",
+        "school" => "scuola",
+        "class" | "classroom" => "classe",
+        "test" | "tests" | "quiz" => "test",
+        "exam" => "esame",
+        "exercise" => "esercizio",
+        "homework" => "compiti",
+        "teacher" => "maestra",
+        "friend" => "amico",
+        "home" | "house" => "casa",
+        "garden" | "park" => "giardino",
+        "mum" | "mom" | "mother" => "mamma",
+        "dad" | "father" => "papà",
+        "brother" => "fratello",
+        "sister" => "sorella",
+        "grandmother" | "grandma" => "nonna",
+        "grandfather" | "grandpa" => "nonno",
+        "water" => "acqua",
+        "milk" => "latte",
+        "bread" => "pane",
+        "apple" => "mela",
+        "banana" => "banana",
+        "pasta" => "pasta",
+        "pizza" => "pizza",
+        "ball" => "palla",
+        "book" => "libro",
+        "toy" | "toys" => "giocattolo",
+        "car" => "macchina",
+        "bus" => "autobus",
+        "train" => "treno",
+        "plane" | "airplane" => "aereo",
+        "helicopter" => "elicottero",
+        "ambulance" => "ambulanza",
+        "hospital" => "ospedale",
+        "doctor" => "dottore",
+        "police" => "polizia",
+        "bike" | "bicycle" => "bicicletta",
+        "play" | "playing" => "giocare",
+        "sleep" | "sleeping" => "dormire",
+        "run" | "running" => "correre",
+        "walk" | "walking" => "camminare",
+        "jump" | "jumping" => "saltare",
+        "draw" | "drawing" => "disegnare",
+        "write" | "writing" => "scrivere",
+        "read" | "reading" => "leggere",
+        "listen" | "listening" => "ascoltare",
+        "speak" | "speaking" | "talk" => "parlare",
+        "help" => "aiuto",
+        "stop" => "fermare",
+        "go" | "going" => "andare",
+        "come" | "coming" => "venire",
+        "yes" => "sì",
+        "no" => "no",
+        "more" => "ancora",
+        "finished" | "finish" => "finito",
+        "toilet" | "bathroom" => "bagno",
+        "wash" | "washing" => "lavare",
+        "hands" => "mani",
+        "head" => "testa",
+        "happy" => "felice",
+        "sad" => "triste",
+        "angry" => "arrabbiato",
+        "scared" | "afraid" => "spaventato",
+        "tired" => "stanco",
+        "hurt" | "pain" => "dolore",
+        "hot" => "caldo",
+        "cold" => "freddo",
+        "big" | "large" => "grande",
+        "small" | "little" => "piccolo",
+        "good" => "bene",
+        "bad" => "male",
+        "wait" | "waiting" => "aspettare",
+        "again" => "ancora",
+        "open" => "aprire",
+        "close" | "shut" => "chiudere",
+        "give" => "dare",
+        "take" => "prendere",
+        "look" | "see" => "guardare",
+        "make" | "do" => "fare",
+        "want" => "volere",
+        "need" => "bisogno",
+        "like" => "piacere",
+        "love" => "amore",
+        "thank you" | "thanks" => "grazie",
+        "good morning" => "buongiorno",
+        "goodbye" | "bye" => "arrivederci",
+        "excuse me" | "sorry" => "scusa",
+        "wash hands" => "lavarsi le mani",
+        "go home" => "andare a casa",
+        "sit down" => "sedersi",
+        "stand up" => "alzarsi",
+        "i want" => "voglio",
+        "i need" => "ho bisogno",
+        "how are you" => "come stai",
+        _ => return None,
+    };
+    Some(value)
+}
+
+/// Glossario deterministico italiano → inglese per la ricerca dei pittogrammi.
+/// Copre il vocabolario CAA di base; per il resto interviene il modello locale.
+fn translation_to_english_glossary(term: &str) -> Option<&'static str> {
+    let key = term
+        .trim()
+        .to_lowercase()
+        .replace(['’', '\''], "")
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
+    let value = match key.as_str() {
+        "cane" => "dog",
+        "gatto" => "cat",
+        "uccello" => "bird",
+        "pesce" => "fish",
+        "cavallo" => "horse",
+        "mucca" => "cow",
+        "maiale" => "pig",
+        "pecora" => "sheep",
+        "topo" => "mouse",
+        "farfalla" => "butterfly",
+        "mangiare" => "eat",
+        "bere" => "drink",
+        "scuola" => "school",
+        "classe" => "class",
+        "test" => "test",
+        "esame" => "exam",
+        "esercizio" => "exercise",
+        "compiti" => "homework",
+        "maestra" => "teacher",
+        "amico" => "friend",
+        "casa" => "home",
+        "giardino" => "garden",
+        "mamma" => "mum",
+        "papà" => "dad",
+        "fratello" => "brother",
+        "sorella" => "sister",
+        "nonna" => "grandmother",
+        "nonno" => "grandfather",
+        "acqua" => "water",
+        "latte" => "milk",
+        "pane" => "bread",
+        "mela" => "apple",
+        "banana" => "banana",
+        "pasta" => "pasta",
+        "pizza" => "pizza",
+        "palla" => "ball",
+        "libro" => "book",
+        "giocattolo" => "toy",
+        "macchina" => "car",
+        "autobus" => "bus",
+        "treno" => "train",
+        "aereo" => "plane",
+        "elicottero" => "helicopter",
+        "ambulanza" => "ambulance",
+        "ospedale" => "hospital",
+        "dottore" => "doctor",
+        "polizia" => "police",
+        "bicicletta" => "bike",
+        "giocare" => "play",
+        "dormire" => "sleep",
+        "correre" => "run",
+        "camminare" => "walk",
+        "saltare" => "jump",
+        "disegnare" => "draw",
+        "scrivere" => "write",
+        "leggere" => "read",
+        "ascoltare" => "listen",
+        "parlare" => "speak",
+        "aiuto" => "help",
+        "fermare" => "stop",
+        "andare" => "go",
+        "venire" => "come",
+        "sì" => "yes",
+        "no" => "no",
+        "ancora" => "more",
+        "finito" => "finished",
+        "bagno" => "toilet",
+        "lavare" => "wash",
+        "mani" => "hands",
+        "testa" => "head",
+        "felice" => "happy",
+        "triste" => "sad",
+        "arrabbiato" => "angry",
+        "spaventato" => "scared",
+        "stanco" => "tired",
+        "dolore" => "hurt",
+        "caldo" => "hot",
+        "freddo" => "cold",
+        "grande" => "big",
+        "piccolo" => "small",
+        "bene" => "good",
+        "male" => "bad",
+        "aspettare" => "wait",
+        "aprire" => "open",
+        "chiudere" => "close",
+        "dare" => "give",
+        "prendere" => "take",
+        "guardare" => "look",
+        "fare" => "make",
+        "volere" => "want",
+        "bisogno" => "need",
+        "piacere" => "like",
+        "amore" => "love",
+        "grazie" => "thank you",
+        "buongiorno" => "good morning",
+        "arrivederci" => "goodbye",
+        "scusa" => "excuse me",
+        "lavarsi le mani" => "wash hands",
+        "andare a casa" => "go home",
+        "sedersi" => "sit down",
+        "alzarsi" => "stand up",
+        "voglio" => "i want",
+        "ho bisogno" => "i need",
+        "come stai" => "how are you",
+        _ => return None,
+    };
+    Some(value)
+}
+
 /// Metriche misurate della pipeline di scrittura. Non sono stime: ogni valore
 /// viene incrementato nel punto in cui l'operazione avviene davvero.
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
@@ -337,6 +579,37 @@ impl Engine {
                 bundled = true;
             }
         }
+        // Il progetto è stato spostato (o l'app è stata reinstallata): i
+        // percorsi salvati possono puntare a una cartella non più esistente.
+        // Si riallineano al runtime incluso, senza toccare un percorso
+        // personalizzato ancora valido.
+        let mut repaired_ai = false;
+        if !ai_config.binary_path.trim().is_empty()
+            && !std::path::Path::new(&ai_config.binary_path).exists()
+        {
+            for name in ["llama-cli", "llama-cli.exe"] {
+                let candidate = ai_dir.join(name);
+                if candidate.exists() {
+                    ai_config.binary_path = candidate.display().to_string();
+                    repaired_ai = true;
+                    break;
+                }
+            }
+        }
+        if !ai_config.model_path.trim().is_empty()
+            && !std::path::Path::new(&ai_config.model_path).exists()
+        {
+            let candidate = ai_dir.join("model.gguf");
+            if candidate.exists() {
+                ai_config.model_path = candidate.display().to_string();
+                repaired_ai = true;
+            }
+        }
+        if repaired_ai {
+            if let Ok(raw) = serde_json::to_string(&ai_config) {
+                let _ = db.set_setting("ai.config", &raw);
+            }
+        }
         if bundled && !ai_config.enabled {
             ai_config.enabled = true;
         }
@@ -620,6 +893,7 @@ impl Engine {
                     caa.meaning = symbol.meaning.clone();
                     caa.strategy = Strategy::Exact.as_str().to_string();
                     caa.confidence = 0.9;
+                    caa.image = symbol.image.clone();
                     caa.svg = self.svg_for(&db, &symbol.id, symbol.svg.clone(), &mut svg_cache);
                 }
                 symbolized = tokens
@@ -720,6 +994,7 @@ impl Engine {
             caption: token.surface.clone(),
             symbol_label: None,
             svg: None,
+            image: None,
             composition: Vec::new(),
             strategy: Strategy::None.as_str().to_string(),
             confidence: 0.0,
@@ -743,8 +1018,67 @@ impl Engine {
         if opts.mode == CaaMode::Testo {
             return Ok(out);
         }
-        if !should_symbolize(token, opts) {
+        // Preferenze: documento > contesto > globale (mai sovrascritte).
+        // Vanno lette prima del filtro di intensità: una scelta manuale deve
+        // valere anche per le parole che l'analisi automatica salterebbe
+        // (pos sconosciuta, intensità minima). Sono proprio quelle che
+        // l'utente corregge a mano dal pannello.
+        let preferences = self.preferences_for(db, token, unit_key, paragraph_domains, opts)?;
+        let manual_choice = preferences
+            .as_ref()
+            .map(|pref| !pref.symbol_id.is_empty())
+            .unwrap_or(false);
+        // Una parola fuori lessico può comunque avere un pittogramma ARASAAC
+        // esatto (es. «volare»): in quel caso non si scarta.
+        let arasaac_filters = SymbolFilters {
+            pack_id: Some("arasaac".to_string()),
+            ..filters.clone()
+        };
+        let mut arasaac_exact_available = false;
+        if !should_symbolize(token, opts)
+            && !manual_choice
+            && !token.is_function
+            && token.concepts.is_empty()
+        {
+            let mut labels: Vec<&str> = vec![token.surface.as_str()];
+            if let Some(lemma) = token.lemma.as_deref() {
+                if lemma != token.surface {
+                    labels.push(lemma);
+                }
+            }
+            for label in labels {
+                if db
+                    .symbol_by_label(label, &arasaac_filters)
+                    .map_err(|e| e.to_string())?
+                    .is_some()
+                {
+                    arasaac_exact_available = true;
+                    break;
+                }
+            }
+        }
+        if !should_symbolize(token, opts) && !manual_choice && !arasaac_exact_available {
             return Ok(out);
+        }
+
+        // L'override della singola occorrenza (scelta fatta nel pannello) vince
+        // su tutto: si applica subito, anche quando la parola non ha un
+        // concetto nel lessico o l'analisi automatica produrrebbe un simbolo
+        // diverso. Le preferenze globali restano invece subordinate alla
+        // disambiguazione contestuale, come prima.
+        if let Some(pref) = &preferences {
+            if pref.scope == "document"
+                && self.apply_preference_symbol(
+                    db,
+                    filters,
+                    &token.surface,
+                    pref,
+                    svg_cache,
+                    &mut out,
+                )?
+            {
+                return Ok(out);
+            }
         }
 
         // Stato dell'unità: visibilità, blocco e modificatori sopravvivono alle
@@ -766,8 +1100,50 @@ impl Engine {
             out.modifiers = auto_modifiers(token);
         }
 
-        // Preferenze: documento > contesto > globale (mai sovrascritte).
-        let preferences = self.preferences_for(db, token, unit_key, paragraph_domains, opts)?;
+        // Priorità ARASAAC: un'etichetta esatta ARASAAC (parola o lemma) vince
+        // sui concetti lessicali approssimativi. Le scelte esplicite
+        // dell'utente (override/preferenze) hanno già vinto sopra.
+        if !manual_choice && token.concepts.is_empty() {
+            let arasaac = SymbolFilters {
+                pack_id: Some("arasaac".to_string()),
+                ..filters.clone()
+            };
+            let mut labels: Vec<&str> = vec![token.surface.as_str()];
+            if let Some(lemma) = token.lemma.as_deref() {
+                if lemma != token.surface {
+                    labels.push(lemma);
+                }
+            }
+            for label in labels {
+                if let Some(symbol) = db
+                    .symbol_by_label(label, &arasaac)
+                    .map_err(|e| e.to_string())?
+                {
+                    let preference = Preference {
+                        scope: "auto-arasaac".to_string(),
+                        lemma: token
+                            .lemma
+                            .clone()
+                            .unwrap_or_else(|| token.surface.clone()),
+                        context_key: None,
+                        symbol_id: symbol.id.clone(),
+                        concept_id: symbol.concept_id.clone(),
+                        locked: false,
+                        created_at: now_iso(),
+                    };
+                    if self.apply_preference_symbol(
+                        db,
+                        filters,
+                        &token.surface,
+                        &preference,
+                        svg_cache,
+                        &mut out,
+                    )? {
+                        return Ok(out);
+                    }
+                }
+            }
+        }
 
         // Livello 2-4: candidati lessicali e punteggio contestuale.
         let lemma_for_frequency = token.lemma.clone().unwrap_or_else(|| token.surface.clone());
@@ -841,39 +1217,15 @@ impl Engine {
                 // rianalisi invece di essere sostituito dalla ricerca per
                 // etichetta.
                 if let Some(pref) = &preferences {
-                    if !pref.symbol_id.is_empty() {
-                        if let Ok(Some(symbol)) = db.symbol_by_id(&pref.symbol_id) {
-                            out.symbol_id = Some(symbol.id.clone());
-                            out.pack_id = Some(symbol.pack_id.clone());
-                            out.concept_id = symbol.concept_id.clone();
-                            out.caption = token.surface.clone();
-                            out.symbol_label = Some(symbol.label.clone());
-                            out.concept_label = Some(symbol.label.clone());
-                            out.meaning = symbol.meaning.clone();
-                            out.strategy = Strategy::Exact.as_str().to_string();
-                            out.confidence = 1.0;
-                            out.locked = pref.locked;
-                            out.svg = self.svg_for(db, &symbol.id, symbol.svg.clone(), svg_cache);
-                            out.alternatives = self.build_alternatives(
-                                db,
-                                filters,
-                                &[],
-                                symbol.concept_id.as_deref(),
-                                svg_cache,
-                            )?;
-                            for neighbour in self.library_alternatives(
-                                db,
-                                filters,
-                                &symbol.label,
-                                &symbol.id,
-                                svg_cache,
-                            ) {
-                                if out.alternatives.iter().all(|a| a.symbol_id != neighbour.symbol_id) {
-                                    out.alternatives.push(neighbour);
-                                }
-                            }
-                            return Ok(out);
-                        }
+                    if self.apply_preference_symbol(
+                        db,
+                        filters,
+                        &token.surface,
+                        pref,
+                        svg_cache,
+                        &mut out,
+                    )? {
+                        return Ok(out);
                     }
                 }
                 // Nessun concetto nel lessico: si cerca nella libreria dei
@@ -910,6 +1262,7 @@ impl Engine {
                     out.confidence = 0.4;
                     // Senza questa riga il pittogramma restava invisibile
                     // nell'editor pur essendo presente nella ricerca manuale.
+                    out.image = symbol.image.clone();
                     out.svg = self.svg_for(db, &symbol.id, symbol.svg.clone(), svg_cache);
                     out.alternatives = self.build_alternatives(
                         db,
@@ -962,6 +1315,7 @@ impl Engine {
                         out.strategy = Strategy::Related.as_str().to_string();
                         out.approximate = true;
                         out.confidence = 0.3;
+                        out.image = symbol.image.clone();
                         out.svg = self.svg_for(db, &symbol.id, symbol.svg.clone(), svg_cache);
                         out.alternatives = self.library_alternatives(
                             db,
@@ -1012,6 +1366,7 @@ impl Engine {
             out.caption = token.surface.clone();
             out.symbol_label = Some(symbol.label.clone());
             out.meaning = symbol.meaning.clone().or(out.meaning);
+            out.image = symbol.image.clone();
             let svg = self.svg_for(db, &symbol.id, symbol.svg.clone(), svg_cache);
             out.svg = svg;
         } else if !resolved.parts.is_empty() {
@@ -1096,15 +1451,14 @@ impl Engine {
             .items
             .into_iter()
             .find(|item| label_matches_word(&item.label, word))?;
-        if hit.svg.is_none() {
+        if hit.svg.is_none() && hit.image.is_none() {
             // Lettura diretta dal database: la cache dei simboli è già
             // impegnata dal chiamante, bloccarla di nuovo causerebbe uno
             // stallo.
-            hit.svg = db
-                .symbol_by_id(&hit.symbol_id)
-                .ok()
-                .flatten()
-                .and_then(|record| record.svg);
+            if let Ok(Some(record)) = db.symbol_by_id(&hit.symbol_id) {
+                hit.svg = record.svg;
+                hit.image = record.image;
+            }
         }
         Some(hit)
     }
@@ -1117,14 +1471,20 @@ impl Engine {
         cache: &mut SvgCache,
     ) -> Option<String> {
         if let Some(cached) = cache.get(symbol_id) {
-            return cached;
+            // Un None può essere stato memorizzato prima che il file fosse
+            // idratato: si accetta solo un valore positivo.
+            if cached.is_some() || from_row.is_none() {
+                return cached;
+            }
         }
         // Il chiamante tiene già il lock della cache (passata come `cache`):
         // riacquisire `self.svg_cache` qui provocava un deadlock quando il
         // simbolo aveva un file non leggibile (per esempio un percorso della
         // vecchia installazione). La cache è la stessa: si usa direttamente.
         let value = from_row;
-        cache.insert(symbol_id.to_string(), value.clone());
+        if value.is_some() {
+            cache.insert(symbol_id.to_string(), value.clone());
+        }
         value
     }
 
@@ -1730,6 +2090,54 @@ impl Engine {
         })
     }
 
+    /// Applica alla risposta il pittogramma scelto esplicitamente dall'utente
+    /// (override del documento o preferenza). Restituisce `false` se la
+    /// preferenza non ha un simbolo utilizzabile, così il chiamante può
+    /// proseguire con la risoluzione automatica.
+    #[allow(clippy::too_many_arguments)]
+    fn apply_preference_symbol(
+        &self,
+        db: &Database,
+        filters: &SymbolFilters,
+        surface: &str,
+        preference: &Preference,
+        svg_cache: &mut SvgCache,
+        out: &mut CaaToken,
+    ) -> Result<bool, String> {
+        if preference.symbol_id.is_empty() {
+            return Ok(false);
+        }
+        let Ok(Some(symbol)) = db.symbol_by_id(&preference.symbol_id) else {
+            return Ok(false);
+        };
+        out.symbol_id = Some(symbol.id.clone());
+        out.pack_id = Some(symbol.pack_id.clone());
+        out.concept_id = symbol.concept_id.clone();
+        out.caption = surface.to_string();
+        out.symbol_label = Some(symbol.label.clone());
+        out.concept_label = Some(symbol.label.clone());
+        out.meaning = symbol.meaning.clone();
+        out.strategy = Strategy::Exact.as_str().to_string();
+        out.confidence = 1.0;
+        out.locked = preference.locked;
+        out.image = symbol.image.clone();
+        out.svg = self.svg_for(db, &symbol.id, symbol.svg.clone(), svg_cache);
+        out.alternatives =
+            self.build_alternatives(db, filters, &[], symbol.concept_id.as_deref(), svg_cache)?;
+        for neighbour in self.library_alternatives(
+            db,
+            filters,
+            &symbol.label,
+            &symbol.id,
+            svg_cache,
+        ) {
+            if out.alternatives.iter().all(|a| a.symbol_id != neighbour.symbol_id) {
+                out.alternatives.push(neighbour);
+            }
+        }
+        Ok(true)
+    }
+
     fn preferences_for(
         &self,
         db: &Database,
@@ -1926,6 +2334,7 @@ impl Engine {
                     token.symbol_id = Some(best.symbol_id.clone());
                     token.pack_id = Some(best.pack_id.clone());
                     token.svg = best.svg.clone();
+                    token.image = best.image.clone();
                     token.symbol_label = Some(best.label.clone());
                     token.concept_id = best.concept_id.clone();
                     token.strategy = Strategy::Related.as_str().to_string();
@@ -2016,6 +2425,7 @@ impl Engine {
                             token.symbol_id = Some(alt.symbol_id.clone());
                             token.pack_id = Some(alt.pack_id.clone());
                             token.svg = alt.svg.clone();
+                            token.image = alt.image.clone();
                             token.symbol_label = Some(alt.label.clone());
                             token.meaning = Some(format!(
                                 "{} (scelta contestuale del modello locale)",
@@ -2061,6 +2471,36 @@ impl Engine {
     /// Cerca nella libreria i pittogrammi delle parole indicate, senza
     /// duplicati. Le alternative prodotte sono marcate come neurali: sono
     /// suggerimenti, non sostituzioni automatiche.
+    /// Come `library_match`, ma prova anche le forme base (fissare →
+    /// assicurare) per le parole proposte dal modello. Accetta solo
+    /// un'etichetta reale del repertorio: nessuna somiglianza inventata.
+    fn library_match_neural(
+        &self,
+        db: &Database,
+        filters: &SymbolFilters,
+        word: &str,
+    ) -> Option<Alternative> {
+        if let Some(hit) = self.library_match(db, filters, word) {
+            return Some(hit);
+        }
+        let normalized = crate::linguistics::normalize::normalize_word(word);
+        if normalized.chars().count() < 3 {
+            return None;
+        }
+        let mut guesses = singular_guesses(&normalized);
+        guesses.extend(crate::linguistics::morphology::lemma_guesses(&normalized));
+        let mut seen = HashSet::new();
+        for (guess, _) in guesses {
+            if guess == normalized || !seen.insert(guess.clone()) {
+                continue;
+            }
+            if let Some(hit) = self.library_match(db, filters, &guess) {
+                return Some(hit);
+            }
+        }
+        None
+    }
+
     fn library_alternatives_for_words(
         &self,
         db: &Database,
@@ -2073,7 +2513,7 @@ impl Engine {
             if out.len() >= limit {
                 break;
             }
-            let Some(mut alt) = self.library_match(db, filters, word) else {
+            let Some(mut alt) = self.library_match_neural(db, filters, word) else {
                 continue;
             };
             if out.iter().any(|item| item.symbol_id == alt.symbol_id) {
@@ -2133,6 +2573,84 @@ impl Engine {
             return Ok(Vec::new());
         }
         Ok(found)
+    }
+
+    /// Sinonimi e concetti affini proposti dal modello locale, usati in
+    /// background per arricchire le alternative del pannello. Non modifica il
+    /// documento, non richiede rete e non blocca la digitazione: la richiesta
+    /// ha priorità bassa nella coda del motore. Se il modello non è attivo
+    /// restituisce un elenco vuoto, senza errori.
+    pub fn ai_affinity_symbols(&self, word: &str) -> Vec<Alternative> {
+        let word = crate::linguistics::normalize::normalize_word(word);
+        if word.is_empty() || word.split_whitespace().count() > 1 {
+            return Vec::new();
+        }
+        let config = self.ai_config();
+        if !config.enabled || !ai_engine::is_available(&config) {
+            return Vec::new();
+        }
+        use std::sync::OnceLock;
+        static CACHE: OnceLock<Mutex<HashMap<String, Vec<Alternative>>>> = OnceLock::new();
+        let cache = CACHE.get_or_init(|| Mutex::new(HashMap::new()));
+        if let Ok(guard) = cache.lock() {
+            if let Some(value) = guard.get(&word) {
+                return value.clone();
+            }
+        }
+        let found = self.ai_affinity_symbols_uncached(&word);
+        if let Ok(mut guard) = cache.lock() {
+            if guard.len() >= 128 {
+                guard.clear();
+            }
+            guard.insert(word, found.clone());
+        }
+        found
+    }
+
+    /// Parole e brevi espressioni proposte dal modello per una parola.
+    /// Estratto a parte per poterle ispezionare dalla CLI senza toccare il
+    /// documento né il database.
+    pub fn ai_suggested_words(&self, word: &str) -> Vec<String> {
+        let prompt = ai_engine::related_words_prompt(word, None);
+        // Priorità 1: sotto le richieste interattive (priorità 10). La coda
+        // del motore serve prima la scrittura e solo quando è libera i
+        // suggerimenti di sinonimi.
+        let Ok(raw) = self
+            .ai_service
+            .complete(prompt, 40, 1, self.ai_service.cancel_handle())
+        else {
+            return Vec::new();
+        };
+        // Fino a quattro parole: il modello può proporre espressioni come
+        // «gettare l'ancora», che il repertorio può contenere come etichetta.
+        ai_engine::parse_synonyms(&raw, 12)
+    }
+
+    fn ai_affinity_symbols_uncached(&self, word: &str) -> Vec<Alternative> {
+        let words: Vec<String> = self
+            .ai_suggested_words(word)
+            .into_iter()
+            .filter(|candidate| {
+                let normalized = crate::linguistics::normalize::normalize_word(candidate);
+                !normalized.is_empty() && normalized != word
+            })
+            .collect();
+        if words.is_empty() {
+            return Vec::new();
+        }
+        let Ok(db) = self.db.lock() else {
+            return Vec::new();
+        };
+        let filters = SymbolFilters {
+            pack_id: None,
+            commercial_only: false,
+            collection_id: None,
+        };
+        let mut found = self.library_alternatives_for_words(&db, &filters, &words, 10);
+        found.retain(|alternative| {
+            crate::linguistics::normalize::normalize_word(&alternative.label) != word
+        });
+        found
     }
 
     pub fn ai_status(&self) -> AiStatus {
@@ -2433,6 +2951,154 @@ impl Engine {
         ai_engine::tools::run(self.ai_service.clone(), tool, input)
     }
 
+    /// Traduce una parola o una breve espressione di ricerca in italiano.
+    /// Il risultato è usato solo per interrogare l'indice locale: il testo
+    /// digitato dall'utente non viene modificato. Se il modello non è
+    /// disponibile si restituisce un errore esplicito, non una traduzione
+    /// inventata.
+    pub fn translate_search_term(&self, text: &str) -> Result<String, String> {
+        let term = text.trim();
+        if term.is_empty() {
+            return Err("serve una parola o una breve espressione da tradurre".to_string());
+        }
+        if term.chars().count() > 80 || term.lines().count() > 1 {
+            return Err("la traduzione accetta una parola o una breve espressione".to_string());
+        }
+        // Il glossario copre il vocabolario CAA di base e rende la ricerca
+        // inglese affidabile anche con modelli piccoli. Per il resto si usa
+        // il modello locale, senza inventare risultati.
+        if let Some(translated) = translation_glossary(term) {
+            return Ok(translated.to_string());
+        }
+        let config = self.ai_config();
+        if !ai_engine::is_available(&config) {
+            return Err(
+                "La traduzione inglese richiede un modello neurale attivo (Impostazioni → Gestione modelli)."
+                    .to_string(),
+            );
+        }
+        let prompt = format!(
+            "Sei un traduttore per un vocabolario CAA. Traduci in italiano la parola o la breve \
+             espressione inglese. Rispondi SOLO con la traduzione italiana, senza virgolette, \
+             senza spiegazioni e senza punto finale. Se il testo è già italiano, ripetilo. \
+             Se non è traducibile, ripeti il testo originale.\nTesto: {term}\nTraduzione:"
+        );
+        let cancel = self.ai_service.cancel_handle();
+        // Priorità bassa: la traduzione serve alle alternative inglesi, non
+        // deve precedere la simbolizzazione mentre si scrive.
+        let raw = self.ai_service.complete(prompt, 24, 2, cancel)?;
+        let first = raw.lines().next().unwrap_or("").trim();
+        let cleaned = first
+            .trim_matches(|ch| matches!(ch, '"' | '\'' | '«' | '»' | '“' | '”'))
+            .trim()
+            .trim_end_matches(['.', '!', '?', ';', ':'])
+            .trim();
+        let cleaned = cleaned
+            .strip_prefix("Traduzione:")
+            .or_else(|| cleaned.strip_prefix("traduzione:"))
+            .unwrap_or(cleaned)
+            .trim();
+        if cleaned.is_empty() || cleaned.chars().count() > 80 {
+            return Err("il modello non ha prodotto una traduzione utilizzabile".to_string());
+        }
+        Ok(cleaned.to_string())
+    }
+
+    /// Traduce in inglese il termine selezionato per cercare pittogrammi nei
+    /// cataloghi in inglese. Usa il glossario quando copre la parola, altrimenti
+    /// il modello neurale locale. Se nessuno dei due è disponibile restituisce
+    /// un errore esplicito: non si inventa una traduzione.
+    pub fn translate_to_english(&self, text: &str) -> Result<String, String> {
+        let term = text.trim();
+        if term.is_empty() {
+            return Err("serve una parola o una breve espressione da tradurre".to_string());
+        }
+        if term.chars().count() > 80 || term.lines().count() > 1 {
+            return Err("la traduzione accetta una parola o una breve espressione".to_string());
+        }
+        if let Some(translated) = translation_to_english_glossary(term) {
+            return Ok(translated.to_string());
+        }
+        let config = self.ai_config();
+        if !ai_engine::is_available(&config) {
+            return Err(
+                "La traduzione inglese richiede un modello neurale attivo (Impostazioni → \
+                 Gestione modelli) oppure una parola del glossario CAA."
+                    .to_string(),
+            );
+        }
+        let prompt = format!(
+            "Sei un traduttore per un vocabolario CAA. Traduci in inglese la parola o la breve \
+             espressione italiana. Rispondi SOLO con la traduzione inglese, senza virgolette, \
+             senza spiegazioni e senza punto finale. Se il testo è già inglese, ripetilo. \
+             Se non è traducibile, ripeti il testo originale.\nTesto: {term}\nTraduzione:"
+        );
+        let cancel = self.ai_service.cancel_handle();
+        // Priorità bassa: la traduzione serve alle alternative inglesi, non
+        // deve precedere la simbolizzazione mentre si scrive.
+        let raw = self.ai_service.complete(prompt, 24, 2, cancel)?;
+        let first = raw.lines().next().unwrap_or("").trim();
+        let cleaned = first
+            .trim_matches(|ch| matches!(ch, '"' | '\'' | '«' | '»' | '“' | '”'))
+            .trim()
+            .trim_end_matches(['.', '!', '?', ';', ':'])
+            .trim();
+        let cleaned = cleaned
+            .strip_prefix("Traduzione:")
+            .or_else(|| cleaned.strip_prefix("traduzione:"))
+            .or_else(|| cleaned.strip_prefix("Translation:"))
+            .or_else(|| cleaned.strip_prefix("translation:"))
+            .unwrap_or(cleaned)
+            .trim();
+        if cleaned.is_empty() || cleaned.chars().count() > 80 {
+            return Err("il modello non ha prodotto una traduzione utilizzabile".to_string());
+        }
+        Ok(cleaned.to_string())
+    }
+
+    /// Chat: usa il provider online configurato se presente, altrimenti il
+    /// modello locale. Nessun messaggio viene inviato se non c'è un modello:
+    /// non si simula una risposta.
+    pub fn chat(
+        &self,
+        messages: Vec<crate::ai_provider::ChatMessage>,
+    ) -> Result<crate::ai_provider::ChatReply, String> {
+        if messages.is_empty() {
+            return Err("scrivi un messaggio".to_string());
+        }
+        let db = self.db()?;
+        let provider = crate::ai_provider::load(&db);
+        if provider.kind != "local" {
+            return crate::ai_provider::chat(&db, &messages);
+        }
+        drop(db);
+        let config = self.ai_config();
+        if !ai_engine::is_available(&config) {
+            return Err(
+                "Per chattare serve un modello locale attivo (Impostazioni → Gestione modelli) \
+                 oppure un provider online configurato."
+                    .to_string(),
+            );
+        }
+        let started = Instant::now();
+        let mut prompt = String::from(
+            "Sei un assistente per la Comunicazione Aumentativa e Alternativa. Rispondi in \
+             italiano, in modo chiaro, concreto e breve. Non inventare dati personali.\n",
+        );
+        for message in messages.iter().rev().take(12).rev() {
+            let role = if message.role == "assistant" { "Assistente" } else { "Utente" };
+            prompt.push_str(&format!("{role}: {}\n", message.content.trim()));
+        }
+        prompt.push_str("Assistente:");
+        let cancel = self.ai_service.cancel_handle();
+        let reply = self.ai_service.complete(prompt, 384, 6, cancel)?;
+        Ok(crate::ai_provider::ChatReply {
+            reply: reply.trim().to_string(),
+            backend: format!("locale · {}", self.active_model_label(&config)),
+            elapsed_ms: started.elapsed().as_millis() as u64,
+        })
+    }
+
     /// Interpreta una richiesta di modifica del documento. Il parser
     /// deterministico è sempre disponibile; il modello locale interviene solo
     /// se il parser non riconosce nulla e l'utente lo consente.
@@ -2543,6 +3209,7 @@ impl Engine {
                             element.concept_id = token.concept_id.clone();
                             element.symbol_id = token.symbol_id.clone();
                             element.svg = token.svg.clone();
+                            element.image = token.image.clone();
                             if token.composition.len() > 1 {
                                 notes.push(format!(
                                     "«{}» è un'espressione di {} pittogrammi: nel layout compare l'unità principale.",
@@ -2806,6 +3473,13 @@ mod tests {
             .join("resources")
     }
 
+    fn arasaac_pack_available() -> bool {
+        test_resources()
+            .join("symbol-packs")
+            .join("arasaac")
+            .exists()
+    }
+
     fn test_engine() -> Engine {
         use std::sync::OnceLock;
         // Il database popolato (lessico, pacchetto core e intero catalogo
@@ -2865,6 +3539,10 @@ mod tests {
     /// Caso di riferimento del capitolato: «da sole» non è il Sole.
     #[test]
     fn off_lexicon_word_uses_exact_library_symbol_without_hanging() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let options = SymbolizeOptions {
             intensity: Intensity::Completa,
@@ -2941,6 +3619,10 @@ mod tests {
 
     #[test]
     fn mandatory_semantic_regression_cases() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let cases: &[(&str, &str, &[&str])] = &[
             ("Mi sento bravo.", "sento", &["state.feel"]),
@@ -3033,6 +3715,10 @@ mod tests {
 
     #[test]
     fn document_override_applies_to_a_single_word() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let doc = "/tmp/override-mondo.caadoc";
         engine
@@ -3055,6 +3741,43 @@ mod tests {
             .unwrap();
         let token = result.tokens.iter().find(|token| token.surface == "mondo").unwrap();
         assert_eq!(token.symbol_id.as_deref(), Some("arasaac.picto.27504"));
+    }
+
+    #[test]
+    fn manual_override_applies_to_word_the_engine_would_skip() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
+        // Parola fuori lessico (pos sconosciuta, key=false): l'intensità Media
+        // la salterebbe, ma la scelta fatta a mano nel pannello deve restare.
+        let engine = test_engine();
+        let doc = "/tmp/override-parola-ignota.caadoc";
+        engine
+            .db()
+            .unwrap()
+            .set_document_override(doc, "p1:0", Some("arasaac.picto.27504"), None)
+            .unwrap();
+        engine.clear_caches();
+        let result = engine
+            .symbolize(
+                "blorbare",
+                &SymbolizeOptions {
+                    intensity: Intensity::Media,
+                    mode: CaaMode::Sopra,
+                    document_key: doc.to_string(),
+                    paragraph_id: "p1".to_string(),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let token = result
+            .tokens
+            .iter()
+            .find(|token| token.surface == "blorbare")
+            .unwrap();
+        assert_eq!(token.symbol_id.as_deref(), Some("arasaac.picto.27504"));
+        assert!(token.locked);
     }
 
     #[test]
@@ -3159,6 +3882,10 @@ mod tests {
 
     #[test]
     fn engine_seeds_and_counts() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let stats = engine.db().unwrap().statistics().unwrap();
         assert!(stats.symbols >= 80, "simboli: {}", stats.symbols);
@@ -3186,6 +3913,10 @@ mod tests {
 
     #[test]
     fn library_word_without_concept_gets_a_symbol() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         // «vedere» non ha un concetto nel lessico, ma esiste nel catalogo
         // ARASAAC: senza l'immagine nel token l'editor non mostrava nulla,
         // anche se la ricerca manuale lo trovava.
@@ -3486,6 +4217,10 @@ mod tests {
 
     #[test]
     fn affinity_reduces_principesse_to_the_real_lemma() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let found = affinity(&engine, "principesse");
         assert!(found.known);
@@ -3559,6 +4294,10 @@ mod tests {
 
     #[test]
     fn capire_finds_comprendere_in_the_affinity_groups() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let found = affinity(&engine, "capire");
         let synonyms = group(&found, AffinityLevel::Synonym).expect("sinonimi di «capire»");
@@ -3578,6 +4317,10 @@ mod tests {
 
     #[test]
     fn word_without_symbol_gets_library_alternatives_from_its_concept_label() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let opts = SymbolizeOptions {
             paragraph_id: "p1".to_string(),
@@ -3638,6 +4381,10 @@ mod tests {
 
     #[test]
     fn non_so_is_an_expression_not_a_negated_word() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let found = affinity(&engine, "non so");
         assert!(found.known);
@@ -3658,6 +4405,10 @@ mod tests {
 
     #[test]
     fn multiword_expressions_are_single_units_with_one_pictogram() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         let opts = SymbolizeOptions {
             paragraph_id: "p1".to_string(),
@@ -3806,6 +4557,10 @@ mod tests {
 
     #[test]
     fn concept_specific_preference_applies_only_to_that_concept() {
+        if !arasaac_pack_available() {
+            eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
+            return;
+        }
         let engine = test_engine();
         {
             let db = engine.db().unwrap();

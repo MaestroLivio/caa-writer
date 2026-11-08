@@ -14,8 +14,11 @@ dist/
 !.env.example
 
 # --- Rust / Tauri ---
+src-tauri/target
 src-tauri/target/
 target/
+__pycache__/
+scripts/__pycache__/
 **/*.rs.bk
 gen/schemas/
 
@@ -56,6 +59,10 @@ resources/symbol-packs/downloaded/
 
 # Motore vocale locale: runtime e voce non versionati
 /.voice-venv/
+/.image-venv/
 /resources/voice/
 
 /resources/cli/
+
+# File AppleDouble creati da macOS su volumi ExFAT
+._*

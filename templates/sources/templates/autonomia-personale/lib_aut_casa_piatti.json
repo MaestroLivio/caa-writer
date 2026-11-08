@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_aut_casa_piatti-p1-field-title",
-          "kind": "text",
-          "text": "Casa: lavare i piatti",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_aut_casa_piatti-p1-field-layout",
           "kind": "text",
           "text": "verticale",

@@ -62,6 +62,9 @@ pub struct SymbolRecord {
     pub commercial_ok: bool,
     pub status: String,
     pub svg: Option<String>,
+    /// PNG/JPEG/WebP come data URL, letto dal file originale o dall'asset
+    /// importato. I pittogrammi raster non vengono più avvolti in un SVG.
+    pub image: Option<String>,
 }
 
 #[derive(Debug, Clone)]
@@ -80,12 +83,41 @@ pub struct Database {
 const SYMBOL_SELECT: &str = "SELECT s.id, s.concept_id, s.pack_id, p.name, s.label, s.meaning, s.format,
         s.license, s.license_url, s.source_url, s.author, p.commercial_ok, s.status,
         (SELECT a.data FROM symbol_assets a WHERE a.symbol_id = s.id ORDER BY a.id LIMIT 1),
-        (SELECT a.path FROM symbol_assets a WHERE a.symbol_id = s.id ORDER BY a.id LIMIT 1)
+        (SELECT a.path FROM symbol_assets a WHERE a.symbol_id = s.id ORDER BY a.id LIMIT 1),
+        s.data_path
      FROM symbols s JOIN symbol_packs p ON p.id = s.pack_id ";
 
 /// Legge e sanifica un SVG di pacchetto, tenendolo in una cache condivisa:
 /// le alternative vengono richieste molte volte mentre si scrive, e senza
 /// cache ogni parola rileggerebbe decine di file da disco.
+/// Legge un'immagine raster e la restituisce come data URL (`data:image/png;
+/// base64,...`). È il percorso diretto dei pittogrammi ARASAAC e degli
+/// import: nessun wrapper SVG. La cache evita di rileggere e ricodificare lo
+/// stesso file decine di volte mentre si digita.
+fn image_from_file(path: &str) -> Option<String> {
+    use std::collections::HashMap;
+    use std::sync::{Mutex, OnceLock};
+
+    const CAPACITY: usize = 256;
+    static CACHE: OnceLock<Mutex<HashMap<String, Option<String>>>> = OnceLock::new();
+    let cache = CACHE.get_or_init(|| Mutex::new(HashMap::new()));
+    if let Ok(guard) = cache.lock() {
+        if let Some(value) = guard.get(path) {
+            return value.clone();
+        }
+    }
+    let value = std::fs::read(path).ok().and_then(|bytes| {
+        crate::pictogram_import::image_data_url(&bytes).ok()
+    });
+    if let Ok(mut guard) = cache.lock() {
+        if guard.len() >= CAPACITY {
+            guard.clear();
+        }
+        guard.insert(path.to_string(), value.clone());
+    }
+    value
+}
+
 fn svg_from_file(path: &str) -> Option<String> {
     use std::collections::HashMap;
     use std::sync::{Mutex, OnceLock};
@@ -177,12 +209,31 @@ impl Database {
     }
 
     fn map_symbol(row: &Row<'_>) -> rusqlite::Result<SymbolRecord> {
+        let format: String = row.get(6)?;
         let stored: Option<String> = row.get(13)?;
         let path: Option<String> = row.get(14)?;
-        // I simboli dei pacchetti restano su disco: si rileggono e si
-        // sanificano qui, così il contenuto restituito al frontend è sempre
-        // quello validato, non il file grezzo.
-        let svg = stored.or_else(|| svg_from_file(&path?));
+        let data_path: Option<String> = row.get(15)?;
+        // I simboli vettoriali vengono sanificati; i raster restano immagini
+        // e vengono restituiti come data URL. `data_path` (colonna del simbolo)
+        // è il ripiego per le importazioni precedenti, che salvavano l'anteprima
+        // in `symbol_assets` e il file originale solo qui.
+        let (svg, image) = if format.eq_ignore_ascii_case("svg") {
+            (
+                stored.or_else(|| {
+                    path.as_deref()
+                        .or(data_path.as_deref())
+                        .and_then(svg_from_file)
+                }),
+                None,
+            )
+        } else {
+            (
+                None,
+                path.as_deref()
+                    .or(data_path.as_deref())
+                    .and_then(image_from_file),
+            )
+        };
         Ok(SymbolRecord {
             id: row.get(0)?,
             concept_id: row.get(1)?,
@@ -198,6 +249,7 @@ impl Database {
             commercial_ok: row.get::<_, i64>(11)? != 0,
             status: row.get(12)?,
             svg,
+            image,
         })
     }
 
@@ -263,7 +315,8 @@ impl Database {
              WHERE s.concept_id = ?1 AND s.hide = 0
                AND (?2 IS NULL OR s.pack_id = ?2)
                AND (?3 = 0 OR p.commercial_ok = 1)
-             ORDER BY CASE s.status WHEN 'approved' THEN 0 ELSE 1 END, s.id
+             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
+                      CASE s.status WHEN 'approved' THEN 0 ELSE 1 END, s.id
              LIMIT 24"
         );
         let mut stmt = self.conn.prepare(&sql)?;
@@ -298,7 +351,7 @@ impl Database {
                                WHERE k.symbol_id = s.id AND lower(trim(k.term)) = ?1))
                AND (?2 IS NULL OR s.pack_id = ?2)
                AND (?3 = 0 OR p.commercial_ok = 1)
-             ORDER BY CASE WHEN s.pack_id = 'personal' THEN 0 ELSE 1 END,
+             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
                       CASE s.status WHEN 'approved' THEN 0 ELSE 1 END, s.id
              LIMIT 1"
         );
@@ -350,7 +403,7 @@ impl Database {
                 "{SYMBOL_SELECT} WHERE s.hide = 0 AND (?1 IS NULL OR s.pack_id = ?1)
                  AND (?2 = 0 OR p.commercial_ok = 1)
                  AND (?3 IS NULL OR s.collection_id = ?3)
-                 ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 ELSE 1 END,
+                 ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
                           s.concept_id, s.id LIMIT ?4 OFFSET ?5"
             );
             let mut stmt = self.conn.prepare(&sql)?;
@@ -384,7 +437,8 @@ impl Database {
                    AND (?2 IS NULL OR s.pack_id = ?2)
                    AND (?3 = 0 OR p.commercial_ok = 1)
                    AND (?4 IS NULL OR s.collection_id = ?4)
-                 ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 ELSE 1 END,
+                 ORDER BY CASE WHEN lower(trim(s.label)) = ?7 THEN 0 ELSE 1 END,
+                          CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
                           bm25(symbol_fts), s.id LIMIT ?5 OFFSET ?6"
             );
             if let Ok(mut stmt) = self.conn.prepare(&sql) {
@@ -395,7 +449,8 @@ impl Database {
                         filters.commercial_only as i64,
                         filters.collection_id,
                         limit,
-                        offset
+                        offset,
+                        trimmed.to_lowercase()
                     ],
                     Self::map_symbol,
                 );
@@ -430,7 +485,7 @@ impl Database {
             "{SYMBOL_SELECT} WHERE s.hide = 0 AND (lower(s.label) LIKE ?1 OR lower(IFNULL(s.meaning,'')) LIKE ?1)
              AND (?2 IS NULL OR s.pack_id = ?2) AND (?3 = 0 OR p.commercial_ok = 1)
              AND (?4 IS NULL OR s.collection_id = ?4)
-             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 ELSE 1 END,
+             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
                       length(s.label), s.id LIMIT ?5 OFFSET ?6"
         );
         let mut stmt = self.conn.prepare(&sql)?;

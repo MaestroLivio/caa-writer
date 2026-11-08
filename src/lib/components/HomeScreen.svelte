@@ -18,6 +18,7 @@
     onOpenDocument: () => void;
     onOpenRecent: (path: string) => void;
     onOpenLibrary: () => void;
+    onOpenStory: () => void;
     onOpenSettings: () => void;
     onOpenTemplate: (templateId: string) => void;
   }
@@ -30,6 +31,7 @@
     onOpenDocument,
     onOpenRecent,
     onOpenLibrary,
+    onOpenStory,
     onOpenSettings,
     onOpenTemplate,
   }: Props = $props();
@@ -161,6 +163,30 @@
           </button>
         {/each}
       </div>
+    </section>
+
+    <section class="story-cta" aria-labelledby="story-cta-title">
+      <div>
+        <h2 id="story-cta-title">Crea una storia illustrata in CAA</h2>
+        <p>
+          Genera una storia multipagina con scene vettoriali, testo CAA, pittogrammi indipendenti,
+          collegamenti e player. Ogni elemento resta modificabile nell'editor.
+        </p>
+      </div>
+      <button class="story-cta__button" onclick={onOpenStory}>Apri Story Studio <span aria-hidden="true">›</span></button>
+    </section>
+
+    <section class="library-cta" aria-labelledby="library-cta-title">
+      <div>
+        <h2 id="library-cta-title">{copy.library}</h2>
+        <p>
+          Comunicazione, storie, agende, TEACCH, schede didattiche e giochi: cerca per obiettivo,
+          competenza o sinonimo e apri un'anteprima fedele prima di scegliere.
+        </p>
+      </div>
+      <button class="library-cta__button" onclick={onOpenLibrary}>
+        Sfoglia la libreria <span aria-hidden="true">›</span>
+      </button>
     </section>
 
     <section aria-labelledby="recent-title">
@@ -322,6 +348,58 @@
     letter-spacing: 0.06em;
     color: var(--muted, #5b6472);
   }
+
+  .story-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #1d4ed8, #0f766e);
+    color: #fff;
+    box-shadow: 0 10px 26px #1d4ed833;
+  }
+  .story-cta h2 { margin: 0 0 4px; font-size: 20px; }
+  .story-cta p { margin: 0; max-width: 720px; font-size: 13px; color: #dbeafe; }
+  .story-cta__button {
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    color: #1e3a8a;
+    font: inherit;
+    font-weight: 700;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  .story-cta__button:hover { background: #eff6ff; }
+
+  .library-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #0f766e, #115e59);
+    color: #fff;
+    box-shadow: 0 10px 26px #0f766e33;
+  }
+  .library-cta h2 { margin: 0 0 4px; font-size: 20px; }
+  .library-cta p { margin: 0; max-width: 720px; font-size: 13px; color: #d1fae5; }
+  .library-cta__button {
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    color: #115e59;
+    font: inherit;
+    font-weight: 700;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  .library-cta__button:hover { background: #ecfdf5; }
 
   .home__section-head {
     display: flex;

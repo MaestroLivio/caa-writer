@@ -4,7 +4,7 @@
   "description": "Domande di comprensione sul soggetto dell'azione. 6 voci, tra cui Chi corre? Il cane, Chi legge? La maestra, Chi dorme? Il gatto, Chi gioca? Il bambino e altre ancora.",
   "category": "Materiali didattici",
   "source_type": "template",
-  "kind": "teaching",
+  "kind": "worksheet",
   "interactive": false,
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
@@ -13,125 +13,616 @@
     {
       "id": "home",
       "title": "Comprensione: chi?",
-      "layout": "flow",
+      "layout": "absolute",
       "home": true,
       "elements": [
         {
-          "id": "lib_did_comprensione_chi-p1-title",
-          "kind": "text",
+          "id": "lib_did_comprensione_chi-badge",
+          "kind": "badge",
+          "text": "ITALIANO",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": true,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-title",
+          "kind": "title",
           "text": "Comprensione: chi?",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 8.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-field-title",
-          "kind": "text",
-          "text": "Comprensione: chi?",
+          "id": "lib_did_comprensione_chi-sub",
+          "kind": "subtitle",
+          "text": "Scheda operativa · materiale modificabile",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
+          "id": "lib_did_comprensione_chi-instr",
+          "kind": "instruction",
+          "text": "Osserva l'immagine, leggi la parola e ricopiala. Poi usala in una frase.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 10,
           "style": {
-            "font_size": 4.6,
-            "italic": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-1",
+          "id": "lib_did_comprensione_chi-img-0",
           "kind": "symbol",
-          "text": "Chi corre? Il cane",
+          "text": "",
           "symbol": "Chi corre? Il cane",
-          "concept": null,
-          "spoken_text": "Chi corre? Il cane",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 56,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-2",
+          "id": "lib_did_comprensione_chi-word-0",
+          "kind": "text",
+          "text": "Chi corre? Il cane",
+          "x_mm": 42,
+          "y_mm": 60,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-line-0",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 58,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-img-1",
           "kind": "symbol",
-          "text": "Chi legge? La maestra",
+          "text": "",
           "symbol": "Chi legge? La maestra",
-          "concept": null,
-          "spoken_text": "Chi legge? La maestra",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 83,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-3",
+          "id": "lib_did_comprensione_chi-word-1",
+          "kind": "text",
+          "text": "Chi legge? La maestra",
+          "x_mm": 42,
+          "y_mm": 87,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-line-1",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 85,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-img-2",
           "kind": "symbol",
-          "text": "Chi dorme? Il gatto",
+          "text": "",
           "symbol": "Chi dorme? Il gatto",
-          "concept": null,
-          "spoken_text": "Chi dorme? Il gatto",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 110,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-4",
+          "id": "lib_did_comprensione_chi-word-2",
+          "kind": "text",
+          "text": "Chi dorme? Il gatto",
+          "x_mm": 42,
+          "y_mm": 114,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-line-2",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 112,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-img-3",
           "kind": "symbol",
-          "text": "Chi gioca? Il bambino",
+          "text": "",
           "symbol": "Chi gioca? Il bambino",
-          "concept": null,
-          "spoken_text": "Chi gioca? Il bambino",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 137,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-5",
+          "id": "lib_did_comprensione_chi-word-3",
+          "kind": "text",
+          "text": "Chi gioca? Il bambino",
+          "x_mm": 42,
+          "y_mm": 141,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-line-3",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 139,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-img-4",
           "kind": "symbol",
-          "text": "Chi cucina? La mamma",
+          "text": "",
           "symbol": "Chi cucina? La mamma",
-          "concept": null,
-          "spoken_text": "Chi cucina? La mamma",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 164,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_comprensione_chi-p1-6",
-          "kind": "symbol",
-          "text": "Chi guida? Il papà",
-          "symbol": "Chi guida? Il papà",
-          "concept": null,
-          "spoken_text": "Chi guida? Il papà",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_comprensione_chi-word-4",
+          "kind": "text",
+          "text": "Chi cucina? La mamma",
+          "x_mm": 42,
+          "y_mm": 168,
+          "w_mm": 46,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-line-4",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 166,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-img-5",
+          "kind": "symbol",
+          "text": "",
+          "symbol": "Chi guida? Il papà",
+          "x_mm": 10,
+          "y_mm": 191,
+          "w_mm": 28,
+          "h_mm": 24,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-word-5",
+          "kind": "text",
+          "text": "Chi guida? Il papà",
+          "x_mm": 42,
+          "y_mm": 195,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-line-5",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 193,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
+    },
+    {
+      "id": "soluzioni",
+      "title": "Soluzioni",
+      "layout": "absolute",
+      "elements": [
+        {
+          "id": "lib_did_comprensione_chi-sol-title",
+          "kind": "title",
+          "text": "Soluzioni e note per il docente",
+          "x_mm": 10,
+          "y_mm": 18,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 7.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-sol-list",
+          "kind": "text",
+          "text": "Parole della scheda: Chi corre? Il cane, Chi legge? La maestra, Chi dorme? Il gatto, Chi gioca? Il bambino, Chi cucina? La mamma, Chi guida? Il papà.",
+          "x_mm": 10,
+          "y_mm": 38,
+          "w_mm": 190,
+          "h_mm": 40,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_comprensione_chi-sol-note",
+          "kind": "note",
+          "text": "Obiettivo: consolidare lettura, scrittura e uso del lessico. Adattamento: ridurre le parole, aumentare il carattere, fornire la prima lettera o leggere ad alta voce. Accettare risposte corrette anche con grafia non convenzionale.",
+          "x_mm": 10,
+          "y_mm": 90,
+          "w_mm": 190,
+          "h_mm": 34,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.5,
+            "bold": false,
+            "italic": true,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        }
+      ]
     }
   ]
 }

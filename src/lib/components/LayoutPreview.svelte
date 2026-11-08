@@ -17,7 +17,9 @@
           class:locked={element.locked}
           style={`left:${element.x_mm}mm;top:${element.y_mm}mm;width:${element.w_mm}mm;height:${element.h_mm}mm;font-size:${element.font_mm}mm`}
         >
-          {#if element.svg}
+          {#if element.image}
+            <div class="layout-el__symbol"><img src={element.image} alt="" /></div>
+          {:else if element.svg}
             <div class="layout-el__symbol">{@html element.svg}</div>
           {/if}
           {#if element.label}
@@ -83,7 +85,8 @@
     justify-content: center;
   }
 
-  .layout-el__symbol :global(svg) {
+  .layout-el__symbol :global(svg),
+  .layout-el__symbol :global(img) {
     width: 100%;
     height: 100%;
     object-fit: contain;

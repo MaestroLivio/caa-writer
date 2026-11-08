@@ -163,7 +163,9 @@
           title={cell.spokenText || cell.label}
         >
           <span class="board-cell__symbol">
-            {#if cell.svg}
+            {#if cell.image_asset}
+              <img src={cell.image_asset} alt="" />
+            {:else if cell.svg}
               {@html cell.svg}
             {:else}
               <span class="board-cell__empty">?</span>

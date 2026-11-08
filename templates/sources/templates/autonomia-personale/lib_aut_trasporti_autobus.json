@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_aut_trasporti_autobus-p1-field-title",
-          "kind": "text",
-          "text": "Trasporti: prendere l'autobus",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_aut_trasporti_autobus-p1-field-layout",
           "kind": "text",
           "text": "verticale",

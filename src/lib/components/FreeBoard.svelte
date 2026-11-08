@@ -53,6 +53,7 @@
         id: uid(),
         label: alternative.label,
         svg: alternative.svg,
+        image: alternative.image ?? null,
         symbolId: alternative.symbol_id,
         conceptId: alternative.concept_id,
         approximate: alternative.approximate,
@@ -61,7 +62,10 @@
   }
 
   function addBlank() {
-    cells = [...cells, { id: uid(), label: "", svg: null, symbolId: null, conceptId: null, approximate: false }];
+    cells = [
+      ...cells,
+      { id: uid(), label: "", svg: null, image: null, symbolId: null, conceptId: null, approximate: false },
+    ];
   }
 
   function remove(id: string) {
@@ -163,7 +167,9 @@
             title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
             onclick={() => add(alternative)}
           >
-            {#if alternative.svg}
+            {#if alternative.image}
+              <span class="pick__media"><img src={alternative.image} alt="" /></span>
+            {:else if alternative.svg}
               <span class="pick__media">{@html alternative.svg}</span>
             {:else}
               <span class="caa-chip__empty">?</span>
@@ -187,7 +193,9 @@
         {#each cells as cell (cell.id)}
           <div class="cell">
             <div class="cell__media">
-              {#if cell.svg}
+              {#if cell.image}
+                <img src={cell.image} alt="" />
+              {:else if cell.svg}
                 {@html cell.svg}
               {:else}
                 <span class="caa-chip__empty">?</span>
@@ -294,7 +302,8 @@
     border-color: #2f6fed;
   }
 
-  .pick__media :global(svg) {
+  .pick__media :global(svg),
+  .pick__media :global(img) {
     width: 44px;
     height: 44px;
   }
@@ -355,7 +364,8 @@
     min-height: 72px;
   }
 
-  .cell__media :global(svg) {
+  .cell__media :global(svg),
+  .cell__media :global(img) {
     width: 72px;
     height: 72px;
   }

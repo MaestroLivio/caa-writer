@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_seq_lavarsi_denti_verticale-p1-field-title",
-          "kind": "text",
-          "text": "Lavarsi i denti: sequenza verticale",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_seq_lavarsi_denti_verticale-p1-field-layout",
           "kind": "text",
           "text": "verticale",

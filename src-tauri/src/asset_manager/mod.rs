@@ -119,6 +119,7 @@ pub fn alternative_from_record(record: &crate::database::SymbolRecord) -> Altern
         pack_name: record.pack_name.clone(),
         format: record.format.clone(),
         svg: record.svg.clone(),
+        image: record.image.clone(),
         approximate: false,
         neural: false,
         license: record.license.clone(),

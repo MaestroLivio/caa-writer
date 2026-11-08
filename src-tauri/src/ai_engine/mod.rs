@@ -118,6 +118,17 @@ fn is_function_word(word: &str) -> bool {
 /// virgole; niente numeri, elenchi o frasi lunghe. `limit` fissa quante
 /// parole accettare al massimo.
 pub fn parse_related_words(raw: &str, limit: usize) -> Vec<String> {
+    parse_words(raw, limit, 2)
+}
+
+/// Sinonimi e brevi espressioni («gettare l'ancora», «mettere in sicurezza»):
+/// si accettano fino a quattro parole, perché il repertorio ARASAAC contiene
+/// anche etichette composte.
+pub fn parse_synonyms(raw: &str, limit: usize) -> Vec<String> {
+    parse_words(raw, limit, 4)
+}
+
+fn parse_words(raw: &str, limit: usize, max_words: usize) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
     let limit = limit.max(1);
     for line in answer_text(raw).lines() {
@@ -130,7 +141,7 @@ pub fn parse_related_words(raw: &str, limit: usize) -> Vec<String> {
                 .trim()
                 .trim_matches('"')
                 .to_string();
-            if cleaned.is_empty() || cleaned.split_whitespace().count() > 2 {
+            if cleaned.is_empty() || cleaned.split_whitespace().count() > max_words {
                 continue;
             }
             if !cleaned.chars().any(|c| c.is_alphabetic()) {

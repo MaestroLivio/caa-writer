@@ -129,6 +129,26 @@ pub fn detect_format(bytes: &[u8]) -> DetectedFormat {
     DetectedFormat::Unknown
 }
 
+/// Restituisce un'immagine come data URL, senza conversioni in SVG: il
+/// WebView la mostra con `<img src>`, gli export la decodificano dai byte.
+pub fn image_data_url(bytes: &[u8]) -> Result<String, String> {
+    let mime = match detect_format(bytes) {
+        DetectedFormat::Png => "image/png",
+        DetectedFormat::Jpeg => "image/jpeg",
+        DetectedFormat::Gif => "image/gif",
+        DetectedFormat::Webp => "image/webp",
+        DetectedFormat::Bmp => "image/bmp",
+        DetectedFormat::Tiff => "image/tiff",
+        DetectedFormat::Ico => "image/x-icon",
+        DetectedFormat::Avif => "image/avif",
+        DetectedFormat::Heic => "image/heic",
+        DetectedFormat::Svg => "image/svg+xml",
+        DetectedFormat::Unknown => return Err("formato immagine non riconosciuto".to_string()),
+    };
+    let encoded = base64::engine::general_purpose::STANDARD.encode(bytes);
+    Ok(format!("data:{mime};base64,{encoded}"))
+}
+
 /// Propone un lemma dal nome del file: rimuove estensione, separatori
 /// tecnici e suffissi numerici puramente tecnici, senza cancellare numeri
 /// interni che possono avere significato («3 desideri»).
@@ -305,19 +325,16 @@ fn svg_dimensions(view_box: Option<&str>) -> (Option<u32>, Option<u32>) {
     }
 }
 
-fn raster_asset(img: &image::DynamicImage) -> Result<(String, u32, u32), String> {
-    let (width, height) = (img.width(), img.height());
+/// Ridimensiona e codifica un'immagine in PNG, senza creare un SVG. Il file
+/// prodotto è direttamente quello mostrato e stampato.
+fn raster_png(img: &image::DynamicImage) -> Result<(Vec<u8>, u32, u32), String> {
     let thumb = img.thumbnail(STORED_PIXELS, STORED_PIXELS);
+    let (width, height) = (thumb.width().max(1), thumb.height().max(1));
     let mut png = Vec::new();
     thumb
         .write_to(&mut Cursor::new(&mut png), image::ImageFormat::Png)
-        .map_err(|e| format!("codifica anteprima: {e}"))?;
-    let encoded = base64::engine::general_purpose::STANDARD.encode(&png);
-    let svg = format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {width} {height}\"><image href=\"data:image/png;base64,{encoded}\" x=\"0\" y=\"0\" width=\"{width}\" height=\"{height}\" preserveAspectRatio=\"xMidYMid meet\"/></svg>"
-    );
-    let sanitized = crate::asset_manager::svg::sanitize(&svg, 4 * 1024 * 1024)?;
-    Ok((sanitized.svg, width, height))
+        .map_err(|e| format!("codifica PNG: {e}"))?;
+    Ok((png, width, height))
 }
 
 fn preview_for(
@@ -660,17 +677,19 @@ fn import_single(
         return Ok((existing, "duplicate".to_string()));
     }
 
-    let (asset_svg, width, height) = if detected == DetectedFormat::Svg {
+    // Gli SVG restano vettoriali; ogni altro formato viene salvato come PNG
+    // ridimensionato e usato direttamente, senza wrapper SVG.
+    let (asset_svg, asset_png, width, height) = if detected == DetectedFormat::Svg {
         let text = std::str::from_utf8(&bytes)
             .map_err(|_| "SVG non codificato in UTF-8".to_string())?;
         let sanitized = crate::asset_manager::svg::sanitize(text, MAX_SVG_BYTES)?;
         let (width, height) = svg_dimensions(sanitized.view_box.as_deref());
-        (sanitized.svg, width, height)
+        (Some(sanitized.svg), None, width, height)
     } else {
         let img = image::load_from_memory(&bytes)
             .map_err(|e| format!("decodifica {} non riuscita: {e}", detected.as_str()))?;
-        let (svg, width, height) = raster_asset(&img)?;
-        (svg, Some(width), Some(height))
+        let (png, width, height) = raster_png(&img)?;
+        (None, Some(png), Some(width), Some(height))
     };
 
     let extension = detected.as_str();
@@ -680,6 +699,15 @@ fn import_single(
     if !original_path.exists() {
         fs::write(&original_path, &bytes).map_err(|e| format!("copia del file: {e}"))?;
     }
+    let stored_png_path = if let Some(png) = &asset_png {
+        let path = original_dir.join(format!("{}_512.png", &hash[..16]));
+        if !path.exists() {
+            fs::write(&path, png).map_err(|e| format!("salvataggio PNG: {e}"))?;
+        }
+        Some(path)
+    } else {
+        None
+    };
 
     let lemma_slug = {
         let slug = slugify(lemma);
@@ -744,7 +772,7 @@ fn import_single(
                 license_name,
                 license.url.clone(),
                 license.source_url.clone(),
-                detected.as_str(),
+                if asset_png.is_some() { "png" } else { detected.as_str() },
                 original_path.to_string_lossy().to_string(),
                 width.map(|value| value as i64),
                 height.map(|value| value as i64),
@@ -766,14 +794,26 @@ fn import_single(
             rusqlite::params![symbol_id],
         )
         .map_err(|e| e.to_string())?;
-    let asset_bytes = asset_svg.len() as i64;
+    let (asset_storage, asset_data, asset_path, asset_bytes) = match &asset_svg {
+        Some(svg) => ("db", Some(svg.clone()), None, svg.len() as i64),
+        None => (
+            "file",
+            None,
+            stored_png_path
+                .as_ref()
+                .map(|path| path.to_string_lossy().to_string()),
+            asset_png.as_ref().map(|png| png.len() as i64).unwrap_or(0),
+        ),
+    };
     db.conn()
         .execute(
             "INSERT INTO symbol_assets(symbol_id, kind, storage, data, path, width, height, bytes)
-             VALUES (?1, 'original', 'db', ?2, NULL, ?3, ?4, ?5)",
+             VALUES (?1, 'original', ?2, ?3, ?4, ?5, ?6, ?7)",
             rusqlite::params![
                 symbol_id,
-                asset_svg,
+                asset_storage,
+                asset_data,
+                asset_path,
                 width.map(|value| value as i64),
                 height.map(|value| value as i64),
                 asset_bytes
@@ -1164,7 +1204,20 @@ mod tests {
         let page = db
             .search_symbols("gatto", 10, 0, &crate::database::SymbolFilters::default())
             .unwrap();
-        assert!(page.items.iter().any(|item| item.label == "gatto"));
+        let gatto = page.items.iter().find(|item| item.label == "gatto").unwrap();
+        // Il PNG importato resta un'immagine (data URL), senza wrapper SVG.
+        assert!(gatto.image.as_deref().is_some_and(|value| value.starts_with("data:image/png;base64,")));
+        assert!(gatto.svg.is_none());
+        let laptop = db
+            .search_symbols("computer portatile", 10, 0, &crate::database::SymbolFilters::default())
+            .unwrap();
+        let laptop = laptop
+            .items
+            .iter()
+            .find(|item| item.label == "computer portatile")
+            .unwrap();
+        assert!(laptop.svg.is_some());
+        assert!(laptop.image.is_none());
         let synonyms = db
             .search_symbols("micio", 10, 0, &crate::database::SymbolFilters::default())
             .unwrap();

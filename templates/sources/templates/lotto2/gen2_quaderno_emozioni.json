@@ -1,0 +1,2036 @@
+{
+  "id": "gen2_quaderno_emozioni",
+  "title": "Quaderno: emozioni e aiuto",
+  "description": "Quaderno per riconoscere e comunicare stati interni.",
+  "category": "Sistemi comunicativi",
+  "source_type": "template",
+  "kind": "communication_board",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "margin_mm": 10,
+  "taxonomy": {
+    "category_id": "aac",
+    "subcategory_id": "quaderni",
+    "audience": "primaria",
+    "objective": "Quaderno per riconoscere e comunicare stati interni.",
+    "tags": [
+      "emozioni",
+      "corpo",
+      "aiuto",
+      "strategie"
+    ],
+    "complexity": "intermedio",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": true,
+    "featured": false
+  },
+  "pages": [
+    {
+      "id": "home",
+      "title": "Quaderno: emozioni e aiuto",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "hdr-badge-1",
+          "kind": "badge",
+          "text": "COMUNICAZIONE",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-1",
+          "kind": "title",
+          "text": "Quaderno: emozioni e aiuto",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-1",
+          "kind": "subtitle",
+          "text": "Scegli una categoria. Ogni parola può essere aggiunta alla frase.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-1",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 5",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hemozioni",
+          "kind": "symbol",
+          "text": "Emozioni",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.1,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#0f766e",
+            "border_width": 0.6,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": true,
+            "italic": false
+          },
+          "symbol": "Emozioni",
+          "action": {
+            "type": "navigate",
+            "target": "emozioni"
+          },
+          "row": 0,
+          "column": 0,
+          "spoken_text": "Emozioni"
+        },
+        {
+          "id": "hcorpo",
+          "kind": "symbol",
+          "text": "Corpo",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.1,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#0f766e",
+            "border_width": 0.6,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": true,
+            "italic": false
+          },
+          "symbol": "Corpo",
+          "action": {
+            "type": "navigate",
+            "target": "corpo"
+          },
+          "row": 0,
+          "column": 1,
+          "spoken_text": "Corpo"
+        },
+        {
+          "id": "haiuto",
+          "kind": "symbol",
+          "text": "Aiuto",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.1,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#0f766e",
+            "border_width": 0.6,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": true,
+            "italic": false
+          },
+          "symbol": "Aiuto",
+          "action": {
+            "type": "navigate",
+            "target": "aiuto"
+          },
+          "row": 0,
+          "column": 2,
+          "spoken_text": "Aiuto"
+        },
+        {
+          "id": "hstrategie",
+          "kind": "symbol",
+          "text": "Strategie",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.1,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#0f766e",
+            "border_width": 0.6,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": true,
+            "italic": false
+          },
+          "symbol": "calmarsi",
+          "action": {
+            "type": "navigate",
+            "target": "strategie"
+          },
+          "row": 1,
+          "column": 0,
+          "spoken_text": "Strategie"
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "gap_mm": 3,
+        "origin_x_mm": 10,
+        "origin_y_mm": 42,
+        "content_width_mm": 190,
+        "content_height_mm": 215,
+        "align": "left",
+        "valign": "top"
+      }
+    },
+    {
+      "id": "emozioni",
+      "title": "Emozioni",
+      "layout": "grid",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-2",
+          "kind": "badge",
+          "text": "COMUNICAZIONE",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-2",
+          "kind": "title",
+          "text": "Emozioni",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-2",
+          "kind": "subtitle",
+          "text": "Tocca una parola per aggiungerla alla frase.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-2",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 5",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "emozioni0",
+          "kind": "symbol",
+          "text": "felice",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "felice",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 0,
+          "spoken_text": "felice"
+        },
+        {
+          "id": "emozioni1",
+          "kind": "symbol",
+          "text": "triste",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "triste",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 1,
+          "spoken_text": "triste"
+        },
+        {
+          "id": "emozioni2",
+          "kind": "symbol",
+          "text": "arrabbiato",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "arrabbiato",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 2,
+          "spoken_text": "arrabbiato"
+        },
+        {
+          "id": "emozioni3",
+          "kind": "symbol",
+          "text": "preoccupato",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "preoccupato",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 0,
+          "spoken_text": "preoccupato"
+        },
+        {
+          "id": "emozioni4",
+          "kind": "symbol",
+          "text": "calmo",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "calmo",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 1,
+          "spoken_text": "calmo"
+        },
+        {
+          "id": "emozioni5",
+          "kind": "symbol",
+          "text": "stanco",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "stanco",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 2,
+          "spoken_text": "stanco"
+        },
+        {
+          "id": "emozioni6",
+          "kind": "symbol",
+          "text": "sorpreso",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "sorpreso",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 0,
+          "spoken_text": "sorpreso"
+        },
+        {
+          "id": "emozioni7",
+          "kind": "symbol",
+          "text": "spaventato",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "spaventato",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 1,
+          "spoken_text": "spaventato"
+        },
+        {
+          "id": "emozioni8",
+          "kind": "symbol",
+          "text": "bene",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "bene",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 2,
+          "spoken_text": "bene"
+        },
+        {
+          "id": "emozioni-home",
+          "kind": "button",
+          "text": "⌂ Home",
+          "x_mm": 10,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#ecfdf5",
+            "border_color": "#0f766e",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "action": {
+            "type": "home"
+          },
+          "absolute": true,
+          "spoken_text": "Home"
+        },
+        {
+          "id": "emozioni-back",
+          "kind": "button",
+          "text": "‹ Indietro",
+          "x_mm": 50,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "back"
+          },
+          "absolute": true,
+          "spoken_text": "Indietro"
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3,
+        "origin_x_mm": 10,
+        "origin_y_mm": 42,
+        "content_width_mm": 190,
+        "content_height_mm": 215,
+        "align": "left",
+        "valign": "top"
+      }
+    },
+    {
+      "id": "corpo",
+      "title": "Corpo",
+      "layout": "grid",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-3",
+          "kind": "badge",
+          "text": "COMUNICAZIONE",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-3",
+          "kind": "title",
+          "text": "Corpo",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-3",
+          "kind": "subtitle",
+          "text": "Tocca una parola per aggiungerla alla frase.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-3",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 3 di 5",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "corpo0",
+          "kind": "symbol",
+          "text": "testa",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "testa",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 0,
+          "spoken_text": "testa"
+        },
+        {
+          "id": "corpo1",
+          "kind": "symbol",
+          "text": "mano",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "mano",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 1,
+          "spoken_text": "mano"
+        },
+        {
+          "id": "corpo2",
+          "kind": "symbol",
+          "text": "pancia",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "pancia",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 2,
+          "spoken_text": "pancia"
+        },
+        {
+          "id": "corpo3",
+          "kind": "symbol",
+          "text": "piede",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "piede",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 0,
+          "spoken_text": "piede"
+        },
+        {
+          "id": "corpo4",
+          "kind": "symbol",
+          "text": "occhio",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "occhio",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 1,
+          "spoken_text": "occhio"
+        },
+        {
+          "id": "corpo5",
+          "kind": "symbol",
+          "text": "orecchio",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "orecchio",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 2,
+          "spoken_text": "orecchio"
+        },
+        {
+          "id": "corpo6",
+          "kind": "symbol",
+          "text": "dolore",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "dolore",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 0,
+          "spoken_text": "dolore"
+        },
+        {
+          "id": "corpo7",
+          "kind": "symbol",
+          "text": "freddo",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "freddo",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 1,
+          "spoken_text": "freddo"
+        },
+        {
+          "id": "corpo8",
+          "kind": "symbol",
+          "text": "caldo",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "caldo",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 2,
+          "spoken_text": "caldo"
+        },
+        {
+          "id": "corpo-home",
+          "kind": "button",
+          "text": "⌂ Home",
+          "x_mm": 10,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#ecfdf5",
+            "border_color": "#0f766e",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "action": {
+            "type": "home"
+          },
+          "absolute": true,
+          "spoken_text": "Home"
+        },
+        {
+          "id": "corpo-back",
+          "kind": "button",
+          "text": "‹ Indietro",
+          "x_mm": 50,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "back"
+          },
+          "absolute": true,
+          "spoken_text": "Indietro"
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3,
+        "origin_x_mm": 10,
+        "origin_y_mm": 42,
+        "content_width_mm": 190,
+        "content_height_mm": 215,
+        "align": "left",
+        "valign": "top"
+      }
+    },
+    {
+      "id": "aiuto",
+      "title": "Aiuto",
+      "layout": "grid",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-4",
+          "kind": "badge",
+          "text": "COMUNICAZIONE",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-4",
+          "kind": "title",
+          "text": "Aiuto",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-4",
+          "kind": "subtitle",
+          "text": "Tocca una parola per aggiungerla alla frase.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-4",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 4 di 5",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "aiuto0",
+          "kind": "symbol",
+          "text": "aiuto",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "aiuto",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 0,
+          "spoken_text": "aiuto"
+        },
+        {
+          "id": "aiuto1",
+          "kind": "symbol",
+          "text": "aiutare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "aiutare",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 1,
+          "spoken_text": "aiutare"
+        },
+        {
+          "id": "aiuto2",
+          "kind": "symbol",
+          "text": "comprendere",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "comprendere",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 2,
+          "spoken_text": "comprendere"
+        },
+        {
+          "id": "aiuto3",
+          "kind": "symbol",
+          "text": "ripetere",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "ripetere",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 0,
+          "spoken_text": "ripetere"
+        },
+        {
+          "id": "aiuto4",
+          "kind": "symbol",
+          "text": "ascoltare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "ascoltare",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 1,
+          "spoken_text": "ascoltare"
+        },
+        {
+          "id": "aiuto5",
+          "kind": "symbol",
+          "text": "aspettare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "aspettare",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 2,
+          "spoken_text": "aspettare"
+        },
+        {
+          "id": "aiuto6",
+          "kind": "symbol",
+          "text": "unire",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "unire",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 0,
+          "spoken_text": "unire"
+        },
+        {
+          "id": "aiuto7",
+          "kind": "symbol",
+          "text": "adulto",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "adulto",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 1,
+          "spoken_text": "adulto"
+        },
+        {
+          "id": "aiuto8",
+          "kind": "symbol",
+          "text": "protezione",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "protezione",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 2,
+          "spoken_text": "protezione"
+        },
+        {
+          "id": "aiuto-home",
+          "kind": "button",
+          "text": "⌂ Home",
+          "x_mm": 10,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#ecfdf5",
+            "border_color": "#0f766e",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "action": {
+            "type": "home"
+          },
+          "absolute": true,
+          "spoken_text": "Home"
+        },
+        {
+          "id": "aiuto-back",
+          "kind": "button",
+          "text": "‹ Indietro",
+          "x_mm": 50,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "back"
+          },
+          "absolute": true,
+          "spoken_text": "Indietro"
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3,
+        "origin_x_mm": 10,
+        "origin_y_mm": 42,
+        "content_width_mm": 190,
+        "content_height_mm": 215,
+        "align": "left",
+        "valign": "top"
+      }
+    },
+    {
+      "id": "strategie",
+      "title": "Strategie",
+      "layout": "grid",
+      "home": false,
+      "elements": [
+        {
+          "id": "hdr-badge-5",
+          "kind": "badge",
+          "text": "COMUNICAZIONE",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-5",
+          "kind": "title",
+          "text": "Strategie",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-5",
+          "kind": "subtitle",
+          "text": "Tocca una parola per aggiungerla alla frase.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-5",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 5 di 5",
+          "x_mm": 10,
+          "y_mm": 284,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "strategie0",
+          "kind": "symbol",
+          "text": "respirare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "respirare",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 0,
+          "spoken_text": "respirare"
+        },
+        {
+          "id": "strategie1",
+          "kind": "symbol",
+          "text": "riposo",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "riposo",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 1,
+          "spoken_text": "riposo"
+        },
+        {
+          "id": "strategie2",
+          "kind": "symbol",
+          "text": "riposare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "riposare",
+          "action": {
+            "type": "append"
+          },
+          "row": 0,
+          "column": 2,
+          "spoken_text": "riposare"
+        },
+        {
+          "id": "strategie3",
+          "kind": "symbol",
+          "text": "abbraccio",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "abbraccio",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 0,
+          "spoken_text": "abbraccio"
+        },
+        {
+          "id": "strategie4",
+          "kind": "symbol",
+          "text": "spazio",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "spazio",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 1,
+          "spoken_text": "spazio"
+        },
+        {
+          "id": "strategie5",
+          "kind": "symbol",
+          "text": "parlare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "parlare",
+          "action": {
+            "type": "append"
+          },
+          "row": 1,
+          "column": 2,
+          "spoken_text": "parlare"
+        },
+        {
+          "id": "strategie6",
+          "kind": "symbol",
+          "text": "bere",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "bere",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 0,
+          "spoken_text": "bere"
+        },
+        {
+          "id": "strategie7",
+          "kind": "symbol",
+          "text": "camminare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "camminare",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 1,
+          "spoken_text": "camminare"
+        },
+        {
+          "id": "strategie8",
+          "kind": "symbol",
+          "text": "ascoltare",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.8,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 3,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "ascoltare",
+          "action": {
+            "type": "append"
+          },
+          "row": 2,
+          "column": 2,
+          "spoken_text": "ascoltare"
+        },
+        {
+          "id": "strategie-home",
+          "kind": "button",
+          "text": "⌂ Home",
+          "x_mm": 10,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#ecfdf5",
+            "border_color": "#0f766e",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "action": {
+            "type": "home"
+          },
+          "absolute": true,
+          "spoken_text": "Home"
+        },
+        {
+          "id": "strategie-back",
+          "kind": "button",
+          "text": "‹ Indietro",
+          "x_mm": 50,
+          "y_mm": 274,
+          "w_mm": 36,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.4,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": false,
+            "italic": false
+          },
+          "action": {
+            "type": "back"
+          },
+          "absolute": true,
+          "spoken_text": "Indietro"
+        }
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 3,
+        "gap_mm": 3,
+        "origin_x_mm": 10,
+        "origin_y_mm": 42,
+        "content_width_mm": 190,
+        "content_height_mm": 215,
+        "align": "left",
+        "valign": "top"
+      }
+    }
+  ]
+}

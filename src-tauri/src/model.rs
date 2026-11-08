@@ -169,6 +169,10 @@ pub struct SymbolPart {
     pub label: String,
     pub symbol_id: Option<String>,
     pub svg: Option<String>,
+    /// PNG (o altro formato raster) come data URL: i pittogrammi ARASAAC e
+    /// quelli importati restano immagini, senza conversione in SVG.
+    #[serde(default)]
+    pub image: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -181,6 +185,9 @@ pub struct Alternative {
     pub pack_name: String,
     pub format: String,
     pub svg: Option<String>,
+    /// Immagine raster pronta per `<img src>` (data URL). Alternativa a `svg`.
+    #[serde(default)]
+    pub image: Option<String>,
     pub approximate: bool,
     /// Vero se l'alternativa è stata proposta dal modello neurale (parole
     /// affini o campo semantico della frase), non dal lessico deterministico.
@@ -296,6 +303,9 @@ pub struct CaaToken {
     #[serde(default)]
     pub symbol_label: Option<String>,
     pub svg: Option<String>,
+    /// PNG dell'ARASAAC o di un pittogramma importato, come data URL.
+    #[serde(default)]
+    pub image: Option<String>,
     pub composition: Vec<SymbolPart>,
     pub strategy: String,
     pub confidence: f32,
@@ -524,6 +534,9 @@ pub struct ExportUnit {
     pub caption: String,
     pub symbol_id: Option<String>,
     pub svg: Option<String>,
+    /// PNG come data URL: usato dall'esportazione HTML.
+    #[serde(default)]
+    pub image: Option<String>,
     pub png_base64: Option<String>,
     pub approximate: bool,
 }

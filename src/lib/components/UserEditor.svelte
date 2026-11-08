@@ -33,7 +33,13 @@
   let saving = $state(false);
   let docPath = $state<string | null>(null);
 
-  type Unit = { key: string; label: string; svg: string | null; symbolId: string | null };
+  type Unit = {
+    key: string;
+    label: string;
+    svg: string | null;
+    image: string | null;
+    symbolId: string | null;
+  };
   let message = $state<Unit[]>([]);
   let unitSeq = 0;
 
@@ -84,6 +90,7 @@
         key: `u${unitSeq}`,
         label: alternative.label,
         svg: alternative.svg,
+        image: alternative.image ?? null,
         symbolId: alternative.symbol_id,
       },
     ];
@@ -132,16 +139,29 @@
     const seen = new Set<string>();
     for (const tokens of tokensByParagraph.values()) {
       for (const token of tokens) {
-        if (token.symbol_id && token.svg && !seen.has(token.symbol_id)) {
+        if (token.symbol_id && (token.svg || token.image) && !seen.has(token.symbol_id)) {
           seen.add(token.symbol_id);
-          assets.push({ symbol_id: token.symbol_id, svg: token.svg, png_base64: null });
+          const dataUrl = token.image ?? token.svg;
+          const png = dataUrl?.startsWith("data:") ? dataUrl.split(",", 2)[1] ?? null : null;
+          assets.push({
+            symbol_id: token.symbol_id,
+            svg: png ? null : token.svg,
+            png_base64: png,
+          });
         }
       }
     }
     for (const unit of message) {
-      if (unit.symbolId && unit.svg && !seen.has(unit.symbolId)) {
+      if (unit.symbolId && (unit.svg || unit.image) && !seen.has(unit.symbolId)) {
         seen.add(unit.symbolId);
-        assets.push({ symbol_id: unit.symbolId, svg: unit.svg, png_base64: null });
+        const png = unit.image?.startsWith("data:")
+          ? (unit.image.split(",", 2)[1] ?? null)
+          : null;
+        assets.push({
+          symbol_id: unit.symbolId,
+          svg: png ? null : unit.svg,
+          png_base64: png,
+        });
       }
     }
     return assets;
@@ -245,7 +265,9 @@
           {:else}
             {#each message as unit (unit.key)}
               <button class="user-unit" onclick={() => removeUnit(unit.key)} title="Rimuovi">
-                {#if unit.svg}<span class="user-unit__media">{@html unit.svg}</span>{/if}
+                {#if unit.image}
+                  <span class="user-unit__media"><img src={unit.image} alt="" /></span>
+                {:else if unit.svg}<span class="user-unit__media">{@html unit.svg}</span>{/if}
                 <span>{unit.label} ×</span>
               </button>
             {/each}
@@ -271,7 +293,9 @@
         {:else}
           {#each vocabulary as alternative (alternative.symbol_id)}
             <button class="user-symbol" onclick={() => addUnit(alternative)}>
-              {#if alternative.svg}
+              {#if alternative.image}
+                <span class="user-symbol__media"><img src={alternative.image} alt="" /></span>
+              {:else if alternative.svg}
                 <span class="user-symbol__media">{@html alternative.svg}</span>
               {:else}
                 <span class="caa-chip__empty">?</span>
@@ -328,7 +352,9 @@
           <div class="user-assist__words">
             {#each vocabulary.slice(0, 16) as alternative (alternative.symbol_id)}
               <button class="user-word" onclick={() => insertWord(alternative)}>
-                {#if alternative.svg}
+                {#if alternative.image}
+                  <span class="user-word__media"><img src={alternative.image} alt="" /></span>
+                {:else if alternative.svg}
                   <span class="user-word__media">{@html alternative.svg}</span>
                 {/if}
                 <span>{alternative.label}</span>
@@ -469,7 +495,8 @@
     font: inherit;
   }
 
-  .user-unit__media :global(svg) {
+  .user-unit__media :global(svg),
+  .user-unit__media :global(img) {
     width: 52px;
     height: 52px;
   }
@@ -510,7 +537,8 @@
     box-shadow: 0 4px 12px rgba(36, 99, 235, 0.16);
   }
 
-  .user-symbol__media :global(svg) {
+  .user-symbol__media :global(svg),
+  .user-symbol__media :global(img) {
     width: 64px;
     height: 64px;
   }
@@ -581,7 +609,8 @@
     font-size: 0.8rem;
   }
 
-  .user-word__media :global(svg) {
+  .user-word__media :global(svg),
+  .user-word__media :global(img) {
     width: 26px;
     height: 26px;
   }

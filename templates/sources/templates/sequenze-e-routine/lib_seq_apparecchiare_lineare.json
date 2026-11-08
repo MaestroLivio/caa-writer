@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_seq_apparecchiare_lineare-p1-field-title",
-          "kind": "text",
-          "text": "Apparecchiare la tavola: sequenza lineare",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_seq_apparecchiare_lineare-p1-field-layout",
           "kind": "text",
           "text": "lineare",

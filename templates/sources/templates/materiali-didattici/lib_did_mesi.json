@@ -4,7 +4,7 @@
   "description": "Scheda per ordinare i dodici mesi. 12 voci, tra cui gennaio, febbraio, marzo, aprile e altre ancora.",
   "category": "Materiali didattici",
   "source_type": "template",
-  "kind": "teaching",
+  "kind": "worksheet",
   "interactive": false,
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
@@ -13,248 +13,762 @@
     {
       "id": "home",
       "title": "I mesi dell'anno",
-      "layout": "flow",
+      "layout": "absolute",
       "home": true,
       "elements": [
         {
-          "id": "lib_did_mesi-p1-title",
-          "kind": "text",
+          "id": "lib_did_mesi-badge",
+          "kind": "badge",
+          "text": "DISCIPLINA",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": true,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-title",
+          "kind": "title",
           "text": "I mesi dell'anno",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 8.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-field-title",
-          "kind": "text",
-          "text": "I mesi dell'anno",
+          "id": "lib_did_mesi-sub",
+          "kind": "subtitle",
+          "text": "Scheda operativa · materiale modificabile",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
           "style": {
-            "font_size": 4.6,
-            "italic": false
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
+          "id": "lib_did_mesi-instr",
+          "kind": "instruction",
+          "text": "Osserva, metti in ordine e ricopia la parola.",
+          "x_mm": 10,
+          "y_mm": 40,
+          "w_mm": 190,
+          "h_mm": 10,
           "style": {
-            "font_size": 4.6,
-            "italic": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#0f766e",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-1",
+          "id": "lib_did_mesi-img-0",
           "kind": "symbol",
-          "text": "gennaio",
+          "text": "",
           "symbol": "gennaio",
-          "concept": null,
-          "spoken_text": "gennaio",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 56,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-2",
+          "id": "lib_did_mesi-word-0",
+          "kind": "text",
+          "text": "gennaio",
+          "x_mm": 42,
+          "y_mm": 60,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-0",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 58,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_mesi-img-1",
           "kind": "symbol",
-          "text": "febbraio",
+          "text": "",
           "symbol": "febbraio",
-          "concept": null,
-          "spoken_text": "febbraio",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 83,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-3",
+          "id": "lib_did_mesi-word-1",
+          "kind": "text",
+          "text": "febbraio",
+          "x_mm": 42,
+          "y_mm": 87,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-1",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 85,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_mesi-img-2",
           "kind": "symbol",
-          "text": "marzo",
+          "text": "",
           "symbol": "marzo",
-          "concept": null,
-          "spoken_text": "marzo",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 110,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-4",
+          "id": "lib_did_mesi-word-2",
+          "kind": "text",
+          "text": "marzo",
+          "x_mm": 42,
+          "y_mm": 114,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-2",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 112,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_mesi-img-3",
           "kind": "symbol",
-          "text": "aprile",
+          "text": "",
           "symbol": "aprile",
-          "concept": null,
-          "spoken_text": "aprile",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 137,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-5",
+          "id": "lib_did_mesi-word-3",
+          "kind": "text",
+          "text": "aprile",
+          "x_mm": 42,
+          "y_mm": 141,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-3",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 139,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_mesi-img-4",
           "kind": "symbol",
-          "text": "maggio",
+          "text": "",
           "symbol": "maggio",
-          "concept": null,
-          "spoken_text": "maggio",
-          "action": {
-            "type": "speak"
-          },
+          "x_mm": 10,
+          "y_mm": 164,
+          "w_mm": 28,
+          "h_mm": 24,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p1-6",
-          "kind": "symbol",
-          "text": "giugno",
-          "symbol": "giugno",
-          "concept": null,
-          "spoken_text": "giugno",
-          "action": {
-            "type": "speak"
-          },
+          "id": "lib_did_mesi-word-4",
+          "kind": "text",
+          "text": "maggio",
+          "x_mm": 42,
+          "y_mm": 168,
+          "w_mm": 46,
+          "h_mm": 12,
           "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-4",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 166,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_mesi-img-5",
+          "kind": "symbol",
+          "text": "",
+          "symbol": "giugno",
+          "x_mm": 10,
+          "y_mm": 191,
+          "w_mm": 28,
+          "h_mm": 24,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-word-5",
+          "kind": "text",
+          "text": "giugno",
+          "x_mm": 42,
+          "y_mm": 195,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-5",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 193,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_mesi-img-6",
+          "kind": "symbol",
+          "text": "",
+          "symbol": "luglio",
+          "x_mm": 10,
+          "y_mm": 218,
+          "w_mm": 28,
+          "h_mm": 24,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-word-6",
+          "kind": "text",
+          "text": "luglio",
+          "x_mm": 42,
+          "y_mm": 222,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-6",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 220,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
+          }
+        },
+        {
+          "id": "lib_did_mesi-img-7",
+          "kind": "symbol",
+          "text": "",
+          "symbol": "agosto",
+          "x_mm": 10,
+          "y_mm": 245,
+          "w_mm": 28,
+          "h_mm": 24,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "bold": false,
+            "italic": false,
+            "align": "center",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-word-7",
+          "kind": "text",
+          "text": "agosto",
+          "x_mm": 42,
+          "y_mm": 249,
+          "w_mm": 46,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-line-7",
+          "kind": "answer_line",
+          "text": "",
+          "x_mm": 92,
+          "y_mm": 247,
+          "w_mm": 100,
+          "h_mm": 18,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.0,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          },
+          "metadata": {
+            "lines": 1
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
     },
     {
-      "id": "pagina-2",
-      "title": "I mesi dell'anno · 2",
-      "layout": "flow",
-      "home": false,
+      "id": "soluzioni",
+      "title": "Soluzioni",
+      "layout": "absolute",
       "elements": [
         {
-          "id": "lib_did_mesi-p2-title",
+          "id": "lib_did_mesi-sol-title",
+          "kind": "title",
+          "text": "Soluzioni e note per il docente",
+          "x_mm": 10,
+          "y_mm": 18,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 7.4,
+            "bold": true,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
+          }
+        },
+        {
+          "id": "lib_did_mesi-sol-list",
           "kind": "text",
-          "text": "I mesi dell'anno · 2",
+          "text": "Parole della scheda: gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto.",
+          "x_mm": 10,
+          "y_mm": 38,
+          "w_mm": 190,
+          "h_mm": 40,
           "style": {
-            "font_size": 8,
-            "bold": true
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "bold": false,
+            "italic": false,
+            "align": "left",
+            "valign": "top",
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         },
         {
-          "id": "lib_did_mesi-p2-field-title",
-          "kind": "text",
-          "text": "I mesi dell'anno",
+          "id": "lib_did_mesi-sol-note",
+          "kind": "note",
+          "text": "Obiettivo: consolidare lettura, scrittura e uso del lessico. Adattamento: ridurre le parole, aumentare il carattere, fornire la prima lettera o leggere ad alta voce. Accettare risposte corrette anche con grafia non convenzionale.",
+          "x_mm": 10,
+          "y_mm": 90,
+          "w_mm": 190,
+          "h_mm": 34,
           "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
-          "id": "lib_did_mesi-p2-field-instructions",
-          "kind": "text",
-          "text": "Osserva, scegli e completa.",
-          "style": {
-            "font_size": 4.6,
-            "italic": true
-          }
-        },
-        {
-          "id": "lib_did_mesi-p2-1",
-          "kind": "symbol",
-          "text": "luglio",
-          "symbol": "luglio",
-          "concept": null,
-          "spoken_text": "luglio",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_mesi-p2-2",
-          "kind": "symbol",
-          "text": "agosto",
-          "symbol": "agosto",
-          "concept": null,
-          "spoken_text": "agosto",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_mesi-p2-3",
-          "kind": "symbol",
-          "text": "settembre",
-          "symbol": "settembre",
-          "concept": null,
-          "spoken_text": "settembre",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_mesi-p2-4",
-          "kind": "symbol",
-          "text": "ottobre",
-          "symbol": "ottobre",
-          "concept": null,
-          "spoken_text": "ottobre",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_mesi-p2-5",
-          "kind": "symbol",
-          "text": "novembre",
-          "symbol": "novembre",
-          "concept": null,
-          "spoken_text": "novembre",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
-          }
-        },
-        {
-          "id": "lib_did_mesi-p2-6",
-          "kind": "symbol",
-          "text": "dicembre",
-          "symbol": "dicembre",
-          "concept": null,
-          "spoken_text": "dicembre",
-          "action": {
-            "type": "speak"
-          },
-          "style": {
-            "font_size": 4.6
+            "font_family": "Arial",
+            "font_size": 3.5,
+            "bold": false,
+            "italic": true,
+            "align": "left",
+            "valign": "top",
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2
           }
         }
-      ],
-      "flow": {
-        "columns": 1,
-        "gap_mm": 3
-      }
+      ]
     }
   ]
 }

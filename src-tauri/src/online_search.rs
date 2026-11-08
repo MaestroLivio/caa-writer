@@ -20,6 +20,8 @@ use crate::util::now_iso;
 
 pub const PROVIDER_WIKIMEDIA: &str = "wikimedia";
 pub const PROVIDER_ARASAAC: &str = "arasaac";
+pub const PROVIDER_GLOBAL_SYMBOLS: &str = "global-symbols";
+pub const PROVIDER_OPENVERSE: &str = "openverse";
 const CACHE_TTL_HOURS: i64 = 24;
 const MAX_DOWNLOAD_BYTES: usize = 10 * 1024 * 1024;
 const MAX_TERMS: usize = 4;
@@ -254,17 +256,20 @@ pub fn providers() -> Vec<OnlineProviderInfo> {
                 .to_string(),
         },
         OnlineProviderInfo {
-            id: "openverse".to_string(),
-            name: "Openverse".to_string(),
-            enabled: false,
-            note: "Non collegato in questa build: richiede verifica dei limiti e delle condizioni API."
+            id: PROVIDER_GLOBAL_SYMBOLS.to_string(),
+            name: "Global Symbols".to_string(),
+            enabled: true,
+            note: "Catalogo federato internazionale; licenza e autore vengono letti dal symbolset. \
+                   I risultati ARASAAC sono già disponibili anche dal provider principale."
                 .to_string(),
         },
         OnlineProviderInfo {
-            id: "global-symbols".to_string(),
-            name: "Global Symbols".to_string(),
-            enabled: false,
-            note: "Non collegato: non è stata verificata un'API pubblica stabile.".to_string(),
+            id: PROVIDER_OPENVERSE.to_string(),
+            name: "Openverse".to_string(),
+            enabled: true,
+            note: "Immagini con licenza aperta (fotografie e illustrazioni). Non sono pittogrammi CAA: \
+                   controllare sempre licenza e pertinenza."
+                .to_string(),
         },
     ]
 }
@@ -609,6 +614,12 @@ fn parse_arasaac(value: &Value, query: &str) -> OnlineResponse {
 }
 
 fn fetch_arasaac(query: &str) -> Result<OnlineResponse, String> {
+    fetch_arasaac_in_language(query, "it")
+}
+
+/// Cerca nel catalogo ARASAAC nella lingua indicata. Serve alla ricerca
+/// inglese delle alternative: il termine viene tradotto prima di arrivare qui.
+pub fn fetch_arasaac_in_language(query: &str, language: &str) -> Result<OnlineResponse, String> {
     // L'API ARASAAC cerca per singolo termine: si usa il primo lemma, non la
     // frase completa.
     let term = query.split_whitespace().next().unwrap_or(query);
@@ -619,11 +630,23 @@ fn fetch_arasaac(query: &str) -> Result<OnlineResponse, String> {
         .map_err(|e| format!("client HTTP non inizializzabile: {e}"))?;
     let response = client
         .get(format!(
-            "https://api.arasaac.org/api/pictograms/it/search/{}",
+            "https://api.arasaac.org/api/pictograms/{}/search/{}",
+            urlencoding::encode(language),
             urlencoding::encode(term)
         ))
         .send()
         .map_err(|e| format!("ARASAAC non raggiungibile: {e}"))?;
+    // 404 è la risposta normale quando il termine non esiste nel catalogo:
+    // non è un errore di rete e non deve produrre un messaggio allarmante.
+    if response.status().as_u16() == 404 {
+        return Ok(OnlineResponse {
+            provider: PROVIDER_ARASAAC.to_string(),
+            query: query.to_string(),
+            results: Vec::new(),
+            cached: false,
+            warnings: vec![format!("Nessun pittogramma ARASAAC per «{query}».")],
+        });
+    }
     if !response.status().is_success() {
         return Err(format!("ARASAAC ha risposto con stato {}", response.status()));
     }
@@ -672,59 +695,407 @@ fn fetch_wikimedia(query: &str) -> Result<OnlineResponse, String> {
     Ok(parse_wikimedia(&value, query))
 }
 
+fn http_client() -> Result<reqwest::blocking::Client, String> {
+    reqwest::blocking::Client::builder()
+        .timeout(Duration::from_secs(12))
+        .user_agent("CAAWriter/0.14 (offline-first; ricerca su richiesta dell'utente)")
+        .build()
+        .map_err(|e| format!("client HTTP non inizializzabile: {e}"))
+}
+
+/// Global Symbols espone un catalogo federato di symbolset CAA. L'endpoint
+/// pubblico dei label non richiede chiave; la licenza è nel symbolset.
+fn fetch_global_symbols_in_language(
+    query: &str,
+    language: &str,
+) -> Result<Vec<OnlineResult>, String> {
+    let client = http_client()?;
+    let response = client
+        .get("https://globalsymbols.com/api/v1/labels/search")
+        .query(&[
+            ("query", query.to_string()),
+            ("language", language.to_string()),
+            ("language_iso_format", "639-3".to_string()),
+            ("limit", "16".to_string()),
+            ("expand", "picto.symbolset".to_string()),
+        ])
+        .send()
+        .map_err(|e| format!("Global Symbols non raggiungibile: {e}"))?;
+    if !response.status().is_success() {
+        return Err(format!(
+            "Global Symbols ha risposto con stato {}",
+            response.status()
+        ));
+    }
+    let value: Value = response
+        .json()
+        .map_err(|e| format!("risposta Global Symbols non valida: {e}"))?;
+    Ok(parse_global_symbols(&value, query))
+}
+
+fn fetch_global_symbols(query: &str) -> Result<OnlineResponse, String> {
+    let mut all = Vec::new();
+    let mut warnings = Vec::new();
+    // Prima l'italiano, poi l'inglese: l'interfaccia è italiana, ma molti
+    // symbolset hanno solo etichette inglesi.
+    for language in ["ita", "eng"] {
+        match fetch_global_symbols_in_language(query, language) {
+            Ok(mut parsed) => {
+                all.append(&mut parsed);
+                if !all.is_empty() {
+                    break;
+                }
+            }
+            Err(error) => warnings.push(error),
+        }
+    }
+    all.truncate(24);
+    if all.is_empty() {
+        warnings.push(format!("Nessun simbolo Global Symbols per «{query}»."));
+    }
+    Ok(OnlineResponse {
+        provider: PROVIDER_GLOBAL_SYMBOLS.to_string(),
+        query: query.to_string(),
+        results: all,
+        cached: false,
+        warnings,
+    })
+}
+
+fn parse_global_symbols(value: &Value, query: &str) -> Vec<OnlineResult> {
+    let Some(items) = value.as_array() else {
+        return Vec::new();
+    };
+    let mut out = Vec::new();
+    for item in items {
+        let picto = item.get("picto").unwrap_or(&Value::Null);
+        let symbolset = picto.get("symbolset").unwrap_or(&Value::Null);
+        let Some(image_url) = picto.get("image_url").and_then(|v| v.as_str()) else {
+            continue;
+        };
+        if !image_url.starts_with("https://") {
+            continue;
+        }
+        let id = picto
+            .get("id")
+            .and_then(|v| v.as_i64())
+            .map(|v| v.to_string())
+            .or_else(|| item.get("id").and_then(|v| v.as_i64()).map(|v| v.to_string()))
+            .unwrap_or_else(|| format!("{}", out.len() + 1));
+        let label = item.get("text").and_then(|v| v.as_str()).unwrap_or(query);
+        let symbolset_name = symbolset
+            .get("name")
+            .and_then(|v| v.as_str())
+            .unwrap_or("Global Symbols");
+        let slug = symbolset.get("slug").and_then(|v| v.as_str()).unwrap_or("");
+        let licence = symbolset.get("licence").unwrap_or(&Value::Null);
+        let license_name = licence
+            .get("name")
+            .and_then(|v| v.as_str())
+            .or_else(|| licence.get("properties").and_then(|v| v.as_str()))
+            .unwrap_or("Licenza dichiarata dal symbolset");
+        let license_url = licence.get("url").and_then(|v| v.as_str());
+        let properties = licence
+            .get("properties")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_lowercase();
+        let native_format = picto
+            .get("native_format")
+            .and_then(|v| v.as_str())
+            .unwrap_or("png");
+        let mime = if native_format.eq_ignore_ascii_case("svg") {
+            "image/svg+xml".to_string()
+        } else {
+            "image/png".to_string()
+        };
+        let page_url = if slug.is_empty() {
+            Some("https://globalsymbols.com/".to_string())
+        } else {
+            Some(format!(
+                "https://globalsymbols.com/symbolsets/{slug}/symbols/{id}"
+            ))
+        };
+        out.push(OnlineResult {
+            provider: PROVIDER_GLOBAL_SYMBOLS.to_string(),
+            id: format!("gs-{id}"),
+            title: label.to_string(),
+            thumbnail_url: Some(image_url.to_string()),
+            image_url: image_url.to_string(),
+            page_url,
+            mime,
+            width: None,
+            height: None,
+            author: symbolset
+                .get("publisher")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            license: license_name.to_string(),
+            license_url: license_url.map(str::to_string),
+            source: format!("Global Symbols · {symbolset_name}"),
+            commercial_ok: !properties.contains("nc") && !properties.contains("nd"),
+            kind: "pittogramma".to_string(),
+        });
+    }
+    out
+}
+
+/// Openverse aggrega opere con licenza aperta. È utile per fotografie e
+/// illustrazioni, non per la CAA: il tipo è dichiarato nell'interfaccia.
+fn fetch_openverse(query: &str) -> Result<OnlineResponse, String> {
+    let client = http_client()?;
+    let response = client
+        .get("https://api.openverse.org/v1/images/")
+        .query(&[
+            ("q", query.to_string()),
+            ("page_size", "12".to_string()),
+            ("license_type", "all-cc".to_string()),
+            ("mature", "false".to_string()),
+        ])
+        .send()
+        .map_err(|e| format!("Openverse non raggiungibile: {e}"))?;
+    if !response.status().is_success() {
+        return Err(format!("Openverse ha risposto con stato {}", response.status()));
+    }
+    let value: Value = response
+        .json()
+        .map_err(|e| format!("risposta Openverse non valida: {e}"))?;
+    let results = parse_openverse(&value, query);
+    Ok(OnlineResponse {
+        provider: PROVIDER_OPENVERSE.to_string(),
+        query: query.to_string(),
+        warnings: if results.is_empty() {
+            vec![format!("Nessuna immagine Openverse per «{query}».")]
+        } else {
+            Vec::new()
+        },
+        results,
+        cached: false,
+    })
+}
+
+fn parse_openverse(value: &Value, query: &str) -> Vec<OnlineResult> {
+    let Some(items) = value.get("results").and_then(|v| v.as_array()) else {
+        return Vec::new();
+    };
+    let mut out = Vec::new();
+    for item in items {
+        let Some(image_url) = item.get("url").and_then(|v| v.as_str()) else {
+            continue;
+        };
+        if !image_url.starts_with("https://") {
+            continue;
+        }
+        let license = item
+            .get("license")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_lowercase();
+        let license_version = item
+            .get("license_version")
+            .and_then(|v| v.as_str())
+            .unwrap_or("");
+        let filetype = item
+            .get("filetype")
+            .and_then(|v| v.as_str())
+            .unwrap_or("jpg")
+            .to_lowercase();
+        let mime = match filetype.as_str() {
+            "png" => "image/png",
+            "gif" => "image/gif",
+            "webp" => "image/webp",
+            "svg" => "image/svg+xml",
+            _ => "image/jpeg",
+        };
+        let id = item
+            .get("id")
+            .and_then(|v| v.as_str())
+            .unwrap_or("openverse")
+            .to_string();
+        let source = item
+            .get("source")
+            .and_then(|v| v.as_str())
+            .unwrap_or("Openverse");
+        out.push(OnlineResult {
+            provider: PROVIDER_OPENVERSE.to_string(),
+            id: format!("ov-{id}"),
+            title: item
+                .get("title")
+                .and_then(|v| v.as_str())
+                .unwrap_or(query)
+                .to_string(),
+            thumbnail_url: item
+                .get("thumbnail")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            image_url: image_url.to_string(),
+            page_url: item
+                .get("foreign_landing_url")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            mime: mime.to_string(),
+            width: item.get("width").and_then(|v| v.as_u64()).map(|v| v as u32),
+            height: item.get("height").and_then(|v| v.as_u64()).map(|v| v as u32),
+            author: item
+                .get("creator")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            license: if license.is_empty() {
+                "Licenza aperta (vedi fonte)".to_string()
+            } else {
+                format!("CC {} {}", license.to_uppercase(), license_version).trim().to_string()
+            },
+            license_url: item
+                .get("license_url")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            source: format!("Openverse · {source}"),
+            commercial_ok: !license.contains("nc") && !license.contains("nd"),
+            kind: "fotografia".to_string(),
+        });
+    }
+    out
+}
+
+/// Cerca un termine inglese solo su Global Symbols. ARASAAC in inglese
+/// restituisce gli stessi pittogrammi del catalogo italiano: non serve
+/// duplicarli. I risultati usano la cache locale come la ricerca federata.
+pub fn search_global_symbols(db: &Database, term: &str) -> Result<OnlineResponse, String> {
+    let query = term.trim();
+    if query.is_empty() {
+        return Err("termine inglese mancante".to_string());
+    }
+    const CACHE_PROVIDER: &str = "global-symbols-eng";
+    match fetch_global_symbols_in_language(query, "eng") {
+        Ok(results) => {
+            if !results.is_empty() {
+                cache_put(db, CACHE_PROVIDER, query, &results);
+            }
+            Ok(OnlineResponse {
+                provider: PROVIDER_GLOBAL_SYMBOLS.to_string(),
+                query: query.to_string(),
+                results,
+                cached: false,
+                warnings: Vec::new(),
+            })
+        }
+        Err(error) => {
+            let cached = cache_get(db, CACHE_PROVIDER, query).unwrap_or_default();
+            if cached.is_empty() {
+                return Err(error);
+            }
+            Ok(OnlineResponse {
+                provider: PROVIDER_GLOBAL_SYMBOLS.to_string(),
+                query: query.to_string(),
+                results: cached,
+                cached: true,
+                warnings: vec![format!(
+                    "Global Symbols: rete non disponibile, uso la cache locale del termine «{query}»."
+                )],
+            })
+        }
+    }
+}
+
 pub fn search(
     db: &Database,
     terms: &[String],
-    force_refresh: bool,
+    _force_refresh: bool,
 ) -> Result<OnlineResponse, String> {
     let query = build_query(terms);
     if query.is_empty() {
         return Err("Nessun termine generico da cercare online.".to_string());
     }
-    if !force_refresh {
-        for provider in [PROVIDER_ARASAAC, PROVIDER_WIKIMEDIA] {
-            if let Some(results) = cache_get(db, provider, &query) {
-                if !results.is_empty() {
-                    return Ok(OnlineResponse {
-                        provider: provider.to_string(),
-                        query,
-                        results,
-                        cached: true,
-                        warnings: vec!["Risultati dalla cache locale (24 ore).".to_string()],
-                    });
+    // I provider attivi vengono interrogati tutti: fermarsi al primo che
+    // risponde rendeva invisibili Global Symbols e Openverse ogni volta che
+    // ARASAAC aveva almeno un risultato.
+    let fetchers: [(&str, fn(&str) -> Result<OnlineResponse, String>); 4] = [
+        (PROVIDER_ARASAAC, fetch_arasaac),
+        (PROVIDER_GLOBAL_SYMBOLS, fetch_global_symbols),
+        (PROVIDER_WIKIMEDIA, fetch_wikimedia),
+        (PROVIDER_OPENVERSE, fetch_openverse),
+    ];
+    let mut combined: Vec<OnlineResult> = Vec::new();
+    let mut warnings: Vec<String> = Vec::new();
+    let mut seen: std::collections::HashSet<String> = std::collections::HashSet::new();
+    for (provider, fetch) in fetchers {
+        match fetch(&query) {
+            Ok(response) => {
+                if response.results.is_empty() {
+                    if let Some(cached) = cache_get(db, provider, &query) {
+                        if !cached.is_empty() {
+                            warnings.push(format!(
+                                "{}: risultati dalla cache locale (24 ore).",
+                                provider
+                            ));
+                            for result in cached.into_iter().take(8) {
+                                let key = format!("{}:{}", result.provider, result.id);
+                                if seen.insert(key) {
+                                    combined.push(result);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    cache_put(db, provider, &query, &response.results);
+                    for result in response.results.into_iter().take(8) {
+                        let key = format!("{}:{}", result.provider, result.id);
+                        if seen.insert(key) {
+                            combined.push(result);
+                        }
+                    }
                 }
+                warnings.extend(response.warnings);
+            }
+            Err(error) => {
+                if let Some(cached) = cache_get(db, provider, &query) {
+                    if !cached.is_empty() {
+                        warnings.push(format!(
+                            "{}: rete non disponibile, uso la cache (24 ore).",
+                            provider
+                        ));
+                        for result in cached.into_iter().take(8) {
+                            let key = format!("{}:{}", result.provider, result.id);
+                            if seen.insert(key) {
+                                combined.push(result);
+                            }
+                        }
+                            continue;
+                    }
+                }
+                warnings.push(format!("{provider}: {error}"));
             }
         }
-    }
-    // Prima i repertori CAA, poi le immagini generiche: un pittogramma è più
-    // adatto di una fotografia, ma la fonte resta sempre dichiarata.
-    match fetch_arasaac(&query) {
-        Ok(response) if !response.results.is_empty() => {
-            cache_put(db, PROVIDER_ARASAAC, &query, &response.results);
-            return Ok(response);
-        }
-        Ok(_) => {}
-        Err(error) => {
-            // Se ARASAAC non risponde si tenta Wikimedia; l'errore resta nei
-            // messaggi solo se anche il secondo provider fallisce.
-            let _ = error;
-        }
-    }
-    let response = fetch_wikimedia(&query)?;
-    if !response.results.is_empty() {
-        cache_put(db, PROVIDER_WIKIMEDIA, &query, &response.results);
-        return Ok(response);
     }
     for provider in custom_providers(db).into_iter().filter(|provider| provider.enabled) {
-        if let Ok(custom) = fetch_custom(&provider, &query) {
-            if !custom.results.is_empty() {
+        match fetch_custom(&provider, &query) {
+            Ok(custom) if !custom.results.is_empty() => {
                 cache_put(db, &provider.id, &query, &custom.results);
-                return Ok(custom);
+                for result in custom.results.into_iter().take(8) {
+                    let key = format!("{}:{}", result.provider, result.id);
+                    if seen.insert(key) {
+                        combined.push(result);
+                    }
+                }
             }
+            Ok(_) => {}
+            Err(error) => warnings.push(format!("{}: {error}", provider.id)),
         }
     }
-    cache_put(db, PROVIDER_WIKIMEDIA, &query, &response.results);
-    Ok(response)
+    if combined.is_empty() {
+        return Err(format!(
+            "Nessun risultato dai provider attivi per «{}». Verifica la connessione o prova un altro termine.",
+            query
+        ));
+    }
+    combined.truncate(32);
+    Ok(OnlineResponse {
+        provider: "federata".to_string(),
+        query,
+        results: combined,
+        cached: false,
+        warnings,
+    })
 }
 
 fn allowed_image_host(url: &str) -> bool {
@@ -748,7 +1119,7 @@ fn allowed_image_host(url: &str) -> bool {
 
 /// Parola singola accettabile per l'inserimento automatico: niente frasi,
 /// numeri, email, URL o spazi. La rete riceve solo questo termine.
-fn automatic_word(raw: &str) -> Option<String> {
+pub fn automatic_word(raw: &str) -> Option<String> {
     let word = raw.trim().to_lowercase();
     if word.chars().count() < 2 || word.chars().count() > 40 {
         return None;
@@ -763,6 +1134,153 @@ fn automatic_word(raw: &str) -> Option<String> {
         return None;
     }
     Some(word)
+}
+
+/// Scarica e memorizza nella cartella dati dell'utente i PNG ARASAAC
+/// mancanti (pacchetto locale rimosso o percorso non più valido). Aggiorna
+/// `symbol_assets` al nuovo file e restituisce id → data URL PNG. I
+/// pittogrammi restano PNG: nessun wrapper o conversione in SVG.
+pub fn hydrate_arasaac_symbols(
+    db: &Database,
+    assets_dir: &Path,
+    ids: &[String],
+) -> Result<std::collections::HashMap<String, String>, String> {
+    use rusqlite::OptionalExtension;
+    let dir = assets_dir.join("arasaac");
+    std::fs::create_dir_all(&dir).map_err(|e| format!("cartella arasaac: {e}"))?;
+    let mut out = std::collections::HashMap::new();
+    for id in ids.iter().take(40) {
+        let row: Option<(String, Option<String>)> = db
+            .conn()
+            .query_row(
+                "SELECT s.pack_id,
+                        COALESCE(
+                            (SELECT a.path FROM symbol_assets a WHERE a.symbol_id = s.id ORDER BY a.id LIMIT 1),
+                            s.data_path
+                        )
+                 FROM symbols s WHERE s.id = ?1",
+                rusqlite::params![id],
+                |row| Ok((row.get(0)?, row.get(1)?)),
+            )
+            .optional()
+            .map_err(|e| e.to_string())?;
+        let Some((pack_id, path)) = row else {
+            continue;
+        };
+        if pack_id != "arasaac" {
+            continue;
+        }
+        let current_path = path.clone().unwrap_or_default();
+        let file_name = path
+            .as_deref()
+            .and_then(|value| value.rsplit(['/', '\\']).next())
+            .unwrap_or("");
+        let picto = file_name
+            .strip_prefix("picto_")
+            .map(|file| {
+                file.strip_suffix(".png")
+                    .or_else(|| file.strip_suffix(".svg"))
+                    .or_else(|| file.strip_suffix(".b64"))
+                    .unwrap_or(file)
+                    .to_string()
+            })
+            .or_else(|| id.strip_prefix("arasaac.picto.").map(str::to_string));
+        let Some(picto) = picto else {
+            continue;
+        };
+        let target = dir.join(format!("picto_{picto}.png"));
+        let bytes = if target.exists() {
+            std::fs::read(&target).ok()
+        } else {
+            let mut downloaded = None;
+            for size in ["500", "300"] {
+                let url = format!(
+                    "https://static.arasaac.org/pictograms/{picto}/{picto}_{size}.png"
+                );
+                if let Ok(data) = download_bytes(&url) {
+                    downloaded = Some(data);
+                    break;
+                }
+            }
+            let Some(bytes) = downloaded else {
+                continue;
+            };
+            std::fs::write(&target, &bytes)
+                .map_err(|e| format!("salvataggio PNG ARASAAC: {e}"))?;
+            Some(bytes)
+        };
+        let Some(bytes) = bytes else {
+            continue;
+        };
+        let Ok(data_url) = crate::pictogram_import::image_data_url(&bytes) else {
+            continue;
+        };
+        // Il file può essere già stato scaricato in una sessione precedente
+        // mentre il database puntava ancora al vecchio percorso: si riallinea
+        // il percorso, altrimenti il motore continuerebbe a leggere `None`.
+        let target_path = target.to_string_lossy().to_string();
+        if target_path != current_path {
+            db.conn()
+                .execute(
+                    "UPDATE symbol_assets SET storage='file', data=NULL, path=?1, bytes=?2,
+                            width=500, height=500
+                     WHERE symbol_id=?3",
+                    rusqlite::params![target_path, bytes.len() as i64, id],
+                )
+                .map_err(|e| e.to_string())?;
+        }
+        db.conn()
+            .execute(
+                "UPDATE symbols SET format='png' WHERE id=?1",
+                rusqlite::params![id],
+            )
+            .map_err(|e| e.to_string())?;
+        out.insert(id.clone(), data_url);
+    }
+    Ok(out)
+}
+
+/// Riempimento automatico: per ogni parola senza copia personale esatta,
+/// cerca ARASAAC e salva il primo pittogramma disponibile etichettato con la
+/// parola italiana. Restituisce le parole davvero importate.
+pub fn autofill_arasaac(
+    db: &Database,
+    assets_dir: &Path,
+    words: &[String],
+    limit: usize,
+) -> Result<Vec<String>, String> {
+    let personal = crate::database::SymbolFilters {
+        pack_id: Some("personal".to_string()),
+        ..Default::default()
+    };
+    let mut saved = Vec::new();
+    for raw in words.iter().take(limit.clamp(1, 12)) {
+        let Some(word) = automatic_word(raw) else {
+            continue;
+        };
+        if db
+            .symbol_by_label(&word, &personal)
+            .map_err(|e| e.to_string())?
+            .is_some()
+        {
+            continue;
+        }
+        let Ok(response) = fetch_arasaac_in_language(&word, "it") else {
+            continue;
+        };
+        let Some(result) = response
+            .results
+            .into_iter()
+            .find(|item| item.kind == "pittogramma")
+        else {
+            continue;
+        };
+        match save_result(db, assets_dir, &result, &word, "Online") {
+            Ok(_) => saved.push(word),
+            Err(error) => eprintln!("autofill_arasaac {word}: {error}"),
+        }
+    }
+    Ok(saved)
 }
 
 /// Cerca su ARASAAC le parole indicate, salva i pittogrammi come copie offline
@@ -986,6 +1504,59 @@ pub fn save_result(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn global_symbols_results_keep_license_and_author() {
+        let value = serde_json::json!([{
+            "id": 1,
+            "text": "cane",
+            "picto": {
+                "id": 42,
+                "image_url": "https://globalsymbols.com/uploads/cane.png",
+                "native_format": "png",
+                "symbolset": {
+                    "name": "AAC Image Library",
+                    "slug": "aac-image-library",
+                    "publisher": "Autore di prova",
+                    "licence": {
+                        "name": "Creative Commons BY NC SA 4.0",
+                        "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+                        "properties": "by-nc-sa"
+                    }
+                }
+            }
+        }]);
+        let results = parse_global_symbols(&value, "cane");
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].kind, "pittogramma");
+        assert_eq!(results[0].author.as_deref(), Some("Autore di prova"));
+        assert!(!results[0].commercial_ok);
+        assert!(results[0].license.contains("NC"));
+    }
+
+    #[test]
+    fn openverse_results_are_declared_as_photos() {
+        let value = serde_json::json!({"results": [{
+            "id": "abc",
+            "title": "Un cane",
+            "url": "https://live.staticflickr.com/cane.jpg",
+            "thumbnail": "https://api.openverse.org/v1/images/abc/thumb/",
+            "foreign_landing_url": "https://www.flickr.com/photos/1",
+            "creator": "Fotografo",
+            "license": "by",
+            "license_version": "4.0",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "source": "flickr",
+            "filetype": "jpg",
+            "width": 1024,
+            "height": 768
+        }]});
+        let results = parse_openverse(&value, "cane");
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].kind, "fotografia");
+        assert!(results[0].commercial_ok);
+        assert_eq!(results[0].author.as_deref(), Some("Fotografo"));
+    }
 
     #[test]
     fn privacy_filter_rejects_sentences_personal_data_and_numbers() {

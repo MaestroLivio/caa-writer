@@ -107,6 +107,9 @@ pub struct ElementSpec {
     pub symbol_id: Option<String>,
     #[serde(default)]
     pub svg: Option<String>,
+    /// PNG come data URL, alternativa raster a `svg`.
+    #[serde(default)]
+    pub image: Option<String>,
     #[serde(default)]
     pub page: u32,
     #[serde(default)]
@@ -145,6 +148,7 @@ impl Default for ElementSpec {
             concept_id: None,
             symbol_id: None,
             svg: None,
+            image: None,
             page: 0,
             row: 0,
             column: 0,
@@ -208,6 +212,7 @@ pub struct PlacedElement {
     pub concept_id: Option<String>,
     pub symbol_id: Option<String>,
     pub svg: Option<String>,
+    pub image: Option<String>,
     pub hidden: bool,
     pub locked: bool,
     pub spoken_text: Option<String>,
@@ -352,6 +357,7 @@ pub fn paginate(spec: &LayoutSpecification) -> Result<Vec<PageLayout>, String> {
             concept_id: element.concept_id.clone(),
             symbol_id: element.symbol_id.clone(),
             svg: element.svg.clone(),
+            image: element.image.clone(),
             hidden: element.hidden,
             locked: element.locked,
             spoken_text: element.spoken_text.clone(),
@@ -409,6 +415,7 @@ mod tests {
             concept_id: None,
             symbol_id: None,
             svg: None,
+            image: None,
             hidden: false,
             locked: false,
             spoken_text: None,

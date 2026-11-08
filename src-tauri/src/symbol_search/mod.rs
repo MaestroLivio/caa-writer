@@ -210,6 +210,7 @@ pub fn resolve(
                         .unwrap_or_else(|| part_concept.clone()),
                     symbol_id: Some(symbol.id),
                     svg: symbol.svg,
+                    image: symbol.image,
                 }),
                 None => {
                     complete = false;

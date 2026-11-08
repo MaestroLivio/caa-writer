@@ -63,6 +63,8 @@ export interface SymbolPart {
   label: string;
   symbol_id: string | null;
   svg: string | null;
+  /// PNG come data URL: alternativa raster a `svg`.
+  image?: string | null;
 }
 
 export interface Alternative {
@@ -74,6 +76,8 @@ export interface Alternative {
   pack_name: string;
   format: string;
   svg: string | null;
+  /// PNG come data URL (ARASAAC e import). Alternativa a `svg`.
+  image?: string | null;
   approximate: boolean;
   /// Vero se l'alternativa viene dal modello neurale (parole affini o campo
   /// semantico della frase): è un suggerimento, non una scelta automatica.
@@ -81,6 +85,67 @@ export interface Alternative {
   license: string;
   source_url: string | null;
   author: string | null;
+}
+
+export interface AiChatMessage {
+  role: "user" | "assistant" | "system";
+  content: string;
+}
+
+export interface AiChatReply {
+  reply: string;
+  backend: string;
+  elapsed_ms: number;
+}
+
+/// Configurazione del motore immagini neurale (locale o online).
+export interface ImageConfig {
+  /// `auto` | `mlx` | `gpu` | `online` | `off`
+  backend: string;
+  model: string;
+  endpoint: string;
+  online_model: string;
+  size: number;
+  steps: number;
+  guidance: number;
+  timeout_ms: number;
+}
+
+export interface ImageRuntime {
+  python: string | null;
+  script: boolean;
+  mlx: boolean;
+  mlx_diffusion: boolean;
+  torch: boolean;
+  mps: boolean;
+  diffusers: boolean;
+}
+
+export interface ImageStatus {
+  config: ImageConfig;
+  runtime: ImageRuntime;
+  online_ready: boolean;
+  has_key: boolean;
+  available: boolean;
+  note: string;
+}
+
+export interface GeneratedImage {
+  png_base64: string;
+  backend: string;
+  model: string;
+  width: number;
+  height: number;
+  elapsed_ms: number;
+  path: string;
+}
+
+/// Alternative aggiunte dalla ricerca in inglese (termine tradotto dal modello
+/// locale o dal glossario, pittogrammi ARASAAC importati come copie offline).
+export interface EnglishAlternatives {
+  term: string;
+  items: Alternative[];
+  warnings: string[];
 }
 
 /// Livello di affinità, dal più forte al più debole.
@@ -133,6 +198,8 @@ export interface CaaToken {
   /// Etichetta originale del pittogramma (metadato, non riga visibile).
   symbol_label?: string | null;
   svg: string | null;
+  /// PNG come data URL (ARASAAC e import). Alternativa a `svg`.
+  image?: string | null;
   composition: SymbolPart[];
   strategy: string;
   confidence: number;
@@ -454,6 +521,7 @@ export interface ExportUnit {
   caption: string;
   symbol_id: string | null;
   svg: string | null;
+  image?: string | null;
   png_base64: string | null;
   approximate: boolean;
 }
@@ -526,6 +594,7 @@ export interface PlannedItem {
   strategy: string;
   symbol_id: string | null;
   svg: string | null;
+  image?: string | null;
   approximate: boolean;
 }
 
@@ -546,6 +615,9 @@ export interface DocumentSettings {
   pack_id: string | null;
   font_size: number;
   show_captions: boolean;
+  /// `riga`: una striscia sopra il paragrafo. `parola`: ogni pittogramma sopra
+  /// la parola a cui si riferisce.
+  symbol_layout: "riga" | "parola";
   border_style: BorderStyle;
   animations: "full" | "reduced" | "off";
   online_search: "off" | "suggest" | "auto";
@@ -557,6 +629,9 @@ export interface DocumentSettings {
   /// Interruttore generale della sintesi vocale (default: disattivata).
   speech_enabled: boolean;
   touch_mode: boolean;
+  /// Mostra il pulsante dei controlli smartboard (tastiera a schermo) in
+  /// modalità touch. I controlli si aprono solo su richiesta.
+  smartboard_controls: boolean;
   theme: "chiaro" | "scuro" | "contrasto";
   page: "a4" | "a4-orizzontale" | "a3" | "a5";
   page_margin: "stretto" | "normale" | "ampio";
@@ -581,6 +656,12 @@ export interface DocumentSettings {
   uppercase: boolean;
   /// Famiglia tipografica del documento; vuoto = carattere di sistema.
   font_family: string;
+  /// Mostra i simboli applicati a mano (espliciti). Se disattivato restano
+  /// salvati ma non vengono disegnati né stampati.
+  show_explicit_symbols: boolean;
+  /// Vero solo dopo una scelta esplicita dell'utente. Serve a migrare i
+  /// documenti precedenti al nuovo default «contenuti espliciti nascosti».
+  explicit_symbols_user_choice: boolean;
   /// Simbolizzazione delle singole categorie grammaticali.
   symbolize_articles: boolean;
   symbolize_prepositions: boolean;
@@ -602,6 +683,7 @@ export const defaultSettings: DocumentSettings = {
   // La parola è già nel testo sotto la striscia: la didascalia del repertorio
   // sarebbe una terza riga. Chi la vuole può attivarla nelle impostazioni.
   show_captions: false,
+  symbol_layout: "riga",
   // Bordo attorno a immagine e testo: è l'aspetto storico dei chip.
   border_style: "immagine_testo",
   animations: "full",
@@ -612,6 +694,7 @@ export const defaultSettings: DocumentSettings = {
   speak_sentences: false,
   speech_enabled: false,
   touch_mode: false,
+  smartboard_controls: true,
   theme: "chiaro",
   page: "a4",
   page_margin: "normale",
@@ -631,6 +714,8 @@ export const defaultSettings: DocumentSettings = {
   neural_context: true,
   uppercase: false,
   font_family: "",
+  show_explicit_symbols: false,
+  explicit_symbols_user_choice: false,
   symbolize_articles: false,
   symbolize_prepositions: false,
   symbolize_conjunctions: false,
@@ -712,6 +797,7 @@ export interface UniversalGridCell {
   symbol_id?: string | null;
   lemma?: string | null;
   svg?: string | null;
+  image_asset?: string | null;
   action?: UniversalAction | null;
   style?: UniversalStyle;
   hidden?: boolean;
@@ -814,6 +900,7 @@ export interface RenderedElement {
   group_id: string | null;
   cells: RenderedGridCell[];
   accessibility: UniversalAccessibility;
+  metadata?: Record<string, unknown>;
 }
 
 export interface RenderedGridCell {
@@ -827,8 +914,10 @@ export interface RenderedGridCell {
   symbol_id: string | null;
   concept_id: string | null;
   svg: string | null;
+  image_asset: string | null;
   action: UniversalAction | null;
   hidden: boolean;
+  missing_symbol?: boolean;
   x_mm: number;
   y_mm: number;
   w_mm: number;
@@ -873,7 +962,103 @@ export interface LibraryEntry {
   pages: number;
   elements: number;
   interactive: boolean;
+  missing_symbols?: number;
   path: string;
+  preview?: string;
+  category_id?: string;
+  subcategory_id?: string;
+  subcategory?: string;
+  audience?: string;
+  objective?: string;
+  tags?: string[];
+  complexity?: string;
+  needs_symbols?: boolean;
+  printable?: boolean;
+  customizable?: boolean;
+  featured?: boolean;
+}
+
+export interface CatalogClassification {
+  category_id: string;
+  category: string;
+  subcategory_id: string;
+  subcategory: string;
+  audience: string;
+  objective: string;
+  tags: string[];
+  complexity: string;
+  needs_symbols: boolean;
+  printable: boolean;
+  interactive: boolean;
+  formats: string[];
+}
+
+export interface CatalogItem extends LibraryEntry {
+  classification: CatalogClassification;
+  preview_svg?: string;
+}
+
+export interface CatalogSubcategory {
+  id: string;
+  name: string;
+  description: string;
+  count: number;
+}
+
+export interface CatalogCategory {
+  id: string;
+  name: string;
+  description: string;
+  count: number;
+  subcategories: CatalogSubcategory[];
+}
+
+export interface CatalogOverview {
+  total: number;
+  categories: CatalogCategory[];
+  audiences: Record<string, number>;
+  interactive: number;
+  printable: number;
+  needs_symbols: number;
+}
+
+export interface CatalogQuery {
+  query?: string;
+  category?: string;
+  subcategory?: string;
+  audience?: string;
+  interactive?: boolean;
+  printable?: boolean;
+  needs_symbols?: boolean;
+  source_type?: string;
+  sort?: string;
+  offset?: number;
+  limit?: number;
+}
+
+export interface CatalogPage {
+  total: number;
+  offset: number;
+  limit: number;
+  items: CatalogItem[];
+}
+
+export interface LibraryQualityIssue {
+  document_id: string;
+  severity: "errore" | "avviso" | string;
+  code: string;
+  message: string;
+}
+
+export interface LibraryQualityReport {
+  documents: number;
+  valid: number;
+  errors: number;
+  warnings: number;
+  by_category: Array<{ category: string; documents: number; errors: number; warnings: number }>;
+  issues: LibraryQualityIssue[];
+  issues_total?: number;
+  generated_at: string;
 }
 
 export interface LibraryManifest {
@@ -894,6 +1079,7 @@ export interface FreeBoardCell {
   id: string;
   label: string;
   svg: string | null;
+  image?: string | null;
   symbolId: string | null;
   conceptId: string | null;
   approximate: boolean;
@@ -918,6 +1104,7 @@ export interface LayoutElementSpec {
   concept_id?: string | null;
   symbol_id?: string | null;
   svg?: string | null;
+  image?: string | null;
   page?: number;
   row?: number;
   column?: number;
@@ -951,6 +1138,7 @@ export interface PlacedElement {
   concept_id: string | null;
   symbol_id: string | null;
   svg: string | null;
+  image: string | null;
   hidden: boolean;
   locked: boolean;
   spoken_text: string | null;
@@ -1182,6 +1370,7 @@ export interface BoardCell {
   action: BoardAction | null;
   symbolId?: string | null;
   svg?: string | null;
+  image_asset?: string | null;
   approximate?: boolean;
 }
 

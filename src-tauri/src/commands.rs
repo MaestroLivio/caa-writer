@@ -413,6 +413,137 @@ pub fn ai_status(state: State<'_, Engine>) -> AiStatus {
     state.ai_status()
 }
 
+#[tauri::command]
+pub async fn ai_chat(
+    app: tauri::AppHandle,
+    messages: Vec<crate::ai_provider::ChatMessage>,
+) -> Result<crate::ai_provider::ChatReply, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        state.chat(messages)
+    })
+    .await
+}
+
+/// Riempimento automatico online: per le parole senza simbolo personale
+/// cerca ARASAAC nella lingua italiana e importa il **primo pittogramma**
+/// disponibile come copia offline etichettata con la parola. È una scelta
+/// automatica approssimativa: il pannello mostra comunque le alternative.
+#[tauri::command]
+pub async fn hydrate_symbols(
+    app: tauri::AppHandle,
+    ids: Vec<String>,
+) -> Result<std::collections::HashMap<String, String>, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let db = state.db()?;
+        let map = crate::online_search::hydrate_arasaac_symbols(
+            &db,
+            &state.paths.assets_dir,
+            &ids,
+        )?;
+        if !map.is_empty() {
+            state.clear_caches();
+        }
+        Ok(map)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn online_autofill(
+    app: tauri::AppHandle,
+    words: Vec<String>,
+) -> Result<Vec<String>, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let db = state.db()?;
+        let saved = crate::online_search::autofill_arasaac(
+            &db,
+            &state.paths.assets_dir,
+            &words,
+            12,
+        )?;
+        if !saved.is_empty() {
+            state.clear_caches();
+        }
+        Ok(saved)
+    })
+    .await
+}
+
+#[tauri::command]
+pub fn image_status(
+    state: State<'_, Engine>,
+) -> Result<crate::image_engine::ImageStatus, String> {
+    let db = state.db()?;
+    Ok(crate::image_engine::status(&state.paths, &db))
+}
+
+#[tauri::command]
+pub fn image_set_config(
+    state: State<'_, Engine>,
+    config: crate::image_engine::ImageConfig,
+) -> Result<crate::image_engine::ImageStatus, String> {
+    let db = state.db()?;
+    crate::image_engine::save(&db, &config)?;
+    Ok(crate::image_engine::status(&state.paths, &db))
+}
+
+#[tauri::command]
+pub fn image_set_key(state: State<'_, Engine>, key: String) -> Result<crate::image_engine::ImageStatus, String> {
+    crate::image_engine::set_key(&key)?;
+    let db = state.db()?;
+    Ok(crate::image_engine::status(&state.paths, &db))
+}
+
+#[tauri::command]
+pub fn image_clear_key(state: State<'_, Engine>) -> Result<crate::image_engine::ImageStatus, String> {
+    crate::image_engine::clear_key()?;
+    let db = state.db()?;
+    Ok(crate::image_engine::status(&state.paths, &db))
+}
+
+#[tauri::command]
+pub async fn image_generate(
+    app: tauri::AppHandle,
+    prompt: String,
+    negative: Option<String>,
+) -> Result<crate::image_engine::GeneratedImage, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let db = state.db()?;
+        crate::image_engine::generate(
+            &state.paths,
+            &db,
+            &prompt,
+            negative.as_deref().unwrap_or(""),
+        )
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn image_install_runtime(app: tauri::AppHandle) -> Result<String, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        crate::image_engine::install_runtime(&state.paths)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn image_download_model(
+    app: tauri::AppHandle,
+    model: String,
+) -> Result<String, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        crate::image_engine::download_model(&state.paths, &model)
+    })
+    .await
+}
+
 /// Diagnostica misurata: CPU/RAM dei processi, coda neurale, tempi reali e
 /// richieste obsolete. Nessun valore è stimato o inventato.
 #[tauri::command]
@@ -496,6 +627,53 @@ pub fn universal_from_plan(
 
 /// HTML completo del documento, usato per la stampa di sistema senza
 /// dipendere dal DOM dell'editor.
+/// Stampa di un documento universale: genera un PDF con il renderer reale
+/// (che rispetta formato e orientamento della pagina) e lo apre nel
+/// visualizzatore di sistema, da cui si stampa. Su macOS WKWebView non offre
+/// un dialogo di stampa affidabile via `window.print()`.
+#[tauri::command]
+pub async fn print_universal(
+    app: tauri::AppHandle,
+    document: serde_json::Value,
+) -> Result<String, String> {
+    on_blocking(move || {
+        let document: crate::universal::UniversalDocument = serde_json::from_value(document)
+            .map_err(|e| format!("documento non valido: {e}"))?;
+        crate::universal::validate(&document)?;
+        let bytes = crate::export::universal_pdf::build_pdf(&document, 2.0)?;
+        let state = app.state::<Engine>();
+        let dir = state.paths.data_dir.join("print");
+        std::fs::create_dir_all(&dir).map_err(|e| format!("cartella stampa: {e}"))?;
+        let name = format!(
+            "stampa-{}.pdf",
+            crate::util::now_iso().replace([':', '-', '.'], "").replace('T', "-")
+        );
+        let path = dir.join(name);
+        std::fs::write(&path, bytes).map_err(|e| format!("scrittura PDF di stampa: {e}"))?;
+        open_external(&path)?;
+        Ok(path.to_string_lossy().to_string())
+    })
+    .await
+}
+
+fn open_external(path: &std::path::Path) -> Result<(), String> {
+    #[cfg(target_os = "macos")]
+    let mut command = crate::process::command("open");
+    #[cfg(target_os = "windows")]
+    let mut command = {
+        let mut command = crate::process::command("cmd");
+        command.args(["/C", "start", ""]);
+        command
+    };
+    #[cfg(all(unix, not(target_os = "macos")))]
+    let mut command = crate::process::command("xdg-open");
+    command
+        .arg(path)
+        .spawn()
+        .map_err(|e| format!("apertura del PDF di stampa: {e}"))?;
+    Ok(())
+}
+
 #[tauri::command]
 pub fn document_html(document: serde_json::Value) -> Result<String, String> {
     let document: crate::universal::UniversalDocument =
@@ -587,6 +765,86 @@ pub fn universal_library(state: State<'_, Engine>) -> crate::universal::LibraryM
     crate::universal::load_library_manifest(&state.paths.resources_dir)
 }
 
+#[tauri::command]
+pub fn library_catalog(
+    state: State<'_, Engine>,
+) -> crate::template_catalog::CatalogOverview {
+    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    crate::template_catalog::overview(&manifest)
+}
+
+#[tauri::command]
+pub fn library_search(
+    state: State<'_, Engine>,
+    query: crate::template_catalog::CatalogQuery,
+) -> crate::template_catalog::CatalogPage {
+    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let mut page = crate::template_catalog::search(&manifest, &query);
+    for item in &mut page.items {
+        item.preview_svg =
+            crate::template_catalog::preview_svg(&state.paths.resources_dir, &item.entry);
+    }
+    page
+}
+
+#[tauri::command]
+pub fn library_by_ids(
+    state: State<'_, Engine>,
+    ids: Vec<String>,
+) -> Vec<crate::template_catalog::CatalogItem> {
+    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let mut items = crate::template_catalog::by_ids(&manifest, &ids);
+    for item in &mut items {
+        item.preview_svg =
+            crate::template_catalog::preview_svg(&state.paths.resources_dir, &item.entry);
+    }
+    items
+}
+
+#[tauri::command]
+pub fn library_preview(
+    state: State<'_, Engine>,
+    id: String,
+    source_type: Option<String>,
+) -> Result<String, String> {
+    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let entry = manifest
+        .entries
+        .iter()
+        .find(|entry| {
+            entry.id == id
+                && source_type
+                    .as_deref()
+                    .map(|kind| entry.source_type == kind)
+                    .unwrap_or(true)
+        })
+        .ok_or_else(|| format!("documento «{id}» non trovato nella biblioteca"))?;
+    if let Some(svg) = crate::template_catalog::preview_svg(&state.paths.resources_dir, entry) {
+        return Ok(svg);
+    }
+    let path = crate::universal::resolve_library_path(
+        &manifest,
+        &id,
+        source_type.as_deref(),
+        &state.paths.resources_dir,
+    )?;
+    let document = crate::universal::load_from_caadoc(&path)?;
+    let rendered = document.render()?;
+    rendered
+        .pages
+        .first()
+        .map(crate::universal::render_page_svg)
+        .ok_or_else(|| "documento senza pagine".to_string())
+}
+
+#[tauri::command]
+pub fn library_validate(
+    state: State<'_, Engine>,
+) -> crate::library_quality::LibraryQualityReport {
+    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    crate::library_quality::validate_manifest(&state.paths.resources_dir, &manifest)
+}
+
 #[derive(Serialize)]
 pub struct OpenedUniversalDocument {
     pub document: crate::universal::UniversalDocument,
@@ -609,6 +867,28 @@ pub fn universal_open(
     let document = crate::universal::load_from_caadoc(&path)?;
     Ok(OpenedUniversalDocument {
         document,
+        path: path.to_string_lossy().to_string(),
+    })
+}
+
+#[tauri::command]
+pub fn translate_search_term(state: State<'_, Engine>, text: String) -> Result<String, String> {
+    state.translate_search_term(&text)
+}
+
+#[tauri::command]
+pub fn story_create(
+    state: State<'_, Engine>,
+    spec: serde_json::Value,
+) -> Result<OpenedUniversalDocument, String> {
+    let outcome = crate::story::build_story(&state, &spec)?;
+    let id = outcome.document.id.clone();
+    let folder = state.paths.data_dir.join("documents");
+    std::fs::create_dir_all(&folder).map_err(|e| format!("cartella documenti: {e}"))?;
+    let path = folder.join(format!("{id}.caadoc"));
+    crate::story::save_story(&path, &outcome.document, &outcome.assets)?;
+    Ok(OpenedUniversalDocument {
+        document: outcome.document,
         path: path.to_string_lossy().to_string(),
     })
 }
@@ -663,6 +943,17 @@ pub fn ai_remove_model(
 #[tauri::command]
 pub fn ai_import_model(state: State<'_, Engine>, path: String) -> Result<AiStatus, String> {
     state.ai_import_model(&path)
+}
+
+/// Sinonimi e concetti affini con il modello locale, per arricchire le
+/// alternative in background. Non restituisce errori quando il motore è
+/// spento: il pannello continua a usare il lessico deterministico.
+#[tauri::command]
+pub async fn ai_affinity_symbols(
+    app: tauri::AppHandle,
+    word: String,
+) -> Result<Vec<Alternative>, String> {
+    on_blocking(move || Ok(app.state::<Engine>().ai_affinity_symbols(&word))).await
 }
 
 #[tauri::command]
@@ -789,6 +1080,7 @@ pub fn plan_resource(
                 strategy: token.strategy.clone(),
                 symbol_id: token.symbol_id.clone(),
                 svg: token.svg.clone(),
+                image: token.image.clone(),
                 approximate: token.approximate,
             }),
             None => {
@@ -798,6 +1090,7 @@ pub fn plan_resource(
                     strategy: "none".to_string(),
                     symbol_id: None,
                     svg: None,
+                    image: None,
                     approximate: false,
                 });
                 notes.push(format!("«{label}» non ha un pittogramma adeguato."));
@@ -872,6 +1165,83 @@ pub fn import_pictograms(
     );
     state.clear_caches();
     Ok(report)
+}
+
+/// Importa un'immagine (PNG, JPEG, WebP, GIF, BMP, TIFF, ICO, AVIF) come
+/// pittogramma personale. Il file resta un'immagine: nessuna conversione in
+/// SVG. Restituisce l'identificativo del simbolo creato.
+#[tauri::command]
+pub fn import_image_symbol(
+    state: State<'_, Engine>,
+    name: String,
+    data_base64: String,
+    lemma: String,
+    meaning: Option<String>,
+    collection: Option<String>,
+) -> Result<String, String> {
+    use base64::Engine as _;
+    let payload = data_base64
+        .split_once(',')
+        .map(|(_, data)| data)
+        .unwrap_or(&data_base64);
+    let bytes = base64::engine::general_purpose::STANDARD
+        .decode(payload)
+        .map_err(|error| format!("immagine base64 non valida: {error}"))?;
+    if bytes.len() > 16 * 1024 * 1024 {
+        return Err("immagine oltre il limite di 16 MB".to_string());
+    }
+    let detected = pictogram_import::detect_format(&bytes);
+    if !detected.decoder_available() {
+        return Err(format!(
+            "formato {} non supportato da questo sistema",
+            detected.as_str()
+        ));
+    }
+    let tmp_dir = state.paths.assets_dir.join("tmp");
+    std::fs::create_dir_all(&tmp_dir).map_err(|e| format!("cartella temporanea: {e}"))?;
+    let tmp_path = tmp_dir.join(format!(
+        "import-{}.{}",
+        now_iso().replace([':', '-', '.'], ""),
+        detected.as_str()
+    ));
+    std::fs::write(&tmp_path, &bytes).map_err(|e| format!("salvataggio temporaneo: {e}"))?;
+    let item = pictogram_import::ImportItem {
+        path: tmp_path.to_string_lossy().to_string(),
+        lemma,
+        collection: collection.or_else(|| Some("Personali".to_string())),
+        category: meaning.or_else(|| Some("importato".to_string())),
+        synonyms: Vec::new(),
+        relative_path: Some(name.clone()),
+        original_name: Some(name),
+    };
+    let license = pictogram_import::ImportLicense {
+        name: Some("CC BY-NC-SA 4.0".to_string()),
+        url: Some("https://creativecommons.org/licenses/by-nc-sa/4.0/".to_string()),
+        author: Some("Utente".to_string()),
+        source_url: None,
+        commercial_ok: true,
+    };
+    let db = state.db()?;
+    let report = pictogram_import::import_batch(
+        &db,
+        &state.paths.assets_dir,
+        &[item],
+        &license,
+        "Personali",
+    );
+    let _ = std::fs::remove_file(&tmp_path);
+    state.clear_caches();
+    report
+        .items
+        .into_iter()
+        .find_map(|outcome| outcome.symbol_id)
+        .ok_or_else(|| {
+            if report.warnings.is_empty() {
+                "importazione non riuscita".to_string()
+            } else {
+                report.warnings.join("; ")
+            }
+        })
 }
 
 #[tauri::command]
@@ -1256,6 +1626,87 @@ pub async fn save_online_pictogram(
     .await
 }
 
+/// Risultato della ricerca inglese usata per arricchire le alternative.
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct EnglishAlternatives {
+    pub term: String,
+    pub items: Vec<Alternative>,
+    pub warnings: Vec<String>,
+}
+
+/// Traduce la parola in inglese (glossario o modello locale) e cerca
+/// pittogrammi su Global Symbols, l'unico repertorio inglese utile: ARASAAC
+/// in inglese duplica il catalogo italiano. I risultati vengono importati
+/// come copie locali e restituiti come alternative per la parola italiana.
+#[tauri::command]
+pub async fn english_alternatives(
+    app: tauri::AppHandle,
+    word: String,
+    limit: Option<usize>,
+) -> Result<EnglishAlternatives, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let term = state.translate_to_english(&word)?;
+        let db = state.db()?;
+        let response = crate::online_search::search_global_symbols(&db, &term)?;
+        let mut items: Vec<Alternative> = Vec::new();
+        let mut warnings = response.warnings;
+        let take = limit.unwrap_or(5).clamp(1, 8);
+        for result in response
+            .results
+            .into_iter()
+            // I symbolset ARASAAC di Global Symbols duplicano il catalogo
+            // italiano: si escludono, come richiesto.
+            .filter(|result| {
+                result.kind == "pittogramma"
+                    && !result.source.to_ascii_lowercase().contains("arasaac")
+            })
+            .take(take)
+        {
+            // L'etichetta inglese descrive il prestito dal repertorio; la
+            // didascalia sotto il pittogramma resta sempre la parola italiana
+            // scritta dall'utente.
+            let label = if result.title.trim().is_empty() {
+                term.clone()
+            } else {
+                result.title.clone()
+            };
+            match crate::online_search::save_result(
+                &db,
+                &state.paths.assets_dir,
+                &result,
+                &label,
+                "Inglese (Global Symbols)",
+            ) {
+                Ok(symbol_id) => match db.symbol_by_id(&symbol_id).map_err(|e| e.to_string())? {
+                    Some(record) => {
+                        let mut alternative = crate::asset_manager::alternative_from_record(&record);
+                        alternative.pack_name = "Global Symbols (EN)".to_string();
+                        if items
+                            .iter()
+                            .all(|item| item.symbol_id != alternative.symbol_id)
+                        {
+                            items.push(alternative);
+                        }
+                    }
+                    None => warnings.push(format!(
+                        "il pittogramma «{}» non è stato trovato dopo l'importazione",
+                        result.title
+                    )),
+                },
+                Err(error) => warnings.push(error),
+            }
+        }
+        state.clear_caches();
+        Ok(EnglishAlternatives {
+            term,
+            items,
+            warnings,
+        })
+    })
+    .await
+}
+
 /// Importa un SVG originale come simbolo personalizzato locale.
 #[tauri::command]
 pub fn import_svg_symbol(
@@ -1266,7 +1717,9 @@ pub fn import_svg_symbol(
     meaning: Option<String>,
     concept_id: Option<String>,
 ) -> Result<String, String> {
-    let sanitized = svg_tool::sanitize(&svg, 512 * 1024)?;
+    // Le immagini generate dal motore neurale sono PNG incorporati in un SVG:
+    // 4 MB coprono 512×512 senza permettere file arbitrariamente grandi.
+    let sanitized = svg_tool::sanitize(&svg, 4 * 1024 * 1024)?;
     let db = state.db()?;
     let now = now_iso();
 

@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_aut_denaro_cassa-p1-field-title",
-          "kind": "text",
-          "text": "Denaro: pagare alla cassa",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_aut_denaro_cassa-p1-field-layout",
           "kind": "text",
           "text": "verticale",

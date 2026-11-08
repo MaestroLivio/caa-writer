@@ -256,3 +256,75 @@ mod tests {
         assert!(!config.allow_online);
     }
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ChatMessage {
+    pub role: String,
+    pub content: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct ChatReply {
+    pub reply: String,
+    pub backend: String,
+    pub elapsed_ms: u64,
+}
+
+/// Chat con il provider online compatibile OpenAI. Non viene chiamata
+/// automaticamente: serve un consenso esplicito e una chiave nel portachiavi.
+pub fn chat(db: &Database, messages: &[ChatMessage]) -> Result<ChatReply, String> {
+    let config = load(db);
+    if config.kind == "local" {
+        return Err("provider online non configurato".to_string());
+    }
+    if !config.allow_online || !config.privacy_ack {
+        return Err("consenso online o conferma privacy mancanti".to_string());
+    }
+    if messages.is_empty() {
+        return Err("nessun messaggio da inviare".to_string());
+    }
+    let key = entry()?
+        .get_password()
+        .map_err(|error| format!("chiave non leggibile dal portachiavi: {error}"))?;
+    let endpoint = endpoint_url(&config.endpoint);
+    let client = reqwest::blocking::Client::builder()
+        .timeout(std::time::Duration::from_millis(
+            config.timeout_ms.clamp(1000, 120_000),
+        ))
+        .build()
+        .map_err(|e| format!("client HTTP: {e}"))?;
+    let started = std::time::Instant::now();
+    let response = client
+        .post(&endpoint)
+        .bearer_auth(key)
+        .json(&serde_json::json!({
+            "model": config.model,
+            "messages": messages,
+            "max_tokens": config.max_tokens,
+            "temperature": 0.4
+        }))
+        .send()
+        .map_err(|error| format!("provider non raggiungibile: {error}"))?;
+    let status = response.status();
+    let text = response.text().unwrap_or_default();
+    let value = serde_json::from_str::<serde_json::Value>(&text).unwrap_or_default();
+    if !status.is_success() {
+        return Err(value["error"]["message"]
+            .as_str()
+            .map(str::to_string)
+            .unwrap_or_else(|| format!("provider: stato {status}")));
+    }
+    let reply = value["choices"][0]["message"]["content"]
+        .as_str()
+        .unwrap_or("")
+        .trim()
+        .to_string();
+    if reply.is_empty() {
+        return Err("il provider non ha restituito testo".to_string());
+    }
+    Ok(ChatReply {
+        reply,
+        backend: format!("online · {}", config.model),
+        elapsed_ms: started.elapsed().as_millis() as u64,
+    })
+}

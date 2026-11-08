@@ -91,6 +91,9 @@ pub struct BoardCell {
     pub symbol_id: Option<String>,
     #[serde(default, skip_deserializing)]
     pub svg: Option<String>,
+    /// PNG come data URL, alternativa raster a `svg`.
+    #[serde(default, skip_deserializing)]
+    pub image_asset: Option<String>,
     #[serde(default, skip_deserializing)]
     pub approximate: bool,
 }
@@ -389,6 +392,7 @@ pub fn build_board(engine: &Engine, dir: &Path, id: &str) -> Result<BoardSystem,
                 {
                     cell.symbol_id = token.symbol_id.clone();
                     cell.svg = token.svg.clone();
+                    cell.image_asset = token.image.clone();
                     cell.approximate = token.approximate;
                 }
             }

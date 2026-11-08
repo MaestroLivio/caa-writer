@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
+  import type { ComponentProps } from "svelte";
   import { api, isTauri } from "../api";
+  import CaaEditor from "../editor/CaaEditor.svelte";
+  import type { CaaToken } from "../types";
   import type {
     Alternative,
     OnlineResult,
@@ -31,6 +34,19 @@
     onImport?: () => void;
     onEdit?: () => void;
     onToggleFullscreen?: () => void;
+    onOpenAi?: () => void;
+    onOpenStudio?: () => void;
+    /// Proprietà del motore CAA per le pagine di testo incorporate.
+    caa?: ComponentProps<typeof CaaEditor>;
+    onEditorReady?: (editor: CaaEditor | undefined) => void;
+    onDirtyChange?: (dirty: boolean) => void;
+    /// Vero quando l'editor è dentro la shell dell'app: il Ribbon sostituisce
+    /// la barra interna, evitando Home, titolo e comandi duplicati.
+    embedded?: boolean;
+    onTitleChange?: (title: string) => void;
+    onDocumentChange?: (document: UniversalDocument) => void;
+    /// Maiuscole solo visive (come nell'editor di testo).
+    uppercase?: boolean;
   }
 
   let {
@@ -49,6 +65,15 @@
     onImport,
     onEdit,
     onToggleFullscreen,
+    onOpenAi,
+    onOpenStudio,
+    caa,
+    onEditorReady,
+    onDirtyChange,
+    embedded = false,
+    onTitleChange,
+    onDocumentChange,
+    uppercase = false,
   }: Props = $props();
 
   let doc = $state<UniversalDocument>(clone(initial));
@@ -76,6 +101,8 @@
   let redoStack: UniversalDocument[] = [];
   let message = $state<{ id: string; text: string; svg: string | null }[]>([]);
   let pageHistory = $state<number[]>([]);
+  let toggled = $state<string[]>([]);
+  let feedback = $state<{ text: string; ok: boolean } | null>(null);
   let zoom = $state(0.78);
   let dirty = $state(false);
   let gridPanel = $state(false);
@@ -84,13 +111,23 @@
   let gridWidthsText = $state("");
   let gridHeightsText = $state("");
   let pagesOpen = $state(true);
-  let showRuler = $state(false);
+  let showRuler = $state(true);
   let marginPreview = $state<number | null>(null);
   let rulerSide = $state<"left" | "right" | "top" | "bottom" | null>(null);
   let rulerStart = 0;
   let rulerStartMargin = 0;
   let snapGuides = $state<{ x: number | null; y: number | null }>({ x: null, y: null });
   let paginating = false;
+
+  let textEditor = $state<CaaEditor | undefined>(undefined);
+  let textTokens = new Map<string, CaaToken[]>();
+  const textPages = $derived(
+    ((doc.metadata as Record<string, unknown> | undefined)?.text_pages ?? {}) as Record<
+      string,
+      { content?: unknown; plain_text?: string }
+    >
+  );
+  const isTextPage = (id: string | undefined): boolean => Boolean(id && textPages[id]);
 
   const page = $derived(rendered.pages[pageIndex] ?? rendered.pages[0]);
   const docPage = $derived(doc.pages[pageIndex] ?? doc.pages[0]);
@@ -103,6 +140,173 @@
   const selectedCell = $derived(
     selectedElement?.grid?.cells.find((cell) => cell.id === selectedCellId) ?? null
   );
+
+  function buildTextElements(
+    paragraphs: Array<{ pid: string; text: string }>,
+    tokens: Map<string, CaaToken[]>,
+    includeTitle: boolean
+  ): UniversalElement[] {
+    const landscape = (doc.page?.orientation ?? "portrait") === "landscape";
+    const pageW = doc.page?.width_mm ?? (landscape ? 297 : 210);
+    const pageH = doc.page?.height_mm ?? (landscape ? 210 : 297);
+    const margin = doc.page?.margin_mm ?? 15;
+    const usable = pageW - margin * 2;
+    let seq = 0;
+    const elements: UniversalElement[] = [];
+    const mk = (
+      kind: string,
+      text: string,
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      extra: Record<string, unknown> = {}
+    ) =>
+      ({
+        id: `t-${Date.now().toString(36)}-${seq++}`,
+        kind,
+        text,
+        spoken_text: text,
+        concept_id: null,
+        symbol_id: null,
+        lemma: null,
+        svg: null,
+        image_asset: null,
+        audio_asset: null,
+        x_mm: x,
+        y_mm: y,
+        w_mm: w,
+        h_mm: h,
+        rotation: 0,
+        z: 0,
+        visible: true,
+        locked: false,
+        opacity: 1,
+        row: 0,
+        column: 0,
+        row_span: 1,
+        column_span: 1,
+        style: {},
+        action: null,
+        link_page: null,
+        group_id: null,
+        children: [],
+        grid: null,
+        ...extra,
+      }) as UniversalElement;
+    let y = margin;
+    if (includeTitle && doc.title.trim()) {
+      elements.push(
+        mk("text", doc.title, margin, y, usable, 12, {
+          style: { font_size: 20, bold: true, color: "#172033" },
+        })
+      );
+      y += 18;
+    }
+    for (const paragraph of paragraphs) {
+      const text = paragraph.text.trim();
+      if (!text) continue;
+      const unique: CaaToken[] = [];
+      for (const token of tokens.get(paragraph.pid) ?? []) {
+        if ((!token.svg && !token.image) || !token.symbol_id || token.is_punct || token.hidden) continue;
+        if (!unique.some((item) => item.symbol_id === token.symbol_id)) unique.push(token);
+      }
+      const shown = unique.slice(0, 8);
+      if (y + (shown.length > 0 ? 24 : 0) + 16 > pageH - margin) break;
+      let x = margin;
+      for (const token of shown) {
+        elements.push(
+          mk("symbol", token.surface, x, y, 18, 18, {
+            svg: token.svg,
+            image_asset: token.image,
+            symbol_id: token.symbol_id,
+            concept_id: token.concept_id,
+            lemma: token.lemma,
+          })
+        );
+        elements.push(mk("text", token.surface, x, y + 18, 18, 5, { style: { font_size: 8 } }));
+        x += 20;
+      }
+      if (shown.length > 0) y += 24;
+      elements.push(
+        mk("text", text, margin, y, usable, 14, {
+          style: { font_size: 14, color: "#172033" },
+        })
+      );
+      y += 20;
+    }
+    return elements;
+  }
+
+  /// Salva il contenuto del CaaEditor incorporato nella pagina di testo e
+  /// ricostruisce gli elementi di fallback usati da miniature ed esportazioni.
+  function syncTextPage() {
+    const current = doc.pages[pageIndex];
+    if (!current || !isTextPage(current.id) || !textEditor) return;
+    const metadata = (doc.metadata ?? {}) as Record<string, unknown>;
+    const pages = { ...((metadata.text_pages ?? {}) as Record<string, unknown>) };
+    pages[current.id] = {
+      content: textEditor.getDocJson(),
+      plain_text: textEditor.getPlainText(),
+      saved_at: new Date().toISOString(),
+    };
+    current.elements = buildTextElements(
+      textEditor.getParagraphs(),
+      textTokens,
+      pageIndex === 0
+    );
+    doc.metadata = { ...metadata, text_pages: pages };
+    rendered = localRender(doc);
+    onDocumentChange?.(doc);
+  }
+
+  let textSyncTimer: number | undefined;
+  function scheduleTextSync() {
+    if (textSyncTimer) window.clearTimeout(textSyncTimer);
+    textSyncTimer = window.setTimeout(() => {
+      textSyncTimer = undefined;
+      syncTextPage();
+    }, 600);
+  }
+
+  function selectPage(index: number) {
+    if (index === pageIndex) return;
+    syncTextPage();
+    pageIndex = index;
+  }
+
+  async function addTextPage() {
+    syncTextPage();
+    const id = `text-${Date.now().toString(36)}`;
+    const metadata = (doc.metadata ?? {}) as Record<string, unknown>;
+    const pages = { ...((metadata.text_pages ?? {}) as Record<string, unknown>) };
+    pages[id] = { content: null, plain_text: "" };
+    doc.metadata = { ...metadata, text_pages: pages };
+    await apply(
+      [{ op: "add_page", id, title: "Pagina di testo", layout: "absolute" }],
+      "Pagina di testo aggiunta."
+    );
+    const index = doc.pages.findIndex((item) => item.id === id);
+    if (index >= 0) pageIndex = index;
+  }
+
+  let loadedTextPage = "";
+  $effect(() => {
+    const id = docPage?.id ?? "";
+    if (!textEditor || !isTextPage(id) || loadedTextPage === id) return;
+    loadedTextPage = id;
+    const content = textPages[id]?.content;
+    if (content) {
+      textEditor.setDocJson(content);
+      // Prime miniature ed export: i pittogrammi arrivano dopo l'analisi.
+      window.setTimeout(() => syncTextPage(), 400);
+    }
+  });
+
+  $effect(() => {
+    onEditorReady?.(textEditor);
+    return () => onEditorReady?.(undefined);
+  });
 
   function clone<T>(value: T): T {
     return JSON.parse(JSON.stringify(value)) as T;
@@ -242,6 +446,7 @@
                     symbol_id: cell.symbol_id ?? null,
                     concept_id: cell.concept_id ?? null,
                     svg: cell.svg ?? null,
+                    image_asset: cell.image_asset ?? null,
                     action: cell.action ?? null,
                     hidden: Boolean(cell.hidden),
                     x_mm: col.offsets[cellColumn] ?? 0,
@@ -377,7 +582,9 @@
       redoStack = [];
       doc = result.document;
       rendered = result.rendered ?? localRender(result.document);
+      onDocumentChange?.(doc);
       dirty = true;
+      onDirtyChange?.(true);
       if (!doc.pages[pageIndex]) pageIndex = Math.max(0, doc.pages.length - 1);
       if (label) onToast(label, "info");
       if (!commands.some((command) => command.op === "add_page")) {
@@ -388,6 +595,32 @@
     } finally {
       busy = false;
     }
+  }
+
+  /// Inserisce un'immagine generata (SVG con PNG incorporato) nella pagina
+  /// corrente come elemento modificabile. Usata dal pannello IA.
+  export async function insertImageElement(svg: string, label: string) {
+    const page = doc.pages[pageIndex] ?? doc.pages[0];
+    if (!page) {
+      onToast("Apri una pagina del documento prima di inserire l'immagine.", "warn");
+      return;
+    }
+    const id = `ai-${Date.now().toString(36)}-${Math.floor(Math.random() * 1000)}`;
+    const element = {
+      id,
+      kind: "image",
+      text: label,
+      spoken_text: label,
+      svg,
+      x_mm: 24,
+      y_mm: 24,
+      w_mm: 70,
+      h_mm: 70,
+    };
+    await apply(
+      [{ op: "add_element", page: page.id, element } as UniversalCommand],
+      "Immagine generata inserita."
+    );
   }
 
   function undo() {
@@ -739,6 +972,7 @@
         target.symbol_id = alternative.symbol_id;
         target.concept_id = alternative.concept_id;
         target.svg = alternative.svg;
+        target.image_asset = alternative.image ?? null;
         if (!target.text.trim()) target.text = alternative.label;
         if (!target.spoken_text.trim()) target.spoken_text = alternative.label;
         updateElement(selectedElement.id, {
@@ -754,6 +988,7 @@
           symbol_id: alternative.symbol_id,
           concept_id: alternative.concept_id,
           svg: alternative.svg,
+          image_asset: alternative.image ?? null,
           label: alternative.label,
         }],
         "Pittogramma sostituito."
@@ -762,6 +997,8 @@
     searchResults = [];
     searchQuery = "";
   }
+
+  const thumbPct = (value: number, total: number) => (total > 0 ? (value / total) * 100 : 0);
 
   function addPage() {
     const id = `page-${Date.now().toString(36)}`;
@@ -779,6 +1016,7 @@
 
   function duplicatePage() {
     if (!docPage) return;
+    syncTextPage();
     const newPageId = `page-${Date.now().toString(36)}`;
     const commands: UniversalCommand[] = [{
       op: "add_page",
@@ -799,6 +1037,7 @@
 
   function removePage() {
     if (!docPage || doc.pages.length <= 1) return;
+    syncTextPage();
     if (!confirm(`Eliminare la pagina «${docPage.title}»?`)) return;
     void apply([{ op: "remove_page", id: docPage.id }], "Pagina eliminata.");
     pageIndex = Math.max(0, pageIndex - 1);
@@ -806,10 +1045,55 @@
 
   function movePage(delta: number) {
     if (!docPage) return;
+    syncTextPage();
     const target = pageIndex + delta;
     if (target < 0 || target >= doc.pages.length) return;
     void apply([{ op: "move_page", id: docPage.id, index: target }], "Pagina spostata.");
     pageIndex = target;
+  }
+
+  function applyStandardFormat(value: string) {
+    if (value === "custom") return;
+    const [size, orientation] = value.split("|");
+    void apply(
+      [
+        {
+          op: "update_document",
+          patch: {
+            page: {
+              ...doc.page,
+              size,
+              orientation,
+              width_mm: null,
+              height_mm: null,
+            },
+          },
+        },
+      ],
+      "Formato foglio aggiornato."
+    );
+  }
+
+  function applyCustomSize(width: number, height: number) {
+    const w = Math.min(2000, Math.max(50, Math.round(width)));
+    const h = Math.min(2000, Math.max(50, Math.round(height)));
+    void apply(
+      [
+        {
+          op: "update_document",
+          patch: {
+            page: {
+              ...doc.page,
+              size: "custom",
+              orientation: "portrait",
+              width_mm: w,
+              height_mm: h,
+            },
+          },
+        },
+      ],
+      `Formato personalizzato ${w}×${h} mm.`
+    );
   }
 
   function setPageLayout(layout: string) {
@@ -838,10 +1122,40 @@
     if (index < 0) return;
     pageHistory = [...pageHistory, pageIndex];
     pageIndex = index;
+    toggled = [];
+    feedback = null;
   }
 
-  function playAction(element: RenderedElement | { action?: any; spoken_text?: string; text?: string }) {
+  function playAction(element: RenderedElement | { action?: any; spoken_text?: string; text?: string; id?: string }) {
     const action = element.action?.type ?? "append";
+    if (action === "toggle") {
+      const id = element.id ?? "";
+      if (!id) return;
+      const source = docPage?.elements.find((item) => item.id === id);
+      const metadata = (source?.metadata ?? {}) as Record<string, unknown>;
+      const group = typeof metadata.group === "string" ? metadata.group : null;
+      if (group) {
+        const groupIds = new Set(
+          (docPage?.elements ?? [])
+            .filter((item) => (item.metadata as Record<string, unknown> | undefined)?.group === group)
+            .map((item) => item.id)
+        );
+        toggled = toggled.filter((item) => !groupIds.has(item));
+      }
+      toggled = toggled.filter((item) => item !== id);
+      toggled = [...toggled, id];
+      if (typeof metadata.correct === "boolean") {
+        const message =
+          typeof metadata.feedback === "string" ? metadata.feedback : element.spoken_text || element.text || "";
+        feedback = {
+          ok: metadata.correct,
+          text: metadata.correct ? `Corretto: ${message}` : `Riprova: ${message}`,
+        };
+      }
+      const spoken = element.spoken_text || "";
+      if (spoken) onSpeak(spoken);
+      return;
+    }
     if (action === "navigate" && element.action?.target_page) {
       goToPage(element.action.target_page);
       return;
@@ -915,6 +1229,39 @@
       }
     }
     return [best, guide];
+  }
+
+  function handleWheel(event: WheelEvent) {
+    if (!(event.ctrlKey || event.metaKey)) return;
+    event.preventDefault();
+    setZoomTo(zoom - Math.sign(event.deltaY) * 0.05);
+  }
+
+  let pinchStartDistance = 0;
+  let pinchStartZoom = 1;
+
+  function touchDistance(touches: TouchList): number {
+    if (touches.length < 2) return 0;
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.hypot(dx, dy);
+  }
+
+  function handleTouchStart(event: TouchEvent) {
+    if (event.touches.length !== 2) return;
+    pinchStartDistance = touchDistance(event.touches);
+    pinchStartZoom = zoom;
+  }
+
+  function handleTouchMove(event: TouchEvent) {
+    if (event.touches.length !== 2 || !pinchStartDistance) return;
+    event.preventDefault();
+    const scale = touchDistance(event.touches) / pinchStartDistance;
+    setZoomTo(pinchStartZoom * scale);
+  }
+
+  function handleTouchEnd() {
+    pinchStartDistance = 0;
   }
 
   function startRuler(event: PointerEvent, side: "left" | "right" | "top" | "bottom") {
@@ -1227,35 +1574,120 @@
   });
 
   async function printDocument() {
+    syncTextPage();
     try {
-      const html = isTauri()
-        ? await api.documentHtml(doc)
-        : "<html><body>La stampa richiede l'app desktop.</body></html>";
-      const frame = document.createElement("iframe");
-      frame.setAttribute("aria-hidden", "true");
-      frame.style.position = "fixed";
-      frame.style.width = "1px";
-      frame.style.height = "1px";
-      frame.style.opacity = "0";
-      frame.style.pointerEvents = "none";
-      frame.srcdoc = html;
-      frame.onload = () => {
-        try {
-          frame.contentWindow?.focus();
-          frame.contentWindow?.print();
-        } finally {
-          window.setTimeout(() => frame.remove(), 2000);
-        }
-      };
-      document.body.append(frame);
+      if (!isTauri()) {
+        onToast("La stampa richiede l'app desktop.", "warn");
+        return;
+      }
+      // PDF con il renderer reale (formato e orientamento corretti), aperto
+      // nel visualizzatore di sistema: da lì si stampa con Cmd+P / Ctrl+P.
+      const path = await api.printUniversal(doc);
+      onToast(`PDF di stampa aperto: ${path}`, "info");
     } catch (error) {
       onToast(error instanceof Error ? error.message : String(error), "error");
     }
   }
 
   function save() {
+    syncTextPage();
     saving = true;
-    void onSave(doc).finally(() => (saving = false));
+    void onSave(doc).finally(() => {
+      saving = false;
+      dirty = false;
+      onDirtyChange?.(false);
+    });
+  }
+
+  export function undoNow() {
+    undo();
+  }
+
+  export function redoNow() {
+    redo();
+  }
+
+  export function playNow() {
+    syncTextPage();
+    mode = mode === "play" ? "edit" : "play";
+  }
+
+  export function addPageNow() {
+    addPage();
+  }
+
+  export function addTextPageNow() {
+    void addTextPage();
+  }
+
+  export function togglePagesNow() {
+    pagesOpen = !pagesOpen;
+  }
+
+  export function toggleRulerNow() {
+    showRuler = !showRuler;
+  }
+
+  export function setDocumentTitle(title: string) {
+    onTitleChange?.(title);
+    void apply([{ op: "update_document", patch: { title } }], "");
+  }
+
+  export function setPageSettings(patch: Record<string, unknown>) {
+    void apply(
+      [{ op: "update_document", patch: { page: { ...doc.page, ...patch } } }],
+      ""
+    );
+  }
+
+  export function addElementNow(kind: string) {
+    addElement(kind);
+  }
+
+  export function addGridNow() {
+    addGrid();
+  }
+
+  export function groupNow() {
+    groupSelection();
+  }
+
+  export function ungroupNow() {
+    ungroupSelection();
+  }
+
+  export function zoomBy(delta: number) {
+    zoom = Math.min(1.3, Math.max(0.45, Math.round((zoom + delta) * 100) / 100));
+  }
+
+  export function setZoomTo(value: number) {
+    zoom = Math.min(1.3, Math.max(0.45, Math.round(value * 100) / 100));
+  }
+
+  export function zoomIn() {
+    zoom = Math.min(1.3, Math.round((zoom + 0.1) * 100) / 100);
+  }
+
+  export function zoomOut() {
+    zoom = Math.max(0.45, Math.round((zoom - 0.1) * 100) / 100);
+  }
+
+  export function zoomReset() {
+    zoom = 0.78;
+  }
+
+  export function zoomFit() {
+    zoom = 0.6;
+  }
+
+  export function saveNow() {
+    syncTextPage();
+    save();
+  }
+
+  export function printNow() {
+    syncTextPage();
+    void printDocument();
   }
 </script>
 
@@ -1287,9 +1719,10 @@
 <svelte:window on:keydown={handleKey} />
 
 <div class="ueditor" class:ueditor--play={mode === "play"} data-profile-size={profile?.accessibility?.large_symbols ? "large" : "normal"}>
+  {#if !embedded}
   <header class="ueditor__bar">
     <button class="btn" onclick={onClose}>← Home</button>
-    <input class="ueditor__title" value={doc.title} aria-label="Titolo del documento" onchange={(event) => void apply([{ op: "update_document", patch: { title: event.currentTarget.value } }], "Titolo aggiornato.")} readonly={mode === "play"} />
+    <input class="ueditor__title" value={doc.title} aria-label="Titolo del documento" onchange={(event) => { onTitleChange?.(event.currentTarget.value); void apply([{ op: "update_document", patch: { title: event.currentTarget.value } }], "Titolo aggiornato."); }} readonly={mode === "play"} />
     <span class="ueditor__badge">{doc.kind}</span>
     <span class="ueditor__badge">{doc.pages.length} pagine</span>
     <span class="grow"></span>
@@ -1298,6 +1731,12 @@
       <button class="btn" disabled={busy || redoStack.length === 0} onclick={redo}>Ripeti</button>
       <button class="btn" onclick={printDocument}>Stampa</button>
       <button class="btn" onclick={() => (mode = "play")}>Anteprima</button>
+      {#if onOpenAi}
+        <button class="btn" onclick={onOpenAi}>IA</button>
+      {/if}
+      {#if onOpenStudio}
+        <button class="btn" onclick={onOpenStudio}>Genera</button>
+      {/if}
       <button class="btn" onclick={save} disabled={saving}>{saving ? "Salvo…" : "Salva .caadoc"}</button>
       {#if onSavePlayer}
         <button class="btn" onclick={() => void onSavePlayer(doc)}>Salva .caaplay</button>
@@ -1313,7 +1752,7 @@
       <button class="btn" onclick={onOpen}>Apri</button>
       <button class="btn" onclick={onImport}>Importa</button>
       {#if canEdit}
-        <button class="btn" onclick={onEdit}>Modifica</button>
+        <button class="btn btn--solid" onclick={onEdit}>Modifica layout e contenuti</button>
       {/if}
       <button class="btn" onclick={printDocument}>Stampa</button>
       {#if onToggleFullscreen}
@@ -1322,29 +1761,78 @@
       <button class="btn" onclick={() => (pageHistory = [...pageHistory, pageIndex], pageIndex = Math.max(0, doc.pages.findIndex((p) => p.is_home)))}>Home pagina</button>
     {/if}
   </header>
+  {/if}
 
-  <div class="ueditor__body" class:ueditor__body--nopages={!pagesOpen}>
+  {#if readOnly && canEdit}
+    <div class="ueditor__preview">
+      <span>Anteprima non modificabile.</span>
+      <button class="btn btn--solid" onclick={onEdit}>Modifica layout e contenuti</button>
+    </div>
+  {/if}
+
+  <div class="ueditor__body" class:ueditor__body--nopages={!pagesOpen} class:ueditor__body--noprops={embedded && !selectedElement}>
+    {#if !pagesOpen}
+      <button
+        class="ueditor__pages-reopen btn btn--ghost"
+        onclick={() => (pagesOpen = true)}
+        title="Mostra il pannello delle pagine"
+      >Pagine »</button>
+    {/if}
     {#if pagesOpen}
     <aside class="ueditor__pages" aria-label="Pagine">
       <div class="ueditor__pages-head">
         <strong>Pagine</strong>
         {#if mode === "edit"}
-          <button class="mini" onclick={addPage}>+</button>
+          <button class="mini" onclick={addPage} title="Aggiungi pagina">+</button>
+          <button class="mini" onclick={() => void addTextPage()} title="Aggiungi pagina di testo CAA">T+</button>
         {/if}
+        <button class="mini" onclick={() => (pagesOpen = false)} title="Riduci il pannello delle pagine">«</button>
       </div>
       {#each rendered.pages as item (item.id)}
         <button
           class="thumb"
           class:thumb--active={item.index === pageIndex}
-          onclick={() => (pageIndex = item.index)}
+          onclick={() => selectPage(item.index)}
           title={item.title}
         >
-          <span class="thumb__paper" style={`aspect-ratio:${item.width_mm}/${item.height_mm}`}>
-            {#each item.elements.slice(0, 20) as element (element.id)}
-              <span
-                class="thumb__block"
-                style={`left:${(element.x_mm / item.width_mm) * 100}%;top:${(element.y_mm / item.height_mm) * 100}%;width:${(element.w_mm / item.width_mm) * 100}%;height:${(element.h_mm / item.height_mm) * 100}%`}
-              ></span>
+          <span
+            class="thumb__paper"
+            style={`aspect-ratio:${item.width_mm}/${item.height_mm};background:${item.background || "#ffffff"}`}
+          >
+            {#each item.elements as element (element.id)}
+              {#if element.visible}
+                <span
+                  class="thumb__el"
+                  style={`left:${thumbPct(element.x_mm, item.width_mm)}%;top:${thumbPct(element.y_mm, item.height_mm)}%;width:${thumbPct(element.w_mm, item.width_mm)}%;height:${thumbPct(element.h_mm, item.height_mm)}%;opacity:${element.opacity};${element.rotation ? `transform:rotate(${element.rotation}deg);` : ""}`}
+                >
+                  {#if element.image_asset}
+                    <img src={element.image_asset} alt="" style="width:100%;height:100%;object-fit:contain" />
+                  {:else if element.svg}
+                    {@html element.svg}
+                  {:else if element.cells?.length}
+                    {#each element.cells as cell (cell.id)}
+                      {#if !cell.hidden}
+                        <span
+                          class="thumb__cell"
+                          style={`left:${thumbPct(cell.x_mm, element.w_mm)}%;top:${thumbPct(cell.y_mm, element.h_mm)}%;width:${thumbPct(cell.w_mm, element.w_mm)}%;height:${thumbPct(cell.h_mm, element.h_mm)}%;background:${cell.style.background || "transparent"}`}
+                        >
+                          {#if cell.image_asset}
+                            <img src={cell.image_asset} alt="" style="width:100%;height:100%;object-fit:contain" />
+                          {:else if cell.svg}{@html cell.svg}{/if}
+                          <span class="thumb__cell-text">{cell.text}</span>
+                        </span>
+                      {/if}
+                    {/each}
+                  {:else if element.kind === "shape"}
+                    <span
+                      class="thumb__shape"
+                      style={`background:${element.style.background || "transparent"};border-color:${element.style.border_color || "transparent"};border-width:${element.style.border_width ? `${Math.max(1, element.style.border_width)}px` : "0"};`}
+                    ></span>
+                  {:else if element.text}
+                    <span class="thumb__text">{element.text}</span>
+                  {/if}
+                </span>
+              {/if}
             {/each}
           </span>
           <span class="thumb__title">{item.title}{item.is_home ? " · home" : ""}</span>
@@ -1361,7 +1849,11 @@
         <input class="ueditor__page-title" value={docPage.title} aria-label="Titolo della pagina" onchange={(event) => renamePage(event.currentTarget.value)} />
         <label class="ueditor__field">
           <span>Layout pagina</span>
-          <select value={docPage.layout} onchange={(event) => setPageLayout(event.currentTarget.value)}>
+          <select
+            value={docPage.layout}
+            disabled={isTextPage(docPage.id)}
+            onchange={(event) => setPageLayout(event.currentTarget.value)}
+          >
             <option value="flow">Documento (flusso)</option>
             <option value="absolute">Presentazione (libero)</option>
             <option value="grid">Griglia</option>
@@ -1377,8 +1869,16 @@
     </aside>
     {/if}
 
-    <main class="ueditor__stage" class:ueditor__stage--play={mode === "play"}>
-      {#if mode === "edit"}
+    <main
+      class="ueditor__stage"
+      class:ueditor__stage--play={mode === "play"}
+      onwheel={handleWheel}
+      ontouchstart={handleTouchStart}
+      ontouchmove={handleTouchMove}
+      ontouchend={handleTouchEnd}
+      ontouchcancel={handleTouchEnd}
+    >
+      {#if mode === "edit" && !embedded}
         <div class="ueditor__tools">
           <button class="btn" onclick={() => addElement("text")}>Testo</button>
           <button class="btn" onclick={() => addElement("text_box")}>Casella</button>
@@ -1395,16 +1895,62 @@
           {/if}
           <button class="btn" onclick={groupSelection}>Raggruppa</button>
           <button class="btn" onclick={ungroupSelection}>Separa</button>
-          <button class="btn" onclick={() => (pagesOpen = !pagesOpen)}>
-            {pagesOpen ? "Nascondi pagine" : "Mostra pagine"}
-          </button>
-          <button class="btn" class:btn--solid={showRuler} onclick={() => (showRuler = !showRuler)}>
-            Righello
-          </button>
-          <label class="ueditor__zoom">Zoom <input type="range" min="0.45" max="1.3" step="0.05" bind:value={zoom} /></label>
+          {#if !embedded}
+            <button class="btn" onclick={() => (pagesOpen = !pagesOpen)}>
+              {pagesOpen ? "Nascondi pagine" : "Mostra pagine"}
+            </button>
+          {/if}
+          {#if !embedded}
+            <button class="btn" class:btn--solid={showRuler} onclick={() => (showRuler = !showRuler)}>
+              Righello
+            </button>
+          {/if}
         </div>
       {/if}
-      {#if page}
+      {#if mode === "edit"}
+        <div class="ueditor__zoombar" role="group" aria-label="Zoom del documento">
+          <button class="mini" onclick={() => zoomBy(-0.05)} title="Riduci zoom">−</button>
+          <input
+            type="range"
+            min="0.45"
+            max="1.3"
+            step="0.05"
+            bind:value={zoom}
+            aria-label="Zoom"
+          />
+          <button class="mini" onclick={() => zoomBy(0.05)} title="Aumenta zoom">+</button>
+          <span class="ueditor__zoomvalue">{Math.round(zoom * 100)}%</span>
+        </div>
+      {/if}
+      {#if marginPreview !== null}
+        <span class="ueditor__margin-badge">{marginPreview} mm</span>
+      {/if}
+      {#if docPage && isTextPage(docPage.id) && mode !== "play" && caa}
+        <div class="ueditor__textpage">
+          <div
+            class="paper"
+            data-uppercase={uppercase ? "true" : "false"}
+            style={`zoom:${zoom};width:${page?.width_mm ?? 210}mm;min-height:${page?.height_mm ?? 297}mm;max-width:none;padding:${doc.page.margin_mm ?? 15}mm;`}
+          >
+          {#key docPage.id}
+            <CaaEditor
+              bind:this={textEditor}
+              {...caa}
+              onAnalyzed={(map) => {
+                textTokens = map;
+                caa?.onAnalyzed?.(map);
+              }}
+              onDocChanged={() => {
+                dirty = true;
+                onDirtyChange?.(true);
+                caa?.onDocChanged?.();
+                scheduleTextSync();
+              }}
+            />
+          {/key}
+          </div>
+        </div>
+      {:else if page}
         <div class="ueditor__pagewrap" style={`zoom:${zoom}`}>
           <div
             class="ueditor__page"
@@ -1478,6 +2024,9 @@
                   class:uel--locked={element.locked}
                   class:uel--symbol={element.kind === "symbol"}
                   class:uel--button={element.kind === "button"}
+                  class:uel--toggle={element.action?.type === "toggle"}
+                  class:uel--on={toggled.includes(element.id)}
+                  data-action={element.action?.type ?? ""}
                   style={elementStyle(element)}
                   role={mode === "play" ? "button" : "group"}
                   tabindex={mode === "play" ? 0 : -1}
@@ -1495,6 +2044,10 @@
                 >
                   {#if element.kind === "button" || element.kind === "shape"}
                     {@render inlineLabel(element)}
+                  {:else if element.kind === "token_slot"}
+                    <span class="uel__token" aria-hidden="true"></span>
+                  {:else if element.image_asset}
+                    <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
                   {:else if element.svg}
                     <span class="uel__symbol">{@html element.svg}</span>
                     {@render inlineLabel(element)}
@@ -1515,7 +2068,9 @@
                               }
                             }}
                           >
-                            {#if cell.svg}<span class="uel__cell-symbol">{@html cell.svg}</span>{/if}
+                            {#if cell.image_asset}
+                              <span class="uel__cell-symbol"><img src={cell.image_asset} alt="" /></span>
+                            {:else if cell.svg}<span class="uel__cell-symbol">{@html cell.svg}</span>{/if}
                             <span
                               contenteditable={mode === "edit"}
                               spellcheck="false"
@@ -1562,6 +2117,11 @@
               <button class="ueditor__chip" onclick={() => (message = message.filter((item) => item.id !== unit.id))}>{unit.text} ×</button>
             {/each}
           </div>
+          {#if feedback}
+            <p class="ueditor__feedback" class:ueditor__feedback--ok={feedback.ok} role="status">
+              {feedback.text}
+            </p>
+          {/if}
           <div class="ueditor__message-actions">
             <button class="btn" onclick={() => (message = [])} disabled={message.length === 0}>Svuota</button>
             <button class="btn btn--solid" onclick={speakMessage} disabled={message.length === 0}>Parla frase</button>
@@ -1571,6 +2131,7 @@
     </main>
 
     {#if mode === "edit"}
+      {#if !embedded || selectedElement}
       <aside class="ueditor__properties" aria-label="Proprietà">
         {#if selectedElement && selectedRendered}
           <h3>Proprietà</h3>
@@ -1617,7 +2178,9 @@
             <div class="ueditor__results">
               {#each searchResults as alternative (alternative.symbol_id)}
                 <button class="ueditor__result" onclick={() => applySymbol(alternative)} title={alternative.license}>
-                  {#if alternative.svg}<span class="ueditor__result-media">{@html alternative.svg}</span>{/if}
+                  {#if alternative.image}
+                    <span class="ueditor__result-media"><img src={alternative.image} alt="" /></span>
+                  {:else if alternative.svg}<span class="ueditor__result-media">{@html alternative.svg}</span>{/if}
                   <span>{alternative.label}</span>
                 </button>
               {/each}
@@ -1756,27 +2319,65 @@
         {:else}
           <h3>Documento</h3>
           <p class="hint">Seleziona un elemento sulla pagina per modificarne testo, posizione, pittogramma e azione.</p>
-          <label class="ueditor__field"><span>Titolo documento</span><input value={doc.title} onchange={(event) => void apply([{ op: "update_document", patch: { title: event.currentTarget.value } }], "Titolo aggiornato.")} /></label>
-          <label class="ueditor__field"><span>Formato</span>
-            <select value={`${doc.page.size}-${doc.page.orientation}`} onchange={(event) => {
-              const [size, orientation] = event.currentTarget.value.split("-");
-              void apply(
-                [{ op: "update_document", patch: { page: { ...doc.page, size, orientation } } }],
-                "Formato aggiornato."
-              );
-            }}>
-              <option value="A4-portrait">A4 verticale</option>
-              <option value="A4-landscape">A4 orizzontale</option>
-              <option value="A3-portrait">A3 verticale</option>
-              <option value="A3-landscape">A3 orizzontale</option>
-              <option value="16:9-landscape">16:9</option>
-              <option value="4:3-landscape">4:3</option>
-              <option value="LETTER-portrait">Letter</option>
+          <label class="ueditor__field"><span>Titolo documento</span><input value={doc.title} onchange={(event) => { onTitleChange?.(event.currentTarget.value); void apply([{ op: "update_document", patch: { title: event.currentTarget.value } }], "Titolo aggiornato."); }} /></label>
+          <label class="ueditor__field"><span>Formato foglio</span>
+            <select
+              value={doc.page.width_mm && doc.page.height_mm
+                ? "custom"
+                : `${doc.page.size}|${doc.page.orientation}`}
+              onchange={(event) => applyStandardFormat(event.currentTarget.value)}
+            >
+              <option value="A4|portrait">A4 verticale (210×297)</option>
+              <option value="A4|landscape">A4 orizzontale (297×210)</option>
+              <option value="A3|portrait">A3 verticale (297×420)</option>
+              <option value="A3|landscape">A3 orizzontale (420×297)</option>
+              <option value="A5|portrait">A5 verticale (148×210)</option>
+              <option value="LETTER|portrait">Letter (216×279)</option>
+              <option value="16:9|landscape">16:9 (339×191)</option>
+              <option value="4:3|landscape">4:3 (254×191)</option>
+              <option value="custom">Personalizzato…</option>
             </select>
+          </label>
+          <label class="ueditor__field"><span>Larghezza (mm)</span>
+            <input
+              type="number"
+              min="50"
+              max="2000"
+              value={Math.round(page?.width_mm ?? 210)}
+              onchange={(event) =>
+                applyCustomSize(
+                  Number(event.currentTarget.value) || 210,
+                  page?.height_mm ?? 297
+                )}
+            />
+          </label>
+          <label class="ueditor__field"><span>Margini (mm)</span>
+            <input
+              type="number"
+              min="0"
+              max="80"
+              step="0.5"
+              value={doc.page.margin_mm ?? 15}
+              onchange={(event) => void apply([{ op: "update_document", patch: { page: { ...doc.page, margin_mm: Number(event.currentTarget.value) || 0 } } }], "Margini aggiornati.")}
+            />
+          </label>
+          <label class="ueditor__field"><span>Altezza (mm)</span>
+            <input
+              type="number"
+              min="50"
+              max="2000"
+              value={Math.round(page?.height_mm ?? 297)}
+              onchange={(event) =>
+                applyCustomSize(
+                  page?.width_mm ?? 210,
+                  Number(event.currentTarget.value) || 297
+                )}
+            />
           </label>
           <p class="hint">{docPage?.elements.length ?? 0} elementi · {doc.pages.length} pagine</p>
         {/if}
       </aside>
+      {/if}
     {/if}
   </div>
 </div>
@@ -1789,12 +2390,21 @@
   .grow { flex: 1 1 auto; }
   .ueditor__body { display: grid; grid-template-columns: 170px minmax(0, 1fr) 300px; min-height: 0; flex: 1 1 auto; }
   .ueditor--play .ueditor__body { grid-template-columns: 170px minmax(0, 1fr); }
+  .ueditor__body { position: relative; }
+  .ueditor__stage { position: relative; }
+  .ueditor__pages-reopen { position: absolute; left: 8px; top: 8px; z-index: 25; }
   .ueditor__pages { border-right: 1px solid var(--border, #d3d6e0); background: var(--surface, #fff); padding: 8px; overflow: auto; max-height: calc(100vh - 54px); }
   .ueditor__pages-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
   .thumb { display: block; width: 100%; border: 2px solid transparent; border-radius: 6px; padding: 3px; margin-bottom: 6px; background: transparent; cursor: pointer; color: inherit; }
   .thumb--active { border-color: #2463eb; background: #eef4ff; }
   .thumb__paper { position: relative; display: block; width: 100%; background: #fff; border: 1px solid #cfd6e2; overflow: hidden; }
-  .thumb__block { position: absolute; background: #b9c6da; border-radius: 1px; }
+  .thumb__el { position: absolute; overflow: hidden; display: block; }
+  .thumb__el :global(svg) { width: 100%; height: 100%; display: block; }
+  .thumb__cell { position: absolute; box-sizing: border-box; border: 0.5px solid #c9d2df; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .thumb__cell :global(svg) { width: 78%; height: 78%; }
+  .thumb__cell-text { font-size: 2.4px; line-height: 1; white-space: nowrap; overflow: hidden; }
+  .thumb__text { display: block; font-size: 2.6px; line-height: 1.15; color: #172033; overflow: hidden; padding: 0.5px 1px; }
+  .thumb__shape { position: absolute; inset: 0; display: block; box-sizing: border-box; border-style: solid; border-radius: 1px; }
   .thumb__title { display: block; font-size: 0.68rem; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ueditor__page-tools { display: flex; flex-wrap: wrap; gap: 3px; margin: 8px 0; }
   .ueditor__page-title { width: 100%; font-size: 0.78rem; margin-bottom: 6px; }
@@ -1804,17 +2414,35 @@
   .ueditor__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
   .ueditor__gridbox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #d3d6e0; border-radius: 8px; background: #fff; font-size: 0.75rem; }
   .ueditor__gridbox input { width: 54px; }
-  .ueditor__zoom { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; }
-  .ueditor__zoom input { width: 90px; }
+  .ueditor__zoombar { position: absolute; right: 14px; bottom: 14px; z-index: 35; display: flex; align-items: center; gap: 6px; padding: 5px 8px; background: var(--surface, #fff); border: 1px solid var(--border, #d3d6e0); border-radius: 999px; box-shadow: 0 2px 10px rgba(15,23,42,0.12); font-size: 0.75rem; }
+  .ueditor__zoombar input { width: 90px; }
+  .ueditor__zoomvalue { min-width: 32px; text-align: right; }
+  .ueditor__margin-badge { position: absolute; top: 8px; right: 8px; z-index: 35; background: #172033; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 999px; }
   .ueditor__pagewrap { display: flex; justify-content: center; }
+  .ueditor__textpage { min-width: 0; min-height: 0; overflow: auto; padding: 8px 12px; display: flex; flex-direction: column; }
+  .ueditor__textpage :global(.caa-editor) { flex: 1 1 auto; min-height: 0; }
   .ueditor__page { position: relative; box-shadow: 0 4px 22px rgba(15,23,42,0.16); overflow: hidden; flex: 0 0 auto; }
   .uel { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1mm; cursor: move; user-select: none; overflow: hidden; }
   .uel--symbol { cursor: move; }
   .uel--button { cursor: pointer; }
+  .uel__token { display: block; width: 78%; aspect-ratio: 1; margin: auto; border: 2px dashed #0f766e; border-radius: 50%; background: #fff; }
+  .ueditor--play .uel--toggle.uel--on .uel__token { border-style: solid; background: #fbbf24; }
   .uel--selected { outline: 2px solid #2463eb; outline-offset: 1px; }
   .uel--locked { cursor: default; }
+  .ueditor__preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 6px 12px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+  }
+
   .uel__symbol { width: 100%; height: 62%; display: flex; align-items: center; justify-content: center; min-height: 0; }
-  .uel__symbol :global(svg), .ueditor__result-media :global(svg), .uel__cell-symbol :global(svg) { width: 100%; height: 100%; }
+  .uel__symbol :global(svg), .ueditor__result-media :global(svg), .uel__cell-symbol :global(svg),
+  .uel__symbol :global(img), .ueditor__result-media :global(img), .uel__cell-symbol :global(img) { width: 100%; height: 100%; object-fit: contain; }
   .uel__label { font-size: inherit; line-height: 1.15; text-align: center; pointer-events: auto; cursor: text; outline: none; min-width: 2mm; }
   .uel__label[contenteditable="true"]:focus { outline: 1px dashed #2463eb; background: #fff8d8; }
   .uel__grid { position: absolute; inset: 0; }
@@ -1840,8 +2468,14 @@
   .ueditor__chips { flex: 1 1 240px; display: flex; flex-wrap: wrap; gap: 5px; min-height: 32px; }
   .ueditor__chip { border: 0; border-radius: 999px; background: #e8eefc; color: #12234a; padding: 4px 10px; font-weight: 600; cursor: pointer; }
   .ueditor__message-actions { display: flex; gap: 6px; }
+  .ueditor__feedback { width: 100%; margin: 4px 0 0; padding: 6px 10px; border-radius: 8px; background: #fee2e2; color: #991b1b; font-weight: 600; }
+  .ueditor__feedback--ok { background: #dcfce7; color: #166534; }
+  .ueditor--play .uel--toggle { cursor: pointer; opacity: 0.55; transition: opacity 120ms ease, box-shadow 120ms ease; }
+  .ueditor--play .uel--toggle.uel--on { opacity: 1; box-shadow: 0 0 0 2px #0f766e inset; }
   @media (max-width: 1100px) { .ueditor__body { grid-template-columns: 140px minmax(0, 1fr); } .ueditor__properties { display: none; } }
   .ueditor__body--nopages { grid-template-columns: minmax(0, 1fr) 300px; }
+  .ueditor__body--noprops { grid-template-columns: 170px minmax(0, 1fr); }
+  .ueditor__body--nopages.ueditor__body--noprops { grid-template-columns: minmax(0, 1fr); }
   .ueditor--play .ueditor__body--nopages { grid-template-columns: minmax(0, 1fr); }
   .ueditor__ruler { position: absolute; z-index: 50; pointer-events: none; opacity: 0.7; }
   .ueditor__ruler--top {

@@ -425,7 +425,7 @@
     {/if}
   </div>
 
-  {#if effectiveMode !== "hidden"}
+  {#if effectiveMode !== "hidden" || temporaryExpanded}
     <div class="ribbon__bodywrap">
       <div
         class="ribbon__body"

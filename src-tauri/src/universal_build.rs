@@ -46,7 +46,7 @@ fn resolve_symbol(
     label: &str,
     explicit_id: Option<&str>,
     concept_hint: Option<&str>,
-) -> Result<Option<(String, Option<String>, Option<String>, Option<String>, Option<String>)>, String> {
+) -> Result<Option<(String, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>)>, String> {
     if let Some(symbol_id) = explicit_id {
         let db = engine.db()?;
         if let Some(record) = db.symbol_by_id(symbol_id).map_err(|e| e.to_string())? {
@@ -54,6 +54,7 @@ fn resolve_symbol(
                 record.id,
                 record.concept_id,
                 record.svg,
+                record.image,
                 Some(record.label),
                 None,
             )));
@@ -62,6 +63,27 @@ fn resolve_symbol(
     let cleaned = normalize_symbol_label(label);
     if cleaned.is_empty() {
         return Ok(None);
+    }
+    // Preferenza esplicita: ARASAAC prima di CAA Writer Core. Si accetta solo
+    // un'etichetta esatta; se ARASAAC non ce l'ha, il motore e il fallback
+    // possono usare il simbolo Core o un'altra fonte.
+    let arasaac = crate::database::SymbolFilters {
+        pack_id: Some("arasaac".to_string()),
+        ..Default::default()
+    };
+    if let Some(record) = engine
+        .db()?
+        .symbol_by_label(&cleaned, &arasaac)
+        .map_err(|e| e.to_string())?
+    {
+        return Ok(Some((
+            record.id,
+            record.concept_id.or_else(|| concept_hint.map(str::to_string)),
+            record.svg,
+            record.image,
+            Some(record.label),
+            None,
+        )));
     }
     let options = SymbolizeOptions {
         paragraph_id: format!("build-{}", crate::pictogram_import::slugify(&cleaned)),
@@ -74,32 +96,149 @@ fn resolve_symbol(
         .tokens
         .iter()
         .find(|token| token.symbol_id.is_some() || !token.composition.is_empty());
-    let Some(token) = token else {
-        return Ok(None);
-    };
-    if let Some(symbol_id) = &token.symbol_id {
+    if let Some(token) = token {
+        if let Some(symbol_id) = &token.symbol_id {
+            return Ok(Some((
+                symbol_id.clone(),
+                token.concept_id.clone().or_else(|| concept_hint.map(str::to_string)),
+                token.svg.clone(),
+                token.image.clone(),
+                token.symbol_label.clone(),
+                token.lemma.clone(),
+            )));
+        }
+        if let Some(part) = token.composition.first() {
+            return Ok(Some((
+                part.symbol_id.clone().unwrap_or_default(),
+                if part.concept_id.trim().is_empty() {
+                    concept_hint.map(str::to_string)
+                } else {
+                    Some(part.concept_id.clone())
+                },
+                part.svg.clone(),
+                part.image.clone(),
+                Some(part.label.clone()),
+                token.lemma.clone(),
+            )));
+        }
+    }
+    // Le parole fuori lessico non hanno un concetto: la ricerca per etichetta
+    // esatta usa comunque il repertorio reale, senza inventare associazioni.
+    let db = engine.db()?;
+    let filters = crate::database::SymbolFilters::default();
+    if let Some(record) = db
+        .symbol_by_label(&cleaned, &filters)
+        .map_err(|e| e.to_string())?
+    {
         return Ok(Some((
-            symbol_id.clone(),
-            token.concept_id.clone().or_else(|| concept_hint.map(str::to_string)),
-            token.svg.clone(),
-            token.symbol_label.clone(),
-            token.lemma.clone(),
+            record.id,
+            record.concept_id.or_else(|| concept_hint.map(str::to_string)),
+            record.svg,
+            record.image,
+            Some(record.label),
+            None,
         )));
     }
-    if let Some(part) = token.composition.first() {
-        return Ok(Some((
-            part.symbol_id.clone().unwrap_or_default(),
-            if part.concept_id.trim().is_empty() {
-                concept_hint.map(str::to_string)
-            } else {
-                Some(part.concept_id.clone())
-            },
-            part.svg.clone(),
-            Some(part.label.clone()),
-            token.lemma.clone(),
-        )));
+    // I titoli di sezione sono spesso al plurale («Persone», «Farmaci»,
+    // «Documenti»). Si provano forme singolari *esatte* nel repertorio: niente
+    // ricerca fuzzy, quindi un simbolo sbagliato non viene scelto.
+    for candidate in singular_candidates(&cleaned) {
+        if let Some(record) = db
+            .symbol_by_label(&candidate, &filters)
+            .map_err(|e| e.to_string())?
+        {
+            return Ok(Some((
+                record.id,
+                record.concept_id.or_else(|| concept_hint.map(str::to_string)),
+                record.svg,
+                record.image,
+                Some(record.label),
+                None,
+            )));
+        }
     }
     Ok(None)
+}
+
+/// Varianti singolari prudenti per etichette di sezione. Ogni variante deve
+/// esistere come etichetta esatta nel repertorio per essere usata.
+fn singular_candidates(label: &str) -> Vec<String> {
+    fn variants(word: &str) -> Vec<String> {
+        let mut out = Vec::new();
+        if word.ends_with('i') && word.chars().count() > 2 {
+            for ending in ["o", "e", "a"] {
+                let mut candidate = word.to_string();
+                candidate.pop();
+                candidate.push_str(ending);
+                out.push(candidate);
+            }
+        } else if word.ends_with('e') && word.chars().count() > 2 {
+            for ending in ["a", "o"] {
+                let mut candidate = word.to_string();
+                candidate.pop();
+                candidate.push_str(ending);
+                out.push(candidate);
+            }
+        }
+        out
+    }
+    let words: Vec<&str> = label.split_whitespace().collect();
+    if words.is_empty() {
+        return Vec::new();
+    }
+    let mut out = Vec::new();
+    // Prima l'ultima parola (il caso più frequente), poi l'intera etichetta
+    // con tutte le parole rese singolari.
+    if let Some(last) = words.last() {
+        for variant in variants(last) {
+            let mut parts: Vec<String> = words[..words.len() - 1]
+                .iter()
+                .map(|word| word.to_string())
+                .collect();
+            parts.push(variant);
+            out.push(parts.join(" "));
+        }
+    }
+    // Per le etichette di sezione («Momenti della giornata», «Oggetti
+    // personali») il simbolo utile è spesso nel primo sostantivo, non
+    // nell'ultima parola. Si provano forme singolari di ogni parola.
+    const STOP: &[&str] = &["di", "del", "della", "dei", "delle", "e", "il", "lo", "la", "i", "gli", "le", "per", "con", "in", "a", "da", "su"];
+    for word in &words {
+        if STOP.contains(&word.to_lowercase().as_str()) {
+            continue;
+        }
+        for variant in variants(word) {
+            if variant != *word && !out.contains(&variant) {
+                out.push(variant);
+            }
+        }
+    }
+    if words.len() > 1 {
+        let mut combinations = vec![String::new()];
+        for word in &words {
+            let options = std::iter::once(word.to_string())
+                .chain(variants(word))
+                .collect::<Vec<_>>();
+            let mut next = Vec::new();
+            for prefix in &combinations {
+                for option in &options {
+                    next.push(if prefix.is_empty() {
+                        option.clone()
+                    } else {
+                        format!("{prefix} {option}")
+                    });
+                }
+            }
+            combinations = next;
+        }
+        for candidate in combinations {
+            if candidate != label && !out.contains(&candidate) {
+                out.push(candidate);
+            }
+        }
+    }
+    out.truncate(24);
+    out
 }
 
 fn action_from(value: &Value) -> Option<UniversalAction> {
@@ -245,6 +384,34 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                 .get("gap_mm")
                 .and_then(|v| v.as_f64())
                 .unwrap_or(3.0) as f32;
+            page.grid.content_width_mm = grid
+                .get("content_width_mm")
+                .and_then(|v| v.as_f64())
+                .map(|v| v as f32);
+            page.grid.content_height_mm = grid
+                .get("content_height_mm")
+                .and_then(|v| v.as_f64())
+                .map(|v| v as f32);
+            page.grid.align = string(grid, "align").unwrap_or_default();
+            page.grid.valign = string(grid, "valign").unwrap_or_default();
+            page.grid.origin_x_mm = grid
+                .get("origin_x_mm")
+                .and_then(|v| v.as_f64())
+                .map(|v| v as f32);
+            page.grid.origin_y_mm = grid
+                .get("origin_y_mm")
+                .and_then(|v| v.as_f64())
+                .map(|v| v as f32);
+            page.grid.column_widths = grid
+                .get("column_widths")
+                .and_then(|v| v.as_array())
+                .map(|values| values.iter().filter_map(|v| v.as_f64().map(|n| n as f32)).collect())
+                .unwrap_or_default();
+            page.grid.row_heights = grid
+                .get("row_heights")
+                .and_then(|v| v.as_array())
+                .map(|values| values.iter().filter_map(|v| v.as_f64().map(|n| n as f32)).collect())
+                .unwrap_or_default();
         }
         if let Some(flow) = page_spec.get("flow") {
             page.flow.columns = flow
@@ -264,26 +431,51 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
             .cloned()
             .unwrap_or_default();
         let columns = page.grid.columns.max(1) as usize;
-        let needed_rows = elements.len().div_ceil(columns).max(1) as u32;
+        let grid_elements = elements
+            .iter()
+            .filter(|element| {
+                !element
+                    .get("absolute")
+                    .and_then(|value| value.as_bool())
+                    .unwrap_or(false)
+            })
+            .count();
+        let needed_rows = grid_elements.div_ceil(columns).max(1) as u32;
         if layout == "grid" {
             page.grid.rows = page.grid.rows.max(needed_rows);
         }
 
+        let mut grid_index = 0usize;
         for (index, element_spec) in elements.iter().enumerate() {
             let element_id = page_id(
                 element_spec,
                 &format!("{}-el-{}", page.id, index + 1),
             );
+            let element_absolute = element_spec
+                .get("absolute")
+                .and_then(|value| value.as_bool())
+                .unwrap_or(false);
             let label = string(element_spec, "text")
                 .or_else(|| string(element_spec, "label"))
                 .unwrap_or_default();
+            let requested_kind = string(element_spec, "kind");
+            let explicit_symbol = string(element_spec, "symbol_id");
+            let has_symbol_field = element_spec.get("symbol").is_some()
+                || element_spec.get("symbol_label").is_some()
+                || explicit_symbol.is_some();
+            let symbol_bearing = requested_kind
+                .as_deref()
+                .map(|kind| matches!(kind, "symbol" | "image" | "communication_cell"))
+                .unwrap_or(false)
+                || has_symbol_field;
             let symbol_label = string(element_spec, "symbol")
                 .or_else(|| string(element_spec, "symbol_label"))
                 .unwrap_or_else(|| label.clone());
-            let explicit_symbol = string(element_spec, "symbol_id");
             let concept_hint = string(element_spec, "concept")
                 .or_else(|| string(element_spec, "concept_id"));
-            let resolved = if !symbol_label.trim().is_empty() || explicit_symbol.is_some() {
+            let resolved = if symbol_bearing
+                && (!symbol_label.trim().is_empty() || explicit_symbol.is_some())
+            {
                 resolve_symbol(
                     engine,
                     &symbol_label,
@@ -293,22 +485,22 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
             } else {
                 None
             };
-            let (symbol_id, concept_id, svg, symbol_label_resolved, lemma) = match resolved {
-                Some((symbol_id, concept_id, svg, label, lemma)) => {
+            let (symbol_id, concept_id, svg, image, symbol_label_resolved, lemma) = match resolved {
+                Some((symbol_id, concept_id, svg, image, label, lemma)) => {
                     add_asset(&mut assets, Some(&symbol_id), svg.as_deref());
-                    (Some(symbol_id), concept_id, svg, label, lemma)
+                    (Some(symbol_id), concept_id, svg, image, label, lemma)
                 }
                 None => {
-                    if !symbol_label.trim().is_empty() {
+                    if symbol_bearing && !symbol_label.trim().is_empty() {
                         notes.push(format!(
                             "«{}» non ha un pittogramma: resta il testo",
                             symbol_label
                         ));
                     }
-                    (None, concept_hint, None, None, None)
+                    (None, concept_hint, None, None, None, None)
                 }
             };
-            let kind = string(element_spec, "kind").unwrap_or_else(|| {
+            let kind = requested_kind.unwrap_or_else(|| {
                 if symbol_id.is_some() {
                     "symbol".to_string()
                 } else if label.trim().is_empty() {
@@ -328,6 +520,7 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                 symbol_id,
                 lemma,
                 svg,
+                image_asset: image,
                 x_mm: number(element_spec, "x_mm").unwrap_or(0.0),
                 y_mm: number(element_spec, "y_mm").unwrap_or(0.0),
                 w_mm: number(element_spec, "w_mm").unwrap_or(0.0),
@@ -337,11 +530,19 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                 row: element_spec
                     .get("row")
                     .and_then(|v| v.as_u64())
-                    .unwrap_or((index / columns) as u64) as u32,
+                    .unwrap_or(if element_absolute {
+                        0
+                    } else {
+                        (grid_index / columns) as u64
+                    }) as u32,
                 column: element_spec
                     .get("column")
                     .and_then(|v| v.as_u64())
-                    .unwrap_or((index % columns) as u64) as u32,
+                    .unwrap_or(if element_absolute {
+                        0
+                    } else {
+                        (grid_index % columns) as u64
+                    }) as u32,
                 row_span: element_spec
                     .get("row_span")
                     .and_then(|v| v.as_u64())
@@ -352,13 +553,52 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                     .unwrap_or(1) as u32,
                 action: element_spec.get("action").and_then(action_from),
                 link_page: string(element_spec, "link_page"),
+                metadata: element_spec
+                    .get("metadata")
+                    .cloned()
+                    .unwrap_or(serde_json::Value::Null),
+                visible: element_spec
+                    .get("visible")
+                    .and_then(|v| v.as_bool())
+                    .unwrap_or(true),
+                locked: element_spec
+                    .get("locked")
+                    .and_then(|v| v.as_bool())
+                    .unwrap_or(false),
+                absolute: element_spec
+                    .get("absolute")
+                    .and_then(|v| v.as_bool())
+                    .unwrap_or(false),
+                opacity: element_spec
+                    .get("opacity")
+                    .and_then(|v| v.as_f64())
+                    .map(|v| v as f32)
+                    .unwrap_or(1.0),
                 ..UniversalElement::default()
             };
+            if let Some(accessibility) = element_spec.get("accessibility") {
+                element.accessibility = serde_json::from_value(accessibility.clone())
+                    .map_err(|e| format!("{id}/{element_id}: accessibilità non valida: {e}"))?;
+            }
             if let Some(style) = element_spec.get("style") {
                 element.style = serde_json::from_value(style.clone())
                     .map_err(|e| format!("{id}/{element_id}: stile non valido: {e}"))?;
             }
+            if symbol_bearing && element.symbol_id.is_none() && !symbol_label.trim().is_empty() {
+                if !element.metadata.is_object() {
+                    element.metadata = json!({});
+                }
+                if let Some(object) = element.metadata.as_object_mut() {
+                    object.insert("missing_symbol".to_string(), json!(true));
+                    object.insert("missing_label".to_string(), json!(symbol_label));
+                }
+            }
             if let Some(grid) = element_spec.get("cells").and_then(|v| v.as_array()) {
+                let cell_columns = element_spec
+                    .get("columns")
+                    .and_then(|v| v.as_u64())
+                    .unwrap_or(columns as u64)
+                    .max(1) as usize;
                 let mut cells = Vec::new();
                 for (cell_index, cell_spec) in grid.iter().enumerate() {
                     let text = string(cell_spec, "text")
@@ -373,17 +613,18 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                         string(cell_spec, "symbol_id").as_deref(),
                         string(cell_spec, "concept").as_deref(),
                     )?;
-                    let (symbol_id, concept_id, svg) = match resolved {
-                        Some((symbol_id, concept_id, svg, _, _)) => {
+                    let (symbol_id, concept_id, svg, image) = match resolved {
+                        Some((symbol_id, concept_id, svg, image, _, _)) => {
                             add_asset(&mut assets, Some(&symbol_id), svg.as_deref());
-                            (Some(symbol_id), concept_id, svg)
+                            (Some(symbol_id), concept_id, svg, image)
                         }
-                        None => (None, None, None),
+                        None => (None, None, None, None),
                     };
+                    let cell_missing = symbol_id.is_none() && !text.trim().is_empty();
                     cells.push(GridCell {
                         id: page_id(cell_spec, &format!("{}-cell-{}", element_id, cell_index + 1)),
-                        row: (cell_index / columns.max(1)) as u32,
-                        column: (cell_index % columns.max(1)) as u32,
+                        row: (cell_index / cell_columns) as u32,
+                        column: (cell_index % cell_columns) as u32,
                         row_span: 1,
                         column_span: 1,
                         text,
@@ -394,6 +635,7 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                         symbol_id,
                         lemma: None,
                         svg,
+                        image_asset: image,
                         action: cell_spec.get("action").and_then(action_from),
                         style: cell_spec
                             .get("style")
@@ -403,6 +645,7 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                             .get("hidden")
                             .and_then(|v| v.as_bool())
                             .unwrap_or(false),
+                        missing_symbol: cell_missing,
                     });
                 }
                 element.grid = Some(universal::GridData {
@@ -413,18 +656,33 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                     rows: element_spec
                         .get("rows")
                         .and_then(|v| v.as_u64())
-                        .unwrap_or((cells.len().div_ceil(columns.max(1))) as u64)
+                        .unwrap_or((cells.len().div_ceil(cell_columns)) as u64)
                         as u32,
                     gap_mm: element_spec
                         .get("gap_mm")
                         .and_then(|v| v.as_f64())
                         .unwrap_or(3.0) as f32,
-                    column_widths: Vec::new(),
-                    row_heights: Vec::new(),
+                    column_widths: element_spec
+                        .get("column_widths")
+                        .and_then(|v| v.as_array())
+                        .map(|values| {
+                            values.iter().filter_map(|v| v.as_f64().map(|n| n as f32)).collect()
+                        })
+                        .unwrap_or_default(),
+                    row_heights: element_spec
+                        .get("row_heights")
+                        .and_then(|v| v.as_array())
+                        .map(|values| {
+                            values.iter().filter_map(|v| v.as_f64().map(|n| n as f32)).collect()
+                        })
+                        .unwrap_or_default(),
                     cells,
                 });
             }
             let _ = symbol_label_resolved;
+            if !element_absolute {
+                grid_index += 1;
+            }
             page.elements.push(element);
         }
         // Anche la generazione dei modelli passa dalle stesse operazioni
@@ -446,6 +704,30 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                     columns: page.grid.columns,
                     rows: page.grid.rows,
                     gap_mm: Some(page.grid.gap_mm),
+                    column_widths: if page.grid.column_widths.is_empty() {
+                        None
+                    } else {
+                        Some(page.grid.column_widths.clone())
+                    },
+                    row_heights: if page.grid.row_heights.is_empty() {
+                        None
+                    } else {
+                        Some(page.grid.row_heights.clone())
+                    },
+                    content_width_mm: page.grid.content_width_mm,
+                    content_height_mm: page.grid.content_height_mm,
+                    align: if page.grid.align.is_empty() {
+                        None
+                    } else {
+                        Some(page.grid.align.clone())
+                    },
+                    valign: if page.grid.valign.is_empty() {
+                        None
+                    } else {
+                        Some(page.grid.valign.clone())
+                    },
+                    origin_x_mm: page.grid.origin_x_mm,
+                    origin_y_mm: page.grid.origin_y_mm,
                 },
             )?;
         }
@@ -529,6 +811,7 @@ pub fn from_plan(plan: &crate::studio::ResourcePlan) -> Result<UniversalDocument
             columns,
             rows,
             gap_mm: 3.0,
+            ..Default::default()
         },
         elements: Vec::new(),
         is_home: true,
@@ -554,6 +837,7 @@ pub fn from_plan(plan: &crate::studio::ResourcePlan) -> Result<UniversalDocument
             z: index as i32,
             visible: true,
             locked: false,
+            absolute: false,
             opacity: 1.0,
             row: (index / columns as usize) as u32,
             column: (index % columns as usize) as u32,
@@ -780,7 +1064,16 @@ pub fn build_all(
             .unwrap_or(&target)
             .to_string_lossy()
             .to_string();
-        entries.push(LibraryEntry {
+        let taxonomy = spec.get("taxonomy").cloned().unwrap_or(Value::Null);
+        let taxonomy_string = |key: &str| {
+            taxonomy
+                .get(key)
+                .and_then(|value| value.as_str())
+                .map(str::to_string)
+                .unwrap_or_default()
+        };
+        let taxonomy_bool = |key: &str| taxonomy.get(key).and_then(|value| value.as_bool());
+        let mut entry = LibraryEntry {
             id: id.clone(),
             title: outcome.document.title.clone(),
             category: outcome
@@ -808,7 +1101,52 @@ pub fn build_all(
                 .unwrap_or(false),
             missing_symbols: outcome.notes.len(),
             path: relative,
-        });
+            preview: format!("library/previews/{id}.svg"),
+            category_id: taxonomy_string("category_id"),
+            subcategory_id: taxonomy_string("subcategory_id"),
+            subcategory: taxonomy_string("subcategory"),
+            audience: taxonomy_string("audience"),
+            objective: taxonomy_string("objective"),
+            tags: taxonomy
+                .get("tags")
+                .and_then(|value| value.as_array())
+                .map(|values| {
+                    values
+                        .iter()
+                        .filter_map(|value| value.as_str().map(str::to_string))
+                        .collect()
+                })
+                .unwrap_or_default(),
+            complexity: taxonomy_string("complexity"),
+            needs_symbols: taxonomy_bool("needs_symbols")
+                .unwrap_or_else(|| outcome.notes.len() > 0),
+            printable: taxonomy_bool("printable").unwrap_or(true),
+            customizable: taxonomy_bool("customizable").unwrap_or(true),
+            featured: taxonomy_bool("featured").unwrap_or(false),
+        };
+        let class = crate::template_catalog::classify(&entry);
+        if entry.category_id.is_empty() {
+            entry.category_id = class.category_id.clone();
+        }
+        if entry.subcategory_id.is_empty() {
+            entry.subcategory_id = class.subcategory_id.clone();
+        }
+        if entry.subcategory.is_empty() {
+            entry.subcategory = class.subcategory.clone();
+        }
+        if entry.audience.is_empty() {
+            entry.audience = class.audience.clone();
+        }
+        if entry.objective.is_empty() {
+            entry.objective = class.objective.clone();
+        }
+        if entry.tags.is_empty() {
+            entry.tags = class.tags.clone();
+        }
+        if entry.complexity.is_empty() {
+            entry.complexity = class.complexity.clone();
+        }
+        entries.push(entry);
         missing_total += outcome.notes.len();
         for note in outcome.notes.iter().take(3) {
             if missing_examples.len() < 30 {

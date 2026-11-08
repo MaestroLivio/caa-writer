@@ -200,6 +200,17 @@ pub fn load(path: &Path) -> Result<LoadedDocument, String> {
                         });
                     }
                 }
+            } else if let Some(symbol_id) = rest.strip_suffix(".png.b64") {
+                let mut content = String::new();
+                if let Ok(mut entry) = archive.by_name(&name) {
+                    if entry.read_to_string(&mut content).is_ok() {
+                        assets.push(DocumentAsset {
+                            symbol_id: symbol_id.to_string(),
+                            svg: None,
+                            png_base64: Some(content),
+                        });
+                    }
+                }
             }
         }
     }
@@ -306,6 +317,26 @@ mod tests {
             "visual_schedule"
         );
         assert_eq!(loaded.universal.as_ref().unwrap()["id"], "doc-test");
+    }
+
+    #[test]
+    fn png_assets_are_saved_and_loaded_without_svg_wrapper() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("png.caadoc");
+        let mut data = payload();
+        data.assets = vec![DocumentAsset {
+            symbol_id: "arasaac.picto.2359".to_string(),
+            svg: None,
+            png_base64: Some("iVBORw0KGgo=".to_string()),
+        }];
+        save(&path, &data, &[]).unwrap();
+        let loaded = load(&path).unwrap();
+        assert_eq!(loaded.assets.len(), 1);
+        assert!(loaded.assets[0].svg.is_none());
+        assert_eq!(
+            loaded.assets[0].png_base64.as_deref(),
+            Some("iVBORw0KGgo=")
+        );
     }
 
     #[test]

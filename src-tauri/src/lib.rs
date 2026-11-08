@@ -14,9 +14,11 @@ pub mod database;
 pub mod diagnostics;
 pub mod document_edit;
 pub mod engine;
+pub mod image_engine;
 pub mod export;
 pub mod layout;
 pub mod layout_edit;
+pub mod library_quality;
 pub mod linguistics;
 pub mod model;
 pub mod paths;
@@ -25,7 +27,9 @@ pub mod pictogram_import;
 pub mod online_search;
 pub mod process;
 pub mod speech;
+pub mod story;
 pub mod studio;
+pub mod template_catalog;
 pub mod tts_normalize;
 pub mod universal;
 pub mod universal_build;
@@ -107,12 +111,23 @@ pub fn run() {
             commands::normalize_speech,
             commands::voice_status,
             commands::ai_status,
+            commands::ai_chat,
+            commands::image_status,
+            commands::online_autofill,
+            commands::hydrate_symbols,
+            commands::image_set_config,
+            commands::image_set_key,
+            commands::image_clear_key,
+            commands::image_generate,
+            commands::image_install_runtime,
+            commands::image_download_model,
             commands::runtime_diagnostics,
             commands::document_validate,
             commands::document_render,
             commands::document_apply,
             commands::universal_from_plan,
             commands::document_html,
+            commands::print_universal,
             commands::ai_provider_status,
             commands::ai_provider_save,
             commands::ai_provider_test,
@@ -121,6 +136,11 @@ pub fn run() {
             commands::universal_import,
             commands::document_export,
             commands::universal_library,
+            commands::library_catalog,
+            commands::library_search,
+            commands::library_by_ids,
+            commands::library_preview,
+            commands::library_validate,
             commands::universal_open,
             commands::set_ai_config,
             commands::ai_models,
@@ -130,9 +150,12 @@ pub fn run() {
             commands::ai_remove_model,
             commands::ai_import_model,
             commands::ai_related_symbols,
+            commands::ai_affinity_symbols,
             commands::ai_select_model,
             commands::ai_benchmark,
             commands::ai_run_tool,
+            commands::translate_search_term,
+            commands::story_create,
             commands::library_stats,
             commands::list_packs,
             commands::list_templates,
@@ -157,6 +180,7 @@ pub fn run() {
             commands::import_svg_symbol,
             commands::scan_pictograms,
             commands::import_pictograms,
+            commands::import_image_symbol,
             commands::list_pictogram_collections,
             commands::rename_pictogram_collection,
             commands::delete_pictogram_collection,
@@ -169,6 +193,7 @@ pub fn run() {
             commands::search_online_pictograms,
             commands::online_thumbnail,
             commands::save_online_pictogram,
+            commands::english_alternatives,
             commands::hide_symbol,
             commands::import_document_text,
             commands::clear_history,

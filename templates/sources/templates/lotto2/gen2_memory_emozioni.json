@@ -1,0 +1,387 @@
+{
+  "id": "gen2_memory_emozioni",
+  "title": "Memory delle emozioni",
+  "description": "Coppie di espressioni emotive.",
+  "category": "Giochi e attività interattive",
+  "source_type": "template",
+  "kind": "game",
+  "interactive": true,
+  "license": "CC BY-NC-SA 4.0",
+  "page_size": "A4",
+  "orientation": "landscape",
+  "margin_mm": 10,
+  "taxonomy": {
+    "category_id": "giochi",
+    "subcategory_id": "memory",
+    "audience": "primaria",
+    "objective": "Coppie di espressioni emotive.",
+    "tags": [
+      "gioco",
+      "memory",
+      "carte"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": true,
+    "featured": false
+  },
+  "pages": [
+    {
+      "id": "home",
+      "title": "Memory delle emozioni",
+      "layout": "grid",
+      "home": true,
+      "elements": [
+        {
+          "id": "hdr-badge-1",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10,
+          "y_mm": 8,
+          "w_mm": 34,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-1",
+          "kind": "title",
+          "text": "Memory delle emozioni",
+          "x_mm": 10,
+          "y_mm": 17,
+          "w_mm": 190,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.6,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-1",
+          "kind": "subtitle",
+          "text": "Ritaglia le carte, mescola e gioca secondo la regola indicata.",
+          "x_mm": 10,
+          "y_mm": 30,
+          "w_mm": 190,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.0,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-1",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 1",
+          "x_mm": 10,
+          "y_mm": 196,
+          "w_mm": 190,
+          "h_mm": 5,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "c0",
+          "kind": "symbol",
+          "text": "felice",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "felice",
+          "action": {
+            "type": "speak"
+          },
+          "row": 0,
+          "column": 0,
+          "spoken_text": "felice"
+        },
+        {
+          "id": "c1",
+          "kind": "symbol",
+          "text": "felice",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "felice",
+          "action": {
+            "type": "speak"
+          },
+          "row": 0,
+          "column": 1,
+          "spoken_text": "felice"
+        },
+        {
+          "id": "c2",
+          "kind": "symbol",
+          "text": "triste",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "triste",
+          "action": {
+            "type": "speak"
+          },
+          "row": 0,
+          "column": 2,
+          "spoken_text": "triste"
+        },
+        {
+          "id": "c3",
+          "kind": "symbol",
+          "text": "triste",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "triste",
+          "action": {
+            "type": "speak"
+          },
+          "row": 0,
+          "column": 3,
+          "spoken_text": "triste"
+        },
+        {
+          "id": "c4",
+          "kind": "symbol",
+          "text": "arrabbiato",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "arrabbiato",
+          "action": {
+            "type": "speak"
+          },
+          "row": 1,
+          "column": 0,
+          "spoken_text": "arrabbiato"
+        },
+        {
+          "id": "c5",
+          "kind": "symbol",
+          "text": "arrabbiato",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "arrabbiato",
+          "action": {
+            "type": "speak"
+          },
+          "row": 1,
+          "column": 1,
+          "spoken_text": "arrabbiato"
+        },
+        {
+          "id": "c6",
+          "kind": "symbol",
+          "text": "calmo",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "row": 1,
+          "column": 2,
+          "spoken_text": "calmo"
+        },
+        {
+          "id": "c7",
+          "kind": "symbol",
+          "text": "calmo",
+          "x_mm": 10,
+          "y_mm": 10,
+          "w_mm": 190,
+          "h_mm": 8,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_radius": 2,
+            "padding_mm": 1,
+            "align": "center",
+            "valign": "bottom",
+            "bold": false,
+            "italic": false
+          },
+          "symbol": "calmo",
+          "action": {
+            "type": "speak"
+          },
+          "row": 1,
+          "column": 3,
+          "spoken_text": "calmo"
+        }
+      ],
+      "grid": {
+        "columns": 4,
+        "rows": 3,
+        "gap_mm": 4,
+        "origin_x_mm": 10,
+        "origin_y_mm": 44,
+        "content_width_mm": 277,
+        "content_height_mm": 140,
+        "align": "left",
+        "valign": "top"
+      }
+    }
+  ]
+}

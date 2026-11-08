@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_seq_lavarsi_viso-p1-field-title",
-          "kind": "text",
-          "text": "Lavarsi il viso",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_seq_lavarsi_viso-p1-field-layout",
           "kind": "text",
           "text": "verticale",

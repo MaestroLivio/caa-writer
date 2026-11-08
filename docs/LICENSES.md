@@ -101,3 +101,18 @@ presente sul proprio computer: ogni modello conserva la propria licenza, che non
 
 Senza modello l'applicazione funziona con l'analisi lessicale deterministica; nessun modello viene
 scaricato o attivato senza un'azione dell'utente.
+
+## 7. Modelli per le immagini
+
+Il motore immagini è **opzionale**. CAA Writer non ridistribuisce i pesi dei modelli diffusion:
+l'utente li scarica dal repository ufficiale del modello scelto nella cache dell'app
+(`models/image`), con la licenza dichiarata dal repository stesso.
+
+- `segmind/tiny-sd` — CreativeML OpenRAIL-M (uso consentito con le restrizioni della licenza).
+- `stabilityai/sd-turbo` — Stability AI Non-Commercial Research Community License: solo uso non
+  commerciale, coerente con la licenza CC BY-NC-SA 4.0 del progetto; i pesi non sono inclusi.
+- Qualsiasi altro modello diffusers inserito dall'utente conserva la propria licenza; l'app mostra
+  il modello e lascia all'utente la verifica dei termini.
+
+Il provider online è scelto e configurato dall'utente: si applicano i termini del servizio, e la
+chiave API resta nel portachiavi di sistema.

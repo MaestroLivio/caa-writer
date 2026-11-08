@@ -1,16 +1,22 @@
 <script lang="ts">
   import { api, isTauri } from "../api";
+  import { isExplicitContent } from "../content-filter";
   import ModelManager from "./ModelManager.svelte";
   import type { AssociationScope } from "../workspace/layout";
   import type { CollectionInfo, OnlineResult } from "../types";
   import type {
+    AiChatMessage,
+    AiChatReply,
     AiConfig,
     AiStatus,
     Alternative,
     AppInfo,
     CaaToken,
     DocumentSettings,
+    ImageConfig,
+    ImageStatus,
     LibraryStats,
+    UniversalDocument,
     PackInfo,
     Preference,
     ResourcePlan,
@@ -20,7 +26,7 @@
     WordAffinity,
   } from "../types";
 
-  type Tab = "alternative" | "cerca" | "collezioni" | "impostazioni" | "studio";
+  type Tab = "simbolo" | "collezioni" | "impostazioni" | "studio" | "ia" | "documento";
 
   interface Props {
     selected: { pid: string; token: CaaToken } | null;
@@ -68,6 +74,11 @@
     onSetAiConfig: (config: AiConfig) => Promise<void>;
     onStatusChange: () => Promise<void>;
     onGenerateResource: (prompt: string, templateId: string | null) => Promise<ResourcePlan | null>;
+    onGenerateImage: (prompt: string, mode: "apply" | "insert") => Promise<void>;
+    onAiChat: (messages: AiChatMessage[]) => Promise<AiChatReply>;
+    universalDoc: UniversalDocument | null;
+    onUniversalTitle: (title: string) => void;
+    onUniversalPage: (patch: Record<string, unknown>) => void;
     onOpenInEditor: (plan: ResourcePlan) => void;
     onOpenUniversalTemplate: (templateId: string) => void;
     onPrintResource: () => void;
@@ -108,6 +119,11 @@
     onSetAiConfig,
     onStatusChange,
     onGenerateResource,
+    onGenerateImage,
+    onAiChat,
+    universalDoc,
+    onUniversalTitle,
+    onUniversalPage,
     onOpenInEditor,
     onOpenUniversalTemplate,
     onPrintResource,
@@ -118,7 +134,7 @@
     onImportFolder,
   }: Props = $props();
 
-  let tab = $state<Tab>("alternative");
+  let tab = $state<Tab>("simbolo");
   let collectionFilter = $state<string | null>(null);
   let collectionFilterName = $state("");
   let renamingId = $state<string | null>(null);
@@ -131,7 +147,37 @@
   let onlineQuery = $state("");
   let onlineCached = $state(false);
   let autoOnlineKey = "";
+  let onlineTimer: number | undefined;
+  let onlineSeq = 0;
+  const onlineCache = new Map<
+    string,
+    { results: OnlineResult[]; thumbs: Record<string, string>; query: string; cached: boolean }
+  >();
+  const thumbCache = new Map<string, string>();
+  let hydratedMedia = $state<Record<string, string>>({});
+  const hydrationRequested = new Set<string>();
+  type MediaItem = {
+    symbol_id: string;
+    svg?: string | null;
+    image?: string | null;
+    pack_id?: string | null;
+  };
+  /// SVG o PNG (data URL) già presente, oppure scaricato on demand.
+  const mediaFor = (item: MediaItem): { svg: string | null; image: string | null } => {
+    const hydrated = hydratedMedia[item.symbol_id];
+    return {
+      svg: item.svg ?? (hydrated && !hydrated.startsWith("data:") ? hydrated : null),
+      image: item.image ?? (hydrated?.startsWith("data:") ? hydrated : null),
+    };
+  };
+  const applyMedia = <T extends MediaItem>(item: T): T & { svg: string | null; image: string | null } =>
+    ({ ...item, ...mediaFor(item) });
   let searchQuery = $state("");
+  /// La ricerca nel repertorio locale è in italiano. In modalità EN la
+  /// richiesta viene tradotta dal modello neurale prima di interrogare FTS5.
+  let searchLanguage = $state<"it" | "en">("it");
+  let translatedQuery = $state("");
+  let translateBusy = $state(false);
   let searchResults = $state<Alternative[]>([]);
   let searchBusy = $state(false);
   let contextChoice = $state("scuola");
@@ -220,20 +266,350 @@
 
   // Nella scheda Cerca i gruppi restano legati alla parola effettivamente
   // cercata: digitando altro il blocco sparisce finché non si preme Cerca.
+  const effectiveSearchText = $derived(
+    searchLanguage === "en" && translatedQuery ? translatedQuery : searchQuery
+  );
   const affinityMatchesSearch = $derived(
     Boolean(
       affinity &&
-        searchQuery.trim() &&
-        affinity.word.toLocaleLowerCase() === searchQuery.trim().toLocaleLowerCase()
+        effectiveSearchText.trim() &&
+        affinity.word.toLocaleLowerCase() === effectiveSearchText.trim().toLocaleLowerCase()
     )
   );
+  let showOtherResults = $state(false);
+  const searchWord = $derived(effectiveSearchText.trim().toLocaleLowerCase());
+  const safeAlternatives = $derived(
+    (selected?.token.alternatives ?? []).filter(
+      (item) =>
+        settings.show_explicit_symbols ||
+        !isExplicitContent(item.label, item.meaning, item.symbol_id)
+    )
+  );
+  const safeSearchResults = $derived(
+    searchResults.filter(
+      (item) =>
+        settings.show_explicit_symbols ||
+        !isExplicitContent(item.label, item.meaning, item.symbol_id)
+    )
+  );
+  const safeOnlineResults = $derived(
+    onlineResults.filter(
+      (item) => settings.show_explicit_symbols || !isExplicitContent(item.title, item.source)
+    )
+  );
+  const hiddenExplicitCount = $derived(
+    searchResults.length - safeSearchResults.length + (onlineResults.length - safeOnlineResults.length)
+  );
+  const relevantResults = $derived.by(() =>
+    safeSearchResults.filter((item) => {
+      const label = item.label.trim().toLocaleLowerCase();
+      return label === searchWord || label.startsWith(`${searchWord} `);
+    })
+  );
+  const otherResults = $derived(safeSearchResults.filter((item) => !relevantResults.includes(item)));
+
+  // Alternative aggiunte dalla ricerca in inglese: il termine viene tradotto
+  // dal modello locale (o dal glossario) e i pittogrammi ARASAAC trovati in
+  // inglese vengono importati come copie offline e mostrati insieme agli altri.
+  let englishItems = $state<Alternative[]>([]);
+  let englishTerm = $state("");
+  let englishBusy = $state(false);
+  let englishError = $state("");
+  // Sinonimi e concetti affini dal modello locale: richiesta a bassa
+  // priorità, in background, una volta per parola.
+  let neuralItems = $state<Alternative[]>([]);
+  const neuralCache = new Map<string, Alternative[]>();
+  const neuralFailures = new Set<string>();
+  let neuralTimer: number | undefined;
+  let neuralRequest = 0;
+  const englishCache = new Map<string, { term: string; items: Alternative[] }>();
+  const englishFailures = new Map<string, string>();
+  let englishTimer: number | undefined;
+  const englishIds = $derived(new Set(englishItems.map((item) => item.symbol_id)));
+  const safeNeuralItems = $derived(
+    neuralItems.filter(
+      (item) =>
+        settings.show_explicit_symbols ||
+        !isExplicitContent(item.label, item.meaning, item.symbol_id)
+    )
+  );
+  const safeEnglishItems = $derived(
+    englishItems.filter(
+      (item) =>
+        settings.show_explicit_symbols ||
+        !isExplicitContent(item.label, item.meaning, item.symbol_id)
+    )
+  );
+  const mergedAlternatives = $derived.by(() => {
+    const seen = new Set(safeAlternatives.map((item) => item.symbol_id));
+    const withNeural = [...safeAlternatives];
+    for (const item of safeNeuralItems) {
+      if (!seen.has(item.symbol_id)) {
+        seen.add(item.symbol_id);
+        withNeural.push(item);
+      }
+    }
+    for (const item of safeEnglishItems) {
+      if (!seen.has(item.symbol_id)) {
+        seen.add(item.symbol_id);
+        withNeural.push(item);
+      }
+    }
+    return withNeural;
+  });
+
+  $effect(() => {
+    const ids = new Set<string>();
+    const add = (
+      item:
+        | { symbol_id?: string | null; svg?: string | null; image?: string | null; pack_id?: string | null }
+        | null
+        | undefined
+    ) => {
+      if (
+        item?.symbol_id &&
+        !item.image &&
+        (item.pack_id === "arasaac" || !item.svg) &&
+        !hydrationRequested.has(item.symbol_id)
+      ) {
+        ids.add(item.symbol_id);
+      }
+    };
+    for (const item of mergedAlternatives) add(item);
+    for (const item of safeSearchResults) add(item);
+    for (const group of affinity?.groups ?? []) {
+      for (const candidate of group.candidates) add(candidate.symbol);
+    }
+    if (selected?.token) add(selected.token);
+    if (ids.size === 0) return;
+    const batch = [...ids].slice(0, 32);
+    batch.forEach((id) => hydrationRequested.add(id));
+    void api
+      .hydrateSymbols(batch)
+      .then((map) => {
+        if (Object.keys(map).length > 0) hydratedMedia = { ...hydratedMedia, ...map };
+        // I simboli non scaricati restano segnaposto; si riproverà più tardi.
+        batch
+          .filter((id) => !map[id])
+          .forEach((id) => hydrationRequested.delete(id));
+      })
+      .catch(() => {
+        batch.forEach((id) => hydrationRequested.delete(id));
+      });
+  });
+
+  // Motore immagini neurale: stato reale, configurazione e download. Il
+  // runtime e i modelli restano nei dati dell'app, mai nel repository.
+  let imageStatus = $state<ImageStatus | null>(null);
+  let imagePrompt = $state("");
+  let imageBusy = $state(false);
+  let imageActionBusy = $state(false);
+  let imageActionNote = $state("");
+  let imageKey = $state("");
+  let imageKeyBusy = $state(false);
+
+  let chatMessages = $state<AiChatMessage[]>([]);
+  let chatInput = $state("");
+  let chatBusy = $state(false);
+  let chatError = $state("");
+  let chatBackend = $state("");
+
+  async function sendChat() {
+    const text = chatInput.trim();
+    if (!text || chatBusy) return;
+    chatMessages = [...chatMessages, { role: "user", content: text }];
+    chatInput = "";
+    chatError = "";
+    chatBusy = true;
+    try {
+      const reply = await onAiChat($state.snapshot(chatMessages) as AiChatMessage[]);
+      chatMessages = [...chatMessages, { role: "assistant", content: reply.reply }];
+      chatBackend = reply.backend;
+    } catch (error) {
+      chatError = error instanceof Error ? error.message : String(error);
+    } finally {
+      chatBusy = false;
+    }
+  }
+
+  async function refreshImageStatus() {
+    if (!isTauri()) return;
+    try {
+      imageStatus = await api.imageStatus();
+    } catch (error) {
+      imageActionNote = error instanceof Error ? error.message : String(error);
+    }
+  }
+
+  $effect(() => {
+    void refreshImageStatus();
+  });
+
+  $effect(() => {
+    if (tab === "documento" && !universalDoc) tab = "simbolo";
+  });
+
+  async function updateImageConfig(patch: Partial<ImageConfig>) {
+    if (!imageStatus) return;
+    try {
+      imageStatus = await api.imageSetConfig({ ...imageStatus.config, ...patch });
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function installImageRuntime() {
+    imageActionBusy = true;
+    imageActionNote = "Installazione del runtime: può richiedere molti minuti.";
+    try {
+      imageActionNote = await api.imageInstallRuntime();
+    } catch (error) {
+      imageActionNote = error instanceof Error ? error.message : String(error);
+    } finally {
+      imageActionBusy = false;
+      await refreshImageStatus();
+    }
+  }
+
+  async function downloadImageModel() {
+    if (!imageStatus) return;
+    imageActionBusy = true;
+    imageActionNote = `Scarico «${imageStatus.config.model}»…`;
+    try {
+      imageActionNote = await api.imageDownloadModel(imageStatus.config.model);
+    } catch (error) {
+      imageActionNote = error instanceof Error ? error.message : String(error);
+    } finally {
+      imageActionBusy = false;
+      await refreshImageStatus();
+    }
+  }
+
+  async function saveImageKey() {
+    if (!imageKey.trim()) {
+      onToast("Incolla prima la chiave API.", "warn");
+      return;
+    }
+    imageKeyBusy = true;
+    try {
+      imageStatus = await api.imageSetKey(imageKey.trim());
+      imageKey = "";
+      onToast("Chiave salvata nel portachiavi di sistema.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      imageKeyBusy = false;
+    }
+  }
+
+  async function clearImageKey() {
+    try {
+      imageStatus = await api.imageClearKey();
+      onToast("Chiave API rimossa.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function generateWithAI() {
+    if (!selected) {
+      onToast("Seleziona prima una parola nel documento.", "warn");
+      return;
+    }
+    if (!imagePrompt.trim()) {
+      onToast("Scrivi un prompt per l'immagine.", "warn");
+      return;
+    }
+    imageBusy = true;
+    try {
+      await onGenerateImage(imagePrompt, "apply");
+    } finally {
+      imageBusy = false;
+    }
+  }
+
+  async function generateAndInsert() {
+    if (!imagePrompt.trim()) {
+      onToast("Scrivi un prompt per l'immagine.", "warn");
+      return;
+    }
+    imageBusy = true;
+    try {
+      await onGenerateImage(imagePrompt, "insert");
+    } finally {
+      imageBusy = false;
+    }
+  }
+
+  async function loadEnglishAlternatives(word: string) {
+    const clean = word.trim();
+    if (!clean || !isTauri()) return;
+    const key = clean.toLocaleLowerCase();
+    const failed = englishFailures.get(key);
+    if (failed) {
+      englishTerm = "";
+      englishItems = [];
+      englishError = failed;
+      return;
+    }
+    const cached = englishCache.get(key);
+    if (cached) {
+      englishTerm = cached.term;
+      englishItems = cached.items;
+      englishError = "";
+      return;
+    }
+    englishBusy = true;
+    englishError = "";
+    try {
+      const outcome = await api.englishAlternatives(clean, 4);
+      englishTerm = outcome.term;
+      englishItems = outcome.items;
+      englishCache.set(key, { term: outcome.term, items: outcome.items });
+      if (outcome.items.length === 0) {
+        englishError = outcome.warnings[0] ?? `Nessun pittogramma inglese per «${outcome.term}».`;
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      englishTerm = "";
+      englishItems = [];
+      englishError = message;
+      englishFailures.set(key, message);
+    } finally {
+      englishBusy = false;
+    }
+  }
 
   // I modelli e le metriche sono gestiti da `ModelManager`, montato nella
   // scheda Impostazioni: un solo posto, una sola fonte di stato.
 
+  /// Carica i sinonimi suggeriti dal modello locale senza bloccare la
+  /// scrittura. La richiesta viene sganciata dal ciclo di analisi e ha
+  /// priorità bassa nella coda del motore; un errore non tocca le altre
+  /// alternative.
+  async function loadNeuralAlternatives(word: string) {
+    const key = word.trim().toLocaleLowerCase("it");
+    if (!key || !isTauri()) return;
+    if (neuralCache.has(key)) {
+      neuralItems = neuralCache.get(key) ?? [];
+      return;
+    }
+    if (neuralFailures.has(key)) return;
+    const request = ++neuralRequest;
+    try {
+      const found = await api.aiAffinitySymbols(word);
+      if (request !== neuralRequest) return;
+      neuralCache.set(key, found);
+      neuralItems = found;
+    } catch {
+      neuralFailures.add(key);
+      if (request === neuralRequest) neuralItems = [];
+    }
+  }
+
   async function runRelatedSearch() {
-    const query = searchQuery.trim();
-    if (!query) {
+    const raw = searchQuery.trim();
+    if (!raw) {
       onToast("Scrivi una parola o una frase.", "warn");
       return;
     }
@@ -243,6 +619,8 @@
     }
     relatedBusy = true;
     try {
+      const query = searchLanguage === "en" ? await queryForSearch() : raw;
+      if (query === null) return;
       const found = await api.aiRelatedSymbols(query);
       if (found.length === 0) {
         onToast("Il modello non ha trovato simboli affini con un'etichetta corrispondente.", "warn");
@@ -288,7 +666,7 @@
     if (intent.templateId !== undefined) templateChoice = intent.templateId;
     if (typeof intent.search === "string" && intent.search.trim()) {
       searchQuery = intent.search;
-      tab = "cerca";
+      tab = "simbolo";
       void runSearch();
       if (intent.ai) void runRelatedSearch();
     }
@@ -306,35 +684,72 @@
   function onlineTerms(): string[] {
     if (!selected) return [];
     const token = selected.token;
-    return [token.concept_label ?? "", token.lemma ?? "", token.surface]
+    return [token.surface, token.lemma ?? "", token.concept_label ?? ""]
       .map((term) => term.trim())
       .filter(Boolean);
   }
 
-  async function searchOnline() {
+  async function searchOnline(silent = false) {
     if (!selected) return;
     const terms = onlineTerms();
     if (terms.length === 0) return;
+    const request = ++onlineSeq;
     onlineBusy = true;
     onlineError = "";
     try {
       const response = await api.searchOnlinePictograms(terms, false);
-      onlineResults = response.results;
+      if (request !== onlineSeq) return;
+      const rank = (provider: string) =>
+        provider === "arasaac" ? 0 : provider === "globalsymbols" ? 1 : provider === "wikimedia" ? 2 : provider === "openverse" ? 3 : 4;
+      const normalize = (value: string) =>
+        value.toLocaleLowerCase("it").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+      const word = normalize(selected?.token.surface ?? "");
+      const relevance = (title: string) => {
+        const value = normalize(title);
+        if (value === word) return 0;
+        if (word && (value.startsWith(word) || word.startsWith(value))) return 1;
+        return 2;
+      };
+      const seen = new Set<string>();
+      onlineResults = [...response.results]
+        .sort((a, b) => rank(a.provider) - rank(b.provider) || relevance(a.title) - relevance(b.title))
+        .filter((item) => {
+          const key = `${item.provider}:${item.id}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
       onlineQuery = response.query;
       onlineCached = response.cached;
       const thumbs: Record<string, string> = {};
       await Promise.allSettled(
         response.results.slice(0, 12).map(async (result) => {
           const url = result.thumbnail_url ?? result.image_url;
+          if (thumbCache.has(url)) {
+            thumbs[result.id] = thumbCache.get(url)!;
+            return;
+          }
           try {
-            thumbs[result.id] = await api.onlineThumbnail(url);
+            const thumb = await api.onlineThumbnail(url);
+            thumbCache.set(url, thumb);
+            thumbs[result.id] = thumb;
           } catch {
             /* anteprima non disponibile: resta il titolo */
           }
         })
       );
+      if (request !== onlineSeq) return;
       onlineThumbs = thumbs;
-      if (response.results.length === 0) {
+      onlineCache.set(
+        (selected?.token.surface ?? "").trim().toLocaleLowerCase("it"),
+        {
+          results: onlineResults,
+          thumbs,
+          query: onlineQuery,
+          cached: onlineCached,
+        }
+      );
+      if (response.results.length === 0 && !silent) {
         onToast(response.warnings[0] ?? "Nessun risultato online.", "warn");
       }
     } catch (error) {
@@ -368,19 +783,32 @@
     // selezionata: senza questo, l'utente vedeva solo un pulsante e poteva
     // credere che le API non rispondessero. «Automatico» mantiene lo stesso
     // comportamento; «Disattivata» è l'unica modalità senza rete.
-    if (settings.online_search === "off" || tab !== "alternative" || !selected) return;
-    if (selected.token.symbol_id) return;
-    const key = `${selected.pid}:${selected.token.index}:${selected.token.surface}`;
+    if (settings.online_search === "off" || tab !== "simbolo" || !selected) return;
+    const word = selected.token.surface.trim();
+    if (word.length < 2) return;
+    const key = `${selected.pid}:${selected.token.index}:${word}`;
     if (key === autoOnlineKey) return;
     autoOnlineKey = key;
-    void searchOnline();
+    const cached = onlineCache.get(word.toLocaleLowerCase("it"));
+    if (cached) {
+      onlineResults = cached.results;
+      onlineThumbs = cached.thumbs;
+      onlineQuery = cached.query;
+      onlineCached = cached.cached;
+      return;
+    }
+    if (onlineTimer) window.clearTimeout(onlineTimer);
+    onlineTimer = window.setTimeout(() => {
+      onlineTimer = undefined;
+      void searchOnline(true);
+    }, 400);
   });
 
   function openCollection(collection: CollectionInfo) {
     collectionFilter = collection.id;
     collectionFilterName = collection.name;
     searchQuery = "";
-    selectTab("cerca");
+    selectTab("simbolo");
     void runSearch();
   }
 
@@ -430,7 +858,15 @@
   let lastSelectionKey = "";
   $effect(() => {
     const key = selected ? `${selected.pid}:${selected.token.index}` : "";
-    if (selectionReady && key && key !== lastSelectionKey) tab = "alternative";
+    if (selectionReady && key && key !== lastSelectionKey) {
+      tab = "simbolo";
+      // La ricerca delle alternative parte sempre quando cambia l'unità:
+      // l'utente non deve premere «Cerca» per vedere i candidati.
+      searchQuery = selected!.token.surface;
+      searchLanguage = "it";
+      translatedQuery = "";
+      void runSearch(true);
+    }
     selectionReady = true;
     lastSelectionKey = key;
   });
@@ -487,20 +923,93 @@
   // selezionata: è così che una parola senza pittogramma riceve comunque dei
   // candidati, senza che l'utente debba cercarli a mano.
   $effect(() => {
-    const word = tab === "alternative" && selected ? selected.token.surface : "";
+    const word = tab === "simbolo" && selected ? selected.token.surface : "";
     // Cambiare repertorio o filtro commerciale deve ricalcolare i gruppi.
     void settings.pack_id;
     void settings.commercial_only;
-    if (!word) return;
+    void settings.online_search;
+    if (neuralTimer) window.clearTimeout(neuralTimer);
+    // Invalida una richiesta ancora in volo per la parola precedente.
+    neuralRequest += 1;
+    if (!word) {
+      englishItems = [];
+      englishTerm = "";
+      englishError = "";
+      neuralItems = [];
+      return;
+    }
+    const neuralKey = word.trim().toLocaleLowerCase("it");
+    if (!neuralReady) {
+      // Se il modello viene spento o non è ancora pronto, i risultati vuoti
+      // non restano in cache: all'attivazione si riproverà.
+      neuralCache.clear();
+      neuralItems = [];
+    } else {
+      neuralItems = neuralCache.get(neuralKey) ?? [];
+    }
+    if (neuralReady && tab === "simbolo") {
+      neuralTimer = window.setTimeout(() => {
+        neuralTimer = undefined;
+        void loadNeuralAlternatives(word);
+      }, 1200);
+    }
     void loadAffinity(word);
+    // La ricerca inglese è un arricchimento: si attiva da sola solo quando la
+    // ricerca online è consentita. Un errore di rete non blocca le alternative
+    // e non viene ritentato a ogni tasto.
+    if (settings.online_search !== "off") {
+      if (englishTimer) window.clearTimeout(englishTimer);
+      englishTimer = window.setTimeout(() => {
+        englishTimer = undefined;
+        void loadEnglishAlternatives(word);
+      }, 450);
+    }
+    return () => {
+      if (englishTimer) window.clearTimeout(englishTimer);
+      if (onlineTimer) window.clearTimeout(onlineTimer);
+      if (neuralTimer) window.clearTimeout(neuralTimer);
+    };
   });
 
-  async function runSearch() {
-    const query = searchQuery.trim();
-    if (!query && !collectionFilter) {
+  /// Traduce la richiesta inglese in italiano con il modello locale. Se il
+  /// modello non è disponibile restituisce null: non si inventa una traduzione
+  /// e non si cercano parole diverse da quelle digitate.
+  async function queryForSearch(): Promise<string | null> {
+    const raw = searchQuery.trim();
+    if (searchLanguage === "it" || !raw) {
+      translatedQuery = "";
+      return raw;
+    }
+    if (!isTauri()) {
+      onToast("La traduzione richiede l'app desktop.", "warn");
+      return null;
+    }
+    translateBusy = true;
+    try {
+      const translated = await api.translateSearchTerm(raw);
+      translatedQuery = translated;
+      return translated;
+    } catch (error) {
+      // La traduzione è un aiuto, non una condizione per cercare: se il
+      // modello è lento o spento si prova comunque il termine originale.
+      translatedQuery = raw;
+      onToast(
+        `Traduzione non disponibile (${error instanceof Error ? error.message : String(error)}). Cerco il termine originale.`,
+        "warn"
+      );
+      return raw;
+    } finally {
+      translateBusy = false;
+    }
+  }
+
+  async function runSearch(silent = false) {
+    const raw = searchQuery.trim();
+    if (!raw && !collectionFilter) {
       searchResults = [];
       affinity = null;
       affinityCacheKey = "";
+      translatedQuery = "";
       return;
     }
     if (!isTauri()) {
@@ -508,6 +1017,12 @@
       return;
     }
     searchBusy = true;
+    const query = await queryForSearch();
+    if (query === null) {
+      searchResults = [];
+      searchBusy = false;
+      return;
+    }
     // La ricerca testuale e l'analisi per affinità sono indipendenti: la
     // seconda non deve rallentare la comparsa dei risultati FTS.
     void loadAffinity(query, true);
@@ -521,7 +1036,8 @@
         collectionFilter
       );
       searchResults = page.items;
-      if (page.items.length === 0) onToast("Nessun simbolo trovato per questa ricerca.", "warn");
+      showOtherResults = false;
+      if (!silent && page.items.length === 0) onToast("Nessun simbolo trovato per questa ricerca.", "warn");
     } catch (error) {
       onToast(error instanceof Error ? error.message : String(error), "error");
     } finally {
@@ -535,7 +1051,9 @@
   async function searchForSelectedWord() {
     if (!selected) return;
     searchQuery = selected.token.surface;
-    onSwitchTab("cerca");
+    searchLanguage = "it";
+    translatedQuery = "";
+    onSwitchTab("simbolo");
     await runSearch();
   }
 
@@ -571,7 +1089,7 @@
 
   async function handleImportSvg() {
     if (!svgFile) {
-      onToast("Scegli prima un file SVG.", "warn");
+      onToast("Scegli prima un'immagine o un SVG.", "warn");
       return;
     }
     await onImportSvg(svgFile);
@@ -595,18 +1113,14 @@
             {#if group.approximate}<span class="badge badge--warn">approssimato</span>{/if}
           </h5>
           <div class="symbol-grid">
-            {#each group.candidates as candidate (candidate.symbol.symbol_id)}
+            {#each group.candidates.filter((candidate) => settings.show_explicit_symbols || !isExplicitContent(candidate.symbol.label, candidate.symbol.meaning)) as candidate (candidate.symbol.symbol_id)}
               <button
                 class="symbol-tile"
                 title={`${candidate.symbol.meaning || candidate.symbol.label} — ${candidate.reason}`}
-                onclick={() => onApplyAlternative(candidate.symbol)}
+                onclick={() => onApplyAlternative(applyMedia(candidate.symbol))}
               >
                 <span class="symbol-tile__media">
-                  {#if candidate.symbol.svg}
-                    {@html candidate.symbol.svg}
-                  {:else}
-                    <span class="caa-chip__empty">?</span>
-                  {/if}
+                  {@render symbolMedia(candidate.symbol)}
                 </span>
                 <span class="symbol-tile__label">{candidate.symbol.label}</span>
                 <span class="badge badge--score" title="Indice interno di affinità, non una probabilità">
@@ -627,6 +1141,43 @@
       Nessun pittogramma per «{affinity.word}»: la parola resta senza simbolo.
     </p>
   {/if}
+{/snippet}
+
+{#snippet symbolMedia(item: MediaItem)}
+  {@const media = mediaFor(item)}
+  {#if media.image}
+    <img src={media.image} alt="" draggable="false" />
+  {:else if media.svg}
+    {@html media.svg}
+  {:else}
+    <span class="caa-chip__empty">?</span>
+  {/if}
+{/snippet}
+
+{#snippet onlineCard(result: OnlineResult)}
+  <div class="online-card">
+    {#if onlineThumbs[result.id]}
+      <img class="online-thumb" src={onlineThumbs[result.id]} alt="" />
+    {:else}
+      <span class="online-thumb online-thumb--empty">?</span>
+    {/if}
+    <strong class="online-title">{result.title}</strong>
+    <span class="online-meta">
+      <span class="import-badge">{result.kind === "pittogramma" ? "pittogramma" : "fotografia"}</span>
+      {result.source} · {result.license}
+      {#if result.author} · {result.author}{/if}
+    </span>
+    <div class="online-actions">
+      <button
+        class="btn btn--solid"
+        onclick={() => void useOnline(result)}
+        disabled={onlineBusy || !selected}
+      >Salva e applica</button>
+      {#if result.page_url}
+        <a href={result.page_url} target="_blank" rel="noreferrer">Fonte</a>
+      {/if}
+    </div>
+  </div>
 {/snippet}
 
 {#snippet scopeChoice()}
@@ -662,11 +1213,8 @@
     <button
       class="tab"
       role="tab"
-      aria-selected={tab === "alternative"}
-      onclick={() => selectTab("alternative")}>Alternative</button
-    >
-    <button class="tab" role="tab" aria-selected={tab === "cerca"} onclick={() => selectTab("cerca")}
-      >Cerca</button
+      aria-selected={tab === "simbolo"}
+      onclick={() => selectTab("simbolo")}>Simbolo</button
     >
     <button
       class="tab"
@@ -677,6 +1225,17 @@
     <button class="tab" role="tab" aria-selected={tab === "studio"} onclick={() => selectTab("studio")}
       >Studio</button
     >
+    <button class="tab" role="tab" aria-selected={tab === "ia"} onclick={() => selectTab("ia")}
+      >IA</button
+    >
+    {#if universalDoc}
+      <button
+        class="tab"
+        role="tab"
+        aria-selected={tab === "documento"}
+        onclick={() => selectTab("documento")}>Documento</button
+      >
+    {/if}
     <button
       class="btn btn--ghost"
       aria-label={overlay ? "Ancora il pannello" : "Apri il pannello sovrapposto"}
@@ -692,37 +1251,16 @@
 
   {#if !closed}
     <div class="sidepanel__body">
-      {#if tab === "alternative"}
+      {#if tab === "simbolo"}
         {#if selected}
           <section class="panel-section">
-            <h3>Unità selezionata</h3>
-            <p style="margin:0 0 6px;font-weight:600;font-size:1.05rem">
-              «{selected.token.surface}»
+            <h3>Simboli per questa parola</h3>
+            <p class="hint">
+              I contenuti espliciti sono esclusi dalle alternative e dalla ricerca quando
+              l'opzione «Mostra contenuti espliciti» è disattivata.
             </p>
-            <dl class="detail-list">
-              <dt>Lemma</dt><dd>{selected.token.lemma ?? "—"}</dd>
-              <dt>Significato</dt>
-              <dd>{selected.token.meaning ?? "nessun significato associato"}</dd>
-              <dt>Concetto</dt><dd>{selected.token.concept_label ?? selected.token.concept_id ?? "—"}</dd>
-              <dt>Etichetta del repertorio</dt><dd>{selected.token.symbol_label ?? "—"}</dd>
-              <dt>Strategia</dt>
-              <dd>
-                {selected.token.strategy}
-                {#if selected.token.approximate}<span class="badge badge--warn">approssimato</span>{/if}
-                {#if selected.token.locked}<span class="badge badge--ok">bloccato</span>{/if}
-              </dd>
-              <dt>Affidabilità</dt>
-              <dd>
-                indice interno {Math.round(selected.token.confidence * 100)}%
-                <span class="hint">(non è una probabilità calibrata)</span>
-              </dd>
-            </dl>
-          </section>
-
-          <section class="panel-section">
-            <h3>Alternative disponibili</h3>
             {@render scopeChoice()}
-            {#if selected.token.alternatives.length === 0}
+            {#if mergedAlternatives.length === 0}
               <p class="hint">
                 Nessuna alternativa automatica. Qui sotto ci sono i gruppi di affinità della parola;
                 se non basta, cerca direttamente nel repertorio o importa un SVG.
@@ -730,19 +1268,117 @@
               {@render affinityBlock()}
             {:else}
               <div class="symbol-grid">
-                {#each selected.token.alternatives as alternative (alternative.symbol_id)}
+                {#each mergedAlternatives as alternative (alternative.symbol_id)}
                   <button
                     class="symbol-tile"
                     aria-current={selected.token.symbol_id === alternative.symbol_id}
                     title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
-                    onclick={() => onApplyAlternative(alternative)}
+                    onclick={() => onApplyAlternative(applyMedia(alternative))}
                   >
                     <span class="symbol-tile__media">
-                      {#if alternative.svg}
-                        {@html alternative.svg}
-                      {:else}
-                        <span class="caa-chip__empty">?</span>
-                      {/if}
+                      {@render symbolMedia(alternative)}
+                    </span>
+                    <span class="symbol-tile__label">{alternative.label}</span>
+                    <span class="symbol-tile__pack">{alternative.pack_name}</span>
+                    {#if englishIds.has(alternative.symbol_id)}
+                      <span class="badge badge--ok" title="Trovato cercando in inglese il termine tradotto">EN</span>
+                    {/if}
+                    {#if alternative.neural}
+                      <span class="badge badge--ai" title="Suggerito dal modello neurale: simbolo affine, da verificare">IA affine</span>
+                    {/if}
+                  </button>
+                {/each}
+              </div>
+            {/if}
+            {#if englishBusy}
+              <p class="hint">Cerco anche in inglese…</p>
+            {:else if englishTerm}
+              <p class="hint">
+                Ricerca inglese: «{englishTerm}» — i pittogrammi con il badge <strong>EN</strong>
+                arrivano da Global Symbols; ARASAAC in inglese è escluso perché duplica il catalogo
+                italiano.
+              </p>
+            {:else if englishError}
+              <p class="hint">Ricerca inglese non disponibile: {englishError}</p>
+            {/if}
+            {#if safeOnlineResults.length > 0}
+              <h4 class="result-heading">Altre fonti · ARASAAC prima</h4>
+              <div class="online-grid">
+                {#each safeOnlineResults as result (result.provider + result.id)}
+                  {@render onlineCard(result)}
+                {/each}
+              </div>
+            {:else if onlineBusy}
+              <p class="hint">Cerco anche nelle altre fonti…</p>
+            {/if}
+          </section>
+
+          <section class="panel-section">
+            <h3>Cerca nel repertorio</h3>
+            <form
+              onsubmit={(event) => {
+                event.preventDefault();
+                void runSearch();
+              }}
+              style="display:flex;gap:6px;flex-wrap:wrap"
+            >
+              <input
+                type="search"
+                bind:value={searchQuery}
+                placeholder="es. cane, mangiare, scuola…"
+                aria-label="Cerca un pittogramma"
+                style="flex:1;min-width:140px"
+              />
+              <select bind:value={searchLanguage} aria-label="Lingua della ricerca">
+                <option value="it">Italiano</option>
+                <option value="en">Inglese (tradotto)</option>
+              </select>
+              <button class="btn btn--solid" type="submit" disabled={searchBusy}>
+                {searchBusy ? "Cerco…" : "Cerca"}
+              </button>
+              <button
+                class="btn btn--ghost"
+                type="button"
+                disabled={relatedBusy || !neuralReady}
+                title={neuralReady
+                  ? "Chiede al modello neurale parole affini e cerca i pittogrammi corrispondenti"
+                  : "Richiede un modello neurale attivo (Impostazioni → Gestione modelli)"}
+                onclick={() => void runRelatedSearch()}
+              >{relatedBusy ? "Cerco…" : "Affini con l'IA"}</button>
+            </form>
+            <p class="hint">
+              Ricerca nell'indice locale (FTS5). Scegliere un risultato sostituisce il pittogramma
+              dell'unità selezionata. «Affini con l'IA» cerca per significato: sono suggerimenti da
+              verificare. In inglese il termine viene tradotto dal modello locale prima della ricerca.
+            </p>
+            {#if collectionFilter}
+              <p class="collection-filter">
+                Collezione: <strong>{collectionFilterName}</strong>
+                <button class="btn btn--ghost" onclick={clearCollectionFilter}>Tutte le collezioni</button>
+              </p>
+            {/if}
+            {#if translateBusy}
+              <p class="hint">Traduco il termine in italiano…</p>
+            {:else if searchLanguage === "en" && translatedQuery}
+              <p class="hint">Ricerca inglese: «{translatedQuery}».</p>
+            {/if}
+            {#if searchBusy}
+              <p class="hint">Cerco nel repertorio…</p>
+            {:else if safeSearchResults.length === 0 && searchWord && searchLanguage === "it"}
+              <p class="hint">Nessun simbolo trovato. Prova un'altra parola o importa un SVG.</p>
+            {/if}
+            {#if relevantResults.length > 0}
+              <h4 class="result-heading">Corrispondenze per «{searchWord}»</h4>
+              <div class="symbol-grid">
+                {#each relevantResults as alternative (alternative.symbol_id)}
+                  <button
+                    class="symbol-tile"
+                    aria-current={selected?.token.symbol_id === alternative.symbol_id}
+                    title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
+                    onclick={() => onApplyAlternative(applyMedia(alternative))}
+                  >
+                    <span class="symbol-tile__media">
+                      {@render symbolMedia(alternative)}
                     </span>
                     <span class="symbol-tile__label">{alternative.label}</span>
                     <span class="symbol-tile__pack">{alternative.pack_name}</span>
@@ -753,66 +1389,40 @@
                 {/each}
               </div>
             {/if}
-          </section>
-
-          <section class="panel-section online-panel">
-            <h3>Ricerca online</h3>
-            <p class="hint">
-              {#if selected}
-                Verso il provider vengono inviati solo lemmi e concetti generici:
-                <strong>{onlineTerms().join(" · ") || "nessun termine"}</strong>.
-                Non viene inviata la frase completa.
-              {:else}
-                Seleziona un'unità per cercare un pittogramma online.
-              {/if}
-            </p>
-            {#if settings.online_search === "off"}
-              <p class="hint">
-                Ricerca online disattivata. Attivala in Impostazioni → Ricerca online.
-              </p>
-            {:else}
-              <button
-                class="btn"
-                onclick={() => void searchOnline()}
-                disabled={onlineBusy || !selected}
-              >{onlineBusy ? "Cerco…" : "Ripeti ricerca online"}</button>
-            {/if}
-            {#if onlineError}
-              <p class="import-error">{onlineError}</p>
-            {/if}
-            {#if onlineResults.length > 0}
-              <p class="hint">
-                «{onlineQuery}» · {onlineCached ? "cache locale" : "richiesta appena eseguita"} ·
-                ARASAAC è la prima fonte; Wikimedia resta il ripiego. Controlla sempre la licenza:
-                le fotografie sono distinte dai pittogrammi CAA.
-              </p>
-              <div class="online-grid">
-                {#each onlineResults as result (result.provider + result.id)}
-                  <div class="online-card">
-                    {#if onlineThumbs[result.id]}
-                      <img class="online-thumb" src={onlineThumbs[result.id]} alt="" />
-                    {:else}
-                      <span class="online-thumb online-thumb--empty">?</span>
-                    {/if}
-                    <strong class="online-title">{result.title}</strong>
-                    <span class="online-meta">
-                      <span class="import-badge">{result.kind === "pittogramma" ? "pittogramma" : "fotografia"}</span>
-                      {result.source} · {result.license}
-                      {#if result.author} · {result.author}{/if}
-                    </span>
-                    <div class="online-actions">
-                      <button
-                        class="btn btn--solid"
-                        onclick={() => void useOnline(result)}
-                        disabled={onlineBusy || !selected}
-                      >Salva e applica</button>
-                      {#if result.page_url}
-                        <a href={result.page_url} target="_blank" rel="noreferrer">Fonte</a>
+            {#if otherResults.length > 0}
+              <button class="btn btn--ghost" onclick={() => (showOtherResults = !showOtherResults)}>
+                {showOtherResults ? "Nascondi" : "Mostra"} altri risultati ({otherResults.length})
+              </button>
+              {#if showOtherResults}
+                <div class="symbol-grid">
+                  {#each otherResults as alternative (alternative.symbol_id)}
+                    <button
+                      class="symbol-tile"
+                      aria-current={selected?.token.symbol_id === alternative.symbol_id}
+                      title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
+                      onclick={() => onApplyAlternative(applyMedia(alternative))}
+                    >
+                      <span class="symbol-tile__media">
+                        {@render symbolMedia(alternative)}
+                      </span>
+                      <span class="symbol-tile__label">{alternative.label}</span>
+                      <span class="symbol-tile__pack">{alternative.pack_name}</span>
+                      {#if alternative.neural}
+                        <span class="badge badge--ai" title="Suggerito dal modello neurale: simbolo affine, da verificare">IA affine</span>
                       {/if}
-                    </div>
-                  </div>
-                {/each}
-              </div>
+                    </button>
+                  {/each}
+                </div>
+              {/if}
+            {/if}
+            {#if hiddenExplicitCount > 0}
+              <p class="hint">
+                {hiddenExplicitCount} risult{hiddenExplicitCount === 1 ? "ato nascosto" : "ati nascosti"}
+                dal filtro dei contenuti espliciti.
+              </p>
+            {/if}
+            {#if affinityMatchesSearch && relevantResults.length === 0}
+              {@render affinityBlock()}
             {/if}
           </section>
 
@@ -823,10 +1433,10 @@
                 Cerca un pittogramma per «{selected.token.surface}»
               </button>
               <button class="btn btn--ghost" onclick={onResetUnit}>Ripristina scelta automatica</button>
-              {#if selected.token.alternatives.length > 0}
+              {#if safeAlternatives.length > 0}
                 <button
                   class="btn btn--ghost"
-                  onclick={() => onSaveGlobalPreference(selected.token.alternatives[0])}
+                  onclick={() => onSaveGlobalPreference(safeAlternatives[0])}
                   disabled={!selected.token.symbol_id}
                 >
                   Usa sempre il pittogramma selezionato per «{selected.token.lemma ?? selected.token.surface}»
@@ -845,7 +1455,7 @@
                   class="btn btn--ghost"
                   disabled={!selected.token.symbol_id}
                   onclick={() => {
-                    const alt = selected.token.alternatives.find(
+                    const alt = safeAlternatives.find(
                       (item) => item.symbol_id === selected.token?.symbol_id
                     );
                     if (alt) onSaveContextPreference(alt, contextChoice);
@@ -917,26 +1527,317 @@
           </section>
 
           <section class="panel-section">
-            <h3>Importa un pittogramma SVG</h3>
+            <h3>Importa un pittogramma</h3>
             <p class="hint">
-              Il simbolo viene validato (niente script, niente riferimenti esterni) e diventa
-              disponibile offline per la parola «{selected.token.lemma ?? selected.token.surface}».
+              PNG, JPEG, WebP, GIF, BMP, TIFF, ICO, AVIF o SVG. Le immagini restano nel loro
+              formato, senza conversione in SVG, e diventano disponibili offline per la parola
+              «{selected.token.lemma ?? selected.token.surface}».
             </p>
             <input
               type="file"
-              accept=".svg,image/svg+xml"
+              accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff,image/avif,image/x-icon,.png,.jpg,.jpeg,.webp,.gif,.bmp,.tif,.tiff,.avif,.ico,.svg,image/svg+xml"
               onchange={(event) => (svgFile = (event.currentTarget as HTMLInputElement).files?.[0] ?? null)}
             />
             <button class="btn btn--ghost" onclick={handleImportSvg} disabled={!svgFile} style="margin-top:8px">
               Importa e usa
             </button>
           </section>
-        {:else}
-          <p class="hint">
-            Seleziona un pittogramma nel documento per vedere le alternative, cambiarlo o bloccare la
-            scelta. Puoi anche cercare un simbolo dalla scheda <strong>Cerca</strong>.
-          </p>
         {/if}
+      {/if}
+
+      {#if tab === "ia"}
+        <section class="panel-section">
+          <h3>Chat con l'IA</h3>
+          <p class="hint">
+            Usa il modello locale se attivo, altrimenti il provider online configurato. I messaggi
+            restano in questa sessione e non vengono salvati nel documento.
+          </p>
+          {#if chatMessages.length === 0}
+            <p class="hint">Scrivi un messaggio per iniziare.</p>
+          {:else}
+            <div class="chat-log">
+              {#each chatMessages as message}
+                <div class:chat-bubble--user={message.role === "user"} class="chat-bubble">
+                  {message.content}
+                </div>
+              {/each}
+              {#if chatBusy}
+                <div class="chat-bubble chat-bubble--pending">…</div>
+              {/if}
+            </div>
+          {/if}
+          <textarea
+            class="image-prompt"
+            bind:value={chatInput}
+            rows="2"
+            placeholder="Scrivi un messaggio…"
+            aria-label="Messaggio per l'IA"
+            onkeydown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                void sendChat();
+              }
+            }}
+          ></textarea>
+          <div class="image-actions">
+            <button class="btn btn--solid" onclick={() => void sendChat()} disabled={chatBusy || !chatInput.trim()}>
+              {chatBusy ? "Rispondo…" : "Invia"}
+            </button>
+            <button class="btn btn--ghost" onclick={() => (chatMessages = [])} disabled={chatBusy}>
+              Nuova chat
+            </button>
+          </div>
+          {#if chatBackend}<p class="hint">Ultima risposta: {chatBackend}</p>{/if}
+          {#if chatError}<p class="import-error">{chatError}</p>{/if}
+        </section>
+
+        <section class="panel-section">
+          <h3>Genera un'immagine</h3>
+          <p class="hint">
+            Il prompt viene inviato solo al motore configurato. Puoi applicare l'immagine alla
+            parola selezionata come pittogramma oppure inserirla nel documento universale aperto.
+          </p>
+          <textarea
+            class="image-prompt"
+            bind:value={imagePrompt}
+            rows="2"
+            placeholder="es. pittogramma semplice di un gatto seduto, contorno nero, sfondo bianco"
+            aria-label="Prompt per l'immagine"
+          ></textarea>
+          <div class="image-actions">
+            <button
+              class="btn btn--solid"
+              onclick={() => void generateWithAI()}
+              disabled={imageBusy || !imageStatus?.available || !selected}
+              title={!selected
+                ? "Seleziona una parola nel documento"
+                : imageStatus?.available
+                  ? "Genera e applica alla parola selezionata"
+                  : "Motore immagini non disponibile"}
+            >{imageBusy ? "Genero…" : "Genera e applica alla parola"}</button>
+            <button
+              class="btn"
+              onclick={() => void generateAndInsert()}
+              disabled={imageBusy || !imageStatus?.available}
+              title="Inserisce l'immagine nel documento universale aperto"
+            >Inserisci nel documento</button>
+          </div>
+          {#if imageStatus}<p class="hint">{imageStatus.note}</p>{/if}
+          {#if imageActionNote}<p class="hint">{imageActionNote}</p>{/if}
+        </section>
+
+        <section class="panel-section">
+          <h3>Modelli di diffusione</h3>
+          <p class="hint">
+            Motore per generare pittogrammi e immagini dal prompt. Su Apple Silicon usa la GPU
+            (MPS) e MLX quando il runtime MLX Stable Diffusion è presente. Il runtime Python e i
+            modelli non sono inclusi nell'installer: si scaricano qui, restano nei dati dell'app.
+          </p>
+          {#if imageStatus}
+            <div class="settings-row">
+              <label for="image-backend">Motore</label>
+              <select
+                id="image-backend"
+                value={imageStatus.config.backend}
+                onchange={(event) =>
+                  void updateImageConfig({ backend: (event.currentTarget as HTMLSelectElement).value })}
+              >
+                <option value="auto">Automatico (MLX se disponibile, altrimenti GPU)</option>
+                <option value="mlx">MLX (Apple Silicon)</option>
+                <option value="gpu">GPU MPS</option>
+                <option value="online">Provider online</option>
+                <option value="off">Disattivato</option>
+              </select>
+            </div>
+            {#if imageStatus.config.backend === "online"}
+              <div class="settings-row">
+                <label for="image-endpoint">Endpoint</label>
+                <input
+                  id="image-endpoint"
+                  value={imageStatus.config.endpoint}
+                  placeholder="https://api.openai.com/v1"
+                  onchange={(event) =>
+                    void updateImageConfig({ endpoint: (event.currentTarget as HTMLInputElement).value })}
+                />
+              </div>
+              <div class="settings-row">
+                <label for="image-online-model">Modello online</label>
+                <input
+                  id="image-online-model"
+                  value={imageStatus.config.online_model}
+                  placeholder="gpt-image-1"
+                  onchange={(event) =>
+                    void updateImageConfig({ online_model: (event.currentTarget as HTMLInputElement).value })}
+                />
+              </div>
+              <div class="settings-row">
+                <label for="image-key">Chiave API</label>
+                <input
+                  id="image-key"
+                  type="password"
+                  bind:value={imageKey}
+                  placeholder={imageStatus.has_key ? "chiave salvata nel portachiavi" : "incolla la chiave"}
+                />
+                <button class="btn" onclick={() => void saveImageKey()} disabled={imageKeyBusy}>
+                  {imageKeyBusy ? "Salvo…" : "Salva"}
+                </button>
+                {#if imageStatus.has_key}
+                  <button class="btn btn--ghost" onclick={() => void clearImageKey()}>Rimuovi</button>
+                {/if}
+              </div>
+            {:else if imageStatus.config.backend !== "off"}
+              <div class="settings-row">
+                <label for="image-model">Modello locale</label>
+                <input
+                  id="image-model"
+                  value={imageStatus.config.model}
+                  placeholder="stabilityai/sd-turbo"
+                  onchange={(event) =>
+                    void updateImageConfig({ model: (event.currentTarget as HTMLInputElement).value })}
+                />
+              </div>
+              <div class="settings-row">
+                <label for="image-size">Dimensione</label>
+                <input
+                  id="image-size"
+                  type="number"
+                  min="256"
+                  max="1024"
+                  step="64"
+                  value={imageStatus.config.size}
+                  onchange={(event) =>
+                    void updateImageConfig({ size: Number((event.currentTarget as HTMLInputElement).value) || 512 })}
+                />
+                <label for="image-steps">Passi</label>
+                <input
+                  id="image-steps"
+                  type="number"
+                  min="4"
+                  max="60"
+                  value={imageStatus.config.steps}
+                  onchange={(event) =>
+                    void updateImageConfig({ steps: Number((event.currentTarget as HTMLInputElement).value) || 16 })}
+                />
+              </div>
+              <div class="image-actions">
+                <button class="btn" onclick={() => void installImageRuntime()} disabled={imageActionBusy}>
+                  {imageActionBusy ? "Operazione in corso…" : "Installa runtime immagini"}
+                </button>
+                <button
+                  class="btn btn--ghost"
+                  onclick={() => void downloadImageModel()}
+                  disabled={imageActionBusy || !imageStatus.config.model.trim()}
+                >Scarica modello</button>
+              </div>
+            {/if}
+            <p class="hint">{imageStatus.note}</p>
+            {#if imageStatus.runtime.torch || imageStatus.runtime.mlx}
+              <p class="hint">
+                Runtime:
+                {imageStatus.runtime.mlx ? "MLX" : "torch"}
+                {#if imageStatus.runtime.mps} · GPU MPS{/if}
+                {#if !imageStatus.runtime.diffusers} · diffusers assente{/if}
+              </p>
+            {/if}
+            {#if imageActionNote}
+              <p class="hint">{imageActionNote}</p>
+            {/if}
+          {:else}
+            <p class="hint">Stato del motore immagini non disponibile.</p>
+          {/if}
+        </section>
+
+      {/if}
+
+      {#if tab === "documento" && universalDoc}
+        <section class="panel-section">
+          <h3>Documento</h3>
+          <div class="settings-row">
+            <label for="doc-title">Titolo</label>
+            <input
+              id="doc-title"
+              value={universalDoc.title}
+              onchange={(event) => onUniversalTitle(event.currentTarget.value)}
+            />
+          </div>
+          <div class="settings-row">
+            <label for="doc-format">Formato foglio</label>
+            <select
+              id="doc-format"
+              value={universalDoc.page.width_mm && universalDoc.page.height_mm
+                ? "custom"
+                : `${universalDoc.page.size}|${universalDoc.page.orientation}`}
+              onchange={(event) => {
+                const value = event.currentTarget.value;
+                if (value === "custom") return;
+                const [size, orientation] = value.split("|");
+                onUniversalPage({ size, orientation, width_mm: null, height_mm: null });
+              }}
+            >
+              <option value="A4|portrait">A4 verticale (210×297)</option>
+              <option value="A4|landscape">A4 orizzontale (297×210)</option>
+              <option value="A3|portrait">A3 verticale (297×420)</option>
+              <option value="A3|landscape">A3 orizzontale (420×297)</option>
+              <option value="A5|portrait">A5 verticale (148×210)</option>
+              <option value="LETTER|portrait">Letter (216×279)</option>
+              <option value="16:9|landscape">16:9 (339×191)</option>
+              <option value="4:3|landscape">4:3 (254×191)</option>
+              <option value="custom">Personalizzato…</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <label for="doc-width">Larghezza (mm)</label>
+            <input
+              id="doc-width"
+              type="number"
+              min="50"
+              max="2000"
+              value={Math.round(universalDoc.page.width_mm ?? 210)}
+              onchange={(event) =>
+                onUniversalPage({
+                  size: "custom",
+                  orientation: "portrait",
+                  width_mm: Number(event.currentTarget.value) || 210,
+                  height_mm: universalDoc.page.height_mm ?? 297,
+                })}
+            />
+          </div>
+          <div class="settings-row">
+            <label for="doc-height">Altezza (mm)</label>
+            <input
+              id="doc-height"
+              type="number"
+              min="50"
+              max="2000"
+              value={Math.round(universalDoc.page.height_mm ?? 297)}
+              onchange={(event) =>
+                onUniversalPage({
+                  size: "custom",
+                  orientation: "portrait",
+                  width_mm: universalDoc.page.width_mm ?? 210,
+                  height_mm: Number(event.currentTarget.value) || 297,
+                })}
+            />
+          </div>
+          <div class="settings-row">
+            <label for="doc-margin">Margini (mm)</label>
+            <input
+              id="doc-margin"
+              type="number"
+              min="0"
+              max="80"
+              step="0.5"
+              value={universalDoc.page.margin_mm ?? 15}
+              onchange={(event) => onUniversalPage({ margin_mm: Number(event.currentTarget.value) || 0 })}
+            />
+          </div>
+          <p class="hint">
+            {universalDoc.pages.length} pagine · {universalDoc.pages.reduce(
+              (total, page) => total + page.elements.length,
+              0
+            )} elementi. Le stesse impostazioni sono nel pannello sinistro delle pagine.
+          </p>
+        </section>
       {/if}
 
       {#if tab === "collezioni"}
@@ -991,77 +1892,6 @@
         </section>
       {/if}
 
-      {#if tab === "cerca"}
-        <section class="panel-section">
-          <h3>Ricerca simboli</h3>
-          <form
-            onsubmit={(event) => {
-              event.preventDefault();
-              void runSearch();
-            }}
-            style="display:flex;gap:6px"
-          >
-            <input
-              type="search"
-              bind:value={searchQuery}
-              placeholder="es. cane, mangiare, scuola…"
-              aria-label="Cerca un pittogramma"
-              style="flex:1"
-            />
-            <button class="btn btn--solid" type="submit" disabled={searchBusy}>Cerca</button>
-            <button
-              class="btn btn--ghost"
-              type="button"
-              disabled={relatedBusy || !neuralReady}
-              title={neuralReady
-                ? "Chiede al modello neurale parole affini e cerca i pittogrammi corrispondenti"
-                : "Richiede un modello neurale attivo (Impostazioni → Gestione modelli)"}
-              onclick={() => void runRelatedSearch()}
-            >{relatedBusy ? "Cerco…" : "Affini con l'IA"}</button>
-          </form>
-          <p class="hint">
-            La ricerca usa l'indice locale (FTS5). Con un'unità selezionata, scegliere un risultato
-            sostituisce il suo pittogramma. «Affini con l'IA» cerca per significato: i risultati sono
-            suggerimenti approssimativi da verificare. I gruppi di affinità distinguono parola esatta,
-            forma base, varianti, sinonimi, concetto generale e affini.
-          </p>
-          {#if collectionFilter}
-            <p class="collection-filter">
-              Collezione: <strong>{collectionFilterName}</strong>
-              <button class="btn btn--ghost" onclick={clearCollectionFilter}>Tutte le collezioni</button>
-            </p>
-          {/if}
-          {@render scopeChoice()}
-          {#if affinityMatchesSearch}
-            {@render affinityBlock()}
-          {/if}
-          {#if searchResults.length > 0}
-            <div class="symbol-grid" style="margin-top:10px">
-              {#each searchResults as alternative (alternative.symbol_id)}
-                <button
-                  class="symbol-tile"
-                  title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
-                  onclick={() => onApplyAlternative(alternative)}
-                >
-                  <span class="symbol-tile__media">
-                    {#if alternative.svg}
-                      {@html alternative.svg}
-                    {:else}
-                      <span class="caa-chip__empty">?</span>
-                    {/if}
-                  </span>
-                  <span class="symbol-tile__label">{alternative.label}</span>
-                  <span class="symbol-tile__pack">{alternative.pack_name}</span>
-                  {#if alternative.neural}
-                    <span class="badge badge--ai" title="Suggerito dal modello neurale: simbolo affine, da verificare">IA affine</span>
-                  {/if}
-                </button>
-              {/each}
-            </div>
-          {/if}
-        </section>
-      {/if}
-
       {#if tab === "impostazioni"}
         <section class="panel-section">
           <h3>Rappresentazione CAA</h3>
@@ -1078,6 +1908,18 @@
               <option value="sotto">C · Simboli con didascalia sotto</option>
               <option value="solo_simboli">D · Solo simboli</option>
               <option value="semplificata">E · CAA semplificata</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <label for="symbol-layout-select">Disposizione pittogrammi</label>
+            <select
+              id="symbol-layout-select"
+              value={settings.symbol_layout}
+              onchange={(event) =>
+                onUpdateSettings({ symbol_layout: (event.currentTarget as HTMLSelectElement).value as never })}
+            >
+              <option value="riga">Striscia sopra il paragrafo</option>
+              <option value="parola">Sopra ogni parola</option>
             </select>
           </div>
           <div class="settings-row">
@@ -1117,6 +1959,16 @@
               onchange={(event) => onUpdateSettings({ mono: (event.currentTarget as HTMLInputElement).checked })}
             />
           </div>
+          <div class="settings-row">
+            <label for="explicit-symbols-toggle">Mostra contenuti espliciti (adulti)</label>
+            <input
+              id="explicit-symbols-toggle"
+              type="checkbox"
+              checked={settings.show_explicit_symbols}
+              onchange={(event) =>
+                onUpdateSettings({ show_explicit_symbols: (event.currentTarget as HTMLInputElement).checked })}
+            />
+          </div>
         </section>
 
         <section class="panel-section">
@@ -1141,6 +1993,16 @@
               type="checkbox"
               checked={settings.touch_mode}
               onchange={(event) => onUpdateSettings({ touch_mode: (event.currentTarget as HTMLInputElement).checked })}
+            />
+          </div>
+          <div class="settings-row">
+            <label for="smartboard-toggle">Controlli smartboard e tastiera</label>
+            <input
+              id="smartboard-toggle"
+              type="checkbox"
+              checked={settings.smartboard_controls}
+              onchange={(event) =>
+                onUpdateSettings({ smartboard_controls: (event.currentTarget as HTMLInputElement).checked })}
             />
           </div>
           <div class="settings-row">
@@ -1284,6 +2146,15 @@
           <button class="btn btn--ghost" style="margin-top:8px" onclick={() => onClearHistory()}>
             Cancella cronologia ricerche
           </button>
+        </section>
+
+        <section class="panel-section">
+          <h3>Immagini neurali</h3>
+          <p class="hint">
+            I modelli di diffusione, il runtime e il provider online si gestiscono nella scheda
+            <strong>IA</strong>.
+          </p>
+          <button class="btn" onclick={() => selectTab("ia")}>Apri la scheda IA</button>
         </section>
 
         <section class="panel-section">
@@ -1496,7 +2367,9 @@
             >
               {#each plan.items as item (item.label)}
                 <div class="studio-cell" title={item.concept_id ?? "nessun concetto"}>
-                  {#if item.svg}
+                  {#if item.image}
+                    <img src={item.image} alt="" />
+                  {:else if item.svg}
                     {@html item.svg}
                   {:else}
                     <span class="caa-chip__empty" style="width:44px;height:44px">?</span>

@@ -1,12 +1,12 @@
 # Release e installer
 
-## Stato reale (versione 0.13.0, 7 novembre 2026)
+## Stato reale (versione 0.15.1, 8 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|
 | macOS arm64 | **sì**, non firmato, avviato | `npm run tauri:build:mac-arm -- --bundles app,dmg` |
 | macOS x86-64 | **sì**, non firmato, avviato con Rosetta | `npm run tauri:build:mac-intel -- --bundles app,dmg` |
-| Windows x64 | **sì**, cross-compilato e non firmato; non eseguito su Windows | `cargo-xwin` + LLVM + `makensis` su macOS (NSIS) |
+| Windows x64 | **sì**, cross-compilato e non firmato; installer con runtime llama.cpp Windows + modello, installazione/disinstallazione provate sotto Wine 8, app non eseguita su Windows | `cargo-xwin` + LLVM + `makensis` su macOS (NSIS) |
 | Linux x64 | no su questa macchina | workflow `.github/workflows/release.yml` su `ubuntu-22.04` |
 | Android / ChromeOS | no | richiede SDK/NDK e `tauri android init` |
 
@@ -27,14 +27,17 @@ AGENT.md
 ```
 
 I due bundle macOS sono stati aperti: Apple Silicon nativamente, Intel tramite Rosetta 2.
-L'installer Windows è stato controllato staticamente con 7-Zip: contiene `caa-writer.exe`
-(PE32+ x86-64), il runtime llama.cpp Windows, il modello, le 300 tabelle della biblioteca,
-i 30 sistemi comunicativi e la CLI (1.795 file). Il bundle contiene solo il repertorio
-offline `core`: gli altri simboli si cercano via API e restano incorporati nei documenti.
+L'installer Windows è stato controllato staticamente con 7-Zip e provato sotto Wine 8 (installazione
+e disinstallazione): contiene `caa-writer.exe` (PE32+ x86-64), le risorse offline della libreria,
+i 30 sistemi comunicativi, il runtime **llama.cpp Windows CPU** (`llama-cli.exe`,
+`llama-server.exe`, DLL) e il modello `model.gguf` in `resources/ai`. Il runtime immagini Python
+(torch/diffusers) non è incluso e si installa dalla scheda IA. Il bundle contiene il repertorio
+offline `core`; i pittogrammi ARASAAC si scaricano on demand come PNG nella cartella dati
+dell'utente e restano incorporati nei documenti.
 Non è stato eseguito su Windows: la compilazione incrociata e i flag `CREATE_NO_WINDOW` sono
 verificati solo staticamente. Un tentativo sotto Wine si ferma sul bootstrapper WebView2.
-Non è prodotto il `.msi` perché WiX richiede un host Windows. La CLI è inclusa nel bundle
-(`resources/cli/`) e distribuita anche come binario separato per macOS arm64/x64 e Windows x64;
+Non è prodotto il `.msi` perché WiX richiede un host Windows. La CLI è distribuita come binario
+separato per macOS arm64 e Windows x64 (non è più inclusa nel bundle dell'app);
 va avviata con `--resources` che punta alla cartella risorse dell'app installata. La dimensione
 dipende dal modello GGUF in `resources/ai/`. Gli artefatti **non sono firmati né notarizzati**: al
 primo avvio macOS può richiedere «Apri comunque» dal menu contestuale del Finder.

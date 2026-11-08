@@ -19,6 +19,26 @@ const MM_TO_PT: f32 = 2.834_645_7;
 /// Rasterizza un singolo SVG (pittogramma o elemento) alle dimensioni richieste.
 /// Serve a DOCX/PPTX per incorporare immagini modificabili separatamente.
 pub fn svg_to_png(svg: &str, width_mm: f32, height_mm: f32, scale: f32) -> Result<Vec<u8>, String> {
+    // I simboli raster sono già PNG (data URL): si usano direttamente. Solo
+    // gli SVG passano da resvg.
+    let trimmed = svg.trim();
+    if trimmed.starts_with("data:image/") {
+        use base64::Engine as _;
+        let payload = trimmed
+            .split_once(',')
+            .map(|(_, data)| data)
+            .ok_or_else(|| "data URL immagine non valido".to_string())?;
+        let bytes = base64::engine::general_purpose::STANDARD
+            .decode(payload)
+            .map_err(|error| format!("immagine base64 non valida: {error}"))?;
+        let image = image::load_from_memory(&bytes)
+            .map_err(|error| format!("immagine non decodificabile: {error}"))?;
+        let mut png = Vec::new();
+        image
+            .write_to(&mut std::io::Cursor::new(&mut png), image::ImageFormat::Png)
+            .map_err(|error| format!("conversione PNG: {error}"))?;
+        return Ok(png);
+    }
     let mut options = resvg::usvg::Options::default();
     options.fontdb_mut().load_system_fonts();
     let tree = resvg::usvg::Tree::from_str(svg, &options)
@@ -104,9 +124,13 @@ pub fn build_pdf(document: &UniversalDocument, scale: f32) -> Result<Vec<u8>, St
     let mut out: Vec<u8> = Vec::new();
     out.extend_from_slice(b"%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
     let mut offsets: Vec<usize> = Vec::new();
-    let object = |body: &[u8], out: &mut Vec<u8>, offsets: &mut Vec<usize>| {
+    let mut next_object = 1usize;
+    let mut object = |body: &[u8], out: &mut Vec<u8>, offsets: &mut Vec<usize>| {
         offsets.push(out.len());
+        out.extend_from_slice(format!("{next_object} 0 obj\n").as_bytes());
         out.extend_from_slice(body);
+        out.extend_from_slice(b"\nendobj\n");
+        next_object += 1;
     };
 
     let page_count = pages.len();
@@ -140,7 +164,7 @@ pub fn build_pdf(document: &UniversalDocument, scale: f32) -> Result<Vec<u8>, St
             width_pt, height_pt
         );
         let content_body = format!(
-            "<< /Length {} >>\nstream\n{}\nendstream",
+            "<< /Length {} >>\nstream\n{}endstream",
             content.len(),
             content
         );
@@ -162,7 +186,7 @@ pub fn build_pdf(document: &UniversalDocument, scale: f32) -> Result<Vec<u8>, St
         image_body.extend_from_slice(image_header.as_bytes());
         image_body.extend_from_slice(b"stream\n");
         image_body.extend_from_slice(&compressed);
-        image_body.extend_from_slice(b"\nendstream");
+        image_body.extend_from_slice(b"endstream");
         object(&image_body, &mut out, &mut offsets);
     }
 
@@ -247,7 +271,39 @@ mod tests {
         assert!(bytes.starts_with(b"%PDF-1.4"));
         let text = String::from_utf8_lossy(&bytes);
         assert!(text.contains("/Count 1"));
+        assert!(text.contains("1 0 obj"));
+        assert!(text.contains("endobj"));
+        assert!(text.contains("xref"));
         assert!(text.ends_with("%%EOF\n"));
+    }
+
+    #[test]
+    fn png_symbol_renders_without_svg_wrapper() {
+        let mut doc = document();
+        doc.pages[0].elements.push(UniversalElement {
+            id: "s1".to_string(),
+            kind: "symbol".to_string(),
+            text: "quaderno".to_string(),
+            spoken_text: "quaderno".to_string(),
+            image_asset: Some(
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII="
+                    .to_string(),
+            ),
+            x_mm: 20.0,
+            y_mm: 50.0,
+            w_mm: 30.0,
+            h_mm: 30.0,
+            visible: true,
+            ..UniversalElement::default()
+        });
+        let rendered = doc.render().unwrap();
+        let page_svg = crate::universal::render_page_svg(&rendered.pages[0]);
+        assert!(page_svg.contains("<image "));
+        assert!(page_svg.contains("data:image/png;base64,"));
+        let bytes = build_pdf(&doc, 1.0).unwrap();
+        assert!(bytes.starts_with(b"%PDF-1.4"));
+        let png = page_to_png(&rendered.pages[0], 1.0).unwrap();
+        assert!(image::load_from_memory(&png).is_ok());
     }
 
     #[test]

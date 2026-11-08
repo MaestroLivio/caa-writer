@@ -11,8 +11,13 @@ import type {
   AiProviderConfig,
   AiProviderStatus,
   AiProviderTest,
+  CatalogItem,
+  CatalogOverview,
+  CatalogPage,
+  CatalogQuery,
   DocumentApplyResult,
   LibraryManifest,
+  LibraryQualityReport,
   OpenedUniversalDocument,
   RenderedDocument,
   RuntimeDiagnostics,
@@ -57,6 +62,12 @@ import type {
   OnlineProviderInfo,
   OnlineCustomProvider,
   DocumentEditPlan,
+  EnglishAlternatives,
+  ImageConfig,
+  AiChatMessage,
+  AiChatReply,
+  ImageStatus,
+  GeneratedImage,
   CliRunResult,
   Profile,
   ProfileBoard,
@@ -126,6 +137,9 @@ export const api = {
   onlineThumbnail: (url: string) => call<string>("online_thumbnail", { url }),
   ensureOnlineSymbols: (words: string[]) =>
     call<string[]>("ensure_online_symbols", { words }),
+  onlineAutoFill: (words: string[]) => call<string[]>("online_autofill", { words }),
+  hydrateSymbols: (ids: string[]) =>
+    call<Record<string, string>>("hydrate_symbols", { ids }),
   saveOnlinePictogram: (result: OnlineResult, lemma: string, collection: string) =>
     call<Alternative>("save_online_pictogram", { result, lemma, collection }),
   interpretDocumentPrompt: (prompt: string, useNeural = true) =>
@@ -178,6 +192,12 @@ export const api = {
   documentApply: (document: UniversalDocument, commands: UniversalCommand[]) =>
     call<DocumentApplyResult>("document_apply", { document, commands }),
   universalLibrary: () => call<LibraryManifest>("universal_library"),
+  libraryCatalog: () => call<CatalogOverview>("library_catalog"),
+  librarySearch: (query: CatalogQuery) => call<CatalogPage>("library_search", { query }),
+  libraryPreview: (id: string, sourceType: string | null) =>
+    call<string>("library_preview", { id, sourceType }),
+  libraryByIds: (ids: string[]) => call<CatalogItem[]>("library_by_ids", { ids }),
+  libraryValidate: () => call<LibraryQualityReport>("library_validate"),
   universalOpen: (id: string, sourceType: string | null = null) =>
     call<OpenedUniversalDocument>("universal_open", { id, sourceType }),
   takePendingOpen: () => call<string | null>("take_pending_open"),
@@ -185,6 +205,8 @@ export const api = {
     call<OpenedUniversalDocument>("universal_import", { source }),
   documentHtml: (document: UniversalDocument) =>
     call<string>("document_html", { document }),
+  printUniversal: (document: UniversalDocument) =>
+    call<string>("print_universal", { document }),
   documentExport: (document: UniversalDocument, format: "html" | "svg" | "pdf" | "png" | "docx" | "pptx", path: string) =>
     call<{ path: string; warnings: string[] }>("document_export", { document, format, path }),
 
@@ -253,9 +275,24 @@ export const api = {
   aiRemoveModel: (modelId: string) => call<AiStatus>("ai_remove_model", { modelId }),
   aiImportModel: (path: string) => call<AiStatus>("ai_import_model", { path }),
   aiRelatedSymbols: (text: string) => call<Alternative[]>("ai_related_symbols", { text }),
+  /// Sinonimi/concetti affini dal modello locale, in background.
+  aiAffinitySymbols: (word: string) => call<Alternative[]>("ai_affinity_symbols", { word }),
   aiSelectModel: (modelId: string) => call<AiStatus>("ai_select_model", { modelId }),
   aiBenchmark: () => call<BenchmarkResult>("ai_benchmark"),
   aiRunTool: (tool: string, input: unknown) => call<ToolOutcome>("ai_run_tool", { tool, input }),
+  translateSearchTerm: (text: string) => call<string>("translate_search_term", { text }),
+  aiChat: (messages: AiChatMessage[]) => call<AiChatReply>("ai_chat", { messages }),
+  imageStatus: () => call<ImageStatus>("image_status"),
+  imageSetConfig: (config: ImageConfig) => call<ImageStatus>("image_set_config", { config }),
+  imageSetKey: (key: string) => call<ImageStatus>("image_set_key", { key }),
+  imageClearKey: () => call<ImageStatus>("image_clear_key"),
+  imageGenerate: (prompt: string, negative: string | null = null) =>
+    call<GeneratedImage>("image_generate", { prompt, negative }),
+  imageInstallRuntime: () => call<string>("image_install_runtime"),
+  imageDownloadModel: (model: string) => call<string>("image_download_model", { model }),
+  englishAlternatives: (word: string, limit = 4) =>
+    call<EnglishAlternatives>("english_alternatives", { word, limit }),
+  storyCreate: (spec: Record<string, unknown>) => call<OpenedUniversalDocument>("story_create", { spec }),
 
   listTemplates: () => call<TemplateInfo[]>("list_templates"),
   planResource: (prompt: string, templateId: string | null) =>
@@ -277,6 +314,14 @@ export const api = {
     meaning: string | null,
     conceptId: string | null
   ) => call<string>("import_svg_symbol", { name, svg, lemma, meaning, conceptId }),
+  /// Importa un'immagine raster (PNG/JPEG/WebP/...) come pittogramma.
+  importImageSymbol: (
+    name: string,
+    dataBase64: string,
+    lemma: string,
+    meaning: string | null,
+    collection: string | null = null
+  ) => call<string>("import_image_symbol", { name, dataBase64, lemma, meaning, collection }),
   hideSymbol: (symbolId: string, hide: boolean) =>
     call<void>("hide_symbol", { symbolId, hide }),
 

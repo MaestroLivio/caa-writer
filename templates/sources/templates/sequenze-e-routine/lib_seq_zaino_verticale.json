@@ -26,15 +26,6 @@
           }
         },
         {
-          "id": "lib_seq_zaino_verticale-p1-field-title",
-          "kind": "text",
-          "text": "Preparare lo zaino: sequenza verticale",
-          "style": {
-            "font_size": 4.6,
-            "italic": false
-          }
-        },
-        {
           "id": "lib_seq_zaino_verticale-p1-field-layout",
           "kind": "text",
           "text": "verticale",

@@ -93,6 +93,9 @@ pub struct PlannedItem {
     pub strategy: String,
     pub symbol_id: Option<String>,
     pub svg: Option<String>,
+    /// PNG come data URL: alternativa raster a `svg`.
+    #[serde(default)]
+    pub image: Option<String>,
     pub approximate: bool,
 }
 

@@ -1,6 +1,6 @@
 [package]
 name = "caa-writer"
-version = "0.14.0"
+version = "0.15.1"
 description = "Word processor CAA offline con motore semantico locale"
 authors = ["CAA Writer contributors"]
 edition = "2021"
@@ -53,6 +53,8 @@ tempfile = "3"
 # The AI engine (llama.cpp CLI bridge) is always compiled, but stays inert
 # until the user configures a binary + GGUF model path in Impostazioni.
 default = []
+# Incluso dalle build di release: incorpora il frontend invece di usare devUrl.
+custom-protocol = ["tauri/custom-protocol"]
 
 [profile.release]
 codegen-units = 1

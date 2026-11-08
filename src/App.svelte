@@ -17,16 +17,21 @@
   import DocumentAssistant from "./lib/components/DocumentAssistant.svelte";
   import CliConsole from "./lib/components/CliConsole.svelte";
   import UserHome from "./lib/components/UserHome.svelte";
+  import StartupChooser from "./lib/components/StartupChooser.svelte";
+  import SmartboardControls from "./lib/components/SmartboardControls.svelte";
+  import StoryStudio from "./lib/components/StoryStudio.svelte";
   import UserEditor from "./lib/components/UserEditor.svelte";
   import UniversalEditor from "./lib/components/UniversalEditor.svelte";
   import BoardPlayer from "./lib/components/BoardPlayer.svelte";
   import ProfileSetup from "./lib/components/ProfileSetup.svelte";
   import ProfileManager from "./lib/components/ProfileManager.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
+  import LibraryBrowser from "./lib/components/LibraryBrowser.svelte";
   import FreeBoard from "./lib/components/FreeBoard.svelte";
   import { recordRecent } from "./lib/recent";
   import { freeBoardFromLayout, freeBoardSpec } from "./lib/freeboard";
   import { api, isTauri } from "./lib/api";
+  import { isExplicitContent } from "./lib/content-filter";
   import { rasterizeSymbols } from "./lib/raster";
   import { getCurrentWindow } from "@tauri-apps/api/window";
   import { listen } from "@tauri-apps/api/event";
@@ -50,6 +55,8 @@
   import type { CollectionInfo, DocumentOperation, ImportReport, Profile, ProfileBoard } from "./lib/types";
   import {
     defaultSettings,
+    type AiChatMessage,
+    type AiChatReply,
     type AiConfig,
     type AiStatus,
     type Alternative,
@@ -81,6 +88,7 @@
   let docPath = $state<string | null>(null);
   let docKey = $state(`doc-${Date.now().toString(36)}`);
   let editor = $state<CaaEditor | undefined>(undefined);
+  let universalEditorRef = $state<UniversalEditor | undefined>(undefined);
 
   let selected = $state<{ pid: string; token: CaaToken } | null>(null);
   let tokensByParagraph = $state<Map<string, CaaToken[]>>(new Map());
@@ -132,7 +140,7 @@
     last_analysis_ms: 0,
   });
 
-  type SideTab = "alternative" | "cerca" | "collezioni" | "impostazioni" | "studio";
+  type SideTab = "simbolo" | "collezioni" | "impostazioni" | "studio" | "ia" | "documento";
   type SideIntent = {
     tab: SideTab;
     prompt?: string;
@@ -142,7 +150,7 @@
     nonce: number;
   };
 
-  let view = $state<"home" | "editor" | "board" | "universal">("home");
+  let view = $state<"home" | "editor" | "board" | "universal" | "library">("home");
   // Le impostazioni sono una finestra modale autonoma: non dipendono più
   // dall'apertura del pannello laterale, che restava chiuso o vuoto.
   let settingsOpen = $state(false);
@@ -182,6 +190,9 @@
   let userBoards = $state<ProfileBoard[]>([]);
   let creatorUnlocked = $state(true);
   let creatorPin = $state("");
+  /// All'avvio, con profili esistenti, si sceglie l'utente o l'Area Creator.
+  let startupChooserOpen = $state(false);
+  let storyStudioOpen = $state(false);
   let setupOpen = $state(false);
   let profileManagerOpen = $state(false);
   let boardPlayerId = $state<string | null>(null);
@@ -306,13 +317,17 @@
         activeProfile = null;
         userBoards = [];
         setupOpen = true;
+        startupChooserOpen = false;
         creatorUnlocked = true;
         return;
       }
       const active = await api.profileActive();
       activeProfile = active ?? profiles[0];
       if (activeProfile) await loadBoardsForProfile(activeProfile);
-      creatorUnlocked = false;
+      // Con profili esistenti non si entra automaticamente nell'ultimo
+      // Utilizzatore: all'avvio si sceglie esplicitamente utente o Creator.
+      creatorUnlocked = true;
+      startupChooserOpen = true;
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
@@ -332,6 +347,7 @@
     }
     await initializeProfiles();
     setupOpen = false;
+    startupChooserOpen = false;
     creatorUnlocked = true;
     toast(`Profilo «${profile.name}» creato.`, "info");
   }
@@ -355,8 +371,35 @@
       }
     }
     creatorUnlocked = true;
+    startupChooserOpen = false;
     boardPlayerId = null;
     if (activeProfile) await loadBoardsForProfile(activeProfile);
+  }
+
+  async function chooseStartupProfile(profile: Profile) {
+    await api.profileSetActive(profile.id);
+    activeProfile = profile;
+    await loadBoardsForProfile(profile);
+    creatorPin = "";
+    creatorUnlocked = false;
+    startupChooserOpen = false;
+    view = "home";
+  }
+
+  async function chooseStartupCreator(pin: string | null): Promise<boolean> {
+    if (native) {
+      const needsPin = await api.creatorPinStatus();
+      if (needsPin) {
+        if (!pin) return false;
+        if (!(await api.creatorVerifyPin(pin))) return false;
+        creatorPin = pin;
+      }
+    }
+    creatorUnlocked = true;
+    startupChooserOpen = false;
+    view = "home";
+    if (activeProfile) await loadBoardsForProfile(activeProfile);
+    return true;
   }
 
   async function exitCreator() {
@@ -453,12 +496,13 @@
   let windowWidth = $state(typeof window === "undefined" ? 1440 : window.innerWidth);
   // Su finestre medie il pannello ancorato diventa temporaneamente sovrapposto,
   // senza modificare la preferenza salvata.
+  // Il pannello resta ancorato per impostazione predefinita. La modalità
+  // sovrapposta si attiva solo con il pulsante del pannello o con un preset
+  // scelto dall'utente; su finestre molto strette si riduce a icona.
   const effectiveSidebarMode = $derived(
     windowWidth < 720 && $workspace.sidebarMode !== "collapsed"
       ? "collapsed"
-      : windowWidth < 1100 && $workspace.sidebarMode === "docked"
-        ? "overlay"
-        : $workspace.sidebarMode
+      : $workspace.sidebarMode
   );
   // Se la scheda contestuale non è più pertinente, si torna a Home.
   $effect(() => {
@@ -473,6 +517,48 @@
     Boolean(aiStatus?.enabled && aiStatus.binary_present && aiStatus.model_present)
   );
   const neuralReady = $derived(Boolean(settings.neural_context && neuralConfigured));
+
+  /// Proprietà condivise dal motore CAA: le usa sia l'editor di testo sia
+  /// l'editor completo quando incorpora una pagina di testo. Una sola fonte,
+  /// un solo comportamento.
+  const caaProps = $derived({
+    mode: effectiveMode,
+    intensity: settings.intensity,
+    documentKey: docKey,
+    commercialOnly: settings.commercial_only,
+    borderStyle: settings.border_style,
+    packId: settings.pack_id,
+    selectedUnit: selected ? { pid: selected.pid, index: selected.token.index } : null,
+    autoEnabled: settings.auto_caa,
+    neural: neuralReady,
+    onlineAutoInsert: settings.online_auto_insert && settings.online_search !== "off",
+    symbolizeArticles: settings.symbolize_articles,
+    symbolizePrepositions: settings.symbolize_prepositions,
+    symbolizeConjunctions: settings.symbolize_conjunctions,
+    showExplicitSymbols: settings.show_explicit_symbols,
+    symbolLayout: settings.symbol_layout,
+    onSelectToken: (pid: string, token: CaaToken) => (selected = { pid, token }),
+    onTokenMenu: (_pid: string, _token: CaaToken, at: { x: number; y: number }) =>
+      (unitMenu = at),
+    onError: (message: string) => toast(message, "error"),
+    onAnalyzed,
+    onFormattingChange: (state: FormattingState) => (formatState = state),
+    onDocChanged: () => (associationPending = false),
+    analysisDebounceMs: settings.analysis_debounce_ms,
+    refineDebounceMs: settings.refine_debounce_ms,
+    profileId: activeProfile?.id ?? null,
+    onAnalysisState: (active: boolean) => (analyzing = active),
+    onMetrics: (metrics: {
+      input_samples: number;
+      input_p95_ms: number;
+      input_worst_ms: number;
+      update_p95_ms: number;
+      analysis_runs: number;
+      long_tasks: number;
+      longest_task_ms: number;
+      last_analysis_ms: number;
+    }) => (editorMetrics = metrics),
+  });
 
   const STUDIO_PRESETS: Record<
     "grid" | "schedule" | "aba" | "teacch" | "smart",
@@ -542,11 +628,25 @@
   }
 
   function patchSettings(patch: Partial<DocumentSettings>) {
-    settings = { ...settings, ...patch };
+    const next = patch.show_explicit_symbols !== undefined
+      ? { ...patch, explicit_symbols_user_choice: true }
+      : patch;
+    settings = { ...settings, ...next };
     if (patch.speech_enabled !== undefined && native) {
       void api.setSetting("speech.enabled", String(patch.speech_enabled));
     }
     void persistSettings();
+  }
+
+  function normalizedSettings(raw: Partial<DocumentSettings> | null | undefined): DocumentSettings {
+    const merged = { ...defaultSettings, ...(raw ?? {}) };
+    // I documenti e le installazioni precedenti non hanno il marcatore:
+    // ereditavano il vecchio default «espliciti visibili». Si migra a nascosti
+    // finché l'utente non fa una scelta esplicita.
+    if (!merged.explicit_symbols_user_choice) {
+      merged.show_explicit_symbols = false;
+    }
+    return merged;
   }
 
   async function persistSettings() {
@@ -627,9 +727,9 @@
         const stored = await api.getSetting("ui.settings");
         if (stored) {
           try {
-            settings = { ...defaultSettings, ...(JSON.parse(stored) as Partial<DocumentSettings>) };
+            settings = normalizedSettings(JSON.parse(stored) as Partial<DocumentSettings>);
           } catch {
-            settings = { ...defaultSettings };
+            settings = normalizedSettings(null);
           }
         }
         await api.setSetting("speech.enabled", String(settings.speech_enabled));
@@ -758,13 +858,71 @@
 
   // ---------- Documento ----------
 
+  /// Documento universale con una pagina di testo CAA: è il formato usato
+  /// dall'editor completo per la scrittura. Il contenuto ProseMirror vive in
+  /// `metadata.text_pages`, gli elementi di fallback servono a miniature,
+  /// stampa ed esportazioni.
+  function universalTextDocument(
+    title: string,
+    content: unknown,
+    plainText: string,
+    path: string | null
+  ): UniversalDocument {
+    const now = new Date().toISOString();
+    const pageId = "text-1";
+    const id = path
+      ? `doc-${path.replace(/[^a-zA-Z0-9]+/g, "-")}`
+      : `doc-${Date.now().toString(36)}`;
+    return {
+      schema_version: 1,
+      id,
+      title: title || "Documento senza titolo",
+      description: "Documento di testo CAA nell'editor completo.",
+      kind: "document",
+      locale: "it",
+      metadata: {
+        text_pages: {
+          [pageId]: { content: content ?? null, plain_text: plainText ?? "" },
+        },
+      },
+      page: {
+        size: "A4",
+        orientation: "portrait",
+        margin_mm: 15,
+        background: "#ffffff",
+      },
+      pages: [
+        {
+          id: pageId,
+          title: "Pagina 1",
+          layout: "absolute",
+          background: "#ffffff",
+          flow: { columns: 1, gap_mm: 6, padding_mm: 15 },
+          grid: { columns: 2, rows: 2, gap_mm: 4 },
+          elements: [],
+          is_home: true,
+          notes: "",
+        },
+      ],
+      styles: {},
+      accessibility: {},
+      licenses: [],
+      created_at: now,
+      updated_at: now,
+    } as unknown as UniversalDocument;
+  }
+
   function newDocument(silent = false) {
-    docTitle = "Documento senza titolo";
+    const document = universalTextDocument("Documento senza titolo", null, "", null);
+    universalDoc = document;
+    universalPath = null;
+    universalFromLibrary = false;
+    universalReadOnly = false;
+    docTitle = document.title;
     docPath = null;
-    docKey = `doc-${Date.now().toString(36)}`;
+    docKey = `doc-${document.id}`;
     selected = null;
     tokensByParagraph = new Map();
-    editor?.insertPlainText("");
     dirty = false;
     view = "editor";
     if (!silent) toast("Nuovo documento creato.", "info");
@@ -797,8 +955,7 @@
   }
 
   function openLibrary() {
-    view = "editor";
-    sideIntent = { tab: "cerca", nonce: ++intentSeq };
+    view = "library";
   }
 
   function openSettingsPanel() {
@@ -844,10 +1001,11 @@
   async function openUniversalDocument(
     id: string,
     sourceType: string | null,
-    readOnly = false
+    readOnly = false,
+    quiet = false
   ): Promise<boolean> {
     if (!native) {
-      toast("La biblioteca universale richiede l'app desktop.", "warn");
+      if (!quiet) toast("La biblioteca universale richiede l'app desktop.", "warn");
       return false;
     }
     try {
@@ -857,39 +1015,47 @@
       universalFromLibrary = true;
       universalReadOnly = readOnly;
       docTitle = opened.document.title;
-      view = "universal";
+      view = userMode ? "universal" : "editor";
       return true;
     } catch (error) {
-      toast(error instanceof Error ? error.message : String(error), "error");
+      if (!quiet) toast(error instanceof Error ? error.message : String(error), "error");
       return false;
     }
   }
 
+  function openCreatedStory(opened: { document: UniversalDocument; path: string }) {
+    universalDoc = opened.document;
+    universalPath = opened.path;
+    universalFromLibrary = true;
+    universalReadOnly = false;
+    docTitle = opened.document.title;
+    storyStudioOpen = false;
+    view = userMode ? "universal" : "editor";
+  }
+
   async function openBoardUniversal(boardId: string) {
-    // Ora un profilo può avere assegnato un template, una scheda o un sistema:
-    // si cerca nell'intera biblioteca, non solo nei 30 sistemi comunicativi.
-    const opened = await openUniversalDocument(boardId, null, true);
+    // Il Creator apre sempre il documento completo e modificabile. La modalità
+    // sola lettura resta solo per l'Utilizzatore (userMode), non per i modelli.
+    const opened = await openUniversalDocument(boardId, null, false);
     if (!opened) boardPlayerId = boardId;
   }
 
   async function saveUniversalTo(document: UniversalDocument, path: string) {
-    const assets = new Map<string, { symbol_id: string; svg: string | null; png_base64: null }>();
+    const assets = new Map<
+      string,
+      { symbol_id: string; svg: string | null; png_base64: string | null }
+    >();
     for (const page of document.pages) {
       for (const element of page.elements) {
-        if (element.symbol_id && element.svg && !assets.has(element.symbol_id)) {
-          assets.set(element.symbol_id, {
-            symbol_id: element.symbol_id,
-            svg: element.svg,
-            png_base64: null,
-          });
+        if (element.symbol_id && (element.svg || element.image_asset) && !assets.has(element.symbol_id)) {
+          assets.set(
+            element.symbol_id,
+            assetFor(element.symbol_id, element.svg, element.image_asset)
+          );
         }
         for (const cell of element.grid?.cells ?? []) {
-          if (cell.symbol_id && cell.svg && !assets.has(cell.symbol_id)) {
-            assets.set(cell.symbol_id, {
-              symbol_id: cell.symbol_id,
-              svg: cell.svg,
-              png_base64: null,
-            });
+          if (cell.symbol_id && (cell.svg || cell.image_asset) && !assets.has(cell.symbol_id)) {
+            assets.set(cell.symbol_id, assetFor(cell.symbol_id, cell.svg, cell.image_asset));
           }
         }
       }
@@ -1030,21 +1196,15 @@
   }
 
   function openTemplate(templateId: string) {
-    const template = templates.find((item) => item.id === templateId);
     void (async () => {
-      const opened = await openUniversalDocument(templateId, "template", false);
+      const opened = await openUniversalDocument(templateId, "template", false, true);
       if (opened) return;
-      // Fallback dichiarato: se la biblioteca universale non è installata,
-      // resta disponibile il vecchio percorso dello Studio.
-      newDocument(true);
-      docTitle = template?.name ?? "Nuovo materiale";
-      sideIntent = {
-        tab: "studio",
-        prompt: template?.description ?? "",
-        templateId,
-        nonce: ++intentSeq,
-      };
-      view = "editor";
+      // Nessun ripiego silenzioso sull'editor di testo: un modello si apre
+      // sempre nell'editor completo, oppure l'errore viene dichiarato.
+      toast(
+        "Il modello non si è aperto nell'editor completo. Verifica che la libreria universale sia installata.",
+        "error"
+      );
     })();
   }
 
@@ -1053,9 +1213,9 @@
     const seen = new Set<string>();
     for (const tokens of tokensByParagraph.values()) {
       for (const token of tokens) {
-        if (token.symbol_id && token.svg && !seen.has(token.symbol_id)) {
+        if (token.symbol_id && (token.svg || token.image) && !seen.has(token.symbol_id)) {
           seen.add(token.symbol_id);
-          assets.push({ symbol_id: token.symbol_id, svg: token.svg, png_base64: null });
+          assets.push(assetFor(token.symbol_id, token.svg, token.image));
         }
       }
     }
@@ -1086,6 +1246,12 @@
   async function saveDocument(askPath: boolean) {
     if (!native) {
       toast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    // Nell'editor completo il salvataggio passa dal documento universale,
+    // che include la pagina di testo e i suoi elementi di fallback.
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.saveNow();
       return;
     }
     if (!editor) return;
@@ -1146,14 +1312,13 @@
       path = picked as string;
     }
     const spec = freeBoardSpec(data);
-    const assetMap = new Map<string, { symbol_id: string; svg: string | null; png_base64: null }>();
+    const assetMap = new Map<
+      string,
+      { symbol_id: string; svg: string | null; png_base64: string | null }
+    >();
     for (const cell of data.cells) {
-      if (cell.symbolId && cell.svg && !assetMap.has(cell.symbolId)) {
-        assetMap.set(cell.symbolId, {
-          symbol_id: cell.symbolId,
-          svg: cell.svg,
-          png_base64: null,
-        });
+      if (cell.symbolId && (cell.svg || cell.image) && !assetMap.has(cell.symbolId)) {
+        assetMap.set(cell.symbolId, assetFor(cell.symbolId, cell.svg, cell.image));
       }
     }
     const assets = [...assetMap.values()];
@@ -1204,14 +1369,13 @@
     });
     if (!picked) return;
     const path = picked as string;
-    const assetMap = new Map<string, { symbol_id: string; svg: string | null; png_base64: null }>();
+    const assetMap = new Map<
+      string,
+      { symbol_id: string; svg: string | null; png_base64: string | null }
+    >();
     for (const element of spec.elements ?? []) {
-      if (element.symbol_id && element.svg && !assetMap.has(element.symbol_id)) {
-        assetMap.set(element.symbol_id, {
-          symbol_id: element.symbol_id,
-          svg: element.svg,
-          png_base64: null,
-        });
+      if (element.symbol_id && (element.svg || element.image) && !assetMap.has(element.symbol_id)) {
+        assetMap.set(element.symbol_id, assetFor(element.symbol_id, element.svg, element.image));
       }
     }
     const assets = [...assetMap.values()];
@@ -1249,7 +1413,7 @@
       docPath = path;
       docKey = `doc-${path}`;
       if (loaded.settings && typeof loaded.settings === "object") {
-        settings = { ...defaultSettings, ...(loaded.settings as Partial<DocumentSettings>) };
+        settings = normalizedSettings(loaded.settings as Partial<DocumentSettings>);
       }
       if (loaded.universal) {
         universalDoc = loaded.universal as UniversalDocument;
@@ -1257,7 +1421,7 @@
         universalFromLibrary = false;
         universalReadOnly = asPlayer;
         selected = null;
-        view = "universal";
+        view = userMode ? "universal" : "editor";
         recordRecent({
           path,
           title: docTitle,
@@ -1275,6 +1439,26 @@
         selected = null;
         view = "board";
         recordRecent({ path, title: docTitle, excerpt: `${freeBoardData.cells.length} caselle` });
+        loaded.warnings.forEach((warning) => toast(warning, "warn"));
+        toast(`Aperto: ${docTitle}`, "info");
+        return;
+      }
+      if (!savedLayout) {
+        // Documento di solo testo: si apre nell'editor completo come pagina
+        // di testo CAA, con il contenuto ProseMirror conservato.
+        universalDoc = universalTextDocument(
+          docTitle,
+          loaded.content,
+          loaded.plain_text,
+          path
+        );
+        universalPath = path;
+        universalFromLibrary = false;
+        universalReadOnly = asPlayer;
+        selected = null;
+        dirty = false;
+        view = userMode ? "universal" : "editor";
+        recordRecent({ path, title: docTitle, excerpt: loaded.plain_text.slice(0, 80) });
         loaded.warnings.forEach((warning) => toast(warning, "warn"));
         toast(`Aperto: ${docTitle}`, "info");
         return;
@@ -1342,8 +1526,83 @@
     }
   }
 
+  /// Estrae la parte base64 da un data URL immagine.
+  function dataUrlBase64(value?: string | null): string | null {
+    if (!value || !value.startsWith("data:")) return null;
+    return value.split(",", 2)[1] ?? null;
+  }
+
+  /// Asset da salvare nel .caadoc: SVG oppure PNG diretto (niente wrapper).
+  function assetFor(
+    symbolId: string,
+    svg?: string | null,
+    image?: string | null
+  ): { symbol_id: string; svg: string | null; png_base64: string | null } {
+    const png = dataUrlBase64(image) ?? dataUrlBase64(svg);
+    return { symbol_id: symbolId, svg: png ? null : (svg ?? null), png_base64: png };
+  }
+
+  const hydrationAttempted = new Set<string>();
+  let hydrationTimer: number | undefined;
+  let hydrationRunning = false;
+
+  /// Identificativi di pittogrammi senza SVG ancora da provare, al massimo
+  /// `limit`. L'idratazione procede a lotti: un documento con centinaia di
+  /// simboli viene completato senza aspettare una nuova digitazione.
+  function pendingSymbolIds(limit = 40): string[] {
+    const ids: string[] = [];
+    const seen = new Set<string>();
+    for (const tokens of tokensByParagraph.values()) {
+      for (const token of tokens) {
+        const id = token.symbol_id;
+        if (
+          id &&
+          !token.image &&
+          (token.pack_id === "arasaac" || !token.svg) &&
+          !hydrationAttempted.has(id) &&
+          !seen.has(id)
+        ) {
+          seen.add(id);
+          ids.push(id);
+          if (ids.length >= limit) return ids;
+        }
+      }
+    }
+    return ids;
+  }
+
+  function scheduleSymbolHydration(delay = 300) {
+    if (hydrationTimer) window.clearTimeout(hydrationTimer);
+    hydrationTimer = window.setTimeout(runSymbolHydration, delay);
+  }
+
+  async function runSymbolHydration() {
+    hydrationTimer = undefined;
+    if (hydrationRunning || !editor) return;
+    const batch = pendingSymbolIds();
+    if (batch.length === 0) return;
+    hydrationRunning = true;
+    batch.forEach((id) => hydrationAttempted.add(id));
+    let stored = 0;
+    try {
+      const svgs = await api.hydrateSymbols(batch);
+      stored = Object.keys(svgs).length;
+      if (stored > 0) editor?.hydrateSymbols(svgs);
+    } catch {
+      /* offline: si riproverà alla prossima analisi */
+    } finally {
+      hydrationRunning = false;
+    }
+    if (stored === 0) {
+      batch.forEach((id) => hydrationAttempted.delete(id));
+      return;
+    }
+    if (pendingSymbolIds(1).length > 0) scheduleSymbolHydration(150);
+  }
+
   function onAnalyzed(map: Map<string, CaaToken[]>) {
     tokensByParagraph = map;
+    scheduleSymbolHydration();
     dirty = true;
     // Dopo un'unione, una separazione o un annullamento l'indice può puntare a
     // un'unità cambiata: il pannello deve mostrare lo stato reale, non una
@@ -1369,8 +1628,15 @@
         plain_text: paragraph.text,
         style: paragraph.style,
         units: tokens
-          // I pittogrammi nascosti non entrano nelle esportazioni visive.
-          .filter((token) => !token.is_punct && !token.hidden)
+          // I pittogrammi nascosti e, se richiesto, quelli espliciti non
+          // entrano nelle esportazioni visive. Le scelte restano nel documento.
+          .filter(
+            (token) =>
+              !token.is_punct &&
+              !token.hidden &&
+              (settings.show_explicit_symbols ||
+                !isExplicitContent(token.surface, token.symbol_label, token.concept_label, token.meaning))
+          )
           .map((token) => ({
             surface: token.surface,
             // Didascalia visibile = testo scritto dall'utente; l'etichetta del
@@ -1378,6 +1644,7 @@
             caption: token.surface,
             symbol_id: token.symbol_id,
             svg: token.svg,
+            image: token.image,
             png_base64: null,
             approximate: token.approximate,
           })),
@@ -1435,7 +1702,8 @@
       const doc = buildExportDoc();
       const svgs = new Map<string, string>();
       for (const token of collectTokens()) {
-        if (token.symbol_id && token.svg) svgs.set(token.symbol_id, token.svg);
+        const media = token.image ?? token.svg;
+        if (token.symbol_id && media) svgs.set(token.symbol_id, media);
       }
       const { pngs, failed } = await rasterizeSymbols(svgs);
       doc.paragraphs.forEach((paragraph) =>
@@ -1489,7 +1757,27 @@
     }
   }
 
+  function undoAction() {
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.undoNow();
+      return;
+    }
+    editor?.undoAction();
+  }
+
+  function redoAction() {
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.redoNow();
+      return;
+    }
+    editor?.redoAction();
+  }
+
   function printDocument() {
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.printNow();
+      return;
+    }
     printingResource = false;
     document.body.dataset.print = "document";
     void runPrint();
@@ -1688,13 +1976,26 @@
           )
         )
       );
-      editor?.applyTokenSymbols(
-        targets.map((target) => ({
-          pid: target.pid,
-          index: target.token.index,
-          alternative: effective,
-        }))
-      );
+      const applyEntries = targets.map((target) => ({
+        pid: target.pid,
+        index: target.token.index,
+        alternative: effective,
+      }));
+      let applied = editor?.applyTokenSymbols(applyEntries) ?? 0;
+      if (applied === 0) {
+        // La mappa interna dell'editor può essere momentaneamente assente
+        // (documento appena aperto o rianalisi in corso). Riallineiamo il
+        // paragrafo con i token già noti e riproviamo: l'override è salvo.
+        const fallback = tokensByParagraph.get(pid) ?? [token];
+        editor?.setTokensForPid(pid, fallback);
+        applied = editor?.applyTokenSymbols(applyEntries) ?? 0;
+      }
+      if (applied === 0) {
+        toast(
+          "La scelta è stata salvata, ma il paragrafo non è ancora pronto: verrà mostrata alla prossima rianalisi.",
+          "warn"
+        );
+      }
       for (const affected of new Set(targets.map((target) => target.pid))) {
         editor?.refreshParagraph(affected);
       }
@@ -1740,6 +2041,85 @@
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
+  }
+
+  /// Genera un'immagine con il motore neurale. `apply` la applica alla parola
+  /// selezionata come pittogramma personale; `insert` la aggiunge come elemento
+  /// immagine al documento universale aperto.
+  async function generateImage(prompt: string, mode: "apply" | "insert") {
+    const clean = prompt.trim();
+    if (!clean) {
+      toast("Scrivi un prompt per l'immagine.", "warn");
+      return;
+    }
+    if (mode === "apply" && !selected) {
+      toast("Seleziona prima una parola nel documento.", "warn");
+      return;
+    }
+    if (mode === "insert" && !universalEditorRef) {
+      toast("Apri un documento universale per inserire l'immagine.", "warn");
+      return;
+    }
+    try {
+      toast("Generazione dell'immagine in corso…", "info");
+      const image = await api.imageGenerate(clean);
+      if (!image.png_base64) {
+        throw new Error("Il motore non ha restituito un'immagine.");
+      }
+      const width = image.width || 512;
+      const height = image.height || 512;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><image width="${width}" height="${height}" href="data:image/png;base64,${image.png_base64}"/></svg>`;
+      if (mode === "insert") {
+        await universalEditorRef!.insertImageElement(svg, clean);
+        toast(
+          `Immagine generata con ${image.backend} (${(image.elapsed_ms / 1000).toFixed(1)} s) e inserita.`,
+          "info"
+        );
+        return;
+      }
+      const lemma = selected!.token.lemma ?? selected!.token.surface;
+      const label = clean.length > 60 ? `${clean.slice(0, 57)}…` : clean;
+      // Concetto separato: l'immagine resta una scelta manuale e non viene
+      // applicata automaticamente ad altre occorrenze della stessa parola.
+      const slug = lemma
+        .toLocaleLowerCase("it")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      const symbolId = await api.importSvgSymbol(
+        `IA — ${label}`,
+        svg,
+        lemma,
+        `Immagine generata: ${clean}`,
+        slug ? `custom.ai.${slug}` : null
+      );
+      const alternative: Alternative = {
+        symbol_id: symbolId,
+        concept_id: null,
+        label,
+        meaning: clean,
+        pack_id: "personal",
+        pack_name: "Generato dall'IA",
+        format: "svg",
+        svg,
+        approximate: false,
+        license: "CC BY-NC-SA 4.0",
+        source_url: null,
+        author: "CAA Writer — modello neurale",
+      };
+      await applyAlternative(alternative);
+      toast(
+        `Immagine generata con ${image.backend} (${(image.elapsed_ms / 1000).toFixed(1)} s) e applicata.`,
+        "info"
+      );
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function chatWithAi(messages: AiChatMessage[]): Promise<AiChatReply> {
+    return api.aiChat(messages);
   }
 
   async function restoreAssociation(action: AssociationAction) {
@@ -1915,21 +2295,40 @@
     }
   }
 
+  function fileToDataUrl(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result ?? ""));
+      reader.onerror = () => reject(reader.error ?? new Error("File non leggibile."));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /// Importa il pittogramma scelto nella scheda Simbolo: SVG vettoriale con la
+  /// sanificazione dedicata, ogni altro formato come immagine diretta.
   async function importSvg(file: File) {
     if (!selected) {
       toast("Seleziona l'unità a cui associare il pittogramma.", "warn");
       return;
     }
-    const svg = await file.text();
     try {
       const conceptId = selected.token.concept_id;
-      const symbolId = await api.importSvgSymbol(
-        file.name.replace(/\.svg$/i, ""),
-        svg,
-        selected.token.lemma ?? selected.token.surface.toLowerCase(),
-        selected.token.meaning,
-        conceptId
-      );
+      const isSvg =
+        file.type === "image/svg+xml" || /\.svg$/i.test(file.name);
+      const symbolId = isSvg
+        ? await api.importSvgSymbol(
+            file.name.replace(/\.svg$/i, ""),
+            await file.text(),
+            selected.token.lemma ?? selected.token.surface.toLowerCase(),
+            selected.token.meaning,
+            conceptId
+          )
+        : await api.importImageSymbol(
+            file.name.replace(/\.[^.]+$/, ""),
+            await fileToDataUrl(file),
+            selected.token.lemma ?? selected.token.surface.toLowerCase(),
+            selected.token.meaning
+          );
       await api.setDocumentOverride(docKey, unitKey(selected.pid, selected.token.index), symbolId, conceptId);
       preferences = await api.listPreferences();
       editor?.refreshParagraph(selected.pid);
@@ -1979,11 +2378,12 @@
       layout: { kind: "grid", columns, rows, gap_mm: 3 },
       elements: plan.items.map((item, index) => ({
         id: `unit-${index + 1}`,
-        kind: item.svg ? "symbol" : "text",
+        kind: item.svg || item.image ? "symbol" : "text",
         label: item.label,
         concept_id: item.concept_id,
         symbol_id: item.symbol_id,
         svg: item.svg,
+        image: item.image,
         page: Math.floor(index / capacity),
         row: Math.floor((index % capacity) / columns),
         column: index % columns,
@@ -2088,7 +2488,7 @@
       universalFromLibrary = false;
       universalReadOnly = false;
       docTitle = plan.title;
-      view = "universal";
+      view = userMode ? "universal" : "editor";
       toast(
         `«${plan.title}» è un documento nativo: puoi modificarne celle, testi, pittogrammi e azioni.`,
         "info"
@@ -2096,6 +2496,202 @@
     } catch (error) {
       toast(error instanceof Error ? error.message : String(error), "error");
     }
+  }
+
+  /// Porta il documento di testo nell'editor completo: costruisce un documento
+  /// universale con una pagina per ogni gruppo di paragrafi, i pittogrammi
+  /// disponibili sopra il testo e il layout modificabile. Il file originale non
+  /// viene toccato: il nuovo documento si salva con un nome proprio.
+  function unifyInCompleteEditor() {
+    if (!editor) {
+      toast("Apri prima un documento di testo.", "warn");
+      return;
+    }
+    const pageW = 210;
+    const pageH = 297;
+    const margin = 15;
+    const usable = pageW - margin * 2;
+    let seq = 0;
+    const mk = (
+      kind: string,
+      text: string,
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      extra: Record<string, unknown> = {}
+    ) => ({
+      id: `u-${Date.now().toString(36)}-${seq++}`,
+      kind,
+      text,
+      spoken_text: text,
+      concept_id: null,
+      symbol_id: null,
+      lemma: null,
+      svg: null,
+      image_asset: null,
+      audio_asset: null,
+      x_mm: x,
+      y_mm: y,
+      w_mm: w,
+      h_mm: h,
+      rotation: 0,
+      z: 0,
+      visible: true,
+      locked: false,
+      opacity: 1,
+      row: 0,
+      column: 0,
+      row_span: 1,
+      column_span: 1,
+      style: {},
+      action: null,
+      link_page: null,
+      group_id: null,
+      children: [],
+      grid: null,
+      ...extra,
+    });
+    const pages: Array<Record<string, unknown>> = [];
+    let elements: ReturnType<typeof mk>[] = [];
+    let y = margin;
+    const newPage = () => {
+      elements = [];
+      pages.push({
+        id: `page-${pages.length + 1}`,
+        title: `Pagina ${pages.length + 1}`,
+        layout: "absolute",
+        background: "#ffffff",
+        flow: { columns: 1, gap_mm: 6, padding_mm: margin },
+        grid: { columns: 2, rows: 2, gap_mm: 4 },
+        elements,
+        is_home: pages.length === 0,
+        notes: "",
+      });
+    };
+    newPage();
+    elements.push(
+      mk("text", docTitle || "Documento", margin, y, usable, 12, {
+        style: { font_size: 20, bold: true, color: "#172033" },
+      })
+    );
+    y += 18;
+    for (const paragraph of editor.getParagraphs()) {
+      const text = paragraph.text.trim();
+      if (!text) continue;
+      const tokens = tokensByParagraph.get(paragraph.pid) ?? [];
+      const symbols = tokens.filter(
+        (token) => (token.svg || token.image) && token.symbol_id && !token.is_punct && !token.hidden
+      );
+      const unique: typeof symbols = [];
+      for (const token of symbols) {
+        if (!unique.some((item) => item.symbol_id === token.symbol_id)) unique.push(token);
+      }
+      const shown = unique.slice(0, 8);
+      const symbolH = shown.length > 0 ? 20 : 0;
+      if (y + symbolH + 24 > pageH - margin) {
+        newPage();
+        y = margin;
+      }
+      let x = margin;
+      for (const token of shown) {
+        elements.push(
+          mk("symbol", token.surface, x, y, 18, 18, {
+            svg: token.svg,
+            image_asset: token.image,
+            symbol_id: token.symbol_id,
+            concept_id: token.concept_id,
+            lemma: token.lemma,
+            style: {},
+          })
+        );
+        elements.push(mk("text", token.surface, x, y + 18, 18, 5, { style: { font_size: 8 } }));
+        x += 20;
+      }
+      if (shown.length > 0) y += 24;
+      elements.push(
+        mk("text", text, margin, y, usable, 14, {
+          style: { font_size: 14, color: "#172033" },
+        })
+      );
+      y += 20;
+    }
+    const document = {
+      schema_version: 1,
+      id: `unified-${Date.now().toString(36)}`,
+      title: `${docTitle || "Documento"} — impaginato`,
+      description: "Documento convertito dall'editor di testo; layout e pittogrammi modificabili.",
+      kind: "document",
+      locale: "it",
+      metadata: { source: "text-editor", converted_at: new Date().toISOString() },
+      page: {
+        size: "A4",
+        orientation: "portrait",
+        margin_mm: margin,
+        background: "#ffffff",
+      },
+      pages,
+      styles: {},
+      accessibility: {},
+      licenses: [],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    universalDoc = document as unknown as UniversalDocument;
+    universalPath = null;
+    universalFromLibrary = false;
+    universalReadOnly = false;
+    docTitle = document.title;
+    view = "editor";
+    toast(
+      "Documento aperto nell'editor completo: layout, testi e pittogrammi sono modificabili. Salvalo con un nuovo nome.",
+      "info"
+    );
+  }
+
+  /// Genera una storia illustrata a partire dal testo scritto nell'editor e la
+  /// apre nello stesso editor completo (pagine, layout e pittogrammi modificabili).
+  async function generateStoryFromEditor() {
+    const text = editor?.getSelectedText().trim() || editor?.getPlainText().trim() || "";
+    if (!text) {
+      toast("Scrivi o seleziona un testo da cui generare la storia.", "warn");
+      return;
+    }
+    if (!native) {
+      toast("La generazione della storia richiede l'app desktop.", "warn");
+      return;
+    }
+    const title = (text.split(/[.!?\n]/)[0] || "La mia storia").trim().slice(0, 80);
+    try {
+      const opened = await api.storyCreate({
+        id: `story-${Date.now().toString(36)}`,
+        title,
+        kind: "social",
+        layout: "image_top",
+        pages: 12,
+        setting: "scuola",
+        characters: ["bambino", "maestra"],
+        subject: text.slice(0, 600),
+      });
+      openCreatedStory(opened);
+      toast(
+        "Storia creata nell'editor completo: puoi modificare layout, testi e pittogrammi.",
+        "info"
+      );
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  /// Genera una scheda/materiale dal testo dell'editor e lo apre nell'editor completo.
+  async function generateMaterialFromEditor() {
+    const text = editor?.getSelectedText().trim() || editor?.getPlainText().trim() || "";
+    if (!text) {
+      toast("Scrivi o seleziona un testo da cui generare il materiale.", "warn");
+      return;
+    }
+    const plan = await generateResource(text.slice(0, 400), null);
+    if (plan) await openPlanInEditor(plan);
   }
 
   async function generateResource(prompt: string, templateId: string | null): Promise<ResourcePlan | null> {
@@ -2319,13 +2915,11 @@
   }
 
   function toggleSidebarDock() {
-    if (windowWidth < 1100) {
-      withStageScroll(() => updateWorkspace({ sidebarMode: "docked" }));
-      toast("Finestra stretta: il pannello resta sovrapposto finché non allarghi la finestra.", "info");
-      return;
-    }
     withStageScroll(() =>
-      updateWorkspace({ sidebarMode: $workspace.sidebarMode === "docked" ? "overlay" : "docked" })
+      updateWorkspace({
+        sidebarMode: $workspace.sidebarMode === "docked" ? "overlay" : "docked",
+        sidebarOverlayChoice: true,
+      })
     );
   }
 
@@ -2343,13 +2937,13 @@
   function quickCatalog(): RibbonCommand[] {
     return [
       cmd("save", "Salva", "save", () => void saveDocument(false), { shortcut: "Ctrl+S" }),
-      cmd("undo", "Annulla", "undo", () => editor?.undoAction(), {
+      cmd("undo", "Annulla", "undo", undoAction, {
         shortcut: "Ctrl+Z",
-        enabled: formatState.canUndo,
+        enabled: universalDoc ? true : formatState.canUndo,
       }),
-      cmd("redo", "Ripristina", "redo", () => editor?.redoAction(), {
+      cmd("redo", "Ripristina", "redo", redoAction, {
         shortcut: "Ctrl+Shift+Z",
-        enabled: formatState.canRedo,
+        enabled: universalDoc ? true : formatState.canRedo,
       }),
       cmd("search", "Cerca", "search", openFind, { shortcut: "Ctrl+F" }),
       cmd("listen", "Ascolta", "headphones", speakParagraph),
@@ -2360,8 +2954,8 @@
       cmd("touch", "Modalità touch", "touchpad", () => patchSettings({ touch_mode: !settings.touch_mode }), {
         active: settings.touch_mode,
       }),
-      cmd("zoom-in", "Zoom avanti", "zoom-in", () => setZoom(zoom + 0.1)),
-      cmd("zoom-out", "Zoom indietro", "zoom-out", () => setZoom(zoom - 0.1)),
+      cmd("zoom-in", "Zoom avanti", "zoom-in", () => zoomBy(0.1)),
+      cmd("zoom-out", "Zoom indietro", "zoom-out", () => zoomBy(-0.1)),
       cmd("fullscreen", "Schermo intero", "fullscreen", () => void toggleFullscreen()),
       cmd("auto-caa", "CAA automatica", "sparkles", () => patchSettings({ auto_caa: !settings.auto_caa }), {
         active: settings.auto_caa,
@@ -2402,7 +2996,35 @@
   }
 
   function setZoom(value: number) {
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.setZoomTo(value);
+      return;
+    }
     updateWorkspace({ zoom: Math.min(1.8, Math.max(0.5, Math.round(value * 100) / 100)) });
+  }
+
+  function zoomBy(delta: number) {
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.zoomBy(delta);
+      return;
+    }
+    setZoom(zoom + delta);
+  }
+
+  function zoomResetAll() {
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.zoomReset();
+      return;
+    }
+    setZoom(1);
+  }
+
+  function zoomFitAll() {
+    if (universalDoc && view === "editor") {
+      universalEditorRef?.zoomFit();
+      return;
+    }
+    fitWidth();
   }
 
   function fitWidth() {
@@ -2432,10 +3054,10 @@
       return;
     }
     updateWorkspace({
-      activeSidebarPanel: "cerca",
+      activeSidebarPanel: "simbolo",
       sidebarMode: $workspace.sidebarMode === "collapsed" ? "overlay" : $workspace.sidebarMode,
     });
-    sideIntent = { tab: "cerca", search: word, ai, nonce: ++intentSeq };
+    sideIntent = { tab: "simbolo", search: word, ai, nonce: ++intentSeq };
   }
 
   function openPanelTab(tab: SideTab) {
@@ -2532,6 +3154,7 @@
         symbol_size: 44,
         symbol_gap: 4,
         show_captions: false,
+        symbol_layout: "riga",
       });
     } else if (preset === "classico") {
       patchSettings({
@@ -2541,6 +3164,7 @@
         symbol_size: 56,
         symbol_gap: 6,
         show_captions: true,
+        symbol_layout: "riga",
       });
     } else if (preset === "contrasto") {
       patchSettings({
@@ -2549,9 +3173,10 @@
         chip_border_color: "#000000",
         chip_border_width: 2,
         chip_background: "#ffffff",
+        symbol_layout: "riga",
       });
     } else if (preset === "grandi") {
-      patchSettings({ mode: "sopra", symbol_size: 80, symbol_gap: 10, show_captions: false });
+      patchSettings({ mode: "sopra", symbol_size: 80, symbol_gap: 10, show_captions: false, symbol_layout: "riga" });
     } else if (preset === "schede") {
       patchSettings({
         mode: "solo_simboli",
@@ -2559,6 +3184,7 @@
         symbol_gap: 8,
         border_style: "divisore",
         show_captions: true,
+        symbol_layout: "riga",
       });
     } else if (preset === "illustrato") {
       patchSettings({
@@ -2567,6 +3193,7 @@
         symbol_gap: 6,
         border_style: "nessuno",
         show_captions: false,
+        symbol_layout: "riga",
       });
     }
   }
@@ -2654,6 +3281,47 @@
     const unavailable = (reason: string) => ({ tooltip: reason });
     const hasToken = Boolean(selected);
     const token = selected?.token;
+
+    const documentTab: RibbonTab = {
+      id: "documento",
+      label: "Documento",
+      groups: [
+        group("doc-pages", "Pagine", [
+          cmd("doc-add-page", "Aggiungi pagina", "plus", () => universalEditorRef?.addPageNow()),
+          cmd("doc-add-text", "Pagina di testo", "file-text", () =>
+            universalEditorRef?.addTextPageNow()
+          ),
+          cmd("doc-pages-toggle", "Mostra/nascondi pagine", "panel-left", () =>
+            universalEditorRef?.togglePagesNow()
+          ),
+          cmd("doc-ruler", "Righello", "layout-grid", () => universalEditorRef?.toggleRulerNow()),
+        ]),
+        group("doc-view", "Documento", [
+          cmd("doc-preview", "Anteprima / Modifica", "eye", () => universalEditorRef?.playNow()),
+          cmd("doc-print", "Stampa", "printer", printDocument),
+          cmd("doc-player", "Salva .caaplay", "download", () => {
+            if (universalDoc) void saveUniversalPlayer(universalDoc);
+          }),
+        ]),
+        group("doc-export", "Esporta", [
+          cmd("doc-pdf", "PDF", "file-text", () => {
+            if (universalDoc) void exportUniversal(universalDoc, "pdf");
+          }),
+          cmd("doc-png", "PNG", "image", () => {
+            if (universalDoc) void exportUniversal(universalDoc, "png");
+          }),
+          cmd("doc-docx", "DOCX", "file-text", () => {
+            if (universalDoc) void exportUniversal(universalDoc, "docx");
+          }),
+          cmd("doc-pptx", "PPTX", "presentation", () => {
+            if (universalDoc) void exportUniversal(universalDoc, "pptx");
+          }),
+          cmd("doc-html", "HTML", "file-text", () => {
+            if (universalDoc) void exportUniversal(universalDoc, "html");
+          }),
+        ]),
+      ],
+    };
 
     const tabs: RibbonTab[] = [
       {
@@ -2857,7 +3525,7 @@
             cmd("visual-strip", "Striscia visiva", "layout-template", () => void createResource("schedule")),
           ]),
           group("resources", "Risorse", [
-            cmd("library-arasaac", "Libreria ARASAAC", "library", () => openPanelTab("cerca")),
+            cmd("library-arasaac", "Libreria ARASAAC", "library", () => openPanelTab("simbolo")),
             cmd("saved-templates", "Modelli salvati", "archive", () => (view = "home")),
           ]),
         ],
@@ -2991,6 +3659,20 @@
             cmd("preset-essential", "Essenziale", "layout-template", () => applyPreset("essenziale")),
             cmd("preset-classic", "Classico CAA", "layout-template", () => applyPreset("classico")),
             cmd(
+              "preset-on-word",
+              "Pittogrammi sulla parola",
+              "type",
+              () =>
+                patchSettings({
+                  symbol_layout: settings.symbol_layout === "parola" ? "riga" : "parola",
+                }),
+              {
+                active: settings.symbol_layout === "parola",
+                tooltip:
+                  "Mostra ogni pittogramma sopra la parola a cui si riferisce, invece della striscia unica sopra il paragrafo.",
+              }
+            ),
+            cmd(
               "preset-contrast",
               settings.theme === "contrasto" ? "Disattiva alto contrasto" : "Alto contrasto",
               "contrast",
@@ -3050,7 +3732,7 @@
             cmd("search-affinity", "Cerca per affinità", "network", () => openSearchForSelected()),
             cmd("search-ai", "Cerca con IA", "sparkles", () => openSearchForSelected(true)),
             cmd("search-manual", "Inserisci manualmente", "scan-search", () => openSearchForSelected()),
-            cmd("show-alternatives", "Mostra alternative", "list", () => openPanelTab("alternative"), {
+            cmd("show-alternatives", "Mostra alternative", "list", () => openPanelTab("simbolo"), {
               enabled: hasToken,
               ...unavailable("Seleziona una parola nel documento."),
             }),
@@ -3174,7 +3856,7 @@
               else editor?.refreshAll();
             }),
             cmd("analyze-document", "Analizza documento", "refresh", () => editor?.refreshAll()),
-            cmd("show-units", "Mostra unità semantiche", "list-tree", () => openPanelTab("alternative")),
+            cmd("show-units", "Mostra unità semantiche", "list-tree", () => openPanelTab("simbolo")),
             cmd("show-concepts", "Mostra concetti", "book-open", () => showReviewReport("semantic")),
             cmd("show-ambiguous", "Evidenzia ambiguità", "triangle-alert", () => showReviewReport("semantic")),
             cmd("show-approx", "Mostra approssimativi", "circle-help", () => showReviewReport("coverage")),
@@ -3234,11 +3916,19 @@
             }),
           ]),
           group("ai-create", "Creazione", [
+            cmd("gen-story-text", "Storia dal testo", "book-open", () => void generateStoryFromEditor()),
+            cmd("unify-editor", "Apri nell'editor completo", "layout-grid", unifyInCompleteEditor),
+            cmd("gen-material-text", "Materiale dal testo", "layout-grid", () => void generateMaterialFromEditor()),
             cmd("create-grid", "Tabella comunicativa", "table", () => void createResource("grid")),
             cmd("create-schedule", "Agenda", "calendar", () => void createResource("schedule")),
             cmd("create-social", "Storia sociale", "book-open", () => void createResource("social")),
             cmd("create-sequence", "Sequenza visiva", "list-tree", () => void createResource("sequence")),
             cmd("create-teaching", "Materiale didattico", "layout-grid", () => void createResource("teaching")),
+          ]),
+          group("ai-media", "Immagini e chat", [
+            cmd("ai-chat", "Chat IA", "message-square", () => openPanelTab("ia")),
+            cmd("ai-image", "Genera immagine", "image-plus", () => openPanelTab("ia")),
+            cmd("ai-pictogram", "Pittogramma con l'IA", "sparkles", () => openPanelTab("ia")),
           ]),
           group("ai-model", "Modello neurale", [
             cmd("open-cli", "Console CLI", "terminal", () => (cliOpen = true)),
@@ -3269,10 +3959,10 @@
         label: "Visualizza",
         groups: [
           group("zoom", "Zoom", [
-            cmd("zoom-in", "Zoom avanti", "zoom-in", () => setZoom(zoom + 0.1)),
-            cmd("zoom-out", "Zoom indietro", "zoom-out", () => setZoom(zoom - 0.1)),
-            cmd("zoom-100", "100%", "maximize", () => setZoom(1)),
-            cmd("zoom-fit", "Adatta larghezza", "minimize", fitWidth),
+            cmd("zoom-in", "Zoom avanti", "zoom-in", () => zoomBy(0.1)),
+            cmd("zoom-out", "Zoom indietro", "zoom-out", () => zoomBy(-0.1)),
+            cmd("zoom-100", "100%", "maximize", zoomResetAll),
+            cmd("zoom-fit", "Adatta larghezza", "minimize", zoomFitAll),
           ]),
           group("panels", "Pannelli", [
             toggle("panel-toggle", "Pannello laterale", "panel-right", !panelClosed, () =>
@@ -3416,6 +4106,28 @@
       });
     }
 
+    if (universalDoc && view === "editor") {
+      tabs.splice(1, 0, documentTab);
+      const insertTab = tabs.find((tab) => tab.id === "insert");
+      insertTab?.groups.unshift(
+        group("doc-elements", "Elementi", [
+          cmd("el-text", "Testo", "file-text", () => universalEditorRef?.addElementNow("text")),
+          cmd("el-box", "Casella", "layout-grid", () =>
+            universalEditorRef?.addElementNow("text_box")
+          ),
+          cmd("el-button", "Pulsante", "table", () =>
+            universalEditorRef?.addElementNow("button")
+          ),
+          cmd("el-shape", "Forma", "image", () => universalEditorRef?.addElementNow("shape")),
+          cmd("el-placeholder", "Segnaposto", "layout-grid", () =>
+            universalEditorRef?.addElementNow("placeholder")
+          ),
+          cmd("el-grid", "Griglia", "table", () => universalEditorRef?.addGridNow()),
+          cmd("el-group", "Raggruppa", "copy", () => universalEditorRef?.groupNow()),
+          cmd("el-ungroup", "Separa", "scissors", () => universalEditorRef?.ungroupNow()),
+        ])
+      );
+    }
     return tabs;
   }
 </script>
@@ -3423,6 +4135,22 @@
 <svelte:head>
   <title>{view === "editor" ? `${docTitle} · CAA Writer` : "CAA Writer"}</title>
 </svelte:head>
+
+{#if startupChooserOpen && profiles.length > 0}
+  <StartupChooser
+    {profiles}
+    onChooseProfile={chooseStartupProfile}
+    onChooseCreator={chooseStartupCreator}
+  />
+{/if}
+
+{#if storyStudioOpen}
+  <StoryStudio
+    onClose={() => (storyStudioOpen = false)}
+    onCreated={openCreatedStory}
+    onToast={toast}
+  />
+{/if}
 
 {#if userMode && !boardPlayerId && !userEditorOpen && view !== "universal"}
   <UserHome
@@ -3456,12 +4184,19 @@
     onOpenDocument={() => void openDocument()}
     onOpenRecent={(path) => void loadFrom(path)}
     onOpenLibrary={openLibrary}
+    onOpenStory={() => (storyStudioOpen = true)}
     onOpenSettings={openSettingsPanel}
     onOpenTemplate={openTemplate}
+  />
+{:else if view === "library"}
+  <LibraryBrowser
+    onOpen={(id, sourceType, readOnly) => void openUniversalDocument(id, sourceType, readOnly)}
+    onClose={() => (view = "home")}
   />
 {:else if view === "universal" && universalDoc}
   {#key `${universalDoc.id}:${universalPath ?? ""}`}
   <UniversalEditor
+    bind:this={universalEditorRef}
     document={universalDoc}
     path={universalPath}
     readOnly={universalReadOnly || userMode}
@@ -3480,6 +4215,9 @@
     onImport={() => void importUniversalFile()}
     onEdit={editUniversalCopy}
     onToggleFullscreen={() => void toggleFullscreen()}
+    onOpenAi={() => openPanelTab("ia")}
+    onOpenStudio={() => openPanelTab("studio")}
+    caa={caaProps}
   />
   {/key}
 {:else if view === "board"}
@@ -3569,6 +4307,40 @@
 
   <div class="workspace">
     <main class="stage" aria-label="Area di scrittura">
+      {#if universalDoc && !userMode}
+        <div class="stage__unified">
+          <UniversalEditor
+            bind:this={universalEditorRef}
+            document={universalDoc}
+            path={universalPath}
+            readOnly={universalReadOnly || userMode}
+            profile={activeProfile}
+            onSave={saveUniversal}
+            onSavePlayer={saveUniversalPlayer}
+            onClose={() => {
+              view = "home";
+              universalDoc = null;
+            }}
+            onToast={toast}
+            onSpeak={(text) => void speak(text)}
+            onExport={exportUniversal}
+            canEdit={!userMode}
+            onOpen={() => void openUniversalFile(true)}
+            onImport={() => void importUniversalFile()}
+            onEdit={editUniversalCopy}
+            onToggleFullscreen={() => void toggleFullscreen()}
+            onOpenAi={() => openPanelTab("ia")}
+            onOpenStudio={() => openPanelTab("studio")}
+            caa={caaProps}
+            embedded={true}
+            onEditorReady={(instance) => (editor = instance)}
+            onDirtyChange={(value) => (dirty = value)}
+            onTitleChange={(value) => (docTitle = value)}
+            onDocumentChange={(document) => (universalDoc = document)}
+            uppercase={settings.uppercase}
+          />
+        </div>
+      {:else}
       <div
         class="paper"
         class:paper--a4-orizzontale={settings.page === "a4-orizzontale"}
@@ -3606,6 +4378,8 @@
           symbolizeArticles={settings.symbolize_articles}
           symbolizePrepositions={settings.symbolize_prepositions}
           symbolizeConjunctions={settings.symbolize_conjunctions}
+          showExplicitSymbols={settings.show_explicit_symbols}
+          symbolLayout={settings.symbol_layout}
           onTokenMenu={(_pid, _token, at) => (unitMenu = at)}
           intensity={settings.intensity}
           documentKey={docKey}
@@ -3649,7 +4423,9 @@
           <div class="print-grid" style={`grid-template-columns: repeat(${resourcePlan.grid.columns}, 1fr);`}>
             {#each resourcePlan.items as item (item.label)}
               <div class="print-cell">
-                {#if item.svg}
+                {#if item.image}
+                  <img src={item.image} alt="" />
+                {:else if item.svg}
                   {@html item.svg}
                 {:else}
                   <span class="caa-chip__empty">?</span>
@@ -3661,6 +4437,8 @@
           <p class="hint">Generato con CAA Writer. Pittogrammi: vedere il registro delle licenze.</p>
         {/if}
       </div>
+
+      {/if}
     </main>
 
     {#if showLayoutPreview && resourceLayout}
@@ -3766,6 +4544,9 @@
         ></button>
         <SidePanel
           {selected}
+          universalDoc={universalDoc}
+          onUniversalTitle={(title) => universalEditorRef?.setDocumentTitle(title)}
+          onUniversalPage={(patch) => universalEditorRef?.setPageSettings(patch)}
           {settings}
           {appInfo}
           {stats}
@@ -3795,6 +4576,8 @@
           onSetAiConfig={setAiConfig}
           onStatusChange={refreshAiStatus}
           onGenerateResource={generateResource}
+          onGenerateImage={generateImage}
+          onAiChat={chatWithAi}
           onOpenInEditor={openPlanInEditor}
           onOpenUniversalTemplate={(id) => openTemplate(id)}
           onPrintResource={printResource}
@@ -3807,6 +4590,21 @@
   </div>
 
 </div>
+{/if}
+
+{#if settings.touch_mode && settings.smartboard_controls && view === "editor" && !userMode}
+  <SmartboardControls
+    onInsert={(text) => editor?.insertTextAtSelection(text)}
+    onBackspace={() => editor?.backspace()}
+    onEnter={() => editor?.insertParagraph()}
+    onUndo={() => editor?.undoAction()}
+    onRedo={() => editor?.redoAction()}
+    onSpeak={() => {
+      const text = editor?.currentSentenceText() || editor?.currentBlockText() || "";
+      if (text.trim()) void speak(text);
+      else toast("Nessun testo da ascoltare nella posizione corrente.", "warn");
+    }}
+  />
 {/if}
 
 {#if unitMenu && selected}
@@ -3834,7 +4632,15 @@
 {/if}
 
 {#if setupOpen}
-  <ProfileSetup onSave={saveFirstProfile} />
+  <ProfileSetup
+    onSave={saveFirstProfile}
+    onCancel={() => {
+      setupOpen = false;
+      startupChooserOpen = false;
+      creatorUnlocked = true;
+      view = "home";
+    }}
+  />
 {/if}
 
 {#if profileManagerOpen}

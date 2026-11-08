@@ -358,6 +358,17 @@
           </select>
         </div>
         <div class="row">
+          <label for="dlg-symbol-layout">Disposizione pittogrammi</label>
+          <select
+            id="dlg-symbol-layout"
+            value={settings.symbol_layout}
+            onchange={(event) => onUpdateSettings({ symbol_layout: (event.currentTarget as HTMLSelectElement).value as never })}
+          >
+            <option value="riga">Striscia sopra il paragrafo</option>
+            <option value="parola">Sopra ogni parola</option>
+          </select>
+        </div>
+        <div class="row">
           <label for="dlg-auto">CAA automatica</label>
           <input
             id="dlg-auto"
@@ -375,6 +386,20 @@
             onchange={(event) => onUpdateSettings({ neural_context: (event.currentTarget as HTMLInputElement).checked })}
           />
         </div>
+        <div class="row">
+          <label for="dlg-explicit">Mostra contenuti espliciti (adulti)</label>
+          <input
+            id="dlg-explicit"
+            type="checkbox"
+            checked={settings.show_explicit_symbols}
+            onchange={(event) => onUpdateSettings({ show_explicit_symbols: (event.currentTarget as HTMLInputElement).checked })}
+          />
+        </div>
+        <p class="hint">
+          Disattivato per impostazione predefinita. Esclude da ricerca, alternative, documenti ed
+          esportazioni i termini sessuali o anatomici espliciti. Le scelte manuali non vengono
+          cancellate; i contenuti espliciti vengono solo esclusi dalla vista e dalla stampa.
+        </p>
         <div class="row">
           <label for="dlg-sym-articles">Simbolizza articoli (il, lo, la, un…)</label>
           <input
@@ -475,6 +500,15 @@
           />
         </div>
         <div class="row">
+          <label for="dlg-smartboard">Controlli smartboard e tastiera a schermo</label>
+          <input
+            id="dlg-smartboard"
+            type="checkbox"
+            checked={settings.smartboard_controls}
+            onchange={(event) => onUpdateSettings({ smartboard_controls: (event.currentTarget as HTMLInputElement).checked })}
+          />
+        </div>
+        <div class="row">
           <label for="dlg-online">Ricerca online</label>
           <select
             id="dlg-online"
@@ -560,7 +594,7 @@
       <section class="block">
         <h3>Librerie online</h3>
         <p class="hint">
-          I repertori non sono più duplicati interamente in locale: ARASAAC e Wikimedia
+          I repertori non sono più duplicati interamente in locale: ARASAAC, Global Symbols, Wikimedia e Openverse
           vengono interrogati via API pubblica e i risultati scelti vengono salvati come copia
           offline. Puoi aggiungere un provider pubblico che restituisca JSON con
           <code>results</code>, <code>image_url</code>, <code>title</code>, <code>license</code>.

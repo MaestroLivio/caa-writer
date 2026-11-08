@@ -414,7 +414,9 @@
               title={`${alternative.meaning || alternative.label} — ${alternative.license}`}
               onclick={() => applySymbol(alternative)}
             >
-              {#if alternative.svg}
+              {#if alternative.image}
+                <span class="edit-result__media"><img src={alternative.image} alt="" /></span>
+              {:else if alternative.svg}
                 <span class="edit-result__media">{@html alternative.svg}</span>
               {/if}
               <span>{alternative.label}</span>
@@ -436,7 +438,9 @@
             aria-label={`Seleziona la cella ${element.label || "senza titolo"}`}
             onclick={() => (activeId = element.id)}
           >
-            {#if element.svg}
+            {#if element.image}
+              <span class="cell__symbol"><img src={element.image} alt="" /></span>
+            {:else if element.svg}
               <span class="cell__symbol">{@html element.svg}</span>
             {:else}
               <span class="cell__placeholder">Scegli un simbolo</span>
@@ -497,7 +501,9 @@
           onclick={() => runAction(cell)}
           aria-label={mode === "touch" ? `Pronuncia ${cell.label || copy.communicator.unnamedSymbol}` : copy.communicator.add(cell.label || copy.communicator.unnamedSymbol)}
         >
-          {#if cell.svg}
+          {#if cell.image}
+            <span class="cell__symbol"><img src={cell.image} alt="" /></span>
+          {:else if cell.svg}
             <span class="cell__symbol">{@html cell.svg}</span>
           {/if}
           <span class="cell__label">{cell.label}</span>
@@ -621,9 +627,11 @@
     cursor: pointer;
   }
 
-  .edit-result__media :global(svg) {
+  .edit-result__media :global(svg),
+  .edit-result__media :global(img) {
     width: 28px;
     height: 28px;
+    object-fit: contain;
   }
 
   .communicator__grid {
@@ -695,9 +703,11 @@
     justify-content: center;
   }
 
-  .cell__symbol :global(svg) {
+  .cell__symbol :global(svg),
+  .cell__symbol :global(img) {
     width: 100%;
     height: 100%;
+    object-fit: contain;
   }
 
   .cell__label {

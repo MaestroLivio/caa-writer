@@ -313,7 +313,7 @@ xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\" type=\"bl
                         (cell.h_mm * 0.3).max(5.0)
                     };
                     let image_h = (cell.h_mm - text_h).max(5.0);
-                    if let Some(svg) = &cell.svg {
+                    if let Some(svg) = cell.media() {
                         if let Some(rid) = add_image(&mut images, svg, cell.w_mm, image_h) {
                             shapes.push_str(&picture_shape(
                                 next_id,
@@ -350,7 +350,7 @@ xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\" type=\"bl
                 }
                 continue;
             }
-            if let Some(svg) = &element.svg {
+            if let Some(svg) = element.media() {
                 let text_h = if element.text.trim().is_empty() {
                     0.0
                 } else {

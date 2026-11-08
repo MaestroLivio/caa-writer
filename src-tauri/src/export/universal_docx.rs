@@ -179,7 +179,7 @@ relativeHeight=\"{id}\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOve
 
     fn flow_paragraph(&mut self, element: &RenderedElement) {
         if element.cells.is_empty() {
-            if let Some(svg) = &element.svg {
+            if let Some(svg) = element.media() {
                 if let Some((image, _)) = self.image(&element.id, svg, element.w_mm.max(18.0), element.h_mm.max(18.0)) {
                     self.body.push_str(&format!(
                         "<w:p><w:pPr><w:jc w:val=\"center\"/></w:pPr>{image}\
@@ -218,7 +218,7 @@ relativeHeight=\"{id}\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOve
                     .find(|cell| cell.row == row && cell.column == column)
                 {
                     self.body.push_str("<w:p>");
-                    if let Some(svg) = &cell.svg {
+                    if let Some(svg) = cell.media() {
                         if let Some((image, _)) = self.image(&cell.id, svg, 24.0, 24.0) {
                             self.body.push_str(&image);
                         }
@@ -251,7 +251,7 @@ relativeHeight=\"{id}\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOve
                     (cell.h_mm * 0.3).max(5.0)
                 };
                 let image_h = (cell.h_mm - text_h).max(5.0);
-                if let Some(svg) = &cell.svg {
+                if let Some(svg) = cell.media() {
                     if let Some(image) = self.anchored_image(&cell.id, svg, x, y, cell.w_mm, image_h) {
                         self.body.push_str(&image);
                     }
@@ -276,7 +276,7 @@ relativeHeight=\"{id}\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOve
             }
             return;
         }
-        if let Some(svg) = &element.svg {
+        if let Some(svg) = element.media() {
             let text_h = if element.text.trim().is_empty() {
                 0.0
             } else {

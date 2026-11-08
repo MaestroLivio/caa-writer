@@ -34,6 +34,7 @@
   import { completedSentenceBefore, lastSentence } from "./sentence";
   import type { FormattingState } from "./formatting";
   import { api, demoAnalyze, isTauri } from "../api";
+  import { isExplicitContent } from "../content-filter";
   import type { CaaMode, CaaToken, Intensity } from "../types";
 
   interface Props {
@@ -57,6 +58,13 @@
     symbolizeArticles: boolean;
     symbolizePrepositions: boolean;
     symbolizeConjunctions: boolean;
+    /// Se falso, i simboli applicati a mano non vengono mostrati (restano
+    /// salvati nel documento): utile per la stampa o per ridurre il carico
+    /// visivo senza perdere le scelte.
+    showExplicitSymbols?: boolean;
+    /// `riga` = striscia unica sopra il paragrafo; `parola` = ogni pittogramma
+    /// sopra (o sotto) la parola a cui si riferisce.
+    symbolLayout?: "riga" | "parola";
     onSelectToken: (pid: string, token: CaaToken) => void;
     /// Menu contestuale del pittogramma (blocco, visibilità, modificatori).
     onTokenMenu: (pid: string, token: CaaToken, at: { x: number; y: number }) => void;
@@ -102,6 +110,8 @@
     symbolizeArticles,
     symbolizePrepositions,
     symbolizeConjunctions,
+    showExplicitSymbols = true,
+    symbolLayout = "riga",
     onSelectToken,
     onTokenMenu,
     onError,
@@ -191,6 +201,39 @@
 
   /// Token che producono un elemento visibile nella striscia: simbolo,
   /// composizione o almeno parola chiave (le assenze restano segnalate con «?»).
+  /// Range DOM corrispondente agli offset (UTF-16) di un token nel paragrafo.
+  /// ProseMirror gestisce gli stessi offset, quindi non serve modificare il
+  /// documento per allineare i pittogrammi alle parole.
+  function rangeForOffsets(root: HTMLElement, start: number, end: number): Range | null {
+    if (end <= start) return null;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let cursor = 0;
+    let startNode: Text | null = null;
+    let endNode: Text | null = null;
+    let startOffset = 0;
+    let endOffset = 0;
+    let node = walker.nextNode() as Text | null;
+    while (node) {
+      const length = node.data.length;
+      if (!startNode && cursor + length >= start) {
+        startNode = node;
+        startOffset = Math.max(0, start - cursor);
+      }
+      if (!endNode && cursor + length >= end) {
+        endNode = node;
+        endOffset = Math.max(0, end - cursor);
+        break;
+      }
+      cursor += length;
+      node = walker.nextNode() as Text | null;
+    }
+    if (!startNode || !endNode) return null;
+    const range = document.createRange();
+    range.setStart(startNode, Math.min(startOffset, startNode.data.length));
+    range.setEnd(endNode, Math.min(endOffset, endNode.data.length));
+    return range;
+  }
+
   function stripTokens(tokens: CaaToken[]): CaaToken[] {
     return tokens.filter((token) => {
       if (token.is_punct) return false;
@@ -266,14 +309,27 @@
 
       const media = document.createElement("span");
       media.className = "caa-chip__media";
-      if (token.svg && token.svg.trimStart().startsWith("<svg")) {
+      if (token.image) {
+        // ARASAAC e pittogrammi importati: PNG usato direttamente.
+        const img = document.createElement("img");
+        img.src = token.image;
+        img.alt = "";
+        img.draggable = false;
+        media.append(img);
+      } else if (token.svg && token.svg.trimStart().startsWith("<svg")) {
         const node = svgNode(token.svg);
         if (node) media.append(node);
       } else if (token.composition.length > 0) {
         media.classList.add("caa-chip__media--composition");
         for (const part of token.composition) {
           const partSpan = document.createElement("span");
-          if (part.svg && part.svg.trimStart().startsWith("<svg")) {
+          if (part.image) {
+            const img = document.createElement("img");
+            img.src = part.image;
+            img.alt = part.label;
+            img.draggable = false;
+            partSpan.append(img);
+          } else if (part.svg && part.svg.trimStart().startsWith("<svg")) {
             const node = svgNode(part.svg);
             if (node) partSpan.append(node);
           }
@@ -361,6 +417,8 @@
     /// ogni transazione ProseMirror (cioè a ogni tasto) quando i token non
     /// sono cambiati.
     lastKey = "";
+    private positionFrame: number | null = null;
+    private onResize = () => this.positionChips();
 
     constructor(node: PMNode, tag: "paragraph" | "heading") {
       this.node = node;
@@ -382,6 +440,7 @@
       this.applyAttrs();
       this.renderStrip();
       paragraphViews.set(this.pid, this);
+      window.addEventListener("resize", this.onResize);
     }
 
     private applyAttrs() {
@@ -431,15 +490,87 @@
       else this.dom.append(this.strip, this.contentDOM);
     }
 
+    private symbolSpace(): number {
+      const raw = getComputedStyle(this.dom).getPropertyValue("--symbol-size");
+      const size = Number.parseFloat(raw) || 56;
+      return Math.min(104, Math.max(32, size)) + 6;
+    }
+
+    /// Con la disposizione «sulla parola» la striscia diventa un livello
+    /// assoluto: ogni chip viene centrato sul range di testo della propria
+    /// unità. Il testo resta nel contentDOM, quindi ProseMirror non perde
+    /// caratteri né assorbe didascalie.
+    private applyOnWordLayout(active: boolean) {
+      const below = mode === "sotto";
+      this.dom.classList.toggle("caa-block--on-word", active && !below);
+      this.dom.classList.toggle("caa-block--on-word-below", active && below);
+      if (!active) {
+        this.dom.style.paddingTop = "";
+        this.dom.style.paddingBottom = "";
+        this.contentDOM.style.lineHeight = (this.node.attrs.line_height as string | null) ?? "";
+        return;
+      }
+      const space = this.symbolSpace();
+      if (below) {
+        this.dom.style.paddingTop = "";
+        this.dom.style.paddingBottom = `${space}px`;
+      } else {
+        this.dom.style.paddingTop = `${space}px`;
+        this.dom.style.paddingBottom = "";
+      }
+      // Le righe successive hanno bisogno di spazio per i pittogrammi della
+      // riga precedente: si aumenta solo in questa disposizione.
+      const current = Number.parseFloat(getComputedStyle(this.contentDOM).lineHeight) || 0;
+      this.contentDOM.style.lineHeight = `${Math.max(current, space + 8)}px`;
+    }
+
+    positionChips() {
+      if (this.positionFrame !== null) cancelAnimationFrame(this.positionFrame);
+      this.positionFrame = requestAnimationFrame(() => {
+        this.positionFrame = null;
+        const active = symbolLayout === "parola" && !this.strip.hidden && mode !== "testo";
+        this.applyOnWordLayout(active);
+        if (!active) return;
+        const rootRect = this.dom.getBoundingClientRect();
+        const space = this.symbolSpace();
+        const tokens = tokensByPid.get(this.pid) ?? [];
+        const chips = this.strip.querySelectorAll<HTMLElement>(".caa-chip");
+        chips.forEach((chip) => {
+          const index = Number(chip.dataset.index);
+          const token = tokens.find((item) => item.index === index);
+          if (!token) return;
+          const range = rangeForOffsets(this.contentDOM, token.start, token.end);
+          if (!range) return;
+          const rect = range.getBoundingClientRect();
+          if (rect.width === 0 && rect.height === 0) return;
+          const center = rect.left - rootRect.left + rect.width / 2;
+          const top =
+            mode === "sotto"
+              ? rect.bottom - rootRect.top + 3
+              : rect.top - rootRect.top - space + 3;
+          chip.style.left = `${center}px`;
+          chip.style.top = `${top}px`;
+        });
+      });
+    }
+
     renderStrip(force = false) {
       const all = tokensByPid.get(this.pid) ?? [];
-      const visible = stripTokens(all);
-      const hidden = !autoEnabled || mode === "testo" || visible.length === 0;
+      // Con la CAA automatica spenta restano visibili solo le scelte manuali.
+      // Se l'utente disattiva i simboli espliciti, anche quelle vengono nascoste
+      // dal foglio ma restano salvate nel documento.
+      const manual = (token: CaaToken) => token.locked || token.strategy === "manual";
+      const explicit = (token: CaaToken) =>
+        isExplicitContent(token.surface, token.symbol_label, token.concept_label, token.meaning);
+      const source = autoEnabled ? all : all.filter(manual);
+      const filtered = showExplicitSymbols ? source : source.filter((token) => !explicit(token));
+      const visible = stripTokens(filtered);
+      const hidden = mode === "testo" || visible.length === 0;
       // La chiave contiene solo ciò che cambia l'aspetto: niente SVG (grande
       // e immutabile) e niente ricostruzione quando il testo viene digitato.
       const key = hidden
-        ? `${this.pid}|hidden|${mode}|${autoEnabled}`
-        : `${this.pid}|${mode}|${appliedKey.startsWith(`${this.pid}:`) ? appliedKey : ""}|${visible
+        ? `${this.pid}|hidden|${mode}|${autoEnabled}|${showExplicitSymbols}|${symbolLayout}`
+        : `${this.pid}|${mode}|${autoEnabled}|${showExplicitSymbols}|${symbolLayout}|${appliedKey.startsWith(`${this.pid}:`) ? appliedKey : ""}|${visible
             .map(
               (token) =>
                 `${token.index}:${token.symbol_id ?? ""}:${token.composition.length}:${
@@ -463,6 +594,22 @@
         renderChips(this.strip, this.pid, visible);
       }
       this.order();
+      this.positionChips();
+    }
+
+    /// Aggiorna solo lo stato di selezione dei chip: evita di ricostruire gli
+    /// SVG (e lo sfarfallio) a ogni clic.
+    updateSelection() {
+      const chips = this.strip.querySelectorAll<HTMLElement>(".caa-chip");
+      chips.forEach((chip) => {
+        const index = Number(chip.dataset.index);
+        const active = Boolean(
+          selectedUnit && selectedUnit.pid === this.pid && selectedUnit.index === index
+        );
+        chip.classList.toggle("caa-chip--selected", active);
+        if (active) chip.setAttribute("aria-current", "true");
+        else chip.removeAttribute("aria-current");
+      });
     }
 
     update(node: PMNode): boolean {
@@ -475,6 +622,7 @@
       // ridisegnare qui sarebbe lavoro inutile a ogni tasto. Il ridisegno
       // avviene quando arriva un risultato nuovo o cambia la selezione.
       this.renderStrip();
+      this.positionChips();
       return true;
     }
 
@@ -490,6 +638,8 @@
     }
 
     destroy() {
+      if (this.positionFrame !== null) cancelAnimationFrame(this.positionFrame);
+      window.removeEventListener("resize", this.onResize);
       if (paragraphViews.get(this.pid) === this) paragraphViews.delete(this.pid);
     }
   }
@@ -707,17 +857,37 @@
     }
     const words = new Set<string>();
     const pidsByWord = new Map<string, Set<string>>();
+    const normalize = (value: string) =>
+      value
+        .toLocaleLowerCase("it")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
     for (const [pid, tokens] of tokensByPid) {
       for (const token of tokens) {
         if (
           token.is_punct ||
           token.is_function ||
-          token.symbol_id ||
-          token.composition.length > 0
+          token.composition.length > 0 ||
+          token.locked ||
+          token.strategy === "manual"
         ) {
           continue;
         }
         const surface = token.surface.trim();
+        // Priorità ARASAAC: anche un simbolo locale non ARASAAC viene
+        // affiancato/cercato online; un simbolo con etichetta diversa dalla
+        // parola (es. «amare» per «volare») è un candidato alla sostituzione.
+        if (token.symbol_id) {
+          const label = normalize(token.symbol_label ?? token.concept_label ?? "");
+          const word = normalize(surface);
+          const lemma = normalize(token.lemma ?? "");
+          const labelMatches = label.length > 0 && (label === word || label === lemma);
+          // Copie ARASAAC o personali già esatte: niente rete.
+          if ((token.pack_id === "arasaac" || token.pack_id === "personal") && labelMatches) {
+            continue;
+          }
+        }
         const lower = surface.toLocaleLowerCase("it");
         // Le parole con maiuscola iniziale possono essere nomi propri:
         // l'inserimento automatico non li invia alla rete.
@@ -735,7 +905,13 @@
     for (const word of pending) onlineAttempted.add(word);
     onlineBusy = true;
     try {
-      const saved = await api.ensureOnlineSymbols(pending);
+      const exact = await api.ensureOnlineSymbols(pending);
+      const remaining = pending.filter((word) => !exact.includes(word));
+      // Se ARASAAC non ha un'etichetta esatta, si importa comunque il primo
+      // pittogramma ARASAAC disponibile per la parola: la scrittura continua
+      // con un simbolo, poi l'utente può scegliere un'alternativa migliore.
+      const filled = remaining.length > 0 ? await api.onlineAutoFill(remaining) : [];
+      const saved = [...exact, ...filled];
       if (saved.length > 0) {
         // I simboli sono ora nel database: la prossima analisi li trova per
         // etichetta esatta. Si invalidano solo i paragrafi coinvolti, non
@@ -769,7 +945,8 @@
     try {
       const paragraphs = collectParagraphs();
       if (!autoEnabled) {
-        tokensByPid.clear();
+        // I token restano in memoria: le scelte manuali devono poter essere
+        // mostrate e modificate anche con la CAA automatica spenta.
         refreshStrips(true);
         return;
       }
@@ -1025,6 +1202,8 @@
   $effect(() => {
     void autoEnabled;
     void mode;
+    void symbolLayout;
+    void showExplicitSymbols;
     if (!view) return;
     refreshStrips();
   });
@@ -1041,8 +1220,11 @@
     if (previousSelectionKey) touched.add(previousSelectionKey.split(":")[0]);
     if (selectedUnit) touched.add(selectedUnit.pid);
     previousSelectionKey = nextKey;
-    if (touched.size === 0) refreshStrips(true);
-    else refreshStrips(true, touched);
+    if (touched.size === 0) {
+      for (const view of paragraphViews.values()) view.updateSelection();
+    } else {
+      for (const pid of touched) paragraphViews.get(pid)?.updateSelection();
+    }
   });
 
   export function getDocJson(): unknown {
@@ -1123,6 +1305,56 @@
   /// sceglie il suggerimento. Il testo non viene toccato.
   /// Token corrente per indice: serve a verificare che la scelta del pannello
   /// non venga applicata a una parola diversa dopo una rianalisi.
+  /// Riallinea il paragrafo con i token già noti al chiamante. Serve quando
+  /// una scelta manuale arriva mentre l'editor non ha ancora la mappa interna
+  /// (per esempio subito dopo l'apertura di un documento).
+  export function setTokensForPid(pid: string, tokens: CaaToken[]): void {
+    if (!tokens.length) return;
+    tokensByPid.set(pid, tokens);
+    analyzedSignature.delete(pid);
+    refreshStrips(true, new Set([pid]));
+    onAnalyzed(new Map(tokensByPid));
+  }
+
+  /// Inserisce le immagini scaricate on demand nei token che ne erano privi
+  /// (tipicamente ARASAAC dopo la rimozione del catalogo locale). I valori
+  /// `data:` sono PNG usati direttamente; gli altri restano SVG.
+  export function hydrateSymbols(media: Record<string, string>): void {
+    let changed = false;
+    for (const [pid, tokens] of tokensByPid) {
+      let touched = false;
+      const next = tokens.map((token) => {
+        const value = token.symbol_id ? media[token.symbol_id] : undefined;
+        if (
+          token.symbol_id &&
+          !token.image &&
+          value &&
+          (token.pack_id === "arasaac" || !token.svg)
+        ) {
+          touched = true;
+          return value.startsWith("data:")
+            ? { ...token, image: value }
+            : { ...token, svg: value };
+        }
+        return token;
+      });
+      if (touched) {
+        tokensByPid.set(pid, next);
+        analyzedSignature.delete(pid);
+        changed = true;
+      }
+    }
+    if (!changed) return;
+    refreshStrips(true);
+    onAnalyzed(new Map(tokensByPid));
+    if (selectedUnit) {
+      const token = tokensByPid
+        .get(selectedUnit.pid)
+        ?.find((item) => item.index === selectedUnit.index);
+      if (token) onSelectToken(selectedUnit.pid, token);
+    }
+  }
+
   export function tokenAt(pid: string, index: number): CaaToken | null {
     return tokensByPid.get(pid)?.find((token) => token.index === index) ?? null;
   }
@@ -1133,6 +1365,7 @@
     alternative: {
       symbol_id: string;
       svg: string | null;
+      image?: string | null;
       label: string;
       meaning: string;
       concept_id: string | null;
@@ -1147,6 +1380,7 @@
       ...current,
       symbol_id: alternative.symbol_id,
       svg: alternative.svg,
+      image: alternative.image ?? null,
       // La didascalia visibile resta la parola scritta; l'etichetta del
       // repertorio va nei metadati, non sotto il pittogramma.
       caption: current.surface,
@@ -1166,7 +1400,9 @@
     // deve rileggere il paragrafo dal motore.
     analyzedSignature.delete(pid);
     flashApplied(pid, index);
-    refreshStrips();
+    // Ridisegno forzato: il chip appena scelto deve comparire subito, anche se
+    // un'analisi in corso ha lasciato la chiave della striscia invariata.
+    refreshStrips(true, new Set([pid]));
     onAnalyzed(new Map(tokensByPid));
     onSelectToken(pid, updated);
     return true;
@@ -1182,6 +1418,7 @@
       alternative: {
         symbol_id: string;
         svg: string | null;
+        image?: string | null;
         label: string;
         meaning: string;
         concept_id: string | null;
@@ -1200,6 +1437,7 @@
         ...current,
         symbol_id: entry.alternative.symbol_id,
         svg: entry.alternative.svg,
+        image: entry.alternative.image ?? null,
         caption: current.surface,
         symbol_label: entry.alternative.label,
         concept_id: entry.alternative.concept_id ?? current.concept_id,
@@ -1219,7 +1457,7 @@
     }
     if (count > 0) {
       if (selectedUpdate) flashApplied(selectedUpdate.pid, selectedUpdate.token.index);
-      refreshStrips();
+      refreshStrips(true, new Set(entries.map((entry) => entry.pid)));
       onAnalyzed(new Map(tokensByPid));
       if (selectedUpdate) onSelectToken(selectedUpdate.pid, selectedUpdate.token);
     }
