@@ -9,6 +9,12 @@
   azioni collegate, concetti) con priorità bassa, senza bloccare la scrittura; i pittogrammi
   corrispondenti compaiono tra le alternative con il badge «IA affine». La ricerca inglese usa
   **Global Symbols** e non importa più ARASAAC in inglese, che duplica il catalogo italiano.
+- **Pannello Simbolo compatto**: niente impostazioni duplicate; griglia densa di alternative
+  ordinate per coerenza, con fonte visibile (ARASAAC, CAA Writer, Global Symbols, Personale).
+  Ricerca per affinità e ricerca inglese automatiche in background; in fondo resta solo il campo
+  per cercare un'altra parola e applicarla alla parola selezionata.
+- **Simbolo immediato mentre si scrive**: analisi del paragrafo attivo con debounce massimo di
+  180 ms e priorità al paragrafo del cursore; il pittogramma compare senza dover premere spazio.
 - **Sfarfallio della barra laterale**: ricerca online con debounce di 400 ms, cache per parola e cache delle miniature; niente più richieste/ricostruzioni a ogni tasto. Il clic su un pittogramma aggiorna solo lo stato di selezione, senza ricostruire gli SVG.
 - **Testo in maiuscolo**: le parole interamente in maiuscolo non vengono più scartate dalla ricerca automatica (restano esclusi i nomi propri con sola iniziale maiuscola).
 - **ARASAAC visibile dopo la rimozione del catalogo locale**: i pittogrammi ARASAAC rimasti nel

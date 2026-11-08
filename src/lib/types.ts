@@ -720,7 +720,7 @@ export const defaultSettings: DocumentSettings = {
   symbolize_prepositions: false,
   symbolize_conjunctions: false,
   perf_profile: "risparmio",
-  analysis_debounce_ms: 420,
+  analysis_debounce_ms: 160,
   refine_debounce_ms: 1200,
 };
 

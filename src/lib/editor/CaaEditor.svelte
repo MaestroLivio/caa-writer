@@ -943,7 +943,17 @@
     onAnalysisState?.(true);
     const startedAt = performance.now();
     try {
-      const paragraphs = collectParagraphs();
+      let paragraphs = collectParagraphs();
+      // Il paragrafo in cui si sta scrivendo viene analizzato per primo: in un
+      // documento lungo il pittogramma della parola corrente non deve aspettare
+      // tutti i paragrafi precedenti.
+      const activePid = activeParagraphPid();
+      if (activePid) {
+        paragraphs = [
+          ...paragraphs.filter((paragraph) => paragraph.pid === activePid),
+          ...paragraphs.filter((paragraph) => paragraph.pid !== activePid),
+        ];
+      }
       if (!autoEnabled) {
         // I token restano in memoria: le scelte manuali devono poter essere
         // mostrate e modificate anche con la CAA automatica spenta.
@@ -1003,7 +1013,16 @@
     }
   }
 
-  function schedule(delay = analysisDebounceMs) {
+  /// Paragrafo della selezione corrente, per dare priorità alla parola che si
+  /// sta scrivendo.
+  function activeParagraphPid(): string | null {
+    const selection = view?.state.selection;
+    const node = selection?.$from.parent;
+    const pid = node?.attrs?.pid;
+    return typeof pid === "string" && pid ? pid : null;
+  }
+
+  function schedule(delay = Math.min(analysisDebounceMs, 180)) {
     // Ogni nuovo testo invalida le risposte in volo: il risultato vecchio
     // verrà scartato anche se arriva dopo.
     analyzeSeq += 1;

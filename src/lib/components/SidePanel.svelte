@@ -172,6 +172,87 @@
   };
   const applyMedia = <T extends MediaItem>(item: T): T & { svg: string | null; image: string | null } =>
     ({ ...item, ...mediaFor(item) });
+  let searchActive = $state(false);
+  let neuralBusy = $state(false);
+  let showAdvanced = $state(false);
+  let lastPanelSelectionKey = "";
+
+  /// Etichetta breve della fonte, per la griglia compatta.
+  function sourceLabel(item: {
+    pack_id?: string | null;
+    pack_name?: string | null;
+    source_url?: string | null;
+  }): string {
+    const pack = (item.pack_id ?? "").toLocaleLowerCase("it");
+    const name = item.pack_name ?? "";
+    if (pack === "arasaac" || /arasaac/i.test(name)) return "ARASAAC";
+    if (pack === "core" || /caa writer|core/i.test(name)) return "CAA Writer";
+    if (pack === "personal" && /global symbols|inglese/i.test(name)) return "Global Symbols";
+    if (pack === "personal") return "Personale";
+    if (/wikimedia/i.test(name)) return "Wikimedia";
+    if (/openverse/i.test(name)) return "Openverse";
+    const short = name.split("—")[0].trim();
+    return short || "Repertorio";
+  }
+
+  const normalizeText = (value: string) =>
+    value
+      .toLocaleLowerCase("it")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+
+  /// Ordine automatico: prima l'etichetta che coincide con la parola, poi le
+  /// alternative del motore nell'ordine già calcolato, quindi gli affini e
+  /// l'inglese. I candidati approssimativi scendono in fondo.
+  function relevanceScore(item: Alternative, word: string): number {
+    const label = normalizeText(item.label);
+    let score = 0;
+    if (label === word) score += 120;
+    else if (label.startsWith(`${word} `) || word.startsWith(`${label} `)) score += 70;
+    else if (word.length >= 3 && (label.includes(word) || word.includes(label))) score += 25;
+    if (item.neural) score -= 8;
+    if (item.approximate) score -= 18;
+    const source = sourceLabel(item);
+    if (source === "ARASAAC") score += 12;
+    else if (source === "CAA Writer") score += 6;
+    return score;
+  }
+
+  function rankAlternatives(items: Alternative[], word: string): Alternative[] {
+    const seen = new Set<string>();
+    return items
+      .filter((item) => {
+        const key = normalizeText(item.label);
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
+      .map((item, index) => ({ item, index, score: relevanceScore(item, word) }))
+      .sort((a, b) => b.score - a.score || a.index - b.index)
+      .map((entry) => entry.item);
+  }
+
+  const displayAlternatives = $derived.by(() => {
+    if (!selected) return [];
+    const word = normalizeText(selected.token.lemma ?? selected.token.surface);
+    const items = mergedAlternatives.filter(
+      (item) => item.symbol_id !== selected.token.symbol_id
+    );
+    return rankAlternatives(items, word).slice(0, 24);
+  });
+
+  const searchDisplay = $derived.by(() => {
+    const word = normalizeText(searchQuery);
+    return rankAlternatives(safeSearchResults, word).slice(0, 24);
+  });
+
+  async function applyFromPanel(alternative: Alternative) {
+    searchActive = false;
+    searchQuery = "";
+    searchResults = [];
+    await onApplyAlternative(applyMedia(alternative));
+  }
   let searchQuery = $state("");
   /// La ricerca nel repertorio locale è in italiano. In modalità EN la
   /// richiesta viene tradotta dal modello neurale prima di interrogare FTS5.
@@ -596,6 +677,7 @@
     }
     if (neuralFailures.has(key)) return;
     const request = ++neuralRequest;
+    neuralBusy = true;
     try {
       const found = await api.aiAffinitySymbols(word);
       if (request !== neuralRequest) return;
@@ -604,6 +686,8 @@
     } catch {
       neuralFailures.add(key);
       if (request === neuralRequest) neuralItems = [];
+    } finally {
+      if (request === neuralRequest) neuralBusy = false;
     }
   }
 
@@ -778,32 +862,6 @@
     }
   }
 
-  $effect(() => {
-    // «Suggerisci» carica davvero i suggerimenti appena si apre l'unità
-    // selezionata: senza questo, l'utente vedeva solo un pulsante e poteva
-    // credere che le API non rispondessero. «Automatico» mantiene lo stesso
-    // comportamento; «Disattivata» è l'unica modalità senza rete.
-    if (settings.online_search === "off" || tab !== "simbolo" || !selected) return;
-    const word = selected.token.surface.trim();
-    if (word.length < 2) return;
-    const key = `${selected.pid}:${selected.token.index}:${word}`;
-    if (key === autoOnlineKey) return;
-    autoOnlineKey = key;
-    const cached = onlineCache.get(word.toLocaleLowerCase("it"));
-    if (cached) {
-      onlineResults = cached.results;
-      onlineThumbs = cached.thumbs;
-      onlineQuery = cached.query;
-      onlineCached = cached.cached;
-      return;
-    }
-    if (onlineTimer) window.clearTimeout(onlineTimer);
-    onlineTimer = window.setTimeout(() => {
-      onlineTimer = undefined;
-      void searchOnline(true);
-    }, 400);
-  });
-
   function openCollection(collection: CollectionInfo) {
     collectionFilter = collection.id;
     collectionFilterName = collection.name;
@@ -936,7 +994,15 @@
       englishTerm = "";
       englishError = "";
       neuralItems = [];
+      searchActive = false;
+      searchQuery = "";
+      searchResults = [];
       return;
+    }
+    const selectionKey = selected ? `${selected.pid}:${selected.token.index}` : "";
+    if (selectionKey !== lastPanelSelectionKey) {
+      lastPanelSelectionKey = selectionKey;
+      if (searchActive) clearSearch();
     }
     const neuralKey = word.trim().toLocaleLowerCase("it");
     if (!neuralReady) {
@@ -953,7 +1019,6 @@
         void loadNeuralAlternatives(word);
       }, 1200);
     }
-    void loadAffinity(word);
     // La ricerca inglese è un arricchimento: si attiva da sola solo quando la
     // ricerca online è consentita. Un errore di rete non blocca le alternative
     // e non viene ritentato a ogni tasto.
@@ -1023,9 +1088,6 @@
       searchBusy = false;
       return;
     }
-    // La ricerca testuale e l'analisi per affinità sono indipendenti: la
-    // seconda non deve rallentare la comparsa dei risultati FTS.
-    void loadAffinity(query, true);
     try {
       const page = await api.searchSymbols(
         query,
@@ -1036,6 +1098,7 @@
         collectionFilter
       );
       searchResults = page.items;
+      searchActive = true;
       showOtherResults = false;
       if (!silent && page.items.length === 0) onToast("Nessun simbolo trovato per questa ricerca.", "warn");
     } catch (error) {
@@ -1043,6 +1106,13 @@
     } finally {
       searchBusy = false;
     }
+  }
+
+  function clearSearch() {
+    searchActive = false;
+    searchQuery = "";
+    searchResults = [];
+    searchBusy = false;
   }
 
   /// Qualsiasi parola, anche senza concetto o senza pittogramma, può ricevere
@@ -1154,6 +1224,27 @@
   {/if}
 {/snippet}
 
+{#snippet alternativeTile(alternative: Alternative)}
+  <button
+    class="symbol-tile symbol-tile--compact"
+    aria-current={selected?.token.symbol_id === alternative.symbol_id}
+    title={`${alternative.meaning || alternative.label} — ${sourceLabel(alternative)} (${alternative.license})`}
+    onclick={() => void applyFromPanel(alternative)}
+  >
+    <span class="symbol-tile__media">
+      {@render symbolMedia(alternative)}
+    </span>
+    <span class="symbol-tile__label">{alternative.label}</span>
+    <span class="symbol-tile__source">{sourceLabel(alternative)}</span>
+    {#if alternative.approximate}
+      <span class="symbol-tile__mark" title="Pittogramma approssimativo: verifica prima di scegliere">≈</span>
+    {/if}
+    {#if alternative.neural}
+      <span class="symbol-tile__mark" title="Sinonimo o concetto affine suggerito dal modello locale">affine</span>
+    {/if}
+  </button>
+{/snippet}
+
 {#snippet onlineCard(result: OnlineResult)}
   <div class="online-card">
     {#if onlineThumbs[result.id]}
@@ -1252,299 +1343,146 @@
   {#if !closed}
     <div class="sidepanel__body">
       {#if tab === "simbolo"}
-        {#if selected}
-          <section class="panel-section">
-            <h3>Simboli per questa parola</h3>
-            <p class="hint">
-              I contenuti espliciti sono esclusi dalle alternative e dalla ricerca quando
-              l'opzione «Mostra contenuti espliciti» è disattivata.
-            </p>
-            {@render scopeChoice()}
-            {#if mergedAlternatives.length === 0}
-              <p class="hint">
-                Nessuna alternativa automatica. Qui sotto ci sono i gruppi di affinità della parola;
-                se non basta, cerca direttamente nel repertorio o importa un SVG.
-              </p>
-              {@render affinityBlock()}
-            {:else}
-              <div class="symbol-grid">
-                {#each mergedAlternatives as alternative (alternative.symbol_id)}
-                  <button
-                    class="symbol-tile"
-                    aria-current={selected.token.symbol_id === alternative.symbol_id}
-                    title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
-                    onclick={() => onApplyAlternative(applyMedia(alternative))}
-                  >
-                    <span class="symbol-tile__media">
-                      {@render symbolMedia(alternative)}
-                    </span>
-                    <span class="symbol-tile__label">{alternative.label}</span>
-                    <span class="symbol-tile__pack">{alternative.pack_name}</span>
-                    {#if englishIds.has(alternative.symbol_id)}
-                      <span class="badge badge--ok" title="Trovato cercando in inglese il termine tradotto">EN</span>
-                    {/if}
-                    {#if alternative.neural}
-                      <span class="badge badge--ai" title="Suggerito dal modello neurale: simbolo affine, da verificare">IA affine</span>
-                    {/if}
-                  </button>
-                {/each}
+        <div class="symbol-tab">
+          {#if selected}
+            <div class="symbol-head">
+              <div class="symbol-head__word">
+                <span class="symbol-head__label">{selected.token.surface}</span>
+                <span class="symbol-head__source">
+                  {selected.token.symbol_id ? sourceLabel(selected.token) : "nessun pittogramma"}
+                </span>
               </div>
-            {/if}
-            {#if englishBusy}
-              <p class="hint">Cerco anche in inglese…</p>
-            {:else if englishTerm}
-              <p class="hint">
-                Ricerca inglese: «{englishTerm}» — i pittogrammi con il badge <strong>EN</strong>
-                arrivano da Global Symbols; ARASAAC in inglese è escluso perché duplica il catalogo
-                italiano.
-              </p>
-            {:else if englishError}
-              <p class="hint">Ricerca inglese non disponibile: {englishError}</p>
-            {/if}
-            {#if safeOnlineResults.length > 0}
-              <h4 class="result-heading">Altre fonti · ARASAAC prima</h4>
-              <div class="online-grid">
-                {#each safeOnlineResults as result (result.provider + result.id)}
-                  {@render onlineCard(result)}
-                {/each}
+              <div class="symbol-head__tools">
+                {#if englishBusy || neuralBusy}
+                  <span class="symbol-working" title="Cerco altre alternative in background">…</span>
+                {/if}
+                <button
+                  class="icon-btn"
+                  title="Ascolta la parola"
+                  aria-label="Ascolta la parola"
+                  onclick={() => void onSpeak(selected.token.surface)}
+                >▶</button>
+                <button
+                  class="icon-btn"
+                  class:active={selected.token.locked}
+                  title={selected.token.locked ? "Sblocca il pittogramma" : "Blocca il pittogramma"}
+                  aria-label={selected.token.locked ? "Sblocca il pittogramma" : "Blocca il pittogramma"}
+                  onclick={() => onSetUnitState({ locked: !selected?.token.locked })}
+                >{selected.token.locked ? "🔒" : "🔓"}</button>
+                <button
+                  class="icon-btn"
+                  class:active={selected.token.hidden}
+                  title={selected.token.hidden ? "Mostra il pittogramma" : "Nascondi il pittogramma"}
+                  aria-label={selected.token.hidden ? "Mostra il pittogramma" : "Nascondi il pittogramma"}
+                  onclick={() => onSetUnitState({ hidden: !selected?.token.hidden })}
+                >{selected.token.hidden ? "◌" : "◉"}</button>
+                <button
+                  class="icon-btn"
+                  class:active={showAdvanced}
+                  title="Altre azioni"
+                  aria-label="Altre azioni"
+                  onclick={() => (showAdvanced = !showAdvanced)}
+                >⋯</button>
               </div>
-            {:else if onlineBusy}
-              <p class="hint">Cerco anche nelle altre fonti…</p>
-            {/if}
-          </section>
+            </div>
 
-          <section class="panel-section">
-            <h3>Cerca nel repertorio</h3>
-            <form
-              onsubmit={(event) => {
-                event.preventDefault();
-                void runSearch();
-              }}
-              style="display:flex;gap:6px;flex-wrap:wrap"
-            >
-              <input
-                type="search"
-                bind:value={searchQuery}
-                placeholder="es. cane, mangiare, scuola…"
-                aria-label="Cerca un pittogramma"
-                style="flex:1;min-width:140px"
-              />
-              <select bind:value={searchLanguage} aria-label="Lingua della ricerca">
-                <option value="it">Italiano</option>
-                <option value="en">Inglese (tradotto)</option>
-              </select>
-              <button class="btn btn--solid" type="submit" disabled={searchBusy}>
-                {searchBusy ? "Cerco…" : "Cerca"}
-              </button>
-              <button
-                class="btn btn--ghost"
-                type="button"
-                disabled={relatedBusy || !neuralReady}
-                title={neuralReady
-                  ? "Chiede al modello neurale parole affini e cerca i pittogrammi corrispondenti"
-                  : "Richiede un modello neurale attivo (Impostazioni → Gestione modelli)"}
-                onclick={() => void runRelatedSearch()}
-              >{relatedBusy ? "Cerco…" : "Affini con l'IA"}</button>
-            </form>
-            <p class="hint">
-              Ricerca nell'indice locale (FTS5). Scegliere un risultato sostituisce il pittogramma
-              dell'unità selezionata. «Affini con l'IA» cerca per significato: sono suggerimenti da
-              verificare. In inglese il termine viene tradotto dal modello locale prima della ricerca.
-            </p>
-            {#if collectionFilter}
-              <p class="collection-filter">
-                Collezione: <strong>{collectionFilterName}</strong>
-                <button class="btn btn--ghost" onclick={clearCollectionFilter}>Tutte le collezioni</button>
-              </p>
-            {/if}
-            {#if translateBusy}
-              <p class="hint">Traduco il termine in italiano…</p>
-            {:else if searchLanguage === "en" && translatedQuery}
-              <p class="hint">Ricerca inglese: «{translatedQuery}».</p>
-            {/if}
-            {#if searchBusy}
-              <p class="hint">Cerco nel repertorio…</p>
-            {:else if safeSearchResults.length === 0 && searchWord && searchLanguage === "it"}
-              <p class="hint">Nessun simbolo trovato. Prova un'altra parola o importa un SVG.</p>
-            {/if}
-            {#if relevantResults.length > 0}
-              <h4 class="result-heading">Corrispondenze per «{searchWord}»</h4>
-              <div class="symbol-grid">
-                {#each relevantResults as alternative (alternative.symbol_id)}
-                  <button
-                    class="symbol-tile"
-                    aria-current={selected?.token.symbol_id === alternative.symbol_id}
-                    title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
-                    onclick={() => onApplyAlternative(applyMedia(alternative))}
+            {#if showAdvanced}
+              <div class="symbol-advanced">
+                <div class="symbol-advanced__row">
+                  <button class="btn btn--ghost btn--tiny" onclick={onResetUnit}>Ripristina scelta</button>
+                  {#if safeAlternatives.length > 0}
+                    <button
+                      class="btn btn--ghost btn--tiny"
+                      onclick={() => onSaveGlobalPreference(safeAlternatives[0])}
+                      disabled={!selected.token.symbol_id}
+                    >Usa sempre</button>
+                  {/if}
+                </div>
+                <label class="symbol-advanced__scope">
+                  <span>Ambito</span>
+                  <select
+                    value={associationScope}
+                    onchange={(event) =>
+                      onAssociationScope((event.currentTarget as HTMLSelectElement).value as AssociationScope)}
                   >
-                    <span class="symbol-tile__media">
-                      {@render symbolMedia(alternative)}
-                    </span>
-                    <span class="symbol-tile__label">{alternative.label}</span>
-                    <span class="symbol-tile__pack">{alternative.pack_name}</span>
-                    {#if alternative.neural}
-                      <span class="badge badge--ai" title="Suggerito dal modello neurale: simbolo affine, da verificare">IA affine</span>
-                    {/if}
+                    <option value="occurrence">Questa occorrenza</option>
+                    <option value="document">Tutto il documento</option>
+                    <option value="profile">Questo profilo</option>
+                    <option value="global">Tutti i documenti</option>
+                    <option value="vocabulary">Vocabolario condiviso</option>
+                  </select>
+                </label>
+                <label class="symbol-advanced__import">
+                  <span>Importa immagine</span>
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff,image/avif,image/x-icon,.png,.jpg,.jpeg,.webp,.gif,.bmp,.tif,.tiff,.avif,.ico,.svg,image/svg+xml"
+                    onchange={(event) => (svgFile = (event.currentTarget as HTMLInputElement).files?.[0] ?? null)}
+                  />
+                </label>
+                {#if svgFile}
+                  <button class="btn btn--ghost btn--tiny" onclick={handleImportSvg}>
+                    Importa «{svgFile.name}»
                   </button>
-                {/each}
+                {/if}
               </div>
             {/if}
-            {#if otherResults.length > 0}
-              <button class="btn btn--ghost" onclick={() => (showOtherResults = !showOtherResults)}>
-                {showOtherResults ? "Nascondi" : "Mostra"} altri risultati ({otherResults.length})
-              </button>
-              {#if showOtherResults}
-                <div class="symbol-grid">
-                  {#each otherResults as alternative (alternative.symbol_id)}
-                    <button
-                      class="symbol-tile"
-                      aria-current={selected?.token.symbol_id === alternative.symbol_id}
-                      title={`${alternative.meaning || alternative.label} — ${alternative.pack_name} (${alternative.license})`}
-                      onclick={() => onApplyAlternative(applyMedia(alternative))}
-                    >
-                      <span class="symbol-tile__media">
-                        {@render symbolMedia(alternative)}
-                      </span>
-                      <span class="symbol-tile__label">{alternative.label}</span>
-                      <span class="symbol-tile__pack">{alternative.pack_name}</span>
-                      {#if alternative.neural}
-                        <span class="badge badge--ai" title="Suggerito dal modello neurale: simbolo affine, da verificare">IA affine</span>
-                      {/if}
-                    </button>
+
+            {#if searchActive}
+              <div class="symbol-results-head">
+                <span>Risultati per «{searchQuery}»</span>
+                <button class="btn btn--ghost btn--tiny" onclick={clearSearch}>Alternative</button>
+              </div>
+              {#if searchBusy}
+                <p class="symbol-empty">Cerco…</p>
+              {:else if searchDisplay.length === 0}
+                <p class="symbol-empty">Nessun risultato. Prova un'altra parola.</p>
+              {:else}
+                <div class="symbol-grid symbol-grid--dense">
+                  {#each searchDisplay as alternative (alternative.symbol_id)}
+                    {@render alternativeTile(alternative)}
                   {/each}
                 </div>
               {/if}
-            {/if}
-            {#if hiddenExplicitCount > 0}
-              <p class="hint">
-                {hiddenExplicitCount} risult{hiddenExplicitCount === 1 ? "ato nascosto" : "ati nascosti"}
-                dal filtro dei contenuti espliciti.
-              </p>
-            {/if}
-            {#if affinityMatchesSearch && relevantResults.length === 0}
-              {@render affinityBlock()}
-            {/if}
-          </section>
-
-          <section class="panel-section">
-            <h3>Applica la scelta</h3>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <button class="btn btn--solid" onclick={() => void searchForSelectedWord()}>
-                Cerca un pittogramma per «{selected.token.surface}»
-              </button>
-              <button class="btn btn--ghost" onclick={onResetUnit}>Ripristina scelta automatica</button>
-              {#if safeAlternatives.length > 0}
-                <button
-                  class="btn btn--ghost"
-                  onclick={() => onSaveGlobalPreference(safeAlternatives[0])}
-                  disabled={!selected.token.symbol_id}
-                >
-                  Usa sempre il pittogramma selezionato per «{selected.token.lemma ?? selected.token.surface}»
-                </button>
-              {/if}
-              <div style="display:flex;gap:6px;align-items:center">
-                <select bind:value={contextChoice} aria-label="Contesto comunicativo">
-                  <option value="scuola">scuola</option>
-                  <option value="casa">casa</option>
-                  <option value="cibo">cibo</option>
-                  <option value="fuori">fuori</option>
-                  <option value="salute">salute</option>
-                  <option value="sport">sport</option>
-                </select>
-                <button
-                  class="btn btn--ghost"
-                  disabled={!selected.token.symbol_id}
-                  onclick={() => {
-                    const alt = safeAlternatives.find(
-                      (item) => item.symbol_id === selected.token?.symbol_id
-                    );
-                    if (alt) onSaveContextPreference(alt, contextChoice);
-                  }}
-                >
-                  Usa in questo contesto
-                </button>
+            {:else if displayAlternatives.length > 0}
+              <div class="symbol-grid symbol-grid--dense">
+                {#each displayAlternatives as alternative (alternative.symbol_id)}
+                  {@render alternativeTile(alternative)}
+                {/each}
               </div>
-              <button class="btn btn--ghost" onclick={() => onSpeak(selected.token.surface)}>
-                Ascolta la parola
-              </button>
-            </div>
-          </section>
+            {:else}
+              <p class="symbol-empty">Nessun pittogramma automatico: cerca una parola qui sotto.</p>
+            {/if}
+          {:else}
+            <p class="symbol-empty">Seleziona una parola nel testo per vedere i pittogrammi.</p>
+          {/if}
 
-          <section class="panel-section">
-            <h3>Blocco e visibilità</h3>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <button
-                class="btn btn--ghost"
-                aria-pressed={selected.token.locked}
-                onclick={() => onSetUnitState({ locked: !selected.token.locked })}>
-                {selected.token.locked ? "Sblocca pittogramma" : "Blocca pittogramma"}
-              </button>
-              <button
-                class="btn btn--ghost"
-                aria-pressed={selected.token.hidden}
-                onclick={() => onSetUnitState({ hidden: !selected.token.hidden })}>
-                {selected.token.hidden ? "Mostra pittogramma" : "Nascondi pittogramma"}
-              </button>
-              <p class="hint">
-                Un pittogramma bloccato non viene mai sostituito dall'IA né dalla rivalutazione della
-                frase. Nascosto, il testo resta nel foglio ma il simbolo non viene stampato.
-              </p>
-            </div>
-          </section>
-
-          <section class="panel-section">
-            <h3>Modificatori</h3>
-            <p class="hint">
-              Segni sovrapposti al pittogramma, senza modificare l'immagine originale. Restano nella
-              stampa e nell'esportazione.
-            </p>
-            <div style="display:flex;flex-direction:column;gap:4px">
-              {#each modifierKinds as option (option.kind)}
-                <label style="display:flex;align-items:center;gap:8px">
-                  <input
-                    type="checkbox"
-                    checked={selected.token.modifiers?.[option.kind] ?? false}
-                    onchange={() => {
-                      const current = selected.token.modifiers;
-                      if (!current) return;
-                      onSetUnitState({
-                        modifiers: { ...current, [option.kind]: !current[option.kind], manual: true },
-                      });
-                    }}
-                  />
-                  {option.label}
-                </label>
-              {/each}
-              <button
-                class="btn btn--ghost"
-                onclick={() =>
-                  onSetUnitState({
-                    modifiers: { plural: false, negation: false, past: false, future: false, manual: false },
-                  })}>
-                Ripristina modificatori automatici
-              </button>
-            </div>
-          </section>
-
-          <section class="panel-section">
-            <h3>Importa un pittogramma</h3>
-            <p class="hint">
-              PNG, JPEG, WebP, GIF, BMP, TIFF, ICO, AVIF o SVG. Le immagini restano nel loro
-              formato, senza conversione in SVG, e diventano disponibili offline per la parola
-              «{selected.token.lemma ?? selected.token.surface}».
-            </p>
+          <form
+            class="symbol-search"
+            onsubmit={(event) => {
+              event.preventDefault();
+              void runSearch();
+            }}
+          >
             <input
-              type="file"
-              accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff,image/avif,image/x-icon,.png,.jpg,.jpeg,.webp,.gif,.bmp,.tif,.tiff,.avif,.ico,.svg,image/svg+xml"
-              onchange={(event) => (svgFile = (event.currentTarget as HTMLInputElement).files?.[0] ?? null)}
+              type="search"
+              bind:value={searchQuery}
+              placeholder="Cerca un'altra parola…"
+              aria-label="Cerca un'altra parola da attribuire alla parola selezionata"
+              disabled={!selected}
+              oninput={() => {
+                if (!searchQuery.trim()) clearSearch();
+              }}
             />
-            <button class="btn btn--ghost" onclick={handleImportSvg} disabled={!svgFile} style="margin-top:8px">
-              Importa e usa
+            {#if searchActive}
+              <button class="icon-btn" type="button" title="Torna alle alternative" aria-label="Torna alle alternative" onclick={clearSearch}>×</button>
+            {/if}
+            <button class="btn btn--solid btn--tiny" type="submit" disabled={!selected || searchBusy}>
+              {searchBusy ? "…" : "Cerca"}
             </button>
-          </section>
-        {/if}
+          </form>
+        </div>
       {/if}
-
       {#if tab === "ia"}
         <section class="panel-section">
           <h3>Chat con l'IA</h3>
