@@ -1035,7 +1035,8 @@
     const selectionKey = selected ? `${selected.pid}:${selected.token.index}` : "";
     if (selectionKey !== lastPanelSelectionKey) {
       lastPanelSelectionKey = selectionKey;
-      if (searchActive) clearSearch();
+      // La ricerca manuale non deve restare appiccicata alla parola nuova.
+      clearSearch();
     }
     const neuralKey = word.trim().toLocaleLowerCase("it");
     if (!neuralReady) {
@@ -1143,10 +1144,40 @@
         settings.commercial_only,
         collectionFilter
       );
-      searchResults = page.items;
+      let items = [...page.items];
+      // La ricerca manuale è anch'essa online: i risultati ARASAAC/Global
+      // Symbols vengono importati come copie locali e compaiono nello stesso
+      // elenco, senza un pulsante separato. Wikimedia è disattivato a monte.
+      if (!collectionFilter) {
+        try {
+          const response = await api.searchOnlinePictograms([query], false);
+          const online = response.results
+            .filter((result) => result.kind === "pittogramma")
+            .slice(0, 6);
+          for (const result of online) {
+            try {
+              const alternative = await api.saveOnlinePictogram(result, query, "Ricerca");
+              if (!items.some((item) => item.symbol_id === alternative.symbol_id)) {
+                items.push(alternative);
+              }
+            } catch {
+              /* un provider non raggiungibile non blocca gli altri risultati */
+            }
+          }
+        } catch {
+          /* offline: restano i risultati locali */
+        }
+      }
+      const seen = new Set<string>();
+      searchResults = items.filter((item) => {
+        const key = item.symbol_id;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
       searchActive = true;
       showOtherResults = false;
-      if (!silent && page.items.length === 0) onToast("Nessun simbolo trovato per questa ricerca.", "warn");
+      if (!silent && searchResults.length === 0) onToast("Nessun simbolo trovato per questa ricerca.", "warn");
     } catch (error) {
       onToast(error instanceof Error ? error.message : String(error), "error");
     } finally {
@@ -1528,31 +1559,6 @@
             </button>
           </form>
 
-          {#if selected && settings.online_search !== "off"}
-            <div class="online-section">
-              <div class="symbol-results-head">
-                <span>Da internet{onlineCached ? " (cache)" : ""}</span>
-                <button
-                  class="btn btn--ghost btn--tiny"
-                  onclick={() => void searchOnline()}
-                  disabled={onlineBusy}
-                >{onlineBusy ? "Cerco…" : "Cerca online"}</button>
-              </div>
-              {#if onlineBusy}
-                <p class="symbol-empty">Cerco su ARASAAC e Wikimedia…</p>
-              {:else if onlineError}
-                <p class="warn">{onlineError}</p>
-              {:else if safeOnlineResults.length > 0}
-                <div class="online-grid">
-                  {#each safeOnlineResults.slice(0, 8) as result (result.id)}
-                    {@render onlineCard(result)}
-                  {/each}
-                </div>
-              {:else}
-                <p class="symbol-empty">Nessun risultato online per questa parola.</p>
-              {/if}
-            </div>
-          {/if}
         </div>
       {/if}
       {#if tab === "ia"}

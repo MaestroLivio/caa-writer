@@ -726,6 +726,14 @@ caa-cli template build-all --sources templates/sources --out resources/library
   `{"words":["ancorare"]}`; comando Tauri `resolve_missing_symbols`. La pausa di 1,2 s e la coda
   a priorità bassa tengono il processo fuori dal percorso di digitazione.
 - **Nessun pulsante di ricerca online** nel pannello Simbolo: tutte le fasi sono automatiche.
+  Il campo in fondo cerca localmente e online e unisce i risultati nello stesso elenco; Wikimedia
+  è disattivato su richiesta e non viene interrogato.
+- **Clic diretto sui pittogrammi**: i chip nel testo hanno z-index sopra il contentDOM e fermano
+  la propagazione; il clic seleziona l'unità anche su Windows. Questo è il punto da verificare se
+  il pannello sembra non aggiornarsi.
+- **Cambia testo**: comando Ribbon «Pittogrammi → Gestione → Cambia testo» (e scheda contestuale
+  Pittogramma). Sostituisce il testo dell'unità mantenendo e bloccando il pittogramma; usa
+  `CaaEditor.changeTokenText`, `setDocumentOverride` e `setUnitState(locked=true)`.
 - La ricerca FTS5 privilegia l'etichetta esatta, quindi `cane` restituisce prima i simboli «cane»
   e non parole che iniziano per «cane» (es. «canestro»).
 

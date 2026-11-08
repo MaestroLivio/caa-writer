@@ -388,9 +388,17 @@
           hasNeural ? "; sono disponibili simboli affini suggeriti dal modello locale" : ""
         }. Apri le alternative.`
       );
-      button.addEventListener("mousedown", (event) => event.preventDefault());
+      // Il chip sta sopra il testo ma dentro il blocco ProseMirror: senza
+      // stopPropagation il clic può essere riassorbito dall'editor e la
+      // selezione non arriva al pannello (su Windows era sistematico).
+      button.addEventListener("pointerdown", (event) => event.stopPropagation());
+      button.addEventListener("mousedown", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      });
       button.addEventListener("click", (event) => {
         event.preventDefault();
+        event.stopPropagation();
         onSelectToken(pid, token);
       });
       button.addEventListener("contextmenu", (event) => {
@@ -1425,6 +1433,55 @@
     analyzedSignature.delete(pid);
     refreshStrips(true, new Set([pid]));
     onAnalyzed(new Map(tokensByPid));
+  }
+
+  /// Sostituisce il testo dell'unità mantenendo il pittogramma corrente.
+  /// Usato dal comando Ribbon «Cambia testo»: il simbolo resta bloccato,
+  /// l'override di occorrenza viene salvato e la rianalisi è immediata.
+  export async function changeTokenText(pid: string, index: number, value: string): Promise<boolean> {
+    const text = value.trim();
+    if (!view || !text) return false;
+    const block = blockForPid(pid);
+    const token = (tokensByPid.get(pid) ?? []).find((item) => item.index === index);
+    if (!block || !token || !token.symbol_id) return false;
+    const from = block.pos + 1 + token.start;
+    const to = block.pos + 1 + token.end;
+    if (from < 0 || to < from || to > view.state.doc.content.size) return false;
+    const symbolId = token.symbol_id;
+    const conceptId = token.concept_id;
+    const hidden = token.hidden;
+    const modifiers = token.modifiers ?? {
+      plural: false,
+      negation: false,
+      past: false,
+      future: false,
+      manual: false,
+    };
+    view.dispatch(view.state.tr.insertText(text, from, to));
+    // Mantiene il pittogramma e lo blocca: la rianalisi non deve sostituirlo.
+    const key = `${pid}:${index}`;
+    await api
+      .setDocumentOverride(documentKey, key, symbolId, conceptId ?? null)
+      .catch(() => undefined);
+    await api
+      .setUnitState(documentKey, key, true, hidden, modifiers)
+      .catch(() => undefined);
+    const tokens = tokensByPid.get(pid);
+    if (tokens) {
+      tokensByPid.set(
+        pid,
+        tokens.map((item) =>
+          item.index === index
+            ? { ...item, surface: text, caption: text, locked: true }
+            : item
+        )
+      );
+    }
+    analyzedSignature.delete(pid);
+    refreshStrips(true, new Set([pid]));
+    onAnalyzed(new Map(tokensByPid));
+    schedule(0);
+    return true;
   }
 
   /// Inserisce le immagini scaricate on demand nei token che ne erano privi

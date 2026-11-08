@@ -251,8 +251,8 @@ pub fn providers() -> Vec<OnlineProviderInfo> {
         OnlineProviderInfo {
             id: PROVIDER_WIKIMEDIA.to_string(),
             name: "Wikimedia Commons".to_string(),
-            enabled: true,
-            note: "API ufficiale MediaWiki; licenze e autori sono letti dai metadati della file page."
+            enabled: false,
+            note: "Ricerca disattivata su richiesta del committente: le fotografie generiche di                    Wikimedia non sono adatte ai pittogrammi CAA."
                 .to_string(),
         },
         OnlineProviderInfo {
@@ -656,6 +656,9 @@ pub fn fetch_arasaac_in_language(query: &str, language: &str) -> Result<OnlineRe
     Ok(parse_arasaac(&value, query))
 }
 
+// Disattivato su richiesta; la funzione resta per riabilitarlo senza
+// riscrivere parser e licenze.
+#[allow(dead_code)]
 fn fetch_wikimedia(query: &str) -> Result<OnlineResponse, String> {
     let client = reqwest::blocking::Client::builder()
         .timeout(Duration::from_secs(10))
@@ -1009,10 +1012,11 @@ pub fn search(
     // I provider attivi vengono interrogati tutti: fermarsi al primo che
     // risponde rendeva invisibili Global Symbols e Openverse ogni volta che
     // ARASAAC aveva almeno un risultato.
-    let fetchers: [(&str, fn(&str) -> Result<OnlineResponse, String>); 4] = [
+    // Wikimedia è disattivato su richiesta: le fotografie generiche non sono
+    // pittogrammi CAA. Il provider resta elencato ma non viene interrogato.
+    let fetchers: [(&str, fn(&str) -> Result<OnlineResponse, String>); 3] = [
         (PROVIDER_ARASAAC, fetch_arasaac),
         (PROVIDER_GLOBAL_SYMBOLS, fetch_global_symbols),
-        (PROVIDER_WIKIMEDIA, fetch_wikimedia),
         (PROVIDER_OPENVERSE, fetch_openverse),
     ];
     let mut combined: Vec<OnlineResult> = Vec::new();

@@ -1541,6 +1541,9 @@ textarea {
   display: block;
   pointer-events: none;
   overflow: visible;
+  /* I chip devono restare sopra il testo: altrimenti il contentDOM,
+     dipinto dopo la striscia, intercetta il clic (soprattutto su Windows). */
+  z-index: 4;
 }
 .caa-block--on-word-below > .caa-strip {
   top: 0;
@@ -1548,6 +1551,7 @@ textarea {
 .caa-block--on-word .caa-chip,
 .caa-block--on-word-below .caa-chip {
   position: absolute;
+  z-index: 5;
   transform: translateX(-50%);
   margin: 0;
   min-width: 0;

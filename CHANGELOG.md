@@ -4,6 +4,17 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.4 — 2026-11-08
+
+### Pannello, selezione e ricerca
+
+- Clic diretto sui pittogrammi nel testo anche su Windows (z-index e stopPropagation).
+- Rimossi i pulsanti di ricerca online/affinità dal Ribbon; ricerca manuale unita ai risultati
+  online nello stesso elenco.
+- Wikimedia disattivato.
+- Ribbon Pittogrammi: «Cambia testo» mantiene e blocca il pittogramma.
+- Alternative aggiornate a ogni cambio di selezione.
+
 ## 0.15.3 — 2026-11-08
 
 ### Attribuzione automatica

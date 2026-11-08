@@ -163,6 +163,8 @@
   let report = $state<{ title: string; lines: string[] } | null>(null);
   let focusBarVisible = $state(false);
   let presetDialogOpen = $state(false);
+  let textChangeOpen = $state(false);
+  let textChangeValue = $state("");
   let clickAudio: AudioContext | null = null;
 
   function playClick() {
@@ -2214,6 +2216,34 @@
     { kind: "future" as const, label: "Futuro" },
   ];
 
+  function openTextChange() {
+    if (!selected?.token.symbol_id) {
+      toast("Seleziona una parola con un pittogramma.", "warn");
+      return;
+    }
+    textChangeValue = selected.token.surface;
+    textChangeOpen = true;
+  }
+
+  async function applyTextChange() {
+    if (!selected) return;
+    const value = textChangeValue.trim();
+    if (!value) {
+      toast("Scrivi il nuovo testo.", "warn");
+      return;
+    }
+    const pid = selected.pid;
+    const index = selected.token.index;
+    textChangeOpen = false;
+    const changed = await editor?.changeTokenText(pid, index, value);
+    if (changed) {
+      toast("Testo aggiornato; il pittogramma resta bloccato.", "info");
+      syncSelectedSoon();
+    } else {
+      toast("Non è stato possibile aggiornare il testo.", "warn");
+    }
+  }
+
   async function setUnitState(patch: {
     locked?: boolean;
     hidden?: boolean;
@@ -3727,20 +3757,18 @@
             }),
             cmd("refresh-document", "Rivaluta documento", "refresh", () => editor?.refreshAll()),
           ]),
-          group("search", "Ricerca", [
-            cmd("search-symbol", "Cerca pittogramma", "search", () => openSearchForSelected()),
-            cmd("search-affinity", "Cerca per affinità", "network", () => openSearchForSelected()),
-            cmd("search-ai", "Cerca con IA", "sparkles", () => openSearchForSelected(true)),
-            cmd("search-manual", "Inserisci manualmente", "scan-search", () => openSearchForSelected()),
+          group("manage", "Gestione", [
             cmd("show-alternatives", "Mostra alternative", "list", () => openPanelTab("simbolo"), {
               enabled: hasToken,
               ...unavailable("Seleziona una parola nel documento."),
             }),
-          ]),
-          group("manage", "Gestione", [
             cmd("change-symbol", "Cambia pittogramma", "image-plus", () => openSearchForSelected(), {
               enabled: hasToken,
               ...unavailable("Seleziona una parola nel documento."),
+            }),
+            cmd("change-text", "Cambia testo", "type", openTextChange, {
+              enabled: Boolean(selected?.token.symbol_id),
+              ...unavailable("Seleziona un pittogramma con un testo associato."),
             }),
             cmd("merge-unit", "Unisci in un'unica unità CAA", "combine", () => {
               if (editor?.mergeSelection()) {
@@ -4068,7 +4096,10 @@
             cmd("pictogram-hide", selected.token.hidden ? "Mostra" : "Nascondi", "eye-off", () =>
               void setUnitState({ hidden: !selected!.token.hidden })
             ),
-            cmd("pictogram-text", "Testo associato", "type", () => editor?.focus()),
+            cmd("pictogram-text", "Cambia testo", "type", openTextChange, {
+              enabled: Boolean(selected?.token.symbol_id),
+              ...unavailable("Seleziona un pittogramma con un testo associato."),
+            }),
           ]),
           group("pictogram-modifiers", "Modificatori", [
             toggle("pictogram-plural", "Plurale", "type", Boolean(selected.token.modifiers?.plural), () =>
@@ -4605,6 +4636,48 @@
       else toast("Nessun testo da ascoltare nella posizione corrente.", "warn");
     }}
   />
+{/if}
+
+{#if textChangeOpen && selected}
+  <div
+    class="dialog-backdrop"
+    role="presentation"
+    onclick={(event) => {
+      if (event.target === event.currentTarget) textChangeOpen = false;
+    }}
+  >
+    <div class="report-dialog" role="dialog" aria-modal="true" aria-label="Cambia testo del pittogramma">
+      <div class="report-dialog__head">
+        <h2>Cambia testo</h2>
+        <button class="btn btn--ghost" aria-label="Chiudi" onclick={() => (textChangeOpen = false)}>×</button>
+      </div>
+      <p class="hint">
+        Il testo sotto il pittogramma cambia; il pittogramma resta lo stesso e viene bloccato,
+        così la rianalisi non lo sostituisce.
+      </p>
+      <input
+        type="text"
+        bind:value={textChangeValue}
+        autofocus
+        aria-label="Nuovo testo per il pittogramma"
+        onkeydown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            void applyTextChange();
+          } else if (event.key === "Escape") {
+            event.preventDefault();
+            textChangeOpen = false;
+          }
+        }}
+      />
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button class="btn" onclick={() => (textChangeOpen = false)}>Annulla</button>
+        <button class="btn btn--solid" onclick={() => void applyTextChange()} disabled={!textChangeValue.trim()}>
+          Applica
+        </button>
+      </div>
+    </div>
+  </div>
 {/if}
 
 {#if unitMenu && selected}
