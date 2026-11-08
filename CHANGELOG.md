@@ -4,6 +4,14 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.5 — 2026-11-08
+
+### Pannello reattivo
+
+- La ricerca manuale in volo non riapre più i risultati vecchi su una nuova selezione.
+- Rimosso il pulsante «Alternative»; il ritorno alla griglia è automatico.
+- Affinità e ricerca inglese ripartono a ogni cambio di parola/pittogramma.
+
 ## 0.15.4 — 2026-11-08
 
 ### Pannello, selezione e ricerca

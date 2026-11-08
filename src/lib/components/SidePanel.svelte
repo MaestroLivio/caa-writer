@@ -288,6 +288,7 @@
   let translateBusy = $state(false);
   let searchResults = $state<Alternative[]>([]);
   let searchBusy = $state(false);
+  let searchSeq = 0;
   let contextChoice = $state("scuola");
   const modifierKinds = [
     { kind: "plural", label: "Plurale" },
@@ -1116,6 +1117,7 @@
   }
 
   async function runSearch(silent = false) {
+    const request = ++searchSeq;
     const raw = searchQuery.trim();
     if (!raw && !collectionFilter) {
       searchResults = [];
@@ -1130,6 +1132,7 @@
     }
     searchBusy = true;
     const query = await queryForSearch();
+    if (request !== searchSeq) return;
     if (query === null) {
       searchResults = [];
       searchBusy = false;
@@ -1168,6 +1171,7 @@
           /* offline: restano i risultati locali */
         }
       }
+      if (request !== searchSeq) return;
       const seen = new Set<string>();
       searchResults = items.filter((item) => {
         const key = item.symbol_id;
@@ -1181,11 +1185,14 @@
     } catch (error) {
       onToast(error instanceof Error ? error.message : String(error), "error");
     } finally {
-      searchBusy = false;
+      if (request === searchSeq) searchBusy = false;
     }
   }
 
   function clearSearch() {
+    // Invalida anche una ricerca ancora in volo: senza questo, la risposta
+    // precedente riapriva la modalità risultati su una parola nuova.
+    searchSeq += 1;
     searchActive = false;
     searchQuery = "";
     searchResults = [];
@@ -1508,7 +1515,6 @@
             {#if searchActive}
               <div class="symbol-results-head">
                 <span>Risultati per «{searchQuery}»</span>
-                <button class="btn btn--ghost btn--tiny" onclick={clearSearch}>Alternative</button>
               </div>
               {#if searchBusy}
                 <p class="symbol-empty">Cerco…</p>
