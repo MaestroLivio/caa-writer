@@ -1220,7 +1220,8 @@ pub fn hydrate_arasaac_symbols(
         // il percorso, altrimenti il motore continuerebbe a leggere `None`.
         let target_path = target.to_string_lossy().to_string();
         if target_path != current_path {
-            db.conn()
+            let updated = db
+                .conn()
                 .execute(
                     "UPDATE symbol_assets SET storage='file', data=NULL, path=?1, bytes=?2,
                             width=500, height=500
@@ -1228,6 +1229,18 @@ pub fn hydrate_arasaac_symbols(
                     rusqlite::params![target_path, bytes.len() as i64, id],
                 )
                 .map_err(|e| e.to_string())?;
+            // Senza riga in `symbol_assets` l'UPDATE non tocca nulla e il
+            // motore continuerebbe a leggere il vecchio percorso: si crea
+            // la riga mancante (simboli importati solo dal manifest).
+            if updated == 0 {
+                db.conn()
+                    .execute(
+                        "INSERT INTO symbol_assets(symbol_id, kind, storage, data, path, width, height, bytes)
+                         VALUES (?1, 'original', 'file', NULL, ?2, 500, 500, ?3)",
+                        rusqlite::params![id, target_path, bytes.len() as i64],
+                    )
+                    .map_err(|e| e.to_string())?;
+            }
         }
         db.conn()
             .execute(

@@ -256,7 +256,14 @@ impl Database {
     /// Ripara i percorsi degli asset dopo uno spostamento dell'app o un
     /// aggiornamento che ha cambiato la cartella risorse. Senza questo, i
     /// simboli su disco risultano illeggibili e l'editor può bloccarsi.
-    pub fn repair_asset_paths(&mut self, resources_dir: &Path) -> DbResult<usize> {
+    /// I percorsi possono essere di un altro sistema operativo (il database
+    /// può arrivare da macOS su Windows o viceversa): i separatori vengono
+    /// normalizzati e il percorso viene riancorato per nome del file.
+    pub fn repair_asset_paths(
+        &mut self,
+        resources_dir: &Path,
+        assets_dir: &Path,
+    ) -> DbResult<usize> {
         let rows: Vec<(i64, String, String)> = {
             let mut stmt = self.conn.prepare(
                 "SELECT id, symbol_id, path FROM symbol_assets
@@ -276,8 +283,11 @@ impl Database {
             if Path::new(&path).exists() {
                 continue;
             }
-            let candidate = if let Some(index) = path.find("symbol-packs/") {
-                resources_dir.join(&path[index..])
+            let normalized = path.replace('\\', "/");
+            let candidate = if let Some(index) = normalized.find("symbol-packs/") {
+                resources_dir.join(&normalized[index..])
+            } else if let Some(index) = normalized.find("assets/") {
+                assets_dir.join(&normalized[index + "assets/".len()..])
             } else if Path::new(&path).is_relative() {
                 resources_dir.join(&path)
             } else {
@@ -938,6 +948,65 @@ fn fts_query(query: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn repair_asset_paths_handles_windows_and_macos_paths() {
+        let root = tempfile::tempdir().unwrap();
+        let resources = root.path().join("resources");
+        let assets = root.path().join("assets");
+        let core_svg = resources.join("symbol-packs").join("core").join("a.svg");
+        let arasaac_png = assets.join("arasaac").join("picto_42.png");
+        std::fs::create_dir_all(core_svg.parent().unwrap()).unwrap();
+        std::fs::create_dir_all(arasaac_png.parent().unwrap()).unwrap();
+        std::fs::write(&core_svg, "<svg/>").unwrap();
+        std::fs::write(&arasaac_png, b"png").unwrap();
+        let mut db = Database::open_memory().unwrap();
+        db.migrate().unwrap();
+        db.conn()
+            .execute(
+                "INSERT INTO symbol_packs(id, name, version, commercial_ok, license, installed_at) VALUES ('core', 'Core', '1', 1, 'CC BY-NC-SA 4.0', '2026-11-08')",
+                [],
+            )
+            .unwrap();
+        db.conn()
+            .execute(
+                "INSERT INTO symbols(id, pack_id, label, format, license, created_at) VALUES ('core.a', 'core', 'a', 'svg', 'CC BY-NC-SA 4.0', '2026-11-08')",
+                [],
+            )
+            .unwrap();
+        db.conn()
+            .execute(
+                "INSERT INTO symbols(id, pack_id, label, format, license, created_at) VALUES ('arasaac.picto.42', 'core', 'b', 'png', 'CC BY-NC-SA 4.0', '2026-11-08')",
+                [],
+            )
+            .unwrap();
+        // Percorsi di un altro sistema operativo: backslash Windows e
+        // assoluto macOS che non esiste su questa macchina.
+        db.conn()
+            .execute(
+                "INSERT INTO symbol_assets(symbol_id, storage, path) VALUES ('core.a', 'file', ?1)",
+                ["C:\\app\\resources\\symbol-packs\\core\\a.svg"],
+            )
+            .unwrap();
+        db.conn()
+            .execute(
+                "INSERT INTO symbol_assets(symbol_id, storage, path) VALUES ('arasaac.picto.42', 'file', ?1)",
+                ["/Users/altra/Library/Application Support/assets/arasaac/picto_42.png"],
+            )
+            .unwrap();
+        let repaired = db.repair_asset_paths(&resources, &assets).unwrap();
+        assert_eq!(repaired, 2);
+        let paths: Vec<String> = db
+            .conn()
+            .prepare("SELECT path FROM symbol_assets ORDER BY symbol_id")
+            .unwrap()
+            .query_map([], |row| row.get(0))
+            .unwrap()
+            .map(|row| row.unwrap())
+            .collect();
+        assert_eq!(paths[0], arasaac_png.to_string_lossy().to_string());
+        assert_eq!(paths[1], core_svg.to_string_lossy().to_string());
+    }
 
     #[test]
     fn fts_query_is_safe() {

@@ -16,7 +16,7 @@ use caa_writer_lib::model::*;
 use caa_writer_lib::paths::AppPaths;
 use caa_writer_lib::export::{caadoc, docx, html};
 use caa_writer_lib::universal::{self, DocumentCommand, UniversalDocument};
-use caa_writer_lib::{asset_manager, online_search, pictogram_import, universal_build};
+use caa_writer_lib::{asset_manager, commands, online_search, pictogram_import, universal_build};
 
 #[derive(Parser)]
 #[command(
@@ -966,6 +966,20 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
                 "image_len": record.image.as_ref().map(|value| value.len()).unwrap_or(0),
             }))
         }
+        "symbol.resolve" => {
+            let words: Vec<String> = params
+                .get("words")
+                .and_then(|value| value.as_array())
+                .map(|items| {
+                    items
+                        .iter()
+                        .filter_map(|item| item.as_str().map(str::to_string))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let results = commands::resolve_missing_symbols_for_engine(&engine, &words)?;
+            Ok(json!({ "items": results }))
+        }
         "symbol.hydrate" => {
             let ids: Vec<String> = params
                 .get("ids")
@@ -1198,6 +1212,7 @@ const METHODS: &[&str] = &[
     "online.autofill",
     "online.global",
     "online.english",
+    "symbol.resolve",
     "symbol.hydrate",
     "symbol.get",
     "online.save",

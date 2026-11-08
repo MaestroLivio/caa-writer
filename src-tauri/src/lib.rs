@@ -151,6 +151,7 @@ pub fn run() {
             commands::ai_import_model,
             commands::ai_related_symbols,
             commands::ai_affinity_symbols,
+            commands::resolve_missing_symbols,
             commands::ai_select_model,
             commands::ai_benchmark,
             commands::ai_run_tool,

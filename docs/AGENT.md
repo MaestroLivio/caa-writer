@@ -202,7 +202,8 @@ caa-cli call symbolize '{
 | `search` | `query`, `limit`, `offset`, `pack_id`, `collection_id`, `commercial_only` |
 | `affinities` | `word`, `pack_id`, `commercial_only` |
 | `symbol.get` | `id`: restituisce etichetta, repertorio e lunghezza dell'SVG letto dal file |
-| `symbol.hydrate` | `ids` (array): scarica gli SVG ARASAAC mancanti nella cartella dati dell'utente e aggiorna il database |
+| `symbol.hydrate` | `ids` (array): scarica i PNG ARASAAC mancanti nella cartella dati dell'utente e aggiorna il database |
+| `symbol.resolve` | `words` (array): pipeline automatica locale → ARASAAC online → sinonimi italiani → Global Symbols → sinonimi inglesi; restituisce le alternative trovate |
 
 La ricerca usa FTS5 e mette i pittogrammi personali prima dei repertori
 installati. `query` vuota con `collection_id` elenca la collezione.
@@ -718,6 +719,13 @@ caa-cli template build-all --sources templates/sources --out resources/library
   (priorità bassa, debounce 1200 ms) e mostra i pittogrammi trovati con il badge «IA affine».
   `ai.affinity` con `{"word":"ancorare"}` restituisce le alternative; `ai.words` mostra le parole
   grezze proposte dal modello. Se il modello è spento non viene inventato nulla.
+- **Attribuzione automatica nel testo**: dopo la ricerca locale e ARASAAC online, il resolver
+  prova sinonimi italiani, Global Symbols con traduzione e sinonimi inglesi. Ogni risultato viene
+  applicato all'occorrenza scritta, resta approssimativo e viene salvato come override; se nessuna
+  fase trova un simbolo la parola resta senza. Comando CLI `symbol.resolve` con
+  `{"words":["ancorare"]}`; comando Tauri `resolve_missing_symbols`. La pausa di 1,2 s e la coda
+  a priorità bassa tengono il processo fuori dal percorso di digitazione.
+- **Nessun pulsante di ricerca online** nel pannello Simbolo: tutte le fasi sono automatiche.
 - La ricerca FTS5 privilegia l'etichetta esatta, quindi `cane` restituisce prima i simboli «cane»
   e non parole che iniziano per «cane» (es. «canestro»).
 

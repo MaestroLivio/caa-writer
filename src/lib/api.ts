@@ -34,6 +34,7 @@ import type {
   ModelEntry,
   ToolOutcome,
   Alternative,
+  ResolvedSymbol,
   AppInfo,
   AttributionEntry,
   CaaToken,
@@ -290,6 +291,8 @@ export const api = {
     call<GeneratedImage>("image_generate", { prompt, negative }),
   imageInstallRuntime: () => call<string>("image_install_runtime"),
   imageDownloadModel: (model: string) => call<string>("image_download_model", { model }),
+  resolveMissingSymbols: (words: string[]) =>
+    call<ResolvedSymbol[]>("resolve_missing_symbols", { words }),
   englishAlternatives: (word: string, limit = 4) =>
     call<EnglishAlternatives>("english_alternatives", { word, limit }),
   storyCreate: (spec: Record<string, unknown>) => call<OpenedUniversalDocument>("story_create", { spec }),

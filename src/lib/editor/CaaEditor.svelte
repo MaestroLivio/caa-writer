@@ -925,6 +925,86 @@
         }
         if (touched) setTimeout(() => schedule(60), 0);
       }
+
+      // Le parole ancora senza simbolo passano al ripiego automatico:
+      // sinonimi italiani → Global Symbols → sinonimi inglesi. La pausa
+      // lascia finire la digitazione e tiene il processo fuori dal percorso
+      // critico; se l'utente continua a scrivere, i token vengono ricontrollati.
+      const unresolved = pending.filter((word) => !saved.includes(word));
+      if (unresolved.length > 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, 1200));
+        const resolved = await api.resolveMissingSymbols(unresolved);
+        let touched = false;
+        for (const entry of resolved) {
+          const alternative = entry.alternative;
+          let mediaSvg = alternative.svg;
+          let mediaImage = alternative.image;
+          if (!mediaSvg && !mediaImage && alternative.symbol_id) {
+            try {
+              const hydrated = await api.hydrateSymbols([alternative.symbol_id]);
+              const value = hydrated[alternative.symbol_id];
+              if (value) {
+                if (value.startsWith("data:")) mediaImage = value;
+                else mediaSvg = value;
+              }
+            } catch {
+              /* file non disponibile: resta il segnaposto */
+            }
+          }
+          for (const pid of pidsByWord.get(entry.word) ?? []) {
+            const tokens = tokensByPid.get(pid) ?? [];
+            let pidTouched = false;
+            const next = tokens.map((token) => {
+              if (
+                token.symbol_id ||
+                token.locked ||
+                normalize(token.surface) !== entry.word
+              ) {
+                return token;
+              }
+              pidTouched = true;
+              return {
+                ...token,
+                symbol_id: alternative.symbol_id,
+                pack_id: alternative.pack_id,
+                svg: mediaSvg ?? null,
+                image: mediaImage ?? null,
+                symbol_label: alternative.label,
+                concept_id: alternative.concept_id ?? token.concept_id,
+                concept_label: alternative.label,
+                meaning: alternative.meaning,
+                strategy: "related",
+                confidence: 0.35,
+                approximate: true,
+              };
+            });
+            if (!pidTouched) continue;
+            tokensByPid.set(pid, next);
+            analyzedSignature.delete(pid);
+            paragraphViews.get(pid)?.renderStrip();
+            const applied = next.find(
+              (token) =>
+                normalize(token.surface) === entry.word &&
+                token.symbol_id === alternative.symbol_id
+            );
+            if (applied) {
+              await api
+                .setDocumentOverride(
+                  documentKey,
+                  `${pid}:${applied.index}`,
+                  alternative.symbol_id,
+                  alternative.concept_id
+                )
+                .catch(() => undefined);
+            }
+            touched = true;
+          }
+        }
+        if (touched) {
+          onAnalyzed(new Map(tokensByPid));
+          window.setTimeout(() => schedule(60), 0);
+        }
+      }
     } catch {
       // La rete è facoltativa: un errore non interrompe la scrittura.
     } finally {
@@ -1104,9 +1184,21 @@
 
   /// Invio: nuova voce negli elenchi, nuovo paragrafo altrove. Non invia
   /// prompt né conferma suggerimenti: il cursore va semplicemente a capo.
+  /// I mark (dimensione, colore, grassetto…) restano attivi nel nuovo
+  /// blocco: senza questo ProseMirror li azzera all'inizio del paragrafo,
+  /// perché non c'è testo precedente da cui ereditarli (effetto percepito
+  /// come «la dimensione non resta quando vado a capo»).
   function splitBlockOrList(state: EditorState, dispatch?: (tr: Transaction) => void) {
-    if (splitListItem(schema.nodes.list_item)(state, dispatch)) return true;
-    return splitBlock(state, dispatch);
+    const marks = state.storedMarks ?? state.selection.$from.marks();
+    const split =
+      splitListItem(schema.nodes.list_item)(state, dispatch) || splitBlock(state, dispatch);
+    if (split && dispatch && view && marks.length > 0) {
+      const tr = view.state.tr.setStoredMarks(
+        marks.map((mark) => mark.type.create(mark.attrs))
+      );
+      dispatch(tr);
+    }
+    return split;
   }
 
   /// Plugin comuni a tutti gli stati dell'editor: caricare un documento o
@@ -1909,14 +2001,29 @@
     return executed;
   }
 
-  export function applyTextStyle(color: string | null, fontSize: string | null) {
+  /// Applica colore/dimensione. Chiave assente = conserva il valore
+  /// esistente; `null` esplicito = azzera. Con cursore senza selezione la
+  /// formattazione resta come «stile di digitazione» (stored marks),
+  /// come in LibreOffice: prima la funzione usciva subito e "talvolta
+  /// non funzionava proprio".
+  export function applyTextStyle(patch: { color?: string | null; font_size?: string | null }) {
     if (!view) return;
-    const { from, to, empty } = view.state.selection;
-    if (empty) return;
-    const mark = schema.marks.text_style.create({ color, font_size: fontSize });
-    const tr = view.state.tr
-      .removeMark(from, to, schema.marks.text_style)
-      .addMark(from, to, mark);
+    const state = view.state;
+    const { from, to, empty } = state.selection;
+    const existing = (state.storedMarks ?? state.selection.$from.marks()).find(
+      (mark) => mark.type.name === "text_style"
+    );
+    const mark = schema.marks.text_style.create({
+      color: "color" in patch ? patch.color ?? null : (existing?.attrs.color ?? null),
+      font_size:
+        "font_size" in patch ? patch.font_size ?? null : (existing?.attrs.font_size ?? null),
+    });
+    const tr = state.tr;
+    if (empty) {
+      tr.addStoredMark(mark);
+    } else {
+      tr.removeMark(from, to, schema.marks.text_style).addMark(from, to, mark);
+    }
     view.dispatch(tr);
     view.focus();
   }

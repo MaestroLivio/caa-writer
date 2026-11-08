@@ -1510,14 +1510,6 @@ textarea {
   background: var(--surface-2);
 }
 
-.editor .ProseMirror p.is-empty::before {
-  content: "Scrivi qui in italiano…";
-  color: var(--muted);
-  float: left;
-  height: 0;
-  pointer-events: none;
-}
-
 /* Striscia CAA: pittogrammi allineati sopra (o sotto) il testo */
 .caa-strip {
   display: flex;
@@ -1614,13 +1606,6 @@ textarea {
   text-align: center;
   overflow-wrap: anywhere;
   border-style: solid;
-}
-
-/* Segnaposto quando il paragrafo è vuoto (ProseMirror inserisce un <br>) */
-.caa-block > .caa-text:has(> br:only-child)::before {
-  content: "Scrivi qui in italiano…";
-  color: var(--muted);
-  pointer-events: none;
 }
 
 /* ProseMirror richiede esplicitamente pre-wrap per la resa degli spazi */

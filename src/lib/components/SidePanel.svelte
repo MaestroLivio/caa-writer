@@ -185,6 +185,11 @@
   }): string {
     const pack = (item.pack_id ?? "").toLocaleLowerCase("it");
     const name = item.pack_name ?? "";
+    const sourceUrl = (item.source_url ?? "").toLocaleLowerCase("it");
+    if (sourceUrl.includes("arasaac.org")) return "ARASAAC";
+    if (sourceUrl.includes("globalsymbols")) return "Global Symbols";
+    if (sourceUrl.includes("wikimedia")) return "Wikimedia";
+    if (sourceUrl.includes("openverse")) return "Openverse";
     if (pack === "arasaac" || /arasaac/i.test(name)) return "ARASAAC";
     if (pack === "core" || /caa writer|core/i.test(name)) return "CAA Writer";
     if (pack === "personal" && /global symbols|inglese/i.test(name)) return "Global Symbols";
@@ -211,21 +216,27 @@
     if (label === word) score += 120;
     else if (label.startsWith(`${word} `) || word.startsWith(`${label} `)) score += 70;
     else if (word.length >= 3 && (label.includes(word) || word.includes(label))) score += 25;
-    if (item.neural) score -= 8;
-    if (item.approximate) score -= 18;
     const source = sourceLabel(item);
+    // L'ordine delle fasi domina sulla somiglianza testuale: prima i simboli
+    // locali/ARASAAC, poi i sinonimi italiani, infine Global Symbols. Dentro
+    // ogni fase conta l'etichetta esatta e poi l'ordine del motore.
+    if (source === "Global Symbols") score -= 1000;
+    else if (item.neural) score -= 500;
+    if (item.approximate) score -= 18;
     if (source === "ARASAAC") score += 12;
     else if (source === "CAA Writer") score += 6;
     return score;
   }
 
   function rankAlternatives(items: Alternative[], word: string): Alternative[] {
+    // Deduplica per identificativo, non per etichetta: lo stesso lemma può
+    // avere più pittogrammi diversi (più varianti ARASAAC) e collassare per
+    // etichetta li nascondeva tutti tranne uno.
     const seen = new Set<string>();
     return items
       .filter((item) => {
-        const key = normalizeText(item.label);
-        if (!key || seen.has(key)) return false;
-        seen.add(key);
+        if (!item.symbol_id || seen.has(item.symbol_id)) return false;
+        seen.add(item.symbol_id);
         return true;
       })
       .map((item, index) => ({ item, index, score: relevanceScore(item, word) }))
@@ -248,10 +259,26 @@
   });
 
   async function applyFromPanel(alternative: Alternative) {
+    const prepared = applyMedia(alternative);
+    // Prima di applicare, assicura che il pittogramma scelto sia davvero
+    // disponibile in locale: gli ARASAAC con file mancante vengono scaricati
+    // e salvati nella cartella dati dell'utente.
+    if (prepared.symbol_id && !prepared.svg && !prepared.image) {
+      try {
+        const hydrated = await api.hydrateSymbols([prepared.symbol_id]);
+        const value = hydrated[prepared.symbol_id];
+        if (value) {
+          if (value.startsWith("data:")) prepared.image = value;
+          else prepared.svg = value;
+        }
+      } catch {
+        /* offline: l'idratazione riproverà al prossimo tentativo */
+      }
+    }
     searchActive = false;
     searchQuery = "";
     searchResults = [];
-    await onApplyAlternative(applyMedia(alternative));
+    await onApplyAlternative(prepared);
   }
   let searchQuery = $state("");
   /// La ricerca nel repertorio locale è in italiano. In modalità EN la
@@ -339,10 +366,16 @@
     { id: "prepare_svg_description", label: "Descrizione per un nuovo simbolo", key: "label", hint: "Etichetta del simbolo mancante" },
   ];
   const activeTool = $derived(toolDefs.find((entry) => entry.id === toolChoice) ?? toolDefs[0]);
-  // Il pannello dichiara lo stato reale: senza runtime o modello i suggerimenti
+  // Il pannello dichiara lo stato reale: senza runtime o modello — o con
+  // l'analisi neurale disattivata nelle impostazioni — i suggerimenti
   // neurali non vengono offerti come se fossero disponibili.
   const neuralReady = $derived(
-    Boolean(aiStatus?.enabled && aiStatus.binary_present && aiStatus.model_present)
+    Boolean(
+      settings.neural_context &&
+        aiStatus?.enabled &&
+        aiStatus.binary_present &&
+        aiStatus.model_present
+    )
   );
 
   // Nella scheda Cerca i gruppi restano legati alla parola effettivamente
@@ -1028,6 +1061,19 @@
         englishTimer = undefined;
         void loadEnglishAlternatives(word);
       }, 450);
+      // Ricerca online della parola selezionata: prima era codice morto
+      // (mai chiamata, mai mostrata), quindi senza catalogo locale — come
+      // su Windows — nessun pittogramma ARASAAC appariva. Parte quando la
+      // ricerca locale non ha trovato un'etichetta esatta.
+      if (onlineTimer) window.clearTimeout(onlineTimer);
+      onlineTimer = window.setTimeout(() => {
+        onlineTimer = undefined;
+        const label = normalizeText(selected?.token.symbol_label ?? "");
+        const exactLocally =
+          label.length > 0 &&
+          (label === neuralKey || label === normalizeText(selected?.token.lemma ?? ""));
+        if (!exactLocally) void searchOnline(true);
+      }, 700);
     }
     return () => {
       if (englishTimer) window.clearTimeout(englishTimer);
@@ -1481,6 +1527,32 @@
               {searchBusy ? "…" : "Cerca"}
             </button>
           </form>
+
+          {#if selected && settings.online_search !== "off"}
+            <div class="online-section">
+              <div class="symbol-results-head">
+                <span>Da internet{onlineCached ? " (cache)" : ""}</span>
+                <button
+                  class="btn btn--ghost btn--tiny"
+                  onclick={() => void searchOnline()}
+                  disabled={onlineBusy}
+                >{onlineBusy ? "Cerco…" : "Cerca online"}</button>
+              </div>
+              {#if onlineBusy}
+                <p class="symbol-empty">Cerco su ARASAAC e Wikimedia…</p>
+              {:else if onlineError}
+                <p class="warn">{onlineError}</p>
+              {:else if safeOnlineResults.length > 0}
+                <div class="online-grid">
+                  {#each safeOnlineResults.slice(0, 8) as result (result.id)}
+                    {@render onlineCard(result)}
+                  {/each}
+                </div>
+              {:else}
+                <p class="symbol-empty">Nessun risultato online per questa parola.</p>
+              {/if}
+            </div>
+          {/if}
         </div>
       {/if}
       {#if tab === "ia"}

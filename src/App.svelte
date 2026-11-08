@@ -3366,7 +3366,7 @@
                 { value: "20px", label: "20" },
                 { value: "28px", label: "28" },
               ],
-              (value) => editor?.applyTextStyle(null, value || null),
+              (value) => editor?.applyTextStyle({ font_size: value || null }),
               { width: "92px" }
             ),
             cmd("font-grow", "Aumenta dimensione", "plus", () => editor?.adjustFontSize(1)),
@@ -3382,7 +3382,7 @@
             }),
             toggle("strike", "Barrato", "strikethrough", formatState.strike, () => editor?.toggleStrike()),
             color("text-color", "Colore testo", formatState.color ?? "#1f2933", (value) =>
-              editor?.applyTextStyle(value, null)
+              editor?.applyTextStyle({ color: value })
             ),
             toggle("highlight", "Evidenziatore", "highlighter", formatState.highlight, () =>
               editor?.toggleHighlight()

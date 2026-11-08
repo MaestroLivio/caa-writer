@@ -88,6 +88,16 @@ pub fn related_words_prompt(word: &str, context: Option<&str>) -> String {
     )
 }
 
+/// Sinonimi inglesi per il ripiego su Global Symbols. Il modello locale
+/// risponde in inglese; le espressioni possono avere fino a quattro parole.
+pub fn english_synonyms_prompt(word: &str) -> String {
+    format!(
+        "List up to {RELATED_WORDS_LIMIT} English words or short expressions with a similar \
+         meaning to «{word}».\nOne per line, at most four words, without numbers or explanations.\n\
+         Words and expressions:\n"
+    )
+}
+
 /// Campo semantico della frase: una sola richiesta per paragrafo, usata per
 /// arricchire di simboli affini tutte le parole chiave già simbolizzate.
 /// Costa poco (una inferenza) e non sostituisce mai la scelta deterministica.

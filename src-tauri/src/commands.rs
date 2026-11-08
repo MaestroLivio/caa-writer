@@ -1697,12 +1697,187 @@ pub async fn english_alternatives(
                 Err(error) => warnings.push(error),
             }
         }
+        // Ripiego: se il termine tradotto non basta, si provano sinonimi
+        // inglesi del modello locale, sempre su Global Symbols. Restano
+        // alternative dichiarate (badge EN) e non scelte automatiche.
+        if items.len() < 4 {
+            for synonym in state.ai_english_synonyms(&term).into_iter().take(3) {
+                if items.len() >= 6 {
+                    break;
+                }
+                let Ok(response) = crate::online_search::search_global_symbols(&db, &synonym)
+                else {
+                    continue;
+                };
+                for result in response
+                    .results
+                    .into_iter()
+                    .filter(|result| {
+                        result.kind == "pittogramma"
+                            && !result.source.to_ascii_lowercase().contains("arasaac")
+                    })
+                    .take(2)
+                {
+                    let label = if result.title.trim().is_empty() {
+                        synonym.clone()
+                    } else {
+                        result.title.clone()
+                    };
+                    let Ok(symbol_id) = crate::online_search::save_result(
+                        &db,
+                        &state.paths.assets_dir,
+                        &result,
+                        &label,
+                        "Inglese (Global Symbols)",
+                    ) else {
+                        continue;
+                    };
+                    let Some(record) = db.symbol_by_id(&symbol_id).map_err(|e| e.to_string())?
+                    else {
+                        continue;
+                    };
+                    let mut alternative = crate::asset_manager::alternative_from_record(&record);
+                    alternative.pack_name = "Global Symbols (EN)".to_string();
+                    alternative.neural = true;
+                    if items
+                        .iter()
+                        .all(|item| item.symbol_id != alternative.symbol_id)
+                    {
+                        items.push(alternative);
+                    }
+                }
+            }
+        }
         state.clear_caches();
         Ok(EnglishAlternatives {
             term,
             items,
             warnings,
         })
+    })
+    .await
+}
+
+/// Risoluzione automatica di una parola rimasta senza pittogramma dopo la
+/// ricerca locale e ARASAAC online. Ordine: sinonimi italiani (modello
+/// locale) → Global Symbols con traduzione inglese → sinonimi inglesi su
+/// Global Symbols. Ogni risultato è già una copia locale o un simbolo del
+/// database; il frontend lo applica all'occorrenza.
+#[derive(Debug, Serialize)]
+pub struct ResolvedSymbol {
+    pub word: String,
+    pub alternative: Alternative,
+    pub stage: String,
+}
+
+fn global_symbol_for_label(
+    state: &Engine,
+    label: &str,
+    query: &str,
+) -> Result<Option<Alternative>, String> {
+    let db = state.db()?;
+    let response = match online_search::search_global_symbols(&db, query) {
+        Ok(response) => response,
+        Err(_) => return Ok(None),
+    };
+    let Some(result) = response.results.into_iter().find(|result| {
+        result.kind == "pittogramma"
+            && !result.source.to_ascii_lowercase().contains("arasaac")
+    }) else {
+        return Ok(None);
+    };
+    let symbol_id = online_search::save_result(
+        &db,
+        &state.paths.assets_dir,
+        &result,
+        label,
+        "Global Symbols automatico",
+    )?;
+    let Some(record) = db.symbol_by_id(&symbol_id)? else {
+        return Ok(None);
+    };
+    let mut alternative = alternative_from_record(&record);
+    alternative.pack_name = "Global Symbols (EN)".to_string();
+    alternative.approximate = true;
+    Ok(Some(alternative))
+}
+
+/// Implementazione condivisa da Tauri e CLI. Ordine: copia personale esatta →
+/// sinonimi italiani → Global Symbols con traduzione → sinonimi inglesi.
+pub fn resolve_missing_symbols_for_engine(
+    state: &Engine,
+    words: &[String],
+) -> Result<Vec<ResolvedSymbol>, String> {
+    let personal = SymbolFilters {
+        pack_id: Some("personal".to_string()),
+        ..Default::default()
+    };
+    let mut out = Vec::new();
+    for raw in words.iter().take(4) {
+        let word = crate::linguistics::normalize::normalize_word(raw);
+        if word.is_empty() {
+            continue;
+        }
+        {
+            let db = state.db()?;
+            if let Some(record) = db.symbol_by_label(&word, &personal)? {
+                let mut alternative = alternative_from_record(&record);
+                alternative.approximate = false;
+                out.push(ResolvedSymbol {
+                    word: word.clone(),
+                    alternative,
+                    stage: "locale".to_string(),
+                });
+                continue;
+            }
+        }
+        if let Some(mut alternative) = state.ai_affinity_symbols(&word).into_iter().next() {
+            alternative.approximate = true;
+            alternative.neural = true;
+            out.push(ResolvedSymbol {
+                word: word.clone(),
+                alternative,
+                stage: "sinonimo italiano".to_string(),
+            });
+            continue;
+        }
+        let term = state.translate_to_english(&word).ok();
+        if let Some(term) = &term {
+            if let Some(mut alternative) = global_symbol_for_label(state, &word, term)? {
+                alternative.neural = false;
+                out.push(ResolvedSymbol {
+                    word: word.clone(),
+                    alternative,
+                    stage: "Global Symbols".to_string(),
+                });
+                continue;
+            }
+        }
+        let base = term.clone().unwrap_or_else(|| word.clone());
+        for synonym in state.ai_english_synonyms(&base).into_iter().take(4) {
+            if let Some(mut alternative) = global_symbol_for_label(state, &word, &synonym)? {
+                alternative.neural = true;
+                out.push(ResolvedSymbol {
+                    word: word.clone(),
+                    alternative,
+                    stage: "sinonimo inglese".to_string(),
+                });
+                break;
+            }
+        }
+    }
+    state.clear_caches();
+    Ok(out)
+}
+
+#[tauri::command]
+pub async fn resolve_missing_symbols(
+    app: tauri::AppHandle,
+    words: Vec<String>,
+) -> Result<Vec<ResolvedSymbol>, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        resolve_missing_symbols_for_engine(&state, &words)
     })
     .await
 }

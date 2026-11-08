@@ -4,6 +4,15 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.3 — 2026-11-08
+
+### Attribuzione automatica
+
+- Pipeline locale → ARASAAC online → sinonimi italiani → Global Symbols → sinonimi inglesi, in
+  background e senza pulsanti di ricerca online.
+- Scelta/import sempre locale e verifica del file prima dell'applicazione.
+- Pannello Simbolo ordinato con la stessa priorità e fonte visibile.
+
 ## 0.15.2 — 2026-11-08
 
 ### Windows

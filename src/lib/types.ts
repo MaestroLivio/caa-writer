@@ -218,6 +218,12 @@ export interface CaaToken {
   alternatives: Alternative[];
 }
 
+export interface ResolvedSymbol {
+  word: string;
+  alternative: Alternative;
+  stage: string;
+}
+
 export interface ParagraphResult {
   paragraph_id: string;
   tokens: CaaToken[];

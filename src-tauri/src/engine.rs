@@ -545,7 +545,7 @@ impl Engine {
         // Il database può essere stato creato da una copia dell'app in un
         // percorso diverso: riallinea i file dei simboli alla cartella risorse
         // corrente prima di usarli.
-        if let Ok(repaired) = db.repair_asset_paths(&paths.resources_dir) {
+        if let Ok(repaired) = db.repair_asset_paths(&paths.resources_dir, &paths.assets_dir) {
             if repaired > 0 {
                 warnings.push(format!(
                     "Riparati {repaired} percorsi di pittogrammi dopo lo spostamento dell'app."
@@ -2624,6 +2624,34 @@ impl Engine {
         // Fino a quattro parole: il modello può proporre espressioni come
         // «gettare l'ancora», che il repertorio può contenere come etichetta.
         ai_engine::parse_synonyms(&raw, 12)
+    }
+
+    /// Sinonimi inglesi proposti dal modello locale, usati solo come ripiego
+    /// per Global Symbols. Non modificano il documento e non richiedono rete
+    /// oltre alla ricerca successiva.
+    pub fn ai_english_synonyms(&self, word: &str) -> Vec<String> {
+        let word = word.trim();
+        if word.is_empty() || word.split_whitespace().count() > 4 {
+            return Vec::new();
+        }
+        let config = self.ai_config();
+        if !config.enabled || !ai_engine::is_available(&config) {
+            return Vec::new();
+        }
+        let prompt = ai_engine::english_synonyms_prompt(word);
+        let Ok(raw) = self
+            .ai_service
+            .complete(prompt, 40, 1, self.ai_service.cancel_handle())
+        else {
+            return Vec::new();
+        };
+        ai_engine::parse_synonyms(&raw, 8)
+            .into_iter()
+            .filter(|candidate| {
+                let normalized = crate::linguistics::normalize::normalize_word(candidate);
+                !normalized.is_empty() && normalized != crate::linguistics::normalize::normalize_word(word)
+            })
+            .collect()
     }
 
     fn ai_affinity_symbols_uncached(&self, word: &str) -> Vec<Alternative> {
