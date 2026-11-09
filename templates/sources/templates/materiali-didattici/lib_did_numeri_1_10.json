@@ -1,7 +1,7 @@
 {
   "id": "lib_did_numeri_1_10",
   "title": "Numeri da 1 a 10",
-  "description": "Scheda dei numeri da uno a dieci. 10 voci, tra cui 1 uno, 2 due, 3 tre, 4 quattro e altre ancora.",
+  "description": "Scheda dei numeri da uno a dieci.. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato",
   "category": "Materiali didattici",
   "source_type": "template",
   "kind": "worksheet",
@@ -508,6 +508,32 @@
       "layout": "absolute",
       "elements": [
         {
+          "id": "hdr-badge-soluzioni",
+          "kind": "badge",
+          "text": "DIDATTICA",
+          "x_mm": 10.0,
+          "y_mm": 10.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
           "id": "lib_did_numeri_1_10-sol-title",
           "kind": "title",
           "text": "Soluzioni per il docente",
@@ -759,8 +785,85 @@
             "border_radius": 2.0,
             "padding_mm": 1.2
           }
+        },
+        {
+          "id": "hdr-sub-soluzioni",
+          "kind": "subtitle",
+          "text": "Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato.",
+          "x_mm": 10.0,
+          "y_mm": 38.0,
+          "w_mm": 190.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-soluzioni",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "didattica",
+    "subcategory_id": "schede",
+    "subcategory": "Schede didattiche",
+    "audience": "primaria",
+    "objective": "Numeri da 1 a 10",
+    "tags": [
+      "matematica",
+      "numeri da 1 a 10",
+      "scheda operativa · materiale modificabile",
+      "completa le addizioni. puoi usare la linea dei numeri o i gettoni.",
+      "1 uno",
+      "2 due",
+      "3 tre",
+      "4 quattro",
+      "5 cinque",
+      "6 sei"
+    ],
+    "complexity": "articolato",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

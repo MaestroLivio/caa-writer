@@ -1,7 +1,7 @@
 {
   "id": "lib_aut_vestirsi_palestra",
   "title": "Cambiarsi dopo la palestra",
-  "description": "Routine autonoma per cambiarsi dopo la palestra. 6 voci, tra cui asciugarsi, togliere la maglietta, mettere la maglietta pulita, cambiare i pantaloni e altre ancora.",
+  "description": "Routine autonoma per cambiarsi dopo la palestra.. Segui la sequenza un passo alla volta; spunta o sposta il pittogramma quando il passo è concluso. Metti in ordine i passi e verbalizza prima/dopo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Autonomia personale",
   "source_type": "template",
   "kind": "autonomy",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_aut_vestirsi_palestra-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "lineare",
+          "text": "Metti in ordine i passi e verbalizza prima/dopo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,32 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "autonomia",
+    "subcategory_id": "routine",
+    "subcategory": "Routine di autonomia",
+    "audience": "primaria",
+    "objective": "Cambiarsi dopo la palestra",
+    "tags": [
+      "cambiarsi dopo la palestra",
+      "segui la sequenza un passo alla volta; spunta o sposta il pittogramma quando il passo è concluso.",
+      "asciugarsi",
+      "togliere la maglietta",
+      "mettere la maglietta pulita",
+      "cambiare i pantaloni",
+      "mettere le scarpe",
+      "riporre i vestiti",
+      "metti in ordine i passi e verbalizza prima/dopo."
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

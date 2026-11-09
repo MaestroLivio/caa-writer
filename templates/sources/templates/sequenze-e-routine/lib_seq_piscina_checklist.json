@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_piscina_checklist",
   "title": "Andare in piscina: checklist",
-  "description": "Checklist per l'attività in piscina. 7 voci, tra cui preparare la borsa, spogliatoio, costume, doccia e altre ancora.",
+  "description": "Checklist per l'attività in piscina.. Spunta ogni passo concluso e annota chi ha svolto l'attività. Spunta ogni passo concluso e annota chi ha svolto l'attività",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_piscina_checklist-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "checklist",
+          "text": "Spunta ogni passo concluso e annota chi ha svolto l'attività.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -93,7 +94,7 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     },
     {
@@ -112,18 +113,19 @@
           }
         },
         {
-          "id": "lib_seq_piscina_checklist-p2-field-title",
+          "id": "pagina-2-instruction",
           "kind": "text",
-          "text": "Andare in piscina: checklist",
+          "text": "Spunta ogni passo concluso e annota chi ha svolto l'attività.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
         {
-          "id": "lib_seq_piscina_checklist-p2-field-layout",
+          "id": "lib_seq_piscina_checklist-p2-field-title",
           "kind": "text",
-          "text": "checklist",
+          "text": "Andare in piscina: checklist",
           "style": {
             "font_size": 4.6,
             "italic": false
@@ -174,8 +176,29 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Andare in piscina: checklist",
+    "tags": [
+      "andare in piscina: checklist",
+      "spunta ogni passo concluso e annota chi ha svolto l'attività.",
+      "preparare la borsa",
+      "spogliatoio",
+      "costume",
+      "doccia"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

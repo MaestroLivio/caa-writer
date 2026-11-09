@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_rientro_scuola",
   "title": "Rientro da scuola",
-  "description": "Routine del rientro a casa dopo la scuola. 6 voci, tra cui uscita, zaino, fermata, autobus e altre ancora.",
+  "description": "Routine del rientro a casa dopo la scuola.. Metti in ordine i passi e verbalizza prima/dopo; poi esegui la sequenza. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_rientro_scuola-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "verticale",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,31 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Rientro da scuola",
+    "tags": [
+      "rientro da scuola",
+      "metti in ordine i passi e verbalizza prima/dopo; poi esegui la sequenza.",
+      "uscita",
+      "zaino",
+      "fermata",
+      "autobus",
+      "casa",
+      "merenda"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

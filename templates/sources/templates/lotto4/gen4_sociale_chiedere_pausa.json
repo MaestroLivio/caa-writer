@@ -1,7 +1,7 @@
 {
   "id": "gen4_sociale_chiedere_pausa",
   "title": "Chiedere una pausa",
-  "description": "Come chiedere una pausa durante un'attività.",
+  "description": "Come chiedere una pausa durante un'attività. Leggi la storia insieme, soffermati sulle emozioni e sulle scelte del protagonista. Leggi la storia insieme e soffermati sulle emozioni e sulle scelte. Leggi la storia insieme e soffermati sulle emozioni e sulle scelte",
   "category": "Storie sociali",
   "source_type": "template",
   "kind": "social_story",
@@ -9,7 +9,7 @@
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
   "orientation": "portrait",
-  "margin_mm": 10,
+  "margin_mm": 10.0,
   "taxonomy": {
     "category_id": "storie-sociali",
     "subcategory_id": "anticipazione",
@@ -18,14 +18,17 @@
     "tags": [
       "storia sociale",
       "anticipazione",
-      "emozioni"
+      "emozioni",
+      "a volte ho bisogno di fermarmi.",
+      "storia descrittiva e di anticipazione. non è una social story certificata secondo i criteri 10.4: la revisione dell'adulto è necessaria."
     ],
     "complexity": "intermedio",
     "needs_symbols": true,
     "printable": true,
     "customizable": true,
     "interactive": false,
-    "featured": false
+    "featured": false,
+    "subcategory": "Storie sociali"
   },
   "pages": [
     {
@@ -111,9 +114,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -261,9 +264,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -411,9 +414,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 3 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -561,9 +564,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 4 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -711,9 +714,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 5 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -861,9 +864,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 6 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,

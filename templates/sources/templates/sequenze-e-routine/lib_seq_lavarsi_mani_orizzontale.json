@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_lavarsi_mani_orizzontale",
   "title": "Lavarsi le mani: striscia orizzontale",
-  "description": "Striscia orizzontale della routine per lavarsi le mani. 6 voci, tra cui aprire l'acqua, bagnare le mani, mettere il sapone, sfregare le mani e altre ancora.",
+  "description": "Striscia orizzontale della routine per lavarsi le mani.. Metti in ordine i passi e verbalizza prima/dopo; poi esegui la sequenza. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_lavarsi_mani_orizzontale-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "orizzontale",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,31 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Lavarsi le mani: striscia orizzontale",
+    "tags": [
+      "lavarsi le mani: striscia orizzontale",
+      "metti in ordine i passi e verbalizza prima/dopo; poi esegui la sequenza.",
+      "aprire l'acqua",
+      "bagnare le mani",
+      "mettere il sapone",
+      "sfregare le mani",
+      "sciacquare",
+      "asciugare"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

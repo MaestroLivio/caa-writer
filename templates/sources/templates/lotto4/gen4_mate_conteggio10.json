@@ -1,7 +1,7 @@
 {
   "id": "gen4_mate_conteggio10",
   "title": "Conteggio entro il 10",
-  "description": "Conta e scrivi il numero.",
+  "description": "Conta e scrivi il numero. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato",
   "category": "Materiali didattici",
   "source_type": "template",
   "kind": "worksheet",
@@ -9,7 +9,7 @@
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
   "orientation": "portrait",
-  "margin_mm": 10,
+  "margin_mm": 10.0,
   "taxonomy": {
     "category_id": "schede",
     "subcategory_id": "matematica",
@@ -18,14 +18,16 @@
     "tags": [
       "matematica",
       "conteggio",
-      "quantità"
+      "quantità",
+      "conta gli oggetti nel riquadro e scrivi il numero nella casella."
     ],
     "complexity": "base",
     "needs_symbols": false,
     "printable": true,
     "customizable": true,
     "interactive": false,
-    "featured": false
+    "featured": false,
+    "subcategory": "Schede didattiche"
   },
   "pages": [
     {
@@ -111,9 +113,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 2",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -630,9 +632,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 2",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,

@@ -1,7 +1,7 @@
 {
   "id": "lib_aut_vestirsi_mattina",
   "title": "Vestirsi al mattino",
-  "description": "Routine autonoma per vestirsi al mattino. 6 voci, tra cui mutande, maglietta, pantaloni, calze e altre ancora.",
+  "description": "Routine autonoma per vestirsi al mattino.. Segui la sequenza un passo alla volta; spunta o sposta il pittogramma quando il passo è concluso. Metti in ordine i passi e verbalizza prima/dopo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Autonomia personale",
   "source_type": "template",
   "kind": "autonomy",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_aut_vestirsi_mattina-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "lineare",
+          "text": "Metti in ordine i passi e verbalizza prima/dopo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,32 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "autonomia",
+    "subcategory_id": "routine",
+    "subcategory": "Routine di autonomia",
+    "audience": "primaria",
+    "objective": "Vestirsi al mattino",
+    "tags": [
+      "vestirsi al mattino",
+      "segui la sequenza un passo alla volta; spunta o sposta il pittogramma quando il passo è concluso.",
+      "mutande",
+      "maglietta",
+      "pantaloni",
+      "calze",
+      "scarpe",
+      "giacca",
+      "metti in ordine i passi e verbalizza prima/dopo."
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

@@ -1,7 +1,7 @@
 {
   "id": "pilota_classificazione_animali",
   "title": "Classifica gli animali",
-  "description": "Nove animali da collocare in tre colonne, con indizi, soluzioni, errori comuni e adattamenti.",
+  "description": "Nove animali da collocare in tre colonne, con indizi, soluzioni, errori comuni e adattamenti. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato",
   "category": "Materiali didattici",
   "source_type": "template",
   "kind": "worksheet",
@@ -9,7 +9,7 @@
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
   "orientation": "portrait",
-  "margin_mm": 10,
+  "margin_mm": 10.0,
   "taxonomy": {
     "category_id": "schede",
     "subcategory_id": "scienze",
@@ -21,13 +21,23 @@
       "animali",
       "mammiferi",
       "uccelli",
-      "pesci"
+      "pesci",
+      "osserva gli animali. scrivi il nome nella colonna giusta: mammiferi, uccelli o pesci.",
+      "cane",
+      "gatto",
+      "cavallo",
+      "rondine",
+      "gufo",
+      "pinguino",
+      "squalo"
     ],
     "complexity": "intermedio",
     "needs_symbols": true,
     "printable": true,
     "customizable": true,
-    "featured": true
+    "featured": true,
+    "subcategory": "Schede didattiche",
+    "interactive": false
   },
   "pages": [
     {
@@ -113,9 +123,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 2",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -860,9 +870,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 2",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,

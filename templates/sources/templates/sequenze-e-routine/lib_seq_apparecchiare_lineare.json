@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_apparecchiare_lineare",
   "title": "Apparecchiare la tavola: sequenza lineare",
-  "description": "Routine per apparecchiare la tavola. 6 voci, tra cui tovaglia, piatti, bicchieri, posate e altre ancora.",
+  "description": "Routine per apparecchiare la tavola.. Metti in ordine i passi e verbalizza prima/dopo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_apparecchiare_lineare-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "lineare",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,31 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Apparecchiare la tavola: sequenza lineare",
+    "tags": [
+      "apparecchiare la tavola: sequenza lineare",
+      "metti in ordine i passi e verbalizza prima/dopo.",
+      "tovaglia",
+      "piatti",
+      "bicchieri",
+      "posate",
+      "tovaglioli",
+      "cibo"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

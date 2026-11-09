@@ -2690,6 +2690,15 @@ fn render_special_kind(out: &mut String, element: &RenderedElement, w: f32, h: f
     }
 }
 
+/// Tratteggio del bordo: serve alle linee di taglio dei materiali velcro.
+fn border_dash(style: &ElementStyle) -> &'static str {
+    match style.border_style.as_str() {
+        "dashed" => " stroke-dasharray=\"2 1.5\"",
+        "dotted" => " stroke-dasharray=\"0.6 1.2\" stroke-linecap=\"round\"",
+        _ => "",
+    }
+}
+
 fn render_element_svg(element: &RenderedElement) -> String {
     let mut out = String::new();
     let background = if element.style.background.is_empty() {
@@ -2699,9 +2708,10 @@ fn render_element_svg(element: &RenderedElement) -> String {
     };
     let border = if element.style.border_width > 0.0 && !element.style.border_color.is_empty() {
         format!(
-            " stroke=\"{}\" stroke-width=\"{}\"",
+            " stroke=\"{}\" stroke-width=\"{}\"{}",
             escape_xml(&element.style.border_color),
-            element.style.border_width
+            element.style.border_width,
+            border_dash(&element.style)
         )
     } else {
         String::new()
@@ -2751,9 +2761,10 @@ fn render_element_svg(element: &RenderedElement) -> String {
         let stroke_width = element.style.border_width.max(0.35).min(1.5);
         let radius = element.style.border_radius.max(2.0).min(inner_h / 2.0);
         out.push_str(&format!(
-            "<rect x=\"0\" y=\"0\" width=\"{inner_w}\" height=\"{inner_h}\" rx=\"{radius}\" fill=\"{}\" stroke=\"{}\" stroke-width=\"{stroke_width}\"/>",
+            "<rect x=\"0\" y=\"0\" width=\"{inner_w}\" height=\"{inner_h}\" rx=\"{radius}\" fill=\"{}\" stroke=\"{}\" stroke-width=\"{stroke_width}\"{} />",
             escape_xml(&fill),
-            escape_xml(&stroke)
+            escape_xml(&stroke),
+            border_dash(&element.style)
         ));
         let tail_x = inner_w * 0.22;
         let tail_y = inner_h;
@@ -2765,26 +2776,31 @@ fn render_element_svg(element: &RenderedElement) -> String {
             escape_xml(&fill),
             escape_xml(&stroke)
         ));
-        let font = element.style.font_size.max(2.5);
-        let max_chars = (inner_w / (font * 0.55)).max(4.0) as usize;
-        let lines = wrap_text(&element.text, max_chars);
-        let line_height = font * 1.24;
-        let text_h = lines.len() as f32 * line_height;
-        let start_y = ((inner_h - 4.0 - text_h) / 2.0 + font).max(font);
-        render_text_lines(
-            &mut out,
-            &lines,
-            padding,
-            start_y,
-            inner_w,
-            if element.style.align.is_empty() {
-                "center"
-            } else {
-                &element.style.align
-            },
-            font,
-            &element.style,
-        );
+        if element.cells.is_empty() {
+            let font = element.style.font_size.max(2.5);
+            let max_chars = (inner_w / (font * 0.55)).max(4.0) as usize;
+            let lines = wrap_text(&element.text, max_chars);
+            let line_height = font * 1.24;
+            let text_h = lines.len() as f32 * line_height;
+            let start_y = ((inner_h - 4.0 - text_h) / 2.0 + font).max(font);
+            render_text_lines(
+                &mut out,
+                &lines,
+                padding,
+                start_y,
+                inner_w,
+                if element.style.align.is_empty() {
+                    "center"
+                } else {
+                    &element.style.align
+                },
+                font,
+                &element.style,
+            );
+        }
+    } else if !element.cells.is_empty() {
+        // Le celle della frase CAA (pittogramma + parola) sono disegnate dopo:
+        // non sovrapporre il testo o il simbolo dell'elemento contenitore.
     } else if let Some(svg) = element
         .svg
         .as_deref()
@@ -2856,13 +2872,14 @@ fn render_element_svg(element: &RenderedElement) -> String {
             ));
             let cell_border = if cell.style.border_width > 0.0 {
                 format!(
-                    " stroke=\"{}\" stroke-width=\"{}\"",
+                    " stroke=\"{}\" stroke-width=\"{}\"{}",
                     escape_xml(if cell.style.border_color.is_empty() {
                         "#94a3b8"
                     } else {
                         &cell.style.border_color
                     }),
-                    cell.style.border_width
+                    cell.style.border_width,
+                    border_dash(&cell.style)
                 )
             } else {
                 String::new()
@@ -3325,6 +3342,49 @@ mod tests {
         let stored = document.element("story", "img1").unwrap();
         assert_eq!(stored.kind, "image");
         assert_eq!(stored.svg.as_deref(), Some(svg));
+    }
+
+    #[test]
+    fn speech_bubble_renders_caa_cells_without_duplicate_sentence() {
+        // Una frase CAA dentro un fumetto: le celle mostrano pittogramma e
+        // parola, mentre il testo del contenitore non viene disegnato una
+        // seconda volta sopra le celle.
+        let mut document = sample();
+        let mut element = new_element("speech-cells", "speech", "Ciao come stai");
+        element.x_mm = 10.0;
+        element.y_mm = 10.0;
+        element.w_mm = 90.0;
+        element.h_mm = 36.0;
+        element.visible = true;
+        element.style.font_size = 3.2;
+        element.grid = Some(GridData {
+            columns: 3,
+            rows: 1,
+            gap_mm: 1.0,
+            cells: vec![
+                grid_cell("c1", "Ciao", Some("s1".into()), None),
+                grid_cell("c2", "come", Some("s2".into()), None),
+                grid_cell("c3", "stai", Some("s3".into()), None),
+            ],
+            ..GridData::default()
+        });
+        apply_command(
+            &mut document,
+            &DocumentCommand::AddElement {
+                page: "story".to_string(),
+                element: serde_json::to_value(&element).unwrap(),
+                index: None,
+            },
+        )
+        .unwrap();
+        let rendered = document.render().unwrap();
+        let page = rendered.pages.iter().find(|page| page.id == "story").unwrap();
+        let svg = render_page_svg(page);
+        assert!(svg.contains("Ciao"));
+        assert!(svg.contains("come"));
+        assert!(svg.contains("stai"));
+        assert_eq!(svg.matches("Ciao come stai").count(), 0);
+        assert!(svg.contains("<path"));
     }
 
     #[test]

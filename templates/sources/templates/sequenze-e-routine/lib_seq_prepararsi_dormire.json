@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_prepararsi_dormire",
   "title": "Prepararsi per dormire",
-  "description": "Routine della sera prima di dormire. 6 voci, tra cui pigiama, lavarsi i denti, leggere, spegnere la luce e altre ancora.",
+  "description": "Routine della sera prima di dormire.. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_prepararsi_dormire-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "lineare",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,31 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Prepararsi per dormire",
+    "tags": [
+      "prepararsi per dormire",
+      "mostra prima e poi, indica cosa succede e lascia scegliere il rinforzo.",
+      "pigiama",
+      "lavarsi i denti",
+      "leggere",
+      "spegnere la luce",
+      "letto",
+      "dormire"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

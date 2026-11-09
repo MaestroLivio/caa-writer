@@ -1,7 +1,7 @@
 {
   "id": "lib_gio_domino_animali",
   "title": "Domino degli animali",
-  "description": "Domino con otto animali da abbinare. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco.",
+  "description": "Domino con otto animali da abbinare. Materiale pronto da stampare e ritagliare, con istruzioni per il gioco. Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata. Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata",
   "category": "Giochi e attività interattive",
   "source_type": "template",
   "kind": "activity",
@@ -16,6 +16,32 @@
       "layout": "absolute",
       "home": true,
       "elements": [
+        {
+          "id": "hdr-badge-home",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 6.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-title",
           "kind": "text",
@@ -197,6 +223,58 @@
             "border_color": "#456",
             "align": "center"
           }
+        },
+        {
+          "id": "hdr-sub-home",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 34.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-home",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -205,6 +283,32 @@
       "title": "cane",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-1",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a1-title",
           "kind": "text",
@@ -244,6 +348,58 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-1",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-1",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -252,6 +408,32 @@
       "title": "gatto",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-2",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a2-title",
           "kind": "text",
@@ -291,6 +473,58 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-2",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-2",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -299,6 +533,32 @@
       "title": "uccello",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-3",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a3-title",
           "kind": "text",
@@ -338,6 +598,58 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-3",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-3",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -346,6 +658,32 @@
       "title": "pesce",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-4",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a4-title",
           "kind": "text",
@@ -385,6 +723,58 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-4",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-4",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -393,6 +783,32 @@
       "title": "cavallo",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-5",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a5-title",
           "kind": "text",
@@ -432,6 +848,58 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-5",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-5",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -440,6 +908,32 @@
       "title": "coniglio",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-6",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a6-title",
           "kind": "text",
@@ -479,6 +973,58 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-6",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-6",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -487,6 +1033,32 @@
       "title": "tartaruga",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-7",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a7-title",
           "kind": "text",
@@ -526,6 +1098,58 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-7",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-7",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -534,6 +1158,32 @@
       "title": "farfalla",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-activity-8",
+          "kind": "badge",
+          "text": "GIOCO",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_gio_domino_animali-a8-title",
           "kind": "text",
@@ -573,8 +1223,85 @@
           "action": {
             "type": "home"
           }
+        },
+        {
+          "id": "hdr-sub-activity-8",
+          "kind": "subtitle",
+          "text": "Distribuisci le tessere, gioca a turni e pronuncia l'immagine accoppiata.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 277.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-activity-8",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "giochi",
+    "subcategory_id": "attivita",
+    "subcategory": "Giochi e attività",
+    "audience": "primaria",
+    "objective": "Domino degli animali",
+    "tags": [
+      "gioco",
+      "domino degli animali",
+      "cane",
+      "gatto",
+      "uccello",
+      "pesce",
+      "cavallo",
+      "coniglio",
+      "tartaruga",
+      "farfalla"
+    ],
+    "complexity": "articolato",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": true
+  },
+  "margin_mm": 10.0
 }

@@ -82,9 +82,14 @@
     /// Ispettore dell'elemento selezionato nell'editor universale. Prima
     /// l'editor apriva una colonna di proprietà separata, fuori dal pannello.
     universalSelection: UniversalElementSelection | null;
+    universalPageIndex: number;
+    onUniversalPageLayout: (layout: string) => void;
+    onUniversalPageGrid: (columns: number, rows: number) => void;
     onUniversalElementText: (value: string, spoken?: boolean) => void;
     onUniversalSetCellText: (value: string) => void;
     onUniversalSetCellSpoken: (value: string) => void;
+    onUniversalComposeSentence: (sentence: string) => void;
+    onUniversalGridResize: (deltaRows: number, deltaColumns: number) => void;
     onUniversalElementNumber: (field: string, value: number) => void;
     onUniversalElementStyle: (patch: Partial<UniversalStyle>) => void;
     onUniversalElementPatch: (patch: Record<string, unknown>) => void;
@@ -143,9 +148,14 @@
     onAiChat,
     universalDoc,
     universalSelection,
+    universalPageIndex,
+    onUniversalPageLayout,
+    onUniversalPageGrid,
     onUniversalElementText,
     onUniversalSetCellText,
     onUniversalSetCellSpoken,
+    onUniversalComposeSentence,
+    onUniversalGridResize,
     onUniversalElementNumber,
     onUniversalElementStyle,
     onUniversalElementPatch,
@@ -214,6 +224,13 @@
   let showAdvanced = $state(false);
   let lastPanelSelectionKey = "";
   let lastPanelWord = "";
+
+  /// Pagina mostrata nell'editor: il pannello ne modifica layout, righe e
+  /// colonne. `universalPageIndex` arriva dall'editor e resta allineato anche
+  /// quando si cambia pagina dalle miniature.
+  const universalPage = $derived(
+    universalDoc?.pages[universalPageIndex] ?? universalDoc?.pages[0] ?? null
+  );
 
   // --- Ispettore visivo dell'elemento universale -------------------------
   // Gli stessi comandi dell'editor passano da qui: nessuna copia locale dello
@@ -2099,7 +2116,11 @@
             </div>
 
             <label class="elem-field">
-              <span>Testo{universalSelection.cell ? " della cella" : ""}</span>
+              <span>{universalSelection.cell
+                ? "Testo della cella"
+                : element.grid
+                  ? "Frase CAA"
+                  : "Testo"}</span>
               <textarea
                 rows="2"
                 value={universalSelection.cell ? universalSelection.cell.text : element.text}
@@ -2110,7 +2131,9 @@
               ></textarea>
             </label>
             <label class="elem-field">
-              <span>Testo pronunciato{universalSelection.cell ? " della cella" : ""}</span>
+              <span>{universalSelection.cell
+                ? "Testo pronunciato della cella"
+                : "Testo pronunciato"}</span>
               <input
                 value={universalSelection.cell
                   ? universalSelection.cell.spoken_text
@@ -2121,6 +2144,33 @@
                     : onUniversalElementText(event.currentTarget.value, true)}
               />
             </label>
+
+            {#if !universalSelection.cell}
+              <button
+                class="btn btn--solid elem-compose"
+                onclick={() => onUniversalComposeSentence(element.text)}
+              >
+                Genera CAA dalla frase
+              </button>
+              <p class="hint">
+                Ogni parola diventa una cella con pittogramma e testo, come nel rigo normale.
+                La frase resta modificabile parola per parola.
+              </p>
+            {/if}
+
+            {#if element.grid}
+              <h4>Griglia della frase</h4>
+              <p class="hint">
+                {element.grid.columns} colonne × {element.grid.rows} righe ·
+                {element.grid.cells.length} celle
+              </p>
+              <div class="elem-grid-actions" role="group" aria-label="Righe e colonne">
+                <button onclick={() => onUniversalGridResize(1, 0)}>+ Riga</button>
+                <button onclick={() => onUniversalGridResize(-1, 0)}>− Riga</button>
+                <button onclick={() => onUniversalGridResize(0, 1)}>+ Colonna</button>
+                <button onclick={() => onUniversalGridResize(0, -1)}>− Colonna</button>
+              </div>
+            {/if}
 
             <div class="elem-subhead">
               <h4>Posizione</h4>
@@ -2251,45 +2301,53 @@
               {/if}
             </div>
 
-            <h4>Pittogramma</h4>
-            <div class="elem-symbol-search">
-              <input
-                bind:value={universalSearchQuery}
-                placeholder="Cerca un simbolo…"
-                aria-label="Cerca un pittogramma per l'elemento"
-                onkeydown={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault();
-                    void searchUniversalSymbol();
-                  }
-                }}
-              />
-              <button class="btn" onclick={() => void searchUniversalSymbol()} disabled={universalSearchBusy}>
-                {universalSearchBusy ? "…" : "Cerca"}
-              </button>
-            </div>
-            {#if universalSearchError}<p class="hint">{universalSearchError}</p>{/if}
-            {#if universalSearchResults.length > 0}
-              <div class="elem-symbol-grid">
-                {#each universalSearchResults as alternative (alternative.symbol_id)}
-                  <button
-                    class="elem-symbol"
-                    title={`${alternative.label}${alternative.license ? ` · ${alternative.license}` : ""}`}
-                    onclick={() => applyUniversalSymbol(alternative)}
-                  >
-                    <span class="elem-symbol__media">
-                      {#if alternative.image}
-                        <img src={alternative.image} alt="" />
-                      {:else if alternative.svg}
-                        {@html alternative.svg}
-                      {:else}
-                        <span aria-hidden="true">?</span>
-                      {/if}
-                    </span>
-                    <span>{alternative.label}</span>
-                  </button>
-                {/each}
+            {#if universalSelection.cell || !element.grid}
+              <h4>Pittogramma</h4>
+              <div class="elem-symbol-search">
+                <input
+                  bind:value={universalSearchQuery}
+                  placeholder="Cerca un simbolo…"
+                  aria-label="Cerca un pittogramma per l'elemento"
+                  onkeydown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      void searchUniversalSymbol();
+                    }
+                  }}
+                />
+                <button class="btn" onclick={() => void searchUniversalSymbol()} disabled={universalSearchBusy}>
+                  {universalSearchBusy ? "…" : "Cerca"}
+                </button>
               </div>
+              {#if universalSearchError}<p class="hint">{universalSearchError}</p>{/if}
+              {#if universalSearchResults.length > 0}
+                <div class="elem-symbol-grid">
+                  {#each universalSearchResults as alternative (alternative.symbol_id)}
+                    <button
+                      class="elem-symbol"
+                      title={`${alternative.label}${alternative.license ? ` · ${alternative.license}` : ""}`}
+                      onclick={() => applyUniversalSymbol(alternative)}
+                    >
+                      <span class="elem-symbol__media">
+                        {#if alternative.image}
+                          <img src={alternative.image} alt="" />
+                        {:else if alternative.svg}
+                          {@html alternative.svg}
+                        {:else}
+                          <span aria-hidden="true">?</span>
+                        {/if}
+                      </span>
+                      <span>{alternative.label}</span>
+                    </button>
+                  {/each}
+                </div>
+              {/if}
+            {:else}
+              <h4>Pittogramma</h4>
+              <p class="hint">
+                Questa è una frase CAA composta da celle. Tocca una parola nel foglio per
+                selezionarne la cella e cambiarne il pittogramma.
+              </p>
             {/if}
             <div class="elem-danger">
               <button class="btn btn--ghost" onclick={onUniversalDeleteElement}>Elimina elemento</button>
@@ -2396,6 +2454,56 @@
               onchange={(event) => onUniversalPage({ margin_mm: Number(event.currentTarget.value) || 0 })}
             />
           </div>
+          {#if universalPage}
+            <div class="settings-row">
+              <label for="page-layout">Layout pagina</label>
+              <select
+                id="page-layout"
+                value={universalPage.layout}
+                onchange={(event) => onUniversalPageLayout(event.currentTarget.value)}
+              >
+                <option value="absolute">Presentazione (libero)</option>
+                <option value="flow">Flusso</option>
+                <option value="grid">Griglia</option>
+              </select>
+            </div>
+            {#if universalPage.layout === "grid"}
+              <div class="settings-row">
+                <label for="page-columns">Colonne</label>
+                <input
+                  id="page-columns"
+                  type="number"
+                  min="1"
+                  max="12"
+                  value={universalPage.grid.columns}
+                  onchange={(event) =>
+                    onUniversalPageGrid(
+                      Number(event.currentTarget.value) || 1,
+                      universalPage.grid.rows
+                    )}
+                />
+              </div>
+              <div class="settings-row">
+                <label for="page-rows">Righe</label>
+                <input
+                  id="page-rows"
+                  type="number"
+                  min="1"
+                  max="60"
+                  value={universalPage.grid.rows}
+                  onchange={(event) =>
+                    onUniversalPageGrid(
+                      universalPage.grid.columns,
+                      Number(event.currentTarget.value) || 1
+                    )}
+                />
+              </div>
+              <p class="hint">
+                Griglia della pagina: {universalPage.grid.columns * universalPage.grid.rows} celle.
+                Righe e colonne restano modificabili in ogni momento.
+              </p>
+            {/if}
+          {/if}
           <p class="hint">
             {universalDoc.pages.length} pagine · {universalDoc.pages.reduce(
               (total, page) => total + page.elements.length,

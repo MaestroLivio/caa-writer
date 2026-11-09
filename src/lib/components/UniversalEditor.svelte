@@ -4,6 +4,7 @@
   import { api, isTauri } from "../api";
   import CaaEditor from "../editor/CaaEditor.svelte";
   import { mergeTextElements } from "../universal/text-sync";
+  import { buildPhraseGrid } from "../universal/phrase";
   import type { CaaToken } from "../types";
   import type {
     Alternative,
@@ -47,6 +48,9 @@
     embedded?: boolean;
     onTitleChange?: (title: string) => void;
     onDocumentChange?: (document: UniversalDocument) => void;
+    /// Pagina mostrata: serve al pannello per modificare layout, righe e
+    /// colonne della pagina corrente.
+    onPageChange?: (index: number) => void;
     /// Elemento selezionato: il pannello laterale dell'app mostra l'ispezione
     /// al posto della vecchia colonna di proprietà interna all'editor.
     onElementSelection?: (selection: UniversalElementSelection | null) => void;
@@ -78,6 +82,7 @@
     embedded = false,
     onTitleChange,
     onDocumentChange,
+    onPageChange,
     onElementSelection,
     uppercase = false,
   }: Props = $props();
@@ -207,6 +212,10 @@
     void pageIndex;
     if (drag) return;
     publishSelection();
+  });
+
+  $effect(() => {
+    onPageChange?.(pageIndex);
   });
 
   function buildTextElements(
@@ -1782,6 +1791,99 @@
     });
   }
 
+  /// Compone una frase CAA dentro l'elemento selezionato: ogni parola diventa
+  /// una cella con pittogramma e testo, come nel rigo normale. La forma, il
+  /// fumetto o la casella mantengono sfondo e bordo; la frase resta composta
+  /// da celle modificabili (testo, simbolo, righe e colonne).
+  export async function inspectorComposeSentence(sentence: string) {
+    const target = selectedElement;
+    const pageNow = docPage;
+    const text = sentence.trim();
+    if (!target || !pageNow) return;
+    if (!text) {
+      onToast("Scrivi una frase prima di generare i pittogrammi.", "warn");
+      return;
+    }
+    if (!isTauri()) {
+      onToast("La simbolizzazione della frase richiede l'app desktop.", "warn");
+      return;
+    }
+    const options = {
+      intensity: caa?.intensity ?? "media",
+      // La frase dentro una forma serve proprio a mostrare i pittogrammi:
+      // usa sempre la modalità «sopra», anche se il documento è in solo testo.
+      mode: "sopra" as const,
+      document_key: caa?.documentKey ?? doc.id,
+      commercial_only: caa?.commercialOnly ?? false,
+      pack_id: caa?.packId ?? null,
+      paragraph_id: `phrase-${target.id}`,
+      symbolize_articles: caa?.symbolizeArticles ?? true,
+      symbolize_prepositions: caa?.symbolizePrepositions ?? true,
+      symbolize_conjunctions: caa?.symbolizeConjunctions ?? false,
+      manual_units: [],
+      split_ranges: [],
+      profile_id: caa?.profileId ?? null,
+    };
+    const result = await api.symbolizeParagraph(text, options);
+    const available = (page?.width_mm ?? 210) - 2 * (doc.page.margin_mm ?? 12);
+    const desiredW = Math.max(40, Math.min(available, target.w_mm || 80));
+    const columns = Math.max(1, Math.min(8, Math.floor(desiredW / 17)));
+    const grid = buildPhraseGrid(result.tokens, { columns, gapMm: 1.2 });
+    if (grid.cells.length === 0) {
+      onToast("Nessuna parola da simbolizzare nella frase.", "warn");
+      return;
+    }
+    const rowHeight = 20;
+    const height = Math.max(target.h_mm, grid.rows * rowHeight + 3);
+    const maxY = Math.max(0, (page?.height_mm ?? 297) - (doc.page.margin_mm ?? 12) - height);
+    await apply(
+      [{
+        op: "update_element",
+        page: pageNow.id,
+        id: target.id,
+        patch: {
+          text,
+          spoken_text: text,
+          grid,
+          w_mm: desiredW,
+          h_mm: Math.min((page?.height_mm ?? 297) - 2 * (doc.page.margin_mm ?? 12), height),
+          y_mm: Math.min(target.y_mm, maxY),
+        },
+      }],
+      `Frase CAA: ${grid.cells.length} parole con pittogrammi.`
+    );
+    selectedCellId = null;
+  }
+
+  export function inspectorGridResize(deltaRows: number, deltaColumns: number) {
+    resizeGrid(deltaRows, deltaColumns);
+  }
+
+  /// Layout della pagina corrente: libero, flusso o griglia. Serve al pannello
+  /// laterale per rendere modificabile ogni modello senza la colonna interna.
+  export function inspectorSetPageLayout(layout: string) {
+    if (!docPage) return;
+    void apply(
+      [{ op: "convert_layout", page: docPage.id, to: layout }],
+      "Layout della pagina aggiornato."
+    );
+  }
+
+  export function inspectorSetPageGrid(columns: number, rows: number) {
+    if (!docPage) return;
+    const nextColumns = Math.max(1, Math.min(12, Math.round(columns)));
+    const nextRows = Math.max(1, Math.min(60, Math.round(rows)));
+    void apply(
+      [{
+        op: "set_page_grid",
+        page: docPage.id,
+        columns: nextColumns,
+        rows: nextRows,
+      }],
+      `Griglia pagina: ${nextColumns}×${nextRows}.`
+    );
+  }
+
   export function inspectorClear() {
     selectedId = null;
     selectedCellId = null;
@@ -1906,22 +2008,13 @@
                     onpointerup={endDrag}
                     onpointercancel={endDrag}
                   >
-                    {#if element.kind === "button" || element.kind === "shape"}
-                      {@render inlineLabel(element)}
-                    {:else if element.kind === "token_slot"}
-                      <span class="uel__token" aria-hidden="true"></span>
-                    {:else if element.image_asset}
-                      <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
-                    {:else if element.svg}
-                      <span class="uel__symbol">{@html element.svg}</span>
-                      {@render inlineLabel(element)}
-                    {:else if element.cells?.length}
+                    {#if element.cells?.length}
                       <span class="uel__grid">
                         {#each element.cells as cell (cell.id)}
                           {#if !cell.hidden}
                             <button
                               class="uel__cell"
-                              style={`left:${cell.x_mm}mm;top:${cell.y_mm}mm;width:${cell.w_mm}mm;height:${cell.h_mm}mm;background:${cell.style.background || "transparent"};border:${cell.style.border_width ? `1px solid ${cell.style.border_color || "#9aa7bb"}` : "1px solid #d0d7e2"}`}
+                              style={`left:${cell.x_mm}mm;top:${cell.y_mm}mm;width:${cell.w_mm}mm;height:${cell.h_mm}mm;background:${cell.style.background || "transparent"};border:${cell.style.border_width ? `1px solid ${cell.style.border_color || "#9aa7bb"}` : cell.style.border_style === "none" ? "none" : "1px solid #d0d7e2"}`}
                               onpointerdown={(event) => event.stopPropagation()}
                               onclick={(event) => {
                                 if (mode === "play") playCell(cell, event);
@@ -1954,6 +2047,21 @@
                           {/if}
                         {/each}
                       </span>
+                    {:else if element.kind === "button" || element.kind === "shape"}
+                      {#if element.image_asset}
+                        <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
+                      {:else if element.svg}
+                        <span class="uel__symbol">{@html element.svg}</span>
+                      {/if}
+                      {@render inlineLabel(element)}
+                    {:else if element.kind === "token_slot"}
+                      <span class="uel__token" aria-hidden="true"></span>
+                    {:else if element.image_asset}
+                      <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
+                      {@render inlineLabel(element)}
+                    {:else if element.svg}
+                      <span class="uel__symbol">{@html element.svg}</span>
+                      {@render inlineLabel(element)}
                     {:else}
                       {@render inlineLabel(element)}
                     {/if}

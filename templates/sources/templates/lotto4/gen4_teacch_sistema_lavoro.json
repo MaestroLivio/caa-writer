@@ -1,7 +1,7 @@
 {
   "id": "gen4_teacch_sistema_lavoro",
   "title": "Sistema di lavoro",
-  "description": "Che cosa fare, quanto lavoro, come finire, cosa dopo.",
+  "description": "Che cosa fare, quanto lavoro, come finire, cosa dopo. Segui il sistema di lavoro: cosa fare, quanti, come so che ho finito, cosa dopo. Segui il sistema di lavoro: cosa fare, quanti, come so che ho finito, cosa dopo",
   "category": "Materiali TEACCH",
   "source_type": "template",
   "kind": "teacch",
@@ -9,7 +9,7 @@
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
   "orientation": "portrait",
-  "margin_mm": 10,
+  "margin_mm": 10.0,
   "taxonomy": {
     "category_id": "teacch",
     "subcategory_id": "sequenze-lavoro",
@@ -19,14 +19,23 @@
       "teacch",
       "sequenza",
       "lavoro",
-      "autonomia"
+      "autonomia",
+      "1",
+      "leggo la consegna.",
+      "fatto",
+      "2",
+      "faccio il primo passo.",
+      "3",
+      "controllo il lavoro.",
+      "4"
     ],
     "complexity": "base",
     "needs_symbols": true,
     "printable": true,
     "customizable": true,
     "interactive": false,
-    "featured": false
+    "featured": false,
+    "subcategory": "Materiali TEACCH"
   },
   "pages": [
     {
@@ -112,9 +121,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 1",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,

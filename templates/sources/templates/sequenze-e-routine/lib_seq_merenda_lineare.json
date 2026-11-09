@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_merenda_lineare",
   "title": "Fare merenda: sequenza lineare",
-  "description": "Routine per la merenda in cinque passi. 5 voci, tra cui lavarsi le mani, scegliere la merenda, sedersi, mangiare e altre ancora.",
+  "description": "Routine per la merenda in cinque passi.. Metti in ordine i passi e verbalizza prima/dopo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_merenda_lineare-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "lineare",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -107,8 +108,30 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Fare merenda: sequenza lineare",
+    "tags": [
+      "fare merenda: sequenza lineare",
+      "metti in ordine i passi e verbalizza prima/dopo.",
+      "lavarsi le mani",
+      "scegliere la merenda",
+      "sedersi",
+      "mangiare",
+      "riordinare"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

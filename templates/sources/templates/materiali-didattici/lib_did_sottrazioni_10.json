@@ -1,7 +1,7 @@
 {
   "id": "lib_did_sottrazioni_10",
   "title": "Sottrazioni entro 10",
-  "description": "Scheda di sottrazioni entro dieci. 6 voci, tra cui 5 - 2 = ___, 7 - 3 = ___, 9 - 4 = ___, 8 - 2 = ___ e altre ancora.",
+  "description": "Scheda di sottrazioni entro dieci.. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato. Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato",
   "category": "Materiali didattici",
   "source_type": "template",
   "kind": "worksheet",
@@ -484,6 +484,32 @@
       "layout": "absolute",
       "elements": [
         {
+          "id": "hdr-badge-soluzioni",
+          "kind": "badge",
+          "text": "DIDATTICA",
+          "x_mm": 10.0,
+          "y_mm": 10.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
           "id": "lib_did_sottrazioni_10-sol-title",
           "kind": "title",
           "text": "Soluzioni per il docente",
@@ -735,8 +761,85 @@
             "border_radius": 2.0,
             "padding_mm": 1.2
           }
+        },
+        {
+          "id": "hdr-sub-soluzioni",
+          "kind": "subtitle",
+          "text": "Leggi la consegna, svolgi l'esercizio e verifica insieme il risultato.",
+          "x_mm": 10.0,
+          "y_mm": 38.0,
+          "w_mm": 190.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-soluzioni",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "didattica",
+    "subcategory_id": "schede",
+    "subcategory": "Schede didattiche",
+    "audience": "primaria",
+    "objective": "Sottrazioni entro 10",
+    "tags": [
+      "matematica",
+      "sottrazioni entro 10",
+      "scheda operativa · materiale modificabile",
+      "completa le sottrazioni. conta all'indietro se ti serve.",
+      "5 - 2 =",
+      "8 - 3 =",
+      "10 - 4 =",
+      "7 - 5 =",
+      "9 - 6 =",
+      "6 - 2 ="
+    ],
+    "complexity": "articolato",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

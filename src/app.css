@@ -4221,3 +4221,31 @@ textarea {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Frase CAA dentro una forma o un fumetto: la griglia interna usa le stesse
+   celle del rigo CAA (pittogramma sopra, parola sotto), senza bordi visibili. */
+.elem-compose {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.elem-grid-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.elem-grid-actions button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 0.76rem;
+  padding: 6px 4px;
+}
+
+.elem-grid-actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

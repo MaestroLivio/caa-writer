@@ -1,7 +1,7 @@
 {
   "id": "lib_sto_fare_errore",
   "title": "Quando faccio un errore",
-  "description": "Storia sociale sull'errore come parte dell'apprendimento. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+  "description": "Storia sociale sull'errore come parte dell'apprendimento. Storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite. Leggi la storia insieme e soffermati sulle emozioni e sulle scelte. Leggi la storia insieme e soffermati sulle emozioni e sulle scelte",
   "category": "Storie sociali",
   "source_type": "template",
   "kind": "social_story",
@@ -116,6 +116,32 @@
       "layout": "absolute",
       "elements": [
         {
+          "id": "hdr-badge-pagina-2",
+          "kind": "badge",
+          "text": "STORIA",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
           "id": "lib_sto_fare_errore-p2-title",
           "kind": "subtitle",
           "text": "Parte 2",
@@ -183,6 +209,58 @@
             "border_radius": 2.5,
             "padding_mm": 1.2
           }
+        },
+        {
+          "id": "hdr-sub-pagina-2",
+          "kind": "subtitle",
+          "text": "Leggi la storia insieme e soffermati sulle emozioni e sulle scelte.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 190.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-pagina-2",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -191,6 +269,32 @@
       "title": "Parte 3",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-pagina-3",
+          "kind": "badge",
+          "text": "STORIA",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_sto_fare_errore-p3-title",
           "kind": "subtitle",
@@ -259,6 +363,58 @@
             "border_radius": 2.5,
             "padding_mm": 1.2
           }
+        },
+        {
+          "id": "hdr-sub-pagina-3",
+          "kind": "subtitle",
+          "text": "Leggi la storia insieme e soffermati sulle emozioni e sulle scelte.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 190.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-pagina-3",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -267,6 +423,32 @@
       "title": "Parte 4",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-pagina-4",
+          "kind": "badge",
+          "text": "STORIA",
+          "x_mm": 10.0,
+          "y_mm": 4.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_sto_fare_errore-p4-title",
           "kind": "subtitle",
@@ -335,6 +517,58 @@
             "border_radius": 2.5,
             "padding_mm": 1.2
           }
+        },
+        {
+          "id": "hdr-sub-pagina-4",
+          "kind": "subtitle",
+          "text": "Leggi la storia insieme e soffermati sulle emozioni e sulle scelte.",
+          "x_mm": 10.0,
+          "y_mm": 32.0,
+          "w_mm": 190.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-pagina-4",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     },
@@ -343,6 +577,32 @@
       "title": "Nota per l'adulto",
       "layout": "absolute",
       "elements": [
+        {
+          "id": "hdr-badge-nota-adulto",
+          "kind": "badge",
+          "text": "STORIA",
+          "x_mm": 10.0,
+          "y_mm": 10.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
         {
           "id": "lib_sto_fare_errore-adult-title",
           "kind": "title",
@@ -388,8 +648,79 @@
             "border_radius": 2.5,
             "padding_mm": 1.2
           }
+        },
+        {
+          "id": "hdr-sub-nota-adulto",
+          "kind": "subtitle",
+          "text": "Leggi la storia insieme e soffermati sulle emozioni e sulle scelte.",
+          "x_mm": 10.0,
+          "y_mm": 38.0,
+          "w_mm": 190.0,
+          "h_mm": 6,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-nota-adulto",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ]
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "storie",
+    "subcategory_id": "storie_sociali",
+    "subcategory": "Storie sociali",
+    "audience": "primaria",
+    "objective": "Quando faccio un errore",
+    "tags": [
+      "storia",
+      "quando faccio un errore",
+      "storia sociale sull'errore come parte dell'apprendimento. storia in 6 frasi brevi, da leggere una alla volta, senza giudizi e senza emozioni attribuite.",
+      "storia descrittiva e di anticipazione. non è una social story certificata secondo i criteri 10.4: la revisione dell'adulto è necessaria. adattare le frasi alla persona."
+    ],
+    "complexity": "articolato",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

@@ -92,6 +92,7 @@
   let editor = $state<CaaEditor | undefined>(undefined);
   let universalEditorRef = $state<UniversalEditor | undefined>(undefined);
   let universalSelection = $state<UniversalElementSelection | null>(null);
+  let universalPageIndex = $state(0);
   let lastInspectedElementId: string | null = null;
 
   let selected = $state<{ pid: string; token: CaaToken } | null>(null);
@@ -3205,6 +3206,7 @@
   $effect(() => {
     if (!universalDoc) {
       universalSelection = null;
+      universalPageIndex = 0;
       lastInspectedElementId = null;
     }
   });
@@ -4509,6 +4511,7 @@
             onDirtyChange={(value) => (dirty = value)}
             onTitleChange={(value) => (docTitle = value)}
             onDocumentChange={(document) => (universalDoc = document)}
+            onPageChange={(index) => (universalPageIndex = index)}
             onElementSelection={handleUniversalSelection}
             uppercase={settings.uppercase}
           />
@@ -4719,9 +4722,17 @@
           {selected}
           universalDoc={universalDoc}
           universalSelection={universalSelection}
+          universalPageIndex={universalPageIndex}
+          onUniversalPageLayout={(layout) => universalEditorRef?.inspectorSetPageLayout(layout)}
+          onUniversalPageGrid={(columns, rows) =>
+            universalEditorRef?.inspectorSetPageGrid(columns, rows)}
           onUniversalElementText={(value, spoken) => universalEditorRef?.inspectorSetText(value, spoken)}
           onUniversalSetCellText={(value) => universalEditorRef?.inspectorSetCellText(value)}
           onUniversalSetCellSpoken={(value) => universalEditorRef?.inspectorSetCellSpoken(value)}
+          onUniversalComposeSentence={(sentence) =>
+            void universalEditorRef?.inspectorComposeSentence(sentence)}
+          onUniversalGridResize={(deltaRows, deltaColumns) =>
+            universalEditorRef?.inspectorGridResize(deltaRows, deltaColumns)}
           onUniversalElementNumber={(field, value) =>
             universalEditorRef?.inspectorSetNumber(field, value)}
           onUniversalElementStyle={(patch) => universalEditorRef?.inspectorSetStyle(patch)}

@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_cena",
   "title": "La cena: sequenza verticale",
-  "description": "Routine della cena in famiglia. 6 voci, tra cui apparecchiare, sedersi, servirsi, mangiare e altre ancora.",
+  "description": "Routine della cena in famiglia.. Metti in ordine i passi e verbalizza prima/dopo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_cena-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "verticale",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,31 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "La cena: sequenza verticale",
+    "tags": [
+      "la cena: sequenza verticale",
+      "metti in ordine i passi e verbalizza prima/dopo.",
+      "apparecchiare",
+      "sedersi",
+      "servirsi",
+      "mangiare",
+      "riordinare",
+      "lavarsi i denti"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

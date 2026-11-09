@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_riordinare_checklist",
   "title": "Riordinare la stanza: checklist",
-  "description": "Checklist per riordinare la stanza. 6 voci, tra cui raccogliere i giochi, mettere i libri, buttare la carta, spolverare e altre ancora.",
+  "description": "Checklist per riordinare la stanza.. Spunta ogni passo concluso e annota chi ha svolto l'attività. Spunta ogni passo concluso e annota chi ha svolto l'attività",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_riordinare_checklist-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "checklist",
+          "text": "Spunta ogni passo concluso e annota chi ha svolto l'attività.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,31 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Riordinare la stanza: checklist",
+    "tags": [
+      "riordinare la stanza: checklist",
+      "spunta ogni passo concluso e annota chi ha svolto l'attività.",
+      "raccogliere i giochi",
+      "mettere i libri",
+      "buttare la carta",
+      "spolverare",
+      "mettere a posto",
+      "controllare"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

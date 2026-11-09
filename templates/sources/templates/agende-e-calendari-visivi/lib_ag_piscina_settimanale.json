@@ -1,7 +1,7 @@
 {
   "id": "lib_ag_piscina_settimanale",
   "title": "Settimana in piscina",
-  "description": "Agenda settimanale degli allenamenti in piscina. 5 voci, tra cui lunedì nuoto, mercoledì nuoto, venerdì nuoto, sabato piscina libera e altre ancora.",
+  "description": "Agenda settimanale degli allenamenti in piscina.. Anticipa la giornata e sposta il pittogramma dell'attività conclusa. Anticipa la giornata e sposta il pittogramma dell'attività conclusa",
   "category": "Agende e calendari visivi",
   "source_type": "template",
   "kind": "visual_schedule",
@@ -100,13 +100,148 @@
             "border_width": 1,
             "border_color": "#5b6575"
           }
+        },
+        {
+          "id": "hdr-badge-home",
+          "kind": "badge",
+          "text": "AGENDA",
+          "x_mm": 10.0,
+          "y_mm": 8.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-home",
+          "kind": "title",
+          "text": "Settimana in piscina",
+          "x_mm": 10.0,
+          "y_mm": 17.0,
+          "w_mm": 277.0,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-home",
+          "kind": "subtitle",
+          "text": "Anticipa la giornata e sposta il pittogramma dell'attività conclusa.",
+          "x_mm": 10.0,
+          "y_mm": 31.0,
+          "w_mm": 277.0,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-home",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ],
       "grid": {
         "columns": 5,
         "rows": 1,
-        "gap_mm": 3
-      }
+        "gap_mm": 3,
+        "origin_x_mm": 10.0,
+        "origin_y_mm": 44.0,
+        "content_width_mm": 277.0,
+        "content_height_mm": 150.0,
+        "align": "left",
+        "valign": "top"
+      },
+      "margin_mm": 10.0
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "agenda",
+    "subcategory_id": "agenda",
+    "subcategory": "Agende e calendari",
+    "audience": "primaria",
+    "objective": "Settimana in piscina",
+    "tags": [
+      "lunedì nuoto",
+      "mercoledì nuoto",
+      "venerdì nuoto",
+      "sabato piscina libera",
+      "domenica riposo",
+      "agenda",
+      "settimana in piscina",
+      "anticipa la giornata e sposta il pittogramma dell'attività conclusa.",
+      "caa writer · cc by-nc-sa 4.0 · materiale modificabile"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": true
+  },
+  "margin_mm": 10.0
 }

@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_apparecchiare_checklist",
   "title": "Apparecchiare la tavola: checklist",
-  "description": "Checklist per apparecchiare la tavola. 6 voci, tra cui tovaglia, piatti, bicchieri, posate e altre ancora.",
+  "description": "Checklist per apparecchiare la tavola.. Spunta ogni passo concluso e annota chi ha svolto l'attività. Spunta ogni passo concluso e annota chi ha svolto l'attività",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_apparecchiare_checklist-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "checklist",
+          "text": "Spunta ogni passo concluso e annota chi ha svolto l'attività.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -121,8 +122,31 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Apparecchiare la tavola: checklist",
+    "tags": [
+      "apparecchiare la tavola: checklist",
+      "spunta ogni passo concluso e annota chi ha svolto l'attività.",
+      "tovaglia",
+      "piatti",
+      "bicchieri",
+      "posate",
+      "tovaglioli",
+      "cibo"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

@@ -1,7 +1,7 @@
 {
   "id": "pilota_libro_caa",
   "title": "Il gatto e la farfalla",
-  "description": "Libro CAA di quattro pagine con striscia di pittogrammi, testo e domande di comprensione.",
+  "description": "Libro CAA di quattro pagine con striscia di pittogrammi, testo e domande di comprensione. Leggi la storia insieme, soffermati sulle emozioni e sulle scelte del protagonista. Leggi la storia insieme e soffermati sulle emozioni e sulle scelte. Leggi la storia insieme e soffermati sulle emozioni e sulle scelte",
   "category": "Storie sociali",
   "source_type": "template",
   "kind": "story",
@@ -9,7 +9,7 @@
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
   "orientation": "portrait",
-  "margin_mm": 10,
+  "margin_mm": 10.0,
   "taxonomy": {
     "category_id": "storie-caa",
     "subcategory_id": "sopra-testo",
@@ -21,13 +21,17 @@
       "lettura",
       "storia",
       "pittogrammi",
-      "comprensione"
+      "comprensione",
+      "gatto",
+      "farfalla"
     ],
     "complexity": "intermedio",
     "needs_symbols": true,
     "printable": true,
     "customizable": true,
-    "featured": true
+    "featured": true,
+    "subcategory": "Storie sociali",
+    "interactive": false
   },
   "pages": [
     {
@@ -113,9 +117,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -290,9 +294,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -494,9 +498,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 3 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -698,9 +702,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 4 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -902,9 +906,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 5 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -1106,9 +1110,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 6 di 6",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,

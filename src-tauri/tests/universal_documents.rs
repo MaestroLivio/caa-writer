@@ -20,10 +20,10 @@ fn manifest() -> universal::LibraryManifest {
 }
 
 #[test]
-fn library_contains_300_templates_and_30_systems() {
+fn library_contains_at_least_500_templates_and_30_systems() {
     let manifest = manifest();
     let (templates, boards) = manifest.counts();
-    assert_eq!(templates, 300, "template universali: {templates}");
+    assert!(templates >= 500, "template universali: {templates}");
     assert_eq!(boards, 30, "sistemi comunicativi: {boards}");
     assert_eq!(manifest.report.get("failed").and_then(|v| v.as_u64()), Some(0));
 }

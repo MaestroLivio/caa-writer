@@ -1,7 +1,7 @@
 {
   "id": "lib_aba_token_tre",
   "title": "Token board: tre gettoni",
-  "description": "Tabella di rinforzo con tre gettoni. 4 voci, tra cui lavorare, pausa, finire, premio.",
+  "description": "Tabella di rinforzo con tre gettoni. Consegna un gettone dopo ogni risposta o passo; quando la board è piena arriva il premio. Consegna un gettone dopo ogni risposta o passo; quando la board è piena arriva il premio",
   "category": "Materiali ABA e supporti visivi",
   "source_type": "template",
   "kind": "aba",
@@ -266,5 +266,28 @@
         }
       ]
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "aba",
+    "subcategory_id": "supporti_visivi",
+    "subcategory": "Supporti visivi ABA",
+    "audience": "primaria",
+    "objective": "Token board: tre gettoni",
+    "tags": [
+      "supporti",
+      "token board: tre gettoni",
+      "tocca un gettone quando completi un'attività. quando ho 3 gettoni scelgo il rinforzo.",
+      "obiettivo: completare 3 attività concordate.",
+      "il rinforzo si sceglie insieme e può cambiare: non è un premio per «essere bravo».",
+      "leggere",
+      "scrivere",
+      "disegnare"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": true
+  },
+  "margin_mm": 10.0
 }

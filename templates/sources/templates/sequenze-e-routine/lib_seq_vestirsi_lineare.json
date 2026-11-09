@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_vestirsi_lineare",
   "title": "Vestirsi: sequenza lineare",
-  "description": "Routine per vestirsi in otto passi. 8 voci, tra cui mutande, maglietta, pantaloni, calze e altre ancora.",
+  "description": "Routine per vestirsi in otto passi.. Metti in ordine i passi e verbalizza prima/dopo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_vestirsi_lineare-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "lineare",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -93,7 +94,7 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     },
     {
@@ -112,18 +113,19 @@
           }
         },
         {
-          "id": "lib_seq_vestirsi_lineare-p2-field-title",
+          "id": "pagina-2-instruction",
           "kind": "text",
-          "text": "Vestirsi: sequenza lineare",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
         {
-          "id": "lib_seq_vestirsi_lineare-p2-field-layout",
+          "id": "lib_seq_vestirsi_lineare-p2-field-title",
           "kind": "text",
-          "text": "lineare",
+          "text": "Vestirsi: sequenza lineare",
           "style": {
             "font_size": 4.6,
             "italic": false
@@ -188,8 +190,29 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Vestirsi: sequenza lineare",
+    "tags": [
+      "vestirsi: sequenza lineare",
+      "metti in ordine i passi e verbalizza prima/dopo.",
+      "mutande",
+      "maglietta",
+      "pantaloni",
+      "calze"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

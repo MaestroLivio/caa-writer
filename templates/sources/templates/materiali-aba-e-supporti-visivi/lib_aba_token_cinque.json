@@ -1,7 +1,7 @@
 {
   "id": "lib_aba_token_cinque",
   "title": "Token board: cinque gettoni",
-  "description": "Tabella di rinforzo con cinque gettoni. 5 voci, tra cui lavorare, pausa, finire, premio e altre ancora.",
+  "description": "Tabella di rinforzo con cinque gettoni. Consegna un gettone dopo ogni risposta o passo; quando la board è piena arriva il premio. Consegna un gettone dopo ogni risposta o passo; quando la board è piena arriva il premio",
   "category": "Materiali ABA e supporti visivi",
   "source_type": "template",
   "kind": "aba",
@@ -376,5 +376,30 @@
         }
       ]
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "aba",
+    "subcategory_id": "supporti_visivi",
+    "subcategory": "Supporti visivi ABA",
+    "audience": "primaria",
+    "objective": "Token board: cinque gettoni",
+    "tags": [
+      "supporti",
+      "token board: cinque gettoni",
+      "tocca un gettone quando completi un'attività. quando ho 5 gettoni scelgo il rinforzo.",
+      "obiettivo: completare 5 attività concordate.",
+      "il rinforzo si sceglie insieme e può cambiare: non è un premio per «essere bravo».",
+      "leggere",
+      "scrivere",
+      "disegnare",
+      "controllare",
+      "ordinare"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": true
+  },
+  "margin_mm": 10.0
 }

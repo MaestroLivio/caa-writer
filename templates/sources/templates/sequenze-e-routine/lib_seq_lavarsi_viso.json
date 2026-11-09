@@ -1,7 +1,7 @@
 {
   "id": "lib_seq_lavarsi_viso",
   "title": "Lavarsi il viso",
-  "description": "Routine per lavarsi il viso. 5 voci, tra cui aprire l'acqua, bagnare il viso, mettere il sapone, sciacquare e altre ancora.",
+  "description": "Routine per lavarsi il viso.. Metti in ordine i passi e verbalizza prima/dopo; poi esegui la sequenza. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Sequenze e routine",
   "source_type": "template",
   "kind": "visual_sequence",
@@ -26,11 +26,12 @@
           }
         },
         {
-          "id": "lib_seq_lavarsi_viso-p1-field-layout",
+          "id": "home-instruction",
           "kind": "text",
-          "text": "verticale",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
           "style": {
-            "font_size": 4.6,
+            "font_size": 4.1,
+            "color": "#475569",
             "italic": false
           }
         },
@@ -107,8 +108,30 @@
       ],
       "flow": {
         "columns": 1,
-        "gap_mm": 3
+        "gap_mm": 4
       }
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "sequenze",
+    "subcategory_id": "sequenze",
+    "subcategory": "Sequenze e routine",
+    "audience": "primaria",
+    "objective": "Lavarsi il viso",
+    "tags": [
+      "lavarsi il viso",
+      "metti in ordine i passi e verbalizza prima/dopo; poi esegui la sequenza.",
+      "aprire l'acqua",
+      "bagnare il viso",
+      "mettere il sapone",
+      "sciacquare",
+      "asciugare"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": false
+  },
+  "margin_mm": 10.0
 }

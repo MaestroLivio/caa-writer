@@ -1,7 +1,7 @@
 {
   "id": "lib_com_viaggio_preparativi",
   "title": "Viaggio: preparativi",
-  "description": "Griglia delle cose da preparare prima di partire. 8 voci, tra cui macchina, autobus, bicicletta, zaino e altre ancora.",
+  "description": "Griglia delle cose da preparare prima di partire.. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Tabelle comunicative",
   "source_type": "template",
   "kind": "communication_grid",
@@ -151,13 +151,175 @@
             "border_width": 1,
             "border_color": "#5b6575"
           }
+        },
+        {
+          "id": "msg-home",
+          "kind": "text_box",
+          "text": "La mia frase: ________________________________________________",
+          "x_mm": 10.0,
+          "y_mm": 44.0,
+          "w_mm": 277.0,
+          "h_mm": 9,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 4.2,
+            "color": "#1f2937",
+            "background": "#f8fafc",
+            "border_color": "#94a3b8",
+            "border_width": 0.5,
+            "border_style": "solid",
+            "border_radius": 2.5,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-badge-home",
+          "kind": "badge",
+          "text": "COMUNICAZIONE",
+          "x_mm": 10.0,
+          "y_mm": 8.0,
+          "w_mm": 42,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.1,
+            "color": "#ffffff",
+            "background": "#0f766e",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "center",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-title-home",
+          "kind": "title",
+          "text": "Viaggio: preparativi",
+          "x_mm": 10.0,
+          "y_mm": 17.0,
+          "w_mm": 277.0,
+          "h_mm": 12,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 8.2,
+            "color": "#1f2937",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "middle",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "hdr-sub-home",
+          "kind": "subtitle",
+          "text": "Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo.",
+          "x_mm": 10.0,
+          "y_mm": 31.0,
+          "w_mm": 277.0,
+          "h_mm": 7,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 3.9,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
+        },
+        {
+          "id": "footer-home",
+          "kind": "text",
+          "text": "CAA Writer · CC BY-NC-SA 4.0 · materiale modificabile",
+          "x_mm": 10.0,
+          "y_mm": 194.0,
+          "w_mm": 275.0,
+          "h_mm": 4.0,
+          "style": {
+            "font_family": "Arial",
+            "font_size": 2.8,
+            "color": "#475569",
+            "background": "",
+            "border_color": "",
+            "border_width": 0.0,
+            "border_style": "solid",
+            "border_radius": 2.0,
+            "padding_mm": 1.2,
+            "align": "left",
+            "valign": "top",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "absolute": true
         }
       ],
       "grid": {
         "columns": 4,
         "rows": 2,
-        "gap_mm": 3
-      }
+        "gap_mm": 3,
+        "origin_x_mm": 10.0,
+        "origin_y_mm": 56.0,
+        "content_width_mm": 277.0,
+        "content_height_mm": 138.0,
+        "align": "left",
+        "valign": "top"
+      },
+      "margin_mm": 10.0
     }
-  ]
+  ],
+  "taxonomy": {
+    "category_id": "aac",
+    "subcategory_id": "tabelle",
+    "subcategory": "Tabelle comunicative",
+    "audience": "primaria",
+    "objective": "Viaggio: preparativi",
+    "tags": [
+      "macchina",
+      "autobus",
+      "bicicletta",
+      "zaino",
+      "acqua",
+      "mangiare",
+      "bagno",
+      "finire",
+      "la mia frase: ________________________________________________",
+      "comunicazione"
+    ],
+    "complexity": "base",
+    "needs_symbols": true,
+    "printable": true,
+    "customizable": true,
+    "interactive": true
+  },
+  "margin_mm": 10.0
 }

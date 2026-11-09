@@ -1,7 +1,7 @@
 {
   "id": "pilota_teacch_sequenza",
   "title": "Sequenza TEACCH di cinque attività",
-  "description": "Sistema di lavoro con quattro domande, cinque passi, caselle di completamento e cartellini.",
+  "description": "Sistema di lavoro con quattro domande, cinque passi, caselle di completamento e cartellini. Metti in ordine i passi e verbalizza prima/dopo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo. Mostra PRIMA e POI, indica cosa succede e lascia scegliere il rinforzo",
   "category": "Materiali TEACCH",
   "source_type": "template",
   "kind": "teacch",
@@ -9,7 +9,7 @@
   "license": "CC BY-NC-SA 4.0",
   "page_size": "A4",
   "orientation": "portrait",
-  "margin_mm": 10,
+  "margin_mm": 10.0,
   "taxonomy": {
     "category_id": "teacch",
     "subcategory_id": "sequenze-lavoro",
@@ -21,13 +21,23 @@
       "autonomia",
       "sequenza",
       "inizio",
-      "fine"
+      "fine",
+      "che cosa devo fare?\ncinque attività, una alla volta.",
+      "quanto lavoro devo fare?\ncinque passi. li vedi tutti qui sotto.",
+      "come so di aver finito?\ntutte le caselle sono spuntate.",
+      "che cosa succede dopo?\nscelgo una pausa o un gioco.",
+      "1",
+      "leggere",
+      "leggo la consegna.",
+      "fatto"
     ],
     "complexity": "intermedio",
     "needs_symbols": true,
     "printable": true,
     "customizable": true,
-    "featured": true
+    "featured": true,
+    "subcategory": "Materiali TEACCH",
+    "interactive": false
   },
   "pages": [
     {
@@ -113,9 +123,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 1 di 2",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
@@ -802,9 +812,9 @@
           "kind": "text",
           "text": "CAA Writer · CC BY-NC-SA 4.0 · pagina 2 di 2",
           "x_mm": 10,
-          "y_mm": 284,
-          "w_mm": 190,
-          "h_mm": 5,
+          "y_mm": 281.0,
+          "w_mm": 188.0,
+          "h_mm": 4.0,
           "style": {
             "font_family": "Arial",
             "font_size": 2.8,
