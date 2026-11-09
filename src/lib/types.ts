@@ -638,7 +638,7 @@ export interface DocumentSettings {
   /// Mostra il pulsante dei controlli smartboard (tastiera a schermo) in
   /// modalità touch. I controlli si aprono solo su richiesta.
   smartboard_controls: boolean;
-  theme: "chiaro" | "scuro" | "contrasto" | "araword" | "pastello";
+  theme: "chiaro" | "scuro" | "contrasto" | "caa" | "pastello" | "araword";
   page: "a4" | "a4-orizzontale" | "a3" | "a5";
   page_margin: "stretto" | "normale" | "ampio";
   page_color: string;
@@ -950,6 +950,16 @@ export interface RenderedDocument {
   schema_version: number;
   pages: RenderedPage[];
   warnings: string[];
+}
+
+/** Elemento selezionato nell'editor universale, condiviso con il pannello laterale. */
+export interface UniversalElementSelection {
+  element: UniversalElement;
+  rendered: RenderedElement;
+  cell: UniversalGridCell | null;
+  is_text_page: boolean;
+  page_width_mm: number;
+  page_height_mm: number;
 }
 
 export interface DocumentApplyResult {

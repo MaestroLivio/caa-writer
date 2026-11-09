@@ -488,7 +488,7 @@
             <option value="chiaro">Chiaro</option>
             <option value="scuro">Scuro</option>
             <option value="contrasto">Alto contrasto</option>
-            <option value="araword">Araword (colorato, simboli grandi)</option>
+            <option value="caa">Stile CAA (icone CAA, simboli grandi)</option>
             <option value="pastello">Pastello</option>
           </select>
         </div>
@@ -500,13 +500,13 @@
               type="button"
               onclick={() =>
                 onUpdateSettings({
-                  theme: "araword",
+                  theme: "caa",
                   symbol_layout: "parola",
                   border_style: "immagine_testo",
                   symbol_size: 64,
                   mode: "sopra",
                 })}
-            >Stile Araword</button>
+            >Stile CAA</button>
             <button
               class="btn"
               type="button"

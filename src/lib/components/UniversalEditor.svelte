@@ -3,6 +3,7 @@
   import type { ComponentProps } from "svelte";
   import { api, isTauri } from "../api";
   import CaaEditor from "../editor/CaaEditor.svelte";
+  import { mergeTextElements } from "../universal/text-sync";
   import type { CaaToken } from "../types";
   import type {
     Alternative,
@@ -14,6 +15,7 @@
     UniversalCommand,
     UniversalDocument,
     UniversalElement,
+    UniversalElementSelection,
     UniversalPage,
     UniversalStyle,
   } from "../types";
@@ -45,6 +47,9 @@
     embedded?: boolean;
     onTitleChange?: (title: string) => void;
     onDocumentChange?: (document: UniversalDocument) => void;
+    /// Elemento selezionato: il pannello laterale dell'app mostra l'ispezione
+    /// al posto della vecchia colonna di proprietà interna all'editor.
+    onElementSelection?: (selection: UniversalElementSelection | null) => void;
     /// Maiuscole solo visive (come nell'editor di testo).
     uppercase?: boolean;
   }
@@ -73,6 +78,7 @@
     embedded = false,
     onTitleChange,
     onDocumentChange,
+    onElementSelection,
     uppercase = false,
   }: Props = $props();
 
@@ -140,6 +146,68 @@
   const selectedCell = $derived(
     selectedElement?.grid?.cells.find((cell) => cell.id === selectedCellId) ?? null
   );
+
+  // Una sola fonte per l'ispezione: l'editor non disegna più una colonna di
+  // proprietà propria quando è incorporato nella shell. Il pannello laterale
+  // riceve un'istantanea stabile, aggiornata solo quando cambia davvero
+  // qualcosa, così trascinare un elemento non ricrea il pannello a ogni pixel.
+  // Il segnale parte a fine gesto: aprire il pannello a metà trascinamento
+  // cambierebbe la larghezza della scena e sposterebbe l'elemento sotto il
+  // puntatore.
+  let selectionSignature = "";
+
+  function publishSelection() {
+    const element = selectedElement;
+    const renderedElement = selectedRendered;
+    const cell = selectedCell;
+    const pageNow = docPage;
+    if (!element || !renderedElement || !pageNow) {
+      if (selectionSignature) {
+        selectionSignature = "";
+        onElementSelection?.(null);
+      }
+      return;
+    }
+    const signature = JSON.stringify({
+      id: element.id,
+      text: element.text,
+      spoken: element.spoken_text,
+      x: element.x_mm,
+      y: element.y_mm,
+      w: element.w_mm,
+      h: element.h_mm,
+      rotation: element.rotation,
+      z: element.z,
+      visible: element.visible,
+      locked: element.locked,
+      opacity: element.opacity,
+      style: element.style,
+      cell: cell?.id ?? null,
+      symbol: element.symbol_id,
+      image: Boolean(element.image_asset),
+    });
+    if (signature === selectionSignature) return;
+    selectionSignature = signature;
+    onElementSelection?.({
+      element,
+      rendered: renderedElement,
+      cell,
+      is_text_page: isTextPage(pageNow.id),
+      page_width_mm: page?.width_mm ?? 210,
+      page_height_mm: page?.height_mm ?? 297,
+    });
+  }
+
+  $effect(() => {
+    // Lettura esplicita delle dipendenze: serve anche quando il gesto è in
+    // corso e la pubblicazione viene rimandata.
+    void selectedId;
+    void doc;
+    void rendered;
+    void pageIndex;
+    if (drag) return;
+    publishSelection();
+  });
 
   function buildTextElements(
     paragraphs: Array<{ pid: string; text: string }>,
@@ -250,10 +318,14 @@
       plain_text: textEditor.getPlainText(),
       saved_at: new Date().toISOString(),
     };
-    current.elements = buildTextElements(
-      textEditor.getParagraphs(),
-      textTokens,
-      pageIndex === 0
+    // Gli elementi di flusso (id `t-…`) sono la copia usata da miniature,
+    // stampa ed esportazioni. Fumetti, immagini e forme inseriti dall'utente
+    // non devono sparire ogni volta che il testo viene risincronizzato: prima
+    // questa assegnazione li cancellava dopo 600 ms, per questo il fumetto
+    // restava visibile solo nella miniatura per un istante.
+    current.elements = mergeTextElements(
+      buildTextElements(textEditor.getParagraphs(), textTokens, pageIndex === 0),
+      current.elements
     );
     doc.metadata = { ...metadata, text_pages: pages };
     rendered = localRender(doc);
@@ -622,6 +694,8 @@
       [{ op: "add_element", page: page.id, element } as UniversalCommand],
       "Immagine generata inserita."
     );
+    selectedId = id;
+    selectedCellId = null;
   }
 
   function undo() {
@@ -1661,6 +1735,76 @@
     addElement(kind);
   }
 
+  /// Ponte tra il pannello laterale e l'elemento selezionato. Il pannello
+  /// possiede solo l'interfaccia: ogni modifica passa dagli stessi comandi
+  /// dell'editor, quindi finisce nella cronologia Annulla/Ripeti.
+  export function inspectorSetText(value: string, spoken = false) {
+    setText(value, spoken);
+  }
+
+  export function inspectorSetNumber(field: string, value: number) {
+    setNumber(field, value);
+  }
+
+  export function inspectorSetStyle(patch: Partial<UniversalStyle>) {
+    setStyle(patch);
+  }
+
+  export function inspectorUpdate(patch: Record<string, unknown>) {
+    if (selectedId) updateElement(selectedId, patch);
+  }
+
+  export function inspectorAnchor(kind: string) {
+    setAnchor(kind);
+  }
+
+  export function inspectorDetachCell() {
+    void detachSelectedCell();
+  }
+
+  export function inspectorApplySymbol(alternative: Alternative) {
+    applySymbol(alternative);
+  }
+
+  /// Testo della cella selezionata (griglia): il pannello usa gli stessi
+  /// comandi dell'editor, così la modifica entra nella cronologia.
+  export function inspectorSetCellText(value: string) {
+    if (selectedCell) setCellText(selectedCell.id, value);
+  }
+
+  export function inspectorSetCellSpoken(value: string) {
+    if (!selectedElement?.grid || !selectedCell) return;
+    const cells = selectedElement.grid.cells.map((cell) =>
+      cell.id === selectedCell.id ? { ...cell, spoken_text: value } : cell
+    );
+    updateElement(selectedElement.id, {
+      grid: { ...selectedElement.grid, cells },
+    });
+  }
+
+  export function inspectorClear() {
+    selectedId = null;
+    selectedCellId = null;
+    extraSelected = [];
+  }
+
+  export function inspectorDelete() {
+    if (!docPage || !selectedId) return;
+    void apply(
+      [{ op: "remove_element", page: docPage.id, id: selectedId }],
+      "Elemento eliminato."
+    );
+    inspectorClear();
+  }
+
+  export function inspectorNudge(dx: number, dy: number) {
+    if (!selectedElement) return;
+    updateElement(selectedElement.id, {
+      x_mm: Math.max(0, selectedElement.x_mm + dx),
+      y_mm: Math.max(0, selectedElement.y_mm + dy),
+    });
+  }
+
   export function addGridNow() {
     addGrid();
   }
@@ -1733,6 +1877,101 @@
   >{element.text || (element.kind === "text" || element.kind === "text_box" ? "" : element.kind)}</span>
 {/snippet}
 
+{#snippet elementLayer(elements: RenderedElement[])}
+  <div class="ueditor__freelayer">
+              {#each elements as element (element.id)}
+                {#if element.visible}
+                  <div
+                    class="uel"
+                    class:uel--selected={(selectedId === element.id || extraSelected.includes(element.id)) && mode === "edit"}
+                    class:uel--locked={element.locked}
+                    class:uel--symbol={element.kind === "symbol"}
+                    class:uel--button={element.kind === "button"}
+                    class:uel--speech={element.kind === "speech"}
+                    class:uel--toggle={element.action?.type === "toggle"}
+                    class:uel--on={toggled.includes(element.id)}
+                    data-action={element.action?.type ?? ""}
+                    style={elementStyle(element)}
+                    role={mode === "play" ? "button" : "group"}
+                    tabindex={mode === "play" ? 0 : -1}
+                    onclick={(event) => select(element, event)}
+                    onkeydown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        select(element);
+                      }
+                    }}
+                    onpointerdown={(event) => startDrag(event, element)}
+                    onpointermove={moveDrag}
+                    onpointerup={endDrag}
+                    onpointercancel={endDrag}
+                  >
+                    {#if element.kind === "button" || element.kind === "shape"}
+                      {@render inlineLabel(element)}
+                    {:else if element.kind === "token_slot"}
+                      <span class="uel__token" aria-hidden="true"></span>
+                    {:else if element.image_asset}
+                      <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
+                    {:else if element.svg}
+                      <span class="uel__symbol">{@html element.svg}</span>
+                      {@render inlineLabel(element)}
+                    {:else if element.cells?.length}
+                      <span class="uel__grid">
+                        {#each element.cells as cell (cell.id)}
+                          {#if !cell.hidden}
+                            <button
+                              class="uel__cell"
+                              style={`left:${cell.x_mm}mm;top:${cell.y_mm}mm;width:${cell.w_mm}mm;height:${cell.h_mm}mm;background:${cell.style.background || "transparent"};border:${cell.style.border_width ? `1px solid ${cell.style.border_color || "#9aa7bb"}` : "1px solid #d0d7e2"}`}
+                              onpointerdown={(event) => event.stopPropagation()}
+                              onclick={(event) => {
+                                if (mode === "play") playCell(cell, event);
+                                else {
+                                  event.stopPropagation();
+                                  selectedId = element.id;
+                                  selectedCellId = cell.id;
+                                }
+                              }}
+                            >
+                              {#if cell.image_asset}
+                                <span class="uel__cell-symbol"><img src={cell.image_asset} alt="" /></span>
+                              {:else if cell.svg}<span class="uel__cell-symbol">{@html cell.svg}</span>{/if}
+                              <span
+                                contenteditable={mode === "edit"}
+                                spellcheck="false"
+                                onpointerdown={(event) => event.stopPropagation()}
+                                onkeydown={(event) => {
+                                  if (event.key === "Enter") {
+                                    event.preventDefault();
+                                    (event.currentTarget as HTMLElement).blur();
+                                  }
+                                }}
+                                onblur={(event) => {
+                                  const value = (event.currentTarget as HTMLElement).textContent ?? "";
+                                  if (value !== cell.text) setCellText(cell.id, value);
+                                }}
+                              >{cell.text}</span>
+                            </button>
+                          {/if}
+                        {/each}
+                      </span>
+                    {:else}
+                      {@render inlineLabel(element)}
+                    {/if}
+                    {#if element.locked}<span class="uel__lock">🔒</span>{/if}
+                    {#if mode === "edit" && selectedId === element.id && !element.locked}
+                      <span
+                        class="uel__handle"
+                        role="presentation"
+                        onpointerdown={(event) => startDrag(event, element, true)}
+                        onpointermove={moveDrag}
+                        onpointerup={endDrag}
+                      ></span>
+                    {/if}
+                  </div>
+                {/if}
+              {/each}
+  </div>
+{/snippet}
 <svelte:window on:keydown={handleKey} />
 
 <div class="ueditor" class:ueditor--play={mode === "play"} data-profile-size={profile?.accessibility?.large_symbols ? "large" : "normal"}>
@@ -1787,7 +2026,7 @@
     </div>
   {/if}
 
-  <div class="ueditor__body" class:ueditor__body--nopages={!pagesOpen} class:ueditor__body--noprops={embedded && !selectedElement}>
+  <div class="ueditor__body" class:ueditor__body--nopages={!pagesOpen} class:ueditor__body--noprops={embedded}>
     {#if !pagesOpen}
       <button
         class="ueditor__pages-reopen btn btn--ghost"
@@ -1845,6 +2084,11 @@
                       class="thumb__shape"
                       style={`background:${element.style.background || "transparent"};border-color:${element.style.border_color || "transparent"};border-width:${element.style.border_width ? `${Math.max(1, element.style.border_width)}px` : "0"};`}
                     ></span>
+                  {:else if element.kind === "speech"}
+                    <span
+                      class="thumb__speech"
+                      style={`background:${element.style.background || "#fff"};border-color:${element.style.border_color || "#172033"};border-radius:${element.style.border_radius ?? 4}px;`}
+                    >{element.text}</span>
                   {:else if element.text}
                     <span class="thumb__text">{element.text}</span>
                   {/if}
@@ -1965,6 +2209,10 @@
               }}
             />
           {/key}
+          <!-- Sovrapposizione libera: fumetti, immagini e forme convivono con
+               il testo della pagina CAA. Gli elementi di flusso `t-…` sono la
+               copia tecnica per miniature/export e non vanno duplicati qui. -->
+          {@render elementLayer(page.elements.filter((element) => !element.id.startsWith("t-")))}
           </div>
         </div>
       {:else if page}
@@ -2033,97 +2281,7 @@
             {#if snapGuides.y !== null}
               <span class="ueditor__snap ueditor__snap--h" style={`top:${snapGuides.y}mm`}></span>
             {/if}
-            {#each page.elements as element (element.id)}
-              {#if element.visible}
-                <div
-                  class="uel"
-                  class:uel--selected={(selectedId === element.id || extraSelected.includes(element.id)) && mode === "edit"}
-                  class:uel--locked={element.locked}
-                  class:uel--symbol={element.kind === "symbol"}
-                  class:uel--button={element.kind === "button"}
-                  class:uel--speech={element.kind === "speech"}
-                  class:uel--toggle={element.action?.type === "toggle"}
-                  class:uel--on={toggled.includes(element.id)}
-                  data-action={element.action?.type ?? ""}
-                  style={elementStyle(element)}
-                  role={mode === "play" ? "button" : "group"}
-                  tabindex={mode === "play" ? 0 : -1}
-                  onclick={(event) => select(element, event)}
-                  onkeydown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      select(element);
-                    }
-                  }}
-                  onpointerdown={(event) => startDrag(event, element)}
-                  onpointermove={moveDrag}
-                  onpointerup={endDrag}
-                  onpointercancel={endDrag}
-                >
-                  {#if element.kind === "button" || element.kind === "shape"}
-                    {@render inlineLabel(element)}
-                  {:else if element.kind === "token_slot"}
-                    <span class="uel__token" aria-hidden="true"></span>
-                  {:else if element.image_asset}
-                    <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
-                  {:else if element.svg}
-                    <span class="uel__symbol">{@html element.svg}</span>
-                    {@render inlineLabel(element)}
-                  {:else if element.cells?.length}
-                    <span class="uel__grid">
-                      {#each element.cells as cell (cell.id)}
-                        {#if !cell.hidden}
-                          <button
-                            class="uel__cell"
-                            style={`left:${cell.x_mm}mm;top:${cell.y_mm}mm;width:${cell.w_mm}mm;height:${cell.h_mm}mm;background:${cell.style.background || "transparent"};border:${cell.style.border_width ? `1px solid ${cell.style.border_color || "#9aa7bb"}` : "1px solid #d0d7e2"}`}
-                            onpointerdown={(event) => event.stopPropagation()}
-                            onclick={(event) => {
-                              if (mode === "play") playCell(cell, event);
-                              else {
-                                event.stopPropagation();
-                                selectedId = element.id;
-                                selectedCellId = cell.id;
-                              }
-                            }}
-                          >
-                            {#if cell.image_asset}
-                              <span class="uel__cell-symbol"><img src={cell.image_asset} alt="" /></span>
-                            {:else if cell.svg}<span class="uel__cell-symbol">{@html cell.svg}</span>{/if}
-                            <span
-                              contenteditable={mode === "edit"}
-                              spellcheck="false"
-                              onpointerdown={(event) => event.stopPropagation()}
-                              onkeydown={(event) => {
-                                if (event.key === "Enter") {
-                                  event.preventDefault();
-                                  (event.currentTarget as HTMLElement).blur();
-                                }
-                              }}
-                              onblur={(event) => {
-                                const value = (event.currentTarget as HTMLElement).textContent ?? "";
-                                if (value !== cell.text) setCellText(cell.id, value);
-                              }}
-                            >{cell.text}</span>
-                          </button>
-                        {/if}
-                      {/each}
-                    </span>
-                  {:else}
-                    {@render inlineLabel(element)}
-                  {/if}
-                  {#if element.locked}<span class="uel__lock">🔒</span>{/if}
-                  {#if mode === "edit" && selectedId === element.id && !element.locked}
-                    <span
-                      class="uel__handle"
-                      role="presentation"
-                      onpointerdown={(event) => startDrag(event, element, true)}
-                      onpointermove={moveDrag}
-                      onpointerup={endDrag}
-                    ></span>
-                  {/if}
-                </div>
-              {/if}
-            {/each}
+            {@render elementLayer(page.elements)}
           </div>
         </div>
       {/if}
@@ -2148,8 +2306,8 @@
       {/if}
     </main>
 
-    {#if mode === "edit"}
-      {#if !embedded || selectedElement}
+    {#if mode === "edit" && !embedded}
+      {#if selectedElement}
       <aside class="ueditor__properties" aria-label="Proprietà">
         {#if selectedElement && selectedRendered}
           <h3>Proprietà</h3>
@@ -2423,6 +2581,7 @@
   .thumb__cell-text { font-size: 2.4px; line-height: 1; white-space: nowrap; overflow: hidden; }
   .thumb__text { display: block; font-size: 2.6px; line-height: 1.15; color: #172033; overflow: hidden; padding: 0.5px 1px; }
   .thumb__shape { position: absolute; inset: 0; display: block; box-sizing: border-box; border-style: solid; border-radius: 1px; }
+  .thumb__speech { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box; border: 0.6px solid; font-size: 2.2px; line-height: 1.05; text-align: center; overflow: hidden; padding: 1px; }
   .thumb__title { display: block; font-size: 0.68rem; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ueditor__page-tools { display: flex; flex-wrap: wrap; gap: 3px; margin: 8px 0; }
   .ueditor__page-title { width: 100%; font-size: 0.78rem; margin-bottom: 6px; }
@@ -2440,6 +2599,10 @@
   .ueditor__textpage { min-width: 0; min-height: 0; overflow: auto; padding: 8px 12px; display: flex; flex-direction: column; }
   .ueditor__textpage :global(.caa-editor) { flex: 1 1 auto; min-height: 0; }
   .ueditor__page { position: relative; box-shadow: 0 4px 22px rgba(15,23,42,0.16); overflow: hidden; flex: 0 0 auto; }
+  /* Livello degli elementi liberi: sopra il testo della pagina CAA, ma
+     trasparente ai clic tranne che sui singoli elementi. */
+  .ueditor__freelayer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+  .ueditor__freelayer .uel { pointer-events: auto; }
   .uel { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1mm; cursor: move; user-select: none; overflow: hidden; }
   .uel--symbol { cursor: move; }
   .uel--button { cursor: pointer; }

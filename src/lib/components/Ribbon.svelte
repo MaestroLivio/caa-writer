@@ -298,6 +298,25 @@
   </button>
 {/snippet}
 
+{#snippet commandTile(command: RibbonCommand)}
+  {@const Icon = command.icon ? ribbonIcons[command.icon as keyof typeof ribbonIcons] : null}
+  <button
+    type="button"
+    class="ribbon-tile"
+    class:ribbon-tile--active={command.active}
+    aria-pressed={command.active === undefined ? undefined : command.active}
+    aria-label={command.label}
+    title={command.tooltip ?? command.label}
+    disabled={command.enabled === false}
+    onclick={() => run(command)}
+  >
+    <span class="ribbon-tile__icon" aria-hidden="true">
+      {#if Icon}<RibbonIcon node={Icon} size={24} />{/if}
+    </span>
+    <span class="ribbon-tile__label">{command.label}</span>
+  </button>
+{/snippet}
+
 {#snippet control(command: RibbonCommand)}
   {#if command.kind === "select"}
     <label class="ribbon-control">
@@ -482,10 +501,19 @@
         aria-label="Comandi della scheda attiva"
       >
         {#each visibleGroups as group (group.id)}
-          <section class="ribbon-group" data-group-id={group.id} aria-label={group.label}>
+          <section
+            class="ribbon-group"
+            class:ribbon-group--tiles={group.layout === "tiles"}
+            data-group-id={group.id}
+            aria-label={group.label}
+          >
             <div class="ribbon-group__commands">
               {#each visibleCommands(group) as command (command.id)}
-                {@render control(command)}
+                {#if group.layout === "tiles" && command.kind !== "select" && command.kind !== "color"}
+                  {@render commandTile(command)}
+                {:else}
+                  {@render control(command)}
+                {/if}
               {/each}
               {#if overflowCommands(group).length > 0}
                 <button

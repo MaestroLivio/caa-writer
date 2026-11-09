@@ -1,7 +1,7 @@
 {
   "name": "caa-writer",
   "private": true,
-  "version": "0.15.10",
+  "version": "0.15.11",
   "type": "module",
   "description": "Word processor CAA offline con motore semantico locale",
   "license": "CC-BY-NC-SA-4.0",
@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "npm run check && vite build",
     "check": "svelte-check --tsconfig ./tsconfig.json --threshold error",
-    "test:frontend": "node -e \"require('fs').rmSync('.test-build',{recursive:true,force:true})\" && tsc src/lib/editor/selection.ts src/lib/workspace/layout.ts src/lib/association/scope.ts src/lib/editor/sentence.ts src/lib/freeboard.ts src/lib/content-filter.ts --rootDir src/lib --outDir .test-build --module esnext --target es2022 --moduleResolution bundler --skipLibCheck && node --test tests/frontend",
+    "test:frontend": "node -e \"require('fs').rmSync('.test-build',{recursive:true,force:true})\" && tsc src/lib/editor/selection.ts src/lib/workspace/layout.ts src/lib/association/scope.ts src/lib/editor/sentence.ts src/lib/freeboard.ts src/lib/content-filter.ts src/lib/universal/text-sync.ts --rootDir src/lib --outDir .test-build --module esnext --target es2022 --moduleResolution bundler --skipLibCheck && node --test tests/frontend",
     "preview": "vite preview",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",

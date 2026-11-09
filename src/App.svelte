@@ -77,6 +77,8 @@
     type TemplateInfo,
     type UnitModifiers,
     type UniversalDocument,
+    type UniversalElementSelection,
+    type UniversalStyle,
     type VoiceInfo,
     noModifiers,
   } from "./lib/types";
@@ -89,6 +91,8 @@
   let docKey = $state(`doc-${Date.now().toString(36)}`);
   let editor = $state<CaaEditor | undefined>(undefined);
   let universalEditorRef = $state<UniversalEditor | undefined>(undefined);
+  let universalSelection = $state<UniversalElementSelection | null>(null);
+  let lastInspectedElementId: string | null = null;
 
   let selected = $state<{ pid: string; token: CaaToken } | null>(null);
   let tokensByParagraph = $state<Map<string, CaaToken[]>>(new Map());
@@ -662,6 +666,9 @@
 
   function normalizedSettings(raw: Partial<DocumentSettings> | null | undefined): DocumentSettings {
     const merged = { ...defaultSettings, ...(raw ?? {}) };
+    // Il vecchio nome interno del tema era `araword`. Migrazione silenziosa:
+    // l'utente vede sempre e solo «Stile CAA».
+    if ((merged.theme as string) === "araword") merged.theme = "caa";
     // I documenti e le installazioni precedenti non hanno il marcatore:
     // ereditavano il vecchio default «espliciti visibili». Si migra a nascosti
     // finché l'utente non fa una scelta esplicita.
@@ -3181,6 +3188,27 @@
     sideIntent = { tab, nonce: ++intentSeq };
   }
 
+  /// L'editor universale segnala l'elemento selezionato. La prima volta che
+  /// compare un elemento apriamo la scheda Documento del pannello, dove sono
+  /// le proprietà; i successivi aggiornamenti (trascinamento compreso) non
+  /// riaprono nulla e non spostano il focus.
+  function handleUniversalSelection(selection: UniversalElementSelection | null) {
+    universalSelection = selection;
+    const id = selection?.element.id ?? null;
+    if (id && id !== lastInspectedElementId) {
+      lastInspectedElementId = id;
+      if (!userMode && view === "editor") openPanelTab("documento");
+    }
+    if (!id) lastInspectedElementId = null;
+  }
+
+  $effect(() => {
+    if (!universalDoc) {
+      universalSelection = null;
+      lastInspectedElementId = null;
+    }
+  });
+
   function showWordCount() {
     const text = editor?.getPlainText() ?? "";
     const words = text.match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu)?.length ?? 0;
@@ -4084,7 +4112,7 @@
                 { value: "chiaro", label: "Chiaro" },
                 { value: "scuro", label: "Scuro" },
                 { value: "contrasto", label: "Alto contrasto" },
-                { value: "araword", label: "Araword" },
+                { value: "caa", label: "Stile CAA" },
                 { value: "pastello", label: "Pastello" },
               ],
               (value) => patchSettings({ theme: value as never }),
@@ -4221,28 +4249,56 @@
     if (universalDoc && view === "editor") {
       tabs.splice(1, 0, documentTab);
       const insertTab = tabs.find((tab) => tab.id === "insert");
-      insertTab?.groups.unshift(
-        group("doc-elements", "Elementi", [
-          cmd("el-text", "Testo", "file-text", () => universalEditorRef?.addElementNow("text")),
-          cmd("el-box", "Casella", "layout-grid", () =>
-            universalEditorRef?.addElementNow("text_box")
-          ),
-          cmd("el-button", "Pulsante", "table", () =>
-            universalEditorRef?.addElementNow("button")
-          ),
-          cmd("el-shape", "Forma", "image", () => universalEditorRef?.addElementNow("shape")),
-          cmd("el-speech", "Fumetto", "message-square", () =>
-            universalEditorRef?.addElementNow("speech")
-          ),
-          cmd("el-image", "Immagine", "image-plus", chooseFreeImage),
-          cmd("el-placeholder", "Segnaposto", "layout-grid", () =>
-            universalEditorRef?.addElementNow("placeholder")
-          ),
-          cmd("el-grid", "Griglia", "table", () => universalEditorRef?.addGridNow()),
-          cmd("el-group", "Raggruppa", "copy", () => universalEditorRef?.groupNow()),
-          cmd("el-ungroup", "Separa", "scissors", () => universalEditorRef?.ungroupNow()),
-        ])
-      );
+      if (insertTab) {
+        // In modalità documento la scheda Inserisci è una galleria visiva di
+        // ciò che si può davvero mettere sulla pagina. I comandi del word
+        // processor (interruzione di pagina, data/ora, tabella di testo) qui
+        // sarebbero pulsanti finti: restano solo nella modalità testo.
+        const elementsGroup: RibbonGroup = {
+          id: "doc-elements",
+          label: "Elementi",
+          layout: "tiles",
+          visible: 8,
+          commands: [
+            cmd("el-text", "Testo", "file-text", () => universalEditorRef?.addElementNow("text")),
+            cmd("el-box", "Casella", "layout-grid", () =>
+              universalEditorRef?.addElementNow("text_box")
+            ),
+            cmd("el-button", "Pulsante", "table", () =>
+              universalEditorRef?.addElementNow("button")
+            ),
+            cmd("el-shape", "Forma", "image", () => universalEditorRef?.addElementNow("shape")),
+            cmd("el-speech", "Fumetto", "message-square", () =>
+              universalEditorRef?.addElementNow("speech")
+            ),
+            cmd("el-image", "Immagine", "image-plus", chooseFreeImage),
+            cmd("el-placeholder", "Segnaposto", "layout-grid", () =>
+              universalEditorRef?.addElementNow("placeholder")
+            ),
+            cmd("el-grid", "Griglia", "table", () => universalEditorRef?.addGridNow()),
+          ],
+        };
+        insertTab.groups = [
+          elementsGroup,
+          group("ins-pages", "Pagine", [
+            cmd("ins-add-page", "Aggiungi pagina", "plus", () => universalEditorRef?.addPageNow()),
+            cmd("ins-add-text", "Pagina di testo", "file-text", () =>
+              universalEditorRef?.addTextPageNow()
+            ),
+            cmd("ins-pages-toggle", "Mostra/nascondi pagine", "panel-left", () =>
+              universalEditorRef?.togglePagesNow()
+            ),
+          ]),
+          group("doc-selection", "Selezione", [
+            cmd("el-group", "Raggruppa", "copy", () => universalEditorRef?.groupNow()),
+            cmd("el-ungroup", "Separa", "scissors", () => universalEditorRef?.ungroupNow()),
+          ]),
+          group("doc-resources", "Risorse", [
+            cmd("library-arasaac", "Libreria ARASAAC", "library", () => openPanelTab("simbolo")),
+            cmd("saved-templates", "Modelli salvati", "archive", () => (view = "home")),
+          ]),
+        ];
+      }
     }
     return tabs;
   }
@@ -4453,6 +4509,7 @@
             onDirtyChange={(value) => (dirty = value)}
             onTitleChange={(value) => (docTitle = value)}
             onDocumentChange={(document) => (universalDoc = document)}
+            onElementSelection={handleUniversalSelection}
             uppercase={settings.uppercase}
           />
         </div>
@@ -4661,6 +4718,24 @@
         <SidePanel
           {selected}
           universalDoc={universalDoc}
+          universalSelection={universalSelection}
+          onUniversalElementText={(value, spoken) => universalEditorRef?.inspectorSetText(value, spoken)}
+          onUniversalSetCellText={(value) => universalEditorRef?.inspectorSetCellText(value)}
+          onUniversalSetCellSpoken={(value) => universalEditorRef?.inspectorSetCellSpoken(value)}
+          onUniversalElementNumber={(field, value) =>
+            universalEditorRef?.inspectorSetNumber(field, value)}
+          onUniversalElementStyle={(patch) => universalEditorRef?.inspectorSetStyle(patch)}
+          onUniversalElementPatch={(patch) => universalEditorRef?.inspectorUpdate(patch)}
+          onUniversalElementAnchor={(kind) => universalEditorRef?.inspectorAnchor(kind)}
+          onUniversalDetachCell={() => universalEditorRef?.inspectorDetachCell()}
+          onUniversalApplySymbol={(alternative) =>
+            universalEditorRef?.inspectorApplySymbol(alternative)}
+          onUniversalDeselect={() => universalEditorRef?.inspectorClear()}
+          onUniversalDeleteElement={() => universalEditorRef?.inspectorDelete()}
+          onUniversalNudge={(dx, dy) => universalEditorRef?.inspectorNudge(dx, dy)}
+          onUniversalAddElement={(kind) => universalEditorRef?.addElementNow(kind)}
+          onUniversalInsertImage={chooseFreeImage}
+          onUniversalAddGrid={() => universalEditorRef?.addGridNow()}
           onUniversalTitle={(title) => universalEditorRef?.setDocumentTitle(title)}
           onUniversalPage={(patch) => universalEditorRef?.setPageSettings(patch)}
           {settings}

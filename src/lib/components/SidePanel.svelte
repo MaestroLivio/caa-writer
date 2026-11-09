@@ -17,6 +17,8 @@
     ImageStatus,
     LibraryStats,
     UniversalDocument,
+    UniversalElementSelection,
+    UniversalStyle,
     PackInfo,
     Preference,
     ResourcePlan,
@@ -77,6 +79,24 @@
     onGenerateImage: (prompt: string, mode: "apply" | "insert") => Promise<void>;
     onAiChat: (messages: AiChatMessage[]) => Promise<AiChatReply>;
     universalDoc: UniversalDocument | null;
+    /// Ispettore dell'elemento selezionato nell'editor universale. Prima
+    /// l'editor apriva una colonna di proprietà separata, fuori dal pannello.
+    universalSelection: UniversalElementSelection | null;
+    onUniversalElementText: (value: string, spoken?: boolean) => void;
+    onUniversalSetCellText: (value: string) => void;
+    onUniversalSetCellSpoken: (value: string) => void;
+    onUniversalElementNumber: (field: string, value: number) => void;
+    onUniversalElementStyle: (patch: Partial<UniversalStyle>) => void;
+    onUniversalElementPatch: (patch: Record<string, unknown>) => void;
+    onUniversalElementAnchor: (kind: string) => void;
+    onUniversalDetachCell: () => void;
+    onUniversalApplySymbol: (alternative: Alternative) => void;
+    onUniversalDeselect: () => void;
+    onUniversalDeleteElement: () => void;
+    onUniversalNudge: (dx: number, dy: number) => void;
+    onUniversalAddElement: (kind: string) => void;
+    onUniversalInsertImage: () => void;
+    onUniversalAddGrid: () => void;
     onUniversalTitle: (title: string) => void;
     onUniversalPage: (patch: Record<string, unknown>) => void;
     onOpenInEditor: (plan: ResourcePlan) => void;
@@ -122,6 +142,22 @@
     onGenerateImage,
     onAiChat,
     universalDoc,
+    universalSelection,
+    onUniversalElementText,
+    onUniversalSetCellText,
+    onUniversalSetCellSpoken,
+    onUniversalElementNumber,
+    onUniversalElementStyle,
+    onUniversalElementPatch,
+    onUniversalElementAnchor,
+    onUniversalDetachCell,
+    onUniversalApplySymbol,
+    onUniversalDeselect,
+    onUniversalDeleteElement,
+    onUniversalNudge,
+    onUniversalAddElement,
+    onUniversalInsertImage,
+    onUniversalAddGrid,
     onUniversalTitle,
     onUniversalPage,
     onOpenInEditor,
@@ -178,6 +214,100 @@
   let showAdvanced = $state(false);
   let lastPanelSelectionKey = "";
   let lastPanelWord = "";
+
+  // --- Ispettore visivo dell'elemento universale -------------------------
+  // Gli stessi comandi dell'editor passano da qui: nessuna copia locale dello
+  // stato, nessuna modifica persa e Annulla/Ripeti resta valido.
+  const elementPalette = [
+    { id: "text", label: "Testo", kind: "text" },
+    { id: "text_box", label: "Casella", kind: "text_box" },
+    { id: "button", label: "Pulsante", kind: "button" },
+    { id: "shape", label: "Forma", kind: "shape" },
+    { id: "speech", label: "Fumetto", kind: "speech" },
+    { id: "image", label: "Immagine", kind: null },
+    { id: "placeholder", label: "Segnaposto", kind: "placeholder" },
+    { id: "grid", label: "Griglia", kind: null },
+  ] as const;
+
+  const colorPalette = ["#ffffff", "#fef3c7", "#dcfce7", "#dbeafe", "#fce7f3", "#f3e8ff", "#172033"];
+  const borderPalette = ["#172033", "#2463eb", "#0f766e", "#b45309", "#be123c", "#6b7280"];
+  let universalSearchQuery = $state("");
+  let universalSearchResults = $state<Alternative[]>([]);
+  let universalSearchBusy = $state(false);
+  let universalSearchError = $state("");
+
+  function elementKindLabel(kind: string): string {
+    const labels: Record<string, string> = {
+      text: "Testo",
+      text_box: "Casella di testo",
+      button: "Pulsante",
+      shape: "Forma",
+      speech: "Fumetto",
+      symbol: "Pittogramma",
+      image: "Immagine",
+      placeholder: "Segnaposto",
+      grid: "Griglia",
+    };
+    return labels[kind] ?? kind;
+  }
+
+  function addElementFromPalette(id: string, kind: string | null) {
+    if (kind) onUniversalAddElement(kind);
+    else if (id === "image") onUniversalInsertImage();
+    else if (id === "grid") onUniversalAddGrid();
+  }
+
+  /// Allinea l'elemento nel foglio senza trascinarlo. I valori sono in
+  /// millimetri rispetto alla pagina, come nel resto dell'editor universale.
+  function alignElement(horizontal: "left" | "center" | "right" | null, vertical: "top" | "middle" | "bottom" | null) {
+    const selection = universalSelection;
+    if (!selection) return;
+    const patch: Record<string, unknown> = {};
+    const margin = Math.max(0, universalDoc?.page.margin_mm ?? 0);
+    if (horizontal === "left") patch.x_mm = margin;
+    else if (horizontal === "center") patch.x_mm = Math.max(0, (selection.page_width_mm - selection.element.w_mm) / 2);
+    else if (horizontal === "right") patch.x_mm = Math.max(0, selection.page_width_mm - margin - selection.element.w_mm);
+    if (vertical === "top") patch.y_mm = margin;
+    else if (vertical === "middle") patch.y_mm = Math.max(0, (selection.page_height_mm - selection.element.h_mm) / 2);
+    else if (vertical === "bottom") patch.y_mm = Math.max(0, selection.page_height_mm - margin - selection.element.h_mm);
+    if (Object.keys(patch).length > 0) onUniversalElementPatch(patch);
+  }
+
+  async function searchUniversalSymbol() {
+    const query = universalSearchQuery.trim();
+    if (!query || !isTauri()) {
+      universalSearchError = query ? "La ricerca richiede l'app desktop." : "";
+      return;
+    }
+    universalSearchBusy = true;
+    universalSearchError = "";
+    try {
+      const result = await api.searchSymbols(query, 18, 0, null, false);
+      universalSearchResults = result.items;
+      if (result.items.length === 0) {
+        universalSearchError = `Nessun pittogramma locale per «${query}».`;
+      }
+    } catch (error) {
+      universalSearchResults = [];
+      universalSearchError = error instanceof Error ? error.message : String(error);
+    } finally {
+      universalSearchBusy = false;
+    }
+  }
+
+  function applyUniversalSymbol(alternative: Alternative) {
+    onUniversalApplySymbol(alternative);
+    universalSearchResults = [];
+    universalSearchQuery = "";
+    universalSearchError = "";
+  }
+
+  $effect(() => {
+    if (!universalSelection) {
+      universalSearchResults = [];
+      universalSearchError = "";
+    }
+  });
 
   /// Etichetta breve della fonte, per la griglia compatta.
   function sourceLabel(item: {
@@ -1932,6 +2062,259 @@
       {/if}
 
       {#if tab === "documento" && universalDoc}
+        {#if universalSelection}
+          {@const element = universalSelection.element}
+          {@const rendered = universalSelection.rendered}
+          {@const anchor = element.z < 0 ? "behind" : element.z > 0 ? "front" : "inline"}
+          <section class="panel-section elem-inspector">
+            <div class="elem-inspector__head">
+              <span class="elem-inspector__preview" data-kind={element.kind} aria-hidden="true">
+                {#if element.kind === "speech"}
+                  <span class="elem-inspector__bubble">“”</span>
+                {:else if element.kind === "image"}
+                  <span class="elem-inspector__picture"></span>
+                {:else if element.kind === "shape"}
+                  <span class="elem-inspector__shape"></span>
+                {:else if element.kind === "grid"}
+                  <span class="elem-inspector__grid"></span>
+                {:else}
+                  <span class="elem-inspector__letter">{element.kind === "button" ? "▣" : "T"}</span>
+                {/if}
+              </span>
+              <div class="elem-inspector__titles">
+                <h3>{elementKindLabel(element.kind)}</h3>
+                <p class="hint">
+                  {universalSelection.is_text_page
+                    ? "sovrapposto alla pagina di testo"
+                    : "pagina libera"}
+                  {#if universalSelection.cell} · cella {universalSelection.cell.id}{/if}
+                </p>
+              </div>
+              <button
+                class="icon-btn"
+                title="Chiudi l'ispezione"
+                aria-label="Chiudi l'ispezione"
+                onclick={onUniversalDeselect}>×</button
+              >
+            </div>
+
+            <label class="elem-field">
+              <span>Testo{universalSelection.cell ? " della cella" : ""}</span>
+              <textarea
+                rows="2"
+                value={universalSelection.cell ? universalSelection.cell.text : element.text}
+                onchange={(event) =>
+                  universalSelection.cell
+                    ? onUniversalSetCellText(event.currentTarget.value)
+                    : onUniversalElementText(event.currentTarget.value)}
+              ></textarea>
+            </label>
+            <label class="elem-field">
+              <span>Testo pronunciato{universalSelection.cell ? " della cella" : ""}</span>
+              <input
+                value={universalSelection.cell
+                  ? universalSelection.cell.spoken_text
+                  : element.spoken_text}
+                onchange={(event) =>
+                  universalSelection.cell
+                    ? onUniversalSetCellSpoken(event.currentTarget.value)
+                    : onUniversalElementText(event.currentTarget.value, true)}
+              />
+            </label>
+
+            <div class="elem-subhead">
+              <h4>Posizione</h4>
+              <button class="elem-link" onclick={onUniversalDeselect}>Deseleziona</button>
+            </div>
+            <div class="elem-move">
+              <div class="elem-nudge" role="group" aria-label="Sposta di un millimetro">
+                <button onclick={() => onUniversalNudge(0, -1)} aria-label="Sposta in alto">↑</button>
+                <button onclick={() => onUniversalNudge(-1, 0)} aria-label="Sposta a sinistra">←</button>
+                <span class="elem-nudge__center" aria-hidden="true">1 mm</span>
+                <button onclick={() => onUniversalNudge(1, 0)} aria-label="Sposta a destra">→</button>
+                <button onclick={() => onUniversalNudge(0, 1)} aria-label="Sposta in basso">↓</button>
+              </div>
+              <div class="elem-align" role="group" aria-label="Allinea nel foglio">
+                <button onclick={() => alignElement("left", null)} title="Allinea a sinistra">⇤</button>
+                <button onclick={() => alignElement("center", null)} title="Centra orizzontalmente">↔</button>
+                <button onclick={() => alignElement("right", null)} title="Allinea a destra">⇥</button>
+                <button onclick={() => alignElement(null, "top")} title="Allinea in alto">⇧</button>
+                <button onclick={() => alignElement(null, "middle")} title="Centra verticalmente">↕</button>
+                <button onclick={() => alignElement(null, "bottom")} title="Allinea in basso">⇩</button>
+              </div>
+            </div>
+            <div class="elem-grid">
+              <label class="elem-field"><span>X (mm)</span><input type="number" step="0.5" value={rendered.x_mm} onchange={(event) => onUniversalElementNumber("x_mm", Number(event.currentTarget.value))} /></label>
+              <label class="elem-field"><span>Y (mm)</span><input type="number" step="0.5" value={rendered.y_mm} onchange={(event) => onUniversalElementNumber("y_mm", Number(event.currentTarget.value))} /></label>
+              <label class="elem-field"><span>Larghezza</span><input type="number" step="0.5" min="2" value={rendered.w_mm} onchange={(event) => onUniversalElementNumber("w_mm", Number(event.currentTarget.value))} /></label>
+              <label class="elem-field"><span>Altezza</span><input type="number" step="0.5" min="2" value={rendered.h_mm} onchange={(event) => onUniversalElementNumber("h_mm", Number(event.currentTarget.value))} /></label>
+            </div>
+
+            <h4>Livello</h4>
+            <div class="elem-segment" role="group" aria-label="Ancoraggio al foglio">
+              <button class:active={anchor === "behind"} onclick={() => onUniversalElementAnchor("behind")}>Dietro</button>
+              <button class:active={anchor === "inline"} onclick={() => onUniversalElementAnchor("inline")}>In linea</button>
+              <button class:active={anchor === "front"} onclick={() => onUniversalElementAnchor("front")}>Davanti</button>
+            </div>
+
+            <h4>Aspetto</h4>
+            <div class="elem-title">Sfondo</div>
+            <div class="elem-swatches" role="group" aria-label="Colore di sfondo">
+              {#each colorPalette as color (color)}
+                <button
+                  class="elem-swatch"
+                  class:active={(element.style.background || "#ffffff") === color}
+                  style={`background:${color}`}
+                  title={color}
+                  aria-label={`Sfondo ${color}`}
+                  onclick={() => onUniversalElementStyle({ background: color })}
+                ></button>
+              {/each}
+              <label class="elem-swatch elem-swatch--custom" title="Sfondo personalizzato">
+                <input
+                  type="color"
+                  value={element.style.background || "#ffffff"}
+                  onchange={(event) => onUniversalElementStyle({ background: event.currentTarget.value })}
+                />
+              </label>
+            </div>
+            <div class="elem-title">Bordo</div>
+            <div class="elem-swatches" role="group" aria-label="Colore del bordo">
+              {#each borderPalette as color (color)}
+                <button
+                  class="elem-swatch"
+                  class:active={(element.style.border_color || "#172033") === color}
+                  style={`background:${color}`}
+                  title={color}
+                  aria-label={`Bordo ${color}`}
+                  onclick={() => onUniversalElementStyle({ border_color: color })}
+                ></button>
+              {/each}
+              <label class="elem-swatch elem-swatch--custom" title="Bordo personalizzato">
+                <input
+                  type="color"
+                  value={element.style.border_color || "#172033"}
+                  onchange={(event) => onUniversalElementStyle({ border_color: event.currentTarget.value })}
+                />
+              </label>
+            </div>
+            <label class="elem-field elem-field--range">
+              <span>Spessore bordo <strong>{Number(element.style.border_width ?? 0).toFixed(1)} mm</strong></span>
+              <input
+                type="range"
+                min="0"
+                max="8"
+                step="0.2"
+                value={element.style.border_width ?? 0}
+                oninput={(event) => onUniversalElementStyle({ border_width: Number(event.currentTarget.value) })}
+              />
+            </label>
+            <label class="elem-field elem-field--range">
+              <span>Rotazione <strong>{Math.round(element.rotation)}°</strong></span>
+              <input
+                type="range"
+                min="-180"
+                max="180"
+                step="1"
+                value={element.rotation}
+                oninput={(event) => onUniversalElementNumber("rotation", Number(event.currentTarget.value))}
+              />
+            </label>
+            <label class="elem-field elem-field--range">
+              <span>Trasparenza <strong>{Math.round(element.opacity * 100)}%</strong></span>
+              <input
+                type="range"
+                min="0.2"
+                max="1"
+                step="0.05"
+                value={element.opacity}
+                oninput={(event) => onUniversalElementPatch({ opacity: Number(event.currentTarget.value) })}
+              />
+            </label>
+            <div class="elem-flags">
+              <button
+                class="elem-pill"
+                class:active={element.visible}
+                aria-pressed={element.visible}
+                onclick={() => onUniversalElementPatch({ visible: !element.visible })}
+              >Visibile</button>
+              <button
+                class="elem-pill"
+                class:active={element.locked}
+                aria-pressed={element.locked}
+                onclick={() => onUniversalElementPatch({ locked: !element.locked })}
+              >{element.locked ? "Bloccato" : "Blocca"}</button>
+              {#if universalSelection.cell}
+                <button class="elem-pill elem-pill--action" onclick={onUniversalDetachCell}>
+                  Svincola cella
+                </button>
+              {/if}
+            </div>
+
+            <h4>Pittogramma</h4>
+            <div class="elem-symbol-search">
+              <input
+                bind:value={universalSearchQuery}
+                placeholder="Cerca un simbolo…"
+                aria-label="Cerca un pittogramma per l'elemento"
+                onkeydown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    void searchUniversalSymbol();
+                  }
+                }}
+              />
+              <button class="btn" onclick={() => void searchUniversalSymbol()} disabled={universalSearchBusy}>
+                {universalSearchBusy ? "…" : "Cerca"}
+              </button>
+            </div>
+            {#if universalSearchError}<p class="hint">{universalSearchError}</p>{/if}
+            {#if universalSearchResults.length > 0}
+              <div class="elem-symbol-grid">
+                {#each universalSearchResults as alternative (alternative.symbol_id)}
+                  <button
+                    class="elem-symbol"
+                    title={`${alternative.label}${alternative.license ? ` · ${alternative.license}` : ""}`}
+                    onclick={() => applyUniversalSymbol(alternative)}
+                  >
+                    <span class="elem-symbol__media">
+                      {#if alternative.image}
+                        <img src={alternative.image} alt="" />
+                      {:else if alternative.svg}
+                        {@html alternative.svg}
+                      {:else}
+                        <span aria-hidden="true">?</span>
+                      {/if}
+                    </span>
+                    <span>{alternative.label}</span>
+                  </button>
+                {/each}
+              </div>
+            {/if}
+            <div class="elem-danger">
+              <button class="btn btn--ghost" onclick={onUniversalDeleteElement}>Elimina elemento</button>
+            </div>
+          </section>
+        {/if}
+
+        <section class="panel-section">
+          <h3>Elementi</h3>
+          <p class="hint">Aggiungi un elemento alla pagina corrente. Trascinalo nel foglio per spostarlo.</p>
+          <div class="elem-gallery">
+            {#each elementPalette as item (item.id)}
+              <button
+                class="elem-gallery__item"
+                data-kind={item.id}
+                title={`Inserisci ${item.label.toLowerCase()}`}
+                onclick={() => addElementFromPalette(item.id, item.kind)}
+              >
+                <span class="elem-gallery__preview" data-kind={item.id} aria-hidden="true"></span>
+                <span>{item.label}</span>
+              </button>
+            {/each}
+          </div>
+        </section>
+
         <section class="panel-section">
           <h3>Documento</h3>
           <div class="settings-row">

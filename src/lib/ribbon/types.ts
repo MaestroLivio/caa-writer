@@ -35,6 +35,12 @@ export interface RibbonGroup {
   commands: RibbonCommand[];
   /** Quanti comandi restano visibili prima del menu di overflow. */
   visible?: number;
+  /**
+   * `tiles` mostra i comandi come riquadri visivi grandi: icona in una tessera
+   * CAA ed etichetta sotto. È il formato della galleria «Inserisci», pensato
+   * per essere riconoscibile a colpo d'occhio, non un elenco di comandi.
+   */
+  layout?: "list" | "tiles";
 }
 
 export interface RibbonTab {
