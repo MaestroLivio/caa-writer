@@ -54,3 +54,35 @@ test("gli accenti non alterano gli offset in caratteri", () => {
   assert.equal(tokenAtOffset(accented, 4)?.surface, "città");
   assert.equal(tokenAtOffset(accented, 8)?.surface, "bella");
 });
+
+test("ogni riga di un testo complesso ha offset indipendenti", () => {
+  const first = [
+    { index: 0, surface: "Oggi", start: 0, end: 4 },
+    { index: 1, surface: "scrivo", start: 5, end: 11 },
+  ];
+  const second = [
+    { index: 0, surface: "una", start: 0, end: 3 },
+    { index: 1, surface: "tabella", start: 4, end: 11 },
+  ];
+  assert.equal(tokenAtOffset(first, 7)?.surface, "scrivo");
+  assert.equal(tokenAtOffset(second, 7)?.surface, "tabella");
+});
+
+test("una selezione all'indietro restituisce comunque il primo token", () => {
+  assert.equal(tokenForSelection(tokens, 16, 3)?.surface, "vorrei");
+});
+
+test("gli spazi finali di una riga non spostano la parola precedente", () => {
+  const line = [{ index: 0, surface: "fine", start: 0, end: 4 }];
+  assert.equal(tokenAtOffset(line, 4)?.surface, "fine");
+  assert.equal(tokenAtOffset(line, 5), null);
+});
+
+test("i caratteri fuori dal BMP mantengono gli offset UTF-16", () => {
+  const emoji = [
+    { index: 0, surface: "ciao", start: 0, end: 4 },
+    { index: 1, surface: "mondo", start: 6, end: 11 },
+  ];
+  assert.equal(tokenAtOffset(emoji, 7)?.surface, "mondo");
+  assert.equal(tokenAtOffset(emoji, 5), null);
+});

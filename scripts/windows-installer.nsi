@@ -2,7 +2,7 @@ Unicode true
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
-!define APP_VERSION "0.15.5"
+!define APP_VERSION "0.15.6"
 
 Name "CAA Writer"
 OutFile "CAA-Writer_${APP_VERSION}_windows-x64-setup.exe"

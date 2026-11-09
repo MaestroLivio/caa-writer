@@ -4,6 +4,16 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.6 — 2026-11-09
+
+### Sincronizzazione, selezione, immagini
+
+- Pannello Simbolo sincronizzato anche dopo una scelta dal pannello (guardia selezione corretta).
+- Ricerca Global Symbols automatica anche per la selezione, senza pulsanti.
+- Global Symbols automatico non blocca più il pittogramma.
+- Menu contestuale arricchito; immagini ancorate o svincolate; ritocchi grafici.
+- Test selezione estesi a righe multiple, selezione inversa, spazi finali e caratteri fuori BMP.
+
 ## 0.15.5 — 2026-11-08
 
 ### Pannello reattivo

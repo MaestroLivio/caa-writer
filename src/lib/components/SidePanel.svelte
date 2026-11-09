@@ -437,6 +437,14 @@
   const neuralFailures = new Set<string>();
   let neuralTimer: number | undefined;
   let neuralRequest = 0;
+  // Risultati Global Symbols cercati direttamente con la parola italiana,
+  // senza dipendere dalla traduzione: completano le alternative automatiche.
+  let remoteItems = $state<Alternative[]>([]);
+  let remoteBusy = $state(false);
+  const remoteCache = new Map<string, Alternative[]>();
+  const remoteFailures = new Set<string>();
+  let remoteTimer: number | undefined;
+  let remoteRequest = 0;
   const englishCache = new Map<string, { term: string; items: Alternative[] }>();
   const englishFailures = new Map<string, string>();
   let englishTimer: number | undefined;
@@ -455,10 +463,23 @@
         !isExplicitContent(item.label, item.meaning, item.symbol_id)
     )
   );
+  const safeRemoteItems = $derived(
+    remoteItems.filter(
+      (item) =>
+        settings.show_explicit_symbols ||
+        !isExplicitContent(item.label, item.meaning, item.symbol_id)
+    )
+  );
   const mergedAlternatives = $derived.by(() => {
     const seen = new Set(safeAlternatives.map((item) => item.symbol_id));
     const withNeural = [...safeAlternatives];
     for (const item of safeNeuralItems) {
+      if (!seen.has(item.symbol_id)) {
+        seen.add(item.symbol_id);
+        withNeural.push(item);
+      }
+    }
+    for (const item of safeRemoteItems) {
       if (!seen.has(item.symbol_id)) {
         seen.add(item.symbol_id);
         withNeural.push(item);
@@ -702,6 +723,50 @@
   /// scrittura. La richiesta viene sganciata dal ciclo di analisi e ha
   /// priorità bassa nella coda del motore; un errore non tocca le altre
   /// alternative.
+  /// Cerca Global Symbols con la parola italiana, senza tradurla: il
+  /// provider accetta anche ricerche in italiano. I risultati vengono
+  /// importati come copie locali e mostrati automaticamente, senza pulsanti.
+  async function loadRemoteAlternatives(word: string) {
+    const key = word.trim().toLocaleLowerCase("it");
+    if (!key || !isTauri()) return;
+    if (remoteCache.has(key)) {
+      remoteItems = remoteCache.get(key) ?? [];
+      return;
+    }
+    if (remoteFailures.has(key)) return;
+    const request = ++remoteRequest;
+    remoteBusy = true;
+    try {
+      const response = await api.searchOnlinePictograms([word], false);
+      const found: Alternative[] = [];
+      for (const result of response.results
+        .filter((item) => item.provider === "global-symbols" && item.kind === "pittogramma")
+        .slice(0, 4)) {
+        try {
+          const alternative = await api.saveOnlinePictogram(
+            result,
+            word,
+            "Online automatico"
+          );
+          alternative.approximate = true;
+          if (!found.some((item) => item.symbol_id === alternative.symbol_id)) {
+            found.push(alternative);
+          }
+        } catch {
+          /* un risultato non importabile non blocca gli altri */
+        }
+      }
+      if (request !== remoteRequest) return;
+      remoteCache.set(key, found);
+      remoteItems = found;
+    } catch {
+      remoteFailures.add(key);
+      if (request === remoteRequest) remoteItems = [];
+    } finally {
+      if (request === remoteRequest) remoteBusy = false;
+    }
+  }
+
   async function loadNeuralAlternatives(word: string) {
     const key = word.trim().toLocaleLowerCase("it");
     if (!key || !isTauri()) return;
@@ -1021,13 +1086,16 @@
     void settings.commercial_only;
     void settings.online_search;
     if (neuralTimer) window.clearTimeout(neuralTimer);
+    if (remoteTimer) window.clearTimeout(remoteTimer);
     // Invalida una richiesta ancora in volo per la parola precedente.
     neuralRequest += 1;
+    remoteRequest += 1;
     if (!word) {
       englishItems = [];
       englishTerm = "";
       englishError = "";
       neuralItems = [];
+      remoteItems = [];
       searchActive = false;
       searchQuery = "";
       searchResults = [];
@@ -1053,6 +1121,13 @@
         neuralTimer = undefined;
         void loadNeuralAlternatives(word);
       }, 1200);
+    }
+    if (settings.online_search !== "off" && tab === "simbolo") {
+      remoteItems = remoteCache.get(neuralKey) ?? [];
+      remoteTimer = window.setTimeout(() => {
+        remoteTimer = undefined;
+        void loadRemoteAlternatives(word);
+      }, 700);
     }
     // La ricerca inglese è un arricchimento: si attiva da sola solo quando la
     // ricerca online è consentita. Un errore di rete non blocca le alternative
@@ -1081,6 +1156,7 @@
       if (englishTimer) window.clearTimeout(englishTimer);
       if (onlineTimer) window.clearTimeout(onlineTimer);
       if (neuralTimer) window.clearTimeout(neuralTimer);
+      if (remoteTimer) window.clearTimeout(remoteTimer);
     };
   });
 
@@ -1437,7 +1513,7 @@
                 </span>
               </div>
               <div class="symbol-head__tools">
-                {#if englishBusy || neuralBusy}
+                {#if englishBusy || neuralBusy || remoteBusy}
                   <span class="symbol-working" title="Cerco altre alternative in background">…</span>
                 {/if}
                 <button

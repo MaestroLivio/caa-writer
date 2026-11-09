@@ -165,6 +165,8 @@
   let presetDialogOpen = $state(false);
   let textChangeOpen = $state(false);
   let textChangeValue = $state("");
+  let symbolImageInput: HTMLInputElement | undefined = $state();
+  let freeImageInput: HTMLInputElement | undefined = $state();
   let clickAudio: AudioContext | null = null;
 
   function playClick() {
@@ -2241,6 +2243,65 @@
       syncSelectedSoon();
     } else {
       toast("Non è stato possibile aggiornare il testo.", "warn");
+    }
+  }
+
+  function chooseSymbolImage() {
+    unitMenu = null;
+    symbolImageInput?.click();
+  }
+
+  function chooseFreeImage() {
+    unitMenu = null;
+    freeImageInput?.click();
+  }
+
+  async function onSymbolImageChosen(event: Event) {
+    const file = (event.currentTarget as HTMLInputElement).files?.[0];
+    if (file) await importSvg(file);
+    (event.currentTarget as HTMLInputElement).value = "";
+  }
+
+  async function onFreeImageChosen(event: Event) {
+    const input = event.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = "";
+    if (!file) return;
+    if (!universalEditorRef) {
+      toast("Apri un documento impaginato per inserire immagini libere.", "warn");
+      return;
+    }
+    try {
+      const data = await fileToDataUrl(file);
+      const label = file.name.replace(/\.[^.]+$/, "");
+      await universalEditorRef.insertImageElement(data, label);
+      toast("Immagine inserita sulla pagina, svincolata dal rigo.", "info");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  async function detachSelectedToPage() {
+    if (!selected) return;
+    const media = selected.token.image ?? selected.token.svg;
+    if (!media) {
+      toast("Il pittogramma non ha un'immagine da svincolare.", "warn");
+      return;
+    }
+    if (!universalEditorRef) {
+      toast("Apri un documento impaginato per svincolare il pittogramma.", "warn");
+      return;
+    }
+    try {
+      await universalEditorRef.insertImageElement(media, selected.token.surface);
+      await setUnitState({ hidden: true });
+      unitMenu = null;
+      toast(
+        "Pittogramma copiato sulla pagina come immagine svincolata; il simbolo nel rigo è nascosto.",
+        "info"
+      );
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
     }
   }
 
@@ -4683,6 +4744,26 @@
 {#if unitMenu && selected}
   <div class="unit-menu" style={`left:${unitMenu.x}px; top:${unitMenu.y}px`} role="menu" aria-label="Azioni sul pittogramma">
     <p class="unit-menu__title">«{selected.token.surface}»</p>
+    <button class="unit-menu__item" role="menuitem" onclick={() => { unitMenu = null; openTextChange(); }}>
+      Cambia testo…
+    </button>
+    <button class="unit-menu__item" role="menuitem" onclick={() => { unitMenu = null; openPanelTab("simbolo"); }}>
+      Apri alternative
+    </button>
+    <button class="unit-menu__item" role="menuitem" onclick={() => void speak(selected!.token.surface)}>
+      Ascolta parola
+    </button>
+    <p class="unit-menu__group">Immagine</p>
+    <button class="unit-menu__item" role="menuitem" onclick={chooseSymbolImage}>
+      Immagine ancorata alla parola…
+    </button>
+    <button class="unit-menu__item" role="menuitem" onclick={chooseFreeImage}>
+      Immagine svincolata sulla pagina…
+    </button>
+    <button class="unit-menu__item" role="menuitem" onclick={() => void detachSelectedToPage()}>
+      Svincola il pittogramma sulla pagina
+    </button>
+    <p class="unit-menu__group">Stato</p>
     <button class="unit-menu__item" role="menuitem" onclick={() => void setUnitState({ locked: !selected!.token.locked })}>
       {selected.token.locked ? "Sblocca pittogramma" : "Blocca pittogramma"}
     </button>
@@ -4700,9 +4781,27 @@
       </button>
     {/each}
     <button class="unit-menu__item" role="menuitem" onclick={resetModifiers}>Ripristina automatici</button>
+    <button class="unit-menu__item" role="menuitem" onclick={() => { unitMenu = null; void resetUnit(); }}>
+      Rimuovi pittogramma
+    </button>
     <button class="unit-menu__item unit-menu__item--close" role="menuitem" onclick={() => (unitMenu = null)}>Chiudi</button>
   </div>
 {/if}
+
+<input
+  type="file"
+  accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff,image/avif,image/x-icon,.png,.jpg,.jpeg,.webp,.gif,.bmp,.tif,.tiff,.avif,.ico,.svg"
+  style="display:none"
+  bind:this={symbolImageInput}
+  onchange={onSymbolImageChosen}
+/>
+<input
+  type="file"
+  accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff,image/avif,image/x-icon,.png,.jpg,.jpeg,.webp,.gif,.bmp,.tif,.tiff,.avif,.ico,.svg"
+  style="display:none"
+  bind:this={freeImageInput}
+  onchange={onFreeImageChosen}
+/>
 
 {#if setupOpen}
   <ProfileSetup

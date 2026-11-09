@@ -399,6 +399,11 @@
       button.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
+        // Allinea anche la guardia della selezione testuale: senza questo,
+        // tornando con il mouse sulla stessa parola dopo aver scelto un chip,
+        // la guardia considerava la selezione invariata e il pannello restava
+        // sul pittogramma precedente.
+        lastTextSelectionKey = `${pid}:${token.index}:${token.surface}`;
         onSelectToken(pid, token);
       });
       button.addEventListener("contextmenu", (event) => {
@@ -751,7 +756,11 @@
     const token = tokenForSelection(tokens, from - start, end - start);
     if (!token) return;
     const key = `${pid}:${token.index}:${token.surface}`;
-    if (key === lastTextSelectionKey) return;
+    const activeKey = selectedUnit ? `${selectedUnit.pid}:${selectedUnit.index}` : "";
+    // La guardia evita solo di ripetere la stessa selezione già mostrata.
+    // Se il pannello è su un'altra unità (per esempio dopo un clic sul chip),
+    // il clic sulla parola deve comunque aggiornarlo.
+    if (key === lastTextSelectionKey && activeKey === `${pid}:${token.index}`) return;
     lastTextSelectionKey = key;
     onSelectToken(pid, token);
   }
@@ -996,13 +1005,19 @@
                 token.symbol_id === alternative.symbol_id
             );
             if (applied) {
+              const key = `${pid}:${applied.index}`;
               await api
                 .setDocumentOverride(
                   documentKey,
-                  `${pid}:${applied.index}`,
+                  key,
                   alternative.symbol_id,
                   alternative.concept_id
                 )
+                .catch(() => undefined);
+              // L'attribuzione automatica (anche Global Symbols) non deve
+              // bloccare il pittogramma: l'utente deve poterlo cambiare.
+              await api
+                .setUnitState(documentKey, key, false, applied.hidden, applied.modifiers)
                 .catch(() => undefined);
             }
             touched = true;

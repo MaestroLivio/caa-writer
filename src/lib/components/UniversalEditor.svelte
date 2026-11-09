@@ -606,14 +606,15 @@
       return;
     }
     const id = `ai-${Date.now().toString(36)}-${Math.floor(Math.random() * 1000)}`;
+    const offset = (page.elements.length % 6) * 6;
     const element = {
       id,
       kind: "image",
       text: label,
       spoken_text: label,
       svg,
-      x_mm: 24,
-      y_mm: 24,
+      x_mm: 20 + offset,
+      y_mm: 20 + offset,
       w_mm: 70,
       h_mm: 70,
     };
