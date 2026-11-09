@@ -176,6 +176,7 @@
   let neuralBusy = $state(false);
   let showAdvanced = $state(false);
   let lastPanelSelectionKey = "";
+  let lastPanelWord = "";
 
   /// Etichetta breve della fonte, per la griglia compatta.
   function sourceLabel(item: {
@@ -1106,6 +1107,18 @@
       lastPanelSelectionKey = selectionKey;
       // La ricerca manuale non deve restare appiccicata alla parola nuova.
       clearSearch();
+    }
+    const currentWord = word.trim();
+    if (currentWord !== lastPanelWord) {
+      // Le alternative della parola precedente non devono restare visibili
+      // mentre arrivano quelle nuove (succedeva dopo «Cambia testo» o un clic
+      // rapido su un'altra riga).
+      lastPanelWord = currentWord;
+      neuralItems = [];
+      remoteItems = [];
+      englishItems = [];
+      englishTerm = "";
+      englishError = "";
     }
     const neuralKey = word.trim().toLocaleLowerCase("it");
     if (!neuralReady) {

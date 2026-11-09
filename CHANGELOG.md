@@ -4,6 +4,13 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.7 — 2026-11-09
+
+### Pannello
+
+- Azzeramento immediato delle alternative della parola precedente quando cambia la selezione o
+  dopo «Cambia testo».
+
 ## 0.15.6 — 2026-11-09
 
 ### Sincronizzazione, selezione, immagini
