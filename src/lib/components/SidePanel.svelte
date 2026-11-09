@@ -173,6 +173,7 @@
   const applyMedia = <T extends MediaItem>(item: T): T & { svg: string | null; image: string | null } =>
     ({ ...item, ...mediaFor(item) });
   let searchActive = $state(false);
+  let searchScope = $state<AssociationScope>(associationScope);
   let neuralBusy = $state(false);
   let showAdvanced = $state(false);
   let lastPanelSelectionKey = "";
@@ -260,6 +261,8 @@
   });
 
   async function applyFromPanel(alternative: Alternative) {
+    const fromSearch = searchActive;
+    if (fromSearch) onAssociationScope(searchScope);
     const prepared = applyMedia(alternative);
     // Prima di applicare, assicura che il pittogramma scelto sia davvero
     // disponibile in locale: gli ARASAAC con file mancante vengono scaricati
@@ -741,8 +744,8 @@
       const response = await api.searchOnlinePictograms([word], false);
       const found: Alternative[] = [];
       for (const result of response.results
-        .filter((item) => item.provider === "global-symbols" && item.kind === "pittogramma")
-        .slice(0, 4)) {
+        .filter((item) => item.kind === "pittogramma")
+        .slice(0, 6)) {
         try {
           const alternative = await api.saveOnlinePictogram(
             result,
@@ -1208,6 +1211,18 @@
   async function runSearch(silent = false) {
     const request = ++searchSeq;
     const raw = searchQuery.trim();
+    if (
+      raw &&
+      !collectionFilter &&
+      selected &&
+      normalizeText(raw) ===
+        normalizeText(selected.token.lemma ?? selected.token.surface)
+    ) {
+      // Le alternative di questa parola sono già automatiche: il campo in
+      // basso serve solo per una parola diversa.
+      clearSearch();
+      return;
+    }
     if (!raw && !collectionFilter) {
       searchResults = [];
       affinity = null;
@@ -1604,6 +1619,22 @@
             {#if searchActive}
               <div class="symbol-results-head">
                 <span>Risultati per «{searchQuery}»</span>
+              </div>
+              <div class="symbol-scope">
+                <span>Applica a</span>
+                <select
+                  value={searchScope}
+                  aria-label="Ambito dell'associazione"
+                  onchange={(event) => {
+                    searchScope = (event.currentTarget as HTMLSelectElement)
+                      .value as AssociationScope;
+                    onAssociationScope(searchScope);
+                  }}
+                >
+                  <option value="occurrence">Questa parola</option>
+                  <option value="document">Tutto il progetto</option>
+                  <option value="global">Sempre, tutti i documenti</option>
+                </select>
               </div>
               {#if searchBusy}
                 <p class="symbol-empty">Cerco…</p>

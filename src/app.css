@@ -3575,3 +3575,18 @@ textarea {
   color: var(--accent, #2463eb);
   outline: none;
 }
+
+.symbol-scope {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.symbol-scope select {
+  font-size: 0.7rem;
+  padding: 3px 5px;
+  max-width: 180px;
+}

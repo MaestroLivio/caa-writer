@@ -4,6 +4,15 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.8 — 2026-11-09
+
+### Ricerca e menu
+
+- Alternative online automatiche complete anche per la selezione; ricerca manuale dello stesso
+  termine disattivata.
+- Scelta dell'ambito nei risultati manuali: parola, progetto, tutti i documenti.
+- Menu contestuale chiudibile con clic a vuoto/Esc.
+
 ## 0.15.7 — 2026-11-09
 
 ### Pannello

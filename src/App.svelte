@@ -167,6 +167,24 @@
   let textChangeValue = $state("");
   let symbolImageInput: HTMLInputElement | undefined = $state();
   let freeImageInput: HTMLInputElement | undefined = $state();
+
+  // Il menu contestuale del pittogramma si chiude con un clic a vuoto o Esc.
+  $effect(() => {
+    if (!unitMenu) return;
+    const onDown = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      if (!target?.closest?.(".unit-menu")) unitMenu = null;
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") unitMenu = null;
+    };
+    window.addEventListener("mousedown", onDown, true);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("mousedown", onDown, true);
+      window.removeEventListener("keydown", onKey);
+    };
+  });
   let clickAudio: AudioContext | null = null;
 
   function playClick() {
