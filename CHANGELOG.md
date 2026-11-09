@@ -4,6 +4,15 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.10 — 2026-11-09
+
+### Pannello e selezione
+
+- Il simbolo in uso è sempre il primo nel pannello, con badge «in uso».
+- Clic sui chip gestito al pointerdown e scelta del chip più vicino in caso di sovrapposizione.
+- Temi Araword e Pastello anche nel selettore rapido del Ribbon.
+- Coda del fumetto visibile nell'editor; comandi duplicati rimossi.
+
 ## 0.15.9 — 2026-11-09
 
 ### Schede illustrate e temi

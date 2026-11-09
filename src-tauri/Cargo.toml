@@ -1,6 +1,6 @@
 [package]
 name = "caa-writer"
-version = "0.15.9"
+version = "0.15.10"
 description = "Word processor CAA offline con motore semantico locale"
 authors = ["CAA Writer contributors"]
 edition = "2021"

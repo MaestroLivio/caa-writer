@@ -3621,10 +3621,6 @@
           group("elements", "Elementi", [
             cmd("insert-table", "Tabella", "table", () => editor?.insertTable(3, 3)),
             cmd("insert-symbol", "Pittogramma", "image", () => openSearchForSelected()),
-            cmd("insert-image", "Immagine", "image-plus", chooseFreeImage),
-            cmd("insert-speech", "Fumetto", "message-square", () =>
-              universalEditorRef?.addElementNow("speech")
-            ),
           ]),
           group("caa-insert", "CAA", [
             cmd("symbol-word", "Pittogramma sulla parola", "image-plus", () => openSearchForSelected()),
@@ -4088,6 +4084,8 @@
                 { value: "chiaro", label: "Chiaro" },
                 { value: "scuro", label: "Scuro" },
                 { value: "contrasto", label: "Alto contrasto" },
+                { value: "araword", label: "Araword" },
+                { value: "pastello", label: "Pastello" },
               ],
               (value) => patchSettings({ theme: value as never }),
               { width: "130px" }

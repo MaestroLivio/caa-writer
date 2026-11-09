@@ -452,6 +452,12 @@
       this.strip.setAttribute("aria-label", "Pittogrammi del paragrafo");
       this.applyAttrs();
       this.renderStrip();
+      // La selezione parte dal pointerdown in fase di cattura: se nel frattempo
+      // arriva un risultato di analisi la striscia può essere ricostruita e il
+      // click andrebbe perso. Inoltre, con i pittogrammi sulla parola i chip
+      // possono sovrapporsi: si sceglie quello con il centro più vicino al
+      // punto cliccato, non semplicemente l'ultimo disegnato.
+      this.strip.addEventListener("pointerdown", (event) => this.selectChipAt(event), true);
       paragraphViews.set(this.pid, this);
       window.addEventListener("resize", this.onResize);
     }
@@ -480,6 +486,44 @@
       this.dom.classList.toggle("caa-block--break", Boolean(attrs.page_break));
       this.dom.dataset.pid = this.pid;
       this.contentDOM.setAttribute("data-pid", this.pid);
+    }
+
+    /// Seleziona il pittogramma toccato. In caso di sovrapposizione tra chip
+    /// adiacenti sceglie quello il cui centro è più vicino al punto cliccato.
+    private selectChipAt(event: PointerEvent) {
+      if (event.button !== 0) return;
+      const target = (event.target as Element | null)?.closest?.(
+        ".caa-chip"
+      ) as HTMLElement | null;
+      if (!target || !this.strip.contains(target)) return;
+      const x = event.clientX;
+      const y = event.clientY;
+      const chips = Array.from(
+        this.strip.querySelectorAll<HTMLElement>(".caa-chip")
+      );
+      let chosen = target;
+      if (chips.length > 1) {
+        const under = chips.filter((chip) => {
+          const rect = chip.getBoundingClientRect();
+          return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+        });
+        if (under.length > 1) {
+          chosen = under.reduce((best, chip) => {
+            const center = (element: HTMLElement) => {
+              const rect = element.getBoundingClientRect();
+              return Math.abs(x - (rect.left + rect.right) / 2);
+            };
+            return center(chip) < center(best) ? chip : best;
+          });
+        }
+      }
+      const tokens = tokensByPid.get(this.pid) ?? [];
+      const token = tokens.find((item) => item.index === Number(chosen.dataset.index));
+      if (!token) return;
+      event.preventDefault();
+      event.stopPropagation();
+      lastTextSelectionKey = `${this.pid}:${token.index}:${token.surface}`;
+      onSelectToken(this.pid, token);
     }
 
     /// Il pid può cambiare se ProseMirror ricostruisce il nodo: la vista deve

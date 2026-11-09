@@ -1506,6 +1506,8 @@
       `opacity:${element.opacity}`,
       `z-index:${element.z}`,
       `background:${background}`,
+      `--uel-fill:${background}`,
+      `--uel-stroke:${element.style.border_color || "#172033"}`,
       `border:${border}`,
       `border-radius:${element.style.border_radius ?? 2}mm`,
       `color:${element.style.color || "#111"}`,
@@ -2460,9 +2462,7 @@
   .uel__symbol :global(svg), .ueditor__result-media :global(svg), .uel__cell-symbol :global(svg),
   .uel__symbol :global(img), .ueditor__result-media :global(img), .uel__cell-symbol :global(img) { width: 100%; height: 100%; object-fit: contain; }
   .uel--speech {
-    border-radius: 12px;
-    background: #ffffff;
-    border: 1.5px solid #172033;
+    overflow: visible;
   }
   .uel--speech::after {
     content: "";
@@ -2471,9 +2471,9 @@
     bottom: -7px;
     width: 12px;
     height: 12px;
-    background: #ffffff;
-    border-right: 1.5px solid #172033;
-    border-bottom: 1.5px solid #172033;
+    background: var(--uel-fill, #ffffff);
+    border-right: 1.5px solid var(--uel-stroke, #172033);
+    border-bottom: 1.5px solid var(--uel-stroke, #172033);
     transform: rotate(45deg) skew(8deg, 8deg);
   }
   .uel__label { font-size: inherit; line-height: 1.15; text-align: center; pointer-events: auto; cursor: text; outline: none; min-width: 2mm; }

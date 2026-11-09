@@ -249,10 +249,14 @@
   const displayAlternatives = $derived.by(() => {
     if (!selected) return [];
     const word = normalizeText(selected.token.lemma ?? selected.token.surface);
-    const items = mergedAlternatives.filter(
-      (item) => item.symbol_id !== selected.token.symbol_id
-    );
-    return rankAlternatives(items, word).slice(0, 24);
+    const current = currentAlternative;
+    const others = rankAlternatives(
+      mergedAlternatives.filter((item) => item.symbol_id !== current?.symbol_id),
+      word
+    ).slice(0, current ? 23 : 24);
+    // Il simbolo già attribuito resta in testa: è quello che l'utente vede
+    // nel testo e deve poter ritrovare (e riapplicare) nel pannello.
+    return current ? [current, ...others] : others;
   });
 
   const searchDisplay = $derived.by(() => {
@@ -474,9 +478,41 @@
         !isExplicitContent(item.label, item.meaning, item.symbol_id)
     )
   );
+  // Il pittogramma già attribuito alla parola deve comparire sempre nel
+  // pannello, anche quando la ricerca del repertorio non lo restituisce tra le
+  // alternative: prima il simbolo automatico (es. «bene» → pollice in alto)
+  // restava visibile nel testo ma assente dal pannello.
+  const currentAlternative = $derived.by((): Alternative | null => {
+    const token = selected?.token;
+    if (!token?.symbol_id) return null;
+    return {
+      symbol_id: token.symbol_id,
+      concept_id: token.concept_id ?? null,
+      label:
+        token.symbol_label ??
+        token.concept_label ??
+        token.caption ??
+        token.surface,
+      meaning: token.meaning ?? "",
+      pack_id: token.pack_id ?? "",
+      pack_name: "",
+      format: token.image ? "png" : "svg",
+      svg: token.svg ?? null,
+      image: token.image ?? null,
+      approximate: token.approximate,
+      license: "",
+      source_url: null,
+      author: null,
+    };
+  });
   const mergedAlternatives = $derived.by(() => {
-    const seen = new Set(safeAlternatives.map((item) => item.symbol_id));
-    const withNeural = [...safeAlternatives];
+    const base = safeAlternatives.filter(
+      (item) => item.symbol_id !== currentAlternative?.symbol_id
+    );
+    const seen = new Set(base.map((item) => item.symbol_id));
+    const withNeural = currentAlternative
+      ? [currentAlternative, ...base]
+      : [...base];
     for (const item of safeNeuralItems) {
       if (!seen.has(item.symbol_id)) {
         seen.add(item.symbol_id);
@@ -1416,7 +1452,7 @@
   <button
     class="symbol-tile symbol-tile--compact"
     aria-current={selected?.token.symbol_id === alternative.symbol_id}
-    title={`${alternative.meaning || alternative.label} — ${sourceLabel(alternative)} (${alternative.license})`}
+    title={`${alternative.meaning || alternative.label} — ${sourceLabel(alternative)}${alternative.license ? ` (${alternative.license})` : ""}`}
     onclick={() => void applyFromPanel(alternative)}
   >
     <span class="symbol-tile__media">
@@ -1424,6 +1460,9 @@
     </span>
     <span class="symbol-tile__label">{alternative.label}</span>
     <span class="symbol-tile__source">{sourceLabel(alternative)}</span>
+    {#if selected?.token.symbol_id === alternative.symbol_id}
+      <span class="symbol-tile__mark" title="Pittogramma attualmente attribuito alla parola">in uso</span>
+    {/if}
     {#if alternative.approximate}
       <span class="symbol-tile__mark" title="Pittogramma approssimativo: verifica prima di scegliere">≈</span>
     {/if}
@@ -1578,10 +1617,11 @@
               <div class="symbol-advanced">
                 <div class="symbol-advanced__row">
                   <button class="btn btn--ghost btn--tiny" onclick={onResetUnit}>Ripristina scelta</button>
-                  {#if safeAlternatives.length > 0}
+                  {#if currentAlternative || safeAlternatives.length > 0}
                     <button
                       class="btn btn--ghost btn--tiny"
-                      onclick={() => onSaveGlobalPreference(safeAlternatives[0])}
+                      onclick={() =>
+                        onSaveGlobalPreference(currentAlternative ?? safeAlternatives[0])}
                       disabled={!selected.token.symbol_id}
                     >Usa sempre</button>
                   {/if}
