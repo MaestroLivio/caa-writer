@@ -488,7 +488,38 @@
             <option value="chiaro">Chiaro</option>
             <option value="scuro">Scuro</option>
             <option value="contrasto">Alto contrasto</option>
+            <option value="araword">Araword (colorato, simboli grandi)</option>
+            <option value="pastello">Pastello</option>
           </select>
+        </div>
+        <div class="row">
+          <label>Interfaccia rapida</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button
+              class="btn btn--solid"
+              type="button"
+              onclick={() =>
+                onUpdateSettings({
+                  theme: "araword",
+                  symbol_layout: "parola",
+                  border_style: "immagine_testo",
+                  symbol_size: 64,
+                  mode: "sopra",
+                })}
+            >Stile Araword</button>
+            <button
+              class="btn"
+              type="button"
+              onclick={() =>
+                onUpdateSettings({
+                  theme: "pastello",
+                  symbol_layout: "parola",
+                  border_style: "immagine_testo",
+                  symbol_size: 60,
+                  mode: "sopra",
+                })}
+            >Stile pastello</button>
+          </div>
         </div>
         <div class="row">
           <label for="dlg-touch">Modalità tocco (smartboard)</label>

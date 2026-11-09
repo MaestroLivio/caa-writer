@@ -727,12 +727,17 @@
     const element: UniversalElement = {
       id,
       kind,
-      text: kind === "text" || kind === "text_box" || kind === "button" ? "Nuovo testo" : "",
+      text:
+        kind === "text" || kind === "text_box" || kind === "button"
+          ? "Nuovo testo"
+          : kind === "speech"
+            ? "Nuovo fumetto"
+            : "",
       spoken_text: "",
       x_mm: Math.max(5, (doc.page.margin_mm || 12) + 5),
       y_mm: Math.max(5, (doc.page.margin_mm || 12) + 5),
-      w_mm: kind === "button" ? 45 : 80,
-      h_mm: kind === "button" ? 22 : kind === "shape" ? 30 : 20,
+      w_mm: kind === "button" ? 45 : kind === "speech" ? 72 : 80,
+      h_mm: kind === "button" ? 22 : kind === "shape" ? 30 : kind === "speech" ? 28 : 20,
       rotation: 0,
       z: docPage.elements.length,
       visible: true,
@@ -745,7 +750,16 @@
       style:
         kind === "button"
           ? { font_size: 4.5, border_width: 1, border_color: "#456", align: "center" }
-          : { font_size: 4.5 },
+          : kind === "speech"
+            ? {
+                font_size: 4.5,
+                border_width: 0.7,
+                border_color: "#172033",
+                border_radius: 6,
+                background: "#ffffff",
+                align: "center",
+              }
+            : { font_size: 4.5 },
       action: kind === "button" ? { type: "speak", target_page: null } : null,
       link_page: null,
       group_id: null,
@@ -2025,6 +2039,7 @@
                   class:uel--locked={element.locked}
                   class:uel--symbol={element.kind === "symbol"}
                   class:uel--button={element.kind === "button"}
+                  class:uel--speech={element.kind === "speech"}
                   class:uel--toggle={element.action?.type === "toggle"}
                   class:uel--on={toggled.includes(element.id)}
                   data-action={element.action?.type ?? ""}
@@ -2444,6 +2459,23 @@
   .uel__symbol { width: 100%; height: 62%; display: flex; align-items: center; justify-content: center; min-height: 0; }
   .uel__symbol :global(svg), .ueditor__result-media :global(svg), .uel__cell-symbol :global(svg),
   .uel__symbol :global(img), .ueditor__result-media :global(img), .uel__cell-symbol :global(img) { width: 100%; height: 100%; object-fit: contain; }
+  .uel--speech {
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1.5px solid #172033;
+  }
+  .uel--speech::after {
+    content: "";
+    position: absolute;
+    left: 18%;
+    bottom: -7px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-right: 1.5px solid #172033;
+    border-bottom: 1.5px solid #172033;
+    transform: rotate(45deg) skew(8deg, 8deg);
+  }
   .uel__label { font-size: inherit; line-height: 1.15; text-align: center; pointer-events: auto; cursor: text; outline: none; min-width: 2mm; }
   .uel__label[contenteditable="true"]:focus { outline: 1px dashed #2463eb; background: #fff8d8; }
   .uel__grid { position: absolute; inset: 0; }

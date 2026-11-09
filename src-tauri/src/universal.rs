@@ -725,6 +725,7 @@ fn validate_element(element: &UniversalElement, page: &UniversalPage) -> Result<
         "sequence",
         "word_bank",
         "example",
+        "speech",
     ];
     if !allowed.contains(&element.kind.as_str()) {
         return Err(format!("{}: tipo di elemento sconosciuto «{}»", element.id, element.kind));
@@ -2734,6 +2735,56 @@ fn render_element_svg(element: &RenderedElement) -> String {
         ));
         render_special_kind(&mut out, element, inner_w, inner_h);
         out.push_str("</g>");
+    } else if element.kind == "speech" {
+        // Fumetto: riquadro arrotondato, coda in basso a sinistra e testo
+        // centrato. Serve per schede illustrate e strisce a vignette.
+        let fill = if element.style.background.is_empty() {
+            "#ffffff".to_string()
+        } else {
+            element.style.background.clone()
+        };
+        let stroke = if element.style.border_color.is_empty() {
+            "#172033".to_string()
+        } else {
+            element.style.border_color.clone()
+        };
+        let stroke_width = element.style.border_width.max(0.35).min(1.5);
+        let radius = element.style.border_radius.max(2.0).min(inner_h / 2.0);
+        out.push_str(&format!(
+            "<rect x=\"0\" y=\"0\" width=\"{inner_w}\" height=\"{inner_h}\" rx=\"{radius}\" fill=\"{}\" stroke=\"{}\" stroke-width=\"{stroke_width}\"/>",
+            escape_xml(&fill),
+            escape_xml(&stroke)
+        ));
+        let tail_x = inner_w * 0.22;
+        let tail_y = inner_h;
+        out.push_str(&format!(
+            "<path d=\"M {tail_x} {tail_y} L {} {} L {} {tail_y} Z\" fill=\"{}\" stroke=\"{}\" stroke-width=\"{stroke_width}\"/>",
+            tail_x + inner_w * 0.06,
+            tail_y + 4.0,
+            tail_x + inner_w * 0.14,
+            escape_xml(&fill),
+            escape_xml(&stroke)
+        ));
+        let font = element.style.font_size.max(2.5);
+        let max_chars = (inner_w / (font * 0.55)).max(4.0) as usize;
+        let lines = wrap_text(&element.text, max_chars);
+        let line_height = font * 1.24;
+        let text_h = lines.len() as f32 * line_height;
+        let start_y = ((inner_h - 4.0 - text_h) / 2.0 + font).max(font);
+        render_text_lines(
+            &mut out,
+            &lines,
+            padding,
+            start_y,
+            inner_w,
+            if element.style.align.is_empty() {
+                "center"
+            } else {
+                &element.style.align
+            },
+            font,
+            &element.style,
+        );
     } else if let Some(svg) = element
         .svg
         .as_deref()
@@ -2995,6 +3046,8 @@ pub fn render_html(document: &RenderedDocument) -> String {
 .caa-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(20mm,1fr));gap:2mm;border:0;background:transparent;padding:0}}\
 .caa-cell{{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;border:1px solid #9aa7bb;border-radius:3mm;background:#fff;font:inherit;color:#111;cursor:pointer;min-height:18mm}}\
 .caa-cell svg,.caa-el svg{{width:14mm;height:14mm}}\
+.caa-speech{{border-radius:6mm;background:#fff;border:0.6mm solid #172033;overflow:visible}}\
+.caa-speech::after{{content:'';position:absolute;left:18%;bottom:-3mm;width:6mm;height:6mm;background:#fff;border-right:0.6mm solid #172033;border-bottom:0.6mm solid #172033;transform:rotate(45deg)}}\
 .caa-token{{border:0;background:transparent;padding:0;display:flex;align-items:center;justify-content:center}}\
 .caa-token__circle{{display:block;width:82%;max-width:34mm;aspect-ratio:1;border:2px dashed #0f766e;border-radius:50%;background:#fff}}\
 .caa-token.is-on .caa-token__circle{{border-style:solid;background:#fbbf24}}\
@@ -3272,6 +3325,38 @@ mod tests {
         let stored = document.element("story", "img1").unwrap();
         assert_eq!(stored.kind, "image");
         assert_eq!(stored.svg.as_deref(), Some(svg));
+    }
+
+    #[test]
+    fn speech_bubble_renders_box_tail_and_text() {
+        let mut document = sample();
+        let mut element = new_element("speech-1", "speech", "Ciao, sono un fumetto");
+        element.x_mm = 20.0;
+        element.y_mm = 20.0;
+        element.w_mm = 70.0;
+        element.h_mm = 30.0;
+        element.visible = true;
+        element.style.font_size = 5.0;
+        apply_command(
+            &mut document,
+            &DocumentCommand::AddElement {
+                page: "story".to_string(),
+                element: serde_json::to_value(&element).unwrap(),
+                index: None,
+            },
+        )
+        .unwrap();
+        let rendered = document.render().unwrap();
+        let page = rendered.pages.iter().find(|page| page.id == "story").unwrap();
+        let svg = render_page_svg(page);
+        assert!(svg.contains("Ciao, sono un fumetto"));
+        assert!(svg.contains("<path"));
+        assert!(svg.contains("rx="));
+        let html = render_html(&rendered);
+        assert!(html.contains("caa-speech"));
+        assert!(html.contains("caa-speech::after"));
+        let pdf = crate::export::universal_pdf::build_pdf(&document, 1.0).unwrap();
+        assert!(pdf.starts_with(b"%PDF"));
     }
 
     #[test]

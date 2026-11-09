@@ -4,6 +4,14 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.9 — 2026-11-09
+
+### Schede illustrate e temi
+
+- Elemento Fumetto con coda e testo in PDF/HTML/DOCX/PPTX.
+- Immagini ancorate alla parola o libere sulla pagina; comandi Ribbon.
+- Tema Araword e tema Pastello; preset in Impostazioni.
+
 ## 0.15.8 — 2026-11-09
 
 ### Ricerca e menu

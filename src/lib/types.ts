@@ -638,7 +638,7 @@ export interface DocumentSettings {
   /// Mostra il pulsante dei controlli smartboard (tastiera a schermo) in
   /// modalità touch. I controlli si aprono solo su richiesta.
   smartboard_controls: boolean;
-  theme: "chiaro" | "scuro" | "contrasto";
+  theme: "chiaro" | "scuro" | "contrasto" | "araword" | "pastello";
   page: "a4" | "a4-orizzontale" | "a3" | "a5";
   page_margin: "stretto" | "normale" | "ampio";
   page_color: string;

@@ -3621,6 +3621,10 @@
           group("elements", "Elementi", [
             cmd("insert-table", "Tabella", "table", () => editor?.insertTable(3, 3)),
             cmd("insert-symbol", "Pittogramma", "image", () => openSearchForSelected()),
+            cmd("insert-image", "Immagine", "image-plus", chooseFreeImage),
+            cmd("insert-speech", "Fumetto", "message-square", () =>
+              universalEditorRef?.addElementNow("speech")
+            ),
           ]),
           group("caa-insert", "CAA", [
             cmd("symbol-word", "Pittogramma sulla parola", "image-plus", () => openSearchForSelected()),
@@ -4229,6 +4233,10 @@
             universalEditorRef?.addElementNow("button")
           ),
           cmd("el-shape", "Forma", "image", () => universalEditorRef?.addElementNow("shape")),
+          cmd("el-speech", "Fumetto", "message-square", () =>
+            universalEditorRef?.addElementNow("speech")
+          ),
+          cmd("el-image", "Immagine", "image-plus", chooseFreeImage),
           cmd("el-placeholder", "Segnaposto", "layout-grid", () =>
             universalEditorRef?.addElementNow("placeholder")
           ),
