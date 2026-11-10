@@ -733,18 +733,14 @@
 
   function updateElement(id: string, patch: Record<string, unknown>) {
     if (!docPage) return;
-    void apply(
-      [{ op: "update_element", page: docPage.id, id, patch }],
-      "Elemento aggiornato."
-    );
+    // Silenzioso: la modifica è già visibile nell'anteprima. Un toast per ogni
+    // ritocco coprirebbe il lavoro e sembrerebbe una conferma richiesta.
+    void apply([{ op: "update_element", page: docPage.id, id, patch }], "");
   }
 
   function setStyle(patch: Partial<UniversalStyle>) {
     if (!docPage || !selectedId) return;
-    void apply(
-      [{ op: "set_style", page: docPage.id, id: selectedId, style: patch }],
-      "Stile aggiornato."
-    );
+    void apply([{ op: "set_style", page: docPage.id, id: selectedId, style: patch }], "");
   }
 
   function setAction(patch: Record<string, unknown> | null) {
@@ -754,7 +750,7 @@
       : null;
     void apply(
       [{ op: "set_action", page: docPage.id, id: selectedId, action }],
-      "Azione aggiornata."
+      ""
     );
   }
 

@@ -358,17 +358,6 @@
           </select>
         </div>
         <div class="row">
-          <label for="dlg-symbol-layout">Disposizione pittogrammi</label>
-          <select
-            id="dlg-symbol-layout"
-            value={settings.symbol_layout}
-            onchange={(event) => onUpdateSettings({ symbol_layout: (event.currentTarget as HTMLSelectElement).value as never })}
-          >
-            <option value="riga">Striscia sopra il paragrafo</option>
-            <option value="parola">Sopra ogni parola</option>
-          </select>
-        </div>
-        <div class="row">
           <label for="dlg-auto">CAA automatica</label>
           <input
             id="dlg-auto"

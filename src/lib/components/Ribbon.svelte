@@ -64,6 +64,13 @@
   const currentGroups = $derived(
     tabs.find((tab) => tab.id === activeTab)?.groups ?? []
   );
+  // Il gruppo File mostra già Nuovo/Apri/Salva: evitare lo stesso comando
+  // due volte nella stessa barra (il doppio dischetto). Nella barra
+  // minimizzata il gruppo File non c'è, quindi l'accesso rapido resta intero.
+  const fileCommandIds = $derived(new Set(fileCommands.map((command) => command.id)));
+  const quickWithoutDuplicates = $derived(
+    quickCommands.filter((command) => !fileCommandIds.has(command.id))
+  );
   let hiddenFrom = $state(999);
   const groupWidths = new Map<string, number>();
 
@@ -405,7 +412,7 @@
     </div>
 
     <div class="ribbon__quick" role="group" aria-label="Accesso rapido">
-      {#each quickCommands as command (command.id)}
+      {#each quickWithoutDuplicates as command (command.id)}
         {@render commandButton({ ...command, emphasis: "secondary" })}
       {/each}
       <details class="ribbon__customize">

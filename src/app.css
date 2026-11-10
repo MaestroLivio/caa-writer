@@ -1243,115 +1243,6 @@ textarea {
   margin-top: 4px;
 }
 
-/* Stato del pittogramma: bloccato, nascosto, con modificatori. */
-.caa-chip[data-locked="true"] {
-  border-color: var(--accent);
-}
-
-.caa-chip__lock {
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0 3px;
-  line-height: 1;
-}
-
-.caa-chip__lock::before {
-  content: "🔒";
-  font-size: 0.6rem;
-}
-
-.caa-chip--hidden {
-  opacity: 0.35;
-  border-style: dotted;
-}
-
-.caa-chip--hidden .caa-chip__media {
-  filter: grayscale(1);
-}
-
-.caa-chip__mods {
-  position: absolute;
-  bottom: -6px;
-  right: -6px;
-  display: flex;
-  gap: 2px;
-}
-
-.caa-chip__mod {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.6rem;
-  line-height: 1;
-  padding: 1px 2px;
-}
-
-/* Modificatori leggibili anche su smartboard e in stampa: il segno piccolo
-   resta solo per plurale e tempi, la negazione diventa una sbarra sull'immagine. */
-.caa-chip__mod--plural::before {
-  content: "×2";
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.caa-chip__mod--negation {
-  display: none;
-}
-
-.caa-chip__mod--past::before {
-  content: "⟲";
-  font-size: 0.75rem;
-}
-
-.caa-chip__mod--future::before {
-  content: "⟳";
-  font-size: 0.75rem;
-}
-
-/* Negazione: grande sbarra rossa diagonale che attraversa il pittogramma,
-   non una X nell'angolo. Il chip porta l'elenco in data-modifiers. */
-.caa-chip[data-modifiers~="negation"] .caa-chip__media {
-  position: relative;
-}
-
-.caa-chip[data-modifiers~="negation"] .caa-chip__media::after {
-  content: "";
-  position: absolute;
-  left: -10%;
-  top: 50%;
-  width: 120%;
-  height: 9%;
-  min-height: 6px;
-  background: #d11a1a;
-  border-radius: 999px;
-  box-shadow: 0 0 0 2px #ffffff;
-  transform: translateY(-50%) rotate(-38deg);
-  pointer-events: none;
-}
-
-@media print {
-  .caa-chip[data-modifiers~="negation"] .caa-chip__media::after {
-    background: #d11a1a;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-  }
-}
-
-@media print {
-  /* Il lucchetto è un segno di lavoro, non contenuto: non si stampa. */
-  .caa-chip__lock {
-    display: none !important;
-  }
-  /* Il pittogramma nascosto non compare nemmeno in stampa. */
-  .caa-chip--hidden {
-    display: none !important;
-  }
-}
-
 .panel-section {
   margin-bottom: 20px;
 }
@@ -1556,108 +1447,6 @@ textarea {
   background: var(--surface-2);
 }
 
-/* Striscia CAA: pittogrammi allineati sopra (o sotto) il testo */
-.caa-strip {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: var(--strip-justify, flex-start);
-  gap: var(--symbol-gap, 6px);
-  margin: 2px 0 6px;
-  user-select: none;
-}
-
-.caa-strip[data-layout="sotto"] {
-  margin: 6px 0 2px;
-}
-
-/* Disposizione «pittogrammi sulla parola»: la striscia è un livello assoluto
-   sopra il testo e ogni chip è centrato sul range della propria unità. */
-.caa-block--on-word,
-.caa-block--on-word-below {
-  position: relative;
-}
-.caa-block--on-word > .caa-strip,
-.caa-block--on-word-below > .caa-strip {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 0;
-  margin: 0;
-  display: block;
-  pointer-events: none;
-  overflow: visible;
-  /* I chip devono restare sopra il testo: altrimenti il contentDOM,
-     dipinto dopo la striscia, intercetta il clic (soprattutto su Windows). */
-  z-index: 4;
-}
-.caa-block--on-word-below > .caa-strip {
-  top: 0;
-}
-.caa-block--on-word .caa-chip,
-.caa-block--on-word-below .caa-chip {
-  position: absolute;
-  z-index: 5;
-  transform: translateX(-50%);
-  margin: 0;
-  min-width: 0;
-  max-width: 82px;
-  padding: 2px 3px;
-  pointer-events: auto;
-}
-.caa-block--on-word .caa-chip__caption,
-.caa-block--on-word-below .caa-chip__caption {
-  font-size: 0.58rem;
-  line-height: 1.05;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 78px;
-}
-
-/* CAA automatica spenta: le strisce restano nascoste anche con display:flex */
-.caa-strip[hidden] {
-  display: none !important;
-}
-
-.editor[data-mode="testo"] .caa-strip {
-  display: none;
-}
-
-/* Blocco paragrafo con la striscia fuori dall'area modificabile */
-.editor .ProseMirror .caa-block {
-  margin: 0 0 8px;
-}
-
-.caa-block > .caa-text {
-  outline: none;
-}
-
-/* Didascalie e segnaposto senza nodi di testo: la striscia non può essere
-   assorbita nel documento se ProseMirror rilegge il blocco. */
-.caa-chip__caption::before {
-  content: attr(data-caption);
-}
-
-.caa-chip__empty::before {
-  content: attr(data-word);
-}
-
-.caa-chip__empty:not([data-word])::before {
-  content: "?";
-}
-
-/* Parola senza pittogramma: testo leggibile al posto dell'icona. */
-.caa-chip__empty[data-word] {
-  padding: 2px;
-  font-size: 0.62rem;
-  line-height: 1.1;
-  font-weight: 600;
-  text-align: center;
-  overflow-wrap: anywhere;
-  border-style: solid;
-}
-
 /* ProseMirror richiede esplicitamente pre-wrap per la resa degli spazi */
 .ProseMirror {
   white-space: pre-wrap;
@@ -1687,175 +1476,157 @@ textarea {
   }
 }
 
-.caa-chip {
-  display: flex;
-  flex-direction: column;
-  transition:
-    border-color var(--anim-chip) ease,
-    box-shadow var(--anim-chip) ease,
-    transform var(--anim-chip) ease;
-  align-items: center;
-  gap: 2px;
-  padding: var(--chip-padding, 4px) 5px 3px;
-  border: var(--chip-border-width, 1px) var(--chip-border-style, solid)
-    var(--chip-border-color, var(--border));
-  border-radius: var(--chip-radius, 10px);
-  background: var(--chip-bg, var(--surface));
-  min-width: 62px;
-  max-width: 104px;
-  /* Il segno delle proposte neurali è un pseudo-elemento assoluto: la
-     striscia non contiene testo aggiuntivo che ProseMirror possa leggere. */
+/* --- Unità CAA nel flusso del testo ---------------------------------------
+   Ogni parola o espressione con pittogramma è una decorazione inline di
+   ProseMirror. L'unità è un inline-block: il pittogramma è un blocco sopra il
+   testo, quindi la linea di base resta quella della parola e le parole senza
+   simbolo si allineano normalmente. Nessun livello assoluto: selezione, cursore
+   e copia restano quelli del testo. */
+
+.caa-unit {
+  display: inline-block;
   position: relative;
+  max-width: 100%;
+  padding: 0 1px;
+  vertical-align: baseline;
+  text-align: center;
+  border-radius: var(--chip-radius, 8px);
 }
 
-.caa-chip[data-neural="true"]::after {
-  content: "✦";
+/* Il pittogramma sopra la parola (o sotto, nella modalità «sotto»). */
+.editor:not([data-mode="sotto"]) .caa-unit::before,
+.editor[data-mode="sotto"] .caa-unit::after {
+  content: var(--caa-symbol-image, none);
+  display: block;
+  width: var(--caa-symbol-width, var(--caa-symbol-size, var(--symbol-size)));
+  height: var(--caa-symbol-size, var(--symbol-size));
+  margin: 1px auto 2px;
+  object-fit: contain;
+  border: var(--caa-symbol-border, 0 solid transparent);
+  border-bottom: var(--caa-symbol-rule, none);
+  border-radius: var(--chip-radius, 8px);
+  padding: var(--caa-symbol-padding, 0);
+  outline: var(--caa-symbol-outline, none);
+  outline-offset: 2px;
+  background: transparent;
+}
+
+.editor[data-mode="sotto"] .caa-unit::after {
+  margin: 2px auto 1px;
+}
+
+/* Con il pittogramma sotto, l'ultimo contenuto dell'unità è un blocco:
+   un inline-block prenderebbe il bordo inferiore come linea di base e
+   solleverebbe la parola. Un inline-flex in colonna usa invece la linea di
+   base del primo elemento (il testo), quindi il testo resta allineato e il
+   pittogramma scende sotto. */
+.editor[data-mode="sotto"] .caa-unit {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Segni di modificatori, approssimazione e proposta neurale: il testo è
+   composto dalle unità e resta fuori dal documento. */
+.editor:not([data-mode="sotto"]) .caa-unit::after,
+.editor[data-mode="sotto"] .caa-unit::before {
+  content: attr(data-marker);
   position: absolute;
-  top: 1px;
-  right: 4px;
-  font-size: 0.6rem;
-  line-height: 1;
+  top: -3px;
+  right: -3px;
+  z-index: 2;
+  padding: 0 3px;
+  font-size: 0.62rem;
+  line-height: 1.2;
+  font-weight: 700;
   color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
   pointer-events: none;
 }
 
-.caa-chip:hover {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+.editor:not([data-mode="sotto"]) .caa-unit[data-marker=""]::after,
+.editor[data-mode="sotto"] .caa-unit[data-marker=""]::before {
+  display: none;
 }
 
-.caa-chip--selected {
-  border-color: var(--accent);
+/* Stili di bordo scelti dall'utente: il bordo appartiene all'unità, non a un
+   contenitore separato, quindi resta attaccato alla parola anche a capo. */
+.editor[data-border="nessuno"] .caa-unit {
+  --caa-symbol-border: 0 solid transparent;
+  --caa-symbol-padding: 0;
+}
+
+.editor[data-border="immagine"] .caa-unit {
+  --caa-symbol-border: 1px solid var(--border);
+  --caa-symbol-padding: 2px;
+}
+
+.editor[data-border="immagine_testo"] .caa-unit,
+.editor[data-border="separato"] .caa-unit {
+  --caa-symbol-border: 1px solid var(--border);
+  --caa-symbol-padding: 2px;
+  border: 1px solid var(--border);
+  padding: 2px 4px;
+}
+
+.editor[data-border="divisore"] .caa-unit {
+  --caa-symbol-border: 0 solid transparent;
+  --caa-symbol-padding: 2px 2px 0;
+  --caa-symbol-rule: 1px solid var(--border);
+  border: 1px solid var(--border);
+  padding: 2px 4px;
+}
+
+/* Stato dell'unità: blocco, approssimazione, proposta neurale, selezione. */
+.caa-unit--locked {
+  border-bottom: 2px solid var(--accent);
+}
+
+.caa-unit--approximate {
+  --caa-symbol-outline: 1px dashed var(--warn);
+}
+
+.caa-unit--neural {
+  text-decoration: underline dotted var(--accent);
+  text-underline-offset: 3px;
+}
+
+.caa-unit--selected {
   box-shadow: 0 0 0 2px var(--accent);
 }
 
-.caa-chip--applied {
-  animation: chip-in var(--anim-chip) ease-out;
+.caa-unit:hover {
+  background: var(--accent-soft);
 }
 
-@keyframes chip-in {
+.caa-unit--applied {
+  animation: caa-unit-in var(--anim-chip) ease-out;
+}
+
+@keyframes caa-unit-in {
   from {
     opacity: 0.35;
-    transform: scale(0.9);
   }
   to {
     opacity: 1;
-    transform: scale(1);
   }
 }
 
-/* Stili di bordo scelti dall'utente (persistiti nelle impostazioni). */
-.editor[data-border="nessuno"] .caa-chip {
-  border-color: transparent;
-  background: transparent;
+/* Modalità: i simboli crescono in «solo simboli» e si riducono in
+   «semplificata», senza cambiare il testo né l'impaginazione logica. */
+.editor[data-mode="solo_simboli"] .caa-unit {
+  --caa-symbol-size: calc(var(--symbol-size) * 1.45);
 }
 
-.editor[data-border="immagine"] .caa-chip {
-  border-color: transparent;
-  background: transparent;
+.editor[data-mode="semplificata"] .caa-unit {
+  --caa-symbol-size: calc(var(--symbol-size) * 0.8);
 }
 
-.editor[data-border="immagine"] .caa-chip__media,
-.editor[data-border="separato"] .caa-chip__media {
-  border: var(--chip-border-width, 1px) var(--chip-border-style, solid)
-    var(--chip-border-color, var(--border));
-  border-radius: var(--chip-radius, 8px);
-  padding: 2px;
-}
-
-.editor[data-border="separato"] .caa-chip {
-  border-color: transparent;
-  background: transparent;
-}
-
-.editor[data-border="separato"] .caa-chip__caption,
-.editor[data-border="divisore"] .caa-chip__caption {
-  width: 100%;
-  padding-top: 2px;
-  border-top: var(--chip-border-width, 1px) var(--chip-border-style, solid)
-    var(--chip-border-color, var(--border));
-}
-
-.caa-chip--approx {
-  border-style: dashed;
-  border-color: var(--warn);
-}
-
-.caa-chip--missing {
-  border-style: dashed;
-  border-color: var(--border);
-  opacity: 0.85;
-}
-
-.caa-chip__media {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  width: var(--symbol-size);
-  height: var(--symbol-size);
-}
-
-.caa-chip__media svg,
-.caa-chip__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.caa-chip__media--composition svg,
-.caa-chip__media--composition img {
-  width: 50%;
-  height: 100%;
-}
-
-.caa-chip__empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  border: 2px dashed var(--border);
-  color: var(--muted);
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-/* Senza pittogramma la parola è già mostrata al posto dell'icona: la
-   didascalia sotto sarebbe una seconda riga identica. */
-.caa-chip--missing .caa-chip__caption {
-  display: none;
-}
-
-/* La parola scritta è già nel testo sotto la striscia: la didascalia del
-   pittogramma è una terza riga ridondante. Resta disponibile come opzione
-   esplicita nelle impostazioni. */
-.editor[data-captions="false"] .caa-chip__caption {
-  display: none;
-}
-
-.caa-chip__caption {
-  font-size: 0.68rem;
-  line-height: 1.15;
-  text-align: center;
-  color: var(--muted);
-  max-width: 100%;
-  overflow-wrap: anywhere;
-}
-
-.caa-chip--approx .caa-chip__caption::after {
-  content: " ≈";
-  color: var(--warn);
-}
-
-.editor[data-mode="solo_simboli"] .caa-chip__media {
-  width: calc(var(--symbol-size) * 1.6);
-  height: calc(var(--symbol-size) * 1.6);
-}
-
-.editor[data-mode="solo_simboli"] .caa-chip__caption {
-  opacity: 0.4;
+[data-touch="true"] .caa-unit {
+  --caa-symbol-size: calc(var(--symbol-size) * 1.2);
 }
 
 /* Modalità tocco: bersagli ampi, controlli distanziati */
@@ -1865,17 +1636,14 @@ textarea {
   font-size: 0.95rem;
 }
 
-[data-touch="true"] .caa-chip {
-  min-width: 88px;
-  min-height: 88px;
-}
-
+/* Modalità tocco: la dimensione del pittogramma è già aumentata sopra. */
 [data-touch="true"] .tab {
   padding: 12px 14px;
 }
 
 /* Tema monocromatico per la stampa: i pittogrammi diventano scala di grigi */
-[data-mono="true"] .caa-chip__media svg,
+[data-mono="true"] .caa-unit::before,
+[data-mono="true"] .caa-unit::after,
 [data-mono="true"] .symbol-tile svg {
   filter: grayscale(1) contrast(1.35);
 }
@@ -2217,14 +1985,26 @@ textarea {
     max-width: none;
     min-height: 0;
   }
-  .caa-chip {
-    border: none;
-    min-width: 54px;
+  .editor .caa-unit {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
-  .caa-chip__caption {
-    color: #000;
+  /* Il lucchetto e la selezione sono segni di lavoro, non contenuto. */
+  .caa-unit--locked {
+    border-bottom: none;
   }
-  .caa-block,
+  .caa-unit--selected {
+    box-shadow: none;
+  }
+  .caa-unit::before,
+  .caa-unit::after {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .ProseMirror p,
+  .ProseMirror h1,
+  .ProseMirror h2,
+  .ProseMirror h3,
   .caa-paragraph {
     break-inside: avoid;
     page-break-inside: avoid;
@@ -4248,4 +4028,40 @@ textarea {
 .elem-grid-actions button:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+/* --- Zoom del documento (in basso a destra) ------------------------------
+   Scala il foglio, non l'interfaccia; il valore è persistito nel workspace.
+   Su Windows il pinch arriva come Ctrl+rotella e passa dallo stesso stato. */
+.document-zoom {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.14);
+  font-size: 0.75rem;
+}
+
+.document-zoom input[type="range"] {
+  width: 104px;
+  accent-color: var(--accent);
+}
+
+.document-zoom__value {
+  min-width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media print {
+  .document-zoom {
+    display: none !important;
+  }
 }

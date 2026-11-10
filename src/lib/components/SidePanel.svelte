@@ -53,10 +53,7 @@
     } | null;
     /// Il pannello può essere aperto/chiuso anche dal Ribbon.
     closed?: boolean;
-    /// Vero quando il pannello è sovrapposto al documento.
-    overlay?: boolean;
     onCollapse?: () => void;
-    onToggleDock?: () => void;
     /// Ambito scelto per il prossimo pittogramma applicato.
     associationScope: AssociationScope;
     onAssociationScope: (scope: AssociationScope) => void;
@@ -127,9 +124,7 @@
     collections,
     intent,
     closed = $bindable(false),
-    overlay = false,
     onCollapse,
-    onToggleDock,
     associationScope,
     onAssociationScope,
     onSwitchTab,
@@ -1701,12 +1696,6 @@
         onclick={() => selectTab("documento")}>Documento</button
       >
     {/if}
-    <button
-      class="btn btn--ghost"
-      aria-label={overlay ? "Ancora il pannello" : "Apri il pannello sovrapposto"}
-      title={overlay ? "Ancora il pannello al documento" : "Apri il pannello sovrapposto"}
-      onclick={() => onToggleDock?.()}
-    >{overlay ? "⇤" : "⇥"}</button>
     <button
       class="btn"
       aria-label="Riduci il pannello a icona"

@@ -1,9 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { EditorState, Plugin, TextSelection } from "prosemirror-state";
+  import { EditorState, Plugin, PluginKey, TextSelection } from "prosemirror-state";
   import type { Transaction } from "prosemirror-state";
-  import { EditorView } from "prosemirror-view";
-  import type { NodeView, ViewMutationRecord } from "prosemirror-view";
+  import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
   import type { Mark, Node as PMNode } from "prosemirror-model";
   import { history, redoDepth, undo, redo, undoDepth } from "prosemirror-history";
   import { keymap } from "prosemirror-keymap";
@@ -31,6 +30,8 @@
   } from "prosemirror-schema-list";
   import { schema } from "./schema";
   import { tokenForSelection } from "./selection";
+  import { unitsForParagraph, unitTitle } from "./units";
+  import type { UnitTokenLike } from "./units";
   import { completedSentenceBefore, lastSentence } from "./sentence";
   import type { FormattingState } from "./formatting";
   import { api, demoAnalyze, isTauri } from "../api";
@@ -62,8 +63,8 @@
     /// salvati nel documento): utile per la stampa o per ridurre il carico
     /// visivo senza perdere le scelte.
     showExplicitSymbols?: boolean;
-    /// `riga` = striscia unica sopra il paragrafo; `parola` = ogni pittogramma
-    /// sopra (o sotto) la parola a cui si riferisce.
+    /// Compatibilità con le preferenze salvate: la disposizione è sempre
+    /// ancorata alla parola, quindi il valore non determina più il rendering.
     symbolLayout?: "riga" | "parola";
     onSelectToken: (pid: string, token: CaaToken) => void;
     /// Menu contestuale del pittogramma (blocco, visibilità, modificatori).
@@ -111,7 +112,6 @@
     symbolizePrepositions,
     symbolizeConjunctions,
     showExplicitSymbols = true,
-    symbolLayout = "riga",
     onSelectToken,
     onTokenMenu,
     onError,
@@ -130,7 +130,6 @@
 
   const tokensByPid = new Map<string, CaaToken[]>();
   const analyzedSignature = new Map<string, string>();
-  const paragraphViews = new Map<string, TextView>();
   let debounce: ReturnType<typeof setTimeout> | null = null;
   let analyzing = false;
   let queued = false;
@@ -190,527 +189,231 @@
     return `${paragraph.text}\u0001${mode}\u0001${intensity}\u0001${commercialOnly}\u0001${packId ?? ""}\u0001${documentKey}\u0001${symbolizeArticles}\u0001${symbolizePrepositions}\u0001${symbolizeConjunctions}\u0001${JSON.stringify(paragraph.merges)}\u0001${JSON.stringify(paragraph.splits)}`;
   }
 
-  function modifierList(token: CaaToken): string[] {
-    const out: string[] = [];
-    if (token.modifiers?.plural) out.push("plural");
-    if (token.modifiers?.negation) out.push("negation");
-    if (token.modifiers?.past) out.push("past");
-    if (token.modifiers?.future) out.push("future");
-    return out;
+  // --- Unità CAA nel flusso del testo -------------------------------------
+  //
+  // Il pittogramma non è più un livello separato dalla scrittura: è una
+  // decorazione inline sulla parola o sull'espressione. ProseMirror non vede
+  // nodi aggiuntivi, quindi la selezione, il cursore e la copia restano quelli
+  // del testo; il pittogramma segue la parola anche quando va a capo.
+  //
+  // Le regole CSS dei simboli sono generate una volta per disegno: due
+  // occorrenze della stessa parola condividono la stessa URL, senza duplicare
+  // il PNG nel DOM.
+
+  function unitOptions(): {
+    mode: string;
+    autoEnabled: boolean;
+    showExplicitSymbols: boolean;
+    explicit: (token: UnitTokenLike) => boolean;
+  } {
+    return {
+      mode,
+      autoEnabled,
+      showExplicitSymbols,
+      explicit: (token) =>
+        isExplicitContent(
+          token.surface,
+          token.symbol_label,
+          token.concept_label,
+          token.meaning
+        ),
+    };
   }
 
-  /// Token che producono un elemento visibile nella striscia: simbolo,
-  /// composizione o almeno parola chiave (le assenze restano segnalate con «?»).
-  /// Range DOM corrispondente agli offset (UTF-16) di un token nel paragrafo.
-  /// ProseMirror gestisce gli stessi offset, quindi non serve modificare il
-  /// documento per allineare i pittogrammi alle parole.
-  function rangeForOffsets(root: HTMLElement, start: number, end: number): Range | null {
-    if (end <= start) return null;
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-    let cursor = 0;
-    let startNode: Text | null = null;
-    let endNode: Text | null = null;
-    let startOffset = 0;
-    let endOffset = 0;
-    let node = walker.nextNode() as Text | null;
-    while (node) {
-      const length = node.data.length;
-      if (!startNode && cursor + length >= start) {
-        startNode = node;
-        startOffset = Math.max(0, start - cursor);
-      }
-      if (!endNode && cursor + length >= end) {
-        endNode = node;
-        endOffset = Math.max(0, end - cursor);
-        break;
-      }
-      cursor += length;
-      node = walker.nextNode() as Text | null;
-    }
-    if (!startNode || !endNode) return null;
-    const range = document.createRange();
-    range.setStart(startNode, Math.min(startOffset, startNode.data.length));
-    range.setEnd(endNode, Math.min(endOffset, endNode.data.length));
-    return range;
+  function escapeCssUrl(value: string): string {
+    return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/[\r\n]+/g, "");
   }
 
-  function stripTokens(tokens: CaaToken[]): CaaToken[] {
-    return tokens.filter((token) => {
-      if (token.is_punct) return false;
-      const hasMedia = Boolean(token.symbol_id) || token.composition.length > 0;
-      // Le parole grammaticali senza pittogramma (articoli, copula, preposizioni)
-      // non si simbolizzano in CAA: meglio nessun chip di un «?» incomprensibile.
-      if (!hasMedia && token.is_function) return false;
-      return hasMedia || token.key;
+  function escapeXml(value: string): string {
+    return value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function svgDataUrl(svg: string): string {
+    const trimmed = svg.trim();
+    if (trimmed.startsWith("data:")) return trimmed;
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(trimmed)}`;
+  }
+
+  function partUrl(part: { image?: string | null; svg?: string | null }): string | null {
+    if (part.image) return part.image;
+    if (part.svg && part.svg.trim()) return svgDataUrl(part.svg);
+    return null;
+  }
+
+  /// Composizione (es. «cane» + «grande») in un unico SVG: una sola immagine
+  /// per la regola CSS, dimensionata come le altre.
+  function compositeUrl(
+    parts: { image?: string | null; svg?: string | null }[]
+  ): string | null {
+    const urls = parts
+      .map((part) => partUrl(part))
+      .filter((value): value is string => Boolean(value));
+    if (urls.length === 0) return null;
+    if (urls.length === 1) return urls[0];
+    const cell = 100;
+    const body = urls
+      .map(
+        (url, index) =>
+          `<image href="${escapeXml(url)}" x="${index * cell}" y="0" width="${cell}" height="${cell}" preserveAspectRatio="xMidYMid meet"/>`
+      )
+      .join("");
+    return svgDataUrl(
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${cell * urls.length} 100">${body}</svg>`
+    );
+  }
+
+  function symbolUrl(token: CaaToken): string | null {
+    if (token.image) return token.image;
+    if (token.svg && token.svg.trim()) return svgDataUrl(token.svg);
+    if (token.composition.length > 0) return compositeUrl(token.composition);
+    return null;
+  }
+
+  const symbolRules = new Map<string, string>();
+  const pendingRules: string[] = [];
+  let symbolStyle: HTMLStyleElement | null = null;
+
+  function ensureSymbolStyle(): HTMLStyleElement {
+    if (symbolStyle && symbolStyle.isConnected) return symbolStyle;
+    symbolStyle = document.createElement("style");
+    symbolStyle.id = "caa-symbol-rules";
+    symbolStyle.textContent = [...symbolRules.values()].join("\n");
+    pendingRules.length = 0;
+    document.head.append(symbolStyle);
+    return symbolStyle;
+  }
+
+  function registerSymbol(key: string, token: CaaToken): void {
+    if (symbolRules.has(key)) return;
+    const url = symbolUrl(token);
+    if (!url) return;
+    const width =
+      token.composition.length > 1
+        ? `;--caa-symbol-width:calc(var(--symbol-size) * ${token.composition.length})`
+        : "";
+    const rule = `.caa-unit[data-caa-symbol="${key}"]{--caa-symbol-image:url("${escapeCssUrl(url)}")${width}}`;
+    symbolRules.set(key, rule);
+    pendingRules.push(rule);
+  }
+
+  function flushSymbolRules(): void {
+    if (pendingRules.length === 0) return;
+    const style = ensureSymbolStyle();
+    if (pendingRules.length === 0) return;
+    style.append(document.createTextNode(`${pendingRules.join("\n")}\n`));
+    pendingRules.length = 0;
+  }
+
+  const decorationsKey = new PluginKey("caa-units");
+
+  /// Costruisce una decorazione per ogni unità visibile. Il range è relativo
+  /// al paragrafo; `pos + 1` porta all'inizio del contenuto inline.
+  function buildDecorations(doc: PMNode): DecorationSet {
+    const decorations: Decoration[] = [];
+    doc.descendants((node, pos) => {
+      if (node.type.name !== "paragraph" && node.type.name !== "heading") return;
+      const pid = String(node.attrs.pid ?? "");
+      if (!pid) return;
+      const tokens = tokensByPid.get(pid);
+      if (!tokens || tokens.length === 0) return;
+      const units = unitsForParagraph(tokens, unitOptions(), node.content.size);
+      for (const unit of units) {
+        registerSymbol(unit.key, unit.token);
+        const classes = ["caa-unit"];
+        if (unit.locked) classes.push("caa-unit--locked");
+        if (unit.approximate) classes.push("caa-unit--approximate");
+        if (unit.neural) classes.push("caa-unit--neural");
+        if (unit.composition) classes.push("caa-unit--composition");
+        if (unit.token.modifiers?.negation) classes.push("caa-unit--negation");
+        if (
+          selectedUnit &&
+          selectedUnit.pid === pid &&
+          selectedUnit.index === unit.token.index
+        ) {
+          classes.push("caa-unit--selected");
+        }
+        if (appliedKey === `${pid}:${unit.token.index}`) {
+          classes.push("caa-unit--applied");
+        }
+        const attrs: Record<string, string> = {
+          class: classes.join(" "),
+          "data-caa-pid": pid,
+          "data-caa-index": String(unit.token.index),
+          "data-caa-symbol": unit.key,
+          "data-marker": unit.marker,
+          title: unitTitle(unit.token),
+        };
+        decorations.push(
+          Decoration.inline(pos + 1 + unit.start, pos + 1 + unit.end, attrs)
+        );
+      }
+    });
+    flushSymbolRules();
+    return DecorationSet.create(doc, decorations);
+  }
+
+  /// Richiede un ridisegno delle decorazioni senza toccare il documento.
+  /// I frame sono coalescenti: una raffica di token non causa N transazioni.
+  let decorationFrame: number | null = null;
+  function refreshDecorations(): void {
+    if (!view || decorationFrame !== null) return;
+    decorationFrame = requestAnimationFrame(() => {
+      decorationFrame = null;
+      if (!view) return;
+      const tr = view.state.tr
+        .setMeta(decorationsKey, true)
+        .setMeta("addToHistory", false);
+      view.dispatch(tr);
     });
   }
 
-  // Cache dei nodi SVG già analizzati: il documento contiene molti pittogrammi
-  // ripetuti e ricostruire l'HTML a ogni aggiornamento faceva riparsare gli
-  // stessi SVG. La cache è limitata (LRU) per non trattenere migliaia di nodi.
-  const svgPrototypes = new Map<string, Element>();
-  const SVG_CACHE_LIMIT = 300;
-
-  function svgNode(markup: string): Element | null {
-    const cached = svgPrototypes.get(markup);
-    if (cached) {
-      // Rinnova l'ordine LRU.
-      svgPrototypes.delete(markup);
-      svgPrototypes.set(markup, cached);
-      return cached.cloneNode(true) as Element;
-    }
-    const template = document.createElement("template");
-    template.innerHTML = markup;
-    const node = template.content.firstElementChild;
-    if (!node) return null;
-    if (svgPrototypes.size >= SVG_CACHE_LIMIT) {
-      const oldest = svgPrototypes.keys().next().value;
-      if (oldest) svgPrototypes.delete(oldest);
-    }
-    svgPrototypes.set(markup, node);
-    return node.cloneNode(true) as Element;
+  function unitAtEvent(event: Event): { pid: string; token: CaaToken } | null {
+    const target = (event.target as Element | null)?.closest?.(
+      ".caa-unit"
+    ) as HTMLElement | null;
+    if (!target) return null;
+    const pid = target.dataset.caaPid ?? "";
+    const index = Number(target.dataset.caaIndex ?? Number.NaN);
+    if (!pid || !Number.isFinite(index)) return null;
+    const token = tokensByPid.get(pid)?.find((item) => item.index === index);
+    return token ? { pid, token } : null;
   }
 
-  function renderChips(strip: HTMLElement, pid: string, tokens: CaaToken[]) {
-    strip.replaceChildren();
-    for (const token of tokens) {
-      const hasMedia = Boolean(token.symbol_id) || token.composition.length > 0;
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "caa-chip";
-      if (token.approximate) button.classList.add("caa-chip--approx");
-      if (!hasMedia) button.classList.add("caa-chip--missing");
-      // Pittogramma nascosto: resta un segnaposto in schermo per poterlo
-      // mostrare di nuovo, ma non compare nella stampa né nelle esportazioni.
-      if (token.hidden) {
-        button.classList.add("caa-chip--hidden");
-        button.dataset.hidden = "true";
-      }
-      if (token.locked) {
-        button.dataset.locked = "true";
-      }
-      const mods = modifierList(token);
-      if (mods.length > 0) {
-        button.dataset.modifiers = mods.join(" ");
-      }
-      if (selectedUnit && selectedUnit.pid === pid && selectedUnit.index === token.index) {
-        button.classList.add("caa-chip--selected");
-        button.setAttribute("aria-current", "true");
-      }
-      if (appliedKey === `${pid}:${token.index}`) {
-        button.classList.add("caa-chip--applied");
-      }
-      button.dataset.index = String(token.index);
-      // Segnalazione discreta: il modello ha proposto simboli affini per questa
-      // parola. Il segno è disegnato via CSS (::after), senza nodi di testo
-      // dentro la striscia: ProseMirror non può assimilarlo al documento.
-      const hasNeural = token.alternatives.some((alternative) => alternative.neural);
-      if (hasNeural) button.dataset.neural = "true";
+  /// Un clic sul pittogramma apre il pannello senza rubare la selezione al
+  /// testo: non si chiama preventDefault, quindi il cursore può ancora essere
+  /// posizionato dentro la parola. Il contesto (tasto destro) apre il menu.
+  let suppressSelectionSyncUntil = 0;
 
-      const media = document.createElement("span");
-      media.className = "caa-chip__media";
-      if (token.image) {
-        // ARASAAC e pittogrammi importati: PNG usato direttamente.
-        const img = document.createElement("img");
-        img.src = token.image;
-        img.alt = "";
-        img.draggable = false;
-        media.append(img);
-      } else if (token.svg && token.svg.trimStart().startsWith("<svg")) {
-        const node = svgNode(token.svg);
-        if (node) media.append(node);
-      } else if (token.composition.length > 0) {
-        media.classList.add("caa-chip__media--composition");
-        for (const part of token.composition) {
-          const partSpan = document.createElement("span");
-          if (part.image) {
-            const img = document.createElement("img");
-            img.src = part.image;
-            img.alt = part.label;
-            img.draggable = false;
-            partSpan.append(img);
-          } else if (part.svg && part.svg.trimStart().startsWith("<svg")) {
-            const node = svgNode(part.svg);
-            if (node) partSpan.append(node);
-          }
-          partSpan.title = part.label;
-          media.append(partSpan);
-        }
-      } else {
-        // Nessun pittogramma: al posto del «?» si mostra la parola stessa, così
-        // la striscia resta leggibile e non sembra un errore. Il testo è reso
-        // via CSS (attr) per non finire nel documento.
-        const empty = document.createElement("span");
-        empty.className = "caa-chip__empty";
-        empty.dataset.word = token.surface;
-        media.append(empty);
-      }
-
-      // La didascalia è generata via CSS (attr) e non è un nodo di testo: se
-      // ProseMirror rilegge il blocco non può assimilarla al documento.
-      const caption = document.createElement("span");
-      caption.className = "caa-chip__caption";
-      // Sotto il pittogramma si mostra la parola scritta dall'utente, non
-      // l'etichetta del repertorio: quella resta nei metadati (tooltip e pannello).
-      caption.dataset.caption = token.surface;
-
-      button.append(media, caption);
-      if (token.locked) {
-        const lock = document.createElement("span");
-        lock.className = "caa-chip__lock";
-        button.append(lock);
-      }
-      if (mods.length > 0) {
-        const badges = document.createElement("span");
-        badges.className = "caa-chip__mods";
-        for (const kind of mods) {
-          const badge = document.createElement("span");
-          badge.className = `caa-chip__mod caa-chip__mod--${kind}`;
-          badges.append(badge);
-        }
-        button.append(badges);
-      }
-      const tooltip = [
-        token.symbol_label ?? token.concept_label,
-        token.meaning,
-        token.strategy !== "exact" && token.strategy !== "none"
-          ? `strategia: ${token.strategy}`
-          : null,
-        hasNeural ? "simboli affini proposti dal modello locale" : null,
-        "Clic per cambiare pittogramma",
-      ]
-        .filter(Boolean)
-        .join(" — ");
-      button.title = tooltip;
-      button.setAttribute(
-        "aria-label",
-        `${token.surface}: ${token.symbol_label ?? token.concept_label ?? token.caption}${token.approximate ? " (pittogramma approssimativo)" : ""}${
-          hasNeural ? "; sono disponibili simboli affini suggeriti dal modello locale" : ""
-        }. Apri le alternative.`
-      );
-      // Il chip sta sopra il testo ma dentro il blocco ProseMirror: senza
-      // stopPropagation il clic può essere riassorbito dall'editor e la
-      // selezione non arriva al pannello (su Windows era sistematico).
-      button.addEventListener("pointerdown", (event) => event.stopPropagation());
-      button.addEventListener("mousedown", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-      });
-      button.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        // Allinea anche la guardia della selezione testuale: senza questo,
-        // tornando con il mouse sulla stessa parola dopo aver scelto un chip,
-        // la guardia considerava la selezione invariata e il pannello restava
-        // sul pittogramma precedente.
-        lastTextSelectionKey = `${pid}:${token.index}:${token.surface}`;
-        onSelectToken(pid, token);
-      });
-      button.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-        onSelectToken(pid, token);
-        onTokenMenu(pid, token, { x: event.clientX, y: event.clientY });
-      });
-      strip.append(button);
-    }
-  }
-
-  /// Vista di paragrafo/titolo: la striscia sta FUORI dal `contentDOM`, quindi
-  /// ProseMirror la tratta come parte della vista e non come contenuto: non la
-  /// rimuove durante la digitazione e non ne legge il testo nel documento.
-  class TextView implements NodeView {
-    dom: HTMLElement;
-    contentDOM: HTMLElement;
-    strip: HTMLElement;
-    private node: PMNode;
-    private pid: string;
-    private tag: "paragraph" | "heading";
-    private layout: "sopra" | "sotto" | null = null;
-    /// Firma dell'ultimo contenuto disegnato: evita di ricostruire i chip a
-    /// ogni transazione ProseMirror (cioè a ogni tasto) quando i token non
-    /// sono cambiati.
-    lastKey = "";
-    private positionFrame: number | null = null;
-    private onResize = () => this.positionChips();
-
-    constructor(node: PMNode, tag: "paragraph" | "heading") {
-      this.node = node;
-      this.tag = tag;
-      this.pid = String(node.attrs.pid ?? "");
-      this.dom = document.createElement("div");
-      this.dom.className = "caa-block";
-      this.dom.dataset.pid = this.pid;
-      this.contentDOM = document.createElement(tag === "heading" ? `h${node.attrs.level ?? 1}` : "p");
-      this.contentDOM.className = "caa-text";
-      // ProseMirror rilegge il DOM del blocco mentre si digita: senza data-pid
-      // qui il pid andrebbe perso e i pittogrammi non troverebbero più i token.
-      this.contentDOM.setAttribute("data-pid", this.pid);
-      this.strip = document.createElement("div");
-      this.strip.className = "caa-strip";
-      this.strip.setAttribute("contenteditable", "false");
-      this.strip.setAttribute("role", "group");
-      this.strip.setAttribute("aria-label", "Pittogrammi del paragrafo");
-      this.applyAttrs();
-      this.renderStrip();
-      // La selezione parte dal pointerdown in fase di cattura: se nel frattempo
-      // arriva un risultato di analisi la striscia può essere ricostruita e il
-      // click andrebbe perso. Inoltre, con i pittogrammi sulla parola i chip
-      // possono sovrapporsi: si sceglie quello con il centro più vicino al
-      // punto cliccato, non semplicemente l'ultimo disegnato.
-      this.strip.addEventListener("pointerdown", (event) => this.selectChipAt(event), true);
-      paragraphViews.set(this.pid, this);
-      window.addEventListener("resize", this.onResize);
-    }
-
-    private applyAttrs() {
-      const attrs = this.node.attrs;
-      const indent = Number(attrs.indent ?? 0);
-      this.contentDOM.style.textAlign = (attrs.align as string | null) ?? "";
-      this.contentDOM.style.paddingLeft = indent > 0 ? `${indent * 24}px` : "";
-      this.contentDOM.style.lineHeight = (attrs.line_height as string | null) ?? "";
-      this.contentDOM.style.marginTop = (attrs.space_before as string | null) ?? "";
-      this.contentDOM.style.marginBottom = (attrs.space_after as string | null) ?? "";
-      if (attrs.border) {
-        this.contentDOM.style.border = "1px solid var(--border)";
-        this.contentDOM.style.borderRadius = "6px";
-        this.contentDOM.style.paddingTop = "6px";
-        this.contentDOM.style.paddingBottom = "6px";
-        this.contentDOM.style.paddingRight = "10px";
-      } else {
-        this.contentDOM.style.border = "";
-        this.contentDOM.style.borderRadius = "";
-        this.contentDOM.style.paddingTop = "";
-        this.contentDOM.style.paddingBottom = "";
-        this.contentDOM.style.paddingRight = "";
-      }
-      this.dom.classList.toggle("caa-block--break", Boolean(attrs.page_break));
-      this.dom.dataset.pid = this.pid;
-      this.contentDOM.setAttribute("data-pid", this.pid);
-    }
-
-    /// Seleziona il pittogramma toccato. In caso di sovrapposizione tra chip
-    /// adiacenti sceglie quello il cui centro è più vicino al punto cliccato.
-    private selectChipAt(event: PointerEvent) {
-      if (event.button !== 0) return;
-      const target = (event.target as Element | null)?.closest?.(
-        ".caa-chip"
-      ) as HTMLElement | null;
-      if (!target || !this.strip.contains(target)) return;
-      const x = event.clientX;
-      const y = event.clientY;
-      const chips = Array.from(
-        this.strip.querySelectorAll<HTMLElement>(".caa-chip")
-      );
-      let chosen = target;
-      if (chips.length > 1) {
-        const under = chips.filter((chip) => {
-          const rect = chip.getBoundingClientRect();
-          return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-        });
-        if (under.length > 1) {
-          chosen = under.reduce((best, chip) => {
-            const center = (element: HTMLElement) => {
-              const rect = element.getBoundingClientRect();
-              return Math.abs(x - (rect.left + rect.right) / 2);
-            };
-            return center(chip) < center(best) ? chip : best;
-          });
-        }
-      }
-      const tokens = tokensByPid.get(this.pid) ?? [];
-      const token = tokens.find((item) => item.index === Number(chosen.dataset.index));
-      if (!token) return;
-      event.preventDefault();
-      event.stopPropagation();
-      lastTextSelectionKey = `${this.pid}:${token.index}:${token.surface}`;
-      onSelectToken(this.pid, token);
-    }
-
-    /// Il pid può cambiare se ProseMirror ricostruisce il nodo: la vista deve
-    /// seguirne il valore, altrimenti resta collegata a un paragrafo inesistente.
-    private syncPid() {
-      const next = String(this.node.attrs.pid ?? "");
-      if (next === this.pid) return;
-      if (paragraphViews.get(this.pid) === this) paragraphViews.delete(this.pid);
-      this.pid = next;
-      if (next) paragraphViews.set(next, this);
-    }
-
-    /// Riordina i figli solo quando la disposizione cambia davvero: spostare i
-    /// nodi a ogni aggiornamento produrrebbe mutazioni DOM che ProseMirror
-    /// rileggerebbe come contenuto del documento.
-    private order() {
-      const next: "sopra" | "sotto" = mode === "sotto" ? "sotto" : "sopra";
-      if (this.layout === next) return;
-      this.layout = next;
-      if (next === "sotto") this.dom.append(this.contentDOM, this.strip);
-      else this.dom.append(this.strip, this.contentDOM);
-    }
-
-    private symbolSpace(): number {
-      const raw = getComputedStyle(this.dom).getPropertyValue("--symbol-size");
-      const size = Number.parseFloat(raw) || 56;
-      return Math.min(104, Math.max(32, size)) + 6;
-    }
-
-    /// Con la disposizione «sulla parola» la striscia diventa un livello
-    /// assoluto: ogni chip viene centrato sul range di testo della propria
-    /// unità. Il testo resta nel contentDOM, quindi ProseMirror non perde
-    /// caratteri né assorbe didascalie.
-    private applyOnWordLayout(active: boolean) {
-      const below = mode === "sotto";
-      this.dom.classList.toggle("caa-block--on-word", active && !below);
-      this.dom.classList.toggle("caa-block--on-word-below", active && below);
-      if (!active) {
-        this.dom.style.paddingTop = "";
-        this.dom.style.paddingBottom = "";
-        this.contentDOM.style.lineHeight = (this.node.attrs.line_height as string | null) ?? "";
-        return;
-      }
-      const space = this.symbolSpace();
-      if (below) {
-        this.dom.style.paddingTop = "";
-        this.dom.style.paddingBottom = `${space}px`;
-      } else {
-        this.dom.style.paddingTop = `${space}px`;
-        this.dom.style.paddingBottom = "";
-      }
-      // Le righe successive hanno bisogno di spazio per i pittogrammi della
-      // riga precedente: si aumenta solo in questa disposizione.
-      const current = Number.parseFloat(getComputedStyle(this.contentDOM).lineHeight) || 0;
-      this.contentDOM.style.lineHeight = `${Math.max(current, space + 8)}px`;
-    }
-
-    positionChips() {
-      if (this.positionFrame !== null) cancelAnimationFrame(this.positionFrame);
-      this.positionFrame = requestAnimationFrame(() => {
-        this.positionFrame = null;
-        const active = symbolLayout === "parola" && !this.strip.hidden && mode !== "testo";
-        this.applyOnWordLayout(active);
-        if (!active) return;
-        const rootRect = this.dom.getBoundingClientRect();
-        const space = this.symbolSpace();
-        const tokens = tokensByPid.get(this.pid) ?? [];
-        const chips = this.strip.querySelectorAll<HTMLElement>(".caa-chip");
-        chips.forEach((chip) => {
-          const index = Number(chip.dataset.index);
-          const token = tokens.find((item) => item.index === index);
-          if (!token) return;
-          const range = rangeForOffsets(this.contentDOM, token.start, token.end);
-          if (!range) return;
-          const rect = range.getBoundingClientRect();
-          if (rect.width === 0 && rect.height === 0) return;
-          const center = rect.left - rootRect.left + rect.width / 2;
-          const top =
-            mode === "sotto"
-              ? rect.bottom - rootRect.top + 3
-              : rect.top - rootRect.top - space + 3;
-          chip.style.left = `${center}px`;
-          chip.style.top = `${top}px`;
-        });
-      });
-    }
-
-    renderStrip(force = false) {
-      const all = tokensByPid.get(this.pid) ?? [];
-      // Con la CAA automatica spenta restano visibili solo le scelte manuali.
-      // Se l'utente disattiva i simboli espliciti, anche quelle vengono nascoste
-      // dal foglio ma restano salvate nel documento.
-      const manual = (token: CaaToken) => token.locked || token.strategy === "manual";
-      const explicit = (token: CaaToken) =>
-        isExplicitContent(token.surface, token.symbol_label, token.concept_label, token.meaning);
-      const source = autoEnabled ? all : all.filter(manual);
-      const filtered = showExplicitSymbols ? source : source.filter((token) => !explicit(token));
-      const visible = stripTokens(filtered);
-      const hidden = mode === "testo" || visible.length === 0;
-      // La chiave contiene solo ciò che cambia l'aspetto: niente SVG (grande
-      // e immutabile) e niente ricostruzione quando il testo viene digitato.
-      const key = hidden
-        ? `${this.pid}|hidden|${mode}|${autoEnabled}|${showExplicitSymbols}|${symbolLayout}`
-        : `${this.pid}|${mode}|${autoEnabled}|${showExplicitSymbols}|${symbolLayout}|${appliedKey.startsWith(`${this.pid}:`) ? appliedKey : ""}|${visible
-            .map(
-              (token) =>
-                `${token.index}:${token.symbol_id ?? ""}:${token.composition.length}:${
-                  token.locked ? 1 : 0
-                }:${token.hidden ? 1 : 0}:${token.approximate ? 1 : 0}:${
-                  token.alternatives.some((alternative) => alternative.neural) ? 1 : 0
-                }`
-            )
-            .join(";")}`;
-      if (!force && key === this.lastKey) {
-        this.order();
-        return;
-      }
-      this.lastKey = key;
-      if (hidden) {
-        this.strip.replaceChildren();
-        this.strip.hidden = true;
-      } else {
-        this.strip.hidden = false;
-        this.strip.dataset.layout = mode === "sotto" ? "sotto" : "sopra";
-        renderChips(this.strip, this.pid, visible);
-      }
-      this.order();
-      this.positionChips();
-    }
-
-    /// Aggiorna solo lo stato di selezione dei chip: evita di ricostruire gli
-    /// SVG (e lo sfarfallio) a ogni clic.
-    updateSelection() {
-      const chips = this.strip.querySelectorAll<HTMLElement>(".caa-chip");
-      chips.forEach((chip) => {
-        const index = Number(chip.dataset.index);
-        const active = Boolean(
-          selectedUnit && selectedUnit.pid === this.pid && selectedUnit.index === index
-        );
-        chip.classList.toggle("caa-chip--selected", active);
-        if (active) chip.setAttribute("aria-current", "true");
-        else chip.removeAttribute("aria-current");
-      });
-    }
-
-    update(node: PMNode): boolean {
-      if (node.type !== this.node.type) return false;
-      if (this.tag === "heading" && node.attrs.level !== this.node.attrs.level) return false;
-      this.node = node;
-      this.syncPid();
-      this.applyAttrs();
-      // Anche se il testo cambia, i token restano quelli dell'ultima analisi:
-      // ridisegnare qui sarebbe lavoro inutile a ogni tasto. Il ridisegno
-      // avviene quando arriva un risultato nuovo o cambia la selezione.
-      this.renderStrip();
-      this.positionChips();
-      return true;
-    }
-
-    ignoreMutation(mutation: ViewMutationRecord): boolean {
-      // Mutazioni sul wrapper (riordino striscia) e dentro la striscia non sono
-      // contenuto: senza questo filtro ProseMirror ne legge il testo nel documento.
-      if (mutation.target === this.dom) return true;
-      return this.strip.contains(mutation.target as Node);
-    }
-
-    stopEvent(event: Event): boolean {
-      return this.strip.contains(event.target as Node);
-    }
-
-    destroy() {
-      if (this.positionFrame !== null) cancelAnimationFrame(this.positionFrame);
-      window.removeEventListener("resize", this.onResize);
-      if (paragraphViews.get(this.pid) === this) paragraphViews.delete(this.pid);
-    }
-  }
-
-  function textViewFor(tag: "paragraph" | "heading") {
-    return (node: PMNode) => new TextView(node, tag);
-  }
-
-  function refreshStrips(force = false, only?: Set<string>) {
-    for (const [pid, paragraphView] of paragraphViews) {
-      if (only && !only.has(pid)) continue;
-      paragraphView.renderStrip(force);
-    }
-  }
+  const unitsPlugin = new Plugin({
+    key: decorationsKey,
+    props: {
+      decorations: (state) => buildDecorations(state.doc),
+      handleDOMEvents: {
+        click: (_current, event) => {
+          const found = unitAtEvent(event);
+          if (!found) return false;
+          lastTextSelectionKey = `${found.pid}:${found.token.index}:${found.token.surface}`;
+          suppressSelectionSyncUntil = performance.now() + 200;
+          onSelectToken(found.pid, found.token);
+          return false;
+        },
+        contextmenu: (_current, event) => {
+          const found = unitAtEvent(event);
+          if (!found) return false;
+          event.preventDefault();
+          lastTextSelectionKey = `${found.pid}:${found.token.index}:${found.token.surface}`;
+          suppressSelectionSyncUntil = performance.now() + 200;
+          onSelectToken(found.pid, found.token);
+          onTokenMenu(found.pid, found.token, { x: event.clientX, y: event.clientY });
+          return true;
+        },
+      },
+    },
+  });
 
   // La selezione testuale è la fonte principale della scelta: un clic su una
   // parola senza pittogramma deve aprire il pannello, non essere ignorato.
@@ -730,7 +433,7 @@
     window.setTimeout(() => {
       if (appliedKey === key) {
         appliedKey = "";
-        refreshStrips();
+        refreshDecorations();
       }
     }, 240);
   }
@@ -817,8 +520,13 @@
           return false;
         },
         mouseup: (current) => {
-          // Dopo il click ProseMirror ha già aggiornato la selezione.
-          window.setTimeout(() => selectionFromView(current), 0);
+          // Dopo il click ProseMirror ha già aggiornato la selezione. Un clic
+          // sul pittogramma non deve essere sovrascritto dalla sincronizzazione
+          // testuale, che altrimenti riaprirebbe un'altra unità.
+          window.setTimeout(() => {
+            if (performance.now() < suppressSelectionSyncUntil) return;
+            selectionFromView(current);
+          }, 0);
           return false;
         },
         keyup: (current, event) => {
@@ -1042,7 +750,7 @@
             if (!pidTouched) continue;
             tokensByPid.set(pid, next);
             analyzedSignature.delete(pid);
-            paragraphViews.get(pid)?.renderStrip();
+            refreshDecorations();
             const applied = next.find(
               (token) =>
                 normalize(token.surface) === entry.word &&
@@ -1104,7 +812,7 @@
       if (!autoEnabled) {
         // I token restano in memoria: le scelte manuali devono poter essere
         // mostrate e modificate anche con la CAA automatica spenta.
-        refreshStrips(true);
+        refreshDecorations();
         return;
       }
       let budget = 60;
@@ -1132,7 +840,7 @@
           if (!current || signatureFor(current) !== signature) continue;
           analyzedSignature.set(paragraph.pid, signature);
           tokensByPid.set(paragraph.pid, result.tokens);
-          paragraphViews.get(paragraph.pid)?.renderStrip();
+          refreshDecorations();
         } catch (error) {
           if (run !== analyzeSeq) return;
           analyzedSignature.set(paragraph.pid, signature);
@@ -1142,7 +850,7 @@
       }
       if (run !== analyzeSeq) return;
       onAnalyzed(new Map(tokensByPid));
-      refreshStrips();
+      refreshDecorations();
       scheduleRefine();
       void ensureOnlineSymbols();
     } finally {
@@ -1229,7 +937,7 @@
           if (!current || signatureFor(current) !== signature) continue;
           refinedSignature.set(paragraph.pid, signature);
           tokensByPid.set(paragraph.pid, result.tokens);
-          paragraphViews.get(paragraph.pid)?.renderStrip();
+          refreshDecorations();
           onAnalyzed(new Map(tokensByPid));
         } catch {
           // Modello assente, richiesta annullata o testo superato: resta valida
@@ -1273,6 +981,7 @@
   function editorPlugins() {
     return [
       history(),
+      unitsPlugin,
       selectionSyncPlugin,
       keymap({
         "Mod-z": undo,
@@ -1300,10 +1009,6 @@
 
     view = new EditorView(host, {
       state,
-      nodeViews: {
-        paragraph: textViewFor("paragraph"),
-        heading: textViewFor("heading"),
-      },
       dispatchTransaction(transaction) {
         const updateStarted = performance.now();
         const next = view!.state.apply(transaction);
@@ -1355,9 +1060,10 @@
     schedule(30);
     return () => {
       cancelAnimationFrame(frameHandle);
+      if (decorationFrame !== null) cancelAnimationFrame(decorationFrame);
+      decorationFrame = null;
       view?.destroy();
       view = null;
-      paragraphViews.clear();
     };
   });
 
@@ -1375,34 +1081,25 @@
     schedule(60);
   });
 
-  // Simbolizzazione spenta o modalità solo testo: nasconde le strisce senza
-  // perdere le associazioni già calcolate.
+  // Simbolizzazione spenta o modalità solo testo: nasconde le decorazioni
+  // senza perdere le associazioni già calcolate.
   $effect(() => {
     void autoEnabled;
     void mode;
-    void symbolLayout;
     void showExplicitSymbols;
     if (!view) return;
-    refreshStrips();
+    refreshDecorations();
   });
 
-  // Evidenzia il pittogramma selezionato aggiornando solo i due paragrafi
-  // coinvolti (quello che perde e quello che riceve la selezione). Prima si
-  // ricostruivano tutti i chip del documento a ogni clic.
+  // Il pittogramma selezionato cambia aspetto (bordo) senza ricostruire il DOM
+  // del documento: basta una nuova passata di decorazioni.
   let previousSelectionKey = "";
   $effect(() => {
     const nextKey = selectedUnit ? `${selectedUnit.pid}:${selectedUnit.index}` : "";
     if (!view) return;
     if (nextKey === previousSelectionKey) return;
-    const touched = new Set<string>();
-    if (previousSelectionKey) touched.add(previousSelectionKey.split(":")[0]);
-    if (selectedUnit) touched.add(selectedUnit.pid);
     previousSelectionKey = nextKey;
-    if (touched.size === 0) {
-      for (const view of paragraphViews.values()) view.updateSelection();
-    } else {
-      for (const pid of touched) paragraphViews.get(pid)?.updateSelection();
-    }
+    refreshDecorations();
   });
 
   export function getDocJson(): unknown {
@@ -1421,7 +1118,6 @@
     const state = ensurePids(
       EditorState.create({ doc, plugins: editorPlugins() })
     );
-    paragraphViews.clear();
     view.updateState(state);
     analyzedSignature.clear();
     refinedSignature.clear();
@@ -1446,7 +1142,6 @@
         )
       );
     const doc = schema.node("doc", null, paragraphs.length ? paragraphs : [schema.node("paragraph", { pid: newPid() }, [])]);
-    paragraphViews.clear();
     view.updateState(EditorState.create({ doc, plugins: editorPlugins() }));
     analyzedSignature.clear();
     refinedSignature.clear();
@@ -1490,7 +1185,7 @@
     if (!tokens.length) return;
     tokensByPid.set(pid, tokens);
     analyzedSignature.delete(pid);
-    refreshStrips(true, new Set([pid]));
+    refreshDecorations();
     onAnalyzed(new Map(tokensByPid));
   }
 
@@ -1537,7 +1232,7 @@
       );
     }
     analyzedSignature.delete(pid);
-    refreshStrips(true, new Set([pid]));
+    refreshDecorations();
     onAnalyzed(new Map(tokensByPid));
     schedule(0);
     return true;
@@ -1572,7 +1267,7 @@
       }
     }
     if (!changed) return;
-    refreshStrips(true);
+    refreshDecorations();
     onAnalyzed(new Map(tokensByPid));
     if (selectedUnit) {
       const token = tokensByPid
@@ -1629,7 +1324,7 @@
     flashApplied(pid, index);
     // Ridisegno forzato: il chip appena scelto deve comparire subito, anche se
     // un'analisi in corso ha lasciato la chiave della striscia invariata.
-    refreshStrips(true, new Set([pid]));
+    refreshDecorations();
     onAnalyzed(new Map(tokensByPid));
     onSelectToken(pid, updated);
     return true;
@@ -1684,7 +1379,7 @@
     }
     if (count > 0) {
       if (selectedUpdate) flashApplied(selectedUpdate.pid, selectedUpdate.token.index);
-      refreshStrips(true, new Set(entries.map((entry) => entry.pid)));
+      refreshDecorations();
       onAnalyzed(new Map(tokensByPid));
       if (selectedUpdate) onSelectToken(selectedUpdate.pid, selectedUpdate.token);
     }
@@ -1712,7 +1407,7 @@
       pid,
       tokens.map((token) => (token.index === index ? updated : token))
     );
-    refreshStrips();
+    refreshDecorations();
     onAnalyzed(new Map(tokensByPid));
     onSelectToken(pid, updated);
   }
@@ -2204,6 +1899,5 @@
   class="editor"
   bind:this={host}
   data-mode={mode}
-  data-captions={mode === "sotto" || ["immagine_testo", "separato", "divisore"].includes(borderStyle) ? "true" : "false"}
   data-border={borderStyle}
 ></div>

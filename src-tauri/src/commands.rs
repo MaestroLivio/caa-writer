@@ -260,9 +260,21 @@ pub fn save_document(
     caadoc::save(Path::new(&path), &payload, &attributions)
 }
 
+/// Elimina la bozza automatica. Non accetta un percorso arbitrario: agisce
+/// solo sul file dentro la directory dati dell'app, così l'installazione non
+/// può proporre di recuperare un lavoro mai fatto.
 #[tauri::command]
-pub fn load_document(state: State<'_, Engine>, path: String) -> Result<LoadedDocument, String> {
-    let loaded = caadoc::load(Path::new(&path))?;
+pub fn remove_recovery_draft(state: State<'_, Engine>) -> Result<bool, String> {
+    let path = state.paths.data_dir.join("recovery.caadoc");
+    if !path.exists() {
+        return Ok(false);
+    }
+    std::fs::remove_file(&path).map_err(|e| e.to_string())?;
+    Ok(true)
+}
+
+#[tauri::command]
+pub fn load_document(state: State<'_, Engine>, path: String) -> Result<LoadedDocument, String> {    let loaded = caadoc::load(Path::new(&path))?;
     // Le preferenze salvate nel documento tornano nel database locale.
     if let Ok(db) = state.db() {
         for pref in &loaded.preferences {

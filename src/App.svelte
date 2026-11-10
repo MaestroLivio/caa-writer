@@ -954,6 +954,7 @@
     selected = null;
     tokensByParagraph = new Map();
     dirty = false;
+    void clearRecoveryDraft();
     view = "editor";
     if (!silent) toast("Nuovo documento creato.", "info");
   }
@@ -1114,6 +1115,7 @@
     universalFromLibrary = false;
     docTitle = document.title;
     recordRecent({ path, title: docTitle, excerpt: plain.slice(0, 160) });
+    void clearRecoveryDraft();
     if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
     toast(`Documento salvato in ${path}`, "info");
   }
@@ -1300,6 +1302,7 @@
       docPath = path;
       docTitle = path.split(/[\\/]/).pop()?.replace(/\.caadoc$/i, "") ?? docTitle;
       dirty = false;
+      void clearRecoveryDraft();
       recordRecent({
         path,
         title: docTitle,
@@ -1439,6 +1442,8 @@
   async function loadFrom(path: string, asPlayer = false) {
     try {
       const loaded = await api.loadDocument(path);
+      // Un documento aperto sostituisce la bozza: non va più proposta.
+      void clearRecoveryDraft();
       docTitle = loaded.title || path.split(/[\\/]/).pop() || "Documento";
       docPath = path;
       docKey = `doc-${path}`;
@@ -2838,6 +2843,15 @@
     }
   }
 
+  async function clearRecoveryDraft() {
+    if (!native) return;
+    try {
+      await api.removeRecoveryDraft();
+    } catch {
+      /* la pulizia non deve bloccare il salvataggio o l'apertura */
+    }
+  }
+
   async function checkRecovery() {
     if (!appInfo) return;
     const path = `${appInfo.data_dir}/recovery.caadoc`;
@@ -2845,6 +2859,11 @@
       const loaded = await api.loadDocument(path);
       if (loaded.plain_text.trim().length > 0) {
         recovery = { plain_text: loaded.plain_text, content: loaded.content, title: loaded.title };
+      } else {
+        // Una bozza vuota non è un lavoro da recuperare: va eliminata, non
+        // proposta all'avvio. Era la causa del banner su un documento mai
+        // scritto.
+        await clearRecoveryDraft();
       }
     } catch {
       /* nessun file di recupero: condizione normale al primo avvio */
@@ -2857,17 +2876,33 @@
     docTitle = recovery.title || "Documento recuperato";
     docPath = null;
     docKey = `doc-recovery-${Date.now().toString(36)}`;
-    recovered = true;
+    // La bozza è ora nel documento: va sostituita alla prossima pausa, non
+    // riproposta al prossimo avvio. Il contenuto recuperato resta protetto.
+    recovered = false;
+    dirty = true;
     recovery = null;
+    void clearRecoveryDraft();
     toast("Documento recuperato. Salvalo per conservarlo.", "info");
   }
 
-  // Autosalvataggio di recupero: solo se ci sono modifiche non salvate.
+  function discardRecovery() {
+    recovery = null;
+    void clearRecoveryDraft();
+  }
+
+  // Autosalvataggio di recupero: solo se ci sono modifiche non salvate e se
+  // c'è davvero testo. Una bozza vuota veniva creata comunque e al riavvio
+  // sembrava un lavoro da recuperare.
   $effect(() => {
     if (!native || !appInfo || !dirty || recovered) return;
     const timer = setTimeout(() => {
       void (async () => {
         try {
+          const plain = editor?.getPlainText?.() ?? "";
+          if (!plain.trim()) {
+            await api.removeRecoveryDraft().catch(() => undefined);
+            return;
+          }
           await api.saveDocument(`${appInfo!.data_dir}/recovery.caadoc`, buildPayload());
           autoSavedAt = new Date().toLocaleTimeString();
         } catch {
@@ -3126,6 +3161,15 @@
       return;
     }
     setZoom(zoom + delta);
+  }
+
+  /// Pinch-to-zoom (Windows/WebView2 e trackpad) e Ctrl+rotella: si scala il
+  /// documento, non l'interfaccia. Il valore è lo stesso dello slider, quindi
+  /// resta persistente.
+  function handlePaperWheel(event: WheelEvent) {
+    if (!event.ctrlKey && !event.metaKey) return;
+    event.preventDefault();
+    setZoom(zoom - event.deltaY * 0.0025);
   }
 
   function zoomResetAll() {
@@ -4105,6 +4149,13 @@
             toggle("panel-toggle", "Pannello laterale", "panel-right", !panelClosed, () =>
               (panelClosed ? openSidebar() : closeSidebar())
             ),
+            toggle(
+              "panel-overlay",
+              "Pannello sovrapposto",
+              "panel-right",
+              $workspace.sidebarMode === "overlay",
+              toggleSidebarDock
+            ),
             cmd("panel-settings", "Impostazioni", "settings", () => openSettingsPanel()),
             select(
               "theme",
@@ -4475,7 +4526,7 @@
       <strong>Documento non salvato recuperato.</strong>
       C'è una bozza automatica con {recovery.plain_text.length} caratteri.
       <button class="btn btn--solid" onclick={restoreRecovery}>Recupera</button>
-      <button class="btn" onclick={() => (recovery = null)}>Ignora</button>
+      <button class="btn" onclick={discardRecovery}>Ignora</button>
     </div>
   {/if}
 
@@ -4524,6 +4575,7 @@
         class:paper--a5={settings.page === "a5"}
         data-uppercase={settings.uppercase ? "true" : "false"}
         style={`${settings.font_family ? `font-family:${settings.font_family};` : ""}zoom:${zoom}`}
+        onwheel={handlePaperWheel}
       >
         {#if showEditorRuler}
           <div class="paper-ruler paper-ruler--top" aria-hidden="true"></div>
@@ -4555,7 +4607,6 @@
           symbolizePrepositions={settings.symbolize_prepositions}
           symbolizeConjunctions={settings.symbolize_conjunctions}
           showExplicitSymbols={settings.show_explicit_symbols}
-          symbolLayout={settings.symbol_layout}
           onTokenMenu={(_pid, _token, at) => (unitMenu = at)}
           intensity={settings.intensity}
           documentKey={docKey}
@@ -4612,6 +4663,31 @@
           </div>
           <p class="hint">Generato con CAA Writer. Pittogrammi: vedere il registro delle licenze.</p>
         {/if}
+      </div>
+
+      <div class="document-zoom no-print" role="group" aria-label="Zoom del documento">
+        <button
+          class="btn btn--ghost btn--tiny"
+          onclick={() => zoomBy(-0.1)}
+          title="Riduci zoom"
+          aria-label="Riduci zoom">−</button
+        >
+        <input
+          type="range"
+          min="50"
+          max="180"
+          step="5"
+          value={Math.round(zoom * 100)}
+          aria-label="Percentuale di zoom del documento"
+          oninput={(event) => setZoom(Number(event.currentTarget.value) / 100)}
+        />
+        <span class="document-zoom__value">{Math.round(zoom * 100)}%</span>
+        <button
+          class="btn btn--ghost btn--tiny"
+          onclick={() => zoomBy(0.1)}
+          title="Aumenta zoom"
+          aria-label="Aumenta zoom">+</button
+        >
       </div>
 
       {/if}
@@ -4762,9 +4838,7 @@
           onImportImages={() => void importPictogramImages()}
           onImportFolder={() => void importPictogramFolder()}
           intent={sideIntent}
-          overlay={effectiveSidebarMode === "overlay"}
           onCollapse={closeSidebar}
-          onToggleDock={toggleSidebarDock}
           associationScope={$workspace.associationScope}
           onAssociationScope={(scope) => updateWorkspace({ associationScope: scope })}
           onSwitchTab={(tab) => updateWorkspace({ activeSidebarPanel: tab })}

@@ -100,6 +100,7 @@ pub fn run() {
             commands::clear_document_override,
             commands::set_unit_state,
             commands::save_document,
+            commands::remove_recovery_draft,
             commands::load_document,
             commands::export_html,
             commands::export_docx,
