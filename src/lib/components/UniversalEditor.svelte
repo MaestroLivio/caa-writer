@@ -2695,7 +2695,7 @@
   .ueditor__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
   .ueditor__gridbox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #d3d6e0; border-radius: 8px; background: #fff; font-size: 0.75rem; }
   .ueditor__gridbox input { width: 54px; }
-  .ueditor__zoombar { position: absolute; right: 14px; bottom: 14px; z-index: 35; display: flex; align-items: center; gap: 6px; padding: 5px 8px; background: var(--surface, #fff); border: 1px solid var(--border, #d3d6e0); border-radius: 999px; box-shadow: 0 2px 10px rgba(15,23,42,0.12); font-size: 0.75rem; }
+  .ueditor__zoombar { position: fixed; right: 18px; bottom: 18px; z-index: 45; display: flex; align-items: center; gap: 6px; padding: 5px 8px; background: var(--surface, #fff); border: 1px solid var(--border, #d3d6e0); border-radius: 999px; box-shadow: 0 2px 10px rgba(15,23,42,0.12); font-size: 0.75rem; }
   .ueditor__zoombar input { width: 90px; }
   .ueditor__zoomvalue { min-width: 32px; text-align: right; }
   .ueditor__margin-badge { position: absolute; top: 8px; right: 8px; z-index: 35; background: #172033; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 999px; }

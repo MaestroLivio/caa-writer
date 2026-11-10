@@ -44,6 +44,9 @@ import type {
   LibraryStats,
   LoadedDocument,
   PackInfo,
+  PackageCatalog,
+  PackageReport,
+  UpdateInfo,
   ParagraphResult,
   Preference,
   ResourcePlan,
@@ -93,6 +96,13 @@ export const api = {
   printWindow: () => call<void>("print_window"),
   libraryStats: () => call<LibraryStats>("library_stats"),
   listPacks: () => call<PackInfo[]>("list_packs"),
+  packageCatalog: () => call<PackageCatalog>("package_catalog"),
+  packageSetLibrary: (id: string, enabled: boolean) =>
+    call<void>("package_set_library", { id, enabled }),
+  packageDownload: (id: string) => call<PackageReport>("package_download", { id }),
+  packageRemove: (id: string) => call<void>("package_remove", { id }),
+  checkUpdates: () => call<UpdateInfo>("check_updates"),
+  openRepositoryLink: (url: string) => call<void>("open_repository_link", { url }),
 
   symbolizeParagraph: (text: string, options: SymbolizeOptions) =>
     call<ParagraphResult>("symbolize_paragraph", { text, options }),

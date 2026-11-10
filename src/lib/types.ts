@@ -273,6 +273,48 @@ export interface LibraryStats {
   packs_detail: PackInfo[];
 }
 
+export interface PackageInfo {
+  id: string;
+  kind: "library" | "symbols";
+  name: string;
+  description: string;
+  count: number;
+  installed: boolean;
+  bundled: boolean;
+  removable: boolean;
+  license: string | null;
+  source_url: string | null;
+  version: string | null;
+}
+
+export interface PackageCatalog {
+  library: PackageInfo[];
+  symbols: PackageInfo[];
+  library_version: string;
+  library_generated_at: string;
+  warnings: string[];
+}
+
+export interface PackageReport {
+  id: string;
+  downloaded: number;
+  failed: number;
+  message: string;
+}
+
+export interface UpdateInfo {
+  current_version: string;
+  latest_version: string | null;
+  software_available: boolean;
+  release_url: string | null;
+  published_at: string | null;
+  release_notes: string | null;
+  library_current: string;
+  library_latest: string | null;
+  library_available: boolean;
+  warnings: string[];
+}
+
 export interface AttributionEntry {
   symbol_id: string;
   label: string;

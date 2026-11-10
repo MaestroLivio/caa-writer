@@ -22,6 +22,7 @@ pub mod library_quality;
 pub mod linguistics;
 pub mod model;
 pub mod paths;
+pub mod packages;
 pub mod profiles;
 pub mod pictogram_import;
 pub mod online_search;
@@ -160,6 +161,12 @@ pub fn run() {
             commands::story_create,
             commands::library_stats,
             commands::list_packs,
+            commands::package_catalog,
+            commands::package_set_library,
+            commands::package_download,
+            commands::package_remove,
+            commands::check_updates,
+            commands::open_repository_link,
             commands::list_templates,
             commands::plan_resource,
             commands::build_layout,

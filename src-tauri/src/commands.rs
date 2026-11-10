@@ -781,7 +781,10 @@ pub fn universal_library(state: State<'_, Engine>) -> crate::universal::LibraryM
 pub fn library_catalog(
     state: State<'_, Engine>,
 ) -> crate::template_catalog::CatalogOverview {
-    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let manifest = crate::packages::filtered_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
     crate::template_catalog::overview(&manifest)
 }
 
@@ -790,7 +793,10 @@ pub fn library_search(
     state: State<'_, Engine>,
     query: crate::template_catalog::CatalogQuery,
 ) -> crate::template_catalog::CatalogPage {
-    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let manifest = crate::packages::filtered_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
     let mut page = crate::template_catalog::search(&manifest, &query);
     for item in &mut page.items {
         item.preview_svg =
@@ -804,7 +810,10 @@ pub fn library_by_ids(
     state: State<'_, Engine>,
     ids: Vec<String>,
 ) -> Vec<crate::template_catalog::CatalogItem> {
-    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let manifest = crate::packages::filtered_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
     let mut items = crate::template_catalog::by_ids(&manifest, &ids);
     for item in &mut items {
         item.preview_svg =
@@ -1004,6 +1013,64 @@ pub fn library_stats(state: State<'_, Engine>) -> Result<LibraryStats, String> {
 #[tauri::command]
 pub fn list_packs(state: State<'_, Engine>) -> Result<Vec<PackInfo>, String> {
     state.db()?.list_packs().map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub fn package_catalog(
+    state: State<'_, Engine>,
+) -> Result<crate::packages::PackageCatalog, String> {
+    crate::packages::catalog(&state)
+}
+
+#[tauri::command]
+pub fn package_set_library(
+    state: State<'_, Engine>,
+    id: String,
+    enabled: bool,
+) -> Result<(), String> {
+    crate::packages::set_library_enabled(&state.paths.data_dir, &id, enabled)
+}
+
+#[tauri::command]
+pub async fn package_download(
+    app: tauri::AppHandle,
+    id: String,
+) -> Result<crate::packages::PackageReport, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        match id.as_str() {
+            "symbols:arasaac" => crate::packages::download_arasaac(&state, 900),
+            "symbols:globalsymbols" => crate::packages::download_globalsymbols(&state, 80),
+            _ => Err(format!(
+                "Il pacchetto «{id}» è incluso nell'app e funziona già offline: non serve scaricarlo."
+            )),
+        }
+    })
+    .await
+}
+
+#[tauri::command]
+pub fn package_remove(state: State<'_, Engine>, id: String) -> Result<(), String> {
+    let pack = id
+        .strip_prefix("symbols:")
+        .ok_or_else(|| "Solo i pacchetti di pittogrammi si possono rimuovere.".to_string())?;
+    crate::packages::remove_symbol_pack(&state, pack)
+}
+
+#[tauri::command]
+pub async fn check_updates(
+    app: tauri::AppHandle,
+) -> Result<crate::packages::UpdateInfo, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        Ok(crate::packages::check_updates(&state))
+    })
+    .await
+}
+
+#[tauri::command]
+pub fn open_repository_link(url: String) -> Result<(), String> {
+    crate::packages::open_external(&url)
 }
 
 #[tauri::command]

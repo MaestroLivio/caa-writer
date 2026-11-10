@@ -476,6 +476,47 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
             }))
         }
         "methods" => Ok(json!({ "methods": METHODS })),
+        "packages.catalog" => {
+            let catalog = caa_writer_lib::packages::catalog(engine)?;
+            Ok(serde_json::to_value(catalog).map_err(|e| e.to_string())?)
+        }
+        "packages.updates" => {
+            let info = caa_writer_lib::packages::check_updates(engine);
+            Ok(serde_json::to_value(info).map_err(|e| e.to_string())?)
+        }
+        "packages.download" => {
+            let id = as_string(params, "id").ok_or_else(|| "serve il parametro id".to_string())?;
+            let limit = params.get("limit").and_then(|v| v.as_u64()).unwrap_or(5) as usize;
+            let report = match id.as_str() {
+                "symbols:arasaac" => caa_writer_lib::packages::download_arasaac(engine, limit.max(1))?,
+                "symbols:globalsymbols" => {
+                    caa_writer_lib::packages::download_globalsymbols(engine, limit.max(1))?
+                }
+                _ => return Err(format!("pacchetto non scaricabile: {id}")),
+            };
+            Ok(serde_json::to_value(report).map_err(|e| e.to_string())?)
+        }
+        "packages.set_library" => {
+            let id = as_string(params, "id").ok_or_else(|| "serve il parametro id".to_string())?;
+            let enabled = params
+                .get("enabled")
+                .and_then(|v| v.as_bool())
+                .unwrap_or(true);
+            caa_writer_lib::packages::set_library_enabled(
+                &engine.paths.data_dir,
+                &id,
+                enabled,
+            )?;
+            Ok(json!({ "id": id, "enabled": enabled }))
+        }
+        "packages.remove" => {
+            let id = as_string(params, "id").ok_or_else(|| "serve il parametro id".to_string())?;
+            let pack = id
+                .strip_prefix("symbols:")
+                .ok_or_else(|| "si rimuovono solo pacchetti symbols:".to_string())?;
+            caa_writer_lib::packages::remove_symbol_pack(engine, pack)?;
+            Ok(json!({ "removed": id }))
+        }
         "symbolize" | "symbolize_paragraph" => {
             let text = as_string(params, "text").ok_or_else(|| "serve il parametro text".to_string())?;
             let options = options_from(params)?;
@@ -830,12 +871,18 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
             Ok(serde_json::to_value(&plan).map_err(|e| e.to_string())?)
         }
         "library.catalog" => {
-            let manifest = caa_writer_lib::universal::load_library_manifest(&engine.paths.resources_dir);
+            let manifest = caa_writer_lib::packages::filtered_manifest(
+                &engine.paths.resources_dir,
+                &engine.paths.data_dir,
+            );
             Ok(serde_json::to_value(caa_writer_lib::template_catalog::overview(&manifest))
                 .map_err(|e| e.to_string())?)
         }
         "library.search" => {
-            let manifest = caa_writer_lib::universal::load_library_manifest(&engine.paths.resources_dir);
+            let manifest = caa_writer_lib::packages::filtered_manifest(
+                &engine.paths.resources_dir,
+                &engine.paths.data_dir,
+            );
             let raw = params
                 .get("query")
                 .cloned()
@@ -1184,6 +1231,11 @@ fn dispatch(engine: &Engine, method: &str, params: &Value) -> Result<Value, Stri
 const METHODS: &[&str] = &[
     "info",
     "methods",
+    "packages.catalog",
+    "packages.updates",
+    "packages.download",
+    "packages.set_library",
+    "packages.remove",
     "symbolize",
     "analyze.text",
     "analyze.caadoc",

@@ -1493,22 +1493,29 @@ textarea {
   border-radius: var(--chip-radius, 8px);
 }
 
-/* Il pittogramma sopra la parola (o sotto, nella modalità «sotto»). */
+/* Il pittogramma sopra la parola (o sotto, nella modalità «sotto»).
+   L'immagine è uno sfondo dimensionato, non un contenuto sostituito: in
+   WebKit `content: url(...)` può mantenere la dimensione intrinseca del PNG
+   (fino a 500 px) e diventare gigantesca. Con background-size la misura è
+   sempre quella dell'unità, in tutti i motori. */
 .editor:not([data-mode="sotto"]) .caa-unit::before,
 .editor[data-mode="sotto"] .caa-unit::after {
-  content: var(--caa-symbol-image, none);
+  content: "";
   display: block;
   width: var(--caa-symbol-width, var(--caa-symbol-size, var(--symbol-size)));
   height: var(--caa-symbol-size, var(--symbol-size));
+  max-width: 100%;
   margin: 1px auto 2px;
-  object-fit: contain;
+  background-image: var(--caa-symbol-image, none);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   border: var(--caa-symbol-border, 0 solid transparent);
   border-bottom: var(--caa-symbol-rule, none);
   border-radius: var(--chip-radius, 8px);
   padding: var(--caa-symbol-padding, 0);
   outline: var(--caa-symbol-outline, none);
   outline-offset: 2px;
-  background: transparent;
 }
 
 .editor[data-mode="sotto"] .caa-unit::after {

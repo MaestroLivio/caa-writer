@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { api } from "../api";
+  import PackageManager from "./PackageManager.svelte";
   import type { CatalogItem, CatalogOverview, CatalogPage } from "../types";
 
   interface Props {
@@ -53,6 +54,7 @@
   let error = $state("");
   let offset = $state(0);
   let timer: ReturnType<typeof setTimeout> | null = null;
+  let packagesOpen = $state(false);
 
   const selectedCategory = $derived(
     overview?.categories.find((item) => item.id === category) ?? null
@@ -74,6 +76,18 @@
       await runSearch(true);
     })();
   });
+
+  /// Dopo aver attivato o sospeso un pacchetto i conteggi e i risultati
+  /// devono riflettere subito la scelta, senza riavviare l'app.
+  async function reloadAfterPackages() {
+    try {
+      overview = await api.libraryCatalog();
+    } catch (err) {
+      error = err instanceof Error ? err.message : String(err);
+    }
+    if (category === "personali") await loadPersonal();
+    else await runSearch(true);
+  }
 
   async function runSearch(reset = true) {
     if (category === "personali") {
@@ -212,6 +226,7 @@
       onclick={() => (compact = !compact)}
       title="Passa dalla griglia visiva all'elenco compatto"
     >{compact ? "Griglia" : "Elenco"}</button>
+    <button class="btn btn--solid" onclick={() => (packagesOpen = true)}>Pacchetti</button>
   </header>
 
   <div class="library__body">
@@ -363,6 +378,13 @@
     </main>
   </div>
 </div>
+
+{#if packagesOpen}
+  <PackageManager
+    onClose={() => (packagesOpen = false)}
+    onChanged={() => void reloadAfterPackages()}
+  />
+{/if}
 
 {#snippet materialCard(item: CatalogItem)}
   <article class="card" class:card--compact={compact}>
