@@ -29,6 +29,7 @@
   import LibraryBrowser from "./lib/components/LibraryBrowser.svelte";
   import PackageManager from "./lib/components/PackageManager.svelte";
   import FirstRunPackages from "./lib/components/FirstRunPackages.svelte";
+  import DownloadCenter from "./lib/components/DownloadCenter.svelte";
   import TraceSheetDialog from "./lib/components/TraceSheetDialog.svelte";
   import FreeBoard from "./lib/components/FreeBoard.svelte";
   import { recordRecent } from "./lib/recent";
@@ -170,6 +171,8 @@
   /// automatico: il Gestore pacchetti li mostra e l'utente decide).
   let requestedPackages = $state<string[]>([]);
   let firstRunOpen = $state(false);
+  let downloadsOpen = $state(false);
+  let downloadsMandatory = $state(false);
   let traceOpen = $state(false);
   let sideIntent = $state<SideIntent | null>(null);
   let intentSeq = 0;
@@ -659,7 +662,7 @@
 
   /// Primo avvio con installer snello: propone i pacchetti opzionali una
   /// volta sola. «Più tardi» non salva nulla, quindi la finestra ricompare.
-  const FIRST_RUN_KEY = "caa.firstrun.packages.v1";
+  const FIRST_RUN_KEY = "caa.firstrun.packages.v2";
   onMount(() => {
     if (!native) return;
     try {
@@ -670,9 +673,7 @@
     firstRunOpen = true;
   });
 
-  function closeFirstRun(remember: boolean) {
-    firstRunOpen = false;
-    if (!remember) return;
+  function markFirstRunDone() {
     try {
       localStorage.setItem(FIRST_RUN_KEY, "done");
     } catch {
@@ -680,10 +681,27 @@
     }
   }
 
-  function openPackagesFromFirstRun(ids: string[]) {
-    requestedPackages = ids;
-    closeFirstRun(true);
-    packagesOpen = true;
+  /// Avvia i download scelti. Al primo avvio la finestra non si chiude finché
+  /// i job non sono terminati; dal Gestore pacchetti può restare in background.
+  async function startDownloads(ids: string[], mandatory: boolean) {
+    const jobs = ids.filter(
+      (id) => id === "voice" || id.startsWith("symbols:")
+    );
+    if (mandatory) markFirstRunDone();
+    firstRunOpen = false;
+    for (const id of jobs) {
+      try {
+        await api.downloadStart(id);
+      } catch (error) {
+        toast(error instanceof Error ? error.message : String(error), "error");
+      }
+    }
+    downloadsMandatory = mandatory;
+    downloadsOpen = true;
+  }
+
+  function finishDownloads() {
+    downloadsMandatory = false;
   }
   const unitKey = (pid: string, index: number) => `${pid}:${index}`;
 
@@ -1300,12 +1318,19 @@
     void (async () => {
       const opened = await openUniversalDocument(templateId, "template", false, true);
       if (opened) return;
-      // Nessun ripiego silenzioso sull'editor di testo: un modello si apre
-      // sempre nell'editor completo, oppure l'errore viene dichiarato.
-      toast(
-        "Il modello non si è aperto nell'editor completo. Verifica che la libreria universale sia installata.",
-        "error"
+      // I modelli dello Studio hanno ID propri e non sono voci della libreria
+      // universale: si costruisce il documento dal modello invece di mostrare
+      // un errore di libreria mancante.
+      const plan = await generateResource(
+        `Crea un materiale usando il modello ${templateId}.`,
+        templateId
       );
+      if (!plan) {
+        toast(
+          "Il modello non si è aperto né dalla libreria universale né dallo Studio.",
+          "error"
+        );
+      }
     })();
   }
 
@@ -5136,9 +5161,14 @@
 {/if}
 
 {#if firstRunOpen}
-  <FirstRunPackages
-    onOpenPackages={openPackagesFromFirstRun}
-    onClose={closeFirstRun}
+  <FirstRunPackages onStart={(ids) => void startDownloads(ids, true)} />
+{/if}
+
+{#if downloadsOpen}
+  <DownloadCenter
+    mandatory={downloadsMandatory}
+    onFinished={finishDownloads}
+    onClose={() => (downloadsOpen = false)}
   />
 {/if}
 
@@ -5148,6 +5178,7 @@
     {aiStatus}
     onStatusChange={refreshAiStatus}
     onToast={toast}
+    onStartDownload={(ids) => void startDownloads(ids, false)}
     onClose={() => {
       packagesOpen = false;
       requestedPackages = [];

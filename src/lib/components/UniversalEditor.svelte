@@ -101,6 +101,83 @@
     uppercase = false,
   }: Props = $props();
 
+  type WrapZone = { x0: number; x1: number; bottom: number; left: boolean };
+
+  class FlowLayout {
+    left: number;
+    right: number;
+    gap: number;
+    x: number;
+    y: number;
+    lineH = 0;
+    zone: WrapZone | null = null;
+    constructor(left: number, right: number, top: number, gap: number) {
+      this.left = left;
+      this.right = right;
+      this.gap = Math.max(0, gap);
+      this.x = left;
+      this.y = top;
+    }
+    private area(): [number, number] {
+      if (this.zone && this.y < this.zone.bottom) {
+        if (this.zone.left) {
+          return [this.zone.x1 + this.gap, Math.max(8, this.right - this.zone.x1 - this.gap)];
+        }
+        return [this.left, Math.max(8, this.zone.x0 - this.gap - this.left)];
+      }
+      return [this.left, Math.max(8, this.right - this.left)];
+    }
+    private clearZone(): void {
+      if (this.zone && this.y >= this.zone.bottom) this.zone = null;
+    }
+    inline(width: number, height: number): [number, number] {
+      this.clearZone();
+      let [areaX, areaW] = this.area();
+      let w = Math.min(width, areaW);
+      if (this.x < areaX || this.x + w > areaX + areaW + 0.01) {
+        this.x = areaX;
+        if (this.lineH > 0) {
+          this.y += this.lineH + this.gap;
+          this.lineH = 0;
+        }
+      }
+      [areaX] = this.area();
+      if (this.x < areaX) this.x = areaX;
+      const placed: [number, number] = [this.x, this.y];
+      this.x += w + this.gap;
+      this.lineH = Math.max(this.lineH, height);
+      return placed;
+    }
+    block(width: number, height: number, textlike: boolean): [number, number] {
+      this.clearZone();
+      if (textlike && this.zone && this.y < this.zone.bottom) {
+        const [areaX, areaW] = this.area();
+        const placed: [number, number] = [areaX, this.y];
+        this.x = areaX + areaW + this.gap;
+        this.lineH = 0;
+        this.y += height + this.gap;
+        return placed;
+      }
+      if (this.zone && this.y < this.zone.bottom) this.y = this.zone.bottom + this.gap;
+      this.zone = null;
+      const placed: [number, number] = [this.left, this.y];
+      this.x = this.left + Math.min(width, this.right - this.left) + this.gap;
+      this.lineH = 0;
+      this.y += height + this.gap;
+      return placed;
+    }
+    wrap(width: number, height: number, left: boolean): [number, number] {
+      if (this.zone && this.y < this.zone.bottom) this.y = this.zone.bottom + this.gap;
+      const w = Math.min(Math.max(width, 8), Math.max(8, this.right - this.left));
+      const x = left ? this.left : this.right - w;
+      const y = this.y;
+      this.zone = { x0: x, x1: x + w, bottom: y + height, left };
+      this.x = this.left;
+      this.lineH = 0;
+      return [x, y];
+    }
+  }
+
   let doc = $state<UniversalDocument>(clone(initial));
   let rendered = $state<RenderedDocument>(localRender(doc));
   let pageIndex = $state(0);
@@ -463,83 +540,6 @@
       cursor += size + gap;
     }
     return { sizes, offsets };
-  }
-
-  type WrapZone = { x0: number; x1: number; bottom: number; left: boolean };
-
-  class FlowLayout {
-    left: number;
-    right: number;
-    gap: number;
-    x: number;
-    y: number;
-    lineH = 0;
-    zone: WrapZone | null = null;
-    constructor(left: number, right: number, top: number, gap: number) {
-      this.left = left;
-      this.right = right;
-      this.gap = Math.max(0, gap);
-      this.x = left;
-      this.y = top;
-    }
-    private area(): [number, number] {
-      if (this.zone && this.y < this.zone.bottom) {
-        if (this.zone.left) {
-          return [this.zone.x1 + this.gap, Math.max(8, this.right - this.zone.x1 - this.gap)];
-        }
-        return [this.left, Math.max(8, this.zone.x0 - this.gap - this.left)];
-      }
-      return [this.left, Math.max(8, this.right - this.left)];
-    }
-    private clearZone(): void {
-      if (this.zone && this.y >= this.zone.bottom) this.zone = null;
-    }
-    inline(width: number, height: number): [number, number] {
-      this.clearZone();
-      let [areaX, areaW] = this.area();
-      let w = Math.min(width, areaW);
-      if (this.x < areaX || this.x + w > areaX + areaW + 0.01) {
-        this.x = areaX;
-        if (this.lineH > 0) {
-          this.y += this.lineH + this.gap;
-          this.lineH = 0;
-        }
-      }
-      [areaX] = this.area();
-      if (this.x < areaX) this.x = areaX;
-      const placed: [number, number] = [this.x, this.y];
-      this.x += w + this.gap;
-      this.lineH = Math.max(this.lineH, height);
-      return placed;
-    }
-    block(width: number, height: number, textlike: boolean): [number, number] {
-      this.clearZone();
-      if (textlike && this.zone && this.y < this.zone.bottom) {
-        const [areaX, areaW] = this.area();
-        const placed: [number, number] = [areaX, this.y];
-        this.x = areaX + areaW + this.gap;
-        this.lineH = 0;
-        this.y += height + this.gap;
-        return placed;
-      }
-      if (this.zone && this.y < this.zone.bottom) this.y = this.zone.bottom + this.gap;
-      this.zone = null;
-      const placed: [number, number] = [this.left, this.y];
-      this.x = this.left + Math.min(width, this.right - this.left) + this.gap;
-      this.lineH = 0;
-      this.y += height + this.gap;
-      return placed;
-    }
-    wrap(width: number, height: number, left: boolean): [number, number] {
-      if (this.zone && this.y < this.zone.bottom) this.y = this.zone.bottom + this.gap;
-      const w = Math.min(Math.max(width, 8), Math.max(8, this.right - this.left));
-      const x = left ? this.left : this.right - w;
-      const y = this.y;
-      this.zone = { x0: x, x1: x + w, bottom: y + height, left };
-      this.x = this.left;
-      this.lineH = 0;
-      return [x, y];
-    }
   }
 
   function elementFlowHeight(element: UniversalElement): number {

@@ -1040,6 +1040,21 @@ pub fn package_set_library(
 }
 
 #[tauri::command]
+pub fn download_start(app: tauri::AppHandle, id: String) -> Result<(), String> {
+    crate::downloads::start(app, id)
+}
+
+#[tauri::command]
+pub fn download_status() -> crate::downloads::DownloadSnapshot {
+    crate::downloads::status()
+}
+
+#[tauri::command]
+pub fn download_reset() {
+    crate::downloads::reset_finished();
+}
+
+#[tauri::command]
 pub async fn package_download(
     app: tauri::AppHandle,
     id: String,

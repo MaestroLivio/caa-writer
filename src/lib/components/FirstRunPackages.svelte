@@ -8,48 +8,37 @@
   // esplicita. «Più tardi» lascia la finestra per il prossimo avvio.
 
   interface Props {
-    onOpenPackages: (requested: string[]) => void;
-    /// `remember` = false quando l'utente sceglie «Più tardi»: in quel caso la
-    /// finestra ricompare al prossimo avvio.
-    onClose: (remember: boolean) => void;
+    /// Avvia i download scelti e blocca l'uso finché non sono terminati.
+    onStart: (ids: string[]) => void;
   }
 
-  let { onOpenPackages, onClose }: Props = $props();
+  let { onStart }: Props = $props();
 
   type OptionalPackage = {
     id: string;
     name: string;
     note: string;
     size: string;
+    /// Richiesto per il primo avvio: non si può deselezionare.
+    required?: boolean;
     /// Il modello neurale non viene mai scaricato senza una scelta esplicita.
     offByDefault?: boolean;
   };
 
   const optionalPackages: OptionalPackage[] = [
     {
-      id: "library",
-      name: "Libreria materiali",
-      note: "Modelli, tabelle e storie pronte da aprire. Senza libreria l'app funziona: la Libreria resta vuota.",
-      size: "circa 530 MB sul disco",
+      id: "symbols:arasaac",
+      name: "Pittogrammi ARASAAC — catalogo completo",
+      note: "Tutte le immagini del catalogo italiano ARASAAC, non solo le parole del lessico. Restano nella cartella dati dell'utente.",
+      size: "circa 14.000 immagini",
+      required: true,
     },
     {
-      id: "arasaac",
-      name: "Pittogrammi ARASAAC",
-      note: "Le immagini delle parole del lessico, scaricate da ARASAAC e conservate nella cartella dati dell'utente.",
-      size: "a richiesta, pochi MB per volta",
-    },
-    {
-      id: "global-symbols",
-      name: "Global Symbols",
-      note: "Vocabolario di base in inglese con licenza e attribuzione, tradotto con il glossario locale.",
+      id: "symbols:globalsymbols",
+      name: "Global Symbols — tutti i risultati del lessico",
+      note: "Tutti i pittogrammi Global Symbols per ogni lemma del lessico, con autore, licenza e fonte.",
       size: "a richiesta",
-    },
-    {
-      id: "ai-model",
-      name: "Modello neurale locale",
-      note: "Suggerimenti contestuali offline. Richiede circa 4 GB di RAM libera; si può installare in un secondo momento.",
-      size: "circa 470 MB",
-      offByDefault: true,
+      required: true,
     },
     {
       id: "voice",
@@ -59,9 +48,13 @@
     },
   ];
 
-  let selected = $state<string[]>([]);
+  let selected = $state<string[]>(
+    optionalPackages.filter((item) => item.required).map((item) => item.id)
+  );
 
   function toggle(id: string) {
+    const item = optionalPackages.find((entry) => entry.id === id);
+    if (item?.required) return;
     selected = selected.includes(id)
       ? selected.filter((entry) => entry !== id)
       : [...selected, id];
@@ -74,11 +67,10 @@
       <div>
         <h1 id="firstrun-title">Cosa vuoi installare?</h1>
         <p>
-          Il programma funziona già offline: questa installazione contiene i repertori di base.
-          Le raccolte grandi sono opzionali e si aggiungono solo se le scegli.
+          Il programma funziona offline. I due cataloghi di pittogrammi sono richiesti al primo avvio;
+          la voce neurale si può aggiungere ora o in seguito.
         </p>
       </div>
-      <button class="firstrun__close" onclick={() => onClose(true)} aria-label="Chiudi">×</button>
     </header>
 
     <fieldset class="firstrun__list">
@@ -87,29 +79,30 @@
         <label class="firstrun__item" class:firstrun__item--on={selected.includes(item.id)}>
           <input
             type="checkbox"
-            checked={selected.includes(item.id)}
+            checked={selected.includes(item.id) || Boolean(item.required)}
+            disabled={item.required}
             onchange={() => toggle(item.id)}
           />
           <span class="firstrun__text">
             <strong>{item.name}</strong>
             <span>{item.note}</span>
-            <span class="firstrun__size">{item.size}{item.offByDefault ? " · non selezionato per impostazione predefinita" : ""}</span>
+            <span class="firstrun__size">
+              {item.size}{item.required ? " · richiesto" : ""}{item.offByDefault ? " · non selezionato per impostazione predefinita" : ""}
+            </span>
           </span>
         </label>
       {/each}
     </fieldset>
 
     <p class="firstrun__hint">
-      Nessun download parte automaticamente. Le scelte aprono il Gestore pacchetti, dove puoi
-      installare, rimandare o rinunciare a ogni voce. Tutto resta utilizzabile senza rete tranne i
-      download che avvii tu.
+      I due cataloghi di pittogrammi sono richiesti: il programma li scarica prima di aprire
+      l'editor. Puoi aggiungere la voce neurale ora oppure dal Gestore pacchetti. Il modello linguistico
+      si installa dal Gestore pacchetti quando serve. Una volta terminati, tutto funziona offline.
     </p>
 
     <footer class="firstrun__actions">
-      <button class="btn" onclick={() => onClose(false)}>Più tardi</button>
-      <button class="btn" onclick={() => onClose(true)}>Non mostrare più</button>
-      <button class="btn btn--solid" onclick={() => onOpenPackages(selected)}>
-        Configura i pacchetti scelti
+      <button class="btn btn--solid" onclick={() => onStart(selected)}>
+        Scarica i pacchetti richiesti e continua
       </button>
     </footer>
   </div>

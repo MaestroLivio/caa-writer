@@ -11,6 +11,7 @@ pub mod ai_provider;
 pub mod asset_manager;
 pub mod commands;
 pub mod database;
+pub mod downloads;
 pub mod diagnostics;
 pub mod document_edit;
 pub mod engine;
@@ -164,6 +165,9 @@ pub fn run() {
             commands::library_stats,
             commands::list_packs,
             commands::package_catalog,
+            commands::download_start,
+            commands::download_status,
+            commands::download_reset,
             commands::package_set_library,
             commands::package_download,
             commands::package_remove,

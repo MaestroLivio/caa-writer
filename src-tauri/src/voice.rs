@@ -93,11 +93,15 @@ pub fn resolve(
         candidates.push(PathBuf::from(custom));
     }
     let voice_dir = resources_dir.join("voice");
+    let data_voice_dir = data_dir.join("voice");
     for directory in [
         voice_dir.join("bin"),
         voice_dir.join("piper-win"),
         voice_dir.join("piper").join("piper"),
         voice_dir.join("piper"),
+        data_voice_dir.join("bin"),
+        data_voice_dir.join("piper").join("piper"),
+        data_voice_dir.join("piper"),
     ] {
         candidates.push(directory.join(engine_name));
     }
@@ -112,6 +116,10 @@ pub fn resolve(
         .ok()
         .map(PathBuf::from)
         .filter(|path| path.is_file())
+        .or_else(|| {
+            let model = data_voice_dir.join(format!("{}.onnx", voice.name));
+            model.is_file().then_some(model)
+        })
         .unwrap_or_else(|| resources_dir.join("voice").join(format!("{}.onnx", voice.name)));
     if !base.is_file() {
         return None;
@@ -145,10 +153,11 @@ pub fn status(resources_dir: &Path, data_dir: &Path, language: Option<&str>) -> 
     let selected = voice_for(language);
     let mut voices = Vec::new();
     for voice in [ITALIAN_VOICE, ENGLISH_VOICE] {
-        let model = resources_dir
-            .join("voice")
-            .join(format!("{}.onnx", voice.name));
-        if model.is_file() {
+        let model = [resources_dir.join("voice"), data_dir.join("voice")]
+            .into_iter()
+            .map(|directory| directory.join(format!("{}.onnx", voice.name)))
+            .find(|candidate| candidate.is_file());
+        if let Some(model) = model {
             voices.push(InstalledVoice {
                 name: voice.name.to_string(),
                 license: voice.license.to_string(),

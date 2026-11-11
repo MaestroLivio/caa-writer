@@ -354,6 +354,25 @@ export interface VoiceStatus {
   voices: InstalledVoice[];
 }
 
+export interface DownloadTask {
+  id: string;
+  label: string;
+  done: number;
+  total: number;
+  percent: number;
+  phase: string;
+  error: string | null;
+  finished: boolean;
+}
+
+export interface DownloadSnapshot {
+  tasks: DownloadTask[];
+  active: boolean;
+  done: number;
+  total: number;
+  percent: number;
+}
+
 export interface AiConfig {
   enabled: boolean;
   binary_path: string;

@@ -40,6 +40,7 @@ import type {
   AttributionEntry,
   CaaToken,
   VoiceStatus,
+  DownloadSnapshot,
   DocumentPayload,
   ExportDoc,
   ExportResult,
@@ -273,6 +274,9 @@ export const api = {
   listVoices: () => call<VoiceInfo[]>("list_voices"),
   voiceStatus: (language: string | null = null) =>
     call<VoiceStatus>("voice_status", { language }),
+  downloadStart: (id: string) => call<void>("download_start", { id }),
+  downloadStatus: () => call<DownloadSnapshot>("download_status"),
+  downloadReset: () => call<void>("download_reset"),
   speak: (text: string, voice: string | null, rate: number, language: string | null = null) =>
     call<void>("speak", { text, voice, rate, language }),
   stopSpeaking: () => call<void>("stop_speaking"),

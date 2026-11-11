@@ -16,6 +16,8 @@
     aiStatus?: AiStatus | null;
     onStatusChange?: () => Promise<void>;
     onToast?: (message: string, kind?: "info" | "warn" | "error") => void;
+    /// Avvia i download nel gestore globale con barra di avanzamento.
+    onStartDownload?: (ids: string[]) => void;
   }
 
   let {
@@ -25,6 +27,7 @@
     aiStatus = null,
     onStatusChange,
     onToast,
+    onStartDownload,
   }: Props = $props();
 
   let catalog = $state<PackageCatalog | null>(null);
@@ -82,9 +85,14 @@
   }
 
   async function download(item: PackageInfo) {
-    busy = item.id;
     error = "";
     report = "";
+    if (onStartDownload) {
+      onStartDownload([item.id]);
+      report = `Download di «${item.name}» avviato. Segui la barra globale: non chiudere la finestra.`;
+      return;
+    }
+    busy = item.id;
     try {
       const result = await api.packageDownload(item.id);
       report = result.message;
@@ -392,6 +400,17 @@
             <span>{voiceStatus.voices.map((voice) => voice.name).join(", ")}</span>
           </div>
         {/if}
+        <div class="updates__row">
+          <strong>Installa la voce neurale</strong>
+          <span>Motore Piper e voce italiana Serena, circa 60 MB.</span>
+          <button
+            class="btn btn--solid"
+            onclick={() => {
+              if (onStartDownload) onStartDownload(["voice"]);
+              else void loadVoice();
+            }}
+          >{voiceStatus.installed ? "Aggiorna la voce" : "Scarica e installa la voce"}</button>
+        </div>
         {#each voiceStatus.notes as note}
           <p class="hint">{note}</p>
         {/each}

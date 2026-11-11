@@ -202,7 +202,7 @@ fn merge_symbol_packages(packs: &[PackInfo]) -> Vec<PackageInfo> {
         ),
         (
             "globalsymbols",
-            "Global Symbols — vocabolario di base",
+            "Global Symbols — catalogo del lessico",
             "Licenze dei symbolset Global Symbols",
             "https://globalsymbols.com/",
             true,
@@ -225,7 +225,7 @@ fn merge_symbol_packages(packs: &[PackInfo]) -> Vec<PackageInfo> {
                 "Catalogo ARASAAC per l'italiano. Le immagini si scaricano dai server ARASAAC e restano nella copia locale dell'utente."
             }
             "globalsymbols" => {
-                "Vocabolario di base Global Symbols in inglese, salvato localmente con autore, licenza e fonte."
+                "Tutti i risultati Global Symbols per i lemmi del lessico, salvati localmente con autore, licenza e fonte."
             }
             _ => "Pittogrammi vettoriali originali di CAA Writer, inclusi nell'app.",
         };
@@ -424,7 +424,7 @@ fn ensure_globalsymbols_pack(db: &crate::database::Database) -> Result<(), Strin
             "INSERT INTO symbol_packs(id, name, version, description, author, rights_holder, license,
                 license_url, source_url, constraints, commercial_ok, share_alike, no_derivatives,
                 builtin, installed_at)
-             VALUES ('globalsymbols','Global Symbols — vocabolario di base','1.0',
+             VALUES ('globalsymbols','Global Symbols — catalogo del lessico','1.0',
                 'Copie locali dei pittogrammi Global Symbols usati dal lessico',
                 'Autori dei symbolset','Global Symbols','Licenze dei symbolset Global Symbols',
                 'https://globalsymbols.com/','https://globalsymbols.com/',
@@ -789,4 +789,161 @@ mod tests {
             .expect("il repertorio core resta incluso");
         assert!(core.installed && core.bundled);
     }
+}
+
+/// Scarica **tutte** le immagini del catalogo ARASAAC, non solo le parole del
+/// lessico. `progress(done, total, fase)` aggiorna la barra globale.
+pub fn download_arasaac_all(
+    engine: &Engine,
+    progress: &dyn Fn(usize, usize, String),
+) -> Result<PackageReport, String> {
+    // Connessione propria: due download possono procedere insieme senza
+    // tenere bloccato il database condiviso dell'applicazione.
+    let db = crate::database::Database::open(&engine.paths.db_path)
+        .map_err(|error| error.to_string())?;
+    let count: i64 = db
+        .conn()
+        .query_row(
+            "SELECT COUNT(*) FROM symbols WHERE pack_id = 'arasaac' AND hide = 0",
+            [],
+            |row| row.get(0),
+        )
+        .unwrap_or(0);
+    let restored = if count == 0 {
+        progress(0, 1, "Ricostruisco il catalogo ARASAAC…".to_string());
+        restore_arasaac_catalog(&db)?
+    } else {
+        0
+    };
+    let mut stmt = db
+        .conn()
+        .prepare("SELECT id FROM symbols WHERE pack_id = 'arasaac' AND hide = 0 ORDER BY id")
+        .map_err(|e| e.to_string())?;
+    let ids: Vec<String> = stmt
+        .query_map([], |row| row.get(0))
+        .map_err(|e| e.to_string())?
+        .filter_map(Result::ok)
+        .collect();
+    let total = ids.len();
+    if total == 0 {
+        return Err("Catalogo ARASAAC vuoto: impossibile scaricare le immagini.".to_string());
+    }
+    progress(0, total, format!("ARASAAC: 0/{total} immagini"));
+    let mut downloaded = 0usize;
+    let mut failed = 0usize;
+    let chunk_size = 40usize;
+    for (index, chunk) in ids.chunks(chunk_size).enumerate() {
+        match crate::online_search::hydrate_arasaac_symbols(&db, &engine.paths.assets_dir, chunk) {
+            Ok(map) => {
+                downloaded += map.len();
+                failed += chunk.len().saturating_sub(map.len());
+            }
+            Err(_) => failed += chunk.len(),
+        }
+        let done = ((index + 1) * chunk_size).min(total);
+        progress(
+            done,
+            total,
+            format!("ARASAAC: {done}/{total} immagini"),
+        );
+    }
+    engine.clear_caches();
+    Ok(PackageReport {
+        id: "symbols:arasaac".to_string(),
+        downloaded,
+        failed,
+        message: format!(
+            "ARASAAC: {downloaded} immagini scaricate, {failed} non disponibili. Catalogo completo di {total} voci{}.",
+            if restored > 0 {
+                format!(" (metadati ricostruiti: {restored})")
+            } else {
+                String::new()
+            }
+        ),
+    })
+}
+
+/// Scarica tutti i risultati Global Symbols per ogni lemma del lessico, non un
+/// campione di 80 parole. Restano fuori i risultati ARASAAC, già coperti dal
+/// loro pacchetto. Ogni copia conserva autore, licenza e fonte.
+pub fn download_globalsymbols_all(
+    engine: &Engine,
+    progress: &dyn Fn(usize, usize, String),
+) -> Result<PackageReport, String> {
+    let db = crate::database::Database::open(&engine.paths.db_path)
+        .map_err(|error| error.to_string())?;
+    ensure_globalsymbols_pack(&db)?;
+    let mut stmt = db
+        .conn()
+        .prepare("SELECT DISTINCT text FROM lemmas WHERE text <> '' ORDER BY text")
+        .map_err(|e| e.to_string())?;
+    let words: Vec<String> = stmt
+        .query_map([], |row| row.get(0))
+        .map_err(|e| e.to_string())?
+        .filter_map(Result::ok)
+        .collect();
+    let total = words.len().max(1);
+    let mut downloaded = 0usize;
+    let mut failed = 0usize;
+    let mut seen = HashSet::new();
+    progress(0, total, format!("Global Symbols: 0/{total} parole"));
+    for (index, word) in words.iter().enumerate() {
+        let term = engine
+            .translate_to_english(word)
+            .unwrap_or_else(|_| word.clone());
+        match crate::online_search::search_global_symbols(&db, &term) {
+            Ok(response) => {
+                let mut found = 0usize;
+                for result in response.results.into_iter().filter(|item| {
+                    item.kind == "pittogramma"
+                        && !item.source.to_ascii_lowercase().contains("arasaac")
+                }) {
+                    let key = result.image_url.clone();
+                    if !seen.insert(key) {
+                        continue;
+                    }
+                    let label = if result.title.trim().is_empty() {
+                        word.clone()
+                    } else {
+                        result.title.clone()
+                    };
+                    match crate::online_search::save_result(
+                        &db,
+                        &engine.paths.assets_dir,
+                        &result,
+                        &label,
+                        "Global Symbols",
+                    ) {
+                        Ok(symbol_id) => {
+                            let _ = db.conn().execute(
+                                "UPDATE symbols SET pack_id = 'globalsymbols' WHERE id = ?1",
+                                rusqlite::params![symbol_id],
+                            );
+                            downloaded += 1;
+                            found += 1;
+                        }
+                        Err(_) => failed += 1,
+                    }
+                }
+                if found == 0 {
+                    failed += 1;
+                }
+            }
+            Err(_) => failed += 1,
+        }
+        progress(
+            index + 1,
+            total,
+            format!("Global Symbols: {}/{total} parole", index + 1),
+        );
+    }
+    engine.clear_caches();
+    Ok(PackageReport {
+        id: "symbols:globalsymbols".to_string(),
+        downloaded,
+        failed,
+        message: format!(
+            "Global Symbols: {downloaded} simboli salvati da {total} lemmi del lessico."
+        ),
+    })
 }
