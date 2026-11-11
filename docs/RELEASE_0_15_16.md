@@ -52,9 +52,9 @@ cargo test --lib                       237/237 passati
 cargo test --test universal_documents  11/11 passati
 ```
 
-Dimensioni reali: macOS arm64 `.app` 225,45 MiB, `.dmg` 187.419.985 byte
-(178,7 MiB); installer Windows x64 NSIS circa 136 MiB, cross-compilato e non
-firmato.
+Dimensioni reali: macOS arm64 `.app` 225,45 MiB, `.dmg` 190.918.403 byte
+(182,1 MiB); installer Windows x64 NSIS 142.742.012 byte (136,1 MiB),
+cross-compilato e non firmato.
 
 ## Limiti dichiarati
 
@@ -67,3 +67,14 @@ firmato.
   momento dal documento.
 - Windows x64 viene compilato e impacchettato, ma non eseguito su hardware
   Windows in questa sessione.
+
+
+## Nota macOS — firma del bundle
+
+La prima pubblicazione degli asset macOS era firmata solo sul binario: le
+risorse aggiunte dopo invalidavano la firma e macOS mostrava «danneggiata».
+Gli asset sono stati rifirmati ad-hoc sull'intero bundle con
+`scripts/sign_macos.sh` e verificati con `codesign --verify --deep --strict`
+sia dal DMG sia dallo ZIP. L'app non è notarizzata: al primo avvio macOS può
+chiedere «Apri comunque». Se un download precedente mostra ancora «danneggiata»,
+scarica di nuovo il DMG/ZIP aggiornato.

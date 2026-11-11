@@ -6,8 +6,8 @@
   (manifest, 505 modelli, 30 sistemi) nell'installer.
 - Download in background con barra globale; ARASAAC completo, Global Symbols
   per tutti i lemmi del lessico, voce Piper installabile dalla GUI.
-- macOS arm64: `.app` 225,45 MiB, `.dmg` 187.419.985 byte (178,7 MiB).
-- Windows x64: installer NSIS cross-compilato con `cargo-xwin` e `makensis` (circa 136 MiB), non eseguito su hardware Windows.
+- macOS arm64: `.app` 225,45 MiB, `.dmg` 190.918.403 byte (182,1 MiB), firmato ad-hoc sull'intero bundle.
+- Windows x64: installer NSIS cross-compilato con `cargo-xwin` e `makensis` (142.742.012 byte, 136,1 MiB), non eseguito su hardware Windows.
 
 ## Stato reale 0.15.15 (11 novembre 2026)
 
