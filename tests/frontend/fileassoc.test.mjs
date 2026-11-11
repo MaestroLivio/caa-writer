@@ -11,7 +11,11 @@ test("il bundle associa i documenti CAA Writer al player", () => {
   assert.equal(new Set(extensions).size, extensions.length);
 });
 
-test("le risorse della biblioteca universale entrano nel bundle", () => {
+test("l'installer è snello: libreria e modello non sono inclusi", () => {
   const resources = config.bundle.resources ?? [];
-  assert.ok(resources.some((pattern) => pattern.includes("resources/library")));
+  assert.ok(resources.length > 0);
+  assert.ok(!resources.some((pattern) => pattern.includes("resources/library")));
+  assert.ok(!resources.some((pattern) => pattern.endsWith("model.gguf")));
+  assert.ok(resources.some((pattern) => pattern.includes("resources/symbol-packs/core")));
+  assert.ok(resources.some((pattern) => pattern.includes("resources/ai/runtime")));
 });

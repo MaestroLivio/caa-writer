@@ -15,6 +15,7 @@ export interface UiStrings {
   tagline: string;
   openDocument: string;
   library: string;
+  packages: string;
   settings: string;
   createTitle: string;
   recentTitle: string;
@@ -71,6 +72,7 @@ const it: UiStrings = {
   tagline: "Scrivere e comunicare con i pittogrammi, anche senza connessione.",
   openDocument: "Apri documento",
   library: "Libreria dei materiali",
+  packages: "Pacchetti",
   settings: "Impostazioni",
   createTitle: "Cosa vuoi creare?",
   recentTitle: "Documenti recenti",
@@ -149,6 +151,7 @@ const enGB: UiStrings = {
   tagline: "Write and communicate with pictograms, even without a connection.",
   openDocument: "Open document",
   library: "Materials library",
+  packages: "Packages",
   settings: "Settings",
   createTitle: "What would you like to create?",
   recentTitle: "Recent documents",

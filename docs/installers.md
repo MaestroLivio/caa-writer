@@ -1,6 +1,35 @@
 # Release e installer
 
-## Stato reale (versione 0.15.2, 8 novembre 2026)
+## Stato reale 0.15.15 (11 novembre 2026)
+
+L'installer è stato ridotto togliendo i pacchetti opzionali: libreria materiali,
+modello GGUF e voci neurali non sono più inclusi. Restano le risorse di base, il
+repertorio originale `core` e il runtime llama.cpp senza modello.
+
+| Piattaforma | Costruito | Dimensione |
+|---|---|---|
+| macOS arm64 | **sì**, non firmato, avviato | `.dmg` 29.360.685 byte (28,0 MiB), `.app` 74,97 MiB |
+| macOS x86-64 | non ricostruito in questa sessione | — |
+| Windows x64 | non ricostruito in questa sessione | — |
+| Linux x64 | no su questa macchina | workflow CI |
+
+Confronto con la 0.15.14: `.dmg` macOS arm64 da 813.780.634 byte (776,1 MiB) a
+29.360.685 byte (28,0 MiB), **−96,4 %**. Gli artefatti della 0.15.14 restano in
+`dist-release/0.15.14/`.
+
+La build 0.15.15 è stata prodotta con:
+
+```bash
+npm run tauri:build:mac-arm -- --bundles app,dmg
+```
+
+Il bundle contiene `resources/image`, `dictionaries`, `symbol-packs/core`,
+`templates`, `boards` e `ai/runtime`. Non contiene `resources/library`,
+`model.gguf` né le voci. All'avvio l'app funziona senza pacchetti opzionali: la
+finestra del primo avvio propone cosa installare e il Gestore pacchetti mostra lo
+stato reale.
+
+## Stato storico (versione 0.15.2, 8 novembre 2026)
 
 | Piattaforma | Costruito | Come |
 |---|---|---|

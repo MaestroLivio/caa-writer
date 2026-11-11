@@ -335,6 +335,25 @@ export interface VoiceInfo {
   language: string;
 }
 
+/// Stato del motore vocale locale, da `voice_status` in Rust.
+export interface InstalledVoice {
+  name: string;
+  license: string;
+  model: string;
+}
+
+export interface VoiceStatus {
+  installed: boolean;
+  voice: string | null;
+  license: string | null;
+  engine: string | null;
+  model: string | null;
+  cache_files: number;
+  backend: string;
+  notes: string[];
+  voices: InstalledVoice[];
+}
+
 export interface AiConfig {
   enabled: boolean;
   binary_path: string;
@@ -849,6 +868,8 @@ export interface UniversalGridCell {
   action?: UniversalAction | null;
   style?: UniversalStyle;
   hidden?: boolean;
+  /// Testo CAA della cella: frase completa con token e pittogrammi.
+  metadata?: unknown;
 }
 
 export interface UniversalGridData {
@@ -885,6 +906,8 @@ export interface UniversalElement {
   row_span: number;
   column_span: number;
   style: UniversalStyle;
+  /// inline | block | wrap_left | wrap_right | front | behind | free
+  disposition?: string;
   action?: UniversalAction | null;
   link_page?: string | null;
   group_id?: string | null;
@@ -943,6 +966,8 @@ export interface RenderedElement {
   locked: boolean;
   opacity: number;
   style: UniversalStyle;
+  /// inline | block | wrap_left | wrap_right | front | behind | free
+  disposition?: string;
   action: UniversalAction | null;
   link_page: string | null;
   group_id: string | null;
@@ -971,6 +996,7 @@ export interface RenderedGridCell {
   w_mm: number;
   h_mm: number;
   style: UniversalStyle;
+  metadata?: Record<string, unknown> | null;
 }
 
 export interface RenderedPage {
@@ -1008,6 +1034,25 @@ export interface DocumentApplyResult {
   document: UniversalDocument;
   rendered: RenderedDocument;
   changed: number;
+}
+
+/// Configurazione del foglio di pregrafismo. Corrisponde a
+/// `trace::TraceConfig` in Rust; le misure sono in millimetri.
+export interface TraceConfig {
+  text: string;
+  title: string;
+  font_family: string;
+  width_mm: number;
+  height_mm: number;
+  font_size_mm: number;
+  dot_radius_mm: number;
+  dot_spacing_mm: number;
+  outline_mm: number;
+  dashed_outline: boolean;
+  color: string;
+  guides: boolean;
+  uppercase: boolean;
+  margin_mm: number;
 }
 
 export interface LibraryEntry {

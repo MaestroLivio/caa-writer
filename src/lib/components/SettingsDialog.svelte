@@ -2,6 +2,8 @@
   import { onMount } from "svelte";
   import { api, isTauri } from "../api";
   import ModelManager from "./ModelManager.svelte";
+  import { updateTypography, workspace } from "../workspace/layout";
+  import { documentFontGroups, interfaceFontGroups } from "../workspace/fonts";
   import type {
     AiConfig,
     AiProviderConfig,
@@ -57,6 +59,7 @@
   }: Props = $props();
 
   let dialog = $state<HTMLDivElement | null>(null);
+  const typography = $derived($workspace.typography);
   let aiDraft = $state<AiConfig>({
     enabled: false,
     binary_path: "",
@@ -423,11 +426,16 @@
             value={settings.font_family}
             onchange={(event) => onUpdateSettings({ font_family: (event.currentTarget as HTMLSelectElement).value })}
           >
-            <option value="">Carattere di sistema</option>
-            <option value="Arial, Helvetica, sans-serif">Arial</option>
-            <option value="Verdana, Geneva, sans-serif">Verdana</option>
-            <option value="Calibri, Carlito, sans-serif">Calibri</option>
-            <option value="OpenDyslexic, Atkinson Hyperlegible, sans-serif">OpenDyslexic</option>
+            <option value="">Carattere del tema</option>
+            {#each documentFontGroups as group (group.id)}
+              <optgroup label={group.label}>
+                {#each group.fonts as font (font.stack)}
+                  {#if font.stack}
+                    <option value={font.stack}>{font.label}</option>
+                  {/if}
+                {/each}
+              </optgroup>
+            {/each}
           </select>
         </div>
         <div class="row">
@@ -463,6 +471,171 @@
             onchange={(event) => onUpdateSettings({ mono: (event.currentTarget as HTMLInputElement).checked })}
           />
         </div>
+      </section>
+
+      <section class="block">
+        <h3>Tipografia</h3>
+        <p class="hint">
+          La scala dell'interfaccia e quella del documento sono indipendenti dal testo già scritto:
+          cambiano la resa, non il contenuto. I valori predefiniti si applicano ai nuovi documenti.
+        </p>
+        <div class="row">
+          <label for="dlg-ui-scale">Scala dell'interfaccia ({typography.interfaceScale}%)</label>
+          <input
+            id="dlg-ui-scale"
+            type="range"
+            min="75"
+            max="200"
+            step="5"
+            value={typography.interfaceScale}
+            oninput={(event) =>
+              updateTypography({ interfaceScale: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-ui-text">Testo dell'interfaccia (px)</label>
+          <input
+            id="dlg-ui-text"
+            type="number"
+            min="12"
+            max="22"
+            step="1"
+            value={typography.interfaceTextSize}
+            onchange={(event) =>
+              updateTypography({ interfaceTextSize: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-ui-font">Carattere dell'interfaccia</label>
+          <select
+            id="dlg-ui-font"
+            value={typography.interfaceFont}
+            onchange={(event) =>
+              updateTypography({ interfaceFont: (event.currentTarget as HTMLSelectElement).value })}
+          >
+            {#each interfaceFontGroups as group (group.id)}
+              <optgroup label={group.label}>
+                {#each group.fonts as font (font.stack)}
+                  <option value={font.stack}>{font.label}</option>
+                {/each}
+              </optgroup>
+            {/each}
+          </select>
+        </div>
+        <div class="row">
+          <label for="dlg-doc-scale">Scala del documento ({typography.documentScale}%)</label>
+          <input
+            id="dlg-doc-scale"
+            type="range"
+            min="75"
+            max="200"
+            step="5"
+            value={typography.documentScale}
+            oninput={(event) =>
+              updateTypography({ documentScale: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-doc-font">Carattere predefinito dei documenti</label>
+          <select
+            id="dlg-doc-font"
+            value={typography.defaultFontFamily}
+            onchange={(event) =>
+              updateTypography({
+                defaultFontFamily: (event.currentTarget as HTMLSelectElement).value,
+              })}
+          >
+            {#each documentFontGroups as group (group.id)}
+              <optgroup label={group.label}>
+                {#each group.fonts as font (font.stack)}
+                  <option value={font.stack}>{font.label}</option>
+                {/each}
+              </optgroup>
+            {/each}
+          </select>
+        </div>
+        <div class="row">
+          <label for="dlg-doc-size">Corpo predefinito (px)</label>
+          <input
+            id="dlg-doc-size"
+            type="number"
+            min="10"
+            max="48"
+            step="1"
+            value={typography.defaultFontSize}
+            onchange={(event) =>
+              updateTypography({ defaultFontSize: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-doc-line">Interlinea predefinita</label>
+          <input
+            id="dlg-doc-line"
+            type="number"
+            min="1"
+            max="2.5"
+            step="0.05"
+            value={typography.defaultLineHeight}
+            onchange={(event) =>
+              updateTypography({ defaultLineHeight: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-doc-spacing">Spazio dopo il paragrafo (px)</label>
+          <input
+            id="dlg-doc-spacing"
+            type="number"
+            min="0"
+            max="40"
+            step="1"
+            value={typography.defaultParagraphSpacing}
+            onchange={(event) =>
+              updateTypography({ defaultParagraphSpacing: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-symbol-size">Dimensione dei pittogrammi (px)</label>
+          <input
+            id="dlg-symbol-size"
+            type="number"
+            min="24"
+            max="140"
+            step="2"
+            value={typography.symbolSize}
+            onchange={(event) =>
+              updateTypography({ symbolSize: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label for="dlg-symbol-ratio">Rapporto pittogramma/testo ({typography.symbolTextRatio.toFixed(2)}×)</label>
+          <input
+            id="dlg-symbol-ratio"
+            type="range"
+            min="0.5"
+            max="2"
+            step="0.05"
+            value={typography.symbolTextRatio}
+            oninput={(event) =>
+              updateTypography({ symbolTextRatio: Number(event.currentTarget.value) })}
+          />
+        </div>
+        <div class="row">
+          <label>Applica il carattere a questo documento</label>
+          <button
+            class="btn"
+            type="button"
+            onclick={() =>
+              onUpdateSettings({
+                font_family: typography.defaultFontFamily,
+                font_size: typography.defaultFontSize,
+              })}
+          >Applica ora</button>
+        </div>
+        <p class="hint">
+          I caratteri di alta leggibilità, scuola e pregrafismo sono distribuiti con licenza SIL
+          OFL: se non sono installati nel sistema, l'app usa il ripiego della stessa categoria e il
+          documento resta leggibile.
+        </p>
       </section>
 
       <section class="block">

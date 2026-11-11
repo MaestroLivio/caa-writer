@@ -85,7 +85,13 @@
     onUniversalElementText: (value: string, spoken?: boolean) => void;
     onUniversalSetCellText: (value: string) => void;
     onUniversalSetCellSpoken: (value: string) => void;
+    onUniversalEditCellCaA: (cellId: string) => void;
+    onUniversalCellStyle: (patch: Partial<UniversalStyle>) => void;
+    onUniversalAction: (action: { type: string; target_page: string | null } | null) => void;
+    onUniversalDisposition: (value: string) => void;
     onUniversalComposeSentence: (sentence: string) => void;
+    /// Apre la modifica del testo dell'elemento con il motore CAA condiviso.
+    onUniversalEditCaA?: (id?: string) => void;
     onUniversalGridResize: (deltaRows: number, deltaColumns: number) => void;
     onUniversalElementNumber: (field: string, value: number) => void;
     onUniversalElementStyle: (patch: Partial<UniversalStyle>) => void;
@@ -95,8 +101,10 @@
     onUniversalApplySymbol: (alternative: Alternative) => void;
     onUniversalDeselect: () => void;
     onUniversalDeleteElement: () => void;
+    onUniversalDuplicate: () => void;
     onUniversalNudge: (dx: number, dy: number) => void;
     onUniversalAddElement: (kind: string) => void;
+    onUniversalSelectElement: (id: string) => void;
     onUniversalInsertImage: () => void;
     onUniversalAddGrid: () => void;
     onUniversalTitle: (title: string) => void;
@@ -149,7 +157,12 @@
     onUniversalElementText,
     onUniversalSetCellText,
     onUniversalSetCellSpoken,
+    onUniversalEditCellCaA,
+    onUniversalCellStyle,
+    onUniversalAction,
+    onUniversalDisposition,
     onUniversalComposeSentence,
+    onUniversalEditCaA,
     onUniversalGridResize,
     onUniversalElementNumber,
     onUniversalElementStyle,
@@ -159,8 +172,10 @@
     onUniversalApplySymbol,
     onUniversalDeselect,
     onUniversalDeleteElement,
+    onUniversalDuplicate,
     onUniversalNudge,
     onUniversalAddElement,
+    onUniversalSelectElement,
     onUniversalInsertImage,
     onUniversalAddGrid,
     onUniversalTitle,
@@ -236,12 +251,23 @@
     { id: "button", label: "Pulsante", kind: "button" },
     { id: "shape", label: "Forma", kind: "shape" },
     { id: "speech", label: "Fumetto", kind: "speech" },
+    { id: "table", label: "Tabella", kind: "table" },
     { id: "image", label: "Immagine", kind: null },
     { id: "placeholder", label: "Segnaposto", kind: "placeholder" },
     { id: "grid", label: "Griglia", kind: null },
   ] as const;
 
   const colorPalette = ["#ffffff", "#fef3c7", "#dcfce7", "#dbeafe", "#fce7f3", "#f3e8ff", "#172033"];
+  const buttonThemes: Array<{ id: string; label: string; style: Partial<UniversalStyle> }> = [
+    { id: "primario", label: "Primario", style: { background: "#1f5bd8", color: "#ffffff", border_width: 0, border_radius: 6 } },
+    { id: "secondario", label: "Secondario", style: { background: "#e2e8f0", color: "#1e293b", border_width: 0, border_radius: 6 } },
+    { id: "contorno", label: "Contorno", style: { background: "#ffffff", color: "#1f5bd8", border_width: 1, border_color: "#1f5bd8", border_radius: 6 } },
+    { id: "arrotondato", label: "Arrotondato", style: { background: "#0f766e", color: "#ffffff", border_width: 0, border_radius: 999 } },
+    { id: "colorato", label: "Colorato", style: { background: "#f59e0b", color: "#111827", border_width: 0, border_radius: 10 } },
+    { id: "pastello", label: "Pastello", style: { background: "#fce7f3", color: "#831843", border_width: 0.6, border_color: "#f9a8d4", border_radius: 12 } },
+    { id: "contrasto", label: "Alto contrasto", style: { background: "#000000", color: "#ffffff", border_width: 1, border_color: "#ffffff", border_radius: 4 } },
+    { id: "minimalista", label: "Minimalista", style: { background: "transparent", color: "#1e293b", border_width: 0, border_radius: 0 } },
+  ];
   const borderPalette = ["#172033", "#2463eb", "#0f766e", "#b45309", "#be123c", "#6b7280"];
   let universalSearchQuery = $state("");
   let universalSearchResults = $state<Alternative[]>([]);
@@ -2134,9 +2160,130 @@
               />
             </label>
 
+            {#if universalSelection.cell}
+              <button
+                class="btn btn--solid elem-compose"
+                onclick={() => {
+                  const cell = universalSelection.cell;
+                  if (cell) onUniversalEditCellCaA(cell.id);
+                }}
+              >
+                Modifica frase CAA e pittogrammi della cella
+              </button>
+              <p class="hint">
+                La cella può contenere una frase completa: ogni parola ha il proprio pittogramma e
+                si può sostituire singolarmente con lo stesso motore del testo libero.
+              </p>
+            {/if}
+
+            {#if universalSelection.cell}
+              <h4>Aspetto della cella</h4>
+              <p class="hint">
+                Ogni cella è indipendente: misura del testo, sfondo, bordo e spaziatura si applicano
+                solo a questa parola.
+              </p>
+              <div class="elem-grid">
+                <label class="elem-field">
+                  <span>Testo (mm)</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="40"
+                    step="0.5"
+                    value={universalSelection.cell.style?.font_size ?? 4.5}
+                    onchange={(event) =>
+                      onUniversalCellStyle({ font_size: Number(event.currentTarget.value) })}
+                  />
+                </label>
+                <label class="elem-field">
+                  <span>Bordo (mm)</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="4"
+                    step="0.1"
+                    value={universalSelection.cell.style?.border_width ?? 0}
+                    onchange={(event) =>
+                      onUniversalCellStyle({ border_width: Number(event.currentTarget.value) })}
+                  />
+                </label>
+                <label class="elem-field">
+                  <span>Angoli (mm)</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="12"
+                    step="0.5"
+                    value={universalSelection.cell.style?.border_radius ?? 0}
+                    onchange={(event) =>
+                      onUniversalCellStyle({ border_radius: Number(event.currentTarget.value) })}
+                  />
+                </label>
+                <label class="elem-field">
+                  <span>Spaziatura (mm)</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="6"
+                    step="0.25"
+                    value={universalSelection.cell.style?.padding_mm ?? 0}
+                    onchange={(event) =>
+                      onUniversalCellStyle({ padding_mm: Number(event.currentTarget.value) })}
+                  />
+                </label>
+              </div>
+              <div class="elem-title">Sfondo</div>
+              <div class="elem-swatches" role="group" aria-label="Colore di sfondo della cella">
+                {#each colorPalette as color (color)}
+                  <button
+                    class="elem-swatch"
+                    class:active={(universalSelection.cell.style?.background || "#ffffff") === color}
+                    style={`background:${color}`}
+                    aria-label={`Sfondo ${color}`}
+                    onclick={() => onUniversalCellStyle({ background: color })}
+                  ></button>
+                {/each}
+              </div>
+              <div class="elem-grid">
+                <label class="elem-field">
+                  <span>Bordo</span>
+                  <input
+                    type="color"
+                    value={universalSelection.cell.style?.border_color || "#9aa7bb"}
+                    onchange={(event) =>
+                      onUniversalCellStyle({ border_color: event.currentTarget.value })}
+                  />
+                </label>
+                <label class="elem-field">
+                  <span>Stile bordo</span>
+                  <select
+                    value={universalSelection.cell.style?.border_style || "solid"}
+                    onchange={(event) =>
+                      onUniversalCellStyle({ border_style: event.currentTarget.value })}
+                  >
+                    <option value="solid">Continuo</option>
+                    <option value="dashed">Tratteggiato</option>
+                    <option value="dotted">Puntinato</option>
+                    <option value="none">Nessuno</option>
+                  </select>
+                </label>
+              </div>
+            {/if}
+
             {#if !universalSelection.cell}
               <button
                 class="btn btn--solid elem-compose"
+                onclick={() => onUniversalEditCaA?.(element.id)}
+              >
+                Modifica testo CAA e pittogrammi
+              </button>
+              <p class="hint">
+                Cursore dentro le parole, selezione, alternative per singolo pittogramma, blocco e
+                visibilità: lo stesso motore del testo libero. Le modifiche restano dopo il
+                salvataggio.
+              </p>
+              <button
+                class="btn elem-compose"
                 onclick={() => onUniversalComposeSentence(element.text)}
               >
                 Genera CAA dalla frase
@@ -2162,7 +2309,37 @@
             {/if}
 
             <div class="elem-subhead">
-              <h4>Posizione</h4>
+              <h4>Disponi rispetto al testo</h4>
+            <label class="elem-field">
+              <span>Disposizione</span>
+              <select
+                value={element.disposition ?? ""}
+                onchange={(event) => onUniversalDisposition(event.currentTarget.value)}
+              >
+                <option value="">Automatica della pagina</option>
+                <option value="inline" disabled={universalSelection.is_text_page}>In linea con il testo</option>
+                <option value="block" disabled={universalSelection.is_text_page}>Sopra e sotto</option>
+                <option value="wrap_left" disabled={universalSelection.is_text_page}>Testo intorno a sinistra</option>
+                <option value="wrap_right" disabled={universalSelection.is_text_page}>Testo intorno a destra</option>
+                <option value="front">Davanti al testo</option>
+                <option value="behind">Dietro al testo</option>
+                <option value="free">Posizione libera</option>
+              </select>
+            </label>
+            {#if universalSelection.is_text_page}
+              <p class="hint">
+                Questa è una pagina di testo: il flusso delle parole è gestito dal motore CAA.
+                Gli oggetti possono stare davanti, dietro o in posizione libera; per il testo
+                intorno usa una pagina documento con paragrafi di testo.
+              </p>
+            {:else}
+              <p class="hint">
+                In linea, sopra/sotto e testo intorno fanno partecipare l'elemento al flusso;
+                davanti, dietro e posizione libera lo lasciano fuori dal flusso.
+              </p>
+            {/if}
+
+            <h4>Posizione</h4>
               <button class="elem-link" onclick={onUniversalDeselect}>Deseleziona</button>
             </div>
             <div class="elem-move">
@@ -2195,6 +2372,18 @@
               <button class:active={anchor === "inline"} onclick={() => onUniversalElementAnchor("inline")}>In linea</button>
               <button class:active={anchor === "front"} onclick={() => onUniversalElementAnchor("front")}>Davanti</button>
             </div>
+
+            {#if element.kind === "button"}
+              <h4>Tema del pulsante</h4>
+              <div class="elem-themes" role="group" aria-label="Tema del pulsante">
+                {#each buttonThemes as item (item.id)}
+                  <button
+                    class="elem-theme"
+                    onclick={() => onUniversalElementStyle(item.style)}
+                  >{item.label}</button>
+                {/each}
+              </div>
+            {/if}
 
             <h4>Aspetto</h4>
             <div class="elem-title">Sfondo</div>
@@ -2338,7 +2527,66 @@
                 selezionarne la cella e cambiarne il pittogramma.
               </p>
             {/if}
+            <h4>Accessibilità</h4>
+            <label class="elem-field">
+              <span>Testo alternativo</span>
+              <input
+                value={element.accessibility?.label ?? ""}
+                placeholder={element.text || "Descrizione dell'elemento"}
+                onchange={(event) =>
+                  onUniversalElementPatch({
+                    accessibility: {
+                      ...(element.accessibility ?? {}),
+                      label: event.currentTarget.value,
+                    },
+                  })}
+              />
+            </label>
+
+            <h4>Azione nel player</h4>
+            <p class="hint">
+              Cosa succede quando il pulsante viene toccato nella modalità Utilizzatore o in
+              presentazione.
+            </p>
+            <label class="elem-field">
+              <span>Tipo di azione</span>
+              <select
+                value={element.action?.type ?? "append"}
+                onchange={(event) => {
+                  const type = event.currentTarget.value;
+                  const target =
+                    type === "navigate"
+                      ? element.action?.target_page ?? universalDoc?.pages[0]?.id ?? null
+                      : null;
+                  onUniversalAction({ type, target_page: target });
+                }}
+              >
+                <option value="append">Aggiungi alla frase</option>
+                <option value="speak">Leggi ad alta voce</option>
+                <option value="toggle">Seleziona (esercizio)</option>
+                <option value="navigate">Vai alla pagina…</option>
+                <option value="back">Torna indietro</option>
+                <option value="home">Vai alla pagina iniziale</option>
+                <option value="clear">Svuota la frase</option>
+              </select>
+            </label>
+            {#if element.action?.type === "navigate"}
+              <label class="elem-field">
+                <span>Pagina di destinazione</span>
+                <select
+                  value={element.action.target_page ?? ""}
+                  onchange={(event) =>
+                    onUniversalAction({ type: "navigate", target_page: event.currentTarget.value })}
+                >
+                  {#each universalDoc?.pages ?? [] as targetPage (targetPage.id)}
+                    <option value={targetPage.id}>{targetPage.title || targetPage.id}</option>
+                  {/each}
+                </select>
+              </label>
+            {/if}
+
             <div class="elem-danger">
+              <button class="btn" onclick={onUniversalDuplicate}>Duplica elemento</button>
               <button class="btn btn--ghost" onclick={onUniversalDeleteElement}>Elimina elemento</button>
             </div>
           </section>
@@ -2360,6 +2608,24 @@
               </button>
             {/each}
           </div>
+          {#if universalPage?.elements.filter((item) => !item.id.startsWith("t-")).length}
+            <h4>Elementi nella pagina</h4>
+            <div class="elem-layer-list">
+              {#each universalPage.elements.filter((item) => !item.id.startsWith("t-")) as item (item.id)}
+                <button
+                  class:active={universalSelection?.element.id === item.id}
+                  onclick={() => onUniversalSelectElement(item.id)}
+                  title={`${elementKindLabel(item.kind)}: ${item.text || item.id}`}
+                >
+                  <span>{elementKindLabel(item.kind)}</span>
+                  <span class="elem-layer-list__text">{item.text.slice(0, 28) || item.id}</span>
+                  {#if item.disposition}
+                    <span class="elem-layer-list__mode">{item.disposition}</span>
+                  {/if}
+                </button>
+              {/each}
+            </div>
+          {/if}
         </section>
 
         <section class="panel-section">

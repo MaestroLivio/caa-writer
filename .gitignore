@@ -44,7 +44,14 @@ resources/models/*.bin
 # --- Runtime IA e catalogo ARASAAC: scaricati, non versionati ---
 # Il modello GGUF (491 MB) supera i limiti di GitHub; il catalogo ARASAAC
 # (439 MB) si ricostruisce con scripts/fetch_arasaac.py.
-/resources/ai/
+#
+# La sola eccezione è `resources/ai/runtime/README.md`: mantiene la cartella
+# nel repository, così il glob delle risorse Tauri esiste anche su un clone
+# nuovo. I binari scaricati restano ignorati.
+/resources/ai/*
+!/resources/ai/runtime/
+/resources/ai/runtime/*
+!/resources/ai/runtime/README.md
 /resources/symbol-packs/arasaac/
 
 # --- Test TypeScript compilati ---

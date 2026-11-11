@@ -615,6 +615,14 @@ pub fn document_render(document: serde_json::Value) -> Result<crate::universal::
     document.render()
 }
 
+#[tauri::command]
+pub fn generate_trace_sheet(config: crate::trace::TraceConfig) -> Result<String, String> {
+    if config.text.trim().is_empty() {
+        return Err("Scrivi almeno una lettera o una parola da tracciare.".to_string());
+    }
+    Ok(crate::trace::trace_sheet_svg(&config))
+}
+
 /// Applica una transazione di comandi tipizzati al documento. Il frontend
 /// conserva lo stato precedente per undo/redo; il backend valida tutto prima
 /// di restituire il nuovo documento.

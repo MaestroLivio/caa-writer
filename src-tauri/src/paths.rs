@@ -52,6 +52,13 @@ impl AppPaths {
         self.resources_dir.join("ai")
     }
 
+    /// Eseguibili e librerie del runtime neurale. Il modello GGUF non è più
+    /// incluso nell'installer: vive in `ai/` nella copia di sviluppo e in
+    /// `models/` quando l'utente lo scarica.
+    pub fn ai_runtime_dir(&self) -> PathBuf {
+        self.ai_dir().join("runtime")
+    }
+
     pub fn boards_dir(&self) -> PathBuf {
         self.resources_dir.join("boards")
     }

@@ -32,6 +32,7 @@ pub mod story;
 pub mod studio;
 pub mod template_catalog;
 pub mod tts_normalize;
+pub mod trace;
 pub mod universal;
 pub mod universal_build;
 pub mod voice;
@@ -127,6 +128,7 @@ pub fn run() {
             commands::document_validate,
             commands::document_render,
             commands::document_apply,
+            commands::generate_trace_sheet,
             commands::universal_from_plan,
             commands::document_html,
             commands::print_universal,

@@ -645,6 +645,10 @@ pub fn build_from_spec(engine: &Engine, spec: &Value) -> Result<BuildOutcome, St
                             .get("hidden")
                             .and_then(|v| v.as_bool())
                             .unwrap_or(false),
+                        metadata: cell_spec
+                            .get("metadata")
+                            .cloned()
+                            .unwrap_or(serde_json::Value::Null),
                         missing_symbol: cell_missing,
                     });
                 }
@@ -862,6 +866,7 @@ pub fn from_plan(plan: &crate::studio::ResourcePlan) -> Result<UniversalDocument
             grid: None,
             accessibility: Default::default(),
             metadata: Value::Null,
+            disposition: String::new(),
         });
     }
     document.pages.push(page);

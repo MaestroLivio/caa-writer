@@ -227,9 +227,11 @@ impl LocalModel {
 
     fn server_binary(&self) -> Option<PathBuf> {
         for name in ["llama-server", "llama-server.exe"] {
-            let candidate = self.ai_dir.join(name);
-            if candidate.exists() {
-                return Some(candidate);
+            for directory in [self.ai_dir.clone(), self.ai_dir.join("runtime")] {
+                let candidate = directory.join(name);
+                if candidate.exists() {
+                    return Some(candidate);
+                }
             }
         }
         None

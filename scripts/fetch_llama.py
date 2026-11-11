@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Inserisce il runtime llama.cpp nel pacchetto `resources/ai/`.
+"""Inserisce il runtime llama.cpp in `resources/ai/runtime/`.
 
-Il modello GGUF è già incluso (`resources/ai/model.gguf`). Il binario invece
-dipende da sistema operativo e architettura: questo script scarica la build
-ufficiale di llama.cpp per la macchina corrente e ne estrae `llama-cli` con
-le librerie necessarie.
+Il runtime (binari e librerie) è incluso nell'installer; il modello GGUF non
+lo è più. Il binario dipende da sistema operativo e architettura: questo
+script scarica la build ufficiale di llama.cpp per la macchina corrente e ne
+estrae `llama-cli`, `llama-server` e le librerie necessarie.
 
 Uso:
     python3 scripts/fetch_llama.py [--check] [--tag b12109]
@@ -28,6 +28,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 AI_DIR = ROOT / "resources" / "ai"
+AI_RUNTIME = AI_DIR / "runtime"
 RELEASES = "https://api.github.com/repos/ggml-org/llama.cpp/releases"
 USER_AGENT = "CAAWriter/0.2"
 
@@ -92,7 +93,7 @@ def main() -> int:
     if args.check:
         return 0
 
-    AI_DIR.mkdir(parents=True, exist_ok=True)
+    AI_RUNTIME.mkdir(parents=True, exist_ok=True)
     suffix = ".tar.gz" if match["name"].endswith(".tar.gz") else ".zip"
     archive = AI_DIR / f"llama-runtime{suffix}"
     request = urllib.request.Request(match["browser_download_url"], headers=request_headers())
@@ -112,7 +113,7 @@ def main() -> int:
                 base = os.path.basename(name)
                 if not base or name.endswith("/") or not wanted(base):
                     continue
-                with bundle.open(name) as src, (AI_DIR / base).open("wb") as dst:
+                with bundle.open(name) as src, (AI_RUNTIME / base).open("wb") as dst:
                     shutil.copyfileobj(src, dst)
     else:
         with tarfile.open(archive) as bundle:
@@ -123,7 +124,7 @@ def main() -> int:
                 src = bundle.extractfile(member)
                 if src is None:
                     continue
-                with src, (AI_DIR / base).open("wb") as dst:
+                with src, (AI_RUNTIME / base).open("wb") as dst:
                     shutil.copyfileobj(src, dst)
 
     # Le librerie sono nominate con la versione completa (libmtmd.0.8.0.dylib)
@@ -132,11 +133,11 @@ def main() -> int:
     import re
 
     pattern = re.compile(r"^(lib.+)\.(\d+)\.\d+\.\d+\.(dylib|so)$")
-    for library in AI_DIR.iterdir():
+    for library in AI_RUNTIME.iterdir():
         match = pattern.match(library.name)
         if not match:
             continue
-        short = AI_DIR / f"{match.group(1)}.{match.group(2)}.{match.group(3)}"
+        short = AI_RUNTIME / f"{match.group(1)}.{match.group(2)}.{match.group(3)}"
         if short.exists() or short.is_symlink():
             continue
         try:
@@ -146,13 +147,13 @@ def main() -> int:
             print(f"collegamento non creato per {short.name}: {error}", file=sys.stderr)
 
     for name in ("llama-cli", "llama-server"):
-        binary = AI_DIR / (f"{name}.exe" if platform.system() == "Windows" else name)
+        binary = AI_RUNTIME / (f"{name}.exe" if platform.system() == "Windows" else name)
         if binary.exists():
             binary.chmod(binary.stat().st_mode | stat.S_IEXEC)
             print("binario:", binary)
     archive.unlink(missing_ok=True)
 
-    print("runtime pronto in", AI_DIR)
+    print("runtime pronto in", AI_RUNTIME)
     return 0
 
 

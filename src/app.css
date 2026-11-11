@@ -159,8 +159,8 @@ body,
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font);
-  font-size: 15px;
+  font-family: var(--ui-font, var(--font));
+  font-size: 1rem;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -228,6 +228,8 @@ button {
   box-shadow: var(--shadow);
   padding: var(--page-margin, 40px 48px 56px);
   min-height: 70vh;
+  font-family: var(--doc-font, inherit);
+  line-height: var(--doc-line-height, normal);
 }
 
 .paper--a4-orizzontale {
@@ -1405,7 +1407,9 @@ textarea {
 
 .editor .ProseMirror {
   outline: none;
-  font-size: var(--text-size);
+  font-size: calc(var(--text-size) * var(--doc-scale, 1));
+  font-family: var(--doc-font, inherit);
+  line-height: var(--doc-line-height, normal);
   min-height: 360px;
 }
 
@@ -1413,7 +1417,7 @@ textarea {
 .editor .ProseMirror h1,
 .editor .ProseMirror h2,
 .editor .ProseMirror h3 {
-  margin: 0 0 6px;
+  margin: 0 0 var(--doc-para-spacing, 6px);
 }
 
 .editor .ProseMirror h1 {
@@ -3793,6 +3797,66 @@ textarea {
 .elem-swatch.active {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.elem-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.elem-theme {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 5px 9px;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.elem-theme:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.elem-layer-list {
+  display: grid;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.elem-layer-list button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: center;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 4px 7px;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.elem-layer-list button.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.elem-layer-list__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.elem-layer-list__mode {
+  color: var(--muted);
+  font-size: 0.65rem;
 }
 
 .elem-swatch--custom {

@@ -3,8 +3,18 @@
   import type { ComponentProps } from "svelte";
   import { api, isTauri } from "../api";
   import CaaEditor from "../editor/CaaEditor.svelte";
+  import ElementTextEditor from "./ElementTextEditor.svelte";
   import { mergeTextElements } from "../universal/text-sync";
   import { buildPhraseGrid } from "../universal/phrase";
+  import {
+    elementSegments,
+    storedCaaText,
+    supportsCaaText,
+    unitInlineStyle,
+    unitKey,
+    unitAccessibleTitle,
+  } from "../universal/element-caa";
+  import type { StoredCaaToken } from "../universal/element-caa";
   import type { CaaToken } from "../types";
   import type {
     Alternative,
@@ -54,6 +64,9 @@
     /// Elemento selezionato: il pannello laterale dell'app mostra l'ispezione
     /// al posto della vecchia colonna di proprietà interna all'editor.
     onElementSelection?: (selection: UniversalElementSelection | null) => void;
+    /// Clic su un pittogramma (elemento o cella): il pannello laterale apre la
+    /// scheda Simbolo con le alternative, come nel testo libero.
+    onSymbolRequest?: (elementId: string, cellId: string | null) => void;
     /// Maiuscole solo visive (come nell'editor di testo).
     uppercase?: boolean;
   }
@@ -84,6 +97,7 @@
     onDocumentChange,
     onPageChange,
     onElementSelection,
+    onSymbolRequest,
     uppercase = false,
   }: Props = $props();
 
@@ -132,6 +146,10 @@
 
   let textEditor = $state<CaaEditor | undefined>(undefined);
   let textTokens = new Map<string, CaaToken[]>();
+  /// Elemento di cui si sta modificando il testo CAA con il motore condiviso.
+  let editingTextId = $state<string | null>(null);
+  /// Cella di griglia di cui si sta modificando la frase CAA.
+  let editingCellId = $state<string | null>(null);
   const textPages = $derived(
     ((doc.metadata as Record<string, unknown> | undefined)?.text_pages ?? {}) as Record<
       string,
@@ -150,6 +168,12 @@
   );
   const selectedCell = $derived(
     selectedElement?.grid?.cells.find((cell) => cell.id === selectedCellId) ?? null
+  );
+  const editingCell = $derived(
+    selectedElement?.grid?.cells.find((cell) => cell.id === editingCellId) ?? null
+  );
+  const editingElement = $derived(
+    docPage?.elements.find((element) => element.id === editingTextId) ?? null
   );
 
   // Una sola fonte per l'ispezione: l'editor non disegna più una colonna di
@@ -441,6 +465,98 @@
     return { sizes, offsets };
   }
 
+  type WrapZone = { x0: number; x1: number; bottom: number; left: boolean };
+
+  class FlowLayout {
+    left: number;
+    right: number;
+    gap: number;
+    x: number;
+    y: number;
+    lineH = 0;
+    zone: WrapZone | null = null;
+    constructor(left: number, right: number, top: number, gap: number) {
+      this.left = left;
+      this.right = right;
+      this.gap = Math.max(0, gap);
+      this.x = left;
+      this.y = top;
+    }
+    private area(): [number, number] {
+      if (this.zone && this.y < this.zone.bottom) {
+        if (this.zone.left) {
+          return [this.zone.x1 + this.gap, Math.max(8, this.right - this.zone.x1 - this.gap)];
+        }
+        return [this.left, Math.max(8, this.zone.x0 - this.gap - this.left)];
+      }
+      return [this.left, Math.max(8, this.right - this.left)];
+    }
+    private clearZone(): void {
+      if (this.zone && this.y >= this.zone.bottom) this.zone = null;
+    }
+    inline(width: number, height: number): [number, number] {
+      this.clearZone();
+      let [areaX, areaW] = this.area();
+      let w = Math.min(width, areaW);
+      if (this.x < areaX || this.x + w > areaX + areaW + 0.01) {
+        this.x = areaX;
+        if (this.lineH > 0) {
+          this.y += this.lineH + this.gap;
+          this.lineH = 0;
+        }
+      }
+      [areaX] = this.area();
+      if (this.x < areaX) this.x = areaX;
+      const placed: [number, number] = [this.x, this.y];
+      this.x += w + this.gap;
+      this.lineH = Math.max(this.lineH, height);
+      return placed;
+    }
+    block(width: number, height: number, textlike: boolean): [number, number] {
+      this.clearZone();
+      if (textlike && this.zone && this.y < this.zone.bottom) {
+        const [areaX, areaW] = this.area();
+        const placed: [number, number] = [areaX, this.y];
+        this.x = areaX + areaW + this.gap;
+        this.lineH = 0;
+        this.y += height + this.gap;
+        return placed;
+      }
+      if (this.zone && this.y < this.zone.bottom) this.y = this.zone.bottom + this.gap;
+      this.zone = null;
+      const placed: [number, number] = [this.left, this.y];
+      this.x = this.left + Math.min(width, this.right - this.left) + this.gap;
+      this.lineH = 0;
+      this.y += height + this.gap;
+      return placed;
+    }
+    wrap(width: number, height: number, left: boolean): [number, number] {
+      if (this.zone && this.y < this.zone.bottom) this.y = this.zone.bottom + this.gap;
+      const w = Math.min(Math.max(width, 8), Math.max(8, this.right - this.left));
+      const x = left ? this.left : this.right - w;
+      const y = this.y;
+      this.zone = { x0: x, x1: x + w, bottom: y + height, left };
+      this.x = this.left;
+      this.lineH = 0;
+      return [x, y];
+    }
+  }
+
+  function elementFlowHeight(element: UniversalElement): number {
+    if (element.h_mm > 0) return element.h_mm;
+    if (["symbol", "button", "grid", "image"].includes(element.kind)) return 28;
+    return textHeight(element);
+  }
+
+  function elementIsTextlike(element: UniversalElement): boolean {
+    return (
+      element.text.trim().length > 0 &&
+      !element.svg &&
+      !element.image_asset &&
+      !["grid", "table", "image", "button", "symbol"].includes(element.kind)
+    );
+  }
+
   function localRender(document: UniversalDocument): RenderedDocument {
     const [pageW, pageH] = pageDimensions(document);
     const margin = Math.max(0, document.page.margin_mm);
@@ -448,6 +564,16 @@
     const pages = document.pages.map((item, index) => {
       let flowY = margin + (item.flow.padding_mm ?? 0);
       const flowW = pageW - 2 * margin - 2 * (item.flow.padding_mm ?? 0);
+      const flow = new FlowLayout(
+        margin + (item.flow.padding_mm ?? 0),
+        pageW - margin - (item.flow.padding_mm ?? 0),
+        flowY,
+        item.flow.gap_mm ?? 3
+      );
+      const textPagesMeta = (document.metadata as Record<string, unknown> | undefined)?.text_pages as
+        | Record<string, unknown>
+        | undefined;
+      const pageIsText = Boolean(textPagesMeta?.[item.id]);
       const columnW =
         item.flow.columns > 1
           ? (flowW - item.flow.gap_mm * (item.flow.columns - 1)) / item.flow.columns
@@ -465,7 +591,35 @@
           let y = element.y_mm;
           let w = element.w_mm;
           let h = element.h_mm;
-          if (item.layout === "flow") {
+          const disposition = element.disposition ?? "";
+          if (!pageIsText && disposition) {
+            const height = elementFlowHeight(element);
+            if (disposition === "inline") {
+              w =
+                element.w_mm > 0
+                  ? Math.min(element.w_mm, flowW)
+                  : elementIsTextlike(element)
+                    ? flowW
+                    : Math.min(40, flowW);
+              h = height;
+              [x, y] = flow.inline(w, h);
+            } else if (disposition === "block") {
+              w = element.w_mm > 0 ? Math.min(element.w_mm, flowW) : flowW;
+              h = height;
+              [x, y] = flow.block(w, h, elementIsTextlike(element));
+            } else if (disposition === "wrap_left" || disposition === "wrap_right") {
+              const natural = element.w_mm > 0 ? element.w_mm : Math.max(30, flowW * 0.42);
+              w = Math.min(Math.max(natural, 20), Math.max(24, flowW * 0.62));
+              h = height;
+              [x, y] = flow.wrap(w, h, disposition === "wrap_left");
+            } else {
+              // front / behind / free: posizione propria, fuori dal flusso.
+              w = element.w_mm > 0 ? element.w_mm : Math.min(120, pageW - 2 * margin);
+              h = element.h_mm > 0 ? element.h_mm : textHeight(element);
+              x = element.x_mm;
+              y = element.y_mm;
+            }
+          } else if (item.layout === "flow") {
             w = element.w_mm > 0 ? Math.min(element.w_mm, flowW) : columnW;
             h =
               element.h_mm > 0
@@ -535,6 +689,10 @@
                     w_mm: width,
                     h_mm: height,
                     style: cell.style ?? {},
+                    metadata:
+                      cell.metadata && typeof cell.metadata === "object"
+                        ? (cell.metadata as Record<string, unknown>)
+                        : null,
                   };
                 });
               })()
@@ -559,11 +717,16 @@
             locked: element.locked,
             opacity: element.opacity,
             style: element.style ?? {},
+            disposition: element.disposition ?? "",
             action: element.action ?? null,
             link_page: element.link_page ?? null,
             group_id: element.group_id ?? null,
             cells,
             accessibility: element.accessibility ?? {},
+            metadata:
+              element.metadata && typeof element.metadata === "object"
+                ? (element.metadata as Record<string, unknown>)
+                : {},
           };
         });
       return {
@@ -707,6 +870,42 @@
     selectedCellId = null;
   }
 
+  /// Inserisce un foglio generato (pregrafismo) con le sue dimensioni reali,
+  /// come immagine modificabile e stampabile.
+  export async function insertSheetElement(
+    svg: string,
+    widthMm: number,
+    heightMm: number,
+    label: string
+  ) {
+    const page = doc.pages[pageIndex] ?? doc.pages[0];
+    if (!page) {
+      onToast("Apri una pagina del documento prima di inserire il foglio.", "warn");
+      return;
+    }
+    const id = `trace-${Date.now().toString(36)}`;
+    const maxWidth = Math.max(40, (doc.page.width_mm ?? 210) - 20);
+    const maxHeight = Math.max(40, (doc.page.height_mm ?? 297) - 20);
+    const scale = Math.min(1, maxWidth / Math.max(1, widthMm), maxHeight / Math.max(1, heightMm));
+    const element = {
+      id,
+      kind: "image",
+      text: label,
+      spoken_text: label,
+      svg,
+      x_mm: 10,
+      y_mm: 10,
+      w_mm: Math.max(20, widthMm * scale),
+      h_mm: Math.max(20, heightMm * scale),
+    };
+    await apply(
+      [{ op: "add_element", page: page.id, element } as UniversalCommand],
+      "Foglio di pregrafismo inserito."
+    );
+    selectedId = id;
+    selectedCellId = null;
+  }
+
   function undo() {
     const previous = history.pop();
     if (!previous) return;
@@ -761,9 +960,112 @@
     } else {
       void apply(
         [{ op: "set_text", page: docPage.id, id: selectedId, text: value }],
-        "Testo aggiornato."
+        ""
       );
     }
+  }
+
+  /// Apre la modifica del testo CAA di un elemento con lo stesso motore del
+  /// word processor: cursore dentro le parole, selezione, alternative, blocco.
+  export function inspectorEditCaA(id?: string) {
+    const targetId = id ?? selectedId;
+    if (!targetId) return;
+    const target = docPage?.elements.find((element) => element.id === targetId);
+    if (!target) return;
+    if (target.locked) {
+      onToast("Elemento bloccato: sbloccalo per modificarne il testo.", "warn");
+      return;
+    }
+    if (!supportsCaaText(target.kind)) {
+      onToast(`«${target.kind}» non contiene testo CAA modificabile.`, "warn");
+      return;
+    }
+    editingTextId = targetId;
+  }
+
+  /// Salva testo, pittogrammi scelti e struttura ProseMirror nell'elemento.
+  /// Il testo resta la fonte autorevole; i token completano la resa visiva.
+  function applyElementText(value: {
+    text: string;
+    tokens: StoredCaaToken[];
+    docJson: unknown;
+  }) {
+    const target = editingElement;
+    if (!docPage || !target) return;
+    const current =
+      target.metadata && typeof target.metadata === "object"
+        ? ({ ...(target.metadata as Record<string, unknown>) } as Record<string, unknown>)
+        : {};
+    if (value.tokens.length) {
+      current.caa = { doc_json: value.docJson, plain_text: value.text, tokens: value.tokens };
+    } else {
+      delete current.caa;
+    }
+    void apply(
+      [
+        {
+          op: "update_element",
+          page: docPage.id,
+          id: target.id,
+          patch: {
+            text: value.text,
+            spoken_text: target.spoken_text?.trim() ? target.spoken_text : value.text,
+            metadata: current,
+          },
+        },
+      ],
+      "Testo e pittogrammi aggiornati."
+    );
+    editingTextId = null;
+  }
+
+  /// Apre la frase CAA di una cella con lo stesso editor condiviso.
+  function editCellCaA(cellId: string) {
+    if (mode !== "edit" || !selectedElement?.grid) return;
+    if (selectedElement.locked) {
+      onToast("Elemento bloccato: sbloccalo per modificarne le celle.", "warn");
+      return;
+    }
+    selectedCellId = cellId;
+    editingCellId = cellId;
+  }
+
+  /// Salva testo, token e struttura ProseMirror nella cella. Gli altri campi
+  /// della cella (pittogramma singolo, stile, azione) restano intatti.
+  function applyCellText(value: {
+    text: string;
+    tokens: StoredCaaToken[];
+    docJson: unknown;
+  }) {
+    if (!docPage || !selectedElement?.grid || !editingCell) return;
+    const cells = selectedElement.grid.cells.map((cell) => {
+      if (cell.id !== editingCell.id) return cell;
+      const metadata =
+        cell.metadata && typeof cell.metadata === "object"
+          ? ({ ...(cell.metadata as Record<string, unknown>) } as Record<string, unknown>)
+          : {};
+      if (value.tokens.length) {
+        metadata.caa = { doc_json: value.docJson, plain_text: value.text, tokens: value.tokens };
+      } else {
+        delete metadata.caa;
+      }
+      return {
+        ...cell,
+        text: value.text,
+        spoken_text: cell.spoken_text?.trim() ? cell.spoken_text : value.text,
+        metadata,
+      };
+    });
+    updateElement(selectedElement.id, {
+      grid: { ...selectedElement.grid, cells },
+    });
+    editingCellId = null;
+  }
+
+  /// Riapre la modifica con il cursore sulla parola del pittogramma cliccato.
+  function editSymbolOf(element: RenderedElement) {
+    if (mode !== "edit") return;
+    editingTextId = element.id;
   }
 
   function setNumber(field: string, value: number) {
@@ -802,6 +1104,10 @@
 
   function addElement(kind: string) {
     if (!docPage) return;
+    if (kind === "table") {
+      addTable();
+      return;
+    }
     const id = `el-${Date.now().toString(36)}`;
     const element: UniversalElement = {
       id,
@@ -828,7 +1134,15 @@
       column_span: 1,
       style:
         kind === "button"
-          ? { font_size: 4.5, border_width: 1, border_color: "#456", align: "center" }
+          ? {
+              font_size: 4.5,
+              border_width: 0,
+              border_color: "#1f5bd8",
+              background: "#1f5bd8",
+              color: "#ffffff",
+              border_radius: 6,
+              align: "center",
+            }
           : kind === "speech"
             ? {
                 font_size: 4.5,
@@ -839,6 +1153,7 @@
                 align: "center",
               }
             : { font_size: 4.5 },
+      disposition: "",
       action: kind === "button" ? { type: "speak", target_page: null } : null,
       link_page: null,
       group_id: null,
@@ -848,6 +1163,128 @@
       metadata: null,
     };
     void apply([{ op: "add_element", page: docPage.id, element }], "Elemento aggiunto.");
+    selectedId = id;
+  }
+
+  /// Doppio clic in un'area libera di una pagina non testuale: crea un vero
+  /// paragrafo di testo nel punto scelto, non una casella invisibile sopra la
+  /// pagina. Nelle pagine di flusso il paragrafo entra in coda al flusso.
+  async function pageDoubleClick(event: MouseEvent) {
+    if (mode !== "edit" || readOnly || !docPage) return;
+    if (isTextPage(docPage.id)) return;
+    const target = event.target as HTMLElement | null;
+    if (!target || target.closest(".uel")) return;
+    const host = event.currentTarget as HTMLElement;
+    const rect = host.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+    const pageW = rendered.pages[pageIndex]?.width_mm ?? 210;
+    const pageH = rendered.pages[pageIndex]?.height_mm ?? 297;
+    const margin = doc.page.margin_mm || 12;
+    const x = Math.min(
+      Math.max(margin, ((event.clientX - rect.left) / rect.width) * pageW),
+      Math.max(margin, pageW - margin - 40)
+    );
+    const y = Math.min(
+      Math.max(margin, ((event.clientY - rect.top) / rect.height) * pageH),
+      Math.max(margin, pageH - margin - 12)
+    );
+    const inFlow = docPage.layout === "flow";
+    const id = `txt-${Date.now().toString(36)}`;
+    const element: UniversalElement = {
+      id,
+      kind: "text",
+      text: "",
+      spoken_text: "",
+      x_mm: inFlow ? margin : x,
+      y_mm: inFlow ? margin : y,
+      w_mm: inFlow ? Math.max(40, pageW - margin * 2) : Math.max(40, pageW - margin - x),
+      h_mm: 18,
+      rotation: 0,
+      z: docPage.elements.length,
+      visible: true,
+      locked: false,
+      opacity: 1,
+      row: 0,
+      column: 0,
+      row_span: 1,
+      column_span: 1,
+      style: { font_size: 4.5 },
+      disposition: inFlow ? "block" : "free",
+      action: null,
+      link_page: null,
+      group_id: null,
+      children: [],
+      grid: null,
+      accessibility: { label: "" },
+      metadata: null,
+    };
+    await apply([{ op: "add_element", page: docPage.id, element }], "");
+    selectedId = id;
+    selectedCellId = null;
+    inspectorEditCaA(id);
+  }
+
+  /// Tabella modificabile: usa la stessa griglia di celle dell'editor, con
+  /// la prima riga come intestazione. Non è un elemento decorativo separato.
+  function addTable() {
+    if (!docPage) return;
+    const columns = 3;
+    const rows = 2;
+    const id = `table-${Date.now().toString(36)}`;
+    const margin = doc.page.margin_mm || 12;
+    const [pageW] = pageDimensions(doc);
+    const cells = Array.from({ length: columns * rows }, (_, index) => {
+      const row = Math.floor(index / columns);
+      return {
+        id: `${id}-c${index + 1}`,
+        row,
+        column: index % columns,
+        row_span: 1,
+        column_span: 1,
+        text: "",
+        spoken_text: "",
+        style: {
+          font_size: 4.2,
+          border_width: 0.25,
+          border_color: "#94a3b8",
+          padding_mm: 1.2,
+          background: row === 0 ? "#eef2f8" : "#ffffff",
+          bold: row === 0,
+          align: "left",
+        },
+        hidden: false,
+        metadata: null,
+      };
+    });
+    const element: UniversalElement = {
+      id,
+      kind: "table",
+      text: "",
+      spoken_text: "",
+      x_mm: margin,
+      y_mm: margin,
+      w_mm: Math.max(60, pageW - 2 * margin),
+      h_mm: 40,
+      rotation: 0,
+      z: docPage.elements.length,
+      visible: true,
+      locked: false,
+      opacity: 1,
+      row: 0,
+      column: 0,
+      row_span: 1,
+      column_span: 1,
+      style: { font_size: 4.2, border_width: 0.25, border_color: "#94a3b8" },
+      disposition: "block",
+      action: null,
+      link_page: null,
+      group_id: null,
+      children: [],
+      grid: { columns, rows, gap_mm: 1, column_widths: [], row_heights: [], cells },
+      accessibility: { label: "Tabella" },
+      metadata: null,
+    };
+    void apply([{ op: "add_element", page: docPage.id, element }], "Tabella 3×2 creata.");
     selectedId = id;
   }
 
@@ -1073,7 +1510,7 @@
           grid: { ...selectedElement.grid, cells },
         });
       }
-    } else {
+    } else if (selectedElement.kind === "symbol") {
       void apply(
         [{
           op: "set_symbol",
@@ -1087,6 +1524,19 @@
         }],
         "Pittogramma sostituito."
       );
+    } else {
+      // Su pulsanti, forme, fumetti e caselle la sostituzione non deve
+      // cambiare il tipo dell'elemento né la sua azione: si aggiornano solo i
+      // campi del pittogramma e il testo resta quello scritto dall'utente.
+      updateElement(selectedId, {
+        symbol_id: alternative.symbol_id,
+        concept_id: alternative.concept_id,
+        svg: alternative.svg,
+        image_asset: alternative.image ?? null,
+        ...(selectedElement.text.trim()
+          ? {}
+          : { text: alternative.label, spoken_text: selectedElement.spoken_text || alternative.label }),
+      });
     }
     searchResults = [];
     searchQuery = "";
@@ -1593,6 +2043,10 @@
       `font-size:${element.style.font_size ?? 4.2}mm`,
       `text-align:${element.style.align || "center"}`,
       `padding:${element.style.padding_mm ?? 1}mm`,
+      // Dentro un elemento il pittogramma non può usare i 56px del foglio:
+      // segue la dimensione del testo dell'elemento (font_size è in mm).
+      `--symbol-size:${((element.style.font_size ?? 4.2) * 2.4).toFixed(2)}mm`,
+      `--chip-radius:${Math.min(8, element.style.border_radius ?? 3)}px`,
     ].join(";");
   }
 
@@ -1610,6 +2064,16 @@
     selectedId = element.id;
     selectedCellId = null;
     extraSelected = [];
+  }
+
+  /// Clic sul pittogramma dell'elemento: apre le alternative nel pannello
+  /// laterale senza toccare il testo.
+  function requestSymbol(element: RenderedElement, event: Event) {
+    if (mode !== "edit") return;
+    event.stopPropagation();
+    selectedId = element.id;
+    selectedCellId = null;
+    onSymbolRequest?.(element.id, null);
   }
 
   function groupSelection() {
@@ -1787,6 +2251,63 @@
     });
   }
 
+  /// Aspetto della singola cella (testo, sfondo, bordo, spaziatura). La cella
+  /// conserva il proprio stile: non cambia le altre parole della griglia.
+  export function inspectorCellStyle(patch: Partial<UniversalStyle>) {
+    if (!selectedElement?.grid || !selectedCell) return;
+    const cells = selectedElement.grid.cells.map((cell) =>
+      cell.id === selectedCell.id
+        ? { ...cell, style: { ...(cell.style ?? {}), ...patch } }
+        : cell
+    );
+    updateElement(selectedElement.id, {
+      grid: { ...selectedElement.grid, cells },
+    });
+  }
+
+  export function inspectorSetAction(action: { type: string; target_page: string | null } | null) {
+    setAction(action);
+  }
+
+  export function inspectorSetDisposition(value: string) {
+    if (!selectedId) return;
+    updateElement(selectedId, { disposition: value });
+  }
+
+  export function inspectorEditCellCaA(cellId?: string) {
+    const target = cellId ?? selectedCellId;
+    if (target) editCellCaA(target);
+  }
+
+  export function inspectorSelectElement(id: string) {
+    if (!docPage?.elements.some((element) => element.id === id)) return;
+    selectedId = id;
+    selectedCellId = null;
+    extraSelected = [];
+  }
+
+  /// Duplica l'elemento selezionato, incluse celle, simboli, stile e azione.
+  /// Il nuovo elemento si sposta di 3 mm per restare visibile e distinguibile.
+  export async function inspectorDuplicate() {
+    if (!docPage || !selectedElement) return;
+    const source = clone(selectedElement);
+    const id = `el-${Date.now().toString(36)}-${Math.floor(Math.random() * 1000)}`;
+    const index = docPage.elements.findIndex((element) => element.id === source.id) + 1;
+    const duplicate = {
+      ...source,
+      id,
+      x_mm: Math.min(Math.max(0, (doc.page.width_mm ?? 210) - source.w_mm), source.x_mm + 3),
+      y_mm: Math.min(Math.max(0, (doc.page.height_mm ?? 297) - source.h_mm), source.y_mm + 3),
+      z: docPage.elements.length,
+    };
+    await apply(
+      [{ op: "add_element", page: docPage.id, element: duplicate, index }],
+      "Elemento duplicato."
+    );
+    selectedId = id;
+    selectedCellId = null;
+  }
+
   /// Compone una frase CAA dentro l'elemento selezionato: ogni parola diventa
   /// una cella con pittogramma e testo, come nel rigo normale. La forma, il
   /// fumetto o la casella mantengono sfondo e bordo; la frase resta composta
@@ -1950,29 +2471,93 @@
   }
 </script>
 
-{#snippet inlineLabel(element: RenderedElement)}
+{#snippet elementSymbol(element: RenderedElement)}
   <span
-    class="uel__label"
-    contenteditable={mode === "edit" && !element.locked}
-    spellcheck="false"
-    onfocus={() => (selectedId = element.id)}
-    onpointerdown={(event) => event.stopPropagation()}
+    class="uel__symbol"
+    role={mode === "edit" ? "button" : "img"}
+    tabindex={mode === "edit" ? 0 : -1}
+    title={mode === "edit" ? "Alternative del pittogramma" : element.text}
+    onclick={(event) => requestSymbol(element, event)}
     onkeydown={(event) => {
-      if (event.key === "Enter") {
+      if (mode === "edit" && (event.key === "Enter" || event.key === " ")) {
         event.preventDefault();
-        (event.currentTarget as HTMLElement).blur();
-      }
-      if (event.key === "Escape") {
-        event.preventDefault();
-        (event.currentTarget as HTMLElement).textContent = element.text;
-        (event.currentTarget as HTMLElement).blur();
+        requestSymbol(element, event);
       }
     }}
-    onblur={(event) => {
-      const value = (event.currentTarget as HTMLElement).textContent ?? "";
-      if (value !== element.text) setText(value);
-    }}
-  >{element.text || (element.kind === "text" || element.kind === "text_box" ? "" : element.kind)}</span>
+  >
+    {#if element.image_asset}
+      <img src={element.image_asset} alt="" />
+    {:else if element.svg}
+      {@html element.svg}
+    {/if}
+  </span>
+{/snippet}
+
+{#snippet inlineLabel(element: RenderedElement)}
+  {@const stored = storedCaaText(element)}
+  {#if stored && stored.tokens.length}
+    <span
+      class="uel__caa"
+      role="text"
+      title={mode === "edit" ? "Doppio clic per modificare testo e pittogrammi" : element.text}
+      ondblclick={(event) => {
+        event.stopPropagation();
+        editSymbolOf(element);
+      }}
+    >
+      {#each elementSegments(element.text, stored.tokens) as segment, index (index)}
+        {#if segment.unit}
+          <span
+            class="caa-unit uel__caa-unit"
+            data-caa-symbol={unitKey(segment.unit)}
+            style={unitInlineStyle(segment.unit)}
+            title={unitAccessibleTitle(segment.unit)}
+            role="button"
+            tabindex={mode === "edit" ? 0 : -1}
+            onclick={(event) => {
+              if (mode !== "edit") return;
+              event.stopPropagation();
+              editSymbolOf(element);
+            }}
+            onkeydown={(event) => {
+              if (mode === "edit" && (event.key === "Enter" || event.key === " ")) {
+                event.preventDefault();
+                editSymbolOf(element);
+              }
+            }}
+          >{segment.text}</span>
+        {:else}{segment.text}{/if}
+      {/each}
+    </span>
+  {:else}
+    <span
+      class="uel__label"
+      contenteditable={mode === "edit" && !element.locked}
+      spellcheck="false"
+      title={mode === "edit" ? "Doppio clic per modificare con il motore CAA" : element.text}
+      onfocus={() => (selectedId = element.id)}
+      onpointerdown={(event) => event.stopPropagation()}
+      ondblclick={(event) => {
+        event.stopPropagation();
+        editSymbolOf(element);
+      }}
+      onkeydown={(event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          (event.currentTarget as HTMLElement).blur();
+        }
+        if (event.key === "Escape") {
+          event.preventDefault();
+          (event.currentTarget as HTMLElement).textContent = element.text;
+          (event.currentTarget as HTMLElement).blur();
+        }
+      }}
+      onblur={(event) => {
+        const value = (event.currentTarget as HTMLElement).textContent ?? "";
+        if (value !== element.text) setText(value);
+      }}
+    >{element.text || (element.kind === "text" || element.kind === "text_box" ? "" : element.kind)}</span>
+  {/if}
 {/snippet}
 
 {#snippet elementLayer(elements: RenderedElement[])}
@@ -1988,6 +2573,9 @@
                     class:uel--speech={element.kind === "speech"}
                     class:uel--toggle={element.action?.type === "toggle"}
                     class:uel--on={toggled.includes(element.id)}
+                    class:uel--behind={element.disposition === "behind"}
+                    class:uel--front={element.disposition === "front"}
+                    class:uel--wrap={element.disposition === "wrap_left" || element.disposition === "wrap_right"}
                     data-action={element.action?.type ?? ""}
                     style={elementStyle(element)}
                     role={mode === "play" ? "button" : "group"}
@@ -2008,10 +2596,17 @@
                       <span class="uel__grid">
                         {#each element.cells as cell (cell.id)}
                           {#if !cell.hidden}
+                            {@const cellCaa = storedCaaText(cell)}
                             <button
                               class="uel__cell"
-                              style={`left:${cell.x_mm}mm;top:${cell.y_mm}mm;width:${cell.w_mm}mm;height:${cell.h_mm}mm;background:${cell.style.background || "transparent"};border:${cell.style.border_width ? `1px solid ${cell.style.border_color || "#9aa7bb"}` : cell.style.border_style === "none" ? "none" : "1px solid #d0d7e2"}`}
+                              style={`left:${cell.x_mm}mm;top:${cell.y_mm}mm;width:${cell.w_mm}mm;height:${cell.h_mm}mm;background:${cell.style.background || "transparent"};border:${(cell.style.border_style === "none" ? 0 : cell.style.border_width) || 0}mm ${cell.style.border_style && cell.style.border_style !== "none" ? cell.style.border_style : "solid"} ${cell.style.border_color || "#9aa7bb"};border-radius:${cell.style.border_radius || 0}mm;padding:${cell.style.padding_mm || 0}mm;box-sizing:border-box;font-size:${cell.style.font_size || 3.2}mm;color:${cell.style.color || "#111"};`}
                               onpointerdown={(event) => event.stopPropagation()}
+                              ondblclick={(event) => {
+                                if (mode !== "edit") return;
+                                event.stopPropagation();
+                                selectedId = element.id;
+                                editCellCaA(cell.id);
+                              }}
                               onclick={(event) => {
                                 if (mode === "play") playCell(cell, event);
                                 else {
@@ -2021,42 +2616,119 @@
                                 }
                               }}
                             >
-                              {#if cell.image_asset}
-                                <span class="uel__cell-symbol"><img src={cell.image_asset} alt="" /></span>
-                              {:else if cell.svg}<span class="uel__cell-symbol">{@html cell.svg}</span>{/if}
-                              <span
-                                contenteditable={mode === "edit"}
-                                spellcheck="false"
-                                onpointerdown={(event) => event.stopPropagation()}
-                                onkeydown={(event) => {
-                                  if (event.key === "Enter") {
-                                    event.preventDefault();
-                                    (event.currentTarget as HTMLElement).blur();
-                                  }
-                                }}
-                                onblur={(event) => {
-                                  const value = (event.currentTarget as HTMLElement).textContent ?? "";
-                                  if (value !== cell.text) setCellText(cell.id, value);
-                                }}
-                              >{cell.text}</span>
+                              {#if cellCaa && cellCaa.tokens.length}
+                                <span
+                                  class="uel__caa-cell"
+                                  role="text"
+                                  title={mode === "edit"
+                                    ? "Doppio clic per modificare la frase e i pittogrammi"
+                                    : cell.text}
+                                >
+                                  {#each elementSegments(cell.text, cellCaa.tokens) as segment, segmentIndex (segmentIndex)}
+                                    {#if segment.unit}
+                                      <span
+                                        class="caa-unit uel__caa-unit"
+                                        data-caa-symbol={unitKey(segment.unit)}
+                                        style={unitInlineStyle(segment.unit)}
+                                        title={unitAccessibleTitle(segment.unit)}
+                                        role={mode === "edit" ? "button" : "text"}
+                                        tabindex={mode === "edit" ? 0 : -1}
+                                        onclick={(event) => {
+                                          if (mode !== "edit") return;
+                                          event.stopPropagation();
+                                          selectedId = element.id;
+                                          editCellCaA(cell.id);
+                                        }}
+                                        onkeydown={(event) => {
+                                          if (
+                                            mode === "edit" &&
+                                            (event.key === "Enter" || event.key === " ")
+                                          ) {
+                                            event.preventDefault();
+                                            selectedId = element.id;
+                                            editCellCaA(cell.id);
+                                          }
+                                        }}
+                                      >{segment.text}</span>
+                                    {:else}{segment.text}{/if}
+                                  {/each}
+                                </span>
+                              {:else}
+                                {#if cell.image_asset}
+                                  <span
+                                    class="uel__cell-symbol"
+                                    role={mode === "edit" ? "button" : "img"}
+                                    tabindex={mode === "edit" ? 0 : -1}
+                                    title={mode === "edit" ? `Alternative per «${cell.text || "cella"}»` : cell.text}
+                                    onclick={(event) => {
+                                      if (mode !== "edit") return;
+                                      event.stopPropagation();
+                                      selectedId = element.id;
+                                      selectedCellId = cell.id;
+                                      onSymbolRequest?.(element.id, cell.id);
+                                    }}
+                                    onkeydown={(event) => {
+                                      if (mode === "edit" && (event.key === "Enter" || event.key === " ")) {
+                                        event.preventDefault();
+                                        selectedId = element.id;
+                                        selectedCellId = cell.id;
+                                        onSymbolRequest?.(element.id, cell.id);
+                                      }
+                                    }}
+                                  ><img src={cell.image_asset} alt="" /></span>
+                                {:else if cell.svg}
+                                  <span
+                                    class="uel__cell-symbol"
+                                    role={mode === "edit" ? "button" : "img"}
+                                    tabindex={mode === "edit" ? 0 : -1}
+                                    title={mode === "edit" ? `Alternative per «${cell.text || "cella"}»` : cell.text}
+                                    onclick={(event) => {
+                                      if (mode !== "edit") return;
+                                      event.stopPropagation();
+                                      selectedId = element.id;
+                                      selectedCellId = cell.id;
+                                      onSymbolRequest?.(element.id, cell.id);
+                                    }}
+                                    onkeydown={(event) => {
+                                      if (mode === "edit" && (event.key === "Enter" || event.key === " ")) {
+                                        event.preventDefault();
+                                        selectedId = element.id;
+                                        selectedCellId = cell.id;
+                                        onSymbolRequest?.(element.id, cell.id);
+                                      }
+                                    }}
+                                  >{@html cell.svg}</span>
+                                {/if}
+                                <span
+                                  contenteditable={mode === "edit"}
+                                  spellcheck="false"
+                                  onpointerdown={(event) => event.stopPropagation()}
+                                  onkeydown={(event) => {
+                                    if (event.key === "Enter") {
+                                      event.preventDefault();
+                                      (event.currentTarget as HTMLElement).blur();
+                                    }
+                                  }}
+                                  onblur={(event) => {
+                                    const value = (event.currentTarget as HTMLElement).textContent ?? "";
+                                    if (value !== cell.text) setCellText(cell.id, value);
+                                  }}
+                                >{cell.text}</span>
+                              {/if}
                             </button>
                           {/if}
                         {/each}
                       </span>
                     {:else if element.kind === "button" || element.kind === "shape"}
-                      {#if element.image_asset}
-                        <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
-                      {:else if element.svg}
-                        <span class="uel__symbol">{@html element.svg}</span>
-                      {/if}
+                      {@render elementSymbol(element)}
                       {@render inlineLabel(element)}
                     {:else if element.kind === "token_slot"}
                       <span class="uel__token" aria-hidden="true"></span>
                     {:else if element.image_asset}
-                      <span class="uel__symbol"><img src={element.image_asset} alt="" /></span>
+                      {@render elementSymbol(element)}
                       {@render inlineLabel(element)}
                     {:else if element.svg}
-                      <span class="uel__symbol">{@html element.svg}</span>
+                      {@render elementSymbol(element)}
                       {@render inlineLabel(element)}
                     {:else}
                       {@render inlineLabel(element)}
@@ -2290,6 +2962,12 @@
       {#if marginPreview !== null}
         <span class="ueditor__margin-badge">{marginPreview} mm</span>
       {/if}
+      {#if mode === "edit" && docPage && !isTextPage(docPage.id)}
+        <p class="ueditor__flowhint">
+          Doppio clic in uno spazio libero per scrivere un nuovo paragrafo. Gli elementi
+          selezionati si dispongono dal pannello Documento.
+        </p>
+      {/if}
       {#if docPage && isTextPage(docPage.id) && mode !== "play" && caa}
         <div class="ueditor__textpage">
           <div
@@ -2326,6 +3004,7 @@
             style={`width:${page.width_mm}mm;height:${page.height_mm}mm;background:${page.background || "#fff"}`}
             role={mode === "play" ? "group" : "application"}
             aria-label={`${page.title} (${page.width_mm}×${page.height_mm} mm)`}
+            ondblclick={pageDoubleClick}
           >
             {#if showRuler}
               <span class="ueditor__ruler ueditor__ruler--top" aria-hidden="true"></span>
@@ -2662,6 +3341,30 @@
   </div>
 </div>
 
+{#if editingElement && caa}
+  <ElementTextEditor
+    title={`Testo CAA · ${editingElement.text.slice(0, 40) || editingElement.kind}`}
+    text={editingElement.text}
+    stored={storedCaaText(editingElement)}
+    {caa}
+    onCancel={() => (editingTextId = null)}
+    onApply={applyElementText}
+    onToast={onToast}
+  />
+{/if}
+
+{#if editingCell && caa}
+  <ElementTextEditor
+    title={`Frase CAA · cella ${editingCell.id}`}
+    text={editingCell.text}
+    stored={storedCaaText(editingCell)}
+    {caa}
+    onCancel={() => (editingCellId = null)}
+    onApply={applyCellText}
+    onToast={onToast}
+  />
+{/if}
+
 <style>
   .ueditor { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg, #eef1f6); color: var(--text, #16161a); }
   .ueditor__bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 12px; background: var(--surface, #fff); border-bottom: 1px solid var(--border, #d3d6e0); position: sticky; top: 0; z-index: 30; }
@@ -2692,6 +3395,7 @@
   .mini { border: 1px solid #cfd6e2; border-radius: 5px; background: #f8fafc; cursor: pointer; font-size: 0.7rem; padding: 2px 5px; color: #1b2330; }
   .mini--danger:hover { background: #fdecec; border-color: #d64545; }
   .ueditor__stage { overflow: auto; padding: 10px 14px 30px; min-width: 0; }
+  .ueditor__flowhint { margin: 0 0 8px; font-size: 0.76rem; color: #475569; }
   .ueditor__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
   .ueditor__gridbox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #d3d6e0; border-radius: 8px; background: #fff; font-size: 0.75rem; }
   .ueditor__gridbox input { width: 54px; }
@@ -2701,6 +3405,7 @@
   .ueditor__margin-badge { position: absolute; top: 8px; right: 8px; z-index: 35; background: #172033; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 999px; }
   .ueditor__pagewrap { display: flex; justify-content: center; }
   .ueditor__textpage { min-width: 0; min-height: 0; overflow: auto; padding: 8px 12px; display: flex; flex-direction: column; }
+  .ueditor__textpage .paper :global(.editor) { position: relative; z-index: 1; }
   .ueditor__textpage :global(.caa-editor) { flex: 1 1 auto; min-height: 0; }
   .ueditor__page { position: relative; box-shadow: 0 4px 22px rgba(15,23,42,0.16); overflow: hidden; flex: 0 0 auto; }
   /* Livello degli elementi liberi: sopra il testo della pagina CAA, ma
@@ -2708,6 +3413,9 @@
   .ueditor__freelayer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
   .ueditor__freelayer .uel { pointer-events: auto; }
   .uel { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1mm; cursor: move; user-select: none; overflow: hidden; }
+  .uel--behind { z-index: 0; }
+  .uel--wrap { z-index: 2; }
+  .uel--front { z-index: 30; }
   .uel--symbol { cursor: move; }
   .uel--button { cursor: pointer; }
   .uel__token { display: block; width: 78%; aspect-ratio: 1; margin: auto; border: 2px dashed #0f766e; border-radius: 50%; background: #fff; }
@@ -2745,6 +3453,11 @@
   }
   .uel__label { font-size: inherit; line-height: 1.15; text-align: center; pointer-events: auto; cursor: text; outline: none; min-width: 2mm; }
   .uel__label[contenteditable="true"]:focus { outline: 1px dashed #2463eb; background: #fff8d8; }
+  .uel__caa { font-size: inherit; line-height: 1.2; text-align: center; max-width: 100%; pointer-events: auto; }
+  .uel__caa-cell { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.4mm; font-size: inherit; line-height: 1.15; max-width: 100%; overflow: hidden; }
+  .uel__caa-unit { cursor: pointer; }
+  .uel__caa-unit:focus-visible { outline: 2px solid #2463eb; outline-offset: 1px; }
+  .uel:has(.uel__caa) { overflow: visible; }
   .uel__grid { position: absolute; inset: 0; }
   .uel__cell { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5mm; background: #fff; color: #111; font: inherit; font-size: 3.2mm; padding: 0.8mm; cursor: pointer; overflow: hidden; }
   .uel__cell-symbol { width: 60%; height: 55%; }

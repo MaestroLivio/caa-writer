@@ -297,6 +297,10 @@ pub struct GridCell {
     pub style: ElementStyle,
     #[serde(default)]
     pub hidden: bool,
+    /// Testo CAA della cella (`{ doc_json, plain_text, tokens }`), come per
+    /// gli elementi: una cella può contenere una frase completa simbolizzata.
+    #[serde(default)]
+    pub metadata: Value,
     /// Vero quando il testo è presente ma il repertorio non offre un
     /// pittogramma: il dato non viene nascosto, viene dichiarato.
     #[serde(default)]
@@ -377,6 +381,11 @@ pub struct UniversalElement {
     pub column_span: u32,
     #[serde(default)]
     pub style: ElementStyle,
+    /// Disposizione rispetto al testo libero:
+    /// `inline` | `block` | `wrap_left` | `wrap_right` | `front` | `behind` |
+    /// `free`. Vuoto = comportamento storico della pagina (compatibilità).
+    #[serde(default)]
+    pub disposition: String,
     #[serde(default)]
     pub action: Option<UniversalAction>,
     /// ID stabile della pagina collegata (per pulsanti e collegamenti).
@@ -429,6 +438,7 @@ impl Default for UniversalElement {
             row_span: 1,
             column_span: 1,
             style: ElementStyle::default(),
+            disposition: String::new(),
             action: None,
             link_page: None,
             group_id: None,
@@ -801,6 +811,10 @@ pub struct RenderedElement {
     pub locked: bool,
     pub opacity: f32,
     pub style: ElementStyle,
+    /// Disposizione rispetto al testo: inline, block, wrap_left/right, front,
+    /// behind, free. Vuoto = comportamento storico.
+    #[serde(default)]
+    pub disposition: String,
     pub action: Option<UniversalAction>,
     pub link_page: Option<String>,
     pub group_id: Option<String>,
@@ -844,6 +858,7 @@ pub struct RenderedGridCell {
     pub w_mm: f32,
     pub h_mm: f32,
     pub style: ElementStyle,
+    pub metadata: Value,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -873,16 +888,171 @@ fn round2(value: f32) -> f32 {
     (value * 100.0).round() / 100.0
 }
 
+/// Fascia occupata da un elemento `wrap_left`/`wrap_right`: il testo che segue
+/// si dispone nella colonna libera finché non la supera.
+#[derive(Debug, Clone, Copy)]
+struct WrapZone {
+    x0: f32,
+    x1: f32,
+    bottom: f32,
+    left: bool,
+}
+
+/// Cursore del flusso per gli elementi con disposizione esplicita.
+struct FlowLayout {
+    left: f32,
+    right: f32,
+    gap: f32,
+    x: f32,
+    y: f32,
+    line_h: f32,
+    zone: Option<WrapZone>,
+}
+
+impl FlowLayout {
+    fn new(left: f32, right: f32, top: f32, gap: f32) -> Self {
+        Self {
+            left,
+            right,
+            gap: gap.max(0.0),
+            x: left,
+            y: top,
+            line_h: 0.0,
+            zone: None,
+        }
+    }
+
+    /// Area orizzontale disponibile alla quota corrente: tutta la colonna,
+    /// oppure il lato libero della fascia.
+    fn area(&self) -> (f32, f32) {
+        if let Some(zone) = self.zone {
+            if self.y < zone.bottom {
+                if zone.left {
+                    return (zone.x1 + self.gap, (self.right - zone.x1 - self.gap).max(8.0));
+                }
+                return (self.left, (zone.x0 - self.gap - self.left).max(8.0));
+            }
+        }
+        (self.left, (self.right - self.left).max(8.0))
+    }
+
+    fn clear_zone_if_passed(&mut self) {
+        if let Some(zone) = self.zone {
+            if self.y >= zone.bottom {
+                self.zone = None;
+            }
+        }
+    }
+
+    fn place_inline(&mut self, width: f32, height: f32) -> (f32, f32) {
+        self.clear_zone_if_passed();
+        let (area_x, area_w) = self.area();
+        let width = width.min(area_w);
+        if self.x < area_x || self.x + width > area_x + area_w + 0.01 {
+            self.x = area_x;
+            if self.line_h > 0.0 {
+                self.y += self.line_h + self.gap;
+                self.line_h = 0.0;
+            }
+        }
+        let (area_x, _) = self.area();
+        if self.x < area_x {
+            self.x = area_x;
+        }
+        let placed = (self.x, self.y);
+        self.x += width + self.gap;
+        self.line_h = self.line_h.max(height);
+        placed
+    }
+
+    fn place_block(&mut self, width: f32, height: f32, textlike: bool) -> (f32, f32) {
+        self.clear_zone_if_passed();
+        // Il testo che accompagna un'immagine continua nella colonna libera.
+        if textlike && self.zone.is_some() && self.y < self.zone.unwrap().bottom {
+            let (area_x, area_w) = self.area();
+            let placed = (area_x, self.y);
+            self.x = area_x + area_w + self.gap;
+            self.line_h = 0.0;
+            self.y += height + self.gap;
+            return placed;
+        }
+        if let Some(zone) = self.zone {
+            if self.y < zone.bottom {
+                self.y = zone.bottom + self.gap;
+            }
+        }
+        self.zone = None;
+        let placed = (self.left, self.y);
+        let width = width.min((self.right - self.left).max(8.0));
+        self.x = self.left + width + self.gap;
+        self.line_h = 0.0;
+        self.y += height + self.gap;
+        placed
+    }
+
+    fn place_wrap(&mut self, width: f32, height: f32, left: bool) -> (f32, f32) {
+        if let Some(zone) = self.zone {
+            if self.y < zone.bottom {
+                self.y = zone.bottom + self.gap;
+            }
+        }
+        let width = width.clamp(8.0, (self.right - self.left).max(8.0));
+        let x = if left { self.left } else { self.right - width };
+        let y = self.y;
+        self.zone = Some(WrapZone {
+            x0: x,
+            x1: x + width,
+            bottom: y + height,
+            left,
+        });
+        self.x = self.left;
+        self.line_h = 0.0;
+        (x, y)
+    }
+}
+
+fn element_flow_height(element: &UniversalElement) -> f32 {
+    if element.h_mm > 0.0 {
+        element.h_mm
+    } else if matches!(element.kind.as_str(), "symbol" | "button" | "grid" | "image") {
+        28.0
+    } else {
+        text_height(element)
+    }
+}
+
+fn element_is_textlike(element: &UniversalElement) -> bool {
+    !element.text.trim().is_empty()
+        && element.svg.is_none()
+        && element.image_asset.is_none()
+        && !matches!(
+            element.kind.as_str(),
+            "grid" | "table" | "image" | "button" | "symbol"
+        )
+}
+
 fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, String> {
     let (page_w, page_h) = document.page.dimensions()?;
     let margin = document.page.margin_mm.max(0.0);
+    let text_pages = document.metadata.get("text_pages");
     let mut warnings = Vec::new();
     let mut pages = Vec::new();
 
     for (index, page) in document.pages.iter().enumerate() {
+        let is_text_page = text_pages
+            .and_then(|value| value.get(&page.id))
+            .is_some();
         let mut rendered: Vec<RenderedElement> = Vec::new();
         let mut flow_y = margin + page.flow.padding_mm;
         let flow_w = page_w - 2.0 * margin - 2.0 * page.flow.padding_mm;
+        let flow_left = margin + page.flow.padding_mm;
+        let flow_right = page_w - margin - page.flow.padding_mm;
+        let mut flow = FlowLayout::new(flow_left, flow_right, flow_y, page.flow.gap_mm);
+        let used_flow = !is_text_page
+            && page
+                .elements
+                .iter()
+                .any(|element| !element.disposition.is_empty());
         let column_w = if page.flow.columns > 1 {
             (flow_w - page.flow.gap_mm * (page.flow.columns.saturating_sub(1)) as f32)
                 / page.flow.columns as f32
@@ -933,7 +1103,56 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
 
         for element in sorted {
             let absolute_override = element.absolute && page.layout == "grid";
-            let (x, y, w, h) = if absolute_override {
+            let (x, y, w, h) = if !is_text_page && !element.disposition.is_empty() {
+                let height = element_flow_height(element);
+                match element.disposition.as_str() {
+                    "inline" => {
+                        let width = if element.w_mm > 0.0 {
+                            element.w_mm.min(flow_w)
+                        } else if element_is_textlike(element) {
+                            flow_w
+                        } else {
+                            40.0_f32.min(flow_w)
+                        };
+                        let (x, y) = flow.place_inline(width, height);
+                        (x, y, width, height)
+                    }
+                    "block" => {
+                        let width = if element.w_mm > 0.0 {
+                            element.w_mm.min(flow_w)
+                        } else {
+                            flow_w
+                        };
+                        let (x, y) = flow.place_block(width, height, element_is_textlike(element));
+                        (x, y, width, height)
+                    }
+                    "wrap_left" | "wrap_right" => {
+                        let natural = if element.w_mm > 0.0 {
+                            element.w_mm
+                        } else {
+                            (flow_w * 0.42).max(30.0)
+                        };
+                        let width = natural.clamp(20.0, (flow_w * 0.62).max(24.0));
+                        let (x, y) =
+                            flow.place_wrap(width, height, element.disposition == "wrap_left");
+                        (x, y, width, height)
+                    }
+                    _ => {
+                        // front / behind / free: coordinate proprie, fuori dal flusso.
+                        let w = if element.w_mm > 0.0 {
+                            element.w_mm
+                        } else {
+                            (page_w - 2.0 * margin).min(120.0)
+                        };
+                        let h = if element.h_mm > 0.0 {
+                            element.h_mm
+                        } else {
+                            text_height(element)
+                        };
+                        (element.x_mm, element.y_mm, w, h)
+                    }
+                }
+            } else if absolute_override {
                 let w = if element.w_mm > 0.0 {
                     element.w_mm
                 } else {
@@ -1045,6 +1264,7 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
                 locked: element.locked,
                 opacity: element.opacity,
                 style: element.style.clone(),
+                disposition: element.disposition.clone(),
                 action: element.action.clone(),
                 link_page: element.link_page.clone(),
                 group_id: element.group_id.clone(),
@@ -1053,7 +1273,10 @@ fn render_document(document: &UniversalDocument) -> Result<RenderedDocument, Str
                 metadata: element.metadata.clone(),
             });
         }
-        if page.layout == "flow" && flow_y > page_h - margin {
+        flow_y = flow_y
+            .max(flow.y + flow.line_h)
+            .max(flow.zone.map(|zone| zone.bottom).unwrap_or(0.0));
+        if (page.layout == "flow" || used_flow) && flow_y > page_h - margin {
             warnings.push(format!(
                 "{}: il contenuto supera l'altezza della pagina",
                 page.title
@@ -1201,6 +1424,7 @@ fn render_grid_cells(element: &UniversalElement, w: f32, h: f32) -> Vec<Rendered
                 w_mm: round2(width),
                 h_mm: round2(height),
                 style: cell.style.clone(),
+                metadata: cell.metadata.clone(),
             }
         })
         .collect()
@@ -2214,6 +2438,7 @@ pub fn from_layout(spec: &crate::layout::LayoutSpecification) -> UniversalDocume
             row_span: element.row_span,
             column_span: element.column_span,
             style: ElementStyle::default(),
+            disposition: String::new(),
             action: element.action.as_ref().map(|action| UniversalAction {
                 action_type: action.action_type.clone(),
                 target_page: target_page.clone(),
@@ -2899,12 +3124,30 @@ fn render_element_svg(element: &RenderedElement) -> String {
                 ));
             }
             let cell_font = cell.style.font_size.max(2.4);
+            let cell_padding = cell
+                .style
+                .padding_mm
+                .clamp(0.0, cell.w_mm.min(cell.h_mm) / 3.0);
+            let inner_w = (cell.w_mm - 2.0 * cell_padding).max(2.0);
+            let inner_h = (cell.h_mm - 2.0 * cell_padding).max(2.0);
+            if render_cell_caa(
+                &mut out,
+                cell,
+                cell_padding + 1.0,
+                cell_padding + 1.0,
+                (inner_w - 2.0).max(2.0),
+                (inner_h - 2.0).max(2.0),
+                cell_font,
+            ) {
+                out.push_str("</g>");
+                continue;
+            }
             let caption_h = if cell.text.is_empty() {
                 0.0
             } else {
-                let max_chars = ((cell.w_mm - 2.0) / (cell_font * 0.55)).max(2.0) as usize;
+                let max_chars = ((inner_w - 2.0) / (cell_font * 0.55)).max(2.0) as usize;
                 let lines = wrap_text(&cell.text, max_chars);
-                (lines.len() as f32 * cell_font * 1.22 + 0.8).min(cell.h_mm * 0.5)
+                (lines.len() as f32 * cell_font * 1.22 + 0.8).min(inner_h * 0.5)
             };
             if let Some(svg) = cell
                 .svg
@@ -2914,24 +3157,25 @@ fn render_element_svg(element: &RenderedElement) -> String {
             {
                 out.push_str(&embed_symbol(
                     svg,
-                    1.0,
-                    1.0,
-                    (cell.w_mm - 2.0).max(2.0),
-                    (cell.h_mm - caption_h - 1.0).max(2.0),
+                    cell_padding + 1.0,
+                    cell_padding + 1.0,
+                    (inner_w - 2.0).max(2.0),
+                    (inner_h - caption_h - 1.0).max(2.0),
                 ));
             }
             if !cell.text.is_empty() {
-                let max_chars = ((cell.w_mm - 2.0) / (cell_font * 0.55)).max(2.0) as usize;
+                let max_chars = ((inner_w - 2.0) / (cell_font * 0.55)).max(2.0) as usize;
                 let lines = wrap_text(&cell.text, max_chars);
                 let line_height = cell_font * 1.22;
                 let text_h = lines.len() as f32 * line_height;
-                let start_y = (cell.h_mm - 0.8 - text_h + cell_font * 0.92).max(cell_font);
+                let start_y = (cell.h_mm - cell_padding - 0.8 - text_h + cell_font * 0.92)
+                    .max(cell_padding + cell_font);
                 render_text_lines(
                     &mut out,
                     &lines,
-                    1.0,
+                    cell_padding + 1.0,
                     start_y,
-                    (cell.w_mm - 2.0).max(2.0),
+                    (inner_w - 2.0).max(2.0),
                     "center",
                     cell_font,
                     &cell.style,
@@ -2942,6 +3186,116 @@ fn render_element_svg(element: &RenderedElement) -> String {
     }
     out.push_str("</g>");
     out
+}
+
+/// Disegna una frase CAA dentro una cella: ogni parola con il proprio
+/// pittogramma sopra, con a capo automatico. Restituisce `false` quando la
+/// cella non ha token CAA e va usato il disegno semplice.
+fn render_cell_caa(
+    out: &mut String,
+    cell: &RenderedGridCell,
+    x: f32,
+    y: f32,
+    width: f32,
+    height: f32,
+    font: f32,
+) -> bool {
+    let tokens = cell
+        .metadata
+        .get("caa")
+        .and_then(|caa| caa.get("tokens"))
+        .and_then(|value| value.as_array());
+    let Some(tokens) = tokens.filter(|tokens| !tokens.is_empty()) else {
+        return false;
+    };
+    let text = cell.text.as_str();
+    let char_len = text.chars().count();
+    let mut ranges: Vec<(usize, usize, Option<String>)> = tokens
+        .iter()
+        .filter_map(|token| {
+            let start = token.get("start")?.as_u64()? as usize;
+            let end = token.get("end")?.as_u64()? as usize;
+            if start >= end || start >= char_len {
+                return None;
+            }
+            let media = token
+                .get("image")
+                .and_then(|value| value.as_str())
+                .or_else(|| token.get("svg").and_then(|value| value.as_str()))
+                .filter(|value| !value.trim().is_empty())
+                .map(|value| value.to_string());
+            Some((start, end.min(char_len), media))
+        })
+        .collect();
+    if ranges.is_empty() {
+        return false;
+    }
+    ranges.sort_by_key(|(start, _, _)| *start);
+
+    let mut units: Vec<(String, Option<String>)> = Vec::new();
+    let mut cursor = 0usize;
+    for (start, end, media) in ranges {
+        if start > cursor {
+            let between: String = text.chars().skip(cursor).take(start - cursor).collect();
+            for word in between.split_whitespace() {
+                units.push((word.to_string(), None));
+            }
+        }
+        let surface: String = text.chars().skip(start).take(end - start).collect();
+        units.push((surface, media));
+        cursor = end;
+    }
+    if cursor < char_len {
+        let rest: String = text.chars().skip(cursor).collect();
+        for word in rest.split_whitespace() {
+            units.push((word.to_string(), None));
+        }
+    }
+    if units.is_empty() {
+        return false;
+    }
+
+    let symbol_h = (font * 1.55).min(height * 0.55);
+    let line_h = symbol_h + font * 1.25 + 0.8;
+    let color = if cell.style.color.is_empty() {
+        "#111111"
+    } else {
+        &cell.style.color
+    };
+    let mut cursor_x = x;
+    let mut cursor_y = y;
+    let mut wrote = false;
+    for (word, media) in units {
+        let text_w = (word.chars().count() as f32 * font * 0.56).max(2.0);
+        let unit_w = text_w.max(symbol_h) + 1.2;
+        if cursor_x > x && cursor_x + unit_w > x + width + 0.01 {
+            cursor_x = x;
+            cursor_y += line_h + 0.8;
+        }
+        if cursor_y + line_h > y + height + 0.01 {
+            break;
+        }
+        if let Some(media) = media {
+            let symbol_w = unit_w.min(symbol_h);
+            out.push_str(&embed_symbol(
+                &media,
+                cursor_x + (unit_w - symbol_w) / 2.0,
+                cursor_y,
+                symbol_w,
+                symbol_h,
+            ));
+        }
+        let text_x = cursor_x + (unit_w - text_w) / 2.0;
+        let baseline = cursor_y + symbol_h + font;
+        out.push_str(&format!(
+            "<text x=\"{text_x}\" y=\"{baseline}\" font-size=\"{font}\" text-anchor=\"start\" fill=\"{}\">{}</text>",
+            escape_xml(color),
+            escape_xml(&word)
+        ));
+        cursor_x += unit_w;
+        wrote = true;
+    }
+    wrote
 }
 
 pub fn render_page_svg(page: &RenderedPage) -> String {
@@ -3310,6 +3664,184 @@ mod tests {
         let encoded = serde_json::to_string(&document).unwrap();
         let decoded: UniversalDocument = serde_json::from_str(&encoded).unwrap();
         validate(&decoded).unwrap();
+    }
+
+    /// Il testo CAA di un elemento (parole, pittogrammi e alternative scelte)
+    /// vive in `metadata.caa`. Deve sopravvivere a `update_element` e alla
+    /// serializzazione del documento: altrimenti riaprendo il file si
+    /// perderebbero le scelte manuali dell'utente.
+    #[test]
+    fn element_caa_metadata_survives_update_and_roundtrip() {
+        let mut document = sample();
+        let element = document.pages[0].elements[0].clone();
+        let caa = serde_json::json!({
+            "doc_json": {
+                "type": "doc",
+                "content": [{ "type": "paragraph", "content": [
+                    { "type": "text", "text": "Frutta" }
+                ]}]
+            },
+            "plain_text": "Frutta",
+            "tokens": [{
+                "surface": "Frutta",
+                "symbol_id": "arasaac-1",
+                "label": "frutta"
+            }]
+        });
+        apply_command(
+            &mut document,
+            &DocumentCommand::UpdateElement {
+                page: "home".to_string(),
+                id: element.id.clone(),
+                patch: serde_json::json!({ "metadata": { "caa": caa } }),
+            },
+        )
+        .unwrap();
+
+        let stored = document.pages[0]
+            .elements
+            .iter()
+            .find(|candidate| candidate.id == element.id)
+            .unwrap();
+        assert_eq!(stored.metadata["caa"]["plain_text"], "Frutta");
+        assert_eq!(stored.metadata["caa"]["tokens"][0]["symbol_id"], "arasaac-1");
+
+        // Round-trip di serializzazione: il campo resta identico.
+        let encoded = serde_json::to_string(&document).unwrap();
+        let decoded: UniversalDocument = serde_json::from_str(&encoded).unwrap();
+        validate(&decoded).unwrap();
+        let reopened = decoded.pages[0]
+            .elements
+            .iter()
+            .find(|candidate| candidate.id == element.id)
+            .unwrap()
+            .metadata
+            .clone();
+        assert_eq!(reopened["caa"], caa);
+    }
+
+    /// Il testo e gli elementi convivono nella stessa pagina: un'immagine
+    /// `wrap_left` lascia una colonna al testo, una griglia va sotto, e i
+    /// paragrafi successivi tornano a tutta larghezza.
+    #[test]
+    fn text_flows_beside_and_below_wrapped_elements() {
+        let mut document = build_document("doc-flow", "Flusso", "document", "A4", "portrait");
+        let page = document.pages[0].id.clone();
+        document.pages[0].layout = "absolute".to_string();
+        let add = |document: &mut UniversalDocument, value: serde_json::Value| {
+            apply_command(
+                document,
+                &DocumentCommand::AddElement {
+                    page: page.clone(),
+                    element: value,
+                    index: None,
+                },
+            )
+            .unwrap();
+        };
+        add(
+            &mut document,
+            serde_json::json!({
+                "id": "intro", "kind": "text", "text": "Oggi impariamo gli animali.",
+                "disposition": "block"
+            }),
+        );
+        add(
+            &mut document,
+            serde_json::json!({
+                "id": "foto", "kind": "image", "text": "gatto",
+                "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10 10\"><rect width=\"10\" height=\"10\"/></svg>",
+                "w_mm": 60.0, "h_mm": 40.0, "disposition": "wrap_left"
+            }),
+        );
+        add(
+            &mut document,
+            serde_json::json!({
+                "id": "aside", "kind": "text", "text": "Il gatto vive nelle case.",
+                "disposition": "block"
+            }),
+        );
+        add(
+            &mut document,
+            serde_json::json!({
+                "id": "tabella", "kind": "grid", "disposition": "block",
+                "grid": { "columns": 2, "rows": 1, "gap_mm": 3.0, "cells": [] }
+            }),
+        );
+        add(
+            &mut document,
+            serde_json::json!({
+                "id": "dopo", "kind": "text", "text": "Continuiamo a scrivere.",
+                "disposition": "block"
+            }),
+        );
+
+        let rendered = document.render().unwrap();
+        let page = &rendered.pages[0];
+        let find = |id: &str| page.elements.iter().find(|item| item.id == id).unwrap();
+        let intro = find("intro");
+        let foto = find("foto");
+        let aside = find("aside");
+        let tabella = find("tabella");
+        let dopo = find("dopo");
+
+        assert!(foto.x_mm <= intro.x_mm + 0.1, "l'immagine parte dal margine");
+        assert!(
+            aside.x_mm > foto.x_mm + 10.0,
+            "il testo si dispone a destra dell'immagine"
+        );
+        assert!(aside.y_mm < foto.y_mm + 40.0);
+        assert!(
+            tabella.y_mm >= foto.y_mm + 40.0,
+            "la griglia va sotto la fascia dell'immagine"
+        );
+        assert!(
+            dopo.y_mm >= tabella.y_mm + 8.0,
+            "il paragrafo successivo riprende sotto la griglia"
+        );
+    }
+
+    /// Una cella può contenere una frase completa: il renderer SVG disegna
+    /// ogni parola con il proprio pittogramma, non solo il primo simbolo.
+    #[test]
+    fn grid_cell_renders_a_complete_caa_sentence() {
+        let mut document = build_document("doc-cell", "Cella CAA", "document", "A4", "portrait");
+        let page = document.pages[0].id.clone();
+        document.pages[0].layout = "absolute".to_string();
+        apply_command(
+            &mut document,
+            &DocumentCommand::CreateGrid {
+                page: page.clone(),
+                id: "grid-1".to_string(),
+                columns: 1,
+                rows: 1,
+                gap_mm: Some(2.0),
+                x_mm: Some(15.0),
+                y_mm: Some(15.0),
+                w_mm: Some(120.0),
+                h_mm: Some(40.0),
+            },
+        )
+        .unwrap();
+        let cell = &mut document.pages[0].elements[0].grid.as_mut().unwrap().cells[0];
+        cell.text = "La bambina mangia una mela.".to_string();
+        cell.metadata = serde_json::json!({
+            "caa": {
+                "plain_text": cell.text,
+                "tokens": [
+                    { "surface": "bambina", "start": 3, "end": 10,
+                      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=" },
+                    { "surface": "mela", "start": 22, "end": 26,
+                      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=" }
+                ]
+            }
+        });
+        let rendered = document.render().unwrap();
+        let svg = render_page_svg(&rendered.pages[0]);
+        assert!(svg.contains("bambina"));
+        assert!(svg.contains("mangia"));
+        assert!(svg.contains("mela"));
+        assert!(svg.matches("<image ").count() >= 2);
     }
 
     #[test]

@@ -2,19 +2,24 @@
   import { onMount } from "svelte";
   import { save as saveDialog } from "@tauri-apps/plugin-dialog";
   import CaaEditor from "../editor/CaaEditor.svelte";
+  import FloatingKeyboard from "./FloatingKeyboard.svelte";
   import { api, isTauri } from "../api";
   import { recordRecent } from "../recent";
+  import { canChooseAlternatives, symbolChoices } from "../user-symbols";
   import type { Alternative, CaaToken, DocumentSettings, Profile } from "../types";
   import { defaultSettings, noModifiers } from "../types";
 
   interface Props {
     profile: Profile;
+    /// Impostazioni CAA del Creator: la modalità Utente usa le stesse regole
+    /// di simbolizzazione del testo libero, non una configurazione parallela.
+    settings?: DocumentSettings;
     onBack: () => void;
     onSpeak: (text: string) => void;
     onToast: (message: string, kind?: "info" | "warn" | "error") => void;
   }
 
-  let { profile, onBack, onSpeak, onToast }: Props = $props();
+  let { profile, settings = defaultSettings, onBack, onSpeak, onToast }: Props = $props();
 
   const level = Math.max(1, Math.min(3, Number(profile.editor_level) || 1));
   const levelLabel =
@@ -22,6 +27,10 @@
   const canFormat = level >= 3;
   const canType = level >= 2;
   const canSpeak = profile.features.includes("speech");
+  /// Le alternative per singolo pittogramma sono una ricerca guidata: si
+  /// attivano solo se il profilo ha il permesso «Ricerca pittogrammi».
+  const canAlternatives = canChooseAlternatives(profile);
+  const effectiveMode = $derived(settings.auto_caa ? settings.mode : "testo");
 
   let editor = $state<CaaEditor | undefined>(undefined);
   let title = $state("I miei pensieri");
@@ -43,21 +52,180 @@
   let message = $state<Unit[]>([]);
   let unitSeq = 0;
 
+  /// Parola selezionata nel testo: il pannello Simboli in basso mostra le sue
+  /// alternative con lo stesso ordine del word processor.
+  let selectedToken = $state<{ pid: string; token: CaaToken } | null>(null);
+  let symbolQuery = $state("");
+  let symbolResults = $state<Alternative[]>([]);
+  let symbolBusy = $state(false);
+  let symbolError = $state("");
+
+  const liveToken = $derived.by((): CaaToken | null => {
+    if (!selectedToken) return null;
+    const tokens = tokensByParagraph.get(selectedToken.pid);
+    return tokens?.find((token) => token.index === selectedToken!.token.index) ?? selectedToken.token;
+  });
+
+  const tokenAlternatives = $derived.by((): Alternative[] => symbolChoices(liveToken));
+
+  function selectToken(pid: string, token: CaaToken) {
+    if (!canAlternatives) return;
+    selectedToken = { pid, token };
+    symbolQuery = token.surface;
+    symbolResults = token.alternatives ?? [];
+    symbolError = "";
+  }
+
+  function closeTokenSelection() {
+    selectedToken = null;
+    symbolResults = [];
+    symbolQuery = "";
+    symbolError = "";
+  }
+
+  async function searchPanelSymbols() {
+    const query = symbolQuery.trim();
+    if (!query || !isTauri()) {
+      symbolError = query
+        ? "La ricerca dei pittogrammi richiede l'app desktop."
+        : "Scrivi una parola da cercare.";
+      return;
+    }
+    symbolBusy = true;
+    symbolError = "";
+    try {
+      const page = await api.searchSymbols(
+        query,
+        24,
+        0,
+        settings.pack_id,
+        settings.commercial_only
+      );
+      symbolResults = page.items;
+      if (page.items.length === 0) symbolError = `Nessun pittogramma per «${query}».`;
+    } catch (error) {
+      symbolResults = [];
+      symbolError = error instanceof Error ? error.message : String(error);
+    } finally {
+      symbolBusy = false;
+    }
+  }
+
+  /// Applica un simbolo alla parola selezionata; senza selezione inserisce la
+  /// parola nel punto del cursore e lascia che il motore la simbolizzi.
+  function applyPanelSymbol(alternative: Alternative) {
+    const target = selectedToken;
+    const token = liveToken;
+    if (target && token && editor && canAlternatives) {
+      editor.applyTokenSymbol(target.pid, token.index, {
+        symbol_id: alternative.symbol_id,
+        svg: alternative.svg,
+        image: alternative.image ?? null,
+        label: alternative.label,
+        meaning: alternative.meaning,
+        concept_id: alternative.concept_id,
+        approximate: alternative.approximate,
+      });
+    } else {
+      insertWord(alternative);
+    }
+    symbolResults = [];
+  }
+
+  function toggleSelectedLock() {
+    const target = selectedToken;
+    const token = liveToken;
+    if (!target || !token) return;
+    editor?.applyTokenState(target.pid, token.index, { locked: !token.locked });
+  }
+
+  function toggleSelectedHidden() {
+    const target = selectedToken;
+    const token = liveToken;
+    if (!target || !token) return;
+    editor?.applyTokenState(target.pid, token.index, { hidden: !token.hidden });
+  }
+
+  type AltTarget =
+    | { kind: "unit"; key: string }
+    | { kind: "token"; pid: string; index: number; surface: string };
+  let altTarget = $state<AltTarget | null>(null);
+  let altResults = $state<Alternative[]>([]);
+  let altBusy = $state(false);
+  let altError = $state("");
+
+  /// Apre il pannello delle alternative per una parola. Non cambia il testo:
+  /// la scelta sostituisce solo il pittogramma.
+  async function openAlternatives(target: AltTarget, query: string) {
+    if (!canAlternatives) return;
+    altTarget = target;
+    altError = "";
+    altResults = [];
+    if (!query.trim() || !isTauri()) {
+      altError = isTauri()
+        ? "Questa parola non ha un pittogramma da cambiare."
+        : "Le alternative richiedono l'app desktop.";
+      return;
+    }
+    altBusy = true;
+    try {
+      const page = await api.searchSymbols(query.trim(), 24, 0, null, false);
+      altResults = page.items;
+      if (page.items.length === 0) altError = "Nessuna alternativa trovata.";
+    } catch (error) {
+      altError = error instanceof Error ? error.message : String(error);
+    } finally {
+      altBusy = false;
+    }
+  }
+
+  function closeAlternatives() {
+    altTarget = null;
+    altResults = [];
+    altError = "";
+  }
+
+  function chooseAlternative(alternative: Alternative) {
+    const target = altTarget;
+    if (!target) return;
+    if (target.kind === "unit") {
+      message = message.map((unit) =>
+        unit.key === target.key
+          ? {
+              ...unit,
+              label: unit.label,
+              svg: alternative.svg,
+              image: alternative.image ?? null,
+              symbolId: alternative.symbol_id,
+            }
+          : unit
+      );
+    } else {
+      editor?.applyTokenSymbol(target.pid, target.index, {
+        symbol_id: alternative.symbol_id,
+        svg: alternative.svg,
+        image: alternative.image ?? null,
+        label: alternative.label,
+        meaning: alternative.meaning,
+        concept_id: alternative.concept_id,
+        approximate: alternative.approximate,
+      });
+    }
+    closeAlternatives();
+  }
+
   const documentKey = `user-${profile.id}-${Date.now().toString(36)}`;
 
   const documentSettings: DocumentSettings = {
     ...defaultSettings,
-    mode: "sopra",
-    intensity: level === 1 ? "minima" : "media",
-    auto_caa: true,
-    neural_context: false,
+    ...settings,
+    mode: settings.mode,
+    intensity: settings.intensity,
+    neural_context: settings.neural_context && profile.features.includes("ai"),
     show_captions: level >= 2,
-    font_size: level === 1 ? 20 : 18,
-    symbol_size: level === 1 ? 84 : level === 2 ? 68 : 56,
-    symbolize_articles: false,
-    symbolize_prepositions: false,
-    symbolize_conjunctions: false,
-    theme: (profile.age_theme as DocumentSettings["theme"]) || "chiaro",
+    font_size: level === 1 ? 20 : settings.font_size,
+    symbol_size: level === 1 ? 84 : settings.symbol_size,
+    theme: (profile.age_theme as DocumentSettings["theme"]) || settings.theme,
     touch_mode: true,
   };
 
@@ -226,13 +394,6 @@
       saving = false;
     }
   }
-
-  const letterRows = [
-    "qwertyuiop".split(""),
-    "asdfghjkl".split(""),
-    "zxcvbnm".split(""),
-  ];
-  const accentRow = ["à", "è", "é", "ì", "ò", "ù", "'", "?", "!", ".", ","];
 </script>
 
 <div class="user-editor" data-level={level} data-theme={profile.age_theme}>
@@ -264,12 +425,23 @@
             <span class="hint">Tocca un pittogramma per costruire la frase.</span>
           {:else}
             {#each message as unit (unit.key)}
-              <button class="user-unit" onclick={() => removeUnit(unit.key)} title="Rimuovi">
-                {#if unit.image}
-                  <span class="user-unit__media"><img src={unit.image} alt="" /></span>
-                {:else if unit.svg}<span class="user-unit__media">{@html unit.svg}</span>{/if}
-                <span>{unit.label} ×</span>
-              </button>
+              <div class="user-unit-wrap">
+                <button class="user-unit" onclick={() => removeUnit(unit.key)} title="Rimuovi">
+                  {#if unit.image}
+                    <span class="user-unit__media"><img src={unit.image} alt="" /></span>
+                  {:else if unit.svg}<span class="user-unit__media">{@html unit.svg}</span>{/if}
+                  <span>{unit.label} ×</span>
+                </button>
+                {#if canAlternatives}
+                  <button
+                    class="user-unit__alt"
+                    onclick={() =>
+                      void openAlternatives({ kind: "unit", key: unit.key }, unit.label)}
+                    title="Cambia pittogramma"
+                    aria-label={`Cambia il pittogramma di ${unit.label}`}
+                  >↻</button>
+                {/if}
+              </div>
             {/each}
           {/if}
         </div>
@@ -311,23 +483,28 @@
       <section class="user-paper" aria-label="Area di scrittura">
         <CaaEditor
           bind:this={editor}
-          mode="sopra"
-          intensity="media"
+          mode={effectiveMode}
+          intensity={settings.intensity}
           documentKey={documentKey}
-          commercialOnly={false}
-          borderStyle={level >= 2 ? "immagine_testo" : "immagine"}
-          packId={null}
-          selectedUnit={null}
-          autoEnabled={true}
-          neural={false}
-          symbolizeArticles={false}
-          symbolizePrepositions={false}
-          symbolizeConjunctions={false}
+          commercialOnly={settings.commercial_only}
+          borderStyle={settings.border_style}
+          packId={settings.pack_id}
+          selectedUnit={selectedToken
+            ? { pid: selectedToken.pid, index: selectedToken.token.index }
+            : null}
+          autoEnabled={settings.auto_caa}
+          neural={settings.neural_context && profile.features.includes("ai")}
+          onlineAutoInsert={settings.online_auto_insert && settings.online_search !== "off"}
+          symbolizeArticles={settings.symbolize_articles}
+          symbolizePrepositions={settings.symbolize_prepositions}
+          symbolizeConjunctions={settings.symbolize_conjunctions}
+          showExplicitSymbols={settings.show_explicit_symbols}
+          symbolLayout={settings.symbol_layout}
           profileId={profile.id}
-          analysisDebounceMs={280}
-          refineDebounceMs={900}
-          onSelectToken={() => {}}
-          onTokenMenu={() => {}}
+          analysisDebounceMs={settings.analysis_debounce_ms}
+          refineDebounceMs={settings.refine_debounce_ms}
+          onSelectToken={(pid, token) => selectToken(pid, token)}
+          onTokenMenu={(pid, token) => selectToken(pid, token)}
           onError={(error) => onToast(error, "error")}
           onAnalyzed={(map) => (tokensByParagraph = map)}
           onAnalysisState={(active) => (analysisActive = active)}
@@ -365,35 +542,10 @@
 
         <div class="user-assist__group">
           <span class="hint">Tastiera</span>
-          <div class="user-keyboard">
-            {#each letterRows as row}
-              <div class="user-keyboard__row">
-                {#each row as letter}
-                  <button class="user-key" onclick={() => editor?.insertTextAtSelection(letter)}>
-                    {letter}
-                  </button>
-                {/each}
-              </div>
-            {/each}
-            <div class="user-keyboard__row">
-              {#each accentRow as key}
-                <button class="user-key" onclick={() => editor?.insertTextAtSelection(key)}>
-                  {key}
-                </button>
-              {/each}
-            </div>
-            <div class="user-keyboard__row">
-              <button class="user-key user-key--wide" onclick={() => editor?.insertTextAtSelection(" ")}>
-                Spazio
-              </button>
-              <button class="user-key user-key--wide" onclick={() => editor?.insertParagraph()}>
-                Invio
-              </button>
-              <button class="user-key user-key--wide" onclick={() => editor?.backspace()}>
-                Cancella
-              </button>
-            </div>
-          </div>
+          <p class="hint">
+            La tastiera virtuale è ridotta a un pulsante in basso a destra: aprile quando serve,
+            trascinala dove non copre la frase e ridimensionala dal bordo.
+          </p>
         </div>
 
         <p class="hint">
@@ -402,6 +554,156 @@
         </p>
       </aside>
     </main>
+
+    <section class="user-symbols" aria-label="Pannello Simboli">
+      <header class="user-symbols__head">
+        <div>
+          <h2>Simboli</h2>
+          <p class="hint">
+            Stesse regole del testo libero: seleziona una parola nel documento per vedere le sue
+            alternative; senza selezione il pittogramma scelto viene inserito nel punto del cursore.
+          </p>
+        </div>
+        {#if selectedToken}
+          <button class="btn" onclick={closeTokenSelection}>Chiudi selezione</button>
+        {/if}
+      </header>
+
+      {#if liveToken}
+        <div class="user-symbols__selected">
+          <div>
+            <strong>«{liveToken.surface}»</strong>
+            <span class="hint">
+              {liveToken.symbol_label ?? liveToken.concept_label ?? "nessun pittogramma"}
+              {#if liveToken.lemma} · {liveToken.lemma}{/if}
+            </span>
+          </div>
+          <div class="user-symbols__actions">
+            <button
+              class="btn"
+              class:btn--solid={liveToken.locked}
+              onclick={toggleSelectedLock}
+            >{liveToken.locked ? "Sblocca" : "Blocca"}</button>
+            <button
+              class="btn"
+              class:btn--solid={liveToken.hidden}
+              onclick={toggleSelectedHidden}
+            >{liveToken.hidden ? "Mostra" : "Nascondi"}</button>
+          </div>
+          {#if tokenAlternatives.length}
+            <div class="user-symbols__grid" aria-label="Alternative della parola">
+              {#each tokenAlternatives as alternative (alternative.symbol_id)}
+                <button
+                  class="user-symbols__item"
+                  class:active={liveToken.symbol_id === alternative.symbol_id}
+                  onclick={() => applyPanelSymbol(alternative)}
+                  title={alternative.license || alternative.label}
+                >
+                  {#if alternative.image}
+                    <span class="user-symbols__media"><img src={alternative.image} alt="" /></span>
+                  {:else if alternative.svg}
+                    <span class="user-symbols__media">{@html alternative.svg}</span>
+                  {/if}
+                  <span class="user-symbols__label">{alternative.label}</span>
+                </button>
+              {/each}
+            </div>
+          {:else}
+            <p class="hint">Nessuna alternativa automatica: usa la ricerca qui sotto.</p>
+          {/if}
+        </div>
+      {/if}
+
+      <div class="user-symbols__search">
+        <label class="user-symbols__query">
+          <span class="hint">Cerca un pittogramma</span>
+          <input
+            bind:value={symbolQuery}
+            placeholder="Es. gatto, mangiare, scuola…"
+            onkeydown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                void searchPanelSymbols();
+              }
+            }}
+          />
+        </label>
+        <button class="btn btn--solid" disabled={symbolBusy} onclick={() => void searchPanelSymbols()}>
+          {symbolBusy ? "Cerco…" : "Cerca"}
+        </button>
+      </div>
+      {#if symbolError}<p class="warn">{symbolError}</p>{/if}
+
+      {#if symbolResults.length}
+        <div class="user-symbols__grid user-symbols__grid--search" aria-label="Risultati della ricerca">
+          {#each symbolResults as alternative (alternative.symbol_id)}
+            <button class="user-symbols__item" onclick={() => applyPanelSymbol(alternative)}>
+              {#if alternative.image}
+                <span class="user-symbols__media"><img src={alternative.image} alt="" /></span>
+              {:else if alternative.svg}
+                <span class="user-symbols__media">{@html alternative.svg}</span>
+              {/if}
+              <span class="user-symbols__label">{alternative.label}</span>
+            </button>
+          {/each}
+        </div>
+      {/if}
+
+      <div class="user-symbols__vocabulary" aria-label="Parole frequenti">
+        {#each vocabulary.slice(0, 40) as alternative (alternative.symbol_id)}
+          <button
+            class="user-symbols__item"
+            onclick={() => applyPanelSymbol(alternative)}
+            title={selectedToken ? `Applica a «${liveToken?.surface ?? ""}»` : `Inserisci ${alternative.label}`}
+          >
+            {#if alternative.image}
+              <span class="user-symbols__media"><img src={alternative.image} alt="" /></span>
+            {:else if alternative.svg}
+              <span class="user-symbols__media">{@html alternative.svg}</span>
+            {/if}
+            <span class="user-symbols__label">{alternative.label}</span>
+          </button>
+        {/each}
+      </div>
+    </section>
+  {/if}
+
+  {#if canType}
+    <FloatingKeyboard
+      profileId={profile.id}
+      onInsert={(text) => editor?.insertTextAtSelection(text)}
+      onSpace={() => editor?.insertTextAtSelection(" ")}
+      onEnter={() => editor?.insertParagraph()}
+      onBackspace={() => editor?.backspace()}
+    />
+  {/if}
+
+  {#if altTarget}
+    <section class="user-alt" role="dialog" aria-label="Alternative del pittogramma">
+      <header class="user-alt__bar">
+        <strong>Cambia pittogramma</strong>
+        <button class="btn" onclick={closeAlternatives} aria-label="Chiudi le alternative">×</button>
+      </header>
+      {#if altBusy}
+        <p class="hint">Cerco le alternative…</p>
+      {:else if altError}
+        <p class="warn">{altError}</p>
+      {:else}
+        <div class="user-alt__grid">
+          {#each altResults as alternative (alternative.symbol_id)}
+            <button class="user-alt__item" onclick={() => chooseAlternative(alternative)}>
+              {#if alternative.image}
+                <span class="user-alt__media"><img src={alternative.image} alt="" /></span>
+              {:else if alternative.svg}
+                <span class="user-alt__media">{@html alternative.svg}</span>
+              {/if}
+              <span class="user-alt__label">{alternative.label}</span>
+              <span class="user-alt__license">{alternative.license}</span>
+            </button>
+          {/each}
+        </div>
+      {/if}
+    </section>
   {/if}
 </div>
 
@@ -500,6 +802,92 @@
     width: 52px;
     height: 52px;
   }
+
+  .user-unit-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .user-unit__alt {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #d3d6e0;
+    background: #fff;
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .user-unit__alt:hover { background: #dbe7ff; }
+
+  .user-alt {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 130;
+    width: min(720px, calc(100vw - 32px));
+    max-height: 52vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #cfd8e3;
+    border-radius: 14px;
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.25);
+  }
+
+  .user-alt__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .user-alt__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 8px;
+    overflow: auto;
+    padding: 2px;
+  }
+
+  .user-alt__item {
+    display: grid;
+    gap: 2px;
+    justify-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+    padding: 6px;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    min-height: 96px;
+  }
+
+  .user-alt__item:hover { background: #f1f5f9; }
+
+  .user-alt__media :global(svg),
+  .user-alt__media :global(img) {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .user-alt__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .user-alt__license { font-size: 0.6rem; color: #64748b; text-align: center; }
 
   .user-message__actions {
     display: flex;
@@ -650,5 +1038,123 @@
     .user-assist {
       max-height: none;
     }
+  }
+
+  .user-symbols {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #dbe3ee;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  }
+
+  .user-symbols__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .user-symbols__head h2 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .user-symbols__head p {
+    margin: 3px 0 0;
+    max-width: 760px;
+  }
+
+  .user-symbols__selected {
+    display: grid;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+
+  .user-symbols__selected strong { font-size: 1rem; }
+
+  .user-symbols__actions { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .user-symbols__search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .user-symbols__query {
+    display: grid;
+    gap: 3px;
+    flex: 1 1 240px;
+  }
+
+  .user-symbols__query input {
+    min-height: 40px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    padding: 7px 10px;
+    font: inherit;
+  }
+
+  .user-symbols__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 6px;
+    max-height: 220px;
+    overflow: auto;
+    padding: 2px;
+  }
+
+  .user-symbols__grid--search { max-height: 180px; }
+
+  .user-symbols__vocabulary {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 2px 2px 4px;
+  }
+
+  .user-symbols__vocabulary .user-symbols__item { flex: 0 0 88px; }
+
+  .user-symbols__item {
+    display: grid;
+    gap: 2px;
+    justify-items: center;
+    min-height: 86px;
+    padding: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .user-symbols__item:hover { background: #f1f5f9; }
+  .user-symbols__item.active { border-color: #1f5bd8; background: #dbe7ff; }
+
+  .user-symbols__media :global(svg),
+  .user-symbols__media :global(img) {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
+
+  .user-symbols__label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  @media (max-width: 720px) {
+    .user-symbols__grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
   }
 </style>

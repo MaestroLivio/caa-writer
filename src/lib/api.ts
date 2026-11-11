@@ -16,6 +16,7 @@ import type {
   CatalogPage,
   CatalogQuery,
   DocumentApplyResult,
+  TraceConfig,
   LibraryManifest,
   LibraryQualityReport,
   OpenedUniversalDocument,
@@ -38,6 +39,7 @@ import type {
   AppInfo,
   AttributionEntry,
   CaaToken,
+  VoiceStatus,
   DocumentPayload,
   ExportDoc,
   ExportResult,
@@ -202,6 +204,8 @@ export const api = {
     call<RenderedDocument>("document_render", { document }),
   documentApply: (document: UniversalDocument, commands: UniversalCommand[]) =>
     call<DocumentApplyResult>("document_apply", { document, commands }),
+  generateTraceSheet: (config: TraceConfig) =>
+    call<string>("generate_trace_sheet", { config }),
   universalLibrary: () => call<LibraryManifest>("universal_library"),
   libraryCatalog: () => call<CatalogOverview>("library_catalog"),
   librarySearch: (query: CatalogQuery) => call<CatalogPage>("library_search", { query }),
@@ -267,6 +271,8 @@ export const api = {
   attributions: () => call<AttributionEntry[]>("attributions"),
 
   listVoices: () => call<VoiceInfo[]>("list_voices"),
+  voiceStatus: (language: string | null = null) =>
+    call<VoiceStatus>("voice_status", { language }),
   speak: (text: string, voice: string | null, rate: number, language: string | null = null) =>
     call<void>("speak", { text, voice, rate, language }),
   stopSpeaking: () => call<void>("stop_speaking"),

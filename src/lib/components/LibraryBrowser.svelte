@@ -355,6 +355,16 @@
             {/each}
           </div>
         {/if}
+      {:else if overview && overview.categories.filter((item) => item.id !== "personali").length === 0}
+        <div class="empty">
+          <h3>Libreria materiali non installata</h3>
+          <p>
+            Questa installazione è snella: i modelli e le tabelle della libreria non sono inclusi
+            nel pacchetto. L'app funziona normalmente; apri Pacchetti per scaricare i repertori o
+            consultare la pagina della release.
+          </p>
+          <button class="btn btn--solid" onclick={() => (packagesOpen = true)}>Apri Pacchetti</button>
+        </div>
       {:else if page && page.items.length === 0}
         <div class="empty">
           <h3>Nessun risultato</h3>

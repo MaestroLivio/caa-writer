@@ -298,3 +298,112 @@ fn legacy_layout_is_migrated_without_losing_symbols() {
     let element = &document.pages[0].elements[0];
     assert_eq!(element.symbol_id.as_deref(), Some("core.fruit.apple"));
 }
+
+/// Il testo CAA di un elemento deve sopravvivere al file vero, non solo alla
+/// serializzazione in memoria: `.caadoc` è uno ZIP con manifest versionato.
+#[test]
+fn element_caa_metadata_survives_caadoc_save_and_reopen() {
+    use serde_json::json;
+
+    let mut document = universal::build_document("doc-caa", "Prova CAA", "mixed", "A4", "portrait");
+    let page_id = document
+        .pages
+        .first()
+        .map(|page| page.id.clone())
+        .expect("il documento appena creato ha una pagina");
+    let caa = json!({
+        "doc_json": {
+            "type": "doc",
+            "content": [{ "type": "paragraph", "content": [
+                { "type": "text", "text": "Il gatto dorme" }
+            ]}]
+        },
+        "plain_text": "Il gatto dorme",
+        "tokens": [
+            { "surface": "Il", "symbol_id": "arasaac-1", "label": "il" },
+            { "surface": "gatto", "symbol_id": "arasaac-2", "label": "gatto" }
+        ]
+    });
+    universal::apply_command(
+        &mut document,
+        &DocumentCommand::AddElement {
+            page: page_id,
+            element: json!({
+                "id": "el-caa",
+                "kind": "speech",
+                "text": "Il gatto dorme",
+                "spoken_text": "Il gatto dorme",
+                "x_mm": 10.0,
+                "y_mm": 10.0,
+                "w_mm": 80.0,
+                "h_mm": 30.0,
+                "disposition": "wrap_left",
+                "metadata": { "caa": caa }
+            }),
+            index: None,
+        },
+    )
+    .unwrap();
+
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("element-caa.caadoc");
+    universal_build::save_universal(&path, &document, &[]).unwrap();
+    let reopened = universal_build::load_universal(&path).unwrap();
+    universal::validate(&reopened).unwrap();
+
+    let element = reopened
+        .pages
+        .iter()
+        .flat_map(|page| page.elements.iter())
+        .find(|element| element.id == "el-caa")
+        .expect("l'elemento deve essere nel documento riaperto");
+    assert_eq!(element.metadata["caa"]["plain_text"], "Il gatto dorme");
+    assert_eq!(element.metadata["caa"]["tokens"][1]["symbol_id"], "arasaac-2");
+    assert_eq!(element.kind, "speech");
+    assert_eq!(element.disposition, "wrap_left");
+}
+
+/// La frase CAA di una cella deve restare nel file: testo, token e disegno
+/// sono parte della cella, non un'immagine o uno stato del solo editor.
+#[test]
+fn grid_cell_caa_sentence_survives_caadoc_roundtrip() {
+    use serde_json::json;
+
+    let mut document = universal::build_document("doc-cell", "Cella", "document", "A4", "portrait");
+    let page = document.pages[0].id.clone();
+    universal::apply_command(
+        &mut document,
+        &DocumentCommand::CreateGrid {
+            page,
+            id: "grid-1".to_string(),
+            columns: 1,
+            rows: 1,
+            gap_mm: Some(2.0),
+            x_mm: Some(15.0),
+            y_mm: Some(15.0),
+            w_mm: Some(120.0),
+            h_mm: Some(40.0),
+        },
+    )
+    .unwrap();
+    let cell = &mut document.pages[0].elements[0].grid.as_mut().unwrap().cells[0];
+    cell.text = "La bambina mangia una mela.".to_string();
+    cell.metadata = json!({
+        "caa": {
+            "plain_text": "La bambina mangia una mela.",
+            "tokens": [
+                { "surface": "bambina", "start": 3, "end": 10, "symbol_id": "arasaac-10" },
+                { "surface": "mela", "start": 22, "end": 26, "symbol_id": "arasaac-11" }
+            ]
+        }
+    });
+
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("cell-caa.caadoc");
+    universal_build::save_universal(&path, &document, &[]).unwrap();
+    let reopened = universal_build::load_universal(&path).unwrap();
+    universal::validate(&reopened).unwrap();
+    let cell = &reopened.pages[0].elements[0].grid.as_ref().unwrap().cells[0];
+    assert_eq!(cell.text, "La bambina mangia una mela.");
+    assert_eq!(cell.metadata["caa"]["tokens"][1]["symbol_id"], "arasaac-11");
+}

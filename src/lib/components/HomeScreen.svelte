@@ -18,6 +18,7 @@
     onOpenDocument: () => void;
     onOpenRecent: (path: string) => void;
     onOpenLibrary: () => void;
+    onOpenPackages: () => void;
     onOpenStory: () => void;
     onOpenSettings: () => void;
     onOpenTemplate: (templateId: string) => void;
@@ -31,6 +32,7 @@
     onOpenDocument,
     onOpenRecent,
     onOpenLibrary,
+    onOpenPackages,
     onOpenStory,
     onOpenSettings,
     onOpenTemplate,
@@ -146,6 +148,7 @@
       </div>
       <button class="btn" onclick={onOpenDocument}>{copy.openDocument}</button>
       <button class="btn" onclick={onOpenLibrary}>{copy.library}</button>
+      <button class="btn" onclick={onOpenPackages}>{copy.packages}</button>
       <button class="btn" onclick={onOpenSettings}>{copy.settings}</button>
     </div>
   </header>

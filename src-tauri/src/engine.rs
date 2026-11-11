@@ -564,10 +564,15 @@ impl Engine {
         let mut bundled = false;
         if ai_config.binary_path.trim().is_empty() {
             for name in ["llama-cli", "llama-cli.exe"] {
-                let candidate = ai_dir.join(name);
-                if candidate.exists() {
-                    ai_config.binary_path = candidate.display().to_string();
-                    bundled = true;
+                for directory in [ai_dir.clone(), ai_dir.join("runtime")] {
+                    let candidate = directory.join(name);
+                    if candidate.exists() {
+                        ai_config.binary_path = candidate.display().to_string();
+                        bundled = true;
+                        break;
+                    }
+                }
+                if bundled {
                     break;
                 }
             }

@@ -1,16 +1,31 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { api } from "../api";
-  import type { PackageInfo, PackageCatalog, UpdateInfo } from "../types";
+  import ModelManager from "./ModelManager.svelte";
+  import type { AiStatus, PackageInfo, PackageCatalog, UpdateInfo, VoiceStatus } from "../types";
 
   interface Props {
     onClose: () => void;
     /// Segnala che una categoria è stata attivata o sospesa: la libreria
     /// deve ricaricare conteggi e risultati.
     onChanged?: () => void;
+    /// Pacchetti scelti nella finestra del primo avvio. Non avviano download:
+    /// servono solo a mostrare all'utente cosa ha chiesto.
+    requested?: string[];
+    /// Stato del motore neurale: permette di installare il modello da qui.
+    aiStatus?: AiStatus | null;
+    onStatusChange?: () => Promise<void>;
+    onToast?: (message: string, kind?: "info" | "warn" | "error") => void;
   }
 
-  let { onClose, onChanged }: Props = $props();
+  let {
+    onClose,
+    onChanged,
+    requested = [],
+    aiStatus = null,
+    onStatusChange,
+    onToast,
+  }: Props = $props();
 
   let catalog = $state<PackageCatalog | null>(null);
   let loading = $state(true);
@@ -21,10 +36,22 @@
   let checking = $state(false);
   let updateError = $state("");
   let pendingRemove = $state<string | null>(null);
+  let voiceStatus = $state<VoiceStatus | null>(null);
+  let voiceError = $state("");
 
   onMount(() => {
     void load();
+    void loadVoice();
   });
+
+  async function loadVoice() {
+    try {
+      voiceStatus = await api.voiceStatus();
+      voiceError = "";
+    } catch (err) {
+      voiceError = err instanceof Error ? err.message : String(err);
+    }
+  }
 
   async function load() {
     loading = true;
@@ -135,6 +162,12 @@
   {#if error}
     <p class="notice notice--error" role="alert">{error}</p>
   {/if}
+  {#if requested.length}
+    <p class="notice notice--ok" role="status">
+      Scelti al primo avvio: {requested.map((id) => id === "ai-model" ? "modello neurale locale" : id === "library" ? "libreria materiali" : id === "voice" ? "voce neurale" : id === "arasaac" ? "pittogrammi ARASAAC" : "Global Symbols").join(", ")}.
+      Nessun download è partito: usa i pulsanti delle singole sezioni.
+    </p>
+  {/if}
   {#if report}
     <p class="notice notice--ok" role="status">{report}</p>
   {/if}
@@ -196,8 +229,9 @@
       <div>
         <h3 id="library-packages-title">Pacchetti della libreria</h3>
         <p>
-          Ogni categoria è un pacchetto incluso nell'app e funziona offline. Rimuoverlo dalla
-          libreria lo nasconde; i file restano nell'installazione e si possono ripristinare.
+          I materiali di base sono inclusi nell'app e funzionano offline. Le categorie opzionali
+          possono essere aggiunte o nascoste; in un'installazione snella la libreria completa si
+          scarica a parte.
         </p>
       </div>
     </div>
@@ -214,12 +248,23 @@
             <p>{item.description || "Materiali pronti da aprire e modificare."}</p>
             <div class="card__meta">
               <span>{item.count} materiali</span>
-              <span>incluso nell'app</span>
+              <span>{item.bundled ? "incluso nell'app" : "pacchetto opzionale"}</span>
               <span>offline</span>
               {#if item.license}<span>{item.license}</span>{/if}
             </div>
             <div class="card__actions">
-              {#if item.installed}
+              {#if !item.bundled && !item.installed}
+                <button
+                  class="btn btn--solid"
+                  onclick={() => void openLink(item.source_url)}
+                >
+                  Apri la pagina della release
+                </button>
+                <p class="hint">
+                  Il download automatico della libreria non è ancora disponibile: la pagina della
+                  release indica il pacchetto da scaricare e dove copiarlo.
+                </p>
+              {:else if item.installed}
                 <button class="btn btn--danger" disabled={busy === item.id} onclick={() => void toggleLibrary(item, false)}>
                   Rimuovi dalla libreria
                 </button>
@@ -265,7 +310,7 @@
                 <button class="btn btn--solid" disabled={busy === item.id} onclick={() => void download(item)}>
                   {busy === item.id ? "Scaricamento…" : "Scarica immagini offline"}
                 </button>
-                {#if item.removable}
+                {#if item.removable && item.count > 0}
                   <button class="btn btn--danger" disabled={busy === item.id} onclick={() => void remove(item)}>
                     {pendingRemove === item.id ? "Conferma rimozione" : "Rimuovi"}
                   </button>
@@ -295,6 +340,79 @@
     {:else if !loading}
       <p class="notice">Catalogo dei pacchetti non disponibile.</p>
     {/if}
+  </section>
+
+  <section class="packages__section" aria-labelledby="neural-packages-title">
+    <div class="packages__heading">
+      <div>
+        <h3 id="neural-packages-title">Modello neurale locale</h3>
+        <p>
+          Il modello GGUF non è incluso nell'installer: l'app funziona senza. Se lo scegli, si
+          scarica nella cartella dati dell'utente e resta offline. Nessun download parte da solo.
+        </p>
+      </div>
+    </div>
+    <ModelManager
+      {aiStatus}
+      onToast={onToast ?? (() => {})}
+      onStatusChange={onStatusChange ?? (async () => {})}
+    />
+  </section>
+
+  <section class="packages__section" aria-labelledby="voice-packages-title">
+    <div class="packages__heading">
+      <div>
+        <h3 id="voice-packages-title">Voci</h3>
+        <p>
+          La sintesi vocale funziona sempre con la voce di sistema. La voce neurale Piper, se
+          presente, legge offline con licenza dichiarata. In questa versione non è disponibile un
+          download automatico della voce: il pannello mostra lo stato reale.
+        </p>
+      </div>
+    </div>
+    {#if voiceError}
+      <p class="notice notice--error" role="alert">{voiceError}</p>
+    {:else if voiceStatus}
+      <div class="updates">
+        <div class="updates__row">
+          <strong>Motore vocale</strong>
+          <span>{voiceStatus.backend === "piper" ? "Voce neurale locale" : "Voce di sistema"}</span>
+          {#if voiceStatus.installed}
+            <span class="badge badge--accent">Installata</span>
+            {#if voiceStatus.voice}<span>{voiceStatus.voice}</span>{/if}
+            {#if voiceStatus.license}<span>{voiceStatus.license}</span>{/if}
+          {:else}
+            <span class="badge">Voce neurale non installata</span>
+            <span>La lettura usa la voce di sistema.</span>
+          {/if}
+        </div>
+        {#if voiceStatus.voices.length}
+          <div class="updates__row">
+            <strong>Voci su disco</strong>
+            <span>{voiceStatus.voices.map((voice) => voice.name).join(", ")}</span>
+          </div>
+        {/if}
+        {#each voiceStatus.notes as note}
+          <p class="hint">{note}</p>
+        {/each}
+      </div>
+    {:else}
+      <p class="notice">Stato della voce non disponibile.</p>
+    {/if}
+  </section>
+
+  <section class="packages__section" aria-labelledby="graphics-packages-title">
+    <div class="packages__heading">
+      <div>
+        <h3 id="graphics-packages-title">Grafica e caratteri</h3>
+        <p>
+          In questa versione non ci sono pacchetti grafici da scaricare. Sfondi, cornici e
+          illustrazioni arrivano dai modelli della libreria; i caratteri di alta leggibilità,
+          scuola e pregrafismo si installano nel sistema operativo e l'app li usa senza
+          incorporarli. Le licenze sono elencate in Impostazioni → Tipografia.
+        </p>
+      </div>
+    </div>
   </section>
 
   {#if catalog?.warnings.length}

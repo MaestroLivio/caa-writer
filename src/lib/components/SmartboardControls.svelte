@@ -143,20 +143,20 @@
   .smartboard__fab {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 5px;
     border: 1px solid #0f766e;
     background: #0f766e;
     color: #fff;
     border-radius: 999px;
-    padding: 9px 13px;
+    padding: 7px 10px;
     font: inherit;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
     cursor: pointer;
     box-shadow: 0 6px 18px #0f172a33;
     touch-action: manipulation;
   }
-  .smartboard__fab span[aria-hidden] { font-size: 16px; }
+  .smartboard__fab span[aria-hidden] { font-size: 14px; }
   .smartboard__panel {
     width: min(680px, calc(100vw - 24px));
     background: #ffffff;

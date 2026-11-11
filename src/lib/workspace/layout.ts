@@ -29,6 +29,73 @@ export interface WorkspaceLayout {
   associationScope: AssociationScope;
   zoom: number;
   preset: string;
+  /// Tipografia dell'interfaccia e valori predefiniti dei nuovi documenti.
+  /// È una preferenza globale, indipendente dal testo del documento aperto:
+  /// cambiarla non riscrive i paragrafi già scritti.
+  typography: TypographySettings;
+}
+
+export interface TypographySettings {
+  /// Scala globale dell'interfaccia, 75–200 %.
+  interfaceScale: number;
+  /// Dimensione del testo dell'interfaccia in pixel (12–22).
+  interfaceTextSize: number;
+  /// Famiglia tipografica dell'interfaccia; vuoto = carattere di sistema.
+  interfaceFont: string;
+  /// Scala del testo del documento, 75–200 %.
+  documentScale: number;
+  /// Carattere predefinito dei nuovi documenti; vuoto = carattere del tema.
+  defaultFontFamily: string;
+  /// Corpo predefinito dei nuovi documenti in pixel (10–48).
+  defaultFontSize: number;
+  /// Interlinea predefinita dei nuovi paragrafi (1,0–2,5).
+  defaultLineHeight: number;
+  /// Spazio dopo ogni paragrafo, in pixel (0–40).
+  defaultParagraphSpacing: number;
+  /// Dimensione dei pittogrammi, in pixel (24–140).
+  symbolSize: number;
+  /// Rapporto pittogramma/testo, 0,5–2,0.
+  symbolTextRatio: number;
+}
+
+export const defaultTypography: TypographySettings = {
+  interfaceScale: 100,
+  interfaceTextSize: 15,
+  interfaceFont: "",
+  documentScale: 100,
+  defaultFontFamily: "",
+  defaultFontSize: 15,
+  defaultLineHeight: 1.45,
+  defaultParagraphSpacing: 6,
+  symbolSize: 56,
+  symbolTextRatio: 1,
+};
+
+export function clampTypography(value: Partial<TypographySettings> | null | undefined): TypographySettings {
+  const raw = value ?? {};
+  const clamp = (n: unknown, min: number, max: number, fallback: number) => {
+    const parsed = Number(n);
+    if (!Number.isFinite(parsed)) return fallback;
+    return Math.min(max, Math.max(min, Math.round(parsed * 100) / 100));
+  };
+  return {
+    interfaceScale: clamp(raw.interfaceScale, 75, 200, defaultTypography.interfaceScale),
+    interfaceTextSize: clamp(raw.interfaceTextSize, 12, 22, defaultTypography.interfaceTextSize),
+    interfaceFont: typeof raw.interfaceFont === "string" ? raw.interfaceFont : "",
+    documentScale: clamp(raw.documentScale, 75, 200, defaultTypography.documentScale),
+    defaultFontFamily:
+      typeof raw.defaultFontFamily === "string" ? raw.defaultFontFamily : "",
+    defaultFontSize: clamp(raw.defaultFontSize, 10, 48, defaultTypography.defaultFontSize),
+    defaultLineHeight: clamp(raw.defaultLineHeight, 1, 2.5, defaultTypography.defaultLineHeight),
+    defaultParagraphSpacing: clamp(
+      raw.defaultParagraphSpacing,
+      0,
+      40,
+      defaultTypography.defaultParagraphSpacing
+    ),
+    symbolSize: clamp(raw.symbolSize, 24, 140, defaultTypography.symbolSize),
+    symbolTextRatio: clamp(raw.symbolTextRatio, 0.5, 2, defaultTypography.symbolTextRatio),
+  };
 }
 
 export const SIDEBAR_MIN = 260;
@@ -55,6 +122,7 @@ export const defaultWorkspace: WorkspaceLayout = {
   associationScope: "occurrence",
   zoom: 1,
   preset: "",
+  typography: { ...defaultTypography },
 };
 
 export function clampSidebarWidth(value: number): number {
@@ -82,6 +150,7 @@ function loadWorkspace(): WorkspaceLayout {
         ? raw.quickAccess
         : defaultQuickAccess,
       zoom: Math.min(1.8, Math.max(0.5, Number(raw.zoom) || 1)),
+      typography: clampTypography(raw.typography),
     };
     // Migrazione: il vecchio default sovrapposto non è una scelta esplicita.
     if (!loaded.sidebarOverlayChoice && loaded.sidebarMode === "overlay") {
@@ -116,8 +185,14 @@ export function updateWorkspace(patch: Partial<WorkspaceLayout>) {
       next.sidebarLastWidth = next.sidebarWidth;
     }
     next.zoom = Math.min(1.8, Math.max(0.5, Math.round(next.zoom * 100) / 100));
+    next.typography = clampTypography({ ...current.typography, ...(patch.typography ?? {}) });
     return next;
   });
+}
+
+/// Aggiorna solo la tipografia, lasciando intatto il resto del workspace.
+export function updateTypography(patch: Partial<TypographySettings>) {
+  updateWorkspace({ typography: { ...get(internal).typography, ...patch } });
 }
 
 export function resetWorkspace() {

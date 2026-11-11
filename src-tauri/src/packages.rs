@@ -17,6 +17,7 @@ use std::path::{Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
 
+use crate::model::PackInfo;
 use crate::engine::Engine;
 use crate::template_catalog;
 
@@ -148,53 +149,35 @@ pub fn catalog(engine: &Engine) -> Result<PackageCatalog, String> {
         .collect();
     library.sort_by(|a, b| b.count.cmp(&a.count).then(a.name.cmp(&b.name)));
 
-    let packs = engine.db()?.list_packs().map_err(|e| e.to_string())?;
-    let mut symbols: Vec<PackageInfo> = Vec::new();
-    for pack in packs {
-        let removable = pack.id == "arasaac" || pack.id == "globalsymbols";
-        let description = match pack.id.as_str() {
-            "arasaac" => {
-                "Catalogo ARASAAC per l'italiano. Le immagini si scaricano dai server ARASAAC e restano nella copia locale dell'utente."
-            }
-            "globalsymbols" => {
-                "Vocabolario di base Global Symbols in inglese, salvato localmente con autore, licenza e fonte."
-            }
-            "core" => "Pittogrammi vettoriali originali di CAA Writer, inclusi nell'app.",
-            _ => "Collezioni personali importate dall'utente.",
-        };
-        symbols.push(PackageInfo {
-            id: format!("symbols:{}", pack.id),
-            kind: "symbols".to_string(),
-            name: pack.name.clone(),
-            description: description.to_string(),
-            count: pack.symbol_count.max(0) as usize,
-            installed: pack.symbol_count > 0 || pack.id == "arasaac" || pack.id == "core",
-            bundled: pack.id == "core",
-            removable,
-            license: Some(pack.license.clone()),
-            source_url: pack.source_url.clone(),
-            version: Some(pack.version.clone()),
-        });
-    }
-    if !symbols.iter().any(|item| item.id == "symbols:globalsymbols") {
-        symbols.push(PackageInfo {
-            id: "symbols:globalsymbols".to_string(),
-            kind: "symbols".to_string(),
-            name: "Global Symbols — vocabolario di base".to_string(),
-            description:
-                "Cerca su Global Symbols le parole italiane di base, ne salva una copia locale con licenza e attribuzione. Richiede la rete solo durante lo scaricamento."
-                    .to_string(),
+    // Installazione snella: la libreria materiali non è più inclusa nel
+    // pacchetto. Non è un errore: l'app funziona con i repertori di base e
+    // propone l'installazione dalla pagina della release.
+    let mut warnings: Vec<String> = Vec::new();
+    if library.is_empty() {
+        library.push(PackageInfo {
+            id: "library:materiali".to_string(),
+            kind: "library".to_string(),
+            name: "Libreria materiali".to_string(),
+            description: "Modelli e tabelle CAA pronti da aprire. Non è inclusa in questa installazione: si scarica dalla pagina della release e si copia nella cartella delle risorse."
+                .to_string(),
             count: 0,
             installed: false,
             bundled: false,
-            removable: true,
-            license: Some("Licenze dei symbolset Global Symbols".to_string()),
-            source_url: Some("https://globalsymbols.com/".to_string()),
+            removable: false,
+            license: Some("CC BY-NC-SA 4.0".to_string()),
+            source_url: Some(
+                "https://github.com/MaestroLivio/caa-writer/releases/latest".to_string(),
+            ),
             version: None,
         });
+        warnings.push(
+            "La libreria materiali non è installata: l'app si apre normalmente, ma la Libreria resta vuota finché non la scarichi."
+                .to_string(),
+        );
     }
 
-    let warnings = Vec::new();
+    let packs = engine.db()?.list_packs().map_err(|e| e.to_string())?;
+    let symbols = merge_symbol_packages(&packs);
 
     Ok(PackageCatalog {
         library,
@@ -203,6 +186,89 @@ pub fn catalog(engine: &Engine) -> Result<PackageCatalog, String> {
         library_generated_at: manifest.generated_at,
         warnings,
     })
+}
+
+fn merge_symbol_packages(packs: &[PackInfo]) -> Vec<PackageInfo> {
+    // Catalogo di riferimento indipendente dalle installazioni: un pacchetto
+    // rimosso non deve sparire dall'elenco. Il database fornisce solo conteggi
+    // e metadati aggiornati; le voci note esistono sempre.
+    const KNOWN_PACKS: &[(&str, &str, &str, &str, bool)] = &[
+        (
+            "arasaac",
+            "ARASAAC — pittogrammi",
+            "CC BY-NC-SA 4.0",
+            "https://arasaac.org/",
+            true,
+        ),
+        (
+            "globalsymbols",
+            "Global Symbols — vocabolario di base",
+            "Licenze dei symbolset Global Symbols",
+            "https://globalsymbols.com/",
+            true,
+        ),
+        (
+            "core",
+            "CAA Writer — pittogrammi originali",
+            "CC BY-NC-SA 4.0",
+            "https://github.com/MaestroLivio/caa-writer",
+            false,
+        ),
+    ];
+    let by_id: std::collections::HashMap<&str, &PackInfo> =
+        packs.iter().map(|pack| (pack.id.as_str(), pack)).collect();
+    let mut symbols: Vec<PackageInfo> = Vec::new();
+    for (id, fallback_name, fallback_license, fallback_source, removable) in KNOWN_PACKS {
+        let pack = by_id.get(id).copied();
+        let description = match *id {
+            "arasaac" => {
+                "Catalogo ARASAAC per l'italiano. Le immagini si scaricano dai server ARASAAC e restano nella copia locale dell'utente."
+            }
+            "globalsymbols" => {
+                "Vocabolario di base Global Symbols in inglese, salvato localmente con autore, licenza e fonte."
+            }
+            _ => "Pittogrammi vettoriali originali di CAA Writer, inclusi nell'app.",
+        };
+        let count = pack.map(|pack| pack.symbol_count.max(0) as usize).unwrap_or(0);
+        symbols.push(PackageInfo {
+            id: format!("symbols:{id}"),
+            kind: "symbols".to_string(),
+            name: pack.map(|pack| pack.name.clone()).unwrap_or_else(|| fallback_name.to_string()),
+            description: description.to_string(),
+            count,
+            installed: count > 0 || *id == "core",
+            bundled: *id == "core",
+            removable: *removable,
+            license: Some(
+                pack.map(|pack| pack.license.clone())
+                    .unwrap_or_else(|| fallback_license.to_string()),
+            ),
+            source_url: pack
+                .and_then(|pack| pack.source_url.clone())
+                .or_else(|| Some(fallback_source.to_string())),
+            version: pack.map(|pack| pack.version.clone()),
+        });
+    }
+    // Collezioni personali o repertori importati: restano quelle del database.
+    for pack in packs {
+        if KNOWN_PACKS.iter().any(|(id, ..)| *id == pack.id) {
+            continue;
+        }
+        symbols.push(PackageInfo {
+            id: format!("symbols:{}", pack.id),
+            kind: "symbols".to_string(),
+            name: pack.name.clone(),
+            description: "Collezioni personali importate dall'utente.".to_string(),
+            count: pack.symbol_count.max(0) as usize,
+            installed: pack.symbol_count > 0,
+            bundled: false,
+            removable: false,
+            license: Some(pack.license.clone()),
+            source_url: pack.source_url.clone(),
+            version: Some(pack.version.clone()),
+        });
+    }
+    symbols
 }
 
 /// Scarica le immagini ARASAAC per le parole del lessico, in blocchi.
@@ -511,9 +577,9 @@ pub fn remove_symbol_pack(engine: &Engine, pack_id: &str) -> Result<(), String> 
     db.conn()
         .execute("DELETE FROM symbols WHERE pack_id = ?1", [pack_id])
         .map_err(|e| e.to_string())?;
-    db.conn()
-        .execute("DELETE FROM symbol_packs WHERE id = ?1", [pack_id])
-        .map_err(|e| e.to_string())?;
+    // La riga di `symbol_packs` resta: la voce continua a esistere nel
+    // catalogo con zero simboli e può essere reinstallata. Il registro delle
+    // installazioni non è la fonte dell'elenco dei pacchetti disponibili.
     engine.clear_caches();
     Ok(())
 }
@@ -702,5 +768,25 @@ mod tests {
     fn external_links_are_limited_to_the_repository() {
         assert!(open_external("https://example.com").is_err());
         assert!(open_external("file:///etc/passwd").is_err());
+    }
+
+    /// Un pacchetto disinstallato (nessuna riga nel database o zero simboli)
+    /// deve restare nel catalogo, con `installed = false` e la possibilità di
+    /// reinstallarlo. Il registro delle installazioni non è l'elenco.
+    #[test]
+    fn uninstalled_packs_remain_in_the_catalog() {
+        let symbols = merge_symbol_packages(&[]);
+        let arasaac = symbols
+            .iter()
+            .find(|item| item.id == "symbols:arasaac")
+            .expect("ARASAAC resta nel catalogo");
+        assert!(!arasaac.installed);
+        assert!(arasaac.removable);
+        assert!(symbols.iter().any(|item| item.id == "symbols:globalsymbols"));
+        let core = symbols
+            .iter()
+            .find(|item| item.id == "symbols:core")
+            .expect("il repertorio core resta incluso");
+        assert!(core.installed && core.bundled);
     }
 }

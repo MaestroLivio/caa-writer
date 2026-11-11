@@ -27,6 +27,9 @@
   import ProfileManager from "./lib/components/ProfileManager.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
   import LibraryBrowser from "./lib/components/LibraryBrowser.svelte";
+  import PackageManager from "./lib/components/PackageManager.svelte";
+  import FirstRunPackages from "./lib/components/FirstRunPackages.svelte";
+  import TraceSheetDialog from "./lib/components/TraceSheetDialog.svelte";
   import FreeBoard from "./lib/components/FreeBoard.svelte";
   import { recordRecent } from "./lib/recent";
   import { freeBoardFromLayout, freeBoardSpec } from "./lib/freeboard";
@@ -159,6 +162,15 @@
   // Le impostazioni sono una finestra modale autonoma: non dipendono più
   // dall'apertura del pannello laterale, che restava chiuso o vuoto.
   let settingsOpen = $state(false);
+  /// Gestore dei pacchetti opzionali, raggiungibile dalla Home Creator
+  /// accanto alla Libreria: nel programma installato i repertori grandi non
+  /// sono più inclusi e si scaricano solo su scelta dell'utente.
+  let packagesOpen = $state(false);
+  /// Pacchetti richiesti nella finestra del primo avvio (nessun download
+  /// automatico: il Gestore pacchetti li mostra e l'utente decide).
+  let requestedPackages = $state<string[]>([]);
+  let firstRunOpen = $state(false);
+  let traceOpen = $state(false);
   let sideIntent = $state<SideIntent | null>(null);
   let intentSeq = 0;
 
@@ -644,6 +656,35 @@
   onDestroy(() => {
     if (speechPoll) clearInterval(speechPoll);
   });
+
+  /// Primo avvio con installer snello: propone i pacchetti opzionali una
+  /// volta sola. «Più tardi» non salva nulla, quindi la finestra ricompare.
+  const FIRST_RUN_KEY = "caa.firstrun.packages.v1";
+  onMount(() => {
+    if (!native) return;
+    try {
+      if (localStorage.getItem(FIRST_RUN_KEY) === "done") return;
+    } catch {
+      /* spazio locale non disponibile: la finestra si mostra comunque */
+    }
+    firstRunOpen = true;
+  });
+
+  function closeFirstRun(remember: boolean) {
+    firstRunOpen = false;
+    if (!remember) return;
+    try {
+      localStorage.setItem(FIRST_RUN_KEY, "done");
+    } catch {
+      /* la scelta vale per questa sessione */
+    }
+  }
+
+  function openPackagesFromFirstRun(ids: string[]) {
+    requestedPackages = ids;
+    closeFirstRun(true);
+    packagesOpen = true;
+  }
   const unitKey = (pid: string, index: number) => `${pid}:${index}`;
 
   function toast(text: string, kind: Toast["kind"] = "info") {
@@ -694,10 +735,31 @@
     root.dataset.touch = String(settings.touch_mode);
     root.dataset.mono = String(settings.mono);
     root.dataset.animations = settings.animations;
+    // Tipografia globale: l'interfaccia segue la scala scelta, il documento
+    // mantiene i propri valori. Cambiare la scala non riscrive il testo.
+    const typography = $workspace.typography;
+    root.style.fontSize = `${(
+      (typography.interfaceTextSize * typography.interfaceScale) /
+      100
+    ).toFixed(2)}px`;
+    root.style.setProperty("--ui-scale", String(typography.interfaceScale / 100));
+    root.style.setProperty(
+      "--ui-font",
+      typography.interfaceFont || '"Inter", "Segoe UI", system-ui, -apple-system, sans-serif'
+    );
+    root.style.setProperty("--doc-scale", String(typography.documentScale / 100));
+    root.style.setProperty("--doc-font", typography.defaultFontFamily || "inherit");
+    root.style.setProperty("--doc-line-height", String(typography.defaultLineHeight));
+    root.style.setProperty("--doc-para-spacing", `${typography.defaultParagraphSpacing}px`);
+    root.style.setProperty("--typography-symbol-size", `${typography.symbolSize}px`);
+    root.style.setProperty("--symbol-text-ratio", String(typography.symbolTextRatio));
     root.style.setProperty("--text-size", `${settings.font_size}px`);
+    const baseSymbol = typography.symbolSize * typography.symbolTextRatio;
     root.style.setProperty(
       "--symbol-size",
-      settings.touch_mode ? `${Math.max(64, settings.symbol_size + 16)}px` : `${settings.symbol_size}px`
+      settings.touch_mode
+        ? `${Math.round(Math.max(64, baseSymbol + 16))}px`
+        : `${Math.round(baseSymbol)}px`
     );
     root.style.setProperty("--symbol-gap", `${settings.symbol_gap}px`);
     root.style.setProperty("--chip-border-color", settings.chip_border_color || "var(--border)");
@@ -943,6 +1005,13 @@
   }
 
   function newDocument(silent = false) {
+    const typography = $workspace.typography;
+    // I valori predefiniti di tipografia valgono per i nuovi documenti; un
+    // documento già aperto mantiene i propri e non viene riscritto.
+    patchSettings({
+      font_family: typography.defaultFontFamily,
+      font_size: typography.defaultFontSize,
+    });
     const document = universalTextDocument("Documento senza titolo", null, "", null);
     universalDoc = document;
     universalPath = null;
@@ -3708,8 +3777,8 @@
             cmd("visual-strip", "Striscia visiva", "layout-template", () => void createResource("schedule")),
           ]),
           group("resources", "Risorse", [
-            cmd("library-arasaac", "Libreria ARASAAC", "library", () => openPanelTab("simbolo")),
-            cmd("saved-templates", "Modelli salvati", "archive", () => (view = "home")),
+            cmd("library-arasaac", "Ricerca pittogrammi", "library", () => openPanelTab("simbolo")),
+            cmd("saved-templates", "Libreria materiali", "archive", openLibrary),
           ]),
         ],
       },
@@ -4324,11 +4393,15 @@
             cmd("el-speech", "Fumetto", "message-square", () =>
               universalEditorRef?.addElementNow("speech")
             ),
+            cmd("el-table", "Tabella", "table-properties", () =>
+              universalEditorRef?.addElementNow("table")
+            ),
             cmd("el-image", "Immagine", "image-plus", chooseFreeImage),
             cmd("el-placeholder", "Segnaposto", "layout-grid", () =>
               universalEditorRef?.addElementNow("placeholder")
             ),
             cmd("el-grid", "Griglia", "table", () => universalEditorRef?.addGridNow()),
+            cmd("el-trace", "Pregrafismo", "pen-tool", () => (traceOpen = true)),
           ],
         };
         insertTab.groups = [
@@ -4347,8 +4420,8 @@
             cmd("el-ungroup", "Separa", "scissors", () => universalEditorRef?.ungroupNow()),
           ]),
           group("doc-resources", "Risorse", [
-            cmd("library-arasaac", "Libreria ARASAAC", "library", () => openPanelTab("simbolo")),
-            cmd("saved-templates", "Modelli salvati", "archive", () => (view = "home")),
+            cmd("library-arasaac", "Ricerca pittogrammi", "library", () => openPanelTab("simbolo")),
+            cmd("saved-templates", "Libreria materiali", "archive", openLibrary),
           ]),
         ];
       }
@@ -4390,6 +4463,7 @@
 {#if userMode && userEditorOpen && activeProfile && !boardPlayerId && view !== "universal"}
   <UserEditor
     profile={activeProfile}
+    {settings}
     onBack={() => (userEditorOpen = false)}
     onSpeak={(text) => void speak(text)}
     onToast={toast}
@@ -4409,6 +4483,7 @@
     onOpenDocument={() => void openDocument()}
     onOpenRecent={(path) => void loadFrom(path)}
     onOpenLibrary={openLibrary}
+    onOpenPackages={() => (packagesOpen = true)}
     onOpenStory={() => (storyStudioOpen = true)}
     onOpenSettings={openSettingsPanel}
     onOpenTemplate={openTemplate}
@@ -4564,6 +4639,9 @@
             onDocumentChange={(document) => (universalDoc = document)}
             onPageChange={(index) => (universalPageIndex = index)}
             onElementSelection={handleUniversalSelection}
+            onSymbolRequest={() => {
+              if (!userMode && view === "editor") openPanelTab("documento");
+            }}
             uppercase={settings.uppercase}
           />
         </div>
@@ -4805,8 +4883,14 @@
           onUniversalElementText={(value, spoken) => universalEditorRef?.inspectorSetText(value, spoken)}
           onUniversalSetCellText={(value) => universalEditorRef?.inspectorSetCellText(value)}
           onUniversalSetCellSpoken={(value) => universalEditorRef?.inspectorSetCellSpoken(value)}
+          onUniversalEditCellCaA={(cellId) => universalEditorRef?.inspectorEditCellCaA(cellId)}
+          onUniversalCellStyle={(patch) => universalEditorRef?.inspectorCellStyle(patch)}
+          onUniversalAction={(action) => universalEditorRef?.inspectorSetAction(action)}
+          onUniversalDisposition={(value) =>
+            universalEditorRef?.inspectorSetDisposition(value)}
           onUniversalComposeSentence={(sentence) =>
             void universalEditorRef?.inspectorComposeSentence(sentence)}
+          onUniversalEditCaA={(id) => universalEditorRef?.inspectorEditCaA(id)}
           onUniversalGridResize={(deltaRows, deltaColumns) =>
             universalEditorRef?.inspectorGridResize(deltaRows, deltaColumns)}
           onUniversalElementNumber={(field, value) =>
@@ -4819,8 +4903,10 @@
             universalEditorRef?.inspectorApplySymbol(alternative)}
           onUniversalDeselect={() => universalEditorRef?.inspectorClear()}
           onUniversalDeleteElement={() => universalEditorRef?.inspectorDelete()}
+          onUniversalDuplicate={() => void universalEditorRef?.inspectorDuplicate()}
           onUniversalNudge={(dx, dy) => universalEditorRef?.inspectorNudge(dx, dy)}
           onUniversalAddElement={(kind) => universalEditorRef?.addElementNow(kind)}
+          onUniversalSelectElement={(id) => universalEditorRef?.inspectorSelectElement(id)}
           onUniversalInsertImage={chooseFreeImage}
           onUniversalAddGrid={() => universalEditorRef?.addGridNow()}
           onUniversalTitle={(title) => universalEditorRef?.setDocumentTitle(title)}
@@ -5046,6 +5132,38 @@
     {editorMetrics}
     {diagnostics}
     onRefreshDiagnostics={refreshDiagnostics}
+  />
+{/if}
+
+{#if firstRunOpen}
+  <FirstRunPackages
+    onOpenPackages={openPackagesFromFirstRun}
+    onClose={closeFirstRun}
+  />
+{/if}
+
+{#if packagesOpen}
+  <PackageManager
+    requested={requestedPackages}
+    {aiStatus}
+    onStatusChange={refreshAiStatus}
+    onToast={toast}
+    onClose={() => {
+      packagesOpen = false;
+      requestedPackages = [];
+    }}
+  />
+{/if}
+
+{#if traceOpen}
+  <TraceSheetDialog
+    pageWidthMm={universalDoc?.page?.width_mm ??
+      ((universalDoc?.page?.orientation ?? "portrait") === "landscape" ? 297 : 210)}
+    pageHeightMm={universalDoc?.page?.height_mm ??
+      ((universalDoc?.page?.orientation ?? "portrait") === "landscape" ? 210 : 297)}
+    onClose={() => (traceOpen = false)}
+    onInsert={(svg, widthMm, heightMm, label) =>
+      void universalEditorRef?.insertSheetElement(svg, widthMm, heightMm, label)}
   />
 {/if}
 
