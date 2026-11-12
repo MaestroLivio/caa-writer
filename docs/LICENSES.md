@@ -31,6 +31,7 @@ questo documento non la modifica, la segnala.
 | Modelli facoltativi scaricabili (Qwen2.5-1.5B, Qwen2.5-3B, SmolLM2-1.7B) | **Apache-2.0**; non sono inclusi nel repository | cartella `models/` dei dati utente |
 | Runtime llama.cpp | MIT (software di terzi) | `resources/ai/` |
 | Dipendenze software | licenze dei rispettivi progetti (MIT/Apache-2.0) | vedi `LICENSES/dependencies.md` |
+| libreria dav1d (decodifica AVIF) | **BSD-2-Clause** (software di terzi, invariata) | `CAA Writer.app/Contents/Frameworks/libdav1d.7.dylib` nel bundle macOS |
 
 ## 3. Pittogrammi di terzi
 

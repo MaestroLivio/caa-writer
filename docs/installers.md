@@ -1,5 +1,20 @@
 # Release e installer
 
+## Stato reale 0.15.20 (12 novembre 2026)
+
+- Correzione critica macOS: `libdav1d.7.dylib` è inclusa in
+  `Contents/Frameworks`, il binario la cerca con
+  `@rpath/libdav1d.7.dylib` e `scripts/sign_macos.sh` fallisce se resta un
+  percorso Homebrew. La 0.15.19 non partiva su Mac senza Homebrew.
+- Verifica reale: `otool -L` senza percorsi `/opt/homebrew`, app avviata dal
+  DMG montato con `DYLD_PRINT_LIBRARIES` e libreria caricata dal bundle.
+- Include le modifiche dell'editor Utilizzatore della 0.15.19.
+- macOS arm64: `.dmg` 192.029.092 byte, `.app.zip` 186.803.135 byte, firmato
+  ad-hoc sull'intero bundle.
+- Windows x64: installer NSIS cross-compilato (145.803.698 byte), controllato
+  staticamente con 7-Zip; non eseguito su hardware Windows.
+- CLI macOS arm64: 7.225.728 byte.
+
 ## Stato reale 0.15.19 (12 novembre 2026)
 
 - Editor Utilizzatore: pannello destro e pannello Simboli ridimensionabili e

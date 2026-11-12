@@ -15,6 +15,8 @@ Aggiornato manualmente in questa fase; rigenerabile con `scripts/audit_licenses.
 | unicode-normalization | MIT OR Apache-2.0 | Normalizzazione accenti |
 | time 0.3 | MIT OR Apache-2.0 | Timestamp |
 | thiserror 2 | MIT OR Apache-2.0 | Errori |
+| image 0.25 (`avif-native` su macOS arm64) | MIT OR Apache-2.0 | Importazione immagini, AVIF |
+| dav1d (libdav1d.7.dylib, incluso nel bundle macOS) | BSD-2-Clause | Decodifica AVIF; libreria di terzi copiata in `Contents/Frameworks` |
 | tempfile (dev) | MIT OR Apache-2.0 | Test |
 
 ## Frontend
