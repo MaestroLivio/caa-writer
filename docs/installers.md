@@ -1,5 +1,18 @@
 # Release e installer
 
+## Stato reale 0.15.19 (12 novembre 2026)
+
+- Editor Utilizzatore: pannello destro e pannello Simboli ridimensionabili e
+  minimizzabili, preferenze per profilo; l'editor occupa la finestra e non
+  mostra più la schermata Creator sotto i simboli.
+- Aggiunto «Apri» per i documenti scritti con l'editor Utilizzatore; i
+  materiali della libreria restano nell'Area Creator.
+- macOS arm64: `.dmg` 192.019.637 byte, `.app.zip` 186.456.553 byte, firmato
+  ad-hoc sull'intero bundle e verificato dal DMG.
+- Windows x64: installer NSIS cross-compilato (145.814.213 byte), controllato
+  staticamente con 7-Zip; non eseguito su hardware Windows.
+- CLI macOS arm64: 7.225.728 byte.
+
 ## Stato reale 0.15.18 (12 novembre 2026)
 
 - «Aggiorna ora» scarica il pacchetto della nuova versione per il computer

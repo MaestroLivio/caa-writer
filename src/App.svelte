@@ -4612,22 +4612,24 @@
 {/if}
 
 {#if view === "home"}
-  <HomeScreen
-    {stats}
-    {templates}
-    {appInfo}
-    onCreate={create}
-    onOpenDocument={() => void openDocument()}
-    onOpenRecent={(path) => void loadFrom(path)}
-    onOpenLibrary={openLibrary}
-    onOpenPackages={() => (packagesOpen = true)}
-    onOpenStory={() => (storyStudioOpen = true)}
-    onOpenSettings={openSettingsPanel}
-    onOpenTemplate={openTemplate}
-    creatorMode={creatorUnlocked}
-    onOpenUsers={() => (profileManagerOpen = true)}
-    onExitCreator={() => void exitCreator()}
-  />
+  {#if !userMode}
+    <HomeScreen
+      {stats}
+      {templates}
+      {appInfo}
+      onCreate={create}
+      onOpenDocument={() => void openDocument()}
+      onOpenRecent={(path) => void loadFrom(path)}
+      onOpenLibrary={openLibrary}
+      onOpenPackages={() => (packagesOpen = true)}
+      onOpenStory={() => (storyStudioOpen = true)}
+      onOpenSettings={openSettingsPanel}
+      onOpenTemplate={openTemplate}
+      creatorMode={creatorUnlocked}
+      onOpenUsers={() => (profileManagerOpen = true)}
+      onExitCreator={() => void exitCreator()}
+    />
+  {/if}
 {:else if view === "library"}
   <LibraryBrowser
     onOpen={(id, sourceType, readOnly) => void openUniversalDocument(id, sourceType, readOnly)}

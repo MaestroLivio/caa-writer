@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import { save as saveDialog } from "@tauri-apps/plugin-dialog";
+  import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
   import CaaEditor from "../editor/CaaEditor.svelte";
   import FloatingKeyboard from "./FloatingKeyboard.svelte";
   import { api, isTauri } from "../api";
@@ -67,6 +67,54 @@
   let assistWidth = $state(320);
   let resizingAssist = false;
   let imageInput: HTMLInputElement | undefined = $state();
+
+  /// Pannello Simboli in basso: ridimensionabile e minimizzabile come il
+  /// riquadro di destra. Anche questa preferenza è legata al profilo.
+  const symbolsKey = `caa.user.symbols.${profile.id}`;
+  let symbolsOpen = $state(true);
+  let symbolsHeight = $state(300);
+  let resizingSymbols = false;
+
+  function clampSymbols(value: number): number {
+    const max = Math.max(180, Math.round(window.innerHeight * 0.7));
+    return Math.min(max, Math.max(140, Math.round(value)));
+  }
+
+  function persistSymbols() {
+    try {
+      localStorage.setItem(
+        symbolsKey,
+        JSON.stringify({ open: symbolsOpen, height: symbolsHeight })
+      );
+    } catch {
+      /* la preferenza vale per questa sessione */
+    }
+  }
+
+  function toggleSymbols() {
+    symbolsOpen = !symbolsOpen;
+    persistSymbols();
+  }
+
+  function startSymbolsResize(event: PointerEvent) {
+    event.preventDefault();
+    resizingSymbols = true;
+    const startY = event.clientY;
+    const startHeight = symbolsHeight;
+    const move = (moveEvent: PointerEvent) => {
+      // Il bordo di ridimensionamento è in alto: trascinando verso l'alto il
+      // pannello cresce, verso il basso si riduce.
+      symbolsHeight = clampSymbols(startHeight + (startY - moveEvent.clientY));
+    };
+    const up = () => {
+      resizingSymbols = false;
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      persistSymbols();
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+  }
 
   function clampAssist(value: number): number {
     return Math.min(520, Math.max(220, Math.round(value)));
@@ -343,6 +391,16 @@
     } catch {
       /* preferenza non disponibile */
     }
+    try {
+      const raw = localStorage.getItem(symbolsKey);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { open?: boolean; height?: number };
+        symbolsOpen = parsed.open !== false;
+        symbolsHeight = clampSymbols(Number(parsed.height) || 300);
+      }
+    } catch {
+      /* preferenza non disponibile */
+    }
     window.addEventListener("keydown", onTypingKey, true);
     if (!isTauri()) {
       vocabularyBusy = false;
@@ -412,6 +470,14 @@
   function buildLevelOneContent() {
     return {
       type: "doc",
+      // Le unità del livello 1 conservano il pittogramma scelto: alla
+      // riapertura la frase ricompare com'era, non come testo senza simboli.
+      user_units: message.map((unit) => ({
+        label: unit.label,
+        symbol_id: unit.symbolId,
+        svg: unit.svg,
+        image: unit.image,
+      })),
       content: message.map((unit, index) => ({
         type: "paragraph",
         attrs: { pid: `user-${Date.now().toString(36)}-${index}` },
@@ -466,6 +532,78 @@
           modifiers: token.modifiers ?? { ...noModifiers },
         }))
     );
+  }
+
+  /// Apre un documento scritto con questo editor. I materiali della libreria
+  /// e i fogli liberi del Creator non appartengono a questa sezione: si
+  /// aprono dall'Area Creator, dove hanno i comandi completi.
+  async function openDocument() {
+    if (!isTauri()) {
+      onToast("L'apertura dei documenti richiede l'app desktop.", "warn");
+      return;
+    }
+    const picked = await openDialog({
+      title: "Apri un mio documento",
+      multiple: false,
+      filters: [{ name: "Documento CAA Writer", extensions: ["caadoc"] }],
+    });
+    if (!picked) return;
+    try {
+      const loaded = await api.loadDocument(String(picked));
+      const layout = loaded.layout as { document_type?: string } | null;
+      if (loaded.universal || layout?.document_type === "free_board") {
+        onToast(
+          "Questo documento non è stato scritto con l'editor Utilizzatore: aprilo dall'Area Creator.",
+          "warn"
+        );
+        return;
+      }
+      title = loaded.title || "I miei pensieri";
+      docPath = loaded.path || String(picked);
+      if (canType) {
+        editor?.setDocJson(loaded.content, loaded.plain_text);
+      } else {
+        type SavedUnit = {
+          label?: string;
+          symbol_id?: string | null;
+          svg?: string | null;
+          image?: string | null;
+        };
+        const content = loaded.content as { user_units?: SavedUnit[] } | null;
+        const units = content?.user_units;
+        const saved: SavedUnit[] = Array.isArray(units)
+          ? units
+          : loaded.plain_text
+              .split(/\n+/)
+              .map((line) => line.trim())
+              .filter(Boolean)
+              .map((label) => ({ label }));
+        const assets = new Map(loaded.assets.map((asset) => [asset.symbol_id, asset]));
+        message = saved.map((unit) => {
+          const label = unit.label ?? "";
+          const asset = unit.symbol_id ? assets.get(unit.symbol_id) : undefined;
+          const image =
+            unit.image ??
+            (asset?.png_base64 ? `data:image/png;base64,${asset.png_base64}` : null);
+          return {
+            key: `u${++unitSeq}`,
+            label,
+            svg: unit.svg ?? asset?.svg ?? null,
+            image,
+            symbolId: unit.symbol_id ?? asset?.symbol_id ?? null,
+          };
+        });
+      }
+      recordRecent({
+        path: docPath,
+        title,
+        excerpt: loaded.plain_text.slice(0, 160),
+      });
+      loaded.warnings.forEach((warning) => onToast(warning, "warn"));
+      onToast("Documento aperto.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
   }
 
   async function save() {
@@ -530,6 +668,7 @@
     {#if canSpeak}
       <button class="btn" onclick={() => (canType ? speakEditor() : speakMessage())}>Ascolta</button>
     {/if}
+    <button class="btn" onclick={() => void openDocument()}>Apri</button>
     <button class="btn btn--solid" disabled={saving} onclick={() => void save()}>
       {saving ? "Salvo…" : "Salva"}
     </button>
@@ -644,6 +783,7 @@
           <strong>Suggerimenti</strong>
           <button class="btn btn--ghost" onclick={toggleAssist} aria-label="Minimizza i suggerimenti" title="Minimizza">×</button>
         </header>
+        <div class="user-assist__body">
         {#if canFormat}
           <div class="user-assist__group">
             <span class="hint">Formato</span>
@@ -695,27 +835,49 @@
         </div>
 
         <p class="hint">
-          Questa è la vista Utilizzatore: i comandi del Creator non sono disponibili. Il documento
-          salvato si apre con «Apri documento».
+          I documenti scritti qui si salvano sul computer e si riaprono con «Apri» nella barra in
+          alto. Tabelle e materiali del Creator restano nell'Area Creator.
         </p>
+        </div>
       </aside>
       {/if}
     </main>
 
-    <section class="user-symbols" aria-label="Pannello Simboli">
-      <header class="user-symbols__head">
-        <div>
-          <h2>Simboli</h2>
-          <p class="hint">
-            Stesse regole del testo libero: seleziona una parola nel documento per vedere le sue
-            alternative; senza selezione il pittogramma scelto viene inserito nel punto del cursore.
-          </p>
-        </div>
-        {#if selectedToken}
-          <button class="btn" onclick={closeTokenSelection}>Chiudi selezione</button>
-        {/if}
-      </header>
+    {#if symbolsOpen}
+      <section
+        class="user-symbols"
+        style={`height:${symbolsHeight}px`}
+        aria-label="Pannello Simboli"
+      >
+        <div
+          class="user-symbols__resize"
+          role="separator"
+          aria-orientation="horizontal"
+          aria-label="Ridimensiona il pannello dei simboli"
+          onpointerdown={startSymbolsResize}
+        ></div>
+        <header class="user-symbols__head">
+          <div>
+            <h2>Simboli</h2>
+            <p class="hint">
+              Seleziona una parola nel documento per cambiarne il pittogramma; senza selezione il
+              simbolo scelto viene inserito nel punto del cursore.
+            </p>
+          </div>
+          <div class="user-symbols__head-actions">
+            {#if selectedToken}
+              <button class="btn" onclick={closeTokenSelection}>Chiudi selezione</button>
+            {/if}
+            <button
+              class="btn btn--ghost"
+              onclick={toggleSymbols}
+              aria-label="Minimizza il pannello dei simboli"
+              title="Minimizza"
+            >×</button>
+          </div>
+        </header>
 
+        <div class="user-symbols__body">
       {#if liveToken}
         <div class="user-symbols__selected">
           <div>
@@ -812,7 +974,13 @@
           </button>
         {/each}
       </div>
-    </section>
+        </div>
+      </section>
+    {:else}
+      <button class="user-symbols__restore" onclick={toggleSymbols} title="Mostra il pannello dei simboli">
+        <span aria-hidden="true">⌃</span> Simboli
+      </button>
+    {/if}
   {/if}
 
   {#if canType}
@@ -856,13 +1024,15 @@
 
 <style>
   .user-editor {
-    min-height: 100vh;
+    height: 100vh;
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 14px clamp(12px, 3vw, 28px) 24px;
+    gap: 10px;
+    padding: 12px clamp(12px, 3vw, 28px) 14px;
     background: var(--bg, #f6f7fb);
     color: var(--text, #16161a);
+    overflow: hidden;
   }
 
   .user-editor__bar {
@@ -902,6 +1072,7 @@
   }
 
   .user-editor__level-one {
+    flex: 1 1 auto;
     display: grid;
     grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.6fr);
     gap: 14px;
@@ -909,10 +1080,11 @@
   }
 
   .user-editor__writing {
+    flex: 1 1 auto;
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--assist-width, 320px);
     gap: 12px;
-    align-items: start;
+    align-items: stretch;
     min-height: 0;
   }
 
@@ -925,12 +1097,22 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: calc(100vh - 190px);
-    overflow: auto;
+    min-height: 0;
+    overflow: hidden;
     padding: 12px;
     border: 1px solid var(--border, #d3d6e0);
     border-radius: 14px;
     background: #fff;
+  }
+
+  .user-assist__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    padding-right: 2px;
   }
 
   .user-assist__head {
@@ -945,11 +1127,12 @@
   .user-assist__resize {
     position: absolute;
     top: 0;
-    left: -5px;
-    width: 10px;
+    left: 0;
+    width: 8px;
     height: 100%;
     cursor: col-resize;
     touch-action: none;
+    z-index: 2;
   }
 
   .user-assist__resize:hover { background: rgba(36, 99, 235, 0.12); }
@@ -974,6 +1157,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    min-height: 0;
     padding: 12px;
     border: 1px solid var(--border, #d3d6e0);
     border-radius: 14px;
@@ -983,6 +1167,7 @@
   .user-message__units {
     flex: 1 1 auto;
     min-height: 200px;
+    overflow: auto;
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
@@ -1109,6 +1294,7 @@
     grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
     gap: 10px;
     align-content: start;
+    min-height: 0;
     overflow: auto;
     padding: 4px;
   }
@@ -1146,31 +1332,12 @@
     text-align: center;
   }
 
-  .user-editor__writing {
-    display: grid;
-    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
-    gap: 14px;
-    align-items: start;
-    min-height: 0;
-  }
-
   .user-paper {
     background: #fff;
     border: 1px solid var(--border, #d3d6e0);
     border-radius: 12px;
     padding: 18px;
-    min-height: 55vh;
-  }
-
-  .user-assist {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px;
-    border: 1px solid var(--border, #d3d6e0);
-    border-radius: 12px;
-    background: #fff;
-    max-height: 76vh;
+    min-height: 0;
     overflow: auto;
   }
 
@@ -1240,6 +1407,11 @@
   }
 
   @media (max-width: 980px) {
+    .user-editor {
+      height: auto;
+      min-height: 100vh;
+      overflow: visible;
+    }
     .user-editor__level-one,
     .user-editor__writing {
       grid-template-columns: minmax(0, 1fr);
@@ -1247,16 +1419,72 @@
     .user-assist {
       max-height: none;
     }
+    .user-symbols {
+      height: auto !important;
+      max-height: 60vh;
+    }
   }
 
   .user-symbols {
-    display: grid;
-    gap: 10px;
-    padding: 12px;
+    position: relative;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 140px;
+    padding: 10px 12px 12px;
     background: #fff;
     border: 1px solid #dbe3ee;
     border-radius: 14px;
     box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
+
+  .user-symbols__resize {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 9px;
+    cursor: row-resize;
+    touch-action: none;
+    z-index: 2;
+  }
+
+  .user-symbols__resize:hover { background: rgba(36, 99, 235, 0.12); }
+
+  .user-symbols__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    overflow: auto;
+  }
+
+  .user-symbols__restore {
+    flex: 0 0 auto;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .user-symbols__restore:hover { background: #f1f5f9; }
+
+  .user-symbols__head-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
   }
 
   .user-symbols__head {
