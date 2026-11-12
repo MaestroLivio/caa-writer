@@ -98,6 +98,14 @@ pub fn save(db: &Database, config: &ImageConfig) -> Result<(), String> {
     db.set_setting(CONFIG_KEY, &raw).map_err(|e| e.to_string())
 }
 
+/// Ricorda il modello scaricato senza cambiare il backend scelto
+/// dall'utente. Serve al pacchetto di diffusione dopo il download.
+pub fn set_model(db: &Database, model: &str) -> Result<(), String> {
+    let mut config = load(db);
+    config.model = model.to_string();
+    save(db, &config)
+}
+
 fn entry() -> Result<keyring::Entry, String> {
     keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER)
         .map_err(|error| format!("portachiavi: {error}"))
@@ -142,6 +150,21 @@ pub struct ImageStatus {
     pub note: String,
 }
 
+/// Scelta del modello di diffusione adatta al computer.
+///
+/// Il modello non viene mai scaricato senza una richiesta esplicita: questa
+/// struttura serve solo a spiegare quale pacchetto è consigliato e perché.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ImageRecommendation {
+    pub model: String,
+    pub reason: String,
+    pub memory_mb: u64,
+    pub platform: String,
+    pub runtime_ready: bool,
+    pub alternatives: Vec<String>,
+}
+
 #[derive(Debug, Clone, Serialize)]
 pub struct GeneratedImage {
     pub png_base64: String,
@@ -167,6 +190,15 @@ pub fn script_path(paths: &AppPaths) -> Option<PathBuf> {
     None
 }
 
+fn venv_python(data_dir: &Path) -> PathBuf {
+    let venv = data_dir.join("image-venv");
+    if cfg!(windows) {
+        venv.join("Scripts").join("python.exe")
+    } else {
+        venv.join("bin").join("python")
+    }
+}
+
 /// Interprete del runtime immagini: venv utente, variabile d'ambiente, venv di
 /// sviluppo accanto al repository, poi i Python di sistema.
 pub fn python_path(paths: &AppPaths) -> Option<PathBuf> {
@@ -176,7 +208,7 @@ pub fn python_path(paths: &AppPaths) -> Option<PathBuf> {
             return Some(path);
         }
     }
-    let user = paths.data_dir.join("image-venv").join("bin").join("python");
+    let user = venv_python(&paths.data_dir);
     if user.exists() {
         return Some(user);
     }
@@ -264,6 +296,123 @@ pub fn status(paths: &AppPaths, db: &Database) -> ImageStatus {
         has_key,
         available,
         note,
+    }
+}
+
+/// Memoria fisica in MB. Restituisce `None` quando il sistema non espone un
+/// valore leggibile: in quel caso la scelta resta prudente invece di inventare
+/// una quantità di RAM.
+fn total_memory_mb() -> Option<u64> {
+    #[cfg(target_os = "macos")]
+    {
+        let output = Command::new("sysctl")
+            .args(["-n", "hw.memsize"])
+            .output()
+            .ok()?;
+        let bytes = String::from_utf8_lossy(&output.stdout)
+            .trim()
+            .parse::<u64>()
+            .ok()?;
+        if bytes > 0 {
+            return Some(bytes / 1_048_576);
+        }
+        return None;
+    }
+    #[cfg(target_os = "linux")]
+    {
+        let text = fs::read_to_string("/proc/meminfo").ok()?;
+        for line in text.lines() {
+            if let Some(rest) = line.strip_prefix("MemTotal:") {
+                let kb = rest
+                    .trim()
+                    .trim_end_matches(" kB")
+                    .trim()
+                    .parse::<u64>()
+                    .ok()?;
+                if kb > 0 {
+                    return Some(kb / 1024);
+                }
+            }
+        }
+        return None;
+    }
+    #[cfg(target_os = "windows")]
+    {
+        let output = Command::new("powershell")
+            .args([
+                "-NoProfile",
+                "-Command",
+                "(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory",
+            ])
+            .output()
+            .ok()?;
+        let bytes = String::from_utf8_lossy(&output.stdout)
+            .trim()
+            .parse::<u64>()
+            .ok()?;
+        if bytes > 0 {
+            return Some(bytes / 1_048_576);
+        }
+        return None;
+    }
+    #[allow(unreachable_code)]
+    None
+}
+
+/// Modello consigliato in base a memoria e piattaforma. I nomi sono modelli
+/// diffusers reali; nessun download parte qui.
+pub fn recommendation(paths: &AppPaths) -> ImageRecommendation {
+    let memory_mb = total_memory_mb().unwrap_or(0);
+    let apple_silicon = cfg!(target_os = "macos") && cfg!(target_arch = "aarch64");
+    let platform = format!("{}-{}", std::env::consts::OS, std::env::consts::ARCH);
+    let runtime_ready = python_path(paths).is_some() && script_path(paths).is_some();
+
+    let (model, reason) = if memory_mb == 0 {
+        (
+            "segmind/tiny-sd",
+            "Memoria del computer non rilevata: si propone il modello più leggero, che resta usabile anche con poca RAM.".to_string(),
+        )
+    } else if apple_silicon && memory_mb >= 24_576 {
+        (
+            "stabilityai/sdxl-turbo",
+            format!(
+                "{} GB di memoria unificata su Apple Silicon: il modello SDXL Turbo produce immagini più grandi in pochi passaggi.",
+                memory_mb / 1024
+            ),
+        )
+    } else if memory_mb >= 12_288 {
+        (
+            "stabilityai/sd-turbo",
+            format!(
+                "{} GB di memoria: SD Turbo è il compromesso tra qualità, velocità e spazio occupato.",
+                memory_mb / 1024
+            ),
+        )
+    } else {
+        (
+            "segmind/tiny-sd",
+            format!(
+                "{} GB di memoria: il modello piccolo evita di saturare la RAM e resta utilizzabile anche senza GPU dedicata.",
+                memory_mb / 1024
+            ),
+        )
+    };
+
+    let mut alternatives = vec![
+        "segmind/tiny-sd".to_string(),
+        "stabilityai/sd-turbo".to_string(),
+    ];
+    if apple_silicon || memory_mb >= 16_384 {
+        alternatives.push("stabilityai/sdxl-turbo".to_string());
+    }
+
+    ImageRecommendation {
+        model: model.to_string(),
+        reason,
+        memory_mb,
+        platform,
+        runtime_ready,
+        alternatives,
     }
 }
 
@@ -495,7 +644,7 @@ pub fn install_runtime(paths: &AppPaths) -> Result<String, String> {
         })
         .ok_or_else(|| "Python 3 non trovato sul sistema".to_string())?;
     let venv = paths.data_dir.join("image-venv");
-    if !venv.join("bin").join("python").exists() {
+    if !venv_python(&paths.data_dir).exists() {
         let output = Command::new(python)
             .arg("-m")
             .arg("venv")
@@ -509,7 +658,11 @@ pub fn install_runtime(paths: &AppPaths) -> Result<String, String> {
             ));
         }
     }
-    let pip = venv.join("bin").join("pip");
+    let pip = if cfg!(windows) {
+        venv.join("Scripts").join("pip.exe")
+    } else {
+        venv.join("bin").join("pip")
+    };
     let mut command = Command::new(pip);
     command
         .arg("install")

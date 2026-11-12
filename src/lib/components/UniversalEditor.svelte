@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, tick } from "svelte";
+  import { onDestroy, onMount, tick } from "svelte";
   import type { ComponentProps } from "svelte";
   import { api, isTauri } from "../api";
   import CaaEditor from "../editor/CaaEditor.svelte";
@@ -180,6 +180,12 @@
 
   let doc = $state<UniversalDocument>(clone(initial));
   let rendered = $state<RenderedDocument>(localRender(doc));
+  /// SVG delle pagine prodotti dal renderer Rust: sono gli stessi fogli di
+  /// stampa ed esportazione, quindi le miniature non mostrano più una
+  /// approssimazione diversa dal risultato finale.
+  let pageSvgs = $state<string[]>([]);
+  let pageSvgTimer: number | undefined;
+  let pageSvgRequest = 0;
   let pageIndex = $state(0);
   let selectedId = $state<string | null>(null);
   let extraSelected = $state<string[]>([]);
@@ -763,6 +769,41 @@
     }
     dirty = true;
   }
+
+  /// Rigenera le miniature dopo una pausa: durante la digitazione il
+  /// renderer non deve essere chiamato a ogni tasto. Il numero di richiesta
+  /// scarta i risultati arrivati fuori ordine.
+  function schedulePageSvgs() {
+    if (pageSvgTimer) window.clearTimeout(pageSvgTimer);
+    if (!isTauri()) {
+      pageSvgs = [];
+      return;
+    }
+    const request = ++pageSvgRequest;
+    const snapshot = clone(doc);
+    pageSvgTimer = window.setTimeout(() => {
+      pageSvgTimer = undefined;
+      void api
+        .documentPageSvgs(snapshot)
+        .then((svgs) => {
+          if (request === pageSvgRequest) pageSvgs = svgs;
+        })
+        .catch(() => {
+          if (request === pageSvgRequest) pageSvgs = [];
+        });
+    }, 450);
+  }
+
+  $effect(() => {
+    // La dipendenza è il documento impaginato: ogni modifica lo riassegna.
+    const current = rendered;
+    void current;
+    schedulePageSvgs();
+  });
+
+  onDestroy(() => {
+    if (pageSvgTimer) window.clearTimeout(pageSvgTimer);
+  });
 
   /// Porta su una nuova pagina gli elementi che superano il margine
   /// inferiore. È voluto per i documenti a flusso: l'utente continua a
@@ -2831,6 +2872,9 @@
             class="thumb__paper"
             style={`aspect-ratio:${item.width_mm}/${item.height_mm};background:${item.background || "#ffffff"}`}
           >
+            {#if pageSvgs[item.index]}
+              <span class="thumb__svg">{@html pageSvgs[item.index]}</span>
+            {:else}
             {#each item.elements as element (element.id)}
               {#if element.visible}
                 <span
@@ -2871,6 +2915,7 @@
                 </span>
               {/if}
             {/each}
+            {/if}
           </span>
           <span class="thumb__title">{item.title}{item.is_home ? " · home" : ""}</span>
         </button>
@@ -3381,6 +3426,8 @@
   .thumb { display: block; width: 100%; border: 2px solid transparent; border-radius: 6px; padding: 3px; margin-bottom: 6px; background: transparent; cursor: pointer; color: inherit; }
   .thumb--active { border-color: #2463eb; background: #eef4ff; }
   .thumb__paper { position: relative; display: block; width: 100%; background: #fff; border: 1px solid #cfd6e2; overflow: hidden; }
+  .thumb__svg { position: absolute; inset: 0; display: block; }
+  .thumb__svg :global(svg) { width: 100%; height: 100%; display: block; }
   .thumb__el { position: absolute; overflow: hidden; display: block; }
   .thumb__el :global(svg) { width: 100%; height: 100%; display: block; }
   .thumb__cell { position: absolute; box-sizing: border-box; border: 0.5px solid #c9d2df; overflow: hidden; display: flex; align-items: center; justify-content: center; }

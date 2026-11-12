@@ -83,6 +83,7 @@
     type UniversalDocument,
     type UniversalElementSelection,
     type UniversalStyle,
+    type UpdateInfo,
     type VoiceInfo,
     noModifiers,
   } from "./lib/types";
@@ -173,6 +174,9 @@
   let firstRunOpen = $state(false);
   let downloadsOpen = $state(false);
   let downloadsMandatory = $state(false);
+  /// Aggiornamento trovato all'avvio: la notifica resta finché l'utente non
+  /// sceglie di installarlo o di rimandare.
+  let startupUpdate = $state<UpdateInfo | null>(null);
   let traceOpen = $state(false);
   let sideIntent = $state<SideIntent | null>(null);
   let intentSeq = 0;
@@ -237,6 +241,9 @@
   let storyStudioOpen = $state(false);
   let setupOpen = $state(false);
   let profileManagerOpen = $state(false);
+  let assignProfileOpen = $state(false);
+  let assignSelection = $state<string[]>([]);
+  let assignBusy = $state(false);
   let boardPlayerId = $state<string | null>(null);
   const userMode = $derived(Boolean(activeProfile) && !creatorUnlocked);
   let lastDocumentEdit = $state<{
@@ -442,6 +449,61 @@
     view = "home";
     if (activeProfile) await loadBoardsForProfile(activeProfile);
     return true;
+  }
+
+  /// Apre la scelta del profilo a cui associare il documento universale
+  /// corrente. L'assegnazione usa la stessa tabella della Gestione utenti:
+  /// il documento resta nella libreria e compare nella schermata del profilo.
+  function openAssignProfile() {
+    if (!universalDoc) {
+      toast("Apri un documento della libreria per assegnarlo a un profilo.", "warn");
+      return;
+    }
+    if (!universalFromLibrary) {
+      toast(
+        "Il documento non è nella libreria: aprine uno dalla Libreria dei materiali per assegnarlo a un profilo.",
+        "warn"
+      );
+      return;
+    }
+    assignSelection = [];
+    assignProfileOpen = true;
+  }
+
+  async function saveAssignProfile() {
+    if (!universalDoc || assignBusy) return;
+    if (assignSelection.length === 0) {
+      toast("Scegli almeno un profilo.", "warn");
+      return;
+    }
+    assignBusy = true;
+    try {
+      for (const profileId of assignSelection) {
+        await api.profileAssignBoard(
+          profileId,
+          universalDoc.id,
+          true,
+          0,
+          creatorPin || null
+        );
+      }
+      await refreshProfileData();
+      toast(
+        `Documento assegnato a ${assignSelection.length} profilo${assignSelection.length === 1 ? "" : "i"}.`,
+        "info"
+      );
+      assignProfileOpen = false;
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      assignBusy = false;
+    }
+  }
+
+  function toggleAssignProfile(id: string) {
+    assignSelection = assignSelection.includes(id)
+      ? assignSelection.filter((entry) => entry !== id)
+      : [...assignSelection, id];
   }
 
   async function exitCreator() {
@@ -673,6 +735,23 @@
     firstRunOpen = true;
   });
 
+  /// Controllo aggiornamenti all'avvio, dopo che la finestra è pronta. Non
+  /// blocca l'apertura e non scarica nulla: mostra solo la notifica.
+  onMount(() => {
+    if (!native) return;
+    const timer = window.setTimeout(() => {
+      void api
+        .checkUpdates()
+        .then((info) => {
+          if (info.software_available) startupUpdate = info;
+        })
+        .catch(() => {
+          /* offline: nessuna notifica inventata */
+        });
+    }, 2500);
+    return () => window.clearTimeout(timer);
+  });
+
   function markFirstRunDone() {
     try {
       localStorage.setItem(FIRST_RUN_KEY, "done");
@@ -685,7 +764,11 @@
   /// i job non sono terminati; dal Gestore pacchetti può restare in background.
   async function startDownloads(ids: string[], mandatory: boolean) {
     const jobs = ids.filter(
-      (id) => id === "voice" || id.startsWith("symbols:")
+      (id) =>
+        id === "voice" ||
+        id === "diffusion" ||
+        id === "update" ||
+        id.startsWith("symbols:")
     );
     if (mandatory) markFirstRunDone();
     firstRunOpen = false;
@@ -735,6 +818,10 @@
     if (!merged.explicit_symbols_user_choice) {
       merged.show_explicit_symbols = false;
     }
+    // La modalità del testo libero è una sola: i simboli stanno sopra le
+    // parole. I componenti della libreria possono avere un proprio layout,
+    // ma l'impostazione globale non offre più varianti.
+    if (merged.auto_caa) merged.mode = "sopra";
     return merged;
   }
 
@@ -3456,7 +3543,6 @@
       patchSettings({ mode: "sopra", symbol_size: 80, symbol_gap: 10, show_captions: false, symbol_layout: "riga" });
     } else if (preset === "schede") {
       patchSettings({
-        mode: "solo_simboli",
         symbol_size: 72,
         symbol_gap: 8,
         border_style: "divisore",
@@ -3992,12 +4078,6 @@
             toggle("intensity-max", "Estesa", "plus", settings.intensity === "completa", () =>
               patchSettings({ intensity: "completa" })
             ),
-            toggle("mode-symbols", "Solo pittogrammi", "image", settings.mode === "solo_simboli", () =>
-              patchSettings({ mode: "solo_simboli" })
-            ),
-            toggle("mode-text", "Pittogrammi e testo", "book-open", settings.mode === "sopra", () =>
-              patchSettings({ mode: "sopra" })
-            ),
             cmd("refresh-sentence", "Rivaluta frase", "refresh", () => {
               if (selected) editor?.refreshParagraph(selected.pid);
               else editor?.refreshAll();
@@ -4297,6 +4377,17 @@
               () => withStageScroll(() => updateWorkspace({ topbarMinimized: !$workspace.topbarMinimized })),
               { shortcut: "Ctrl+Shift+F1" }
             ),
+            toggle(
+              "ribbon-icon-only",
+              "Solo icone nei ribbon",
+              "eye",
+              $workspace.ribbonIconOnly,
+              () => updateWorkspace({ ribbonIconOnly: !$workspace.ribbonIconOnly }),
+              {
+                tooltip:
+                  "Nasconde le etichette dei comandi: restano le icone, con la descrizione nel suggerimento.",
+              }
+            ),
           ]),
           group("modes", "Modalità", [
             toggle("touch-mode", "Modalità touch", "touchpad", settings.touch_mode, () =>
@@ -4328,8 +4419,11 @@
         groups: [
           group("users-admin", "Profili e accessi", [
             cmd("manage-profiles", "Gestione utenti", "accessibility", () => (profileManagerOpen = true)),
+            cmd("assign-profile", "Assegna ad un profilo", "accessibility", openAssignProfile, {
+              enabled: Boolean(universalDoc && universalFromLibrary),
+              ...unavailable("Apri un documento della Libreria dei materiali."),
+            }),
             cmd("exit-creator", "Torna all'Utilizzatore", "arrow-right", () => void exitCreator()),
-            cmd("manage-pin", "PIN Area Creator", "lock", () => (profileManagerOpen = true)),
           ]),
         ],
       });
@@ -4459,6 +4553,24 @@
   <title>{view === "editor" ? `${docTitle} · CAA Writer` : "CAA Writer"}</title>
 </svelte:head>
 
+  {#if startupUpdate?.software_available}
+    <div class="update-banner" role="status">
+      <div>
+        <strong>CAA Writer {startupUpdate.latest_version} è disponibile.</strong>
+        <span>Versione installata: {startupUpdate.current_version}. Il download sceglie il pacchetto per questo computer.</span>
+      </div>
+      <div class="update-banner__actions">
+        <button
+          class="btn btn--solid"
+          onclick={() => {
+            startupUpdate = null;
+            void startDownloads(["update"], false);
+          }}>Aggiorna ora</button>
+        <button class="btn btn--ghost" onclick={() => (startupUpdate = null)}>Più tardi</button>
+      </div>
+    </div>
+  {/if}
+
 {#if startupChooserOpen && profiles.length > 0}
   <StartupChooser
     {profiles}
@@ -4512,6 +4624,9 @@
     onOpenStory={() => (storyStudioOpen = true)}
     onOpenSettings={openSettingsPanel}
     onOpenTemplate={openTemplate}
+    creatorMode={creatorUnlocked}
+    onOpenUsers={() => (profileManagerOpen = true)}
+    onExitCreator={() => void exitCreator()}
   />
 {:else if view === "library"}
   <LibraryBrowser
@@ -4582,6 +4697,7 @@
     onToggleQuick={toggleQuickAccess}
     quickLabels={$workspace.quickLabels}
     onToggleQuickLabels={toggleQuickLabels}
+    labels={!$workspace.ribbonIconOnly}
     onHome={() => (view = "home")}
     docTitle={docTitle}
     docPath={docPath}
@@ -5110,6 +5226,43 @@
   />
 {/if}
 
+{#if assignProfileOpen}
+  <div class="dialog-backdrop" role="presentation">
+    <div class="report-dialog assign-profile" role="dialog" aria-modal="true" aria-label="Assegna ad un profilo">
+      <header class="report-dialog__head">
+        <h2>Assegna «{universalDoc?.title ?? "documento"}» a un profilo</h2>
+        <button class="btn btn--ghost" onclick={() => (assignProfileOpen = false)} aria-label="Chiudi">×</button>
+      </header>
+      <p class="hint">
+        Il documento resta nella libreria e compare nella schermata dei profili scelti.
+      </p>
+      {#if profiles.length === 0}
+        <p class="hint">Non ci sono profili: creali dalla Gestione utenti.</p>
+      {:else}
+        <div class="assign-profile__list">
+          {#each profiles as profile (profile.id)}
+            <label>
+              <input
+                type="checkbox"
+                checked={assignSelection.includes(profile.id)}
+                onchange={() => toggleAssignProfile(profile.id)}
+              />
+              <span>{profile.name}</span>
+              <span class="hint">{profile.editor_level === 1 ? "Livello 1" : profile.editor_level === 2 ? "Livello 2" : "Livello 3"}</span>
+            </label>
+          {/each}
+        </div>
+      {/if}
+      <footer class="assign-profile__actions">
+        <button class="btn" onclick={() => (assignProfileOpen = false)}>Annulla</button>
+        <button class="btn btn--solid" disabled={assignBusy || assignSelection.length === 0} onclick={() => void saveAssignProfile()}>
+          {assignBusy ? "Assegno…" : "Assegna"}
+        </button>
+      </footer>
+    </div>
+  </div>
+{/if}
+
 {#if profileManagerOpen}
   <ProfileManager
     profiles={profiles}
@@ -5157,6 +5310,7 @@
     {editorMetrics}
     {diagnostics}
     onRefreshDiagnostics={refreshDiagnostics}
+    onStartDownload={(ids) => void startDownloads(ids, false)}
   />
 {/if}
 

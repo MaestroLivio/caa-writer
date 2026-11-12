@@ -22,6 +22,11 @@
     onOpenStory: () => void;
     onOpenSettings: () => void;
     onOpenTemplate: (templateId: string) => void;
+    /// Nella schermata iniziale del Creator si possono raggiungere la
+    /// Gestione utenti e l'area Utilizzatore senza aprire un documento.
+    creatorMode?: boolean;
+    onOpenUsers?: () => void;
+    onExitCreator?: () => void;
   }
 
   let {
@@ -36,6 +41,9 @@
     onOpenStory,
     onOpenSettings,
     onOpenTemplate,
+    creatorMode = false,
+    onOpenUsers,
+    onExitCreator,
   }: Props = $props();
 
   type Card = {
@@ -150,6 +158,12 @@
       <button class="btn" onclick={onOpenLibrary}>{copy.library}</button>
       <button class="btn" onclick={onOpenPackages}>{copy.packages}</button>
       <button class="btn" onclick={onOpenSettings}>{copy.settings}</button>
+      {#if creatorMode && onOpenUsers}
+        <button class="btn" onclick={onOpenUsers}>Gestione utenti</button>
+      {/if}
+      {#if creatorMode && onExitCreator}
+        <button class="btn btn--ghost" onclick={onExitCreator}>Torna all'Utilizzatore</button>
+      {/if}
     </div>
   </header>
 

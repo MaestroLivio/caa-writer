@@ -26,6 +26,9 @@ export interface WorkspaceLayout {
   fullscreen: boolean;
   quickAccess: string[];
   quickLabels: boolean;
+  /// Mostra solo le icone nei gruppi del Ribbon: l'etichetta compare nel
+  /// suggerimento al passaggio del mouse. Attivo per impostazione predefinita.
+  ribbonIconOnly: boolean;
   associationScope: AssociationScope;
   zoom: number;
   preset: string;
@@ -119,6 +122,7 @@ export const defaultWorkspace: WorkspaceLayout = {
   fullscreen: false,
   quickAccess: defaultQuickAccess,
   quickLabels: false,
+  ribbonIconOnly: true,
   associationScope: "occurrence",
   zoom: 1,
   preset: "",

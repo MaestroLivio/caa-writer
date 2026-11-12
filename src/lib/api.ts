@@ -74,6 +74,7 @@ import type {
   AiChatMessage,
   AiChatReply,
   ImageStatus,
+  ImageRecommendation,
   GeneratedImage,
   CliRunResult,
   Profile,
@@ -203,6 +204,10 @@ export const api = {
     call<Record<string, unknown>>("document_validate", { document }),
   documentRender: (document: UniversalDocument) =>
     call<RenderedDocument>("document_render", { document }),
+  /// SVG impaginati dal renderer Rust: le miniature dell'editor usano gli
+  /// stessi fogli della stampa.
+  documentPageSvgs: (document: UniversalDocument) =>
+    call<string[]>("document_page_svgs", { document }),
   documentApply: (document: UniversalDocument, commands: UniversalCommand[]) =>
     call<DocumentApplyResult>("document_apply", { document, commands }),
   generateTraceSheet: (config: TraceConfig) =>
@@ -305,6 +310,7 @@ export const api = {
   translateSearchTerm: (text: string) => call<string>("translate_search_term", { text }),
   aiChat: (messages: AiChatMessage[]) => call<AiChatReply>("ai_chat", { messages }),
   imageStatus: () => call<ImageStatus>("image_status"),
+  imageRecommendation: () => call<ImageRecommendation>("image_recommendation"),
   imageSetConfig: (config: ImageConfig) => call<ImageStatus>("image_set_config", { config }),
   imageSetKey: (key: string) => call<ImageStatus>("image_set_key", { key }),
   imageClearKey: () => call<ImageStatus>("image_clear_key"),

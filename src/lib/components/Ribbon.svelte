@@ -15,6 +15,9 @@
     onToggleQuick: (id: string) => void;
     quickLabels: boolean;
     onToggleQuickLabels: () => void;
+    /// Falso quando l'utente sceglie «solo icone»: l'etichetta resta nel
+    /// suggerimento e nell'aria-label, non nel pulsante.
+    labels?: boolean;
     onHome: () => void;
     docTitle: string;
     docPath: string | null;
@@ -40,6 +43,7 @@
     onToggleQuick,
     quickLabels,
     onToggleQuickLabels,
+    labels = true,
     onHome,
     docTitle,
     docPath,
@@ -363,6 +367,7 @@
   bind:this={root}
   data-mode={effectiveMode}
   data-quick-labels={quickLabels ? "true" : "false"}
+  data-labels={labels ? "true" : "false"}
 >
   {#if topbarMinimized}
     <div

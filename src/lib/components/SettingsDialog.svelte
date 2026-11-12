@@ -20,6 +20,7 @@
     ToolOutcome,
     EditorMetrics,
     RuntimeDiagnostics,
+    ImageRecommendation,
   } from "../types";
 
   interface Props {
@@ -38,6 +39,8 @@
     editorMetrics: EditorMetrics;
     diagnostics: RuntimeDiagnostics | null;
     onRefreshDiagnostics: () => Promise<void>;
+    /// Avvia il download del pacchetto diffusion nel gestore globale.
+    onStartDownload?: (ids: string[]) => void;
   }
 
   let {
@@ -56,6 +59,7 @@
     editorMetrics,
     diagnostics,
     onRefreshDiagnostics,
+    onStartDownload,
   }: Props = $props();
 
   let dialog = $state<HTMLDivElement | null>(null);
@@ -89,6 +93,7 @@
   let providerTest = $state<AiProviderTest | null>(null);
   let providerBusy = $state(false);
   let onlineProviders = $state<OnlineProviderInfo[]>([]);
+  let imageRecommendation = $state<ImageRecommendation | null>(null);
   let customProvider = $state<OnlineCustomProvider>({
     id: "",
     name: "",
@@ -182,6 +187,7 @@
   onMount(() => {
     dialog?.focus();
     if (isTauri()) {
+      void api.imageRecommendation().then((value) => (imageRecommendation = value)).catch(() => {});
       void api.listOnlineProviders().then((items) => (onlineProviders = items)).catch(() => {});
       void api.aiProviderStatus().then((status) => {
         providerStatus = status;
@@ -334,20 +340,6 @@
     <div class="dialog__body">
       <section class="block">
         <h3>Rappresentazione CAA</h3>
-        <div class="row">
-          <label for="dlg-mode">Modalità</label>
-          <select
-            id="dlg-mode"
-            value={settings.mode}
-            onchange={(event) => onUpdateSettings({ mode: (event.currentTarget as HTMLSelectElement).value as never })}
-          >
-            <option value="testo">A · Solo testo</option>
-            <option value="sopra">B · Simboli sopra le parole</option>
-            <option value="sotto">C · Simboli con didascalia sotto</option>
-            <option value="solo_simboli">D · Solo simboli</option>
-            <option value="semplificata">E · CAA semplificata</option>
-          </select>
-        </div>
         <div class="row">
           <label for="dlg-intensity">Intensità</label>
           <select
@@ -986,6 +978,33 @@
           <input id="dlg-ai-timeout" type="number" min="1000" max="60000" step="500" bind:value={aiDraft.timeout_ms} style="width:90px" />
         </div>
         <button class="btn btn--solid" onclick={() => void saveAi()}>Salva configurazione</button>
+      </section>
+
+      <section class="block">
+        <h3>Modello di diffusione per le immagini</h3>
+        <p class="hint">
+          Genera immagini e pittogrammi sul computer. Richiede Python 3 e un runtime
+          PyTorch/diffusers: il programma propone il modello adatto alla memoria disponibile e
+          lo scarica nella cartella dati dell'utente. Senza questo pacchetto l'app resta
+          utilizzabile e continua a usare i pittogrammi della libreria.
+        </p>
+        {#if imageRecommendation}
+          <dl class="facts">
+            <dt>Modello consigliato</dt><dd>{imageRecommendation.model}</dd>
+            <dt>Motivo</dt><dd>{imageRecommendation.reason}</dd>
+            <dt>Memoria rilevata</dt><dd>{Math.round(imageRecommendation.memoryMb / 1024)} GB</dd>
+            <dt>Runtime</dt><dd>{imageRecommendation.runtimeReady ? "già installato" : "da installare"}</dd>
+          </dl>
+        {:else}
+          <p class="hint">Lettura delle caratteristiche del computer non disponibile in anteprima.</p>
+        {/if}
+        <button
+          class="btn btn--solid"
+          onclick={() => {
+            if (onStartDownload) onStartDownload(["diffusion"]);
+            else onToast("Il download automatico richiede l'app desktop.", "warn");
+          }}
+        >Scarica il pacchetto di diffusione</button>
       </section>
 
       <ModelManager {aiStatus} {onToast} {onStatusChange} />

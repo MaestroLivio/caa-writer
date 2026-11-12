@@ -130,6 +130,16 @@ export interface ImageStatus {
   note: string;
 }
 
+/** Modello di diffusione consigliato in base al computer. Non implica alcun download. */
+export interface ImageRecommendation {
+  model: string;
+  reason: string;
+  memoryMb: number;
+  platform: string;
+  runtimeReady: boolean;
+  alternatives: string[];
+}
+
 export interface GeneratedImage {
   png_base64: string;
   backend: string;

@@ -1654,6 +1654,16 @@
     view.focus();
   }
 
+  /// Inserisce un'immagine inline nel punto del cursore. Il documento
+  /// conserva i dati come `img` nel proprio JSON, quindi l'immagine resta
+  /// anche dopo il salvataggio e la riapertura.
+  export function insertImage(src: string, alt = "") {
+    if (!view || !src) return;
+    const node = schema.nodes.image.create({ src, alt });
+    view.dispatch(view.state.tr.replaceSelectionWith(node, false));
+    view.focus();
+  }
+
   /// Nuovo paragrafo dalla tastiera visuale (il tasto Invio fisico funziona
   /// già, ma un pulsante touch non può generare una transazione ProseMirror).
   export function insertParagraph() {

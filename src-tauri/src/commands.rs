@@ -492,6 +492,15 @@ pub fn image_status(
     Ok(crate::image_engine::status(&state.paths, &db))
 }
 
+/// Modello di diffusione consigliato in base alla memoria del computer.
+/// Non scarica nulla: la scelta e il download restano espliciti.
+#[tauri::command]
+pub fn image_recommendation(
+    state: State<'_, Engine>,
+) -> Result<crate::image_engine::ImageRecommendation, String> {
+    Ok(crate::image_engine::recommendation(&state.paths))
+}
+
 #[tauri::command]
 pub fn image_set_config(
     state: State<'_, Engine>,
@@ -613,6 +622,21 @@ pub fn document_render(document: serde_json::Value) -> Result<crate::universal::
     let document: crate::universal::UniversalDocument =
         serde_json::from_value(document).map_err(|e| format!("documento non valido: {e}"))?;
     document.render()
+}
+
+/// SVG delle pagine realmente impaginate. Le miniature dell'editor usano lo
+/// stesso renderer di stampa ed esportazione, così non mostrano una
+/// approssimazione diversa dal foglio finale.
+#[tauri::command]
+pub fn document_page_svgs(document: serde_json::Value) -> Result<Vec<String>, String> {
+    let document: crate::universal::UniversalDocument =
+        serde_json::from_value(document).map_err(|e| format!("documento non valido: {e}"))?;
+    let rendered = document.render()?;
+    Ok(rendered
+        .pages
+        .iter()
+        .map(crate::universal::render_page_svg)
+        .collect())
 }
 
 #[tauri::command]

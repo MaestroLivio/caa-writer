@@ -87,10 +87,45 @@
     Object.values(assigned).filter(Boolean).length
   );
 
+  /// Solo i materiali realmente attribuiti: l'elenco non mostra i 330
+  /// documenti della libreria, che rendevano il pannello lunghissimo.
+  const assignedMaterials = $derived(
+    materials.filter((material) => Boolean(assigned[material.id]))
+  );
+
+  const addableMaterials = $derived(
+    filteredMaterials.filter((material) => !assigned[material.id])
+  );
+
+  let addOpen = $state(false);
+
   async function loadAssignments(profileId: string) {
     assigned = {};
     const rows = await api.profileBoards(profileId);
     for (const row of rows) assigned[row.boardId] = row.enabled;
+  }
+
+  async function removeAssigned(material: LibraryEntry) {
+    if (!draft) return;
+    assigned = { ...assigned, [material.id]: false };
+    try {
+      await api.profileAssignBoard(
+        draft.id,
+        material.id,
+        false,
+        0,
+        creatorPin || null
+      );
+      notice = `«${material.title}» rimosso dal profilo.`;
+    } catch (err) {
+      assigned = { ...assigned, [material.id]: true };
+      error = err instanceof Error ? err.message : String(err);
+    }
+  }
+
+  function addAssigned(material: LibraryEntry) {
+    assigned = { ...assigned, [material.id]: true };
+    notice = `«${material.title}» aggiunto: salva il profilo per confermare.`;
   }
 
   async function select(id: string) {
@@ -267,24 +302,50 @@
           <fieldset class="profile-boards">
             <legend>Materiali assegnati ({assignedCount})</legend>
             <p class="hint">
-              Il profilo vede nella propria schermata solo i documenti selezionati.
-              Filtra per titolo, categoria o tipo.
+              Il profilo vede nella propria schermata solo questi documenti. Puoi rimuoverli
+              dall'elenco in qualsiasi momento; gli originali restano nella libreria.
             </p>
-            <input
-              class="profile-search"
-              bind:value={materialQuery}
-              placeholder="Cerca tra i 330 materiali…"
-              aria-label="Cerca materiali da assegnare"
-            />
-            <div class="profile-materials">
-              {#each filteredMaterials as material (material.id)}
-                <label>
-                  <input type="checkbox" bind:checked={assigned[material.id]} />
-                  <span>{material.title}</span>
-                  <span class="hint">{material.category || material.kind} · {material.pages} pagine</span>
-                </label>
-              {/each}
-            </div>
+            {#if assignedMaterials.length === 0}
+              <p class="hint">Nessun materiale assegnato a questo profilo.</p>
+            {:else}
+              <div class="profile-materials">
+                {#each assignedMaterials as material (material.id)}
+                  <div class="profile-material">
+                    <span>{material.title}</span>
+                    <span class="hint">{material.category || material.kind} · {material.pages} pagine</span>
+                    <button
+                      class="btn btn--ghost"
+                      disabled={busy}
+                      onclick={() => void removeAssigned(material)}
+                      aria-label={`Rimuovi ${material.title} dal profilo`}
+                    >Rimuovi</button>
+                  </div>
+                {/each}
+              </div>
+            {/if}
+            <button class="btn btn--ghost" onclick={() => (addOpen = !addOpen)}>
+              {addOpen ? "Chiudi l'elenco dei materiali" : "Aggiungi materiali"}
+            </button>
+            {#if addOpen}
+              <input
+                class="profile-search"
+                bind:value={materialQuery}
+                placeholder="Cerca nella libreria…"
+                aria-label="Cerca materiali da aggiungere"
+              />
+              <div class="profile-materials">
+                {#each addableMaterials as material (material.id)}
+                  <div class="profile-material">
+                    <span>{material.title}</span>
+                    <span class="hint">{material.category || material.kind} · {material.pages} pagine</span>
+                    <button class="btn" onclick={() => addAssigned(material)}>Aggiungi</button>
+                  </div>
+                {/each}
+                {#if addableMaterials.length === 0}
+                  <p class="hint">Tutti i materiali trovati sono già assegnati.</p>
+                {/if}
+              </div>
+            {/if}
           </fieldset>
 
           <div class="profile-actions">

@@ -46,6 +46,12 @@
       note: "Lettura offline con Piper. In assenza della voce, la sintesi usa la voce di sistema.",
       size: "circa 60 MB per voce",
     },
+    {
+      id: "diffusion",
+      name: "Modello di diffusione per le immagini",
+      note: "Generazione di immagini e pittogrammi personali sul computer. Il modello viene scelto in base alla memoria disponibile. Richiede Python 3.",
+      size: "runtime e modello, alcuni GB",
+    },
   ];
 
   let selected = $state<string[]>(
@@ -68,7 +74,7 @@
         <h1 id="firstrun-title">Cosa vuoi installare?</h1>
         <p>
           Il programma funziona offline. I due cataloghi di pittogrammi sono richiesti al primo avvio;
-          la voce neurale si può aggiungere ora o in seguito.
+          voce neurale e modello di diffusione si possono aggiungere ora o in seguito.
         </p>
       </div>
     </header>

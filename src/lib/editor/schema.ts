@@ -132,6 +132,37 @@ export const schema = new Schema({
 
     text: { group: "inline" },
 
+    image: {
+      inline: true,
+      group: "inline",
+      draggable: true,
+      attrs: {
+        src: { default: "" },
+        alt: { default: "" },
+        width: { default: null },
+      },
+      parseDOM: [
+        {
+          tag: "img[src]",
+          getAttrs: (dom: HTMLElement) => ({
+            src: dom.getAttribute("src") ?? "",
+            alt: dom.getAttribute("alt") ?? "",
+            width: dom.getAttribute("width"),
+          }),
+        },
+      ],
+      toDOM: (node) => [
+        "img",
+        {
+          src: node.attrs.src,
+          alt: node.attrs.alt,
+          title: node.attrs.alt,
+          width: node.attrs.width ?? undefined,
+          class: "caa-inline-image",
+        },
+      ],
+    },
+
     hard_break: {
       inline: true,
       group: "inline",

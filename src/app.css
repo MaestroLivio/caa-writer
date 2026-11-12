@@ -779,6 +779,36 @@ button {
   overflow-wrap: anywhere;
 }
 
+/* Solo icone: l'etichetta resta nel title e nell'aria-label, quindi il
+   comando è ancora comprensibile al passaggio del mouse e con lo screen
+   reader. I gruppi mantengono il nome, che descrive la sezione. */
+.ribbon[data-labels="false"] .ribbon-btn__label,
+.ribbon[data-labels="false"] .ribbon-tile__label {
+  display: none;
+}
+
+.ribbon[data-labels="false"] .ribbon-btn {
+  min-width: 34px;
+  min-height: 34px;
+  padding: 4px;
+  justify-content: center;
+}
+
+.ribbon[data-labels="false"] .ribbon-btn svg,
+.ribbon[data-labels="false"] .ribbon-tile svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ribbon[data-labels="false"] .ribbon-tile {
+  padding: 6px;
+}
+
+.ribbon[data-labels="false"] .ribbon-btn--primary {
+  min-width: 42px;
+  min-height: 42px;
+}
+
 .ribbon-btn__shortcut {
   color: var(--muted);
   font-size: 0.58rem;
@@ -1418,6 +1448,16 @@ textarea {
 .editor .ProseMirror h2,
 .editor .ProseMirror h3 {
   margin: 0 0 var(--doc-para-spacing, 6px);
+}
+
+.editor .ProseMirror img.caa-inline-image,
+.user-paper .ProseMirror img.caa-inline-image {
+  display: inline-block;
+  max-width: 100%;
+  max-height: 220px;
+  vertical-align: middle;
+  margin: 2px 4px;
+  border-radius: 6px;
 }
 
 .editor .ProseMirror h1 {
@@ -4135,4 +4175,94 @@ textarea {
   .document-zoom {
     display: none !important;
   }
+}
+
+/* Notifica di aggiornamento all'avvio: informativa, non blocca il lavoro. */
+.update-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 180;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #1e3a8a;
+  font-size: 0.82rem;
+}
+
+.update-banner div:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.update-banner__actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Gestione utenti: elenco compatto dei soli materiali assegnati. */
+.profile-material {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-material > span:first-child {
+  flex: 1 1 180px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.profile-material .btn {
+  padding: 3px 8px;
+  font-size: 0.75rem;
+}
+
+/* Scelta del profilo a cui assegnare il documento corrente. */
+.assign-profile {
+  width: min(520px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.assign-profile__list {
+  display: grid;
+  gap: 4px;
+  max-height: min(50vh, 380px);
+  overflow: auto;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.assign-profile__list label {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.assign-profile__list label:hover {
+  background: var(--accent-soft);
+}
+
+.assign-profile__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }

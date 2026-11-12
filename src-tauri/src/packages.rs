@@ -606,6 +606,99 @@ fn is_newer(latest: &str, current: &str) -> bool {
     }
 }
 
+/// Asset di aggiornamento adatto alla piattaforma corrente. La scelta è
+/// esplicita: nessun file viene scaricato se non esiste un pacchetto per
+/// questo sistema operativo e questa architettura.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UpdateAsset {
+    pub version: String,
+    pub file_name: String,
+    pub url: String,
+    pub size: u64,
+}
+
+/// Cerca nella release più recente l'asset giusto per macOS arm64 o Windows
+/// x64. Non ripiega su architetture diverse: un pacchetto sbagliato sarebbe
+/// inutilizzabile.
+pub fn update_asset() -> Result<UpdateAsset, String> {
+    let suffixes: &[&str] = if cfg!(target_os = "macos") && cfg!(target_arch = "aarch64") {
+        &["_macos-arm64.dmg"]
+    } else if cfg!(target_os = "macos") {
+        &["_macos-x64.dmg", "_macos-intel.dmg"]
+    } else if cfg!(target_os = "windows") && cfg!(target_arch = "x86_64") {
+        &["_windows-x64-setup.exe"]
+    } else {
+        &[]
+    };
+    if suffixes.is_empty() {
+        return Err(format!(
+            "Non esiste un pacchetto di aggiornamento per {}-{}: usa la pagina della release.",
+            std::env::consts::OS,
+            std::env::consts::ARCH
+        ));
+    }
+
+    let client = reqwest::blocking::Client::builder()
+        .timeout(std::time::Duration::from_secs(20))
+        .user_agent("CAA-Writer")
+        .build()
+        .map_err(|error| format!("client HTTP: {error}"))?;
+    let response = client
+        .get(RELEASES_API)
+        .send()
+        .map_err(|error| format!("aggiornamento non raggiungibile: {error}"))?;
+    if !response.status().is_success() {
+        return Err(format!(
+            "il server degli aggiornamenti ha risposto {}",
+            response.status()
+        ));
+    }
+    let value: serde_json::Value = response
+        .json()
+        .map_err(|error| format!("risposta della release non valida: {error}"))?;
+    let version = value
+        .get("tag_name")
+        .and_then(|item| item.as_str())
+        .map(|item| item.trim_start_matches('v').to_string())
+        .ok_or_else(|| "la release non indica una versione".to_string())?;
+    if !is_newer(&version, env!("CARGO_PKG_VERSION")) {
+        return Err(format!(
+            "La versione installata ({}) è già aggiornata.",
+            env!("CARGO_PKG_VERSION")
+        ));
+    }
+
+    let assets = value
+        .get("assets")
+        .and_then(|item| item.as_array())
+        .ok_or_else(|| "la release non contiene file scaricabili".to_string())?;
+    for asset in assets {
+        let name = asset.get("name").and_then(|item| item.as_str()).unwrap_or("");
+        if !suffixes.iter().any(|suffix| name.ends_with(suffix)) {
+            continue;
+        }
+        let url = asset
+            .get("browser_download_url")
+            .and_then(|item| item.as_str())
+            .unwrap_or("");
+        if !url.starts_with("https://github.com/MaestroLivio/caa-writer/releases/download/") {
+            return Err("L'indirizzo dell'aggiornamento non appartiene al repository ufficiale.".to_string());
+        }
+        return Ok(UpdateAsset {
+            version,
+            file_name: name.to_string(),
+            url: url.to_string(),
+            size: asset.get("size").and_then(|item| item.as_u64()).unwrap_or(0),
+        });
+    }
+    Err(format!(
+        "La release {} non contiene un pacchetto per questo computer ({}).",
+        version,
+        std::env::consts::OS
+    ))
+}
+
 /// Confronta la versione dell'app e la libreria con il repository pubblico.
 /// Senza rete restituisce gli avvisi, non un errore: il controllo è
 /// un'informazione, non un requisito per usare il programma.

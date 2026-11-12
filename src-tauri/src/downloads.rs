@@ -8,6 +8,7 @@
 use std::collections::BTreeMap;
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
+use std::process::Command;
 use std::sync::{Mutex, OnceLock};
 
 use serde::Serialize;
@@ -60,17 +61,22 @@ pub fn status() -> DownloadSnapshot {
     let tasks: Vec<DownloadTask> = map.into_values().collect();
     let done = tasks.iter().map(|task| task.done).sum();
     let total = tasks.iter().map(|task| task.total).sum();
+    // La barra globale è la media degli avanzamenti dei singoli job: un
+    // pacchetto piccolo non deve pesare meno di uno grande solo per i byte.
+    let percent = if tasks.is_empty() {
+        0.0
+    } else {
+        tasks
+            .iter()
+            .map(|task| if task.finished { 100.0 } else { task.percent })
+            .sum::<f64>()
+            / tasks.len() as f64
+    };
     DownloadSnapshot {
         active: tasks.iter().any(|task| !task.finished),
         done,
         total,
-        percent: if total > 0 {
-            (done as f64 / total as f64 * 100.0).clamp(0.0, 100.0)
-        } else if tasks.iter().any(|task| task.finished) {
-            100.0
-        } else {
-            0.0
-        },
+        percent: percent.clamp(0.0, 100.0),
         tasks,
     }
 }
@@ -80,6 +86,8 @@ pub fn start(app: AppHandle, id: String) -> Result<(), String> {
         "symbols:arasaac" => ("ARASAAC — catalogo completo", "Preparazione…"),
         "symbols:globalsymbols" => ("Global Symbols — catalogo del lessico", "Preparazione…"),
         "voice" => ("Voce neurale italiana", "Preparazione…"),
+        "diffusion" => ("Modello di diffusione per le immagini", "Preparazione…"),
+        "update" => ("Aggiornamento di CAA Writer", "Preparazione…"),
         "library" => ("Libreria materiali", "Preparazione…"),
         other => return Err(format!("Pacchetto sconosciuto: {other}")),
     };
@@ -106,6 +114,8 @@ pub fn start(app: AppHandle, id: String) -> Result<(), String> {
             "symbols:arasaac" => run_symbols(&app, &id, true),
             "symbols:globalsymbols" => run_symbols(&app, &id, false),
             "voice" => run_voice(&app, &id),
+            "diffusion" => run_diffusion(&app, &id),
+            "update" => run_update(&app, &id),
             "library" => run_library(&app, &id),
             _ => Err("Pacchetto sconosciuto".to_string()),
         };
@@ -155,6 +165,100 @@ fn run_symbols(app: &AppHandle, id: &str, arasaac: bool) -> Result<String, Strin
 fn run_library(_app: &AppHandle, _id: &str) -> Result<String, String> {
     // La libreria materiali è inclusa nell'installer e non richiede download.
     Ok("Libreria materiali già inclusa nell'app.".to_string())
+}
+
+/// Installa il runtime immagini e scarica il modello consigliato per questo
+/// computer. Le due operazioni sono lunghe e non espongono byte parziali:
+/// il job mostra la fase reale invece di una percentuale inventata.
+fn run_diffusion(app: &AppHandle, id: &str) -> Result<String, String> {
+    let engine = app.state::<Engine>();
+    let recommendation = crate::image_engine::recommendation(&engine.paths);
+    update(id, |task| {
+        task.phase = format!(
+            "Installo il runtime Python per il modello {}…",
+            recommendation.model
+        )
+    });
+    crate::image_engine::install_runtime(&engine.paths)?;
+
+    update(id, |task| {
+        task.phase = format!("Scarico il modello {}…", recommendation.model)
+    });
+    crate::image_engine::download_model(&engine.paths, &recommendation.model)?;
+
+    let db = engine.db()?;
+    crate::image_engine::set_model(&db, &recommendation.model)?;
+    Ok(format!(
+        "Pacchetto di diffusione pronto: modello «{}». La generazione resta offline.",
+        recommendation.model
+    ))
+}
+
+/// Scarica l'asset della release adatto a questa piattaforma e apre
+/// l'installatore. Non sostituisce nulla da solo: macOS apre il DMG, Windows
+/// avvia il programma di installazione.
+fn run_update(app: &AppHandle, id: &str) -> Result<String, String> {
+    let engine = app.state::<Engine>();
+    update(id, |task| {
+        task.phase = "Cerco la versione più recente…".to_string()
+    });
+    let asset = crate::packages::update_asset()?;
+
+    let folder = engine.paths.data_dir.join("updates");
+    std::fs::create_dir_all(&folder).map_err(|error| format!("cartella aggiornamenti: {error}"))?;
+    let file_name = Path::new(&asset.file_name)
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| "nome del pacchetto di aggiornamento non valido".to_string())?
+        .to_string();
+    let destination = folder.join(&file_name);
+
+    update(id, |task| {
+        task.phase = format!("Scarico la versione {}…", asset.version)
+    });
+    download_file(&asset.url, &destination, asset.size, |done, total| {
+        let expected = total.max(asset.size);
+        update(id, |task| {
+            task.done = done;
+            task.total = expected;
+            task.phase = format!("Scarico la versione {}…", asset.version);
+        });
+    })?;
+
+    update(id, |task| task.phase = "Apro l'installatore…".to_string());
+    open_installer(&destination)?;
+    Ok(format!(
+        "Versione {} scaricata in {}. Completa l'installazione dalla finestra aperta.",
+        asset.version,
+        destination.display()
+    ))
+}
+
+fn open_installer(path: &Path) -> Result<(), String> {
+    #[cfg(target_os = "macos")]
+    {
+        Command::new("open")
+            .arg(path)
+            .spawn()
+            .map_err(|error| format!("apertura del DMG: {error}"))?;
+        return Ok(());
+    }
+    #[cfg(target_os = "windows")]
+    {
+        Command::new("cmd")
+            .arg("/C")
+            .arg("start")
+            .arg("")
+            .arg(path)
+            .spawn()
+            .map_err(|error| format!("avvio dell'installatore: {error}"))?;
+        return Ok(());
+    }
+    #[cfg(all(not(target_os = "macos"), not(target_os = "windows")))]
+    {
+        let _ = path;
+        Err("L'aggiornamento automatico è disponibile per macOS e Windows.".to_string())
+    }
 }
 
 fn run_voice(app: &AppHandle, id: &str) -> Result<String, String> {

@@ -2824,21 +2824,6 @@
         <section class="panel-section">
           <h3>Rappresentazione CAA</h3>
           <div class="settings-row">
-            <label for="mode-select">Modalità</label>
-            <select
-              id="mode-select"
-              value={settings.mode}
-              onchange={(event) =>
-                onUpdateSettings({ mode: (event.currentTarget as HTMLSelectElement).value as never })}
-            >
-              <option value="testo">A · Solo testo</option>
-              <option value="sopra">B · Simboli sopra le parole</option>
-              <option value="sotto">C · Simboli con didascalia sotto</option>
-              <option value="solo_simboli">D · Solo simboli</option>
-              <option value="semplificata">E · CAA semplificata</option>
-            </select>
-          </div>
-          <div class="settings-row">
             <label for="symbol-layout-select">Disposizione pittogrammi</label>
             <select
               id="symbol-layout-select"

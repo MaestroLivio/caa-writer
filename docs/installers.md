@@ -1,5 +1,24 @@
 # Release e installer
 
+## Stato reale 0.15.17 (12 novembre 2026)
+
+- Editor universale e modalità Utilizzatore più vicini a un word processor:
+  pannello destro minimizzabile e ridimensionabile, sintesi durante la
+  digitazione, inserimento immagini.
+- Miniature delle pagine generate con lo stesso renderer SVG di stampa ed
+  esportazione.
+- Ribbon con etichette nascondibili (predefinito: solo icone), rimosse le
+  varianti di modalità; Gestione utenti con soli materiali assegnati.
+- Aggiornamento automatico all'avvio: scelta dell'asset per piattaforma,
+  download con avanzamento e apertura dell'installatore.
+- Pacchetto di diffusione scaricabile da Gestore pacchetti, Impostazioni e
+  primo avvio, con modello scelto in base alla memoria.
+- macOS arm64: `.app` 225,44 MiB, `.dmg` 191.722.725 byte, firmato ad-hoc
+  sull'intero bundle e verificato dal DMG.
+- Windows x64: installer NSIS cross-compilato (145.806.097 byte), controllato
+  staticamente con 7-Zip; non eseguito su hardware Windows.
+- CLI macOS arm64: 7.225.728 byte.
+
 ## Stato reale 0.15.16 (11 novembre 2026)
 
 - Corretto l'avvio dell'editor universale e inclusa la libreria materiali

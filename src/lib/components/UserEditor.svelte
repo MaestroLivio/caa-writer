@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { save as saveDialog } from "@tauri-apps/plugin-dialog";
   import CaaEditor from "../editor/CaaEditor.svelte";
   import FloatingKeyboard from "./FloatingKeyboard.svelte";
@@ -59,6 +59,109 @@
   let symbolResults = $state<Alternative[]>([]);
   let symbolBusy = $state(false);
   let symbolError = $state("");
+
+  /// Riquadro di destra: minimizzabile e ridimensionabile. La scelta è
+  /// ricordata per profilo, così ogni utilizzatore ritrova la sua larghezza.
+  const assistKey = `caa.user.assist.${profile.id}`;
+  let assistOpen = $state(true);
+  let assistWidth = $state(320);
+  let resizingAssist = false;
+  let imageInput: HTMLInputElement | undefined = $state();
+
+  function clampAssist(value: number): number {
+    return Math.min(520, Math.max(220, Math.round(value)));
+  }
+
+  function persistAssist() {
+    try {
+      localStorage.setItem(
+        assistKey,
+        JSON.stringify({ open: assistOpen, width: assistWidth })
+      );
+    } catch {
+      /* la preferenza vale per questa sessione */
+    }
+  }
+
+  function toggleAssist() {
+    assistOpen = !assistOpen;
+    persistAssist();
+  }
+
+  function startAssistResize(event: PointerEvent) {
+    event.preventDefault();
+    resizingAssist = true;
+    const startX = event.clientX;
+    const startWidth = assistWidth;
+    const move = (moveEvent: PointerEvent) => {
+      assistWidth = clampAssist(startWidth + (startX - moveEvent.clientX));
+    };
+    const up = () => {
+      resizingAssist = false;
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      persistAssist();
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+  }
+
+  function chooseImage() {
+    imageInput?.click();
+  }
+
+  async function onImageChosen(event: Event) {
+    const input = event.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = "";
+    if (!file) return;
+    try {
+      const data = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result ?? ""));
+        reader.onerror = () => reject(reader.error ?? new Error("file non leggibile"));
+        reader.readAsDataURL(file);
+      });
+      const label = file.name.replace(/\.[^.]+$/, "");
+      editor?.insertImage(data, label);
+      onToast("Immagine inserita nel punto del cursore.", "info");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    }
+  }
+
+  /// Sintesi durante la digitazione: stesse regole dell'editor universale.
+  function onTypingKey(event: KeyboardEvent) {
+    if (!canType || !canSpeak) return;
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest(".user-paper .ProseMirror")) return;
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (!isTauri()) return;
+    const sentenceTrigger = ["Enter", ".", "!", "?", ":", ";"].includes(event.key);
+    const wordTrigger = ["Enter", " "].includes(event.key);
+    if (settings.speak_sentences && sentenceTrigger) {
+      if (event.key === "Enter") {
+        const sentence = editor?.currentSentenceText() ?? "";
+        if (sentence.trim()) onSpeak(sentence);
+      } else {
+        window.setTimeout(() => {
+          const sentence = editor?.sentenceBeforeCursor() ?? "";
+          if (sentence.trim()) onSpeak(sentence);
+        }, 0);
+      }
+      return;
+    }
+    if (settings.speak_words && wordTrigger) {
+      if (event.key === "Enter") {
+        const text = editor?.currentBlockText() ?? "";
+        const match = text.match(/[\p{L}\p{N}][\p{L}\p{N}'’\-]*\s*$/u);
+        if (match) onSpeak(match[0].trim());
+      } else {
+        const word = editor?.wordBeforeCursor();
+        if (word) onSpeak(word);
+      }
+    }
+  }
 
   const liveToken = $derived.by((): CaaToken | null => {
     if (!selectedToken) return null;
@@ -230,6 +333,17 @@
   };
 
   onMount(() => {
+    try {
+      const raw = localStorage.getItem(assistKey);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { open?: boolean; width?: number };
+        assistOpen = parsed.open !== false;
+        assistWidth = clampAssist(Number(parsed.width) || 320);
+      }
+    } catch {
+      /* preferenza non disponibile */
+    }
+    window.addEventListener("keydown", onTypingKey, true);
     if (!isTauri()) {
       vocabularyBusy = false;
       vocabularyError = "Vocabolario disponibile solo nell'app desktop.";
@@ -248,6 +362,10 @@
         vocabularyBusy = false;
       }
     })();
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("keydown", onTypingKey, true);
   });
 
   function addUnit(alternative: Alternative) {
@@ -479,7 +597,11 @@
       </section>
     </main>
   {:else}
-    <main class="user-editor__writing">
+    <main
+      class="user-editor__writing"
+      class:user-editor__writing--collapsed={!assistOpen}
+      style={`--assist-width:${assistWidth}px`}
+    >
       <section class="user-paper" aria-label="Area di scrittura">
         <CaaEditor
           bind:this={editor}
@@ -511,7 +633,17 @@
         />
       </section>
 
+      {#if !assistOpen}
+        <button class="user-assist__restore" onclick={toggleAssist} title="Mostra i suggerimenti">
+          <span aria-hidden="true">‹</span> Suggerimenti
+        </button>
+      {:else}
       <aside class="user-assist" aria-label="Strumenti di scrittura">
+        <div class="user-assist__resize" role="separator" aria-orientation="vertical" aria-label="Ridimensiona i suggerimenti" onpointerdown={startAssistResize}></div>
+        <header class="user-assist__head">
+          <strong>Suggerimenti</strong>
+          <button class="btn btn--ghost" onclick={toggleAssist} aria-label="Minimizza i suggerimenti" title="Minimizza">×</button>
+        </header>
         {#if canFormat}
           <div class="user-assist__group">
             <span class="hint">Formato</span>
@@ -541,6 +673,20 @@
         </div>
 
         <div class="user-assist__group">
+          <span class="hint">Immagine</span>
+          <button class="btn" onclick={chooseImage}>Inserisci immagine</button>
+          <input
+            class="user-assist__file"
+            type="file"
+            accept="image/*"
+            bind:this={imageInput}
+            onchange={onImageChosen}
+            aria-label="Scegli un'immagine da inserire"
+          />
+          <p class="hint">L'immagine viene inserita nel punto del cursore e salvata nel documento.</p>
+        </div>
+
+        <div class="user-assist__group">
           <span class="hint">Tastiera</span>
           <p class="hint">
             La tastiera virtuale è ridotta a un pulsante in basso a destra: aprile quando serve,
@@ -553,6 +699,7 @@
           salvato si apre con «Apri documento».
         </p>
       </aside>
+      {/if}
     </main>
 
     <section class="user-symbols" aria-label="Pannello Simboli">
@@ -760,6 +907,68 @@
     gap: 14px;
     min-height: 0;
   }
+
+  .user-editor__writing {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--assist-width, 320px);
+    gap: 12px;
+    align-items: start;
+    min-height: 0;
+  }
+
+  .user-editor__writing--collapsed {
+    grid-template-columns: minmax(0, 1fr) 44px;
+  }
+
+  .user-assist {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: calc(100vh - 190px);
+    overflow: auto;
+    padding: 12px;
+    border: 1px solid var(--border, #d3d6e0);
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .user-assist__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .user-assist__head strong { font-size: 0.95rem; }
+
+  .user-assist__resize {
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 10px;
+    height: 100%;
+    cursor: col-resize;
+    touch-action: none;
+  }
+
+  .user-assist__resize:hover { background: rgba(36, 99, 235, 0.12); }
+
+  .user-assist__restore {
+    align-self: start;
+    min-height: 120px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    border: 1px solid var(--border, #d3d6e0);
+    border-radius: 12px;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 8px 4px;
+  }
+
+  .user-assist__file { display: none; }
 
   .user-message {
     display: flex;
