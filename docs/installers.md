@@ -1,5 +1,18 @@
 # Release e installer
 
+## Stato reale 0.15.18 (12 novembre 2026)
+
+- «Aggiorna ora» scarica il pacchetto della nuova versione per il computer
+  corrente e apre l'installatore, sia dalla notifica di avvio sia dal Gestore
+  pacchetti; non si apre più la pagina della release.
+- La riga «Libreria materiali» spiega che la libreria è inclusa nell'app e si
+  aggiorna con essa.
+- macOS arm64: `.dmg` 191.979.880 byte, `.app.zip` 186.455.620 byte, firmato
+  ad-hoc sull'intero bundle e verificato dal DMG.
+- Windows x64: installer NSIS cross-compilato (145.810.034 byte), controllato
+  staticamente con 7-Zip; non eseguito su hardware Windows.
+- CLI macOS arm64: 7.225.728 byte.
+
 ## Stato reale 0.15.17 (12 novembre 2026)
 
 - Editor universale e modalità Utilizzatore più vicini a un word processor:

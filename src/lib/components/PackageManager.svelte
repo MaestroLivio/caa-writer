@@ -208,15 +208,14 @@
             <span class="badge badge--accent">Disponibile {updates.latest_version}</span>
             <button
               class="btn btn--solid"
-              onclick={() => {
-                if (onStartDownload) onStartDownload(["update"]);
-                else void openLink(updates!.release_url);
-              }}
+              disabled={!onStartDownload}
+              title={onStartDownload ? undefined : "Il download automatico richiede l'app desktop."}
+              onclick={() => onStartDownload?.(["update"])}
             >Aggiorna ora</button>
-            <button class="btn" onclick={() => void openLink(updates!.release_url)}>Pagina della release</button>
             <span class="hint">
               Il download sceglie automaticamente il pacchetto per questo computer e apre
-              l'installatore. Su macOS si trascina l'app nella cartella Applicazioni.
+              l'installatore: su macOS il DMG, su Windows il programma di installazione. La
+              libreria materiali è inclusa e si aggiorna con l'app.
             </span>
           {:else if updates.latest_version}
             <span class="badge">Già aggiornato ({updates.latest_version})</span>
@@ -227,9 +226,24 @@
         <div class="updates__row">
           <strong>Libreria materiali</strong>
           <span>Versione locale: {formatDate(updates.library_current)}</span>
-          {#if updates.library_available && updates.library_latest}
+          {#if updates.library_available && updates.library_latest && updates.software_available}
             <span class="badge badge--accent">Aggiornamento disponibile ({formatDate(updates.library_latest)})</span>
-            <button class="btn" onclick={() => void openLink("https://github.com/MaestroLivio/caa-writer/releases/latest")}>Scarica la nuova libreria</button>
+            <button
+              class="btn btn--solid"
+              disabled={!onStartDownload}
+              title={onStartDownload ? undefined : "Il download automatico richiede l'app desktop."}
+              onclick={() => onStartDownload?.(["update"])}
+            >Aggiorna ora</button>
+            <span class="hint">
+              La libreria è inclusa nell'app: l'aggiornamento scarica la versione
+              {updates.latest_version ?? "più recente"} per questo computer e apre l'installatore.
+            </span>
+          {:else if updates.library_available && updates.library_latest}
+            <span class="badge">Libreria più recente sul repository ({formatDate(updates.library_latest)})</span>
+            <span class="hint">
+              L'ultima versione dell'app installata contiene già una libreria precedente: la
+              nuova arriverà con la prossima release. Non serve scaricare nulla a mano.
+            </span>
           {:else if updates.library_latest}
             <span class="badge">Libreria aggiornata</span>
           {:else}

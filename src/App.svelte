@@ -5332,7 +5332,13 @@
     {aiStatus}
     onStatusChange={refreshAiStatus}
     onToast={toast}
-    onStartDownload={(ids) => void startDownloads(ids, false)}
+    onStartDownload={(ids) => {
+      // Il download ha una finestra propria: chiudendo il Gestore pacchetti
+      // l'avanzamento resta visibile invece di finire dietro alla finestra.
+      packagesOpen = false;
+      requestedPackages = [];
+      void startDownloads(ids, false);
+    }}
     onClose={() => {
       packagesOpen = false;
       requestedPackages = [];
