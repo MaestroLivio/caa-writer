@@ -114,6 +114,8 @@
   let toasts = $state<Toast[]>([]);
   let toastSeq = 0;
   let dirty = $state(false);
+  let externalChange = $state<{ path: string; removed: boolean; stamp: string | null; at: number } | null>(null);
+  let docDiskStamp = $state<string | null>(null);
   let autoSavedAt = $state<string | null>(null);
   let recovery = $state<{ plain_text: string; content: unknown; title: string } | null>(null);
   let recovered = $state(false);
@@ -702,6 +704,7 @@
   onMount(() => {
     if (!native) return;
     let unlisten: (() => void) | null = null;
+    let unlistenChange: (() => void) | null = null;
     void (async () => {
       try {
         const pending = await api.takePendingOpen();
@@ -709,12 +712,38 @@
         unlisten = await listen<string>("open-document", (event) => {
           if (event.payload) void loadFrom(event.payload, true);
         });
+        unlistenChange = await listen<{
+          path: string;
+          method: string;
+          source: string;
+          removed: boolean;
+          exists: boolean;
+          stamp: string | null;
+          at: number;
+        }>("automation-document-changed", (event) => {
+          const change = event.payload;
+          const current = universalPath ?? docPath;
+          if (!current || !samePath(change.path, current)) return;
+          if (change.removed || !change.exists) {
+            externalChange = { path: change.path, removed: true, stamp: null, at: change.at };
+            toast("Il documento aperto è stato eliminato o spostato da CLI/MCP.", "warn");
+            return;
+          }
+          if (change.stamp && change.stamp === docDiskStamp) return;
+          if (!dirty) {
+            void reloadExternalDocument(change.path, change.stamp);
+          } else {
+            externalChange = { path: change.path, removed: false, stamp: change.stamp, at: change.at };
+            toast("Il documento aperto è stato modificato da CLI/MCP. Hai modifiche non salvate.", "warn");
+          }
+        });
       } catch {
         /* il player resta utilizzabile anche se l'evento non è disponibile */
       }
     })();
     return () => {
       if (unlisten) unlisten();
+      if (unlistenChange) unlistenChange();
     };
   });
 
@@ -1221,6 +1250,8 @@
       universalReadOnly = readOnly;
       docTitle = opened.document.title;
       view = userMode ? "universal" : "editor";
+      const stamp = await api.documentStamp(opened.path).catch(() => null);
+      docDiskStamp = stamp;
       return true;
     } catch (error) {
       if (!quiet) toast(error instanceof Error ? error.message : String(error), "error");
@@ -1290,6 +1321,8 @@
     docTitle = document.title;
     recordRecent({ path, title: docTitle, excerpt: plain.slice(0, 160) });
     void clearRecoveryDraft();
+    const stamp = await api.documentStamp(path).catch(() => null);
+    docDiskStamp = stamp;
     if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
     toast(`Documento salvato in ${path}`, "info");
   }
@@ -1484,6 +1517,8 @@
       docTitle = path.split(/[\\/]/).pop()?.replace(/\.caadoc$/i, "") ?? docTitle;
       dirty = false;
       void clearRecoveryDraft();
+      const stamp = await api.documentStamp(path).catch(() => null);
+      docDiskStamp = stamp;
       recordRecent({
         path,
         title: docTitle,
@@ -1550,6 +1585,8 @@
       docTitle = data.title || "Progetto libero";
       freeBoardData = data;
       recordRecent({ path, title: docTitle, excerpt: `${data.cells.length} caselle` });
+      const stamp = await api.documentStamp(path).catch(() => null);
+      docDiskStamp = stamp;
       if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
       toast(`Foglio libero salvato in ${path}`, "info");
     } catch (error) {
@@ -1613,6 +1650,8 @@
         title: docTitle,
         excerpt: `${(spec.elements ?? []).length} celle comunicative`,
       });
+      const stamp = await api.documentStamp(path).catch(() => null);
+      docDiskStamp = stamp;
       if (result.warnings.length) result.warnings.forEach((warning) => toast(warning, "warn"));
       toast(`Comunicatore salvato in ${path}`, "info");
     } catch (error) {
@@ -1620,9 +1659,35 @@
     }
   }
 
+  function samePath(left: string, right: string): boolean {
+    return left === right || left.replace(/\\/g, "/") === right.replace(/\\/g, "/");
+  }
+
+  async function reloadExternalDocument(path: string, stamp: string | null): Promise<void> {
+    toast("Ricarico il documento modificato da CLI/MCP…", "info");
+    await loadFrom(path);
+    docDiskStamp = stamp ?? (await api.documentStamp(path).catch(() => null));
+    externalChange = null;
+  }
+
+  function dismissExternalChange(): void {
+    externalChange = null;
+  }
+
+  async function acceptExternalChange(): Promise<void> {
+    if (!externalChange) return;
+    const path = externalChange.path;
+    const stamp = externalChange.stamp;
+    externalChange = null;
+    await loadFrom(path);
+    docDiskStamp = stamp ?? (await api.documentStamp(path).catch(() => null));
+  }
+
   async function loadFrom(path: string, asPlayer = false) {
     try {
       const loaded = await api.loadDocument(path);
+      const stamp = await api.documentStamp(path).catch(() => null);
+      docDiskStamp = stamp;
       // Un documento aperto sostituisce la bozza: non va più proposta.
       void clearRecoveryDraft();
       docTitle = loaded.title || path.split(/[\\/]/).pop() || "Documento";
@@ -4745,6 +4810,21 @@
       C'è una bozza automatica con {recovery.plain_text.length} caratteri.
       <button class="btn btn--solid" onclick={restoreRecovery}>Recupera</button>
       <button class="btn" onclick={discardRecovery}>Ignora</button>
+    </div>
+  {/if}
+
+  {#if externalChange}
+    <div class="banner banner--external" role="alert">
+      <strong>Modifica esterna rilevata.</strong>
+      {#if externalChange.removed}
+        Il documento aperto è stato eliminato o spostato da CLI/MCP.
+      {:else}
+        Il documento aperto è stato modificato da CLI/MCP mentre avevi modifiche non salvate.
+      {/if}
+      {#if !externalChange.removed}
+        <button class="btn btn--solid" onclick={() => void acceptExternalChange()}>Scarta le mie modifiche e ricarica</button>
+      {/if}
+      <button class="btn" onclick={dismissExternalChange}>Mantieni le mie modifiche</button>
     </div>
   {/if}
 

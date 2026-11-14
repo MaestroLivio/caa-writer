@@ -29,6 +29,8 @@ Sintesi onesta di ciò che esiste nel codice:
 | Biblioteca di 300 modelli CAA filtrabili e apribili | implementato |
 | Modifica del documento con prompt e anteprima | implementato |
 | CLI headless `caa-cli` con `call`/`rpc` per agenti | implementato |
+| Server MCP stdio `caa-mcp` con tool, risorse e prompt | implementato (stdio; nessun HTTP) |
+| Agent Skill installabile per OpenCode/Codex/Claude Code | `agent-skill/` |
 | Selezione di qualsiasi parola e aggiunta di un pittogramma senza simbolo preesistente | implementato |
 | Pittogramma + testo digitato, senza didascalia duplicata (didascalie opzionali) | implementato |
 | Stili di bordo del pittogramma (nessuno, immagine, immagine+testo, separato, divisore) | implementato |
@@ -143,3 +145,19 @@ richieste e che resti fuori dal repository.
 
 `cargo run --bin caa-cli -- info` avvia il motore headless. Documentazione:
 [`docs/AGENT.md`](docs/AGENT.md).
+
+C'è anche un server MCP locale con trasporto stdio che espone gli stessi metodi:
+
+```bash
+cd src-tauri
+cargo run --bin caa-mcp -- --access write
+```
+
+Documentazione: [`docs/MCP.md`](docs/MCP.md). La Agent Skill pronta per
+OpenCode/Codex/Claude Code è in [`agent-skill/`](agent-skill/), con catalogo
+generato dal registro reale e verifica in `agent-skill/tests/check_skill.py`.
+Rapporto completo: [`docs/AUTOMATION_REPORT.md`](docs/AUTOMATION_REPORT.md).
+
+Regole di sicurezza: `--access read|write|admin`, conferma `confirm: true` per
+le operazioni distruttive, dry-run reale. La radice `project.*` è
+`<data-dir>/projects` e non accetta percorsi che ne escano.

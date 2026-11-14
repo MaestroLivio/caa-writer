@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-14T12:00:00Z",
+  "symbols": [
+    {
+      "id": "arasaac.picto.26997",
+      "label_it": "giorno",
+      "category": "tempo",
+      "url": "https://static.arasaac.org/img/pictogram/26997.png",
+      "license": "CC BY-NC-SA 4.0",
+      "author": "Sergio Palao",
+      "source": "ARASAAC"
+    },
+    {
+      "id": "arasaac.picto.25269",
+      "label_it": "telefono cellulare",
+      "category": "tecnologia",
+      "url": "https://static.arasaac.org/img/pictogram/25269.png",
+      "license": "CC BY-NC-SA 4.0",
+      "author": "Sergio Palao",
+      "source": "ARASAAC"
+    },
+    {
+      "id": "arasaac.picto.11685",
+      "label_it": "sintesi vocale",
+      "category": "tecnologia",
+      "url": "https://static.arasaac.org/img/pictogram/11685.png",
+      "license": "CC BY-NC-SA 4.0",
+      "author": "Sergio Palao",
+      "source": "ARASAAC"
+    }
+  ]
+}

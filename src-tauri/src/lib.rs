@@ -9,6 +9,7 @@
 pub mod ai_engine;
 pub mod ai_provider;
 pub mod asset_manager;
+pub mod automation;
 pub mod commands;
 pub mod database;
 pub mod downloads;
@@ -79,7 +80,26 @@ pub fn run() {
                     for warning in &engine.startup_warnings {
                         eprintln!("[caa-writer] {warning}");
                     }
+                    let data_dir = engine.paths.data_dir.clone();
+                    let resources_dir = engine.paths.resources_dir.clone();
                     app.manage(engine);
+                    // Bridge locale per CLI e MCP. Se non parte, l'app resta
+                    // utilizzabile: i client continueranno in headless.
+                    match automation::bridge::BridgeServer::start(
+                        app.handle().clone(),
+                        data_dir,
+                        resources_dir,
+                    ) {
+                        Ok(bridge) => {
+                            eprintln!(
+                                "[caa-writer] bridge di automazione su {} (pid {})",
+                                bridge.descriptor().url,
+                                bridge.descriptor().pid
+                            );
+                            app.manage(bridge);
+                        }
+                        Err(error) => eprintln!("[caa-writer] bridge non avviato: {error}"),
+                    }
                     Ok(())
                 }
                 Err(err) => {
@@ -105,6 +125,7 @@ pub fn run() {
             commands::save_document,
             commands::remove_recovery_draft,
             commands::load_document,
+            commands::document_stamp,
             commands::export_html,
             commands::export_docx,
             commands::export_attributions,
@@ -227,6 +248,9 @@ pub fn run() {
             // All'uscita si ferma `llama-server`: altrimenti il processo figlio
             // resta attivo e occupa RAM anche dopo la chiusura della finestra.
             tauri::RunEvent::Exit => {
+                if let Some(bridge) = app_handle.try_state::<automation::bridge::BridgeServer>() {
+                    bridge.shutdown();
+                }
                 if let Some(engine) = app_handle.try_state::<engine::Engine>() {
                     engine.shutdown();
                 }

@@ -30,7 +30,10 @@ npm run test:frontend         # test Node
 cd src-tauri
 cargo test --lib              # test Rust
 cargo test --test semantic_corpus
-cargo build --release --bin caa-cli
+cargo build --release --bin caa-cli --bin caa-mcp
+
+# controlli della Agent Skill (con catalogo reale)
+python3 ../agent-skill/tests/check_skill.py --resources ../resources
 ```
 
 Il binario della CLI viene creato in:
@@ -64,9 +67,11 @@ Flag globali:
 
 | Flag | Significato |
 |---|---|
-| `--data-dir PATH` | database, asset importati, cache vocale |
+| `--data-dir PATH` | database, asset importati, cache vocale, progetti |
 | `--resources PATH` | `dictionaries/`, `symbol-packs/`, `templates/`, `voice/` |
 | `--compact` | una riga JSON invece di JSON indentato |
+| `--access read\|write\|admin` | limita le operazioni (default `admin`) |
+| `--dry-run` | per le operazioni che scrivono, mostra cosa farebbe senza eseguirle |
 
 Risoluzione predefinita:
 
@@ -134,10 +139,49 @@ def call(method, params):
 print(call("info", {}))
 ```
 
+### 4.3 Accesso, conferme e dry-run
+
+La politica è nel dispatch condiviso, quindi non dipende dall'interfaccia:
+
+| Modalità | Letture | Scritture non distruttive | Distruttive |
+|---|---|---|---|
+| `read` | sì | no | no |
+| `write` | sì | sì | no |
+| `admin` | sì | sì | sì con `confirm: true` |
+
+Le operazioni distruttive sono dichiarate nel catalogo con `destructive: true`.
+Senza `confirm: true` il dispatch restituisce un errore e non tocca nulla.
+`--dry-run` restituisce `{"dry_run":true,"would_execute":true,...}` per le
+operazioni che scrivono. In RPC ogni richiesta può impostare `access` e
+`dry_run` e sovrascrivere i flag globali.
+
 ## 5. Metodi disponibili
 
-`caa-cli methods` restituisce l'elenco aggiornato. I parametri sono JSON con
-nomi `snake_case`.
+Il registro unico è `src-tauri/src/automation/registry.rs`. Da lì derivano
+l'elenco CLI, il catalogo `app.capabilities`, gli schemi JSON e i tool MCP: non
+esiste un secondo elenco da aggiornare. `caa-cli methods` restituisce i nomi;
+`caa-cli capabilities` restituisce schemi, categorie e modalità di accesso.
+`caa-cli capabilities --format markdown` genera il riferimento leggibile usato
+dalla Agent Skill.
+
+### 5.0 Domini aggiunti dall'automazione
+
+| Metodo | Parametri principali | Note |
+|---|---|---|
+| `app.capabilities` | `format`, `category` | catalogo generato dal registro |
+| `app.status` | — | database, percorsi, IA, job, limiti |
+| `app.diagnostics` | — | CPU/RAM, coda neurale, metriche |
+| `settings.list/get/set` | `prefix`; `key`; `key,value` | impostazioni persistite |
+| `project.list/create/open/validate/save/duplicate/rename/delete/export` | percorsi **relativi** alla radice progetti | `delete` è distruttivo |
+| `document.create/get/update/export` | `path`, `commands`, `format`, `out` | transazioni universali |
+| `element.add/update/delete/move/duplicate` | `path`, `page`, `id`, `patch`, coordinate | `delete` è distruttivo |
+| `content.generate/transform/validate` | `kind`, `prompt`, `spec`, `path` | materiali, storie, layout, immagini, testo |
+| `job.start/status/result/cancel/list` | `method`, `params`, `id` | solo in `rpc`/MCP: il registro vive nel processo |
+
+La radice progetti è `<data-dir>/projects`. I percorsi assoluti, `..` e i link
+simbolici che escono dalla radice vengono rifiutati.
+
+I parametri sono JSON con nomi `snake_case`.
 
 ### 5.1 Stato e motore
 
@@ -387,16 +431,16 @@ completo.
 
 ## 7. Cosa la CLI non fa (e perché)
 
-- **Non applica le operazioni del prompt a un documento ProseMirror.** Il
-  parsing e la validazione sono nella CLI; l'applicazione usa le transazioni
-  dell'editor nella GUI. La CLI può però applicare `layout.edit`, generare
-  `templates.plan` e modificare le impostazioni tramite un agente che legge il
-  piano.
+- **Non si sincronizza con la GUI aperta.** Il bridge locale non è implementato
+  in questa versione: CLI e MCP lavorano in headless e una modifica al file non
+  ricarica il documento ProseMirror aperto. Non viene simulata la digitazione.
 - **Non pilota drag-and-drop, dialoghi di file o il comunicatore a schermo
   intero.** Sono superfici della GUI.
 - **Non firma, non pubblica e non installa** aggiornamenti.
 - **Non inventa provider online** non verificati.
 - **Non converte HEIC** perché il decoder non è incluso.
+- **Non espone l'esecuzione di comandi shell.** L'API è tipizzata per scelta.
+- **Non ha un server MCP HTTP.** È implementato solo il trasporto stdio.
 
 ## 8. Flussi consigliati per un agente
 
@@ -611,6 +655,10 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
 
 - La CLI non apre connessioni se non si chiamano `online.*` o `voice.*` che
   richiedono download/voce.
+- La politica `read/write/admin` e le conferme sono applicate nel dispatch
+  condiviso, non solo nel server MCP.
+- `project.*` non esce mai da `<data-dir>/projects`: rifiuta percorsi assoluti,
+  `..` e link simbolici che puntano fuori.
 - I download sono limitati a `upload.wikimedia.org` e
   `static.arasaac.org`; dimensione massima 10 MB; timeout; MIME verificato.
 - Gli SVG importati passano dal sanificatore esistente: niente script,
@@ -623,6 +671,11 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
 
 | Area | File |
 |---|---|
+| dispatch condiviso | `src-tauri/src/automation/mod.rs` |
+| registro operazioni | `src-tauri/src/automation/registry.rs` |
+| politica di accesso | `src-tauri/src/automation/policy.rs` |
+| job in background | `src-tauri/src/automation/jobs.rs` |
+| avvio CLI/MCP | `src-tauri/src/automation/bootstrap.rs` |
 | motore | `src-tauri/src/engine.rs` |
 | analisi linguistica | `src-tauri/src/linguistics/` |
 | database e migrazioni | `src-tauri/src/database/` |
@@ -632,6 +685,8 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
 | layout | `src-tauri/src/layout.rs`, `layout_edit.rs` |
 | modelli | `src-tauri/src/studio.rs`, `resources/templates/` |
 | CLI | `src-tauri/src/bin/caa-cli.rs` |
+| server MCP | `src-tauri/src/bin/caa-mcp.rs` |
+| Agent Skill | `agent-skill/` |
 | editor | `src/lib/editor/`, `src/App.svelte` |
 | pannelli | `src/lib/components/SidePanel.svelte` |
 | Ribbon | `src/lib/components/Ribbon.svelte` |

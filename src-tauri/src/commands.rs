@@ -302,6 +302,17 @@ pub fn load_document(state: State<'_, Engine>, path: String) -> Result<LoadedDoc
     Ok(loaded)
 }
 
+/// Impronta del file sul disco usata dal frontend per distinguere una modifica
+/// esterna (CLI/MCP) da un salvataggio della GUI. Non modifica nulla.
+#[tauri::command]
+pub fn document_stamp(path: String) -> Result<Option<String>, String> {
+    let target = Path::new(&path);
+    if !target.is_file() {
+        return Ok(None);
+    }
+    Ok(crate::automation::bridge::file_stamp(target))
+}
+
 #[tauri::command]
 pub fn export_html(path: String, doc: ExportDoc) -> Result<ExportResult, String> {
     html::write(Path::new(&path), &doc)

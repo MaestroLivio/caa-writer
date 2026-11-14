@@ -267,6 +267,7 @@ export const api = {
   saveDocument: (path: string, payload: DocumentPayload) =>
     call<ExportResult>("save_document", { path, payload }),
   loadDocument: (path: string) => call<LoadedDocument>("load_document", { path }),
+  documentStamp: (path: string) => call<string | null>("document_stamp", { path }),
   removeRecoveryDraft: () => call<boolean>("remove_recovery_draft"),
   importDocumentText: (path: string) => call<string>("import_document_text", { path }),
 

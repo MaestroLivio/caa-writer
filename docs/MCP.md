@@ -1,55 +1,206 @@
-# Server MCP: stato reale nel progetto
+# Server MCP di CAA Writer
 
-## Riepilogo
+## Stato reale
 
-**Nessun server MCP è stato configurato o utilizzato** durante lo sviluppo di CAA Writer. Le 88
-immagini del repertorio incluso sono state disegnate a mano come SVG originali, senza servizi di
-generazione, senza download da repertori di terzi e senza chiamate di rete.
+CAA Writer include un **server MCP locale** (`caa-mcp`) con trasporto **stdio**.
+Non è un servizio remoto e non richiede account. È stato implementato e
+verificato in questa sessione: `initialize`, `tools/list`, `tools/call`,
+`resources/list`, `resources/read`, `prompts/list`, `prompts/get` e `ping`
+funzionano con messaggi JSON-RPC reali su stdin/stdout.
 
-Questa pagina esiste perché il capitolato richiede di valutare i server MCP disponibili e di
-distinguere chiaramente ciò che è stato usato da ciò che è solo previsto.
+Il server **non** è un client MCP e **non** collega servizi esterni. I servizi
+SVGMaker, CleanVector, SVG.new e Svg/icons citati in passato non sono
+configurati né usati.
 
-## Valutazione dei servizi indicati nel capitolato
+## Perché esiste
 
-| Servizio | Natura | Stato nel progetto | Note |
-|---|---|---|---|
-| SVGMaker MCP | server MCP per generare SVG | non configurato, non usato | richiede account e credenziali; le credenziali non vanno nel repository |
-| CleanVector MCP | API/MCP con generazione di illustrazioni vettoriali | non configurato, non usato | servizio remoto a pagamento; incompatibile con il requisito offline per l'uso quotidiano |
-| SVG.new MCP | servizio remoto di generazione SVG | non configurato, non usato | richiede rete e credenziali |
-| Svg/icons MCP | catalogo di icone | non configurato, non usato | le icone di terzi hanno licenze da verificare singolarmente |
+Espone la stessa API applicativa della CLI, senza duplicare la logica:
 
-Non è stata presa per buona nessuna dichiarazione di funzionalità di questi servizi: non essendo
-stati collegati, non è possibile affermare quali strumenti espongano realmente.
+```text
+caa-cli / caa-mcp / GUI
+          │
+          ▼
+  automation::dispatch
+          │
+          ├── policy (read/write/admin, confirm, dry-run)
+          ├── registry (metodi, schemi, tool, catalogo)
+          └── engine.rs, database, universal, export...
+```
 
-## Perché i pittogrammi sono originali
+Ogni tool MCP corrisponde a un metodo del registro con campo `tool`. Gli alias
+solo CLI (`methods`, `speak`) non sono esposti come tool.
 
-1. **Licenze pulite.** Disegnare i simboli in casa evita di incorporare repertori con clausole
-   incompatibili (ARASAAC è CC BY-NC-SA e non può stare in una distribuzione commerciale).
-2. **Qualità controllata.** Geometrie semplici, sfondo trasparente, leggibilità a 48 px, nessun
-   testo incorporato, variante monocromatica ottenibile per filtro.
-3. **Riproducibilità.** `scripts/generate_icons.py` e i file in `resources/symbol-packs/core/svg/`
-   sono versionati: chiunque può ricostruire e verificare il risultato.
+## Avvio
 
-## Se in futuro si vorrà usare un MCP
+```bash
+cd src-tauri
+cargo build --bin caa-mcp
 
-La generazione via servizio è prevista come **funzione facoltativa dell'applicazione**, non come
-dipendenza di sviluppo:
+./target/debug/caa-mcp \
+  --data-dir "/percorso/dati" \
+  --resources "../resources" \
+  --access write
+```
 
-1. L'utente configura il servizio e fornisce la propria credenziale; la credenziale resta locale e
-   non entra nel repository né nel frontend.
-2. Viene inviato **solo il concetto astratto** e una descrizione generica, mai il documento.
-3. L'SVG ricevuto passa la stessa validazione degli import locali: XML valido, `viewBox`, nessuno
-   script, nessun evento inline, nessun riferimento esterno, dimensione massima.
-4. Il simbolo nasce con stato `da verificare`; serve l'approvazione di un professionista prima
-   dell'uso in materiali destinati a persone.
-5. Dopo l'approvazione il simbolo è disponibile **offline** come qualsiasi altro.
+| Flag | Valori | Default |
+|---|---|---|
+| `--data-dir` | percorso | cartella dati dell'app o `CAA_WRITER_DATA_DIR` |
+| `--resources` | percorso con `dictionaries/it-core.json` | `resources/` trovata automaticamente |
+| `--access` | `read`, `write`, `admin` | `write` |
+| `--transport` | solo `stdio` | `stdio` |
 
-Questa parte non è implementata: l'applicazione oggi importa SVG già presenti sul disco
-(`import_svg_symbol`, `scripts/import_symbols.py`). Non esiste alcuna chiamata di rete per generare
-simboli.
+Per un agente in sola lettura usa `--access read`. Le operazioni distruttive
+richiedono `admin` **e** `confirm: true` negli argomenti.
 
-## Generazione delle icone dell'applicazione
+## Trasporto
 
-Le icone (PNG, ICO, ICNS) sono prodotte localmente da `scripts/generate_icons.py`, che rasterizza
-un disegno geometrico originale e scrive i contenitori PNG/ICO/ICNS senza dipendenze esterne. Non
-sono state usate icone di terzi.
+- **stdio**: messaggi JSON-RPC 2.0 delimitati da riga (standard MCP). In
+  ingresso è accettato anche il framing `Content-Length`.
+- **HTTP**: `caa-mcp --transport http --bind 127.0.0.1:8765` espone
+  `POST /mcp` (JSON-RPC, risposta JSON) e `GET /health`. Il protocollo è
+  Streamable HTTP minimale: una richiesta per connessione, sessione riportata
+  nell'header `Mcp-Session-Id`. Su indirizzi non loopback serve `--token`.
+- I log vanno su **stderr**; **stdout** (stdio) contiene solo protocollo.
+- Il server non esegue shell e non espone percorsi arbitrari.
+
+## Handshake di esempio
+
+```json
+{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}
+{"jsonrpc":"2.0","method":"notifications/initialized"}
+{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
+```
+
+Risposta di `initialize` (campi principali):
+
+```json
+{
+  "protocolVersion": "2024-11-05",
+  "capabilities": {
+    "tools": {"listChanged": false},
+    "resources": {"subscribe": false, "listChanged": false},
+    "prompts": {"listChanged": false}
+  },
+  "serverInfo": {"name": "caa-writer", "title": "CAA Writer", "version": "0.15.20"}
+}
+```
+
+Il server negozia la versione `2024-11-05`. Il client può proporre una versione
+diversa; il server risponde con la propria.
+
+## Tool
+
+`tools/list` restituisce 92 tool generati dal registro. Ogni tool ha:
+
+- `name` con underscore (`project_create`);
+- `description` con metodo CLI e livello di rischio;
+- `inputSchema` JSON Schema;
+- `annotations` (`readOnlyHint`, `destructiveHint`, `idempotentHint`,
+  `openWorldHint`);
+- `x-caa-method` e, quando presente, `x-caa-example`.
+
+`tools/call`:
+
+```json
+{"jsonrpc":"2.0","id":3,"method":"tools/call",
+ "params":{"name":"project_list","arguments":{}}}
+```
+
+Risposta:
+
+```json
+{
+  "content": [{"type":"text","text":"{...}"}],
+  "structuredContent": {"root":"...","items":[],"count":0},
+  "isError": false
+}
+```
+
+Un errore applicativo reale restituisce `isError: true` e il messaggio nel
+testo; non viene trasformato in un finto successo.
+
+### Dry-run da MCP
+
+Aggiungi `dry_run: true` agli argomenti del tool:
+
+```json
+{"name":"project_create","arguments":{"path":"x.caadoc","title":"X","dry_run":true}}
+```
+
+Il campo viene rimosso prima del dispatch e la risposta contiene
+`dry_run: true` senza creare file.
+
+## Risorse
+
+| URI | Contenuto |
+|---|---|
+| `caa://capabilities` | catalogo JSON generato dal registro |
+| `caa://status` | stato applicativo reale |
+| `caa://instructions` | istruzioni operative e limiti |
+
+Le risorse sono lette con `resources/read`. Non richiedono rete.
+
+## Prompt
+
+| Nome | Argomenti | Uso |
+|---|---|---|
+| `create_material` | `request`, `template_id?` | pianifica un materiale CAA |
+| `edit_document` | `path`, `request` | modifica un progetto |
+| `find_symbol` | `word` | cerca simboli senza inventarli |
+| `analyze_text` | `text` | simbolizza e segnala i buchi |
+
+I prompt sono testo di orientamento: non eseguono operazioni da soli. L'agente
+deve chiamare i tool e riportare i risultati reali.
+
+## Configurazione in un client MCP
+
+```json
+{
+  "mcpServers": {
+    "caa-writer": {
+      "command": "/percorso/assoluto/src-tauri/target/debug/caa-mcp",
+      "args": [
+        "--data-dir", "/percorso/dati",
+        "--resources", "/percorso/risorse",
+        "--access", "write"
+      ]
+    }
+  }
+}
+```
+
+La stessa configurazione vale per OpenCode, Codex e Claude Code, purché il
+client supporti i server MCP stdio. La Agent Skill è in `agent-skill/`.
+
+## Verifica eseguita
+
+```bash
+printf '%s\n%s\n%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' \
+  '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"app_get_capabilities","arguments":{}}}' \
+  | ./target/debug/caa-mcp --data-dir "$TMP/data" --resources ../resources --access read
+```
+
+Esito reale in questa sessione: `initialize` ok, 92 tool, chiamata ok con 94
+operazioni nel catalogo. I test di framing sono in `caa-mcp.rs` e si eseguono
+con `cargo test --bin caa-mcp`.
+
+## Limiti dichiarati
+
+- Solo stdio; nessun HTTP.
+- Nessun bridge con la GUI aperta: non c'è sincronizzazione live del documento
+  ProseMirror.
+- I job vivono in memoria nel processo MCP e usano una propria istanza del
+  motore; l'annullamento è cooperativo.
+- Le operazioni di rete dipendono dalla rete e dalle configurazioni locali;
+  offline falliscono con un errore esplicito.
+- Windows e Linux non sono stati eseguiti in questa sessione.
+
+## Perché i pittogrammi del repository sono originali
+
+Il pacchetto `core` contiene SVG disegnati in casa, con licenza CC BY-NC-SA 4.0
+e senza dipendenze da servizi esterni. ARASAAC non è nel repository: le copie
+si scaricano online nella cartella dati dell'utente, con licenza CC BY-NC-SA
+4.0 e attribuzione a Sergio Palao. Questo mantiene il repository distribuibile
+e l'app utilizzabile offline dopo il primo download esplicito.
