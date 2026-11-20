@@ -1,81 +1,88 @@
-# CAA Writer 0.14.0 — note di rilascio
+# CAA Writer 0.15.21 — correzione dei pittogrammi espliciti
 
-Profili con materiali assegnati, stampa nativa, comunicatore tocco e layout visuale.
+Data: 20 novembre 2026
 
-## Novità
+## Correzione principale
 
-- **Profili e utenti**: ogni profilo vede solo i materiali assegnati; gestione
-  utenti con ricerca tra i 330 documenti, PIN Creator e cambio profilo.
-- **Ritorno alla modalità Utilizzatore** dall’Area Creator; il documento aperto
-  viene chiuso e si torna alla schermata del profilo.
-- **Stampa nativa** (`WebviewWindow::print`) per documento, generatore e foglio
-  libero. Il vecchio `window.print()` non è più il percorso principale.
-- **Comunicatore**: «Componi frase» e «Tocca per parlare», con pronuncia
-  immediata in modalità tocco.
-- **Didascalie automatiche** quando il bordo include il testo; rimossa
-  l’opzione separata «Didascalie visibili».
-- **Alto contrasto reversibile** e selettore tema in Visualizza; **schermo
-  intero** con i permessi Tauri necessari.
-- **Editor visuale**: miniature richiudibili, righello con margini
-  trascinabili, guide magnetiche, celle svincolabili, ancoraggio
-  davanti/dietro/in linea e ripaginazione automatica dei documenti a flusso.
-- **Righello** anche nel word processor da Layout → Pagina.
+Scrivendo «pap» (prima di «papà») non compare più il pittogramma «pap test»
+quando i contenuti espliciti sono disattivati.
+
+La causa era nell'import automatico ARASAAC: una ricerca parziale accettava il
+primo risultato senza verificare il titolo, quindi «pap» importava «pap test»
+come copia personale con etichetta «pap». La correzione agisce su quattro
+livelli:
+
+- l'import automatico accetta solo un titolo che corrisponde davvero alla
+  parola (con eventuale articolo italiano);
+- una migrazione nasconde gli import automatici già sbagliati, senza
+  cancellare gli asset;
+- i ripieghi automatici di `resolveMissingSymbols` rispettano il filtro dei
+  contenuti espliciti;
+- l'editor universale applica lo stesso filtro anche ai pittogrammi già
+  salvati nelle caselle.
+
+Nello stesso aggiornamento la rianalisi non sostituisce più un pittogramma
+bloccato dall'utente.
+
+## Novità incluse
+
+- Motore decisionale locale per disambiguazione, intenzione, categoria, board,
+  emozione, azione, layout e obiettivo, con runtime ONNX incluso nella build.
+- Suggerimenti Horizon applicati direttamente nell'editor principale, in
+  CaaEditor e nel compositore di frasi dell'editor universale.
+- Modalità sviluppatore della libreria con anteprima, modifica,
+  sostituzione, aggiunta ed eliminazione dei documenti.
+- Libreria arricchita con materiale v2, dizionario v8 e catalogo
+  pre-indicizzato.
 
 ## Limiti
 
-- La stampa è collegata al dialogo nativo; l’apertura reale del dialogo non è
-  stata automatizzata in questa sessione.
-- I file `.caadoc` arbitrari fuori dalla biblioteca non hanno ancora un elenco
-  dedicato per l’assegnazione ai profili.
-- Windows è compilato e ispezionato staticamente ma non eseguito; Linux non è
-  compilato.
-- La resa visiva in Word/PowerPoint non è stata verificata su questa macchina.
+- I pesi del modello neuronale ONNX (268 MB) non sono inclusi nel bundle: si
+  installano separatamente dal Gestore pacchetti. Il runtime ONNX è incluso
+  nella build e collegato staticamente, quindi non serve installare librerie
+  esterne.
+- Windows e Linux sono compilati dal workflow di release ma non sono stati
+  eseguiti su hardware reale in questa sessione.
+- La stampa usa il dialogo nativo; l'apertura reale del dialogo non è
+  automatizzata nei test.
 
 ## Requisiti
 
-- Windows 10/11 a 64 bit con WebView2 (presente di norma su Windows 11 e
-  installabile su Windows 10).
+- Windows 10/11 a 64 bit con WebView2.
 - macOS 10.15 o successivo, Apple Silicon o Intel.
 - Linux x64 con WebKitGTK 4.1 e le librerie indicate nel pacchetto `.deb`.
-- 4 GB di RAM per l'uso senza modello neurale; il modello incluso richiede
-  circa 1,5 GB in più. Nessuna GPU dedicata è necessaria.
+- 4 GB di RAM per l'uso senza modello neurale.
 
 ## Installazione
 
-- **Windows**: usare `CAA-Writer_0.14.0_windows-x64-setup.exe` (NSIS). In questa
-  release non è prodotto il `.msi`. Se SmartScreen avvisa, il pacchetto non è
-  firmato: verificare il checksum SHA-256 e scegliere «Ulteriori informazioni»
-  → «Esegui comunque».
+- **Windows**: usare `CAA-Writer_0.15.21_windows-x64-setup.exe` (NSIS). Il
+  pacchetto non è firmato: verificare il checksum SHA-256 e scegliere
+  «Ulteriori informazioni» → «Esegui comunque» se SmartScreen avvisa.
 - **macOS**: aprire il `.dmg`, trascinare `CAA Writer.app` in Applicazioni.
   Al primo avvio macOS può chiedere di confermare l'apertura (l'app non è
   notarizzata). In alternativa usare il file `.app.zip`.
-- **Linux**: nessun pacchetto è stato prodotto in questa sessione; il workflow
-  è pronto ma non eseguito.
+- **Linux**: usare il pacchetto `.deb`, `.rpm` o `.AppImage` prodotto dal
+  workflow.
 
 ## Verifica dei file
 
-Ogni artefatto ha un file `SHA256SUMS-*.txt`. Esempio:
+Ogni artefatto ha un file `SHA256SUMS-*.txt` nella release. Esempio:
 
 ```bash
-sha256sum -c SHA256SUMS-windows-x64.txt   # Linux
-shasum -a 256 -c SHA256SUMS-macos-arm64.txt  # macOS
+sha256sum -c SHA256SUMS-macos-arm64.txt   # Linux
+shasum -a 256 -c SHA256SUMS-macos-arm64.txt   # macOS
 ```
 
-Su Windows è possibile usare `certutil -hashfile <file> SHA256` e confrontare
-il valore.
+## Verifiche eseguite su questa macchina
 
-## Limitazioni note
+```text
+npm run build                      ok, 0 errori TypeScript
+npm run test:frontend              75/75
+cargo test --lib                   313/313
+cargo test --lib --features onnx   318/318 (modello Horizon reale)
+cargo build --features onnx --bin caa-cli   ok (runtime ONNX statico)
+python3 scripts/check_context.py   21/21 sezioni
+```
 
-- I pacchetti **non sono firmati né notarizzati**: mancano certificati e
-  credenziali. Non viene simulata una firma.
-- Windows è compilato in modo incrociato e ispezionato staticamente, ma **non
-  eseguito** su una macchina Windows in questa sessione.
-- La misura della latenza di battitura p95 è strumentata nel pannello
-  Diagnostica, non ancora misurata da un test automatico del WebView.
-- La ricerca online è opzionale e disattivata per default; l'app funziona
-  offline.
-- Il runtime vocale Piper dipende dal sistema/venv; resta il fallback dichiarato
-  alla voce di sistema.
-- La copertura semantica dipende dal lessico incluso e dal catalogo ARASAAC.
-- I test su Windows con 4 GB di RAM, su macOS Intel e con utenti CAA non sono
-  stati eseguiti da questo ambiente.
+Windows e Linux non sono stati eseguiti localmente: la verifica reale avviene
+nel workflow di release.

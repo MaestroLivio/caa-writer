@@ -9,6 +9,10 @@ import { invoke } from "@tauri-apps/api/core";
 import { noModifiers } from "./types";
 import type {
   AiProviderConfig,
+  DecisionRequest,
+  DecisionResponse,
+  DecisionStatus,
+  DecisionVerifyReport,
   AiProviderStatus,
   AiProviderTest,
   CatalogItem,
@@ -20,6 +24,10 @@ import type {
   LibraryManifest,
   LibraryQualityReport,
   OpenedUniversalDocument,
+  DeveloperStatus,
+  DeveloperPackage,
+  DeveloperSaveResult,
+  DeveloperDeleteResult,
   RenderedDocument,
   RuntimeDiagnostics,
   UniversalCommand,
@@ -97,6 +105,15 @@ async function call<T>(command: string, args?: Record<string, unknown>): Promise
 
 export const api = {
   appInfo: () => call<AppInfo>("app_info"),
+  decisionStatus: () => call<DecisionStatus>("decision_status"),
+  decisionClassify: (request: DecisionRequest) =>
+    call<DecisionResponse>("decision_classify", { request }),
+  decisionModelInstall: (force = false) =>
+    call<unknown>("decision_model_install", { force }),
+  decisionModelRemove: (confirm: boolean) =>
+    call<unknown>("decision_model_remove", { confirm }),
+  decisionModelVerify: () =>
+    call<DecisionVerifyReport>("decision_model_verify"),
   printWindow: () => call<void>("print_window"),
   libraryStats: () => call<LibraryStats>("library_stats"),
   listPacks: () => call<PackInfo[]>("list_packs"),
@@ -219,6 +236,34 @@ export const api = {
     call<string>("library_preview", { id, sourceType }),
   libraryByIds: (ids: string[]) => call<CatalogItem[]>("library_by_ids", { ids }),
   libraryValidate: () => call<LibraryQualityReport>("library_validate"),
+  developerLibraryStatus: () => call<DeveloperStatus>("developer_library_status"),
+  developerLibraryPackages: () => call<DeveloperPackage[]>("developer_library_packages"),
+  developerLibraryOpen: (path: string) =>
+    call<OpenedUniversalDocument>("developer_library_open", { path }),
+  developerLibraryPreview: (path: string) =>
+    call<string>("developer_library_preview", { path }),
+  developerLibrarySave: (document: UniversalDocument, path: string) =>
+    call<DeveloperSaveResult>("developer_library_save", { document, path }),
+  developerLibraryReplace: (path: string, source: string) =>
+    call<DeveloperSaveResult>("developer_library_replace", { path, source }),
+  developerLibraryAdd: (
+    source: string,
+    folder: "boards" | "templates",
+    categoryId: string,
+    subcategoryId: string,
+    categoryName: string,
+    subcategoryName: string
+  ) =>
+    call<DeveloperSaveResult>("developer_library_add", {
+      source,
+      folder,
+      categoryId,
+      subcategoryId,
+      categoryName,
+      subcategoryName,
+    }),
+  developerLibraryDelete: (path: string) =>
+    call<DeveloperDeleteResult>("developer_library_delete", { path }),
   universalOpen: (id: string, sourceType: string | null = null) =>
     call<OpenedUniversalDocument>("universal_open", { id, sourceType }),
   takePendingOpen: () => call<string | null>("take_pending_open"),

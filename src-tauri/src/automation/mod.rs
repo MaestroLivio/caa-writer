@@ -40,6 +40,118 @@ fn as_u32(params: &Value, key: &str, default: u32) -> u32 {
         .unwrap_or(default)
 }
 
+// ------------------------------------------------------------ decisione
+
+fn decision_target(params: &Value, text: &str) -> Result<Option<crate::decision::TargetSpan>, String> {
+    let Some(value) = params.get("target") else {
+        return Ok(None);
+    };
+    if value.is_null() {
+        return Ok(None);
+    }
+    if let Some(object) = value.as_object() {
+        let span: crate::decision::TargetSpan = serde_json::from_value(Value::Object(object.clone()))
+            .map_err(|error| format!("target: {error}"))?;
+        return Ok(Some(span));
+    }
+    let Some(word) = value.as_str() else {
+        return Err("target deve essere un oggetto {text,start,end} o una stringa".to_string());
+    };
+    let Some(byte) = text.find(word) else {
+        return Err(format!("parola non trovata nel testo: {word}"));
+    };
+    let start = text[..byte].chars().count();
+    Ok(Some(crate::decision::TargetSpan {
+        text: word.to_string(),
+        start,
+        end: start + word.chars().count(),
+    }))
+}
+
+fn sweep_margin(samples: &[(f32, f32, bool)], target: f64) -> Option<(f32, f64, f64)> {
+    let mut best: Option<(f32, f64, f64)> = None;
+    for step in 1..=60 {
+        let threshold = step as f32 / 100.0;
+        let covered: Vec<&(f32, f32, bool)> = samples
+            .iter()
+            .filter(|(_, gap, _)| *gap >= threshold)
+            .collect();
+        if covered.is_empty() {
+            continue;
+        }
+        let good = covered.iter().filter(|(_, _, correct)| *correct).count();
+        let precision = good as f64 / covered.len() as f64;
+        let coverage = covered.len() as f64 / samples.len() as f64;
+        if precision >= target
+            && best
+                .map(|(_, _, best_coverage)| coverage > best_coverage)
+                .unwrap_or(true)
+        {
+            best = Some((threshold, precision, coverage));
+        }
+    }
+    best
+}
+
+fn decision_request(params: &Value) -> Result<crate::decision::DecisionRequest, String> {
+    use crate::decision::{
+        Candidate, DecisionContext, DecisionInput, DecisionMode, DecisionOptions, DecisionRequest,
+        DecisionTask, Priority,
+    };
+    let task_name = as_string(params, "task").ok_or_else(|| "serve task".to_string())?;
+    let task = DecisionTask::parse(&task_name)
+        .ok_or_else(|| format!("task sconosciuto: {task_name}"))?;
+    let text = as_string(params, "text").ok_or_else(|| "serve text".to_string())?;
+    let target = decision_target(params, &text)?;
+    let candidates: Vec<Candidate> = match params.get("candidates") {
+        Some(value) if !value.is_null() => serde_json::from_value(value.clone())
+            .map_err(|error| format!("candidates: {error}"))?,
+        _ => crate::decision::registry::default_candidates(task),
+    };
+    let mut options = DecisionOptions::default();
+    if let Some(mode) = as_string(params, "mode") {
+        options.mode = Some(match mode.as_str() {
+            "automatic" | "auto" => DecisionMode::Automatic,
+            "suggest" | "suggerimento" => DecisionMode::Suggest,
+            other => return Err(format!("mode sconosciuto: {other}")),
+        });
+    }
+    options.multi_label = params.get("multi_label").and_then(|value| value.as_bool());
+    options.apply_threshold = params
+        .get("apply_threshold")
+        .and_then(|value| value.as_f64())
+        .map(|value| value as f32);
+    options.suggest_threshold = params
+        .get("suggest_threshold")
+        .and_then(|value| value.as_f64())
+        .map(|value| value as f32);
+    options.timeout_ms = params.get("timeout_ms").and_then(|value| value.as_u64());
+    options.taxonomy_version = as_string(params, "taxonomy_version");
+    if let Some(priority) = as_string(params, "priority") {
+        options.priority = Some(match priority.as_str() {
+            "high" => Priority::High,
+            "medium" => Priority::Medium,
+            "low" => Priority::Low,
+            other => return Err(format!("priority sconosciuta: {other}")),
+        });
+    }
+    Ok(DecisionRequest {
+        request_id: as_string(params, "request_id"),
+        task,
+        language: as_string(params, "language").unwrap_or_else(|| "it".to_string()),
+        input: DecisionInput { text, target },
+        candidates,
+        context: DecisionContext {
+            document_revision: params
+                .get("document_revision")
+                .and_then(|value| value.as_u64()),
+            element_id: as_string(params, "element_id"),
+            cancel_key: as_string(params, "cancel_key"),
+        },
+        options,
+    })
+}
+
 fn options_from(params: &Value) -> Result<SymbolizeOptions, String> {
     match params.get("options") {
         Some(value) => serde_json::from_value(value.clone()).map_err(|e| format!("options: {e}")),
@@ -179,6 +291,45 @@ pub fn resolve_project_path(
     }
 }
 
+/// Risolve un percorso di output generico (non necessariamente dentro la radice
+/// progetti) applicando le stesse regole di sicurezza: niente percorsi assoluti,
+/// niente `..`, canonicalizzazione e controllo symlink. La radice è data dal
+/// chiamante (es. `project_root(engine)` o `engine.paths.data_dir`).
+pub fn resolve_output_path(
+    root: &Path,
+    relative: &str,
+    create_parents: bool,
+) -> Result<PathBuf, String> {
+    let relative = clean_relative(relative)?;
+    let candidate = root.join(&relative);
+    if create_parents {
+        if let Some(parent) = candidate.parent() {
+            std::fs::create_dir_all(parent)
+                .map_err(|error| format!("cartella {}: {error}", parent.display()))?;
+        }
+    }
+    let parent = candidate.parent().unwrap_or(root);
+    let canonical_parent = std::fs::canonicalize(parent)
+        .map_err(|error| format!("cartella {}: {error}", parent.display()))?;
+    if !canonical_parent.starts_with(root) {
+        return Err("il percorso esce dalla radice consentita".to_string());
+    }
+    let name = candidate
+        .file_name()
+        .ok_or_else(|| "percorso senza nome di file".to_string())?;
+    let target = canonical_parent.join(name);
+    if target.exists() {
+        let canonical = std::fs::canonicalize(&target)
+            .map_err(|error| format!("{}: {error}", target.display()))?;
+        if !canonical.starts_with(root) {
+            return Err("il percorso esce dalla radice consentita".to_string());
+        }
+        Ok(canonical)
+    } else {
+        Ok(target)
+    }
+}
+
 fn walk_projects(
     dir: &Path,
     out: &mut Vec<Value>,
@@ -261,9 +412,17 @@ pub fn export_universal(
     document: &UniversalDocument,
     format: &str,
     out: &Path,
+    allowed_root: Option<&Path>,
 ) -> Result<Value, String> {
     let format = format.trim().to_ascii_lowercase();
-    if let Some(parent) = out.parent() {
+    // Validazione percorso di output
+    if let Some(root) = allowed_root {
+        let relative = out.strip_prefix(root)
+            .map_err(|_| "il percorso di output non è relativo alla radice consentita".to_string())?
+            .to_string_lossy()
+            .to_string();
+        let _validated = resolve_output_path(root, &relative, true)?;
+    } else if let Some(parent) = out.parent() {
         std::fs::create_dir_all(parent)
             .map_err(|error| format!("cartella {}: {error}", parent.display()))?;
     }
@@ -385,6 +544,224 @@ pub fn dispatch_with_options(
             value["access_mode"] = json!(options.access.as_str());
             value["export_formats"] = json!(EXPORT_FORMATS);
             Ok(value)
+        }
+        "decision.status" => {
+            let engine_ref = crate::decision::engine::cached_engine(&engine.paths);
+            let model_value = serde_json::to_value(crate::decision::model::status(&engine.paths))
+                .unwrap_or(Value::Null);
+            let mut value = engine_ref.status(model_value);
+            value["runtime_feature"] = json!(cfg!(feature = "onnx"));
+            Ok(value)
+        }
+        "decision.classify" => {
+            let request = decision_request(params)?;
+            let engine_ref = crate::decision::engine::cached_engine(&engine.paths);
+            let response = engine_ref.classify(request);
+            serde_json::to_value(response).map_err(|error| error.to_string())
+        }
+        "decision.audit" => {
+            let engine_ref = crate::decision::engine::cached_engine(&engine.paths);
+            let events = engine_ref.audit_snapshot();
+            Ok(json!({"count": events.len(), "events": events}))
+        }
+        "decision.validate" => {
+            let cases = params
+                .get("cases")
+                .and_then(|value| value.as_array())
+                .ok_or_else(|| "serve cases (array)".to_string())?;
+            if cases.len() > 2000 {
+                return Err("troppi casi (massimo 2000)".to_string());
+            }
+            let split = as_string(params, "split").unwrap_or_else(|| "all".to_string());
+            let selected_cases: Vec<&Value> = cases
+                .iter()
+                .filter(|case| {
+                    split == "all"
+                        || case
+                            .get("split")
+                            .and_then(|value| value.as_str())
+                            .unwrap_or("all")
+                            == split
+                })
+                .collect();
+            let engine_ref = crate::decision::engine::cached_engine(&engine.paths);
+            let mut total = 0usize;
+            let mut correct = 0usize;
+            let mut abstained = 0usize;
+            let mut latency_sum = 0u64;
+            let mut score_sum = 0f64;
+            let mut by_task: std::collections::BTreeMap<String, (usize, usize, usize)> =
+                std::collections::BTreeMap::new();
+            let mut errors = Vec::new();
+            for (index, case) in selected_cases.iter().enumerate() {
+                let mut request = decision_request(case)
+                    .map_err(|error| format!("caso {}: {error}", index + 1))?;
+                if let Some(value) = params.get("suggest_threshold").and_then(|value| value.as_f64()) {
+                    request.options.suggest_threshold = Some(value as f32);
+                }
+                if let Some(value) = params.get("apply_threshold").and_then(|value| value.as_f64()) {
+                    request.options.apply_threshold = Some(value as f32);
+                }
+                let expected = case
+                    .get("expected")
+                    .and_then(|value| value.as_str())
+                    .ok_or_else(|| format!("caso {}: serve expected", index + 1))?;
+                let task = request.task.as_str().to_string();
+                let response = engine_ref.classify(request);
+                total += 1;
+                latency_sum += response.metadata.latency_ms;
+                if let Some(top) = response.ranked_candidates.first() {
+                    score_sum += top.score as f64;
+                }
+                let selected = response.selected_candidate_id.clone();
+                let ok = selected.as_deref() == Some(expected);
+                let entry = by_task.entry(task).or_insert((0, 0, 0));
+                entry.0 += 1;
+                if ok {
+                    correct += 1;
+                    entry.1 += 1;
+                } else {
+                    if selected.is_none() {
+                        abstained += 1;
+                        entry.2 += 1;
+                    }
+                    errors.push(json!({
+                        "case": case.get("id").and_then(|value| value.as_str()).unwrap_or(""),
+                        "expected": expected,
+                        "selected": selected,
+                        "status": response.status.as_str(),
+                        "method": response.metadata.method,
+                    }));
+                }
+            }
+            let by_task_json: serde_json::Map<String, Value> = by_task
+                .into_iter()
+                .map(|(task, (count, good, abstained))| {
+                    (
+                        task,
+                        json!({
+                            "total": count,
+                            "correct": good,
+                            "accuracy": if count == 0 { 0.0 } else { good as f64 / count as f64 },
+                            "abstained": abstained,
+                        }),
+                    )
+                })
+                .collect();
+            Ok(json!({
+                "total": total,
+                "correct": correct,
+                "accuracy": if total == 0 { 0.0 } else { correct as f64 / total as f64 },
+                "abstained": abstained,
+                "coverage": if total == 0 { 0.0 } else { (total - abstained) as f64 / total as f64 },
+                "mean_top_score": if total == 0 { 0.0 } else { score_sum / total as f64 },
+                "mean_latency_ms": if total == 0 { 0.0 } else { latency_sum as f64 / total as f64 },
+                "by_task": by_task_json,
+                "errors": errors,
+            }))
+        }
+        "decision.calibrate" => {
+            let cases = params
+                .get("cases")
+                .and_then(|value| value.as_array())
+                .ok_or_else(|| "serve cases (array)".to_string())?;
+            if cases.len() > 4000 {
+                return Err("troppi casi (massimo 4000)".to_string());
+            }
+            let split = as_string(params, "split").unwrap_or_else(|| "calibration".to_string());
+            let engine_ref = crate::decision::engine::cached_engine(&engine.paths);
+            let mut samples: Vec<(f32, f32, bool)> = Vec::new();
+            let mut by_task: std::collections::BTreeMap<String, Vec<(f32, f32, bool)>> =
+                std::collections::BTreeMap::new();
+            for (index, case) in cases.iter().enumerate() {
+                if split != "all"
+                    && case
+                        .get("split")
+                        .and_then(|value| value.as_str())
+                        .unwrap_or("all")
+                        != split
+                {
+                    continue;
+                }
+                let request = decision_request(case)
+                    .map_err(|error| format!("caso {}: {error}", index + 1))?;
+                let expected = case
+                    .get("expected")
+                    .and_then(|value| value.as_str())
+                    .ok_or_else(|| format!("caso {}: serve expected", index + 1))?;
+                let task = request.task.as_str().to_string();
+                let response = engine_ref.classify(request);
+                let Some(top) = response.ranked_candidates.first() else {
+                    continue;
+                };
+                let gap = crate::decision::scores::margin(&response.ranked_candidates);
+                let top_id = response.ranked_candidates.first().map(|item| item.id.as_str());
+                let correct = top_id == Some(expected);
+                samples.push((top.score, gap, correct));
+                by_task
+                    .entry(task)
+                    .or_default()
+                    .push((top.score, gap, correct));
+            }
+            if samples.is_empty() {
+                return Err("nessun campione calibrabile".to_string());
+            }
+            let suggest = sweep_margin(&samples, 0.80);
+            let apply = sweep_margin(&samples, 0.95);
+            let mean_score =
+                samples.iter().map(|(score, _, _)| *score as f64).sum::<f64>() / samples.len() as f64;
+            let mean_margin =
+                samples.iter().map(|(_, gap, _)| *gap as f64).sum::<f64>() / samples.len() as f64;
+            let by_task_json: serde_json::Map<String, Value> = by_task
+                .iter()
+                .map(|(task, task_samples)| {
+                    let suggest = sweep_margin(task_samples, 0.80);
+                    let apply = sweep_margin(task_samples, 0.95);
+                    (
+                        task.clone(),
+                        json!({
+                            "samples": task_samples.len(),
+                            "suggest_margin": suggest.map(|(threshold, _, _)| threshold),
+                            "suggest_precision": suggest.map(|(_, value, _)| value),
+                            "suggest_coverage": suggest.map(|(_, _, value)| value),
+                            "apply_margin": apply.map(|(threshold, _, _)| threshold),
+                            "apply_precision": apply.map(|(_, value, _)| value),
+                            "apply_coverage": apply.map(|(_, _, value)| value),
+                        }),
+                    )
+                })
+                .collect();
+            Ok(json!({
+                "samples": samples.len(),
+                "mean_top_score": mean_score,
+                "mean_margin": mean_margin,
+                "suggest_margin": suggest.map(|(threshold, _, _)| threshold),
+                "suggest_precision": suggest.map(|(_, value, _)| value),
+                "suggest_coverage": suggest.map(|(_, _, value)| value),
+                "apply_margin": apply.map(|(threshold, _, _)| threshold),
+                "apply_precision": apply.map(|(_, value, _)| value),
+                "apply_coverage": apply.map(|(_, _, value)| value),
+                "by_task": by_task_json,
+            }))
+        }
+        "decision.model.status" => {
+            serde_json::to_value(crate::decision::model::status(&engine.paths))
+                .map_err(|error| error.to_string())
+        }
+        "decision.model.verify" => {
+            serde_json::to_value(crate::decision::model::verify(&engine.paths))
+                .map_err(|error| error.to_string())
+        }
+        "decision.model.install" => {
+            let force = as_bool(params, "force", false);
+            let report = crate::decision::model::install(&engine.paths, force)?;
+            crate::decision::engine::invalidate_cached_engines();
+            serde_json::to_value(report).map_err(|error| error.to_string())
+        }
+        "decision.model.remove" => {
+            let removed = crate::decision::model::remove(&engine.paths)?;
+            crate::decision::engine::invalidate_cached_engines();
+            Ok(json!({"ok": true, "removed": removed, "model": crate::decision::model::MODEL_ID}))
         }
         "app.status" => {
             let stats = engine.db()?.statistics().map_err(|e| e.to_string())?;
@@ -608,7 +985,7 @@ pub fn dispatch_with_options(
                 format!("exports/{stem}.{}", format.to_ascii_lowercase())
             });
             let out = resolve_project_path(engine, &out_relative, true)?;
-            let mut value = export_universal(&document, &format, &out)?;
+            let mut value = export_universal(&document, &format, &out, Some(&project_root(engine)?))?;
             value["source"] = json!(source);
             value["relative"] = json!(out_relative);
             Ok(value)
@@ -642,32 +1019,36 @@ pub fn dispatch_with_options(
                 "notes": notes,
             });
             if let Some(path) = as_string(params, "path") {
-                let saved = crate::universal_build::save_universal(Path::new(&path), &document, &assets)?;
+                let out_path = resolve_output_path(&project_root(engine)?, &path, true)?;
+                let saved = crate::universal_build::save_universal(&out_path, &document, &assets)?;
                 value["path"] = json!(saved.path);
                 value["warnings"] = json!(saved.warnings);
             }
             Ok(value)
         }
         "document.get" => {
-            let path = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
-            let document = crate::universal_build::load_universal(Path::new(&path))?;
+            let relative = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
+            let path = resolve_project_path(engine, &relative, false)?;
+            let document = crate::universal_build::load_universal(&path)?;
             if as_bool(params, "summary_only", false) {
-                Ok(json!({"ok": true, "path": path, "document": document_summary(&document)}))
+                Ok(json!({"ok": true, "path": relative, "document": document_summary(&document)}))
             } else {
-                Ok(json!({"ok": true, "path": path, "document": document}))
+                Ok(json!({"ok": true, "path": relative, "document": document}))
             }
         }
         "document.update" => {
-            let path = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
+            let relative = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
+            let path = resolve_project_path(engine, &relative, false)?;
             let commands: Vec<crate::universal::DocumentCommand> = params
                 .get("commands")
                 .cloned()
                 .ok_or_else(|| "serve commands".to_string())
                 .and_then(|value| serde_json::from_value(value).map_err(|e| format!("commands: {e}")))?;
-            let document = crate::universal_build::load_universal(Path::new(&path))?;
+            let document = crate::universal_build::load_universal(&path)?;
             let result = crate::universal::apply_transaction(&document, &commands)?;
-            let out = as_string(params, "out").unwrap_or_else(|| path.clone());
-            let saved = save_universal_document(Path::new(&out), &result.document)?;
+            let out = as_string(params, "out").unwrap_or_else(|| relative.clone());
+            let out_path = resolve_output_path(&project_root(engine)?, &out, true)?;
+            let saved = save_universal_document(&out_path, &result.document)?;
             Ok(json!({
                 "ok": true,
                 "path": saved["path"],
@@ -682,12 +1063,13 @@ pub fn dispatch_with_options(
             let out = as_string(params, "out")
                 .unwrap_or_else(|| format!("{}.{}", path.trim_end_matches(".caadoc"), format));
             let document = crate::universal_build::load_universal(Path::new(&path))?;
-            export_universal(&document, &format, Path::new(&out))
+            export_universal(&document, &format, Path::new(&out), Some(&engine.paths.data_dir))
         }
         "element.add" | "element.update" | "element.delete" | "element.move" | "element.duplicate" => {
-            let path = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
+            let relative = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
+            let path = resolve_project_path(engine, &relative, false)?;
             let page = as_string(params, "page").ok_or_else(|| "serve page".to_string())?;
-            let mut document = crate::universal_build::load_universal(Path::new(&path))?;
+            let mut document = crate::universal_build::load_universal(&path)?;
             let command = match method {
                 "element.add" => {
                     let element = params
@@ -758,8 +1140,9 @@ pub fn dispatch_with_options(
             };
             crate::universal::apply_command(&mut document, &command)?;
             crate::universal::validate(&document)?;
-            let out = as_string(params, "out").unwrap_or_else(|| path.clone());
-            let saved = save_universal_document(Path::new(&out), &document)?;
+            let out = as_string(params, "out").unwrap_or_else(|| relative.clone());
+            let out_path = resolve_output_path(&project_root(engine)?, &out, true)?;
+            let saved = save_universal_document(&out_path, &document)?;
             Ok(json!({
                 "ok": true,
                 "path": saved["path"],
@@ -859,7 +1242,8 @@ pub fn dispatch_with_options(
                     });
                     if let Some(out) = out {
                         let assets = crate::universal_build::assets_from_document(&document);
-                        let saved = crate::universal_build::save_universal(Path::new(&out), &document, &assets)?;
+                        let out_path = resolve_output_path(&engine.paths.data_dir, &out, true)?;
+                        let saved = crate::universal_build::save_universal(&out_path, &document, &assets)?;
                         value["path"] = json!(saved.path);
                         value["warnings"] = json!(saved.warnings);
                     }
@@ -879,7 +1263,8 @@ pub fn dispatch_with_options(
                         "warnings": [],
                     });
                     if let Some(out) = out {
-                        let saved = crate::story::save_story(Path::new(&out), &outcome.document, &outcome.assets)?;
+                        let out_path = resolve_output_path(&engine.paths.data_dir, &out, true)?;
+                        let saved = crate::story::save_story(&out_path, &outcome.document, &outcome.assets)?;
                         value["path"] = json!(saved.path);
                         value["warnings"] = json!(saved.warnings);
                     }
@@ -902,9 +1287,10 @@ pub fn dispatch_with_options(
                     let image = crate::image_engine::generate(&engine.paths, &db, &prompt, &negative)?;
                     let mut value = serde_json::to_value(&image).map_err(|e| e.to_string())?;
                     if let Some(out) = out {
-                        std::fs::copy(&image.path, &out)
+                        let out_path = resolve_output_path(&engine.paths.data_dir, &out, true)?;
+                        std::fs::copy(&image.path, &out_path)
                             .map_err(|error| format!("copia immagine in {out}: {error}"))?;
-                        value["saved_to"] = json!(out);
+                        value["saved_to"] = json!(out_path);
                     }
                     value["ok"] = json!(true);
                     value["kind"] = json!("image");
@@ -939,9 +1325,10 @@ pub fn dispatch_with_options(
             Ok(value)
         }
         "content.validate" => {
-            if let Some(path) = as_string(params, "path") {
-                let document = crate::universal_build::load_universal(Path::new(&path))?;
-                let mut value = json!({"ok": true, "kind": "document", "path": path});
+            if let Some(relative) = as_string(params, "path") {
+                let path = resolve_project_path(engine, &relative, false)?;
+                let document = crate::universal_build::load_universal(&path)?;
+                let mut value = json!({"ok": true, "kind": "document", "path": relative});
                 match crate::universal::validate(&document) {
                     Ok(()) => {
                         value["valid"] = json!(true);
@@ -1463,6 +1850,75 @@ pub fn dispatch_with_options(
             );
             Ok(serde_json::to_value(report).map_err(|e| e.to_string())?)
         }
+        "dev.library.packages" => {
+            let packages = crate::dev_library::packages(engine)?;
+            Ok(serde_json::to_value(packages).map_err(|e| e.to_string())?)
+        }
+        "dev.library.open" => {
+            let path = as_string(params, "path")
+                .ok_or_else(|| "serve path".to_string())?;
+            let opened = crate::dev_library::open_document(engine, &path)?;
+            Ok(serde_json::to_value(opened).map_err(|e| e.to_string())?)
+        }
+        "dev.library.preview" => {
+            let path = as_string(params, "path")
+                .ok_or_else(|| "serve path".to_string())?;
+            let svg = crate::dev_library::preview(engine, &path)?;
+            Ok(json!({ "path": path, "svg": svg }))
+        }
+        "dev.library.save" => {
+            let path = as_string(params, "path")
+                .ok_or_else(|| "serve path".to_string())?;
+            let document: crate::universal::UniversalDocument = params
+                .get("document")
+                .cloned()
+                .ok_or_else(|| "serve document".to_string())
+                .and_then(|value| {
+                    serde_json::from_value(value).map_err(|e| format!("document: {e}"))
+                })?;
+            let result = crate::dev_library::save_document(engine, &document, &path)?;
+            Ok(serde_json::to_value(result).map_err(|e| e.to_string())?)
+        }
+        "dev.library.replace" => {
+            let path = as_string(params, "path")
+                .ok_or_else(|| "serve path".to_string())?;
+            let source = as_string(params, "source")
+                .ok_or_else(|| "serve source".to_string())?;
+            let result = crate::dev_library::replace_document(
+                engine,
+                &path,
+                std::path::Path::new(&source),
+            )?;
+            Ok(serde_json::to_value(result).map_err(|e| e.to_string())?)
+        }
+        "dev.library.add" => {
+            let source = as_string(params, "source")
+                .ok_or_else(|| "serve source".to_string())?;
+            let folder = as_string(params, "folder")
+                .ok_or_else(|| "serve folder".to_string())?;
+            let category_id = as_string(params, "category_id")
+                .ok_or_else(|| "serve category_id".to_string())?;
+            let subcategory_id = as_string(params, "subcategory_id")
+                .ok_or_else(|| "serve subcategory_id".to_string())?;
+            let category_name = as_string(params, "category_name").unwrap_or_default();
+            let subcategory_name = as_string(params, "subcategory_name").unwrap_or_default();
+            let result = crate::dev_library::add_document(
+                engine,
+                std::path::Path::new(&source),
+                &folder,
+                &category_id,
+                &subcategory_id,
+                &category_name,
+                &subcategory_name,
+            )?;
+            Ok(serde_json::to_value(result).map_err(|e| e.to_string())?)
+        }
+        "dev.library.delete" => {
+            let path = as_string(params, "path")
+                .ok_or_else(|| "serve path".to_string())?;
+            let result = crate::dev_library::delete_document(engine, &path)?;
+            Ok(serde_json::to_value(result).map_err(|e| e.to_string())?)
+        }
         "export.html" | "export.docx" => {
             let path = as_string(params, "path").ok_or_else(|| "serve path".to_string())?;
             let document: ExportDoc = params
@@ -1934,17 +2390,17 @@ mod tests {
 
     #[test]
     fn document_and_element_workflow() {
-        let (dir, engine) = test_engine();
-        let path = dir.path().join("elementi.caadoc");
-        let path_text = path.to_string_lossy().to_string();
+        let (_dir, engine) = test_engine();
+        // Usa percorso relativo alla radice progetti (data_dir/projects)
+        let rel_path = "elementi.caadoc";
         dispatch(
             &engine,
             "document.create",
-            &json!({"title": "Elementi", "path": path_text}),
+            &json!({"title": "Elementi", "path": rel_path}),
         )
         .expect("creazione documento");
 
-        let loaded = dispatch(&engine, "document.get", &json!({"path": path_text.clone()}))
+        let loaded = dispatch(&engine, "document.get", &json!({"path": rel_path}))
             .expect("lettura documento");
         let page = loaded["document"]["pages"][0]["id"]
             .as_str()
@@ -1955,7 +2411,7 @@ mod tests {
             &engine,
             "element.add",
             &json!({
-                "path": path_text.clone(),
+                "path": rel_path,
                 "page": page,
                 "element": {"id": "e1", "kind": "text", "text": "Ciao", "x_mm": 10, "y_mm": 10, "w_mm": 40, "h_mm": 12}
             }),
@@ -1965,14 +2421,14 @@ mod tests {
         dispatch(
             &engine,
             "element.update",
-            &json!({"path": path_text.clone(), "page": page, "id": "e1", "patch": {"text": "Ciao mondo"}}),
+            &json!({"path": rel_path, "page": page, "id": "e1", "patch": {"text": "Ciao mondo"}}),
         )
         .expect("modifica elemento");
 
         let duplicated = dispatch(
             &engine,
             "element.duplicate",
-            &json!({"path": path_text.clone(), "page": page, "id": "e1", "new_id": "e2"}),
+            &json!({"path": rel_path, "page": page, "id": "e1", "new_id": "e2"}),
         )
         .expect("duplicazione elemento");
         assert_eq!(duplicated["document"]["pages"][0]["elements"], 2);
@@ -1980,7 +2436,7 @@ mod tests {
         let validation = dispatch(
             &engine,
             "content.validate",
-            &json!({"path": path_text.clone()}),
+            &json!({"path": rel_path}),
         )
         .expect("validazione contenuto");
         assert_eq!(validation["valid"], true);
@@ -1988,10 +2444,63 @@ mod tests {
         dispatch_with_options(
             &engine,
             "element.delete",
-            &json!({"path": path_text, "page": page, "id": "e2", "confirm": true}),
+            &json!({"path": rel_path, "page": page, "id": "e2", "confirm": true}),
             DispatchOptions::default(),
         )
         .expect("eliminazione elemento");
+    }
+
+    #[test]
+    fn decision_operations_are_shared_and_safe() {
+        let (_dir, engine) = test_engine();
+        let status = dispatch(&engine, "decision.status", &json!({})).expect("stato decisione");
+        assert_eq!(status["engine"], "DecisionEngine");
+        assert_eq!(status["neural"], false);
+        assert_eq!(status["model"]["installed"], false);
+
+        let model = dispatch(&engine, "decision.model.status", &json!({}))
+            .expect("stato modello");
+        assert_eq!(model["model_id"], crate::decision::model::MODEL_ID);
+        assert_eq!(model["installed"], false);
+
+        let response = dispatch(
+            &engine,
+            "decision.classify",
+            &json!({
+                "task": "communication_intent",
+                "text": "Vorrei bere dell'acqua.",
+                "candidates": [
+                    {"id": "richiesta", "label": "una richiesta"},
+                    {"id": "saluto", "label": "un saluto"}
+                ]
+            }),
+        )
+        .expect("classificazione deterministica");
+        // Senza modello il motore dichiara lo stato, non finge una risposta neurale.
+        assert_eq!(response["status"], "unavailable");
+        assert_eq!(response["metadata"]["method"], "rules");
+
+        // Una scelta manuale bloccata prevale su qualsiasi punteggio.
+        let locked = dispatch(
+            &engine,
+            "decision.classify",
+            &json!({
+                "task": "pictogram_disambiguation",
+                "text": "Ho mangiato una pesca.",
+                "target": {"text": "pesca", "start": 16, "end": 21},
+                "candidates": [
+                    {"id": "frutto", "label": "frutto", "locked": true},
+                    {"id": "attivita", "label": "attività di pesca"}
+                ]
+            }),
+        )
+        .expect("scelta bloccata");
+        assert_eq!(locked["selected_candidate_id"], "frutto");
+        assert_eq!(locked["decision"]["action"], "apply");
+        assert_eq!(locked["metadata"]["method"], "rules");
+
+        let audit = dispatch(&engine, "decision.audit", &json!({})).expect("audit");
+        assert!(audit["count"].as_u64().unwrap_or(0) >= 1);
     }
 
     #[test]

@@ -1,5 +1,7 @@
 <script lang="ts">
   import { api, isTauri } from "../api";
+  import { classify } from "../decision/client";
+  import { isNeuralMethod } from "../decision/ranking";
   import type {
     Alternative,
     LayoutDocument,
@@ -33,6 +35,15 @@
   let pageIndex = $state(0);
   let history = $state<number[]>([]);
   let unitSeq = 0;
+  let intentSuggestion = $state<string | null>(null);
+  let intentBusy = $state(false);
+  let intentTried = $state(false);
+  let boardSuggestion = $state<string | null>(null);
+  let boardBusy = $state(false);
+  let boardTried = $state(false);
+  let emotionSuggestion = $state<string | null>(null);
+  let emotionBusy = $state(false);
+  let emotionTried = $state(false);
 
   // Modalità modifica: lavora su una copia della specifica, mai direttamente
   // sulle pagine calcolate. «Applica» ricostruisce la geometria dal backend.
@@ -113,6 +124,78 @@
 
   function clearMessage() {
     message = [];
+    intentSuggestion = null;
+    intentTried = false;
+    boardSuggestion = null;
+    boardTried = false;
+    emotionSuggestion = null;
+    emotionTried = false;
+  }
+
+  async function suggestEmotion() {
+    if (message.length === 0 || emotionBusy) return;
+    emotionBusy = true;
+    try {
+      const text = message.map((unit) => unit.label).join(" ");
+      const response = await classify({
+        task: "expressed_emotion",
+        input: { text },
+        options: { mode: "suggest", multi_label: false },
+      });
+      emotionTried = true;
+      emotionSuggestion =
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method)
+          ? response.ranked_candidates[0]?.label ?? null
+          : null;
+    } finally {
+      emotionBusy = false;
+    }
+  }
+
+  async function suggestBoard() {
+    if (message.length === 0 || boardBusy) return;
+    boardBusy = true;
+    try {
+      const text = message.map((unit) => unit.label).join(" ");
+      const response = await classify({
+        task: "board_category",
+        input: { text },
+        options: { mode: "suggest", multi_label: false },
+      });
+      boardTried = true;
+      boardSuggestion =
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method)
+          ? response.ranked_candidates[0]?.label ?? null
+          : null;
+    } finally {
+      boardBusy = false;
+    }
+  }
+
+  async function suggestIntent() {
+    if (message.length === 0 || intentBusy) return;
+    intentBusy = true;
+    try {
+      const text = message.map((unit) => unit.label).join(" ");
+      const response = await classify({
+        task: "communication_intent",
+        input: { text },
+        options: { mode: "suggest", multi_label: true },
+      });
+      intentTried = true;
+      intentSuggestion =
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method)
+          ? response.ranked_candidates[0]?.label ?? null
+          : null;
+    } finally {
+      intentBusy = false;
+    }
   }
 
   function speakMessage() {
@@ -543,6 +626,30 @@
       </button>
       <button
         type="button"
+        class="btn"
+        onclick={() => void suggestIntent()}
+        disabled={message.length === 0 || intentBusy}
+      >
+        {intentBusy ? "…" : copy.communicator.suggestIntent}
+      </button>
+      <button
+        type="button"
+        class="btn"
+        onclick={() => void suggestBoard()}
+        disabled={message.length === 0 || boardBusy}
+      >
+        {boardBusy ? "…" : copy.communicator.suggestBoard}
+      </button>
+      <button
+        type="button"
+        class="btn"
+        onclick={() => void suggestEmotion()}
+        disabled={message.length === 0 || emotionBusy}
+      >
+        {emotionBusy ? "…" : copy.communicator.suggestEmotion}
+      </button>
+      <button
+        type="button"
         class="btn btn--solid"
         onclick={speakMessage}
         disabled={message.length === 0}
@@ -550,6 +657,27 @@
         {copy.communicator.speak}
       </button>
     </div>
+    {#if intentTried}
+      <p class="hint">
+        {intentSuggestion
+          ? copy.communicator.intentLabel(intentSuggestion)
+          : copy.communicator.noIntent}
+      </p>
+    {/if}
+    {#if boardTried}
+      <p class="hint">
+        {boardSuggestion
+          ? copy.communicator.boardLabel(boardSuggestion)
+          : copy.communicator.noBoard}
+      </p>
+    {/if}
+    {#if emotionTried}
+      <p class="hint">
+        {emotionSuggestion
+          ? copy.communicator.emotionLabel(emotionSuggestion)
+          : copy.communicator.noEmotion}
+      </p>
+    {/if}
   </footer>
   {/if}
 </section>

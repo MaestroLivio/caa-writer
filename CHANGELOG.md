@@ -4,6 +4,53 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.21 — 2026-11-20
+
+Le versioni 0.15.11–0.15.20 sono documentate nei file
+`docs/RELEASE_0_15_*.md`.
+
+### Correzioni
+
+- **Pittogrammi espliciti durante la scrittura.** Scrivendo «pap» (prima di
+  «papà») non compare più il pittogramma «pap test» quando i contenuti
+  espliciti sono disattivati. L'import automatico ARASAAC accetta solo un
+  titolo che corrisponde davvero alla parola; una migrazione nasconde gli
+  import automatici sbagliati già presenti, senza cancellare gli asset;
+  l'editor universale applica il filtro anche ai token già salvati.
+- **Pittogrammi bloccati.** La rianalisi non sostituisce più un simbolo
+  bloccato: `unit_state()` propaga anche il flag `locked` e il motore lo
+  rispetta prima di ogni rivalutazione automatica.
+
+### Motore decisionale
+
+- Nuovo motore decisionale locale per disambiguazione, intenzione, categoria,
+  board, emozione, azione, layout e obiettivo.
+- I suggerimenti Horizon vengono applicati direttamente nell'editor
+  principale, in CaaEditor e nel compositore di frasi dell'editor universale,
+  senza soglia di confidenza.
+- Corpus italiano di 649 casi e calibrazione versionata. Il runtime ONNX è
+  incluso nella build di release e collegato staticamente (nessuna libreria
+  esterna da installare); i pesi del modello si installano separatamente dal
+  Gestore pacchetti.
+- CLI e MCP espongono i comandi `decision.*`.
+
+### Libreria e sviluppo
+
+- Modalità sviluppatore della libreria: browser dei pacchetti, anteprima,
+  modifica, sostituzione, aggiunta ed eliminazione, con aggiornamento in tempo
+  reale.
+- Libreria arricchita con materiale v2, dizionario v8 e catalogo
+  pre-indicizzato; 535 documenti validati con 0 errori.
+- Nuovi comandi CLI/MCP per la libreria di sviluppo.
+
+### Limiti dichiarati
+
+- I pesi del modello ONNX (268 MB) non sono inclusi nel bundle: si installano
+  a parte dal Gestore pacchetti. Il runtime ONNX è incluso e collegato
+  staticamente.
+- Windows e Linux sono compilati dal workflow ma non eseguiti su hardware
+  reale in questa sessione.
+
 ## 0.15.10 — 2026-11-09
 
 ### Pannello e selezione

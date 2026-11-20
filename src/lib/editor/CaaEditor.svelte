@@ -36,7 +36,11 @@
   import type { FormattingState } from "./formatting";
   import { api, demoAnalyze, isTauri } from "../api";
   import { isExplicitContent } from "../content-filter";
-  import type { CaaMode, CaaToken, Intensity } from "../types";
+  import type { CaaMode, CaaToken, Intensity, Alternative } from "../types";
+  import { classify, decisionUsable } from "../../lib/decision/client";
+  import { charLength, isNeuralMethod } from "../../lib/decision/ranking";
+
+  const unitKey = (pid: string, index: number) => `${pid}:${index}`;
 
   interface Props {
     mode: CaaMode;
@@ -137,6 +141,13 @@
   let refineSeq = 0;
   let refineRequestId = "";
   const refinedSignature = new Map<string, string>();
+
+  // Horizon reranking state (come in App.svelte)
+  let horizonTimer: ReturnType<typeof setTimeout> | null = null;
+  let horizonRunning = false;
+  const horizonApplied = new Set<string>();
+  const horizonAttempted = new Set<string>();
+
   let analyzeSeq = 0;
   let onlineBusy = false;
   /// Parole già richieste alle API in questa sessione: evita richieste
@@ -706,6 +717,15 @@
         let touched = false;
         for (const entry of resolved) {
           const alternative = entry.alternative;
+          // Un contenuto esplicito non deve arrivare al documento quando
+          // l'utente li ha disattivati: il filtro vale anche per i ripieghi
+          // automatici, non solo per i simboli già presenti.
+          if (
+            !showExplicitSymbols &&
+            isExplicitContent(alternative.label, alternative.meaning, entry.word)
+          ) {
+            continue;
+          }
           let mediaSvg = alternative.svg;
           let mediaImage = alternative.image;
           if (!mediaSvg && !mediaImage && alternative.symbol_id) {
@@ -852,6 +872,7 @@
       onAnalyzed(new Map(tokensByPid));
       refreshDecorations();
       scheduleRefine();
+      scheduleHorizonRerank();
       void ensureOnlineSymbols();
     } finally {
       analyzing = false;
@@ -939,6 +960,7 @@
           tokensByPid.set(paragraph.pid, result.tokens);
           refreshDecorations();
           onAnalyzed(new Map(tokensByPid));
+          scheduleHorizonRerank();
         } catch {
           // Modello assente, richiesta annullata o testo superato: resta valida
           // la scelta lessicale, senza avvisi e senza toccare il documento.
@@ -955,6 +977,121 @@
         reportMetrics();
       }
     }
+  }
+
+  // Horizon reranking functions (mirroring App.svelte)
+  function scheduleHorizonRerank(delay = 1200) {
+    if (!neural || !isTauri()) return;
+    if (horizonTimer) clearTimeout(horizonTimer);
+    horizonTimer = setTimeout(() => void runHorizonRerank(), delay);
+  }
+
+  async function applyHorizonSilently(
+    pid: string,
+    token: CaaToken,
+    alternative: Alternative
+  ): Promise<boolean> {
+    if (!view) return false;
+    const conceptId = alternative.concept_id ?? token.concept_id ?? null;
+    try {
+      await api.setDocumentOverride(
+        documentKey,
+        unitKey(pid, token.index),
+        alternative.symbol_id,
+        conceptId
+      );
+    } catch {
+      return false;
+    }
+    // Trigger a re-analysis to get the updated token with the new symbol
+    schedule(60);
+    return true;
+  }
+
+  async function runHorizonRerank() {
+    horizonTimer = null;
+    if (horizonRunning || !neural || !isTauri()) return;
+    const usable = await decisionUsable();
+    if (!usable) return;
+    horizonRunning = true;
+    let processed = 0;
+    try {
+      outer: for (const [pid, tokens] of tokensByPid) {
+        for (const token of tokens) {
+          if (processed >= 6) break outer;
+          if (token.locked || token.hidden || token.is_punct || !token.symbol_id) continue;
+          if (token.alternatives.length < 1) continue;
+          const key = `${documentKey}:${pid}:${token.index}:${token.surface}`;
+          if (horizonApplied.has(key) || horizonAttempted.has(key)) continue;
+          const seen = new Set<string>();
+          const candidates: { id: string; label: string }[] = [];
+          const add = (id: string | null, label: string | null) => {
+            if (!id || seen.has(id)) return;
+            seen.add(id);
+            candidates.push({ id, label: (label || id).trim() || id });
+          };
+          add(token.symbol_id, token.meaning ?? token.symbol_label ?? token.surface);
+          for (const alternative of token.alternatives) {
+            add(alternative.symbol_id, alternative.meaning || alternative.label);
+          }
+          if (candidates.length < 2) {
+            horizonAttempted.add(key);
+            continue;
+          }
+          horizonAttempted.add(key);
+          processed += 1;
+          const sentence = tokens
+            .filter(
+              (item) => item.sentence_index === token.sentence_index && !item.is_punct
+            )
+            .map((item) => item.surface)
+            .join(" ")
+            .trim();
+          const response = await classify({
+            task: "pictogram_disambiguation",
+            input: {
+              text: sentence || token.surface,
+              target: {
+                text: token.surface,
+                start: 0,
+                end: charLength(token.surface),
+              },
+            },
+            candidates,
+            context: {
+              element_id: key,
+              cancel_key: key,
+              document_revision: token.sentence_index,
+            },
+            options: {
+              mode: "automatic",
+              multi_label: false,
+              priority: "medium",
+              timeout_ms: 6000,
+            },
+          });
+          if (
+            !response ||
+            response.status !== "completed" ||
+            !isNeuralMethod(response.metadata.method) ||
+            !response.selected_candidate_id ||
+            response.selected_candidate_id === token.symbol_id
+          ) {
+            continue;
+          }
+          const alternative = token.alternatives.find(
+            (item) => item.symbol_id === response.selected_candidate_id
+          );
+          if (!alternative) continue;
+          if (await applyHorizonSilently(pid, token, alternative)) {
+            horizonApplied.add(key);
+          }
+        }
+      }
+    } finally {
+      horizonRunning = false;
+    }
+    if (processed >= 6) scheduleHorizonRerank(500);
   }
 
   /// Invio: nuova voce negli elenchi, nuovo paragrafo altrove. Non invia
@@ -1187,6 +1324,7 @@
     analyzedSignature.delete(pid);
     refreshDecorations();
     onAnalyzed(new Map(tokensByPid));
+    scheduleHorizonRerank();
   }
 
   /// Sostituisce il testo dell'unità mantenendo il pittogramma corrente.

@@ -27,6 +27,7 @@
   import ProfileManager from "./lib/components/ProfileManager.svelte";
   import HomeScreen from "./lib/components/HomeScreen.svelte";
   import LibraryBrowser from "./lib/components/LibraryBrowser.svelte";
+  import DeveloperLibrary from "./lib/components/DeveloperLibrary.svelte";
   import PackageManager from "./lib/components/PackageManager.svelte";
   import FirstRunPackages from "./lib/components/FirstRunPackages.svelte";
   import DownloadCenter from "./lib/components/DownloadCenter.svelte";
@@ -35,6 +36,8 @@
   import { recordRecent } from "./lib/recent";
   import { freeBoardFromLayout, freeBoardSpec } from "./lib/freeboard";
   import { api, isTauri } from "./lib/api";
+  import { classify, decisionUsable } from "./lib/decision/client";
+  import { charLength, isNeuralMethod } from "./lib/decision/ranking";
   import { isExplicitContent } from "./lib/content-filter";
   import { rasterizeSymbols } from "./lib/raster";
   import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -102,6 +105,24 @@
 
   let selected = $state<{ pid: string; token: CaaToken } | null>(null);
   let tokensByParagraph = $state<Map<string, CaaToken[]>>(new Map());
+  let horizonTimer: number | undefined;
+  let horizonRunning = false;
+  const horizonApplied = new Set<string>();
+  const horizonAttempted = new Set<string>();
+
+  /// Frase della parola selezionata: contesto per il DecisionEngine.
+  const selectedContextText = $derived.by(() => {
+    if (!selected) return "";
+    const tokens = tokensByParagraph.get(selected.pid) ?? [];
+    return tokens
+      .filter(
+        (token) =>
+          token.sentence_index === selected!.token.sentence_index && !token.is_punct
+      )
+      .map((token) => token.surface)
+      .join(" ")
+      .trim();
+  });
 
   let appInfo = $state<AppInfo | null>(null);
   let stats = $state<LibraryStats | null>(null);
@@ -170,6 +191,10 @@
   /// accanto alla Libreria: nel programma installato i repertori grandi non
   /// sono più inclusi e si scaricano solo su scelta dell'utente.
   let packagesOpen = $state(false);
+  let developerMode = $state(false);
+  let developerLibraryOpen = $state(false);
+  let developerLibraryEditing = $state(false);
+  let libraryRefreshKey = $state(0);
   /// Pacchetti richiesti nella finestra del primo avvio (nessun download
   /// automatico: il Gestore pacchetti li mostra e l'utente decide).
   let requestedPackages = $state<string[]>([]);
@@ -747,8 +772,23 @@
     };
   });
 
+  /// Modalità sviluppatore: la presenza del flag è decisa dal processo
+  /// principale (env o --dev-library) e vale solo nelle build di debug.
+  onMount(() => {
+    if (!native) return;
+    void api
+      .developerLibraryStatus()
+      .then((status) => {
+        developerMode = status.enabled;
+      })
+      .catch(() => {
+        developerMode = false;
+      });
+  });
+
   onDestroy(() => {
     if (speechPoll) clearInterval(speechPoll);
+    if (horizonTimer) window.clearTimeout(horizonTimer);
   });
 
   /// Primo avvio con installer snello: propone i pacchetti opzionali una
@@ -1205,6 +1245,11 @@
     diagnostics = await api.runtimeDiagnostics();
   }
 
+  async function refreshLibraryStats() {
+    if (!native) return;
+    stats = await api.libraryStats().catch(() => stats);
+  }
+
   function resizePanelBy(delta: number) {
     updateWorkspace({
       sidebarWidth: clampSidebarWidth($workspace.sidebarWidth + delta),
@@ -1256,6 +1301,32 @@
     } catch (error) {
       if (!quiet) toast(error instanceof Error ? error.message : String(error), "error");
       return false;
+    }
+  }
+
+  function openDeveloperLibrary() {
+    developerLibraryOpen = true;
+  }
+
+  async function openDeveloperDocument(path: string) {
+    if (!native) {
+      toast("La modalità sviluppatore richiede l'app desktop.", "warn");
+      return;
+    }
+    try {
+      const opened = await api.developerLibraryOpen(path);
+      universalDoc = opened.document;
+      universalPath = opened.path;
+      universalFromLibrary = true;
+      universalReadOnly = false;
+      developerLibraryEditing = true;
+      docTitle = opened.document.title;
+      developerLibraryOpen = false;
+      view = "editor";
+      const stamp = await api.documentStamp(opened.path).catch(() => null);
+      docDiskStamp = stamp;
+    } catch (error) {
+      toast(error instanceof Error ? error.message : String(error), "error");
     }
   }
 
@@ -1330,6 +1401,16 @@
   async function saveUniversal(document: UniversalDocument) {
     if (!native) {
       toast("Il salvataggio richiede l'app desktop.", "warn");
+      return;
+    }
+    if (developerLibraryEditing && universalPath) {
+      try {
+        const result = await api.developerLibrarySave(document, universalPath);
+        toast(`Documento della libreria aggiornato: ${result.entry.title}`, "info");
+        dirty = false;
+      } catch (error) {
+        toast(error instanceof Error ? error.message : String(error), "error");
+      }
       return;
     }
     let path = universalPath;
@@ -1881,9 +1962,139 @@
     if (pendingSymbolIds(1).length > 0) scheduleSymbolHydration(150);
   }
 
+  // ---------------------------------------------------------------
+  // Reranking Horizon durante la digitazione
+  //
+  // Passa solo sui token incerti (confidence < 0,55), non bloccati e non
+  // nascosti. Le scelte manuali hanno confidence 1.0 e non vengono toccate.
+  // L'applicazione usa l'override di occorrenza, quindi resta stabile e
+  // reversibile con «Ripristina scelta».
+  function scheduleHorizonRerank(delay = 1200) {
+    if (!native || !settings.neural_context) return;
+    if (horizonTimer) window.clearTimeout(horizonTimer);
+    horizonTimer = window.setTimeout(() => void runHorizonRerank(), delay);
+  }
+
+  async function applyHorizonSilently(
+    pid: string,
+    token: CaaToken,
+    alternative: Alternative
+  ): Promise<boolean> {
+    if (!editor) return false;
+    const conceptId = alternative.concept_id ?? token.concept_id ?? null;
+    try {
+      await api.setDocumentOverride(
+        docKey,
+        unitKey(pid, token.index),
+        alternative.symbol_id,
+        conceptId
+      );
+    } catch {
+      return false;
+    }
+    const entries = [{ pid, index: token.index, alternative }];
+    let applied = editor.applyTokenSymbols(entries);
+    if (applied === 0) {
+      const fallback = tokensByParagraph.get(pid) ?? [token];
+      editor.setTokensForPid(pid, fallback);
+      applied = editor.applyTokenSymbols(entries);
+    }
+    if (applied > 0) editor.refreshParagraph(pid);
+    return applied > 0;
+  }
+
+  async function runHorizonRerank() {
+    horizonTimer = undefined;
+    if (horizonRunning || !native || !settings.neural_context) return;
+    const usable = await decisionUsable();
+    if (!usable) return;
+    horizonRunning = true;
+    let processed = 0;
+    try {
+      outer: for (const [pid, tokens] of tokensByParagraph) {
+        for (const token of tokens) {
+          if (processed >= 6) break outer;
+          if (token.locked || token.hidden || token.is_punct || !token.symbol_id) continue;
+          // Applicazione diretta: tutti i token con alternative vengono rivalutati,
+          // indipendentemente dalla confidence iniziale.
+          if (token.alternatives.length < 1) continue;
+          const key = `${docKey}:${pid}:${token.index}:${token.surface}`;
+          if (horizonApplied.has(key) || horizonAttempted.has(key)) continue;
+          const seen = new Set<string>();
+          const candidates: { id: string; label: string }[] = [];
+          const add = (id: string | null, label: string | null) => {
+            if (!id || seen.has(id)) return;
+            seen.add(id);
+            candidates.push({ id, label: (label || id).trim() || id });
+          };
+          add(token.symbol_id, token.meaning ?? token.symbol_label ?? token.surface);
+          for (const alternative of token.alternatives) {
+            add(alternative.symbol_id, alternative.meaning || alternative.label);
+          }
+          if (candidates.length < 2) {
+            horizonAttempted.add(key);
+            continue;
+          }
+          horizonAttempted.add(key);
+          processed += 1;
+          const sentence = tokens
+            .filter(
+              (item) => item.sentence_index === token.sentence_index && !item.is_punct
+            )
+            .map((item) => item.surface)
+            .join(" ")
+            .trim();
+          const response = await classify({
+            task: "pictogram_disambiguation",
+            input: {
+              text: sentence || token.surface,
+              target: {
+                text: token.surface,
+                start: 0,
+                end: charLength(token.surface),
+              },
+            },
+            candidates,
+            context: {
+              element_id: key,
+              cancel_key: key,
+              document_revision: token.sentence_index,
+            },
+            options: {
+              mode: "automatic",
+              multi_label: false,
+              priority: "medium",
+              timeout_ms: 6000,
+            },
+          });
+          if (
+            !response ||
+            response.status !== "completed" ||
+            !isNeuralMethod(response.metadata.method) ||
+            !response.selected_candidate_id ||
+            response.selected_candidate_id === token.symbol_id
+          ) {
+            continue;
+          }
+          const alternative = token.alternatives.find(
+            (item) => item.symbol_id === response.selected_candidate_id
+          );
+          if (!alternative) continue;
+          if (await applyHorizonSilently(pid, token, alternative)) {
+            horizonApplied.add(key);
+          }
+        }
+      }
+    } finally {
+      horizonRunning = false;
+    }
+    if (processed >= 6) scheduleHorizonRerank(500);
+  }
+
   function onAnalyzed(map: Map<string, CaaToken[]>) {
     tokensByParagraph = map;
     scheduleSymbolHydration();
+    scheduleHorizonRerank();
     dirty = true;
     // Dopo un'unione, una separazione o un annullamento l'indice può puntare a
     // un'unità cambiata: il pannello deve mostrare lo stato reale, non una
@@ -4680,7 +4891,6 @@
   {#if !userMode}
     <HomeScreen
       {stats}
-      {templates}
       {appInfo}
       onCreate={create}
       onOpenDocument={() => void openDocument()}
@@ -4689,17 +4899,22 @@
       onOpenPackages={() => (packagesOpen = true)}
       onOpenStory={() => (storyStudioOpen = true)}
       onOpenSettings={openSettingsPanel}
-      onOpenTemplate={openTemplate}
       creatorMode={creatorUnlocked}
       onOpenUsers={() => (profileManagerOpen = true)}
       onExitCreator={() => void exitCreator()}
+      {developerMode}
+      onOpenDeveloperLibrary={openDeveloperLibrary}
     />
   {/if}
 {:else if view === "library"}
-  <LibraryBrowser
-    onOpen={(id, sourceType, readOnly) => void openUniversalDocument(id, sourceType, readOnly)}
-    onClose={() => (view = "home")}
-  />
+  {#key libraryRefreshKey}
+    <LibraryBrowser
+      onOpen={(id, sourceType, readOnly) => void openUniversalDocument(id, sourceType, readOnly)}
+      onClose={() => (view = "home")}
+      {developerMode}
+      onOpenDeveloperLibrary={openDeveloperLibrary}
+    />
+  {/key}
 {:else if view === "universal" && universalDoc}
   {#key `${universalDoc.id}:${universalPath ?? ""}`}
   <UniversalEditor
@@ -4713,6 +4928,7 @@
     onClose={() => {
       view = "home";
       universalDoc = null;
+      developerLibraryEditing = false;
     }}
     onToast={toast}
     onSpeak={(text) => void speak(text)}
@@ -4843,6 +5059,7 @@
             onClose={() => {
               view = "home";
               universalDoc = null;
+              developerLibraryEditing = false;
             }}
             onToast={toast}
             onSpeak={(text) => void speak(text)}
@@ -5097,6 +5314,7 @@
         ></button>
         <SidePanel
           {selected}
+          contextText={selectedContextText}
           universalDoc={universalDoc}
           universalSelection={universalSelection}
           universalPageIndex={universalPageIndex}
@@ -5425,6 +5643,18 @@
       packagesOpen = false;
       requestedPackages = [];
     }}
+  />
+{/if}
+
+{#if developerLibraryOpen}
+  <DeveloperLibrary
+    onClose={() => (developerLibraryOpen = false)}
+    onEdit={(path) => void openDeveloperDocument(path)}
+    onChanged={() => {
+      libraryRefreshKey += 1;
+      void refreshLibraryStats();
+    }}
+    onToast={toast}
   />
 {/if}
 

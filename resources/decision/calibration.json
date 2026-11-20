@@ -1,0 +1,65 @@
+{
+  "dataset": "tests/decision_corpus_500.json",
+  "version": "2",
+  "language": "it",
+  "total_cases": 649,
+  "split": {
+    "calibration": 453,
+    "validation": 196,
+    "method": "deterministic id hash modulo 10 (70/30)"
+  },
+  "calibration": {
+    "samples": 453,
+    "mean_top_score": 0.52,
+    "mean_margin": 0.18,
+    "global_suggest_margin": 0.21,
+    "global_suggest_precision": 0.82,
+    "global_suggest_coverage": 0.283,
+    "note": "La policy usa soglie per task, non la soglia globale, quando disponibili."
+  },
+  "validation": {
+    "total": 196,
+    "correct": 47,
+    "abstained": 145,
+    "coverage": 0.2602,
+    "selected_precision": 0.9216,
+    "overall_accuracy": 0.2398,
+    "by_task": {
+      "pictogram_disambiguation": "8/8",
+      "semantic_category": "6/6",
+      "communication_intent": "6/7",
+      "expressed_emotion": "8/8",
+      "interactive_action": "7/7",
+      "layout_template": "6/7",
+      "social_story_topic": "4/5",
+      "learning_objective": "1/2",
+      "exercise_type": "1/1",
+      "board_category": "0/0 (astensione)"
+    },
+    "note": "La precisione riguarda solo i 51 casi suggeriti; sugli altri 145 il sistema si astiene."
+  },
+  "policy": {
+    "suggest_threshold": 0.05,
+    "apply_threshold": 0.15,
+    "min_margin": 0.37,
+    "apply_margin": 0.55,
+    "per_task": {
+      "pictogram_disambiguation": { "suggest_margin": 0.01, "apply_margin": 0.20 },
+      "communication_intent": { "suggest_margin": 0.40, "apply_margin": 0.49 },
+      "semantic_category": { "suggest_margin": 0.51, "apply_margin": 0.54 },
+      "board_category": { "suggest_margin": 0.80, "apply_margin": 0.85 },
+      "expressed_emotion": { "suggest_margin": 0.06, "apply_margin": 0.13 },
+      "exercise_type": { "suggest_margin": 0.08, "apply_margin": 0.08 },
+      "social_story_topic": { "suggest_margin": 0.08, "apply_margin": 0.08 },
+      "interactive_action": { "suggest_margin": 0.01, "apply_margin": 0.06 },
+      "layout_template": { "suggest_margin": 0.01, "apply_margin": 0.02 },
+      "learning_objective": { "suggest_margin": 0.40, "apply_margin": 0.50 }
+    }
+  },
+  "caveats": [
+    "Corpus sintetico curato, non annotato da clinici o docenti.",
+    "Le etichette derivano dal significato delle frasi, non dai punteggi del modello.",
+    "Il modello piccolo resta debole su board category, obiettivo e alcune emozioni: la policy si astiene.",
+    "Le soglie vanno rivalidate su un corpus italiano annotato prima di aumentare la copertura."
+  ]
+}

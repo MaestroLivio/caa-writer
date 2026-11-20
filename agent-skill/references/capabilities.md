@@ -1,4 +1,4 @@
-# CAA Writer — capacità (API 1.0, versione 0.15.20)
+# CAA Writer — capacità (API 1.0, versione 0.15.21)
 
 ## `app.capabilities` — Catalogo delle capacità
 
@@ -108,7 +108,7 @@ Valida schema, pagine, elementi, azioni, collegamenti e risorse del progetto.
 
 ## `project.save` — Salva progetto
 
-Salva un documento nella radice progetti. Sovrascrive solo se `overwrite=true`; altrimenti rifiuta il conflitto.
+Salva un documento nella radice progetti. Sovrascrive solo se `overwrite=true`; altrimenti rifiuta il conflitto. Non idempotente se il titolo cambia (il nome file può cambiare).
 
 - Categoria: progetti
 - Tool MCP: `project_save`
@@ -446,6 +446,68 @@ Controlli strutturali ed editoriali su tutti i documenti. Operazione lunga: pref
 - Tool MCP: `library_validate`
 - Accesso: lettura
 - Parametri: `only_pilots`, `max_issues`
+
+## `dev.library.packages` — Pacchetti libreria (dev)
+
+Elenca i pacchetti e i documenti della libreria. Richiede la modalità sviluppatore attiva (CAA_WRITER_DEV_LIBRARY=1 o --dev-library, solo build debug).
+
+- Categoria: sviluppo
+- Tool MCP: `dev_library_packages`
+- Accesso: lettura
+
+## `dev.library.open` — Apri documento libreria (dev)
+
+Apre un documento .caadoc della libreria per percorso relativo. Richiede la modalità sviluppatore.
+
+- Categoria: sviluppo
+- Tool MCP: `dev_library_open`
+- Accesso: lettura
+- Parametri: `path` (obbligatorio)
+
+## `dev.library.preview` — Anteprima documento libreria (dev)
+
+Restituisce l'anteprima SVG della prima pagina di un documento della libreria. Richiede la modalità sviluppatore.
+
+- Categoria: sviluppo
+- Tool MCP: `dev_library_preview`
+- Accesso: lettura
+- Parametri: `path` (obbligatorio)
+
+## `dev.library.save` — Salva documento libreria (dev)
+
+Salva un UniversalDocument in un percorso della libreria e aggiorna catalogo e anteprima. Distruttivo: richiede conferma.
+
+- Categoria: sviluppo
+- Tool MCP: `dev_library_save`
+- Accesso: scrittura, distruttiva (confirm=true, admin)
+- Parametri: `document` (obbligatorio), `path` (obbligatorio), `confirm`
+
+## `dev.library.replace` — Sostituisci documento libreria (dev)
+
+Sostituisce un documento della libreria con un altro .caadoc scelto dal disco, mantenendo l'ID della voce. Distruttivo: richiede conferma.
+
+- Categoria: sviluppo
+- Tool MCP: `dev_library_replace`
+- Accesso: scrittura, distruttiva (confirm=true, admin)
+- Parametri: `path` (obbligatorio), `source` (obbligatorio), `confirm`
+
+## `dev.library.add` — Aggiungi documento libreria (dev)
+
+Copia un .caadoc nella libreria, genera un ID univoco e lo aggiunge al catalogo. Richiede la modalità sviluppatore.
+
+- Categoria: sviluppo
+- Tool MCP: `dev_library_add`
+- Accesso: scrittura
+- Parametri: `source` (obbligatorio), `folder` (obbligatorio), `category_id` (obbligatorio), `subcategory_id` (obbligatorio), `category_name`, `subcategory_name`
+
+## `dev.library.delete` — Elimina documento libreria (dev)
+
+Elimina un documento dalla libreria, dalla sua anteprima e dal catalogo. Distruttivo: richiede conferma.
+
+- Categoria: sviluppo
+- Tool MCP: `dev_library_delete`
+- Accesso: scrittura, distruttiva (confirm=true, admin)
+- Parametri: `path` (obbligatorio), `confirm`
 
 ## `prompt.interpret` — Interpreta prompt
 
@@ -831,5 +893,86 @@ Esporta un ExportDoc in DOCX con gli asset del motore.
 - Tool MCP: `export_docx`
 - Accesso: scrittura
 - Parametri: `path` (obbligatorio), `document` (obbligatorio)
+
+## `decision.status` — Stato del motore decisionale
+
+Stato reale del DecisionEngine, del modello Horizon installato e della cache. Non avvia inferenze.
+
+- Categoria: decisione
+- Tool MCP: `decision_status`
+- Accesso: lettura
+- Esempio: `caa-cli call decision.status '{}'`
+
+## `decision.classify` — Classificazione semantica
+
+Classifica un testo fra alternative predefinite usando il DecisionEngine condiviso. Il modello non esegue comandi e non modifica documenti.
+
+- Categoria: decisione
+- Tool MCP: `decision_classify`
+- Accesso: lettura
+- Parametri: `task` (obbligatorio), `text` (obbligatorio), `target`, `candidates`, `mode`, `multi_label`, `timeout_ms`, `priority`, `taxonomy_version`, `apply_threshold`, `suggest_threshold`
+- Esempio: `caa-cli call decision.classify '{"task":"communication_intent","text":"Vorrei bere dell'acqua."}'`
+
+## `decision.audit` — Diagnostica decisioni
+
+Ultimi eventi del motore decisionale, senza testo utente né dati personali.
+
+- Categoria: decisione
+- Tool MCP: `decision_audit`
+- Accesso: lettura
+
+## `decision.validate` — Valida un dataset
+
+Esegue un insieme di casi italiani sul DecisionEngine reale e riporta accuratezza, astensioni, copertura, errori e latenza media. Non modifica nulla.
+
+- Categoria: decisione
+- Tool MCP: `decision_validate`
+- Accesso: lettura
+- Parametri: `cases` (obbligatorio), `split`, `suggest_threshold`, `apply_threshold`
+- Esempio: `caa-cli call decision.validate '{"cases":[...]}'`
+
+## `decision.calibrate` — Calibra le soglie
+
+Esegue i casi su Horizon e propone soglie di suggerimento/applicazione con copertura e precisione misurate. Non modifica la configurazione.
+
+- Categoria: decisione
+- Tool MCP: `decision_calibrate`
+- Accesso: lettura
+- Parametri: `cases` (obbligatorio), `split`
+- Esempio: `caa-cli call decision.calibrate '{"cases":[...]}'`
+
+## `decision.model.status` — Stato modello Horizon
+
+Verifica presenza e integrità attesa dei file del modello Horizon nella cartella modelli.
+
+- Categoria: decisione
+- Tool MCP: `decision_model_status`
+- Accesso: lettura
+
+## `decision.model.verify` — Verifica modello Horizon
+
+Calcola gli SHA-256 dei file del modello installato. Può richiedere qualche secondo.
+
+- Categoria: decisione
+- Tool MCP: `decision_model_verify`
+- Accesso: lettura
+
+## `decision.model.install` — Installa modello Horizon
+
+Scarica i file ufficiali del modello Horizon e li installa in modo atomico. Richiede rete; dopo l'installazione funziona offline.
+
+- Categoria: decisione
+- Tool MCP: `decision_model_install`
+- Accesso: scrittura
+- Parametri: `force`
+
+## `decision.model.remove` — Rimuovi modello Horizon
+
+Rimuove i pesi locali del modello Horizon. Richiede confirm=true. Le funzioni deterministiche restano attive.
+
+- Categoria: decisione
+- Tool MCP: `decision_model_remove`
+- Accesso: scrittura, distruttiva (confirm=true, admin)
+- Parametri: `confirm`
 
 

@@ -5,6 +5,7 @@
   import CaaEditor from "../editor/CaaEditor.svelte";
   import ElementTextEditor from "./ElementTextEditor.svelte";
   import { mergeTextElements } from "../universal/text-sync";
+  import { isExplicitContent } from "../content-filter";
   import { buildPhraseGrid } from "../universal/phrase";
   import {
     elementSegments,
@@ -30,6 +31,9 @@
     UniversalPage,
     UniversalStyle,
   } from "../types";
+  import { classify, decisionUsable } from "../../lib/decision/client";
+  import { charLength, isNeuralMethod } from "../../lib/decision/ranking";
+  const phraseUnitKey = (pid: string, index: number) => `${pid}:${index}`;
 
   interface Props {
     document: UniversalDocument;
@@ -102,6 +106,17 @@
   }: Props = $props();
 
   type WrapZone = { x0: number; x1: number; bottom: number; left: boolean };
+
+  /// Segmenti CAA di un elemento con lo stesso filtro dei contenuti espliciti
+  /// del word processor: un pittogramma esplicito non deve comparire nelle
+  /// caselle quando l'utente li ha disattivati.
+  function caaSegments(text: string, tokens: Parameters<typeof elementSegments>[1]) {
+    return elementSegments(text, tokens, {
+      showExplicitSymbols: caa?.showExplicitSymbols ?? true,
+      explicit: (token) =>
+        isExplicitContent(token.surface, token.symbol_label, token.concept_label, token.meaning),
+    });
+  }
 
   class FlowLayout {
     left: number;
@@ -2349,6 +2364,95 @@
     selectedCellId = null;
   }
 
+  /// Applica automaticamente i suggerimenti Horizon ai token della frase CAA.
+  /// Simile a runHorizonRerank in App.svelte, ma per i token appena generati.
+  async function applyHorizonToTokens(tokens: CaaToken[], documentKey: string, paragraphId: string) {
+    if (!isTauri()) return tokens;
+    const usable = await decisionUsable();
+    if (!usable) return tokens;
+
+    for (const token of tokens) {
+      if (token.locked || token.hidden || token.is_punct || !token.symbol_id) continue;
+      if (token.alternatives.length < 1) continue;
+
+      const sentenceText = tokens
+        .filter((t) => t.sentence_index === token.sentence_index && !t.is_punct)
+        .map((t) => t.surface)
+        .join(" ")
+        .trim();
+
+      const key = `${documentKey}:${paragraphId}:${token.index}:${token.surface}`;
+
+      const candidates: { id: string; label: string }[] = [];
+      const seen = new Set<string>();
+      const add = (id: string | null, label: string | null) => {
+        if (!id || seen.has(id)) return;
+        seen.add(id);
+        candidates.push({ id, label: (label || id).trim() || id });
+      };
+      add(token.symbol_id, token.meaning ?? token.symbol_label ?? token.surface);
+      for (const alt of token.alternatives) {
+        add(alt.symbol_id, alt.meaning || alt.label);
+      }
+      if (candidates.length < 2) continue;
+
+      const response = await classify({
+        task: "pictogram_disambiguation",
+        input: {
+          text: sentenceText || token.surface,
+          target: {
+            text: token.surface,
+            start: 0,
+            end: charLength(token.surface),
+          },
+        },
+        candidates,
+        context: {
+          element_id: key,
+          cancel_key: key,
+          document_revision: token.sentence_index,
+        },
+        options: {
+          mode: "automatic",
+          multi_label: false,
+          priority: "high",
+          timeout_ms: 5000,
+        },
+      });
+
+      if (
+        !response ||
+        response.status !== "completed" ||
+        !isNeuralMethod(response.metadata.method) ||
+        !response.selected_candidate_id ||
+        response.selected_candidate_id === token.symbol_id
+      ) {
+        continue;
+      }
+
+      const alternative = token.alternatives.find(
+        (item) => item.symbol_id === response.selected_candidate_id
+      );
+      if (!alternative) continue;
+
+      // Applica l'override direttamente al documento
+      await api.setDocumentOverride(
+        documentKey,
+        phraseUnitKey(paragraphId, token.index),
+        alternative.symbol_id,
+        alternative.concept_id ?? token.concept_id ?? null
+      );
+
+      // Aggiorna il token locale
+      token.symbol_id = alternative.symbol_id;
+      token.meaning = alternative.meaning ?? token.meaning;
+      token.concept_id = alternative.concept_id ?? token.concept_id;
+      token.concept_label = alternative.label ?? token.concept_label;
+      token.locked = true; // L'override blocca il simbolo
+    }
+    return tokens;
+  }
+
   /// Compone una frase CAA dentro l'elemento selezionato: ogni parola diventa
   /// una cella con pittogramma e testo, come nel rigo normale. La forma, il
   /// fumetto o la casella mantengono sfondo e bordo; la frase resta composta
@@ -2383,10 +2487,16 @@
       profile_id: caa?.profileId ?? null,
     };
     const result = await api.symbolizeParagraph(text, options);
+
+    // Applica automaticamente i suggerimenti Horizon (stesso comportamento dell'editor principale)
+    const documentKey = caa?.documentKey ?? doc.id;
+    const paragraphId = `phrase-${target.id}`;
+    const tokens = await applyHorizonToTokens(result.tokens, documentKey, paragraphId);
+
     const available = (page?.width_mm ?? 210) - 2 * (doc.page.margin_mm ?? 12);
     const desiredW = Math.max(40, Math.min(available, target.w_mm || 80));
     const columns = Math.max(1, Math.min(8, Math.floor(desiredW / 17)));
-    const grid = buildPhraseGrid(result.tokens, { columns, gapMm: 1.2 });
+    const grid = buildPhraseGrid(tokens, { columns, gapMm: 1.2 });
     if (grid.cells.length === 0) {
       onToast("Nessuna parola da simbolizzare nella frase.", "warn");
       return;
@@ -2546,7 +2656,7 @@
         editSymbolOf(element);
       }}
     >
-      {#each elementSegments(element.text, stored.tokens) as segment, index (index)}
+      {#each caaSegments(element.text, stored.tokens) as segment, index (index)}
         {#if segment.unit}
           <span
             class="caa-unit uel__caa-unit"
@@ -2665,7 +2775,7 @@
                                     ? "Doppio clic per modificare la frase e i pittogrammi"
                                     : cell.text}
                                 >
-                                  {#each elementSegments(cell.text, cellCaa.tokens) as segment, segmentIndex (segmentIndex)}
+                                  {#each caaSegments(cell.text, cellCaa.tokens) as segment, segmentIndex (segmentIndex)}
                                     {#if segment.unit}
                                       <span
                                         class="caa-unit uel__caa-unit"

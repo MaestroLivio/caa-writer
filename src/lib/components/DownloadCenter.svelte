@@ -6,6 +6,7 @@
   // obbligatoria non si chiude finché i download non sono terminati; in ogni
   // caso avvisa di non chiudere la finestra del programma.
   import { onDestroy, onMount } from "svelte";
+  import { language, strings } from "../i18n";
   import { api, isTauri } from "../api";
   import type { DownloadSnapshot } from "../types";
 
@@ -23,6 +24,12 @@
   let notified = false;
   let poll: ReturnType<typeof setInterval> | null = null;
 
+  function closeHandler(event: KeyboardEvent) {
+    if (event.key === "Escape" && canClose) {
+      onClose?.();
+    }
+  }
+
   async function refresh() {
     if (!isTauri()) return;
     try {
@@ -39,14 +46,17 @@
   onMount(() => {
     void refresh();
     poll = setInterval(() => void refresh(), 600);
+    window.addEventListener("keydown", closeHandler);
     return () => {
       if (poll) clearInterval(poll);
       poll = null;
+      window.removeEventListener("keydown", closeHandler);
     };
   });
 
   onDestroy(() => {
     if (poll) clearInterval(poll);
+    window.removeEventListener("keydown", closeHandler);
   });
 
   function mb(bytes: number): string {
@@ -57,30 +67,30 @@
   const failed = $derived(snapshot?.tasks.filter((task) => task.error) ?? []);
   const allDone = $derived(Boolean(snapshot && snapshot.tasks.length > 0 && !snapshot.active));
   const canClose = $derived(!mandatory || allDone || failed.length > 0 || snapshot?.tasks.length === 0);
+
+  const dc = $derived.by(() => strings[$language].downloadCenter);
 </script>
 
 <div class="dl" role="dialog" aria-modal={mandatory ? "true" : undefined} aria-labelledby="dl-title">
   <div class="dl__card">
     <header class="dl__head">
       <div>
-        <h2 id="dl-title">Download dei pacchetti</h2>
+        <h2 id="dl-title">{dc.title}</h2>
         <p>
-          Puoi avviare più download contemporaneamente. <strong>Non chiudere la finestra</strong>
-          finché la barra non arriva al 100%: i file vengono salvati nella cartella dati
-          dell'utente e restano disponibili offline.
+          {dc.description} {@html dc.doNotClose}
         </p>
       </div>
       <button
         class="btn btn--ghost"
         disabled={!canClose}
         onclick={() => onClose?.()}
-        aria-label="Chiudi"
-        title={canClose ? "Chiudi" : "Attendi la fine dei download"}
+        aria-label={dc.close}
+        title={canClose ? dc.close : "Attendi la fine dei download"}
       >×</button>
     </header>
 
     {#if error}
-      <p class="dl__error" role="alert">{error}</p>
+      <p class="dl__error" role="alert">{dc.errorPrefix}{error}</p>
     {/if}
 
     <div class="dl__global">
@@ -90,8 +100,8 @@
       <p>
         {#if snapshot}
           <strong>{Math.round(snapshot.percent)}%</strong>
-          · {mb(snapshot.done)} / {mb(snapshot.total)}
-          {#if snapshot.active}· download in corso{:else if snapshot.tasks.length}· completato{/if}
+          {dc.doneOfTotal(mb(snapshot.done), mb(snapshot.total))}
+          {#if snapshot.active}{dc.active}{:else if snapshot.tasks.length}{dc.completed}{/if}
         {:else}
           Lettura dello stato…
         {/if}
@@ -118,26 +128,26 @@
                   error = err instanceof Error ? err.message : String(err);
                 });
               }}
-            >Riprova</button>
+            >{dc.retry}</button>
           {/if}
         </article>
       {/each}
       {#if snapshot && snapshot.tasks.length === 0}
-        <p class="dl__empty">Nessun download in corso.</p>
+        <p class="dl__empty">{dc.noDownloads}</p>
       {/if}
     </div>
 
     <footer class="dl__footer">
       <span class="dl__hint">
         {#if allDone}
-          Tutti i download sono terminati. Puoi continuare a usare il programma offline.
+          {dc.allDoneHint}
         {:else}
-          Puoi continuare a usare le funzioni già installate, ma non chiudere la finestra.
+          {dc.waitHint}
         {/if}
       </span>
       {#if allDone || failed.length > 0}
         <button class="btn btn--solid" onclick={() => onClose?.()}>
-          {failed.length ? "Continua offline" : "Continua"}
+          {failed.length ? dc.continueOffline : dc.continue}
         </button>
       {/if}
     </footer>

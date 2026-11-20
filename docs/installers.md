@@ -1,5 +1,33 @@
 # Release e installer
 
+## Stato reale 0.15.21 (20 novembre 2026)
+
+- Correzione dei pittogrammi espliciti: scrivendo «pap» non compare più «pap
+  test» con i contenuti espliciti disattivati. Import ARASAAC vincolato al
+  titolo, migrazione 5 per nascondere gli import sbagliati, filtro nei ripieghi
+  automatici e nei token salvati dell'editor universale.
+- Build di release con `--features onnx`: ONNX Runtime è collegato
+  staticamente, quindi non serve una libreria esterna. I pesi del modello
+  restano separati e si installano dal Gestore pacchetti.
+- Aggiunto `mainBinaryName` in `tauri.conf.json`: il bundle macOS usa
+  `caa-writer` come eseguibile principale. Rimossi i file AppleDouble `._*`
+  dalla cartella `src/bin`, che facevano credere a Tauri che esistesse un
+  binario chiamato `._caa-cli`.
+- macOS arm64: `.dmg` 263.829.218 byte (251,6 MiB), `.app.zip`
+  257.104.118 byte, firmato ad-hoc sull'intero bundle e verificato dal DMG.
+- Windows x64: installer NSIS cross-compilato (169.757.756 byte), controllato
+  staticamente con 7-Zip; non eseguito su hardware Windows.
+- CLI macOS arm64: 22.219.984 byte.
+
+Verifiche reali:
+
+```text
+codesign --verify --deep --strict dal DMG montato   valido
+otool -L caa-writer                                  solo @rpath/libdav1d.7.dylib
+caa-cli info (dal bundle)                            versione 0.15.21
+caa-cli call decision.status                         runtime_feature: true
+```
+
 ## Stato reale 0.15.20 (12 novembre 2026)
 
 - Correzione critica macOS: `libdav1d.7.dylib` è inclusa in

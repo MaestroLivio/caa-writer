@@ -6,6 +6,7 @@
   // Si può inserire nel documento come immagine modificabile; la stampa e le
   // esportazioni usano lo stesso renderer del documento.
   import { onMount } from "svelte";
+  import { language, strings } from "../i18n";
   import { api, isTauri } from "../api";
   import { documentFontGroups } from "../workspace/fonts";
   import type { TraceConfig } from "../types";
@@ -43,8 +44,18 @@
     .filter((group) => ["pregrafismo", "scuola", "maiuscolo", "corsivo"].includes(group.id))
     .flatMap((group) => group.fonts.filter((font) => font.stack));
 
+  function closeHandler(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  }
+
   onMount(() => {
     void generate();
+    window.addEventListener("keydown", closeHandler);
+    return () => {
+      window.removeEventListener("keydown", closeHandler);
+    };
   });
 
   async function generate() {
@@ -69,30 +80,32 @@
     onInsert(svg, config.width_mm, config.height_mm, `Pregrafismo · ${config.text.slice(0, 24)}`);
     onClose();
   }
+
+  const ts = $derived.by(() => strings[$language].traceSheet);
 </script>
 
 <div class="trace" role="dialog" aria-modal="true" aria-labelledby="trace-title">
   <div class="trace__window">
     <header class="trace__bar">
       <div>
-        <h2 id="trace-title">Pregrafismo e lettere a punti</h2>
-        <p>Lettere riempite con punti, guide di scrittura e contorno regolabile.</p>
+        <h2 id="trace-title">{ts.title}</h2>
+        <p>{ts.description}</p>
       </div>
-      <button class="btn btn--ghost" onclick={onClose} aria-label="Chiudi">×</button>
+      <button class="btn btn--ghost" onclick={onClose} aria-label={ts.close}>×</button>
     </header>
 
     <div class="trace__body">
       <section class="trace__form" aria-label="Impostazioni del foglio">
         <label class="trace__field">
-          <span>Testo da tracciare</span>
+          <span>{ts.textToTrace}</span>
           <textarea rows="3" bind:value={config.text}></textarea>
         </label>
         <label class="trace__field">
-          <span>Titolo del foglio</span>
+          <span>{ts.sheetTitle}</span>
           <input bind:value={config.title} />
         </label>
         <label class="trace__field">
-          <span>Carattere</span>
+          <span>{ts.font}</span>
           <select bind:value={config.font_family}>
             {#each traceFonts as font (font.stack)}
               <option value={font.stack}>{font.label}</option>
@@ -101,71 +114,70 @@
         </label>
         <div class="trace__grid">
           <label class="trace__field">
-            <span>Corpo (mm)</span>
+            <span>{ts.fontSize}</span>
             <input type="number" min="8" max="120" step="1" bind:value={config.font_size_mm} />
           </label>
           <label class="trace__field">
-            <span>Raggio punto (mm)</span>
+            <span>{ts.dotRadius}</span>
             <input type="number" min="0.15" max="3" step="0.05" bind:value={config.dot_radius_mm} />
           </label>
           <label class="trace__field">
-            <span>Distanza punti (mm)</span>
+            <span>{ts.dotSpacing}</span>
             <input type="number" min="0.8" max="10" step="0.1" bind:value={config.dot_spacing_mm} />
           </label>
           <label class="trace__field">
-            <span>Contorno (mm)</span>
+            <span>{ts.outline}</span>
             <input type="number" min="0" max="3" step="0.05" bind:value={config.outline_mm} />
           </label>
           <label class="trace__field">
-            <span>Colore</span>
+            <span>{ts.color}</span>
             <input type="color" bind:value={config.color} />
           </label>
           <label class="trace__field">
-            <span>Margine (mm)</span>
+            <span>{ts.margin}</span>
             <input type="number" min="5" max="60" step="1" bind:value={config.margin_mm} />
           </label>
         </div>
         <div class="trace__checks">
-          <label><input type="checkbox" bind:checked={config.guides} /> Guide di scrittura</label>
-          <label><input type="checkbox" bind:checked={config.dashed_outline} /> Contorno tratteggiato</label>
-          <label><input type="checkbox" bind:checked={config.uppercase} /> Solo maiuscole</label>
+          <label><input type="checkbox" bind:checked={config.guides} /> {ts.guides}</label>
+          <label><input type="checkbox" bind:checked={config.dashed_outline} /> {ts.dashedOutline}</label>
+          <label><input type="checkbox" bind:checked={config.uppercase} /> {ts.uppercase}</label>
         </div>
         <div class="trace__grid">
           <label class="trace__field">
-            <span>Larghezza foglio (mm)</span>
+            <span>{ts.pageWidth}</span>
             <input type="number" min="60" max="1200" step="1" bind:value={config.width_mm} />
           </label>
           <label class="trace__field">
-            <span>Altezza foglio (mm)</span>
+            <span>{ts.pageHeight}</span>
             <input type="number" min="60" max="1200" step="1" bind:value={config.height_mm} />
           </label>
         </div>
         <p class="trace__hint">
-          Le lettere sono disegnate con il carattere scelto: se non è installato nel sistema, il
-          foglio usa il ripiego e resta leggibile.
+          {ts.hint}
         </p>
-        {#if error}<p class="trace__error" role="alert">{error}</p>{/if}
+        {#if error}<p class="trace__error" role="alert">{ts.errorPrefix}{error}</p>{/if}
       </section>
 
-      <section class="trace__preview" aria-label="Anteprima del foglio">
+      <section class="trace__preview" aria-label={ts.previewLabel}>
         {#if svg}
           {@html svg}
         {:else if busy}
-          <p>Generazione del foglio…</p>
+          <p>{ts.generating}</p>
         {:else}
-          <p>Nessuna anteprima disponibile.</p>
+          <p>{ts.noPreview}</p>
         {/if}
       </section>
     </div>
 
     <footer class="trace__footer">
       {#if svg}<span class="trace__hint">
-        Foglio {config.width_mm}×{config.height_mm} mm · {config.text.trim().length} caratteri
+        {ts.sheetDimensions(String(config.width_mm), String(config.height_mm), String(config.text.trim().length))}
       </span>{/if}
-      <button class="btn" onclick={onClose}>Annulla</button>
-      <button class="btn" disabled={busy} onclick={() => void generate()}>Aggiorna anteprima</button>
+      <button class="btn" onclick={onClose}>{ts.cancel}</button>
+      <button class="btn" disabled={busy} onclick={() => void generate()}>{ts.updatePreview}</button>
       <button class="btn btn--solid" disabled={!svg || busy} onclick={insert}>
-        Inserisci nel documento
+        {ts.insertIntoDocument}
       </button>
     </footer>
   </div>

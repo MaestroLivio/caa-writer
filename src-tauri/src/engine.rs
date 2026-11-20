@@ -1091,7 +1091,8 @@ impl Engine {
         // sovrascritto dall'IA né dalla rivalutazione della frase.
         if !opts.document_key.is_empty() {
             match db.unit_state(&opts.document_key, unit_key) {
-                Ok(Some((hidden, modifiers))) => {
+                Ok(Some((locked, hidden, modifiers))) => {
+                    out.locked = locked;
                     out.hidden = hidden;
                     out.modifiers = if modifiers.manual {
                         modifiers

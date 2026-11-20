@@ -225,10 +225,16 @@ impl BridgeServer {
         let watcher_stop = stop.clone();
         let watcher_app = app.clone();
         let watcher_data_dir = data_dir.clone();
+        let watcher_resources_dir = resources_dir.clone();
         std::thread::Builder::new()
             .name("caa-bridge-watcher".to_string())
             .spawn(move || {
-                watch_filesystem(watcher_app, watcher_data_dir, watcher_stop);
+                watch_filesystem(
+                    watcher_app,
+                    watcher_data_dir,
+                    watcher_resources_dir,
+                    watcher_stop,
+                );
             })
             .ok();
 
@@ -517,11 +523,21 @@ fn changed_paths(method: &str, params: &Value, result: &Value) -> Vec<(PathBuf, 
 /// viene modificato da un processo esterno. Serve a coprire i job lanciati da
 /// client headless (che girano fuori dal bridge) e qualsiasi altro strumento
 /// che tocchi i file.
-fn watch_filesystem(app: AppHandle, data_dir: PathBuf, stop: Arc<AtomicBool>) {
+fn watch_filesystem(
+    app: AppHandle,
+    data_dir: PathBuf,
+    resources_dir: PathBuf,
+    stop: Arc<AtomicBool>,
+) {
     let projects_root = data_dir.join("projects");
+    let library_root = resources_dir.join("library");
     let mut known: HashMap<PathBuf, SystemTime> = HashMap::new();
     // Prima scansione: registra lo stato senza emettere eventi.
     scan_projects(&projects_root, &mut known);
+    let mut known_library: HashMap<PathBuf, SystemTime> = HashMap::new();
+    if crate::dev_library::enabled() {
+        scan_library(&library_root, &mut known_library);
+    }
     while !stop.load(Ordering::SeqCst) {
         std::thread::sleep(WATCH_INTERVAL);
         if stop.load(Ordering::SeqCst) {
@@ -579,6 +595,56 @@ fn watch_filesystem(app: AppHandle, data_dir: PathBuf, stop: Arc<AtomicBool>) {
             }
         }
         known = current;
+
+        // Modalità sviluppatore: osserva i pacchetti della libreria e avvisa
+        // il browser dev quando un coding agent aggiunge, modifica o elimina
+        // un documento o il catalogo.
+        if crate::dev_library::enabled() {
+            let mut current_library: HashMap<PathBuf, SystemTime> = HashMap::new();
+            scan_library(&library_root, &mut current_library);
+            for (path, modified) in &current_library {
+                let change = match known_library.get(path) {
+                    Some(previous) if previous != modified => Some("modified"),
+                    None => Some("created"),
+                    _ => None,
+                };
+                if let Some(change) = change {
+                    let _ = app.emit(
+                        "developer-library-changed",
+                        json!({
+                            "path": path.to_string_lossy().to_string(),
+                            "change": change,
+                            "stamp": file_stamp(path),
+                            "at": crate::util::now_iso(),
+                        }),
+                    );
+                }
+            }
+            for path in known_library.keys() {
+                if !current_library.contains_key(path) {
+                    let _ = app.emit(
+                        "developer-library-changed",
+                        json!({
+                            "path": path.to_string_lossy().to_string(),
+                            "change": "removed",
+                            "stamp": Value::Null,
+                            "at": crate::util::now_iso(),
+                        }),
+                    );
+                }
+            }
+            known_library = current_library;
+        }
+    }
+}
+
+fn scan_library(root: &Path, out: &mut HashMap<PathBuf, SystemTime>) {
+    scan_projects(root, out);
+    let manifest = root.join("manifest.json");
+    if let Ok(metadata) = fs::metadata(&manifest) {
+        if let Ok(modified) = metadata.modified() {
+            out.insert(manifest, modified);
+        }
     }
 }
 
@@ -857,6 +923,19 @@ mod tests {
         assert_ne!(first, second);
         std::fs::remove_file(&path).unwrap();
         assert!(file_stamp(&path).is_none());
+    }
+
+    #[test]
+    fn library_scan_finds_manifest_and_documents() {
+        let dir = tempfile::tempdir().unwrap();
+        let library = dir.path().join("library");
+        std::fs::create_dir_all(library.join("templates")).unwrap();
+        std::fs::write(library.join("manifest.json"), b"{}").unwrap();
+        std::fs::write(library.join("templates/doc.caadoc"), b"zip").unwrap();
+        let mut seen = HashMap::new();
+        scan_library(&library, &mut seen);
+        assert!(seen.contains_key(&library.join("manifest.json")));
+        assert!(seen.contains_key(&library.join("templates/doc.caadoc")));
     }
 
     #[test]

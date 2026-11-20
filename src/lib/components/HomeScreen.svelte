@@ -1,18 +1,15 @@
 <script lang="ts">
-  import type { AppInfo, CreationMode, LibraryStats, TemplateInfo } from "../types";
+  import type { AppInfo, CreationMode, LibraryStats } from "../types";
   import { language, setLanguage, strings, type UiStrings } from "../i18n";
   import {
     clearRecent,
-    loadFavorites,
     loadRecent,
     removeRecent,
-    toggleFavorite,
     type RecentDoc,
   } from "../recent";
 
   interface Props {
     stats: LibraryStats | null;
-    templates: TemplateInfo[];
     appInfo: AppInfo | null;
     onCreate: (mode: CreationMode) => void;
     onOpenDocument: () => void;
@@ -21,17 +18,18 @@
     onOpenPackages: () => void;
     onOpenStory: () => void;
     onOpenSettings: () => void;
-    onOpenTemplate: (templateId: string) => void;
     /// Nella schermata iniziale del Creator si possono raggiungere la
     /// Gestione utenti e l'area Utilizzatore senza aprire un documento.
     creatorMode?: boolean;
     onOpenUsers?: () => void;
     onExitCreator?: () => void;
+    /// Visibile solo nelle build di sviluppo avviate con `npm run dev:library`.
+    developerMode?: boolean;
+    onOpenDeveloperLibrary?: () => void;
   }
 
   let {
     stats,
-    templates,
     appInfo,
     onCreate,
     onOpenDocument,
@@ -40,10 +38,11 @@
     onOpenPackages,
     onOpenStory,
     onOpenSettings,
-    onOpenTemplate,
     creatorMode = false,
     onOpenUsers,
     onExitCreator,
+    developerMode = false,
+    onOpenDeveloperLibrary,
   }: Props = $props();
 
   type Card = {
@@ -77,34 +76,10 @@
   const copy = $derived(strings[$language]);
 
   let recent = $state<RecentDoc[]>([]);
-  let favorites = $state<string[]>([]);
-  let templateQuery = $state("");
 
   $effect(() => {
     recent = loadRecent();
-    favorites = loadFavorites();
   });
-
-  const filteredTemplates = $derived.by(() => {
-    const query = templateQuery.trim().toLowerCase();
-    const list = query
-      ? templates.filter(
-          (template) =>
-            template.name.toLowerCase().includes(query) ||
-            template.category.toLowerCase().includes(query) ||
-            template.description.toLowerCase().includes(query)
-        )
-      : templates;
-    return [...list].sort((a, b) => {
-      const fa = favorites.includes(a.id) ? 0 : 1;
-      const fb = favorites.includes(b.id) ? 0 : 1;
-      return fa - fb || a.name.localeCompare(b.name);
-    });
-  });
-
-  function star(id: string) {
-    favorites = toggleFavorite(id);
-  }
 
   function dropRecent(event: MouseEvent, path: string) {
     event.stopPropagation();
@@ -157,6 +132,11 @@
       <button class="btn" onclick={onOpenDocument}>{copy.openDocument}</button>
       <button class="btn" onclick={onOpenLibrary}>{copy.library}</button>
       <button class="btn" onclick={onOpenPackages}>{copy.packages}</button>
+      {#if developerMode && onOpenDeveloperLibrary}
+        <button class="btn btn--dev" onclick={onOpenDeveloperLibrary} title="Solo versione di sviluppo">
+          Libreria DEV
+        </button>
+      {/if}
       <button class="btn" onclick={onOpenSettings}>{copy.settings}</button>
       {#if creatorMode && onOpenUsers}
         <button class="btn" onclick={onOpenUsers}>Gestione utenti</button>
@@ -238,43 +218,14 @@
       {/if}
     </section>
 
-    <section aria-labelledby="templates-title">
-      <div class="home__section-head">
-        <h2 id="templates-title" class="home__heading">{copy.templatesTitle}</h2>
-        <input
-          class="home__search"
-          type="search"
-          placeholder={copy.searchPlaceholder}
-          aria-label={copy.searchLabel}
-          bind:value={templateQuery}
-        />
+    <section class="home__library" aria-labelledby="library-entry-title">
+      <div class="home__library-copy">
+        <h2 id="library-entry-title" class="home__heading">{copy.libraryCardTitle}</h2>
+        <p>{copy.libraryCardDescription}</p>
       </div>
-      {#if filteredTemplates.length === 0}
-        <p class="home__empty">
-          {templates.length === 0 ? copy.templatesMissing : copy.templatesNoMatch}
-        </p>
-      {:else}
-        <ul class="templates">
-          {#each filteredTemplates as template (template.id)}
-            <li class="template">
-              <button class="template__open" onclick={() => onOpenTemplate(template.id)}>
-                <span class="template__name">{template.name}</span>
-                <span class="template__cat">{template.category}</span>
-                <span class="template__desc">{template.description}</span>
-              </button>
-              <button
-                class="template__star"
-                aria-pressed={favorites.includes(template.id)}
-                aria-label={favorites.includes(template.id)
-                  ? `Rimuovi ${template.name} dai preferiti`
-                  : `Aggiungi ${template.name} ai preferiti`}
-                title="Modello preferito"
-                onclick={() => star(template.id)}>{favorites.includes(template.id) ? "★" : "☆"}</button
-              >
-            </li>
-          {/each}
-        </ul>
-      {/if}
+      <button class="btn btn--solid home__library-action" onclick={onOpenLibrary}>
+        {copy.libraryCardAction}
+      </button>
     </section>
   </main>
 
@@ -563,67 +514,31 @@
     background: #f3f5f9;
   }
 
-  .templates {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 10px;
-  }
-
-  .template {
+  .home__library {
     display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding: 20px 22px;
     border: 1px solid var(--line, #d8dde6);
-    border-radius: 12px;
-    background: var(--panel, #fff);
-    overflow: hidden;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
   }
 
-  .template__open {
-    flex: 1;
-    display: grid;
-    gap: 2px;
-    padding: 12px 14px;
-    text-align: left;
-    border: 0;
-    background: none;
-    color: inherit;
-    cursor: pointer;
+  .home__library-copy {
+    max-width: 720px;
   }
 
-  .template__name {
-    font-weight: 600;
-  }
-
-  .template__cat {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #1c4fbe;
-  }
-
-  .template__desc {
-    font-size: 0.8rem;
+  .home__library-copy p {
+    margin: 4px 0 0;
     color: var(--muted, #5b6472);
+    font-size: 0.86rem;
   }
 
-  .template__star {
-    width: 40px;
-    border: 0;
-    border-left: 1px solid var(--line, #d8dde6);
-    background: none;
-    font-size: 1.1rem;
-    color: #b08300;
-    cursor: pointer;
-  }
-
-  .template__star:hover {
-    background: #fdf6e3;
-  }
-
-  .home__search {
-    max-width: 260px;
+  .home__library-action {
+    white-space: nowrap;
   }
 
   .link-btn {
@@ -649,5 +564,11 @@
 
   .home__version {
     margin-left: auto;
+  }
+
+  .btn--dev {
+    border-color: #0f766e;
+    color: #0f766e;
+    font-weight: 700;
   }
 </style>

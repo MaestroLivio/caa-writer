@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { onDestroy, onMount } from "svelte";
   import { api, isTauri } from "../api";
+  import { classify, decisionUsable, rerankPictograms } from "../decision/client";
+  import { isNeuralMethod, rankMap, reorderByScores } from "../decision/ranking";
   import { isExplicitContent } from "../content-filter";
   import ModelManager from "./ModelManager.svelte";
   import type { AssociationScope } from "../workspace/layout";
@@ -117,6 +120,8 @@
     onRefreshCollections: () => Promise<void>;
     onImportImages: () => void;
     onImportFolder: () => void;
+    /// Frase o paragrafo della parola selezionata, per la disambiguazione.
+    contextText?: string;
   }
 
   let {
@@ -188,6 +193,7 @@
     onRefreshCollections,
     onImportImages,
     onImportFolder,
+    contextText = "",
   }: Props = $props();
 
   let tab = $state<Tab>("simbolo");
@@ -414,6 +420,27 @@
       .map((entry) => entry.item);
   }
 
+  // DecisionEngine: riordino semantico delle alternative. La risposta è
+  // asincrona e viene scartata se la selezione è cambiata nel frattempo.
+  let decisionEnabled = $state(false);
+  let decisionScores = $state<Record<string, number>>({});
+  let decisionSuggested = $state<string | null>(null);
+  let decisionMethod = $state("");
+  let decisionSeq = 0;
+  let decisionTimer: number | undefined;
+  let decisionSignature = "";
+  let searchDecisionScores = $state<Record<string, number>>({});
+  let searchDecisionSeq = 0;
+  let searchDecisionTimer: number | undefined;
+  let searchDecisionSignature = "";
+  let semanticCategory = $state<string | null>(null);
+  let semanticCategoryKey = "";
+  let semanticCategorySeq = 0;
+  let semanticCategoryTimer: number | undefined;
+  const semanticCategoryCache = new Map<string, string | null>();
+  let coherenceResult = $state<string | null>(null);
+  let coherenceBusy = $state(false);
+
   const displayAlternatives = $derived.by(() => {
     if (!selected) return [];
     const word = normalizeText(selected.token.lemma ?? selected.token.surface);
@@ -424,12 +451,22 @@
     ).slice(0, current ? 23 : 24);
     // Il simbolo già attribuito resta in testa: è quello che l'utente vede
     // nel testo e deve poter ritrovare (e riapplicare) nel pannello.
-    return current ? [current, ...others] : others;
+    const list = current ? [current, ...others] : others;
+    return reorderByScores(list, decisionScores, current?.symbol_id ?? null);
+  });
+
+  const decisionSuggestedLabel = $derived.by(() => {
+    if (!decisionSuggested) return null;
+    return (
+      mergedAlternatives.find((item) => item.symbol_id === decisionSuggested)?.label ??
+      null
+    );
   });
 
   const searchDisplay = $derived.by(() => {
     const word = normalizeText(searchQuery);
-    return rankAlternatives(safeSearchResults, word).slice(0, 24);
+    const ranked = rankAlternatives(safeSearchResults, word).slice(0, 24);
+    return reorderByScores(ranked, searchDecisionScores, null);
   });
 
   async function applyFromPanel(alternative: Alternative) {
@@ -473,6 +510,11 @@
     { kind: "future", label: "Futuro" },
   ] as const;
   let studioPrompt = $state("");
+  let studioTemplateSuggestion = $state<{ id: string; label: string } | null>(null);
+  let studioTemplateBusy = $state(false);
+  let actionPrompt = $state("");
+  let actionSuggestion = $state<{ id: string; label: string } | null>(null);
+  let actionBusy = $state(false);
   let plan = $state<ResourcePlan | null>(null);
   let studioBusy = $state(false);
   let templateChoice = $state<string | null>(null);
@@ -527,6 +569,166 @@
   // ridisegnato con la stessa parola.
   let affinityCacheKey = "";
   let affinityRequest = 0;
+
+  const refreshDecisionAvailability = () => {
+    void decisionUsable().then((usable) => (decisionEnabled = usable));
+  };
+  onMount(() => {
+    refreshDecisionAvailability();
+    window.addEventListener("caa-decision-changed", refreshDecisionAvailability);
+  });
+  onDestroy(() => {
+    if (decisionTimer) window.clearTimeout(decisionTimer);
+    window.removeEventListener("caa-decision-changed", refreshDecisionAvailability);
+  });
+
+  $effect(() => {
+    const token = selected?.token;
+    const alternatives = mergedAlternatives;
+    const context = contextText;
+    const usable = decisionEnabled;
+    if (!usable || !token || token.locked || alternatives.length < 2) {
+      decisionScores = {};
+      decisionSuggested = null;
+      decisionMethod = "";
+      return;
+    }
+    const ids = alternatives
+      .map((item) => item.symbol_id)
+      .filter(Boolean)
+      .sort()
+      .join(",");
+    const signature = `${selected!.pid}:${token.index}:${token.surface}:${ids}`;
+    if (signature === decisionSignature) return;
+    decisionSignature = signature;
+    const seq = ++decisionSeq;
+    if (decisionTimer) window.clearTimeout(decisionTimer);
+    decisionTimer = window.setTimeout(() => {
+      void (async () => {
+        const response = await rerankPictograms({
+          text: context,
+          word: token.surface,
+          alternatives,
+          cancelKey: `${selected!.pid}:${token.index}:${token.surface}`,
+          requestId: `side-${seq}`,
+        });
+        if (seq !== decisionSeq) return;
+        if (!response || response.status !== "completed") return;
+        if (!isNeuralMethod(response.metadata.method)) return;
+        decisionScores = rankMap(response);
+        decisionSuggested = response.selected_candidate_id;
+        decisionMethod = response.metadata.method;
+      })();
+    }, 450);
+  });
+
+  // Reranking semantico dei risultati di ricerca: stessa coda, chiave diversa.
+  $effect(() => {
+    const active = searchActive;
+    const query = searchQuery.trim();
+    const results = safeSearchResults;
+    const usable = decisionEnabled;
+    if (!usable || !active || query.length < 3 || results.length < 2) {
+      searchDecisionScores = {};
+      return;
+    }
+    const seen = new Set<string>();
+    const candidates = results
+      .filter((item) => {
+        if (!item.symbol_id || seen.has(item.symbol_id)) return false;
+        seen.add(item.symbol_id);
+        return true;
+      })
+      .slice(0, 32)
+      .map((item) => ({ id: item.symbol_id, label: item.meaning || item.label }));
+    if (candidates.length < 2) return;
+    const signature = `${query}:${candidates.map((item) => item.id).sort().join(",")}`;
+    if (signature === searchDecisionSignature) return;
+    searchDecisionSignature = signature;
+    const seq = ++searchDecisionSeq;
+    if (searchDecisionTimer) window.clearTimeout(searchDecisionTimer);
+    searchDecisionTimer = window.setTimeout(() => {
+      void (async () => {
+        const response = await classify({
+          task: "semantic_search_ranking",
+          input: { text: query },
+          candidates,
+          context: { cancel_key: `search:${query}` },
+          options: { mode: "suggest", multi_label: false, priority: "medium" },
+        });
+        if (seq !== searchDecisionSeq) return;
+        if (!response || response.status !== "completed") return;
+        if (!isNeuralMethod(response.metadata.method)) return;
+        searchDecisionScores = rankMap(response);
+      })();
+    }, 450);
+  });
+
+  // Categoria semantica della parola selezionata: informativa, non applicativa.
+  $effect(() => {
+    const token = selected?.token;
+    const usable = decisionEnabled;
+    const word = token?.surface ?? "";
+    if (!usable || !token || !word) {
+      semanticCategory = null;
+      return;
+    }
+    const key = normalizeText(token.lemma ?? word);
+    if (key === semanticCategoryKey) return;
+    semanticCategoryKey = key;
+    if (semanticCategoryCache.has(key)) {
+      semanticCategory = semanticCategoryCache.get(key) ?? null;
+      return;
+    }
+    semanticCategory = null;
+    const seq = ++semanticCategorySeq;
+    if (semanticCategoryTimer) window.clearTimeout(semanticCategoryTimer);
+    semanticCategoryTimer = window.setTimeout(() => {
+      void (async () => {
+        const response = await classify({
+          task: "semantic_category",
+          input: { text: contextText || word },
+          options: { mode: "suggest", multi_label: false, priority: "low" },
+        });
+        if (seq !== semanticCategorySeq) return;
+        const label =
+          response &&
+          response.status === "completed" &&
+          isNeuralMethod(response.metadata.method) &&
+          response.selected_candidate_id
+            ? response.ranked_candidates[0]?.label ?? null
+            : null;
+        semanticCategoryCache.set(key, label);
+        semanticCategory = label;
+      })();
+    }, 600);
+  });
+
+  async function checkCoherence() {
+    if (!selected || coherenceBusy) return;
+    const current = currentAlternative;
+    const text = `${contextText || selected.token.surface} Pittogramma: ${
+      current?.meaning || current?.label || selected.token.surface
+    }.`;
+    coherenceBusy = true;
+    coherenceResult = null;
+    try {
+      const response = await classify({
+        task: "caa_semantic_coherence",
+        input: { text },
+        options: { mode: "suggest", multi_label: false },
+      });
+      coherenceResult =
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method) &&
+        response.selected_candidate_id
+          ? response.ranked_candidates[0]?.label ?? response.selected_candidate_id
+          : "Verifica non conclusiva: confidenza insufficiente.";
+    } finally {
+      coherenceBusy = false;
+    }
+  }
 
   let toolChoice = $state("analyse_text_clarity");
   let toolInput = $state("");
@@ -1519,6 +1721,65 @@
     await runSearch();
   }
 
+  async function suggestStudioTemplate() {
+    const prompt = studioPrompt.trim();
+    if (!prompt || templates.length === 0 || studioTemplateBusy) return;
+    studioTemplateBusy = true;
+    try {
+      const candidates = templates.map((template) => ({
+        id: template.id,
+        label: template.name,
+        hypothesis: `Questo modello didattico è adatto all'obiettivo: ${
+          template.description || template.name
+        }.`,
+      }));
+      const response = await classify({
+        task: "didactic_template_selection",
+        input: { text: prompt },
+        candidates,
+        options: { mode: "suggest", multi_label: false },
+      });
+      if (
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method)
+      ) {
+        const top = response.ranked_candidates[0];
+        studioTemplateSuggestion = top ? { id: top.id, label: top.label } : null;
+      } else {
+        studioTemplateSuggestion = null;
+        onToast("Nessun modello suggerito con confidenza sufficiente.", "info");
+      }
+    } finally {
+      studioTemplateBusy = false;
+    }
+  }
+
+  async function suggestAction(text: string) {
+    if (!text.trim() || actionBusy) return;
+    actionBusy = true;
+    try {
+      const response = await classify({
+        task: "interactive_action",
+        input: { text: text.trim() },
+        options: { mode: "suggest", multi_label: false },
+      });
+      if (
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method)
+      ) {
+        const top = response.ranked_candidates[0];
+        actionSuggestion = top ? { id: top.id, label: top.label } : null;
+      } else {
+        actionSuggestion = null;
+        onToast("Nessuna azione suggerita con confidenza sufficiente.", "info");
+      }
+    } finally {
+      actionBusy = false;
+    }
+  }
+
   async function generate() {
     const prompt = studioPrompt.trim();
     if (!prompt) {
@@ -1636,6 +1897,9 @@
     {/if}
     {#if alternative.neural}
       <span class="symbol-tile__mark" title="Sinonimo o concetto affine suggerito dal modello locale">affine</span>
+    {/if}
+    {#if decisionSuggested === alternative.symbol_id && selected?.token.symbol_id !== alternative.symbol_id}
+      <span class="symbol-tile__mark" title="Suggerimento del motore semantico Horizon">suggerito</span>
     {/if}
   </button>
 {/snippet}
@@ -1775,6 +2039,20 @@
               </div>
             </div>
 
+            {#if semanticCategory}
+              <p class="hint">Categoria semantica suggerita: <strong>{semanticCategory}</strong></p>
+            {/if}
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0">
+              <button
+                class="btn btn--ghost btn--tiny"
+                onclick={() => void checkCoherence()}
+                disabled={coherenceBusy}
+              >{coherenceBusy ? "Verifico…" : "Verifica coerenza CAA"}</button>
+              {#if coherenceResult}
+                <span class="hint">Esito: {coherenceResult}</span>
+              {/if}
+            </div>
+
             {#if showAdvanced}
               <div class="symbol-advanced">
                 <div class="symbol-advanced__row">
@@ -1850,6 +2128,12 @@
                 </div>
               {/if}
             {:else if displayAlternatives.length > 0}
+              {#if decisionSuggested && selected?.token.symbol_id && decisionSuggested !== selected.token.symbol_id && !selected.token.locked}
+                <p class="hint symbol-decision-hint" title={`Metodo: ${decisionMethod}`}>
+                  Suggerimento semantico: «{decisionSuggestedLabel ?? decisionSuggested}» sembra
+                  più coerente. Il pittogramma attuale non viene modificato.
+                </p>
+              {/if}
               <div class="symbol-grid symbol-grid--dense">
                 {#each displayAlternatives as alternative (alternative.symbol_id)}
                   {@render alternativeTile(alternative)}
@@ -2570,6 +2854,34 @@
                 <option value="clear">Svuota la frase</option>
               </select>
             </label>
+            <label class="elem-field">
+              <span>Descrivi l'azione</span>
+              <input
+                bind:value={actionPrompt}
+                placeholder="Es. leggi la frase ad alta voce"
+              />
+            </label>
+            <button
+              class="btn"
+              onclick={() => void suggestAction(actionPrompt || element.text || "")}
+              disabled={actionBusy}
+            >{actionBusy ? "Analisi…" : "Suggerisci azione"}</button>
+            {#if actionSuggestion}
+              <p class="hint">
+                Azione suggerita: <strong>{actionSuggestion.label}</strong>
+                <button
+                  class="btn btn--ghost btn--tiny"
+                  onclick={() =>
+                    onUniversalAction({
+                      type: actionSuggestion!.id,
+                      target_page:
+                        actionSuggestion!.id === "navigate"
+                          ? universalDoc?.pages[0]?.id ?? null
+                          : null,
+                    })}
+                >Usa</button>
+              </p>
+            {/if}
             {#if element.action?.type === "navigate"}
               <label class="elem-field">
                 <span>Pagina di destinazione</span>
@@ -3188,7 +3500,21 @@
               {/each}
             </select>
             <button class="btn btn--solid" onclick={generate} disabled={studioBusy}>Genera</button>
+            <button
+              class="btn"
+              onclick={() => void suggestStudioTemplate()}
+              disabled={studioBusy || studioTemplateBusy || !studioPrompt.trim()}
+            >{studioTemplateBusy ? "…" : "Suggerisci modello"}</button>
           </div>
+          {#if studioTemplateSuggestion}
+            <p class="hint">
+              Modello suggerito: <strong>{studioTemplateSuggestion.label}</strong>
+              <button
+                class="btn btn--ghost btn--tiny"
+                onclick={() => (templateChoice = studioTemplateSuggestion!.id)}
+              >Usa</button>
+            </p>
+          {/if}
         </section>
 
         <section class="panel-section">

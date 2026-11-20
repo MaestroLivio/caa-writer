@@ -209,9 +209,9 @@ pub const OPERATIONS: &[Operation] = &[
     ),
     op!(
         "project.save", "Salva progetto", "progetti", Some("project_save"),
-        "Salva un documento nella radice progetti. Sovrascrive solo se `overwrite=true`; altrimenti rifiuta il conflitto.",
+        "Salva un documento nella radice progetti. Sovrascrive solo se `overwrite=true`; altrimenti rifiuta il conflitto. Non idempotente se il titolo cambia (il nome file può cambiare).",
         "Riepilogo del file salvato.",
-        mutating: true, destructive: false, idempotent: true,
+        mutating: true, destructive: false, idempotent: false,
         params: [
             PATH,
             p("document", "object", true, "Documento universale completo"),
@@ -546,6 +546,62 @@ pub const OPERATIONS: &[Operation] = &[
         params: [p("only_pilots", "boolean", false, "Solo i piloti"), p("max_issues", "integer", false, "Default 80")]
     ),
     op!(
+        "dev.library.packages", "Pacchetti libreria (dev)", "sviluppo", Some("dev_library_packages"),
+        "Elenca i pacchetti e i documenti della libreria. Richiede la modalità sviluppatore attiva (CAA_WRITER_DEV_LIBRARY=1 o --dev-library, solo build debug).",
+        "Pacchetti con documenti, percorsi e conteggi.",
+        mutating: false, destructive: false, idempotent: true,
+        params: []
+    ),
+    op!(
+        "dev.library.open", "Apri documento libreria (dev)", "sviluppo", Some("dev_library_open"),
+        "Apre un documento .caadoc della libreria per percorso relativo. Richiede la modalità sviluppatore.",
+        "Documento universale e percorso.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [p("path", "string", true, "Percorso relativo alla libreria, es. library/templates/foo.caadoc")]
+    ),
+    op!(
+        "dev.library.preview", "Anteprima documento libreria (dev)", "sviluppo", Some("dev_library_preview"),
+        "Restituisce l'anteprima SVG della prima pagina di un documento della libreria. Richiede la modalità sviluppatore.",
+        "SVG.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [p("path", "string", true, "Percorso relativo alla libreria")]
+    ),
+    op!(
+        "dev.library.save", "Salva documento libreria (dev)", "sviluppo", Some("dev_library_save"),
+        "Salva un UniversalDocument in un percorso della libreria e aggiorna catalogo e anteprima. Distruttivo: richiede conferma.",
+        "Voce di catalogo aggiornata.",
+        mutating: true, destructive: true, idempotent: false,
+        params: [p("document", "object", true, "UniversalDocument completo"), p("path", "string", true, "Percorso relativo alla libreria"), CONFIRM]
+    ),
+    op!(
+        "dev.library.replace", "Sostituisci documento libreria (dev)", "sviluppo", Some("dev_library_replace"),
+        "Sostituisce un documento della libreria con un altro .caadoc scelto dal disco, mantenendo l'ID della voce. Distruttivo: richiede conferma.",
+        "Voce di catalogo aggiornata.",
+        mutating: true, destructive: true, idempotent: false,
+        params: [p("path", "string", true, "Percorso relativo alla libreria"), p("source", "string", true, "File .caadoc di origine"), CONFIRM]
+    ),
+    op!(
+        "dev.library.add", "Aggiungi documento libreria (dev)", "sviluppo", Some("dev_library_add"),
+        "Copia un .caadoc nella libreria, genera un ID univoco e lo aggiunge al catalogo. Richiede la modalità sviluppatore.",
+        "Voce di catalogo creata.",
+        mutating: true, destructive: false, idempotent: false,
+        params: [
+            p("source", "string", true, "File .caadoc di origine"),
+            p("folder", "string", true, "boards oppure templates"),
+            p("category_id", "string", true, "ID categoria"),
+            p("subcategory_id", "string", true, "ID sottocategoria"),
+            p("category_name", "string", false, "Nome categoria"),
+            p("subcategory_name", "string", false, "Nome sottocategoria")
+        ]
+    ),
+    op!(
+        "dev.library.delete", "Elimina documento libreria (dev)", "sviluppo", Some("dev_library_delete"),
+        "Elimina un documento dalla libreria, dalla sua anteprima e dal catalogo. Distruttivo: richiede conferma.",
+        "Esito dell'eliminazione.",
+        mutating: true, destructive: true, idempotent: false,
+        params: [p("path", "string", true, "Percorso relativo alla libreria"), CONFIRM]
+    ),
+    op!(
         "prompt.interpret", "Interpreta prompt", "materiali", Some("prompt_interpret"),
         "Converte una richiesta italiana in operazioni documentali validate; il modello interviene solo se il parser deterministico non capisce.",
         "Piano con operazioni, descrizioni e warning.",
@@ -864,6 +920,97 @@ pub const OPERATIONS: &[Operation] = &[
         "Percorso generato.",
         mutating: true, destructive: false, idempotent: true,
         params: [PATH, DOCUMENT]
+    ),
+
+    // ------------------------------------------------------------------
+    // Motore decisionale semantico (Horizon multilingual-zeroshot-small)
+    // ------------------------------------------------------------------
+    op!(
+        "decision.status", "Stato del motore decisionale", "decisione", Some("decision_status"),
+        "Stato reale del DecisionEngine, del modello Horizon installato e della cache. Non avvia inferenze.",
+        "Stato del motore e del modello.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [],
+        example: "caa-cli call decision.status '{}'"
+    ),
+    op!(
+        "decision.classify", "Classificazione semantica", "decisione", Some("decision_classify"),
+        "Classifica un testo fra alternative predefinite usando il DecisionEngine condiviso. Il modello non esegue comandi e non modifica documenti.",
+        "Risposta decisionale con ranking, azione e metadati.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [
+            p("task", "string", true, "Tipo di decisione: pictogram_disambiguation, communication_intent, semantic_category, ..."),
+            p("text", "string", true, "Testo da classificare"),
+            p("target", "object", false, "Intervallo {text,start,end} in caratteri Unicode"),
+            p("candidates", "array", false, "Candidati {id,label,hypothesis?,locked?,blocked?}; se assente usa la tassonomia predefinita"),
+            p("mode", "string", false, "suggest (predefinito) o automatic"),
+            p("multi_label", "boolean", false, "Classificazione a più etichette"),
+            p("timeout_ms", "integer", false, "Timeout dell'inferenza"),
+            p("priority", "string", false, "high, medium o low"),
+            p("taxonomy_version", "string", false, "Versione della tassonomia usata nella cache"),
+            p("apply_threshold", "number", false, "Soglia di applicazione automatica"),
+            p("suggest_threshold", "number", false, "Soglia di suggerimento"),
+        ],
+        example: "caa-cli call decision.classify '{\"task\":\"communication_intent\",\"text\":\"Vorrei bere dell'acqua.\"}'"
+    ),
+    op!(
+        "decision.audit", "Diagnostica decisioni", "decisione", Some("decision_audit"),
+        "Ultimi eventi del motore decisionale, senza testo utente né dati personali.",
+        "Elenco di eventi tecnici.",
+        mutating: false, destructive: false, idempotent: true,
+        params: []
+    ),
+    op!(
+        "decision.validate", "Valida un dataset", "decisione", Some("decision_validate"),
+        "Esegue un insieme di casi italiani sul DecisionEngine reale e riporta accuratezza, astensioni, copertura, errori e latenza media. Non modifica nulla.",
+        "Metriche reali del dataset.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [
+            p("cases", "array", true, "Casi con task, text, target, candidates ed expected"),
+            p("split", "string", false, "all (predefinito), calibration o validation"),
+            p("suggest_threshold", "number", false, "Soglia di suggerimento da usare nella valutazione"),
+            p("apply_threshold", "number", false, "Soglia di applicazione da usare nella valutazione"),
+        ],
+        example: "caa-cli call decision.validate '{\"cases\":[...]}'"
+    ),
+    op!(
+        "decision.calibrate", "Calibra le soglie", "decisione", Some("decision_calibrate"),
+        "Esegue i casi su Horizon e propone soglie di suggerimento/applicazione con copertura e precisione misurate. Non modifica la configurazione.",
+        "Soglie proposte e metriche per task.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [
+            p("cases", "array", true, "Casi con task, text, target, candidates ed expected"),
+            p("split", "string", false, "calibration (predefinito), validation o all"),
+        ],
+        example: "caa-cli call decision.calibrate '{\"cases\":[...]}'"
+    ),
+    op!(
+        "decision.model.status", "Stato modello Horizon", "decisione", Some("decision_model_status"),
+        "Verifica presenza e integrità attesa dei file del modello Horizon nella cartella modelli.",
+        "Stato del modello.",
+        mutating: false, destructive: false, idempotent: true,
+        params: []
+    ),
+    op!(
+        "decision.model.verify", "Verifica modello Horizon", "decisione", Some("decision_model_verify"),
+        "Calcola gli SHA-256 dei file del modello installato. Può richiedere qualche secondo.",
+        "Report di verifica per file.",
+        mutating: false, destructive: false, idempotent: true,
+        params: []
+    ),
+    op!(
+        "decision.model.install", "Installa modello Horizon", "decisione", Some("decision_model_install"),
+        "Scarica i file ufficiali del modello Horizon e li installa in modo atomico. Richiede rete; dopo l'installazione funziona offline.",
+        "Report di installazione.",
+        mutating: true, destructive: false, idempotent: true,
+        params: [p("force", "boolean", false, "Reinstalla anche se già presente")]
+    ),
+    op!(
+        "decision.model.remove", "Rimuovi modello Horizon", "decisione", Some("decision_model_remove"),
+        "Rimuove i pesi locali del modello Horizon. Richiede confirm=true. Le funzioni deterministiche restano attive.",
+        "Esito della rimozione.",
+        mutating: true, destructive: true, idempotent: false,
+        params: [CONFIRM]
     ),
 ];
 

@@ -1,0 +1,5075 @@
+{
+  "version": "1",
+  "language": "it",
+  "description": "Corpus sintetico curato per regressione e calibrazione. Le frasi sono scritte a mano; le etichette derivano dal significato, non dal modello. Split 70/30 deterministico per id.",
+  "cases": [
+    {
+      "id": "communication_intent-richiesta-1",
+      "task": "communication_intent",
+      "text": "Vorrei bere dell'acqua.",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-2",
+      "task": "communication_intent",
+      "text": "Puoi darmi la merenda?",
+      "expected": "richiesta",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-richiesta-3",
+      "task": "communication_intent",
+      "text": "Mi passi il libro, per favore?",
+      "expected": "richiesta",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-richiesta-4",
+      "task": "communication_intent",
+      "text": "Vorrei andare in bagno.",
+      "expected": "richiesta",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-richiesta-5",
+      "task": "communication_intent",
+      "text": "Mi presti la matita?",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-6",
+      "task": "communication_intent",
+      "text": "Posso avere un bicchiere?",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-7",
+      "task": "communication_intent",
+      "text": "Per favore, apri la finestra.",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-8",
+      "task": "communication_intent",
+      "text": "Vorrei un pezzo di torta.",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-9",
+      "task": "communication_intent",
+      "text": "Vorrei il mio zaino.",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-10",
+      "task": "communication_intent",
+      "text": "Posso sedermi qui?",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-11",
+      "task": "communication_intent",
+      "text": "Mi porti un bicchiere d'acqua?",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta-12",
+      "task": "communication_intent",
+      "text": "Vorrei un foglio per disegnare.",
+      "expected": "richiesta",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-1",
+      "task": "communication_intent",
+      "text": "Non voglio andare fuori.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-2",
+      "task": "communication_intent",
+      "text": "No, grazie.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-3",
+      "task": "communication_intent",
+      "text": "Non mi piace questo.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-4",
+      "task": "communication_intent",
+      "text": "Lasciami stare.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-5",
+      "task": "communication_intent",
+      "text": "Non lo voglio.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-6",
+      "task": "communication_intent",
+      "text": "Basta, non ne voglio più.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-7",
+      "task": "communication_intent",
+      "text": "Non voglio mangiare.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-rifiuto-8",
+      "task": "communication_intent",
+      "text": "Non ci vado.",
+      "expected": "rifiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-rifiuto-9",
+      "task": "communication_intent",
+      "text": "No, adesso no.",
+      "expected": "rifiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-rifiuto-10",
+      "task": "communication_intent",
+      "text": "Non mi va.",
+      "expected": "rifiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-rifiuto-11",
+      "task": "communication_intent",
+      "text": "Non mi interessa.",
+      "expected": "rifiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-rifiuto-12",
+      "task": "communication_intent",
+      "text": "No, non oggi.",
+      "expected": "rifiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-1",
+      "task": "communication_intent",
+      "text": "Dove sono i miei scarponi?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-2",
+      "task": "communication_intent",
+      "text": "Quando arriva il pullman?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-3",
+      "task": "communication_intent",
+      "text": "Perché piove?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-4",
+      "task": "communication_intent",
+      "text": "Chi ha preso la mia penna?",
+      "expected": "domanda",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-domanda-5",
+      "task": "communication_intent",
+      "text": "Come si chiama questo animale?",
+      "expected": "domanda",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-domanda-6",
+      "task": "communication_intent",
+      "text": "Quanto costa?",
+      "expected": "domanda",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-domanda-7",
+      "task": "communication_intent",
+      "text": "Posso uscire?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-8",
+      "task": "communication_intent",
+      "text": "Dov'è la biblioteca?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-9",
+      "task": "communication_intent",
+      "text": "Che ora è?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-10",
+      "task": "communication_intent",
+      "text": "Hai visto il mio telefono?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-11",
+      "task": "communication_intent",
+      "text": "Di chi è questa giacca?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-domanda-12",
+      "task": "communication_intent",
+      "text": "Come arrivo alla stazione?",
+      "expected": "domanda",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-1",
+      "task": "communication_intent",
+      "text": "Ciao, come stai?",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-2",
+      "task": "communication_intent",
+      "text": "Buongiorno a tutti.",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-3",
+      "task": "communication_intent",
+      "text": "Buonasera!",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-4",
+      "task": "communication_intent",
+      "text": "Ciao, ci vediamo domani.",
+      "expected": "saluto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-saluto-5",
+      "task": "communication_intent",
+      "text": "Salve!",
+      "expected": "saluto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-saluto-6",
+      "task": "communication_intent",
+      "text": "A domani!",
+      "expected": "saluto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-saluto-7",
+      "task": "communication_intent",
+      "text": "Buonanotte.",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-8",
+      "task": "communication_intent",
+      "text": "Ciao a tutti!",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-9",
+      "task": "communication_intent",
+      "text": "Benvenuto!",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-10",
+      "task": "communication_intent",
+      "text": "Piacere di conoscerti.",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-11",
+      "task": "communication_intent",
+      "text": "Ciao, buona giornata!",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-saluto-12",
+      "task": "communication_intent",
+      "text": "Salve a tutti!",
+      "expected": "saluto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-1",
+      "task": "communication_intent",
+      "text": "Oggi è lunedì.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-2",
+      "task": "communication_intent",
+      "text": "La palla è rossa.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-3",
+      "task": "communication_intent",
+      "text": "Il gatto dorme sul divano.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-4",
+      "task": "communication_intent",
+      "text": "Ho due sorelle.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-5",
+      "task": "communication_intent",
+      "text": "La scuola inizia alle otto.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-6",
+      "task": "communication_intent",
+      "text": "Questo è il mio quaderno.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-7",
+      "task": "communication_intent",
+      "text": "Il treno è in ritardo.",
+      "expected": "affermazione",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-affermazione-8",
+      "task": "communication_intent",
+      "text": "Mi chiamo Luca.",
+      "expected": "affermazione",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-affermazione-9",
+      "task": "communication_intent",
+      "text": "Abito a Roma.",
+      "expected": "affermazione",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-affermazione-10",
+      "task": "communication_intent",
+      "text": "La porta è aperta.",
+      "expected": "affermazione",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-affermazione-11",
+      "task": "communication_intent",
+      "text": "Il cielo è azzurro.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-affermazione-12",
+      "task": "communication_intent",
+      "text": "Oggi abbiamo educazione fisica.",
+      "expected": "affermazione",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-1",
+      "task": "communication_intent",
+      "text": "Ho sete.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-2",
+      "task": "communication_intent",
+      "text": "Ho fame.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-3",
+      "task": "communication_intent",
+      "text": "Ho sonno.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-4",
+      "task": "communication_intent",
+      "text": "Devo andare in bagno.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-5",
+      "task": "communication_intent",
+      "text": "Ho freddo.",
+      "expected": "bisogno",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-bisogno-6",
+      "task": "communication_intent",
+      "text": "Ho caldo.",
+      "expected": "bisogno",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-bisogno-7",
+      "task": "communication_intent",
+      "text": "Mi serve una pausa.",
+      "expected": "bisogno",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-bisogno-8",
+      "task": "communication_intent",
+      "text": "Ho bisogno di sedermi.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-9",
+      "task": "communication_intent",
+      "text": "Sono stanco.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-10",
+      "task": "communication_intent",
+      "text": "Mi fa male la testa.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-11",
+      "task": "communication_intent",
+      "text": "Ho bisogno del bagno.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-bisogno-12",
+      "task": "communication_intent",
+      "text": "Mi serve un fazzoletto.",
+      "expected": "bisogno",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-1",
+      "task": "communication_intent",
+      "text": "Preferisco il gelato al cioccolato.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-2",
+      "task": "communication_intent",
+      "text": "Mi piace di più questo.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-3",
+      "task": "communication_intent",
+      "text": "Scelgo la maglietta blu.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-4",
+      "task": "communication_intent",
+      "text": "Vorrei il succo, non l'acqua.",
+      "expected": "preferenza",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-preferenza-5",
+      "task": "communication_intent",
+      "text": "Preferisco giocare fuori.",
+      "expected": "preferenza",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-preferenza-6",
+      "task": "communication_intent",
+      "text": "Mi piace la pizza margherita.",
+      "expected": "preferenza",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-preferenza-7",
+      "task": "communication_intent",
+      "text": "Meglio il libro che il fumetto.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-8",
+      "task": "communication_intent",
+      "text": "Scelgo questo colore.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-9",
+      "task": "communication_intent",
+      "text": "Preferisco stare con mia sorella.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-10",
+      "task": "communication_intent",
+      "text": "Mi piace più il cane del gatto.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-11",
+      "task": "communication_intent",
+      "text": "Preferisco la musica al silenzio.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-preferenza-12",
+      "task": "communication_intent",
+      "text": "Scelgo il gioco dei puzzle.",
+      "expected": "preferenza",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-1",
+      "task": "communication_intent",
+      "text": "Grazie mille per l'aiuto.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-2",
+      "task": "communication_intent",
+      "text": "Grazie!",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-3",
+      "task": "communication_intent",
+      "text": "Ti ringrazio molto.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-4",
+      "task": "communication_intent",
+      "text": "Grazie per il regalo.",
+      "expected": "ringraziamento",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-ringraziamento-5",
+      "task": "communication_intent",
+      "text": "Sei stato gentile, grazie.",
+      "expected": "ringraziamento",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-ringraziamento-6",
+      "task": "communication_intent",
+      "text": "Grazie della pazienza.",
+      "expected": "ringraziamento",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-ringraziamento-7",
+      "task": "communication_intent",
+      "text": "Grazie per avermi aspettato.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-8",
+      "task": "communication_intent",
+      "text": "Molte grazie.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-9",
+      "task": "communication_intent",
+      "text": "Grazie di cuore.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-10",
+      "task": "communication_intent",
+      "text": "Ti sono grato.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-11",
+      "task": "communication_intent",
+      "text": "Grazie per la merenda.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-ringraziamento-12",
+      "task": "communication_intent",
+      "text": "Ti ringrazio di cuore.",
+      "expected": "ringraziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-1",
+      "task": "communication_intent",
+      "text": "Scusa, non l'ho fatto apposta.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-2",
+      "task": "communication_intent",
+      "text": "Mi dispiace.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-3",
+      "task": "communication_intent",
+      "text": "Chiedo scusa.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-4",
+      "task": "communication_intent",
+      "text": "Scusami per il ritardo.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-5",
+      "task": "communication_intent",
+      "text": "Non volevo disturbare, scusa.",
+      "expected": "scusa",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-scusa-6",
+      "task": "communication_intent",
+      "text": "Mi dispiace molto.",
+      "expected": "scusa",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-scusa-7",
+      "task": "communication_intent",
+      "text": "Ti chiedo perdono.",
+      "expected": "scusa",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-scusa-8",
+      "task": "communication_intent",
+      "text": "Scusa il rumore.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-9",
+      "task": "communication_intent",
+      "text": "Mi scuso per l'errore.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-10",
+      "task": "communication_intent",
+      "text": "Perdonami.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-11",
+      "task": "communication_intent",
+      "text": "Scusa per il disturbo.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-scusa-12",
+      "task": "communication_intent",
+      "text": "Mi dispiace di aver gridato.",
+      "expected": "scusa",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-1",
+      "task": "communication_intent",
+      "text": "Mi aiuti ad aprire?",
+      "expected": "richiesta_aiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-2",
+      "task": "communication_intent",
+      "text": "Ho bisogno di aiuto.",
+      "expected": "richiesta_aiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-3",
+      "task": "communication_intent",
+      "text": "Puoi aiutarmi con il compito?",
+      "expected": "richiesta_aiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-4",
+      "task": "communication_intent",
+      "text": "Non riesco, mi dai una mano?",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-5",
+      "task": "communication_intent",
+      "text": "Chiamo la maestra?",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-6",
+      "task": "communication_intent",
+      "text": "Mi accompagni in bagno?",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-7",
+      "task": "communication_intent",
+      "text": "Aiutami a portare la borsa.",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-8",
+      "task": "communication_intent",
+      "text": "Puoi spiegarmi questa parola?",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-9",
+      "task": "communication_intent",
+      "text": "Ho bisogno di assistenza.",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-10",
+      "task": "communication_intent",
+      "text": "Mi aiuti a trovare il libro?",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-11",
+      "task": "communication_intent",
+      "text": "Puoi aiutarmi a leggere?",
+      "expected": "richiesta_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-richiesta_aiuto-12",
+      "task": "communication_intent",
+      "text": "Ho bisogno di una mano con lo zaino.",
+      "expected": "richiesta_aiuto",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-commento-1",
+      "task": "communication_intent",
+      "text": "Questo film è bellissimo.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-2",
+      "task": "communication_intent",
+      "text": "La minestra è buona.",
+      "expected": "commento",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-commento-3",
+      "task": "communication_intent",
+      "text": "Che bella giornata!",
+      "expected": "commento",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-commento-4",
+      "task": "communication_intent",
+      "text": "Il libro è noioso.",
+      "expected": "commento",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-commento-5",
+      "task": "communication_intent",
+      "text": "Questo gioco è divertente.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-6",
+      "task": "communication_intent",
+      "text": "La tua casa è grande.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-7",
+      "task": "communication_intent",
+      "text": "Il cane è molto simpatico.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-8",
+      "task": "communication_intent",
+      "text": "Questa canzone mi piace.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-9",
+      "task": "communication_intent",
+      "text": "Il disegno è colorato.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-10",
+      "task": "communication_intent",
+      "text": "La lezione è stata interessante.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-11",
+      "task": "communication_intent",
+      "text": "Che bella sorpresa!",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-commento-12",
+      "task": "communication_intent",
+      "text": "Questa storia è avvincente.",
+      "expected": "commento",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-1",
+      "task": "communication_intent",
+      "text": "Sono felicissimo!",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-2",
+      "task": "communication_intent",
+      "text": "Che paura!",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-3",
+      "task": "communication_intent",
+      "text": "Sono così triste.",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-4",
+      "task": "communication_intent",
+      "text": "Mi sento arrabbiato.",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-5",
+      "task": "communication_intent",
+      "text": "Sono sorpreso!",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-6",
+      "task": "communication_intent",
+      "text": "Che gioia!",
+      "expected": "espressione_emotiva",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-7",
+      "task": "communication_intent",
+      "text": "Sono preoccupato.",
+      "expected": "espressione_emotiva",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-8",
+      "task": "communication_intent",
+      "text": "Mi sento solo.",
+      "expected": "espressione_emotiva",
+      "split": "validation"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-9",
+      "task": "communication_intent",
+      "text": "Sono orgoglioso di te.",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-10",
+      "task": "communication_intent",
+      "text": "Che rabbia!",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-11",
+      "task": "communication_intent",
+      "text": "Sono al settimo cielo!",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "communication_intent-espressione_emotiva-12",
+      "task": "communication_intent",
+      "text": "Mi sento giù di morale.",
+      "expected": "espressione_emotiva",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-1",
+      "task": "expressed_emotion",
+      "text": "Sono felice.",
+      "expected": "gioia",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-gioia-2",
+      "task": "expressed_emotion",
+      "text": "Che bello!",
+      "expected": "gioia",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-gioia-3",
+      "task": "expressed_emotion",
+      "text": "Sono contentissimo.",
+      "expected": "gioia",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-gioia-4",
+      "task": "expressed_emotion",
+      "text": "Mi sento allegro.",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-5",
+      "task": "expressed_emotion",
+      "text": "Grande gioia!",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-6",
+      "task": "expressed_emotion",
+      "text": "Rido di gusto.",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-7",
+      "task": "expressed_emotion",
+      "text": "Sono soddisfatto.",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-8",
+      "task": "expressed_emotion",
+      "text": "Che meraviglia!",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-9",
+      "task": "expressed_emotion",
+      "text": "Sono entusiasta.",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-10",
+      "task": "expressed_emotion",
+      "text": "Mi sento bene.",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-11",
+      "task": "expressed_emotion",
+      "text": "Sono raggiante.",
+      "expected": "gioia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-gioia-12",
+      "task": "expressed_emotion",
+      "text": "Che felicità!",
+      "expected": "gioia",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-tristezza-1",
+      "task": "expressed_emotion",
+      "text": "Mi sento triste.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-2",
+      "task": "expressed_emotion",
+      "text": "Piango.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-3",
+      "task": "expressed_emotion",
+      "text": "Sono giù.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-4",
+      "task": "expressed_emotion",
+      "text": "Ho il magone.",
+      "expected": "tristezza",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-tristezza-5",
+      "task": "expressed_emotion",
+      "text": "Mi manca mia nonna.",
+      "expected": "tristezza",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-tristezza-6",
+      "task": "expressed_emotion",
+      "text": "Sono abbattuto.",
+      "expected": "tristezza",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-tristezza-7",
+      "task": "expressed_emotion",
+      "text": "Mi sento solo.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-8",
+      "task": "expressed_emotion",
+      "text": "Che tristezza.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-9",
+      "task": "expressed_emotion",
+      "text": "Sono deluso.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-10",
+      "task": "expressed_emotion",
+      "text": "Mi dispiace tanto.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-11",
+      "task": "expressed_emotion",
+      "text": "Ho voglia di piangere.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-tristezza-12",
+      "task": "expressed_emotion",
+      "text": "Mi sento a pezzi.",
+      "expected": "tristezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-1",
+      "task": "expressed_emotion",
+      "text": "Sono arrabbiato.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-2",
+      "task": "expressed_emotion",
+      "text": "Mi fa infuriare.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-3",
+      "task": "expressed_emotion",
+      "text": "Che rabbia!",
+      "expected": "rabbia",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-rabbia-4",
+      "task": "expressed_emotion",
+      "text": "Non sopporto più.",
+      "expected": "rabbia",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-rabbia-5",
+      "task": "expressed_emotion",
+      "text": "Sono furioso.",
+      "expected": "rabbia",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-rabbia-6",
+      "task": "expressed_emotion",
+      "text": "Mi hai fatto arrabbiare.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-7",
+      "task": "expressed_emotion",
+      "text": "Basta!",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-8",
+      "task": "expressed_emotion",
+      "text": "Sono irritato.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-9",
+      "task": "expressed_emotion",
+      "text": "Mi sale la rabbia.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-10",
+      "task": "expressed_emotion",
+      "text": "Sono indignato.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-11",
+      "task": "expressed_emotion",
+      "text": "Sono nero di rabbia.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-rabbia-12",
+      "task": "expressed_emotion",
+      "text": "Mi hai fatto perdere la pazienza.",
+      "expected": "rabbia",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-1",
+      "task": "expressed_emotion",
+      "text": "Ho paura del buio.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-2",
+      "task": "expressed_emotion",
+      "text": "Mi spaventa.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-3",
+      "task": "expressed_emotion",
+      "text": "Ho paura.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-4",
+      "task": "expressed_emotion",
+      "text": "Che spavento!",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-5",
+      "task": "expressed_emotion",
+      "text": "Sono terrorizzato.",
+      "expected": "paura",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-paura-6",
+      "task": "expressed_emotion",
+      "text": "Temo il temporale.",
+      "expected": "paura",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-paura-7",
+      "task": "expressed_emotion",
+      "text": "Mi fa paura il cane.",
+      "expected": "paura",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-paura-8",
+      "task": "expressed_emotion",
+      "text": "Ho il batticuore.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-9",
+      "task": "expressed_emotion",
+      "text": "Sono impaurito.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-10",
+      "task": "expressed_emotion",
+      "text": "Non mi sento al sicuro.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-11",
+      "task": "expressed_emotion",
+      "text": "Ho i brividi.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-paura-12",
+      "task": "expressed_emotion",
+      "text": "Temo il buio.",
+      "expected": "paura",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-1",
+      "task": "expressed_emotion",
+      "text": "Non me lo aspettavo!",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-2",
+      "task": "expressed_emotion",
+      "text": "Che sorpresa!",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-3",
+      "task": "expressed_emotion",
+      "text": "Sono stupito.",
+      "expected": "sorpresa",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-4",
+      "task": "expressed_emotion",
+      "text": "Davvero?",
+      "expected": "sorpresa",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-5",
+      "task": "expressed_emotion",
+      "text": "Non ci credo!",
+      "expected": "sorpresa",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-6",
+      "task": "expressed_emotion",
+      "text": "Wow!",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-7",
+      "task": "expressed_emotion",
+      "text": "Sono meravigliato.",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-8",
+      "task": "expressed_emotion",
+      "text": "Che colpo!",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-9",
+      "task": "expressed_emotion",
+      "text": "Non l'avrei mai detto.",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-10",
+      "task": "expressed_emotion",
+      "text": "Sono sbalordito.",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-11",
+      "task": "expressed_emotion",
+      "text": "Che incredibile sorpresa!",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-sorpresa-12",
+      "task": "expressed_emotion",
+      "text": "Sono rimasto di stucco.",
+      "expected": "sorpresa",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-1",
+      "task": "expressed_emotion",
+      "text": "Sono preoccupato per domani.",
+      "expected": "preoccupazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-2",
+      "task": "expressed_emotion",
+      "text": "Temo che sia tardi.",
+      "expected": "preoccupazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-3",
+      "task": "expressed_emotion",
+      "text": "Sono in ansia.",
+      "expected": "preoccupazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-4",
+      "task": "expressed_emotion",
+      "text": "Mi preoccupa la visita.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-5",
+      "task": "expressed_emotion",
+      "text": "Non so come andrà.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-6",
+      "task": "expressed_emotion",
+      "text": "Sono inquieto.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-7",
+      "task": "expressed_emotion",
+      "text": "Ho un pensiero fisso.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-8",
+      "task": "expressed_emotion",
+      "text": "Temo di sbagliare.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-9",
+      "task": "expressed_emotion",
+      "text": "Sono agitato.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-10",
+      "task": "expressed_emotion",
+      "text": "Mi sento in apprensione.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-11",
+      "task": "expressed_emotion",
+      "text": "Sono in pensiero per te.",
+      "expected": "preoccupazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-preoccupazione-12",
+      "task": "expressed_emotion",
+      "text": "Non riesco a stare tranquillo.",
+      "expected": "preoccupazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-1",
+      "task": "expressed_emotion",
+      "text": "Non ci riesco mai!",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-2",
+      "task": "expressed_emotion",
+      "text": "Che fastidio!",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-3",
+      "task": "expressed_emotion",
+      "text": "Sono frustrato.",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-4",
+      "task": "expressed_emotion",
+      "text": "Non funziona niente.",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-5",
+      "task": "expressed_emotion",
+      "text": "Mi arrendo.",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-6",
+      "task": "expressed_emotion",
+      "text": "È impossibile!",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-7",
+      "task": "expressed_emotion",
+      "text": "Non ne posso più.",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-8",
+      "task": "expressed_emotion",
+      "text": "Mi sento bloccato.",
+      "expected": "frustrazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-9",
+      "task": "expressed_emotion",
+      "text": "Che rabbia non riuscire.",
+      "expected": "frustrazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-10",
+      "task": "expressed_emotion",
+      "text": "Non riesco a finire.",
+      "expected": "frustrazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-11",
+      "task": "expressed_emotion",
+      "text": "Non riesco a risolvere niente.",
+      "expected": "frustrazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-frustrazione-12",
+      "task": "expressed_emotion",
+      "text": "Che sfortuna!",
+      "expected": "frustrazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-1",
+      "task": "expressed_emotion",
+      "text": "Sono soddisfatto del lavoro.",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-2",
+      "task": "expressed_emotion",
+      "text": "Ce l'ho fatta!",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-3",
+      "task": "expressed_emotion",
+      "text": "Sono orgoglioso.",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-4",
+      "task": "expressed_emotion",
+      "text": "Bel risultato!",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-5",
+      "task": "expressed_emotion",
+      "text": "Sono contento del mio disegno.",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-6",
+      "task": "expressed_emotion",
+      "text": "Ho finito tutto.",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-7",
+      "task": "expressed_emotion",
+      "text": "Sono fiero di me.",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-8",
+      "task": "expressed_emotion",
+      "text": "Ottimo lavoro!",
+      "expected": "soddisfazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-9",
+      "task": "expressed_emotion",
+      "text": "Mi sento realizzato.",
+      "expected": "soddisfazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-10",
+      "task": "expressed_emotion",
+      "text": "Sono appagato.",
+      "expected": "soddisfazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-11",
+      "task": "expressed_emotion",
+      "text": "Sono molto contento del risultato.",
+      "expected": "soddisfazione",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-soddisfazione-12",
+      "task": "expressed_emotion",
+      "text": "Sono fiero di ciò che ho fatto.",
+      "expected": "soddisfazione",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-1",
+      "task": "expressed_emotion",
+      "text": "Non sono sicuro.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-2",
+      "task": "expressed_emotion",
+      "text": "Forse.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-3",
+      "task": "expressed_emotion",
+      "text": "Non lo so.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-4",
+      "task": "expressed_emotion",
+      "text": "Non saprei.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-5",
+      "task": "expressed_emotion",
+      "text": "Ho dei dubbi.",
+      "expected": "incertezza",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-incertezza-6",
+      "task": "expressed_emotion",
+      "text": "Può essere.",
+      "expected": "incertezza",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-incertezza-7",
+      "task": "expressed_emotion",
+      "text": "Non ne sono certo.",
+      "expected": "incertezza",
+      "split": "validation"
+    },
+    {
+      "id": "expressed_emotion-incertezza-8",
+      "task": "expressed_emotion",
+      "text": "Devo pensarci.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-9",
+      "task": "expressed_emotion",
+      "text": "Non ho capito bene.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-10",
+      "task": "expressed_emotion",
+      "text": "Sono indeciso.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-11",
+      "task": "expressed_emotion",
+      "text": "Non sono convinto.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "expressed_emotion-incertezza-12",
+      "task": "expressed_emotion",
+      "text": "Forse sì, forse no.",
+      "expected": "incertezza",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-persone-1",
+      "task": "semantic_category",
+      "text": "La maestra spiega.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-persone-2",
+      "task": "semantic_category",
+      "text": "Il bambino gioca.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-persone-3",
+      "task": "semantic_category",
+      "text": "Mia madre cucina.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-persone-4",
+      "task": "semantic_category",
+      "text": "Il dottore visita.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-persone-5",
+      "task": "semantic_category",
+      "text": "Luca corre.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-persone-6",
+      "task": "semantic_category",
+      "text": "Il vigile dirige il traffico.",
+      "expected": "persone",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-animali-1",
+      "task": "semantic_category",
+      "text": "Il cane corre.",
+      "expected": "animali",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-animali-2",
+      "task": "semantic_category",
+      "text": "Il gatto dorme.",
+      "expected": "animali",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-animali-3",
+      "task": "semantic_category",
+      "text": "L'uccello vola.",
+      "expected": "animali",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-animali-4",
+      "task": "semantic_category",
+      "text": "Il pesce nuota.",
+      "expected": "animali",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-animali-5",
+      "task": "semantic_category",
+      "text": "La mucca mangia.",
+      "expected": "animali",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-animali-6",
+      "task": "semantic_category",
+      "text": "La farfalla vola.",
+      "expected": "animali",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-alimenti-1",
+      "task": "semantic_category",
+      "text": "La mela è rossa.",
+      "expected": "alimenti",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-alimenti-2",
+      "task": "semantic_category",
+      "text": "Mangio il pane.",
+      "expected": "alimenti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-alimenti-3",
+      "task": "semantic_category",
+      "text": "La pasta è pronta.",
+      "expected": "alimenti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-alimenti-4",
+      "task": "semantic_category",
+      "text": "Il formaggio è buono.",
+      "expected": "alimenti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-alimenti-5",
+      "task": "semantic_category",
+      "text": "La banana è gialla.",
+      "expected": "alimenti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-alimenti-6",
+      "task": "semantic_category",
+      "text": "Il pomodoro è maturo.",
+      "expected": "alimenti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-bevande-1",
+      "task": "semantic_category",
+      "text": "Bevo l'acqua.",
+      "expected": "bevande",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-bevande-2",
+      "task": "semantic_category",
+      "text": "Il succo è freddo.",
+      "expected": "bevande",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-bevande-3",
+      "task": "semantic_category",
+      "text": "Prendo un tè.",
+      "expected": "bevande",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-bevande-4",
+      "task": "semantic_category",
+      "text": "Il latte è caldo.",
+      "expected": "bevande",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-bevande-5",
+      "task": "semantic_category",
+      "text": "Vorrei una spremuta.",
+      "expected": "bevande",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-bevande-6",
+      "task": "semantic_category",
+      "text": "Il caffè è amaro.",
+      "expected": "bevande",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-oggetti-1",
+      "task": "semantic_category",
+      "text": "La sedia è di legno.",
+      "expected": "oggetti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-oggetti-2",
+      "task": "semantic_category",
+      "text": "Il tavolo è grande.",
+      "expected": "oggetti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-oggetti-3",
+      "task": "semantic_category",
+      "text": "La chiave è sul tavolo.",
+      "expected": "oggetti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-oggetti-4",
+      "task": "semantic_category",
+      "text": "Il telefono suona.",
+      "expected": "oggetti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-oggetti-5",
+      "task": "semantic_category",
+      "text": "La lampada è accesa.",
+      "expected": "oggetti",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-oggetti-6",
+      "task": "semantic_category",
+      "text": "La forchetta è sul tavolo.",
+      "expected": "oggetti",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-luoghi-1",
+      "task": "semantic_category",
+      "text": "Vado al parco.",
+      "expected": "luoghi",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-luoghi-2",
+      "task": "semantic_category",
+      "text": "La scuola è vicina.",
+      "expected": "luoghi",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-luoghi-3",
+      "task": "semantic_category",
+      "text": "Il negozio apre.",
+      "expected": "luoghi",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-luoghi-4",
+      "task": "semantic_category",
+      "text": "Siamo in cucina.",
+      "expected": "luoghi",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-luoghi-5",
+      "task": "semantic_category",
+      "text": "La biblioteca è chiusa.",
+      "expected": "luoghi",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-luoghi-6",
+      "task": "semantic_category",
+      "text": "Il museo è aperto.",
+      "expected": "luoghi",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-azioni-1",
+      "task": "semantic_category",
+      "text": "Il bambino corre.",
+      "expected": "azioni",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-azioni-2",
+      "task": "semantic_category",
+      "text": "La ragazza salta.",
+      "expected": "azioni",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-azioni-3",
+      "task": "semantic_category",
+      "text": "Mangio la mela.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-azioni-4",
+      "task": "semantic_category",
+      "text": "Scrivo una frase.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-azioni-5",
+      "task": "semantic_category",
+      "text": "Apro la porta.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-azioni-6",
+      "task": "semantic_category",
+      "text": "La bambina canta.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-emozioni-1",
+      "task": "semantic_category",
+      "text": "Provo gioia.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-emozioni-2",
+      "task": "semantic_category",
+      "text": "Sento tristezza.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-emozioni-3",
+      "task": "semantic_category",
+      "text": "Ho paura.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-emozioni-4",
+      "task": "semantic_category",
+      "text": "Sono arrabbiato.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-emozioni-5",
+      "task": "semantic_category",
+      "text": "Mi sento sereno.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-emozioni-6",
+      "task": "semantic_category",
+      "text": "Sento allegria.",
+      "expected": "emozioni",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-bisogni-1",
+      "task": "semantic_category",
+      "text": "Ho fame.",
+      "expected": "bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-bisogni-2",
+      "task": "semantic_category",
+      "text": "Ho sete.",
+      "expected": "bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-bisogni-3",
+      "task": "semantic_category",
+      "text": "Devo dormire.",
+      "expected": "bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-bisogni-4",
+      "task": "semantic_category",
+      "text": "Ho bisogno di aiuto.",
+      "expected": "bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-bisogni-5",
+      "task": "semantic_category",
+      "text": "Devo andare in bagno.",
+      "expected": "bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-bisogni-6",
+      "task": "semantic_category",
+      "text": "Ho bisogno di riposare.",
+      "expected": "bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-abbigliamento-1",
+      "task": "semantic_category",
+      "text": "Indosso la maglietta.",
+      "expected": "abbigliamento",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-abbigliamento-2",
+      "task": "semantic_category",
+      "text": "I pantaloni sono blu.",
+      "expected": "abbigliamento",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-abbigliamento-3",
+      "task": "semantic_category",
+      "text": "Metto le scarpe.",
+      "expected": "abbigliamento",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-abbigliamento-4",
+      "task": "semantic_category",
+      "text": "Il cappotto è caldo.",
+      "expected": "abbigliamento",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-abbigliamento-5",
+      "task": "semantic_category",
+      "text": "I calzini sono sporchi.",
+      "expected": "abbigliamento",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-abbigliamento-6",
+      "task": "semantic_category",
+      "text": "Indosso il cappello.",
+      "expected": "abbigliamento",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-materiale_scolastico-1",
+      "task": "semantic_category",
+      "text": "Uso la matita.",
+      "expected": "materiale_scolastico",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-materiale_scolastico-2",
+      "task": "semantic_category",
+      "text": "Il quaderno è nuovo.",
+      "expected": "materiale_scolastico",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-materiale_scolastico-3",
+      "task": "semantic_category",
+      "text": "La gomma cancella.",
+      "expected": "materiale_scolastico",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-materiale_scolastico-4",
+      "task": "semantic_category",
+      "text": "Il righello è lungo.",
+      "expected": "materiale_scolastico",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-materiale_scolastico-5",
+      "task": "semantic_category",
+      "text": "Lo zaino è pesante.",
+      "expected": "materiale_scolastico",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-materiale_scolastico-6",
+      "task": "semantic_category",
+      "text": "Il pennarello è rosso.",
+      "expected": "materiale_scolastico",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-trasporti-1",
+      "task": "semantic_category",
+      "text": "Il treno parte.",
+      "expected": "trasporti",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-trasporti-2",
+      "task": "semantic_category",
+      "text": "L'autobus arriva.",
+      "expected": "trasporti",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-trasporti-3",
+      "task": "semantic_category",
+      "text": "La macchina è rossa.",
+      "expected": "trasporti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-trasporti-4",
+      "task": "semantic_category",
+      "text": "La bici è nuova.",
+      "expected": "trasporti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-trasporti-5",
+      "task": "semantic_category",
+      "text": "L'aereo vola.",
+      "expected": "trasporti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-trasporti-6",
+      "task": "semantic_category",
+      "text": "Il tram si ferma.",
+      "expected": "trasporti",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-natura-1",
+      "task": "semantic_category",
+      "text": "Il sole splende.",
+      "expected": "natura",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-natura-2",
+      "task": "semantic_category",
+      "text": "Piove forte.",
+      "expected": "natura",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-natura-3",
+      "task": "semantic_category",
+      "text": "L'albero è alto.",
+      "expected": "natura",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-natura-4",
+      "task": "semantic_category",
+      "text": "Il mare è calmo.",
+      "expected": "natura",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-natura-5",
+      "task": "semantic_category",
+      "text": "La montagna è bianca.",
+      "expected": "natura",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-natura-6",
+      "task": "semantic_category",
+      "text": "Il fiume scorre.",
+      "expected": "natura",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-tempo-1",
+      "task": "semantic_category",
+      "text": "Domani è lunedì.",
+      "expected": "tempo",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-tempo-2",
+      "task": "semantic_category",
+      "text": "Oggi piove.",
+      "expected": "tempo",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-tempo-3",
+      "task": "semantic_category",
+      "text": "Ieri era domenica.",
+      "expected": "tempo",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-tempo-4",
+      "task": "semantic_category",
+      "text": "La settimana finisce.",
+      "expected": "tempo",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-tempo-5",
+      "task": "semantic_category",
+      "text": "Sono le tre.",
+      "expected": "tempo",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-tempo-6",
+      "task": "semantic_category",
+      "text": "La notte è lunga.",
+      "expected": "tempo",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-corpo-1",
+      "task": "semantic_category",
+      "text": "Mi lavo le mani.",
+      "expected": "corpo",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-corpo-2",
+      "task": "semantic_category",
+      "text": "Ho mal di testa.",
+      "expected": "corpo",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-corpo-3",
+      "task": "semantic_category",
+      "text": "Il braccio fa male.",
+      "expected": "corpo",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-corpo-4",
+      "task": "semantic_category",
+      "text": "Mi tocco il naso.",
+      "expected": "corpo",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-corpo-5",
+      "task": "semantic_category",
+      "text": "Le gambe corrono.",
+      "expected": "corpo",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-corpo-6",
+      "task": "semantic_category",
+      "text": "Mi fa male il ginocchio.",
+      "expected": "corpo",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-igiene-1",
+      "task": "semantic_category",
+      "text": "Mi lavo i denti.",
+      "expected": "igiene",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-igiene-2",
+      "task": "semantic_category",
+      "text": "Faccio la doccia.",
+      "expected": "igiene",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-igiene-3",
+      "task": "semantic_category",
+      "text": "Uso il sapone.",
+      "expected": "igiene",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-igiene-4",
+      "task": "semantic_category",
+      "text": "Mi pettino.",
+      "expected": "igiene",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-igiene-5",
+      "task": "semantic_category",
+      "text": "Mi asciugo le mani.",
+      "expected": "igiene",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-igiene-6",
+      "task": "semantic_category",
+      "text": "Mi lavo la faccia.",
+      "expected": "igiene",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-salute-1",
+      "task": "semantic_category",
+      "text": "Il dottore mi visita.",
+      "expected": "salute",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-salute-2",
+      "task": "semantic_category",
+      "text": "Prendo la medicina.",
+      "expected": "salute",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-salute-3",
+      "task": "semantic_category",
+      "text": "Ho la febbre.",
+      "expected": "salute",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-salute-4",
+      "task": "semantic_category",
+      "text": "Vado in farmacia.",
+      "expected": "salute",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-salute-5",
+      "task": "semantic_category",
+      "text": "Mi sento meglio.",
+      "expected": "salute",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-salute-6",
+      "task": "semantic_category",
+      "text": "La ferita guarisce.",
+      "expected": "salute",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-gioco-1",
+      "task": "semantic_category",
+      "text": "Giochiamo a palla.",
+      "expected": "gioco",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-gioco-2",
+      "task": "semantic_category",
+      "text": "Costruisco una torre.",
+      "expected": "gioco",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-gioco-3",
+      "task": "semantic_category",
+      "text": "Facciamo un puzzle.",
+      "expected": "gioco",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-gioco-4",
+      "task": "semantic_category",
+      "text": "Gioco a nascondino.",
+      "expected": "gioco",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-gioco-5",
+      "task": "semantic_category",
+      "text": "Uso i colori.",
+      "expected": "gioco",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-gioco-6",
+      "task": "semantic_category",
+      "text": "Facciamo una gara.",
+      "expected": "gioco",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-relazioni_sociali-1",
+      "task": "semantic_category",
+      "text": "Abbraccio mia sorella.",
+      "expected": "relazioni_sociali",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-relazioni_sociali-2",
+      "task": "semantic_category",
+      "text": "Gioco con mio amico.",
+      "expected": "relazioni_sociali",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-relazioni_sociali-3",
+      "task": "semantic_category",
+      "text": "Parliamo insieme.",
+      "expected": "relazioni_sociali",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-relazioni_sociali-4",
+      "task": "semantic_category",
+      "text": "Aiuto il compagno.",
+      "expected": "relazioni_sociali",
+      "split": "validation"
+    },
+    {
+      "id": "semantic_category-relazioni_sociali-5",
+      "task": "semantic_category",
+      "text": "Saluto la vicina.",
+      "expected": "relazioni_sociali",
+      "split": "calibration"
+    },
+    {
+      "id": "semantic_category-relazioni_sociali-6",
+      "task": "semantic_category",
+      "text": "Saluto il mio vicino.",
+      "expected": "relazioni_sociali",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-bisogni-1",
+      "task": "board_category",
+      "text": "Ho sete.",
+      "expected": "bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-bisogni-2",
+      "task": "board_category",
+      "text": "Ho fame.",
+      "expected": "bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-bisogni-3",
+      "task": "board_category",
+      "text": "Devo andare in bagno.",
+      "expected": "bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-bisogni-4",
+      "task": "board_category",
+      "text": "Ho sonno.",
+      "expected": "bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-bisogni-5",
+      "task": "board_category",
+      "text": "Mi serve aiuto.",
+      "expected": "bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-bisogni-6",
+      "task": "board_category",
+      "text": "Ho freddo.",
+      "expected": "bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-bisogni-7",
+      "task": "board_category",
+      "text": "Ho bisogno di acqua.",
+      "expected": "bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-azioni-1",
+      "task": "board_category",
+      "text": "Corro.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-azioni-2",
+      "task": "board_category",
+      "text": "Salto.",
+      "expected": "azioni",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-azioni-3",
+      "task": "board_category",
+      "text": "Mangio.",
+      "expected": "azioni",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-azioni-4",
+      "task": "board_category",
+      "text": "Scrivo.",
+      "expected": "azioni",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-azioni-5",
+      "task": "board_category",
+      "text": "Apro la porta.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-azioni-6",
+      "task": "board_category",
+      "text": "Disegno.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-azioni-7",
+      "task": "board_category",
+      "text": "Cammino.",
+      "expected": "azioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-cibo-1",
+      "task": "board_category",
+      "text": "Mangio la pasta.",
+      "expected": "cibo",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-cibo-2",
+      "task": "board_category",
+      "text": "La mela è buona.",
+      "expected": "cibo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-cibo-3",
+      "task": "board_category",
+      "text": "Vorrei il pane.",
+      "expected": "cibo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-cibo-4",
+      "task": "board_category",
+      "text": "Il formaggio è fresco.",
+      "expected": "cibo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-cibo-5",
+      "task": "board_category",
+      "text": "La minestra è calda.",
+      "expected": "cibo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-cibo-6",
+      "task": "board_category",
+      "text": "Prendo una banana.",
+      "expected": "cibo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-cibo-7",
+      "task": "board_category",
+      "text": "Mangio la minestra.",
+      "expected": "cibo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-persone-1",
+      "task": "board_category",
+      "text": "La maestra parla.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-persone-2",
+      "task": "board_category",
+      "text": "Mia madre arriva.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-persone-3",
+      "task": "board_category",
+      "text": "Il bambino gioca.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-persone-4",
+      "task": "board_category",
+      "text": "Il dottore entra.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-persone-5",
+      "task": "board_category",
+      "text": "Luca sorride.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-persone-6",
+      "task": "board_category",
+      "text": "La nonna cucina.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-persone-7",
+      "task": "board_category",
+      "text": "La nonna arriva.",
+      "expected": "persone",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-luoghi-1",
+      "task": "board_category",
+      "text": "Vado a scuola.",
+      "expected": "luoghi",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-luoghi-2",
+      "task": "board_category",
+      "text": "Siamo al parco.",
+      "expected": "luoghi",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-luoghi-3",
+      "task": "board_category",
+      "text": "Il negozio è aperto.",
+      "expected": "luoghi",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-luoghi-4",
+      "task": "board_category",
+      "text": "Entro in casa.",
+      "expected": "luoghi",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-luoghi-5",
+      "task": "board_category",
+      "text": "La biblioteca è qui.",
+      "expected": "luoghi",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-luoghi-6",
+      "task": "board_category",
+      "text": "Andiamo al mare.",
+      "expected": "luoghi",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-luoghi-7",
+      "task": "board_category",
+      "text": "Vado al supermercato.",
+      "expected": "luoghi",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-emozioni-1",
+      "task": "board_category",
+      "text": "Sono felice.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-emozioni-2",
+      "task": "board_category",
+      "text": "Mi sento triste.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-emozioni-3",
+      "task": "board_category",
+      "text": "Ho paura.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-emozioni-4",
+      "task": "board_category",
+      "text": "Sono arrabbiato.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-emozioni-5",
+      "task": "board_category",
+      "text": "Che sorpresa!",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-emozioni-6",
+      "task": "board_category",
+      "text": "Sono tranquillo.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-emozioni-7",
+      "task": "board_category",
+      "text": "Sono sereno.",
+      "expected": "emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-attivita-1",
+      "task": "board_category",
+      "text": "Gioco a palla.",
+      "expected": "attivita",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-attivita-2",
+      "task": "board_category",
+      "text": "Leggo un libro.",
+      "expected": "attivita",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-attivita-3",
+      "task": "board_category",
+      "text": "Disegno.",
+      "expected": "attivita",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-attivita-4",
+      "task": "board_category",
+      "text": "Faccio i compiti.",
+      "expected": "attivita",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-attivita-5",
+      "task": "board_category",
+      "text": "Ascolto la musica.",
+      "expected": "attivita",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-attivita-6",
+      "task": "board_category",
+      "text": "Guardo la TV.",
+      "expected": "attivita",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-attivita-7",
+      "task": "board_category",
+      "text": "Faccio una passeggiata.",
+      "expected": "attivita",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-routine-1",
+      "task": "board_category",
+      "text": "Mi alzo.",
+      "expected": "routine",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-routine-2",
+      "task": "board_category",
+      "text": "Faccio colazione.",
+      "expected": "routine",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-routine-3",
+      "task": "board_category",
+      "text": "Mi lavo i denti.",
+      "expected": "routine",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-routine-4",
+      "task": "board_category",
+      "text": "Vado a scuola.",
+      "expected": "routine",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-routine-5",
+      "task": "board_category",
+      "text": "Ceno.",
+      "expected": "routine",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-routine-6",
+      "task": "board_category",
+      "text": "Vado a letto.",
+      "expected": "routine",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-routine-7",
+      "task": "board_category",
+      "text": "Mi vesto.",
+      "expected": "routine",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-corpo-1",
+      "task": "board_category",
+      "text": "Mi fa male la testa.",
+      "expected": "corpo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-corpo-2",
+      "task": "board_category",
+      "text": "Ho mal di pancia.",
+      "expected": "corpo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-corpo-3",
+      "task": "board_category",
+      "text": "Mi lavo le mani.",
+      "expected": "corpo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-corpo-4",
+      "task": "board_category",
+      "text": "Il braccio è rotto.",
+      "expected": "corpo",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-corpo-5",
+      "task": "board_category",
+      "text": "Mi tocco il naso.",
+      "expected": "corpo",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-corpo-6",
+      "task": "board_category",
+      "text": "Le gambe sono stanche.",
+      "expected": "corpo",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-corpo-7",
+      "task": "board_category",
+      "text": "Mi fa male la schiena.",
+      "expected": "corpo",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-scuola-1",
+      "task": "board_category",
+      "text": "La maestra spiega.",
+      "expected": "scuola",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-scuola-2",
+      "task": "board_category",
+      "text": "Apro il quaderno.",
+      "expected": "scuola",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-scuola-3",
+      "task": "board_category",
+      "text": "Scrivo la data.",
+      "expected": "scuola",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-scuola-4",
+      "task": "board_category",
+      "text": "Faccio l'intervallo.",
+      "expected": "scuola",
+      "split": "calibration"
+    },
+    {
+      "id": "board_category-scuola-5",
+      "task": "board_category",
+      "text": "La campanella suona.",
+      "expected": "scuola",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-scuola-6",
+      "task": "board_category",
+      "text": "Studio matematica.",
+      "expected": "scuola",
+      "split": "validation"
+    },
+    {
+      "id": "board_category-scuola-7",
+      "task": "board_category",
+      "text": "Leggo il libro.",
+      "expected": "scuola",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-comprensione-1",
+      "task": "learning_objective",
+      "text": "Ascolta la storia e rispondi.",
+      "expected": "comprensione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione-2",
+      "task": "learning_objective",
+      "text": "Leggi e scegli l'immagine giusta.",
+      "expected": "comprensione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione-3",
+      "task": "learning_objective",
+      "text": "Comprendi la consegna.",
+      "expected": "comprensione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-comprensione-4",
+      "task": "learning_objective",
+      "text": "Indica cosa succede.",
+      "expected": "comprensione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-comprensione-5",
+      "task": "learning_objective",
+      "text": "Ascolta e indica la risposta.",
+      "expected": "comprensione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-denominazione-1",
+      "task": "learning_objective",
+      "text": "Come si chiama questo animale?",
+      "expected": "denominazione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-denominazione-2",
+      "task": "learning_objective",
+      "text": "Dai il nome all'oggetto.",
+      "expected": "denominazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-denominazione-3",
+      "task": "learning_objective",
+      "text": "Nomina le parti del corpo.",
+      "expected": "denominazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-denominazione-4",
+      "task": "learning_objective",
+      "text": "Dimmi che cos'è.",
+      "expected": "denominazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-denominazione-5",
+      "task": "learning_objective",
+      "text": "Nomina gli oggetti sul tavolo.",
+      "expected": "denominazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-associazione-1",
+      "task": "learning_objective",
+      "text": "Unisci la parola all'immagine.",
+      "expected": "associazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-associazione-2",
+      "task": "learning_objective",
+      "text": "Trova la coppia giusta.",
+      "expected": "associazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-associazione-3",
+      "task": "learning_objective",
+      "text": "Associa il suono al simbolo.",
+      "expected": "associazione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-associazione-4",
+      "task": "learning_objective",
+      "text": "Collega ogni animale al suo verso.",
+      "expected": "associazione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-associazione-5",
+      "task": "learning_objective",
+      "text": "Collega il numero alla quantità.",
+      "expected": "associazione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-categorizzazione-1",
+      "task": "learning_objective",
+      "text": "Metti insieme i frutti.",
+      "expected": "categorizzazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-categorizzazione-2",
+      "task": "learning_objective",
+      "text": "Separa gli animali dagli oggetti.",
+      "expected": "categorizzazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-categorizzazione-3",
+      "task": "learning_objective",
+      "text": "Raggruppa per colore.",
+      "expected": "categorizzazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-categorizzazione-4",
+      "task": "learning_objective",
+      "text": "Scegli cosa non appartiene.",
+      "expected": "categorizzazione",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-categorizzazione-5",
+      "task": "learning_objective",
+      "text": "Metti insieme gli animali.",
+      "expected": "categorizzazione",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-sequenziamento-1",
+      "task": "learning_objective",
+      "text": "Metti in ordine le immagini.",
+      "expected": "sequenziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-sequenziamento-2",
+      "task": "learning_objective",
+      "text": "Racconta prima e dopo.",
+      "expected": "sequenziamento",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-sequenziamento-3",
+      "task": "learning_objective",
+      "text": "Ordina i passaggi della ricetta.",
+      "expected": "sequenziamento",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-sequenziamento-4",
+      "task": "learning_objective",
+      "text": "Completa la sequenza.",
+      "expected": "sequenziamento",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-sequenziamento-5",
+      "task": "learning_objective",
+      "text": "Ordina le azioni della mattina.",
+      "expected": "sequenziamento",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-consapevolezza_fonologica-1",
+      "task": "learning_objective",
+      "text": "Indica l'immagine che inizia con MA.",
+      "expected": "consapevolezza_fonologica",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-consapevolezza_fonologica-2",
+      "task": "learning_objective",
+      "text": "Trova la parola che fa rima.",
+      "expected": "consapevolezza_fonologica",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-consapevolezza_fonologica-3",
+      "task": "learning_objective",
+      "text": "Conta le sillabe.",
+      "expected": "consapevolezza_fonologica",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-consapevolezza_fonologica-4",
+      "task": "learning_objective",
+      "text": "Ascolta il suono iniziale.",
+      "expected": "consapevolezza_fonologica",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-consapevolezza_fonologica-5",
+      "task": "learning_objective",
+      "text": "Trova la parola che inizia con S.",
+      "expected": "consapevolezza_fonologica",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-lettura-1",
+      "task": "learning_objective",
+      "text": "Leggi la frase.",
+      "expected": "lettura",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-lettura-2",
+      "task": "learning_objective",
+      "text": "Trova la parola scritta.",
+      "expected": "lettura",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-lettura-3",
+      "task": "learning_objective",
+      "text": "Leggi ad alta voce.",
+      "expected": "lettura",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-lettura-4",
+      "task": "learning_objective",
+      "text": "Completa la parola mancante.",
+      "expected": "lettura",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-lettura-5",
+      "task": "learning_objective",
+      "text": "Leggi la parola scritta.",
+      "expected": "lettura",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-scrittura-1",
+      "task": "learning_objective",
+      "text": "Scrivi il nome.",
+      "expected": "scrittura",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-scrittura-2",
+      "task": "learning_objective",
+      "text": "Copia la frase.",
+      "expected": "scrittura",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-scrittura-3",
+      "task": "learning_objective",
+      "text": "Completa le lettere.",
+      "expected": "scrittura",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-scrittura-4",
+      "task": "learning_objective",
+      "text": "Scrivi una didascalia.",
+      "expected": "scrittura",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-scrittura-5",
+      "task": "learning_objective",
+      "text": "Scrivi il tuo nome.",
+      "expected": "scrittura",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-calcolo-1",
+      "task": "learning_objective",
+      "text": "Quanto fa 2 più 3?",
+      "expected": "calcolo",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-calcolo-2",
+      "task": "learning_objective",
+      "text": "Conta gli oggetti.",
+      "expected": "calcolo",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-calcolo-3",
+      "task": "learning_objective",
+      "text": "Scegli il numero giusto.",
+      "expected": "calcolo",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-calcolo-4",
+      "task": "learning_objective",
+      "text": "Risolvi l'addizione.",
+      "expected": "calcolo",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-calcolo-5",
+      "task": "learning_objective",
+      "text": "Conta fino a dieci.",
+      "expected": "calcolo",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-confronto-1",
+      "task": "learning_objective",
+      "text": "Qual è più grande?",
+      "expected": "confronto",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-confronto-2",
+      "task": "learning_objective",
+      "text": "Confronta i due disegni.",
+      "expected": "confronto",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-confronto-3",
+      "task": "learning_objective",
+      "text": "Trova la differenza.",
+      "expected": "confronto",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-confronto-4",
+      "task": "learning_objective",
+      "text": "Quale pesa di più?",
+      "expected": "confronto",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-confronto-5",
+      "task": "learning_objective",
+      "text": "Qual è più lungo?",
+      "expected": "confronto",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-ordinamento-1",
+      "task": "learning_objective",
+      "text": "Metti dal più piccolo al più grande.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-ordinamento-2",
+      "task": "learning_objective",
+      "text": "Ordina i numeri.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-ordinamento-3",
+      "task": "learning_objective",
+      "text": "Disponi in fila.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-ordinamento-4",
+      "task": "learning_objective",
+      "text": "Metti in ordine di altezza.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-ordinamento-5",
+      "task": "learning_objective",
+      "text": "Metti in ordine crescente.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-classificazione_logica-1",
+      "task": "learning_objective",
+      "text": "Trova l'intruso.",
+      "expected": "classificazione_logica",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-classificazione_logica-2",
+      "task": "learning_objective",
+      "text": "Scegli cosa non c'entra.",
+      "expected": "classificazione_logica",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-classificazione_logica-3",
+      "task": "learning_objective",
+      "text": "Completa la categoria.",
+      "expected": "classificazione_logica",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-classificazione_logica-4",
+      "task": "learning_objective",
+      "text": "Quale non appartiene?",
+      "expected": "classificazione_logica",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-classificazione_logica-5",
+      "task": "learning_objective",
+      "text": "Scegli l'elemento diverso.",
+      "expected": "classificazione_logica",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione_temporale-1",
+      "task": "learning_objective",
+      "text": "Cosa succede prima?",
+      "expected": "comprensione_temporale",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-comprensione_temporale-2",
+      "task": "learning_objective",
+      "text": "Metti in ordine mattina e sera.",
+      "expected": "comprensione_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione_temporale-3",
+      "task": "learning_objective",
+      "text": "Indica ieri e oggi.",
+      "expected": "comprensione_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione_temporale-4",
+      "task": "learning_objective",
+      "text": "Racconta la giornata.",
+      "expected": "comprensione_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione_temporale-5",
+      "task": "learning_objective",
+      "text": "Cosa fai dopo pranzo?",
+      "expected": "comprensione_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione_spaziale-1",
+      "task": "learning_objective",
+      "text": "Metti sopra il tavolo.",
+      "expected": "comprensione_spaziale",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-comprensione_spaziale-2",
+      "task": "learning_objective",
+      "text": "Trova a destra.",
+      "expected": "comprensione_spaziale",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-comprensione_spaziale-3",
+      "task": "learning_objective",
+      "text": "Posiziona dentro la scatola.",
+      "expected": "comprensione_spaziale",
+      "split": "validation"
+    },
+    {
+      "id": "learning_objective-comprensione_spaziale-4",
+      "task": "learning_objective",
+      "text": "Indica davanti e dietro.",
+      "expected": "comprensione_spaziale",
+      "split": "calibration"
+    },
+    {
+      "id": "learning_objective-comprensione_spaziale-5",
+      "task": "learning_objective",
+      "text": "Metti il libro sotto il tavolo.",
+      "expected": "comprensione_spaziale",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-scelta_multipla-1",
+      "task": "exercise_type",
+      "text": "Scegli la risposta giusta.",
+      "expected": "scelta_multipla",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-scelta_multipla-2",
+      "task": "exercise_type",
+      "text": "Indica l'opzione corretta.",
+      "expected": "scelta_multipla",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-scelta_multipla-3",
+      "task": "exercise_type",
+      "text": "Seleziona una sola risposta.",
+      "expected": "scelta_multipla",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-scelta_multipla-4",
+      "task": "exercise_type",
+      "text": "Scegli fra tre immagini.",
+      "expected": "scelta_multipla",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-abbinamento-1",
+      "task": "exercise_type",
+      "text": "Unisci parola e immagine.",
+      "expected": "abbinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-abbinamento-2",
+      "task": "exercise_type",
+      "text": "Abbina ogni animale al suo verso.",
+      "expected": "abbinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-abbinamento-3",
+      "task": "exercise_type",
+      "text": "Collega le coppie.",
+      "expected": "abbinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-abbinamento-4",
+      "task": "exercise_type",
+      "text": "Abbina ogni numero alla sua quantità.",
+      "expected": "abbinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-ordinamento-1",
+      "task": "exercise_type",
+      "text": "Metti in ordine le immagini.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-ordinamento-2",
+      "task": "exercise_type",
+      "text": "Ordina i numeri.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-ordinamento-3",
+      "task": "exercise_type",
+      "text": "Disponi i passaggi in sequenza.",
+      "expected": "ordinamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-ordinamento-4",
+      "task": "exercise_type",
+      "text": "Metti in ordine dal più corto al più lungo.",
+      "expected": "ordinamento",
+      "split": "validation"
+    },
+    {
+      "id": "exercise_type-completamento-1",
+      "task": "exercise_type",
+      "text": "Completa la frase.",
+      "expected": "completamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-completamento-2",
+      "task": "exercise_type",
+      "text": "Scrivi la parola mancante.",
+      "expected": "completamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-completamento-3",
+      "task": "exercise_type",
+      "text": "Riempi gli spazi.",
+      "expected": "completamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-completamento-4",
+      "task": "exercise_type",
+      "text": "Completa la parola con la sillaba giusta.",
+      "expected": "completamento",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-classificazione-1",
+      "task": "exercise_type",
+      "text": "Metti insieme i frutti.",
+      "expected": "classificazione",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-classificazione-2",
+      "task": "exercise_type",
+      "text": "Separa gli animali.",
+      "expected": "classificazione",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-classificazione-3",
+      "task": "exercise_type",
+      "text": "Raggruppa per categoria.",
+      "expected": "classificazione",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-classificazione-4",
+      "task": "exercise_type",
+      "text": "Dividi gli oggetti in due gruppi.",
+      "expected": "classificazione",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-sequenza_temporale-1",
+      "task": "exercise_type",
+      "text": "Cosa viene prima?",
+      "expected": "sequenza_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-sequenza_temporale-2",
+      "task": "exercise_type",
+      "text": "Ordina la giornata.",
+      "expected": "sequenza_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-sequenza_temporale-3",
+      "task": "exercise_type",
+      "text": "Metti in ordine gli eventi.",
+      "expected": "sequenza_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-sequenza_temporale-4",
+      "task": "exercise_type",
+      "text": "Ordina le immagini della giornata.",
+      "expected": "sequenza_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-associazione_parola_immagine-1",
+      "task": "exercise_type",
+      "text": "Unisci la parola al disegno.",
+      "expected": "associazione_parola_immagine",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-associazione_parola_immagine-2",
+      "task": "exercise_type",
+      "text": "Trova l'immagine della parola.",
+      "expected": "associazione_parola_immagine",
+      "split": "validation"
+    },
+    {
+      "id": "exercise_type-associazione_parola_immagine-3",
+      "task": "exercise_type",
+      "text": "Abbina il nome all'oggetto.",
+      "expected": "associazione_parola_immagine",
+      "split": "validation"
+    },
+    {
+      "id": "exercise_type-associazione_parola_immagine-4",
+      "task": "exercise_type",
+      "text": "Collega la parola alla figura.",
+      "expected": "associazione_parola_immagine",
+      "split": "validation"
+    },
+    {
+      "id": "exercise_type-associazione_suono_immagine-1",
+      "task": "exercise_type",
+      "text": "Ascolta e scegli l'immagine.",
+      "expected": "associazione_suono_immagine",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-associazione_suono_immagine-2",
+      "task": "exercise_type",
+      "text": "Unisci il suono al simbolo.",
+      "expected": "associazione_suono_immagine",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-associazione_suono_immagine-3",
+      "task": "exercise_type",
+      "text": "Abbina il verso all'animale.",
+      "expected": "associazione_suono_immagine",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-associazione_suono_immagine-4",
+      "task": "exercise_type",
+      "text": "Scegli l'immagine dopo aver ascoltato.",
+      "expected": "associazione_suono_immagine",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-composizione_frase-1",
+      "task": "exercise_type",
+      "text": "Costruisci una frase.",
+      "expected": "composizione_frase",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-composizione_frase-2",
+      "task": "exercise_type",
+      "text": "Metti le parole in ordine.",
+      "expected": "composizione_frase",
+      "split": "calibration"
+    },
+    {
+      "id": "exercise_type-composizione_frase-3",
+      "task": "exercise_type",
+      "text": "Componi la frase con i simboli.",
+      "expected": "composizione_frase",
+      "split": "validation"
+    },
+    {
+      "id": "exercise_type-composizione_frase-4",
+      "task": "exercise_type",
+      "text": "Metti le parole in ordine per formare la frase.",
+      "expected": "composizione_frase",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-aspettare_il_turno-1",
+      "task": "social_story_topic",
+      "text": "Devo aspettare il mio turno.",
+      "expected": "aspettare_il_turno",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-aspettare_il_turno-2",
+      "task": "social_story_topic",
+      "text": "Quando parla un compagno ascolto.",
+      "expected": "aspettare_il_turno",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-aspettare_il_turno-3",
+      "task": "social_story_topic",
+      "text": "Aspetto che finisca il mio compagno.",
+      "expected": "aspettare_il_turno",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-chiedere_aiuto-1",
+      "task": "social_story_topic",
+      "text": "Se non riesco, chiedo aiuto.",
+      "expected": "chiedere_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-chiedere_aiuto-2",
+      "task": "social_story_topic",
+      "text": "Chiedo aiuto alla maestra.",
+      "expected": "chiedere_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-chiedere_aiuto-3",
+      "task": "social_story_topic",
+      "text": "Chiedo aiuto quando non capisco.",
+      "expected": "chiedere_aiuto",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-affrontare_cambiamenti-1",
+      "task": "social_story_topic",
+      "text": "Oggi c'è una supplente.",
+      "expected": "affrontare_cambiamenti",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-affrontare_cambiamenti-2",
+      "task": "social_story_topic",
+      "text": "La routine cambia e mi preparo.",
+      "expected": "affrontare_cambiamenti",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-affrontare_cambiamenti-3",
+      "task": "social_story_topic",
+      "text": "Accetto un cambiamento di programma.",
+      "expected": "affrontare_cambiamenti",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-gestire_conflitti-1",
+      "task": "social_story_topic",
+      "text": "Se litigo, parlo con calma.",
+      "expected": "gestire_conflitti",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-gestire_conflitti-2",
+      "task": "social_story_topic",
+      "text": "Chiedo scusa e troviamo un accordo.",
+      "expected": "gestire_conflitti",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-gestire_conflitti-3",
+      "task": "social_story_topic",
+      "text": "Se sono arrabbiato, respiro e parlo.",
+      "expected": "gestire_conflitti",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-prepararsi_a_una_visita-1",
+      "task": "social_story_topic",
+      "text": "Domani vado dal dottore.",
+      "expected": "prepararsi_a_una_visita",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-prepararsi_a_una_visita-2",
+      "task": "social_story_topic",
+      "text": "Mi preparo per la visita.",
+      "expected": "prepararsi_a_una_visita",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-prepararsi_a_una_visita-3",
+      "task": "social_story_topic",
+      "text": "Metto lo zaino per la visita.",
+      "expected": "prepararsi_a_una_visita",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-rispettare_regole_condivise-1",
+      "task": "social_story_topic",
+      "text": "In classe alzo la mano.",
+      "expected": "rispettare_regole_condivise",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-rispettare_regole_condivise-2",
+      "task": "social_story_topic",
+      "text": "Rispetto le regole del gioco.",
+      "expected": "rispettare_regole_condivise",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-rispettare_regole_condivise-3",
+      "task": "social_story_topic",
+      "text": "Aspetto il mio turno in fila.",
+      "expected": "rispettare_regole_condivise",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-esprimere_bisogni-1",
+      "task": "social_story_topic",
+      "text": "Dico che ho bisogno di una pausa.",
+      "expected": "esprimere_bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-esprimere_bisogni-2",
+      "task": "social_story_topic",
+      "text": "Spiego cosa mi serve.",
+      "expected": "esprimere_bisogni",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-esprimere_bisogni-3",
+      "task": "social_story_topic",
+      "text": "Chiedo una pausa quando sono stanco.",
+      "expected": "esprimere_bisogni",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-comunicare_emozioni-1",
+      "task": "social_story_topic",
+      "text": "Dico che sono triste.",
+      "expected": "comunicare_emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-comunicare_emozioni-2",
+      "task": "social_story_topic",
+      "text": "Esprimo la mia gioia.",
+      "expected": "comunicare_emozioni",
+      "split": "calibration"
+    },
+    {
+      "id": "social_story_topic-comunicare_emozioni-3",
+      "task": "social_story_topic",
+      "text": "Dico come mi sento.",
+      "expected": "comunicare_emozioni",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-partecipare_ad_attivita_collettive-1",
+      "task": "social_story_topic",
+      "text": "Gioco con il gruppo.",
+      "expected": "partecipare_ad_attivita_collettive",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-partecipare_ad_attivita_collettive-2",
+      "task": "social_story_topic",
+      "text": "Partecipo all'attività della classe.",
+      "expected": "partecipare_ad_attivita_collettive",
+      "split": "validation"
+    },
+    {
+      "id": "social_story_topic-partecipare_ad_attivita_collettive-3",
+      "task": "social_story_topic",
+      "text": "Collaboro con il gruppo.",
+      "expected": "partecipare_ad_attivita_collettive",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-append-1",
+      "task": "interactive_action",
+      "text": "Questo pulsante aggiunge la parola alla frase.",
+      "expected": "append",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-append-2",
+      "task": "interactive_action",
+      "text": "Aggiungi il simbolo al messaggio.",
+      "expected": "append",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-append-3",
+      "task": "interactive_action",
+      "text": "Aggiungi la parola scelta alla frase.",
+      "expected": "append",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-speak-1",
+      "task": "interactive_action",
+      "text": "Questo pulsante legge la frase ad alta voce.",
+      "expected": "speak",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-speak-2",
+      "task": "interactive_action",
+      "text": "Pronuncia il messaggio composto.",
+      "expected": "speak",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-speak-3",
+      "task": "interactive_action",
+      "text": "Fai ascoltare il messaggio.",
+      "expected": "speak",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-toggle-1",
+      "task": "interactive_action",
+      "text": "Questo pulsante seleziona la cella per un esercizio.",
+      "expected": "toggle",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-toggle-2",
+      "task": "interactive_action",
+      "text": "Attiva la scelta della cella.",
+      "expected": "toggle",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-toggle-3",
+      "task": "interactive_action",
+      "text": "Seleziona questa cella.",
+      "expected": "toggle",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-navigate-1",
+      "task": "interactive_action",
+      "text": "Questo pulsante apre la pagina degli animali.",
+      "expected": "navigate",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-navigate-2",
+      "task": "interactive_action",
+      "text": "Vai alla pagina della merenda.",
+      "expected": "navigate",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-navigate-3",
+      "task": "interactive_action",
+      "text": "Portami alla pagina della famiglia.",
+      "expected": "navigate",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-back-1",
+      "task": "interactive_action",
+      "text": "Questo pulsante torna indietro.",
+      "expected": "back",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-back-2",
+      "task": "interactive_action",
+      "text": "Torna alla pagina precedente.",
+      "expected": "back",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-back-3",
+      "task": "interactive_action",
+      "text": "Ritorna alla schermata precedente.",
+      "expected": "back",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-home-1",
+      "task": "interactive_action",
+      "text": "Questo pulsante va alla pagina iniziale.",
+      "expected": "home",
+      "split": "validation"
+    },
+    {
+      "id": "interactive_action-home-2",
+      "task": "interactive_action",
+      "text": "Apri la home della tabella.",
+      "expected": "home",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-home-3",
+      "task": "interactive_action",
+      "text": "Torna all'inizio della tabella.",
+      "expected": "home",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-clear-1",
+      "task": "interactive_action",
+      "text": "Questo pulsante svuota la composizione.",
+      "expected": "clear",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-clear-2",
+      "task": "interactive_action",
+      "text": "Cancella tutto il messaggio.",
+      "expected": "clear",
+      "split": "calibration"
+    },
+    {
+      "id": "interactive_action-clear-3",
+      "task": "interactive_action",
+      "text": "Azzera il messaggio.",
+      "expected": "clear",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-tabella_comunicativa-1",
+      "task": "layout_template",
+      "text": "Voglio una tabella con i bisogni.",
+      "expected": "tabella_comunicativa",
+      "split": "validation"
+    },
+    {
+      "id": "layout_template-tabella_comunicativa-2",
+      "task": "layout_template",
+      "text": "Crea una tabella comunicativa con 20 celle.",
+      "expected": "tabella_comunicativa",
+      "split": "validation"
+    },
+    {
+      "id": "layout_template-tabella_comunicativa-3",
+      "task": "layout_template",
+      "text": "Crea una tabella per comunicare a scuola.",
+      "expected": "tabella_comunicativa",
+      "split": "validation"
+    },
+    {
+      "id": "layout_template-sequenza_temporale-1",
+      "task": "layout_template",
+      "text": "Voglio una sequenza prima e dopo.",
+      "expected": "sequenza_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-sequenza_temporale-2",
+      "task": "layout_template",
+      "text": "Crea una sequenza temporale.",
+      "expected": "sequenza_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-sequenza_temporale-3",
+      "task": "layout_template",
+      "text": "Prepara una sequenza prima-dopo.",
+      "expected": "sequenza_temporale",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-agenda_visiva-1",
+      "task": "layout_template",
+      "text": "Voglio un'agenda della giornata.",
+      "expected": "agenda_visiva",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-agenda_visiva-2",
+      "task": "layout_template",
+      "text": "Crea un'agenda visiva settimanale.",
+      "expected": "agenda_visiva",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-agenda_visiva-3",
+      "task": "layout_template",
+      "text": "Crea l'agenda della mattina.",
+      "expected": "agenda_visiva",
+      "split": "validation"
+    },
+    {
+      "id": "layout_template-scheda_esercizi-1",
+      "task": "layout_template",
+      "text": "Voglio una scheda di esercizi.",
+      "expected": "scheda_esercizi",
+      "split": "validation"
+    },
+    {
+      "id": "layout_template-scheda_esercizi-2",
+      "task": "layout_template",
+      "text": "Crea una scheda con gli esercizi.",
+      "expected": "scheda_esercizi",
+      "split": "validation"
+    },
+    {
+      "id": "layout_template-scheda_esercizi-3",
+      "task": "layout_template",
+      "text": "Prepara una scheda con gli esercizi di lettura.",
+      "expected": "scheda_esercizi",
+      "split": "validation"
+    },
+    {
+      "id": "layout_template-storia_caa-1",
+      "task": "layout_template",
+      "text": "Voglio una storia con i pittogrammi.",
+      "expected": "storia_caa",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-storia_caa-2",
+      "task": "layout_template",
+      "text": "Crea una storia CAA.",
+      "expected": "storia_caa",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-storia_caa-3",
+      "task": "layout_template",
+      "text": "Crea una storia con i simboli.",
+      "expected": "storia_caa",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-storia_sociale-1",
+      "task": "layout_template",
+      "text": "Voglio una storia sociale.",
+      "expected": "storia_sociale",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-storia_sociale-2",
+      "task": "layout_template",
+      "text": "Crea una storia sociale sulla visita.",
+      "expected": "storia_sociale",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-storia_sociale-3",
+      "task": "layout_template",
+      "text": "Prepara una storia sociale sulla fila.",
+      "expected": "storia_sociale",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-tabella_scelta-1",
+      "task": "layout_template",
+      "text": "Voglio una tabella per scegliere.",
+      "expected": "tabella_scelta",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-tabella_scelta-2",
+      "task": "layout_template",
+      "text": "Crea una tabella di scelta.",
+      "expected": "tabella_scelta",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-tabella_scelta-3",
+      "task": "layout_template",
+      "text": "Crea una tabella per scegliere l'attività.",
+      "expected": "tabella_scelta",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-documento_narrativo-1",
+      "task": "layout_template",
+      "text": "Voglio un documento narrativo.",
+      "expected": "documento_narrativo",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-documento_narrativo-2",
+      "task": "layout_template",
+      "text": "Crea un racconto.",
+      "expected": "documento_narrativo",
+      "split": "calibration"
+    },
+    {
+      "id": "layout_template-documento_narrativo-3",
+      "task": "layout_template",
+      "text": "Scrivi un racconto illustrato.",
+      "expected": "documento_narrativo",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-pesca-frutto",
+      "task": "pictogram_disambiguation",
+      "text": "Ho mangiato una pesca.",
+      "target": {
+        "text": "pesca",
+        "start": 16,
+        "end": 21
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "frutto",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-pesca-attivita",
+      "task": "pictogram_disambiguation",
+      "text": "Vado a pesca.",
+      "target": {
+        "text": "pesca",
+        "start": 7,
+        "end": 12
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "attivita",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-amo-amore",
+      "task": "pictogram_disambiguation",
+      "text": "Amo la pizza.",
+      "target": {
+        "text": "Amo",
+        "start": 0,
+        "end": 3
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amore",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-amo-oggetto",
+      "task": "pictogram_disambiguation",
+      "text": "Ho comprato un amo.",
+      "target": {
+        "text": "amo",
+        "start": 15,
+        "end": 18
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amo",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-riso-cibo",
+      "task": "pictogram_disambiguation",
+      "text": "Mangio il riso.",
+      "target": {
+        "text": "riso",
+        "start": 10,
+        "end": 14
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "alimento",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-riso-risata",
+      "task": "pictogram_disambiguation",
+      "text": "Il suo riso è contagioso.",
+      "target": {
+        "text": "riso",
+        "start": 7,
+        "end": 11
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "ridere",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-porta-stanza",
+      "task": "pictogram_disambiguation",
+      "text": "Chiudi la porta.",
+      "target": {
+        "text": "porta",
+        "start": 10,
+        "end": 15
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "porta_casa",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-porta-verbo",
+      "task": "pictogram_disambiguation",
+      "text": "La bambina porta un libro.",
+      "target": {
+        "text": "porta",
+        "start": 11,
+        "end": 16
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "portare",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-piano-strumento",
+      "task": "pictogram_disambiguation",
+      "text": "Suono il piano.",
+      "target": {
+        "text": "piano",
+        "start": 9,
+        "end": 14
+      },
+      "candidates": [
+        {
+          "id": "pianoforte",
+          "label": "pianoforte (strumento musicale)"
+        },
+        {
+          "id": "avverbio",
+          "label": "piano (lentamente)"
+        }
+      ],
+      "expected": "pianoforte",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-piano-avverbio",
+      "task": "pictogram_disambiguation",
+      "text": "Cammina piano.",
+      "target": {
+        "text": "piano",
+        "start": 8,
+        "end": 13
+      },
+      "candidates": [
+        {
+          "id": "pianoforte",
+          "label": "pianoforte (strumento musicale)"
+        },
+        {
+          "id": "avverbio",
+          "label": "piano (lentamente)"
+        }
+      ],
+      "expected": "avverbio",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-penna-scrivere",
+      "task": "pictogram_disambiguation",
+      "text": "Scrivo con la penna.",
+      "target": {
+        "text": "penna",
+        "start": 14,
+        "end": 19
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "penna_scrivere",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-penna-piuma",
+      "task": "pictogram_disambiguation",
+      "text": "L'uccello ha perso una penna.",
+      "target": {
+        "text": "penna",
+        "start": 23,
+        "end": 28
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "piuma",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-pesca-matura",
+      "task": "pictogram_disambiguation",
+      "text": "La pesca matura è dolce.",
+      "target": {
+        "text": "pesca",
+        "start": 3,
+        "end": 8
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "frutto",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-pesca-mare",
+      "task": "pictogram_disambiguation",
+      "text": "Andiamo al mare per la pesca.",
+      "target": {
+        "text": "pesca",
+        "start": 23,
+        "end": 28
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "attivita",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-amo-ti",
+      "task": "pictogram_disambiguation",
+      "text": "Ti amo tanto.",
+      "target": {
+        "text": "amo",
+        "start": 3,
+        "end": 6
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amore",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-amo-lenza",
+      "task": "pictogram_disambiguation",
+      "text": "L'amo è attaccato alla lenza.",
+      "target": {
+        "text": "amo",
+        "start": 2,
+        "end": 5
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amo",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-riso-cucina",
+      "task": "pictogram_disambiguation",
+      "text": "Il riso è pronto in cucina.",
+      "target": {
+        "text": "riso",
+        "start": 3,
+        "end": 7
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "alimento",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-riso-contagioso",
+      "task": "pictogram_disambiguation",
+      "text": "Il riso di Marco è contagioso.",
+      "target": {
+        "text": "riso",
+        "start": 3,
+        "end": 7
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "ridere",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-porta-apri",
+      "task": "pictogram_disambiguation",
+      "text": "Apri la porta, per favore.",
+      "target": {
+        "text": "porta",
+        "start": 8,
+        "end": 13
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "porta_casa",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-porta-borsa",
+      "task": "pictogram_disambiguation",
+      "text": "Marco porta la borsa.",
+      "target": {
+        "text": "porta",
+        "start": 6,
+        "end": 11
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "portare",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-penna-compito",
+      "task": "pictogram_disambiguation",
+      "text": "Uso la penna per il compito.",
+      "target": {
+        "text": "penna",
+        "start": 7,
+        "end": 12
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "penna_scrivere",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-penna-bianca",
+      "task": "pictogram_disambiguation",
+      "text": "L'uccello ha una penna bianca.",
+      "target": {
+        "text": "penna",
+        "start": 17,
+        "end": 22
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "piuma",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-piano-giorno",
+      "task": "pictogram_disambiguation",
+      "text": "Suono il piano ogni giorno.",
+      "target": {
+        "text": "piano",
+        "start": 9,
+        "end": 14
+      },
+      "candidates": [
+        {
+          "id": "pianoforte",
+          "label": "pianoforte (strumento musicale)"
+        },
+        {
+          "id": "avverbio",
+          "label": "piano (lentamente)"
+        }
+      ],
+      "expected": "pianoforte",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-pesca-estate",
+      "task": "pictogram_disambiguation",
+      "text": "La pesca è un frutto estivo.",
+      "target": {
+        "text": "pesca",
+        "start": 3,
+        "end": 8
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "frutto",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-pesca-pescatore",
+      "task": "pictogram_disambiguation",
+      "text": "Il pescatore torna dalla pesca.",
+      "target": {
+        "text": "pesca",
+        "start": 3,
+        "end": 8
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "attivita",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-amo-lenza-2",
+      "task": "pictogram_disambiguation",
+      "text": "L'amo è legato alla lenza.",
+      "target": {
+        "text": "amo",
+        "start": 2,
+        "end": 5
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amo",
+      "split": "validation"
+    },
+    {
+      "id": "disambiguation-riso-piatto",
+      "task": "pictogram_disambiguation",
+      "text": "Il riso bianco è nel piatto.",
+      "target": {
+        "text": "riso",
+        "start": 3,
+        "end": 7
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "alimento",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-riso-pubblico",
+      "task": "pictogram_disambiguation",
+      "text": "Il riso del pubblico era contagioso.",
+      "target": {
+        "text": "riso",
+        "start": 3,
+        "end": 7
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "ridere",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-porta-garage",
+      "task": "pictogram_disambiguation",
+      "text": "Chiudi la porta del garage.",
+      "target": {
+        "text": "porta",
+        "start": 10,
+        "end": 15
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "porta_casa",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-porta-valigia",
+      "task": "pictogram_disambiguation",
+      "text": "Mio padre porta la valigia.",
+      "target": {
+        "text": "porta",
+        "start": 10,
+        "end": 15
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "portare",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-penna-quaderno",
+      "task": "pictogram_disambiguation",
+      "text": "Uso la penna per il quaderno.",
+      "target": {
+        "text": "penna",
+        "start": 7,
+        "end": 12
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "penna_scrivere",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-penna-caduta",
+      "task": "pictogram_disambiguation",
+      "text": "La penna dell'uccello è caduta.",
+      "target": {
+        "text": "penna",
+        "start": 3,
+        "end": 8
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "piuma",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-pesca-zio",
+      "task": "pictogram_disambiguation",
+      "text": "Vado a pesca con mio zio.",
+      "target": {
+        "text": "pesca",
+        "start": 7,
+        "end": 12
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "attivita",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-pesca-dolce",
+      "task": "pictogram_disambiguation",
+      "text": "La pesca è dolce.",
+      "target": {
+        "text": "pesca",
+        "start": 3,
+        "end": 8
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "frutto",
+      "split": "calibration"
+    },
+    {
+      "id": "disambiguation-amo-nuovo",
+      "task": "pictogram_disambiguation",
+      "text": "Ho comprato un amo nuovo.",
+      "target": {
+        "text": "amo",
+        "start": 15,
+        "end": 18
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amo",
+      "split": "calibration"
+    }
+  ]
+}

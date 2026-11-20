@@ -1,0 +1,62 @@
+{
+  "model_id": "horizon-multilingual-zeroshot-small",
+  "repository": "Horizon-Labs/multilingual-zeroshot-small",
+  "revision": "17af5f8a728d101ce33a9bffad227b0cd005e95e",
+  "runtime": "onnxruntime",
+  "runtime_version": "1.20",
+  "tokenizer_version": "tokenizers-0.21",
+  "license": "Apache-2.0",
+  "parameters": 141000000,
+  "architecture": "ModernBERT (mmBERT-small) sequence classification, 22 layers, hidden 384, vocabulary 256000, context 8192 (fine-tuned up to 1024)",
+  "input_format": "text pair (premise, hypothesis); ONNX inputs input_ids and attention_mask (int64); output logits [not_entailment, entailment]",
+  "language": "multilingual, Italian labels and hypotheses supported (v1.3)",
+  "offline_after_install": true,
+  "minimum_app_version": "0.15.20",
+  "files": [
+    {
+      "path": "config.json",
+      "sha256": "3e5f7eebf8ddee141f092672ca5865b7741e64df974fbc68223c91da6cd74222",
+      "bytes": 2053
+    },
+    {
+      "path": "tokenizer.json",
+      "sha256": "aebee76d0312011b0d73b08a255d4d11d25c83e9639324870c7b916ea102e13e",
+      "bytes": 34363287
+    },
+    {
+      "path": "tokenizer_config.json",
+      "sha256": "ea349495764b24570b4560fe2e4a557e5c0a47e6bce782c2409b1d6445cf8633",
+      "bytes": 46440
+    },
+    {
+      "path": "special_tokens_map.json",
+      "sha256": "baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351",
+      "bytes": 636
+    },
+    {
+      "path": "onnx/model_quantized.onnx",
+      "sha256": "0ac394942a086fb1c02beb0fde0357bf7f3bd739ca07af7fa6c9fa11c9c05512",
+      "bytes": 268409234
+    },
+    {
+      "path": "SHA256SUMS",
+      "sha256": "2b976590b16df67e17b00f8333e37bc931420dae6e4aa440be867b45312d1bfa",
+      "bytes": 690
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "ead54ffa29a7bda1a08ac4d006f5bc30693e0044e3197bde8e59131746ea4d9f",
+      "bytes": 1565
+    }
+  ],
+  "notes": [
+    "La model card dichiara etichette e template storicamente in inglese; la versione v1.3 aggiunge etichette native e il progetto usa ipotesi italiane.",
+    "Il quantizzato gather-only mantiene l'accuratezza top-label del modello fp32 secondo onnx/quantization_check.json pubblicato dall'autore.",
+    "I punteggi zero-shot non sono probabilità calibrate: le soglie del ConfidencePolicy sono provvisorie."
+  ]
+}

@@ -80,7 +80,7 @@ jobs:
 
       - name: Test Rust
         working-directory: src-tauri
-        run: cargo test --all-targets -- --nocapture
+        run: cargo test --all-targets --features onnx -- --nocapture
 
       - name: Report semantico
         if: always()
@@ -168,7 +168,7 @@ jobs:
 
       - name: Build bundle non firmato
         shell: bash
-        run: npm run tauri -- build --target "${{ matrix.target }}" --bundles "${{ matrix.bundles }}"
+        run: npm run tauri -- build --target "${{ matrix.target }}" --bundles "${{ matrix.bundles }}" --features onnx
 
       - name: Raccogli artefatti e checksum
         shell: bash

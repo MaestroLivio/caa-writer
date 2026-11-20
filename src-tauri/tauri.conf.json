@@ -1,7 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "CAA Writer",
-  "version": "0.15.20",
+  "mainBinaryName": "caa-writer",
+  "version": "0.15.21",
   "identifier": "org.caawriter.desktop",
   "build": {
     "beforeDevCommand": "npm run dev",

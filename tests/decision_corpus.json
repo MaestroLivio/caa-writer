@@ -1,0 +1,490 @@
+{
+  "version": "1",
+  "language": "it",
+  "description": "Corpus curato di regressione: casi obbligatori della specifica più frasi held-out. Il dataset da 500 casi per la calibrazione richiede annotazione umana ed è ancora aperto.",
+  "cases": [
+    {
+      "id": "pesca-frutto",
+      "task": "pictogram_disambiguation",
+      "text": "Ho mangiato una pesca.",
+      "target": {
+        "text": "pesca",
+        "start": 16,
+        "end": 21
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "frutto"
+    },
+    {
+      "id": "pesca-attivita",
+      "task": "pictogram_disambiguation",
+      "text": "Vado a pesca.",
+      "target": {
+        "text": "pesca",
+        "start": 7,
+        "end": 12
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "attivita"
+    },
+    {
+      "id": "amo-amore",
+      "task": "pictogram_disambiguation",
+      "text": "Amo la pizza.",
+      "target": {
+        "text": "Amo",
+        "start": 0,
+        "end": 3
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amore"
+    },
+    {
+      "id": "amo-oggetto",
+      "task": "pictogram_disambiguation",
+      "text": "Ho comprato un amo.",
+      "target": {
+        "text": "amo",
+        "start": 15,
+        "end": 18
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amo"
+    },
+    {
+      "id": "riso-cibo",
+      "task": "pictogram_disambiguation",
+      "text": "Mangio il riso.",
+      "target": {
+        "text": "riso",
+        "start": 10,
+        "end": 14
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "alimento"
+    },
+    {
+      "id": "riso-risata",
+      "task": "pictogram_disambiguation",
+      "text": "Il suo riso è contagioso.",
+      "target": {
+        "text": "riso",
+        "start": 7,
+        "end": 11
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "ridere"
+    },
+    {
+      "id": "porta-stanza",
+      "task": "pictogram_disambiguation",
+      "text": "Chiudi la porta.",
+      "target": {
+        "text": "porta",
+        "start": 10,
+        "end": 15
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "porta_casa"
+    },
+    {
+      "id": "porta-verbo",
+      "task": "pictogram_disambiguation",
+      "text": "La bambina porta un libro.",
+      "target": {
+        "text": "porta",
+        "start": 11,
+        "end": 16
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "portare"
+    },
+    {
+      "id": "piano-strumento",
+      "task": "pictogram_disambiguation",
+      "text": "Suono il piano.",
+      "target": {
+        "text": "piano",
+        "start": 9,
+        "end": 14
+      },
+      "candidates": [
+        {
+          "id": "pianoforte",
+          "label": "pianoforte (strumento musicale)"
+        },
+        {
+          "id": "avverbio",
+          "label": "piano (lentamente)"
+        }
+      ],
+      "expected": "pianoforte"
+    },
+    {
+      "id": "piano-avverbio",
+      "task": "pictogram_disambiguation",
+      "text": "Cammina piano.",
+      "target": {
+        "text": "piano",
+        "start": 8,
+        "end": 13
+      },
+      "candidates": [
+        {
+          "id": "pianoforte",
+          "label": "pianoforte (strumento musicale)"
+        },
+        {
+          "id": "avverbio",
+          "label": "piano (lentamente)"
+        }
+      ],
+      "expected": "avverbio"
+    },
+    {
+      "id": "penna-scrivere",
+      "task": "pictogram_disambiguation",
+      "text": "Scrivo con la penna.",
+      "target": {
+        "text": "penna",
+        "start": 14,
+        "end": 19
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "penna_scrivere"
+    },
+    {
+      "id": "penna-piuma",
+      "task": "pictogram_disambiguation",
+      "text": "L'uccello ha perso una penna.",
+      "target": {
+        "text": "penna",
+        "start": 23,
+        "end": 28
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "piuma"
+    },
+    {
+      "id": "pesca-matura",
+      "task": "pictogram_disambiguation",
+      "text": "La pesca matura è dolce.",
+      "target": {
+        "text": "pesca",
+        "start": 3,
+        "end": 8
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "frutto"
+    },
+    {
+      "id": "pesca-mare",
+      "task": "pictogram_disambiguation",
+      "text": "Andiamo al mare per la pesca.",
+      "target": {
+        "text": "pesca",
+        "start": 23,
+        "end": 28
+      },
+      "candidates": [
+        {
+          "id": "frutto",
+          "label": "frutto (alimento)"
+        },
+        {
+          "id": "attivita",
+          "label": "attività di pesca (catturare pesci)"
+        }
+      ],
+      "expected": "attivita"
+    },
+    {
+      "id": "amo-ti",
+      "task": "pictogram_disambiguation",
+      "text": "Ti amo tanto.",
+      "target": {
+        "text": "amo",
+        "start": 3,
+        "end": 6
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amore"
+    },
+    {
+      "id": "amo-lenza",
+      "task": "pictogram_disambiguation",
+      "text": "L'amo è attaccato alla lenza.",
+      "target": {
+        "text": "amo",
+        "start": 2,
+        "end": 5
+      },
+      "candidates": [
+        {
+          "id": "amore",
+          "label": "amore (sentimento)"
+        },
+        {
+          "id": "amo",
+          "label": "amo da pesca (oggetto per pescare)"
+        }
+      ],
+      "expected": "amo"
+    },
+    {
+      "id": "riso-cucina",
+      "task": "pictogram_disambiguation",
+      "text": "Il riso è pronto in cucina.",
+      "target": {
+        "text": "riso",
+        "start": 3,
+        "end": 7
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "alimento"
+    },
+    {
+      "id": "riso-contagioso",
+      "task": "pictogram_disambiguation",
+      "text": "Il riso di Marco è contagioso.",
+      "target": {
+        "text": "riso",
+        "start": 3,
+        "end": 7
+      },
+      "candidates": [
+        {
+          "id": "alimento",
+          "label": "riso (alimento)"
+        },
+        {
+          "id": "ridere",
+          "label": "riso (risata)"
+        }
+      ],
+      "expected": "ridere"
+    },
+    {
+      "id": "porta-apri",
+      "task": "pictogram_disambiguation",
+      "text": "Apri la porta, per favore.",
+      "target": {
+        "text": "porta",
+        "start": 8,
+        "end": 13
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "porta_casa"
+    },
+    {
+      "id": "porta-borsa",
+      "task": "pictogram_disambiguation",
+      "text": "Marco porta la borsa.",
+      "target": {
+        "text": "porta",
+        "start": 6,
+        "end": 11
+      },
+      "candidates": [
+        {
+          "id": "porta_casa",
+          "label": "porta (di una stanza)"
+        },
+        {
+          "id": "portare",
+          "label": "porta (verbo portare)"
+        }
+      ],
+      "expected": "portare"
+    },
+    {
+      "id": "penna-compito",
+      "task": "pictogram_disambiguation",
+      "text": "Uso la penna per il compito.",
+      "target": {
+        "text": "penna",
+        "start": 7,
+        "end": 12
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "penna_scrivere"
+    },
+    {
+      "id": "penna-bianca",
+      "task": "pictogram_disambiguation",
+      "text": "L'uccello ha una penna bianca.",
+      "target": {
+        "text": "penna",
+        "start": 17,
+        "end": 22
+      },
+      "candidates": [
+        {
+          "id": "penna_scrivere",
+          "label": "penna (per scrivere)"
+        },
+        {
+          "id": "piuma",
+          "label": "penna (piuma di uccello)"
+        }
+      ],
+      "expected": "piuma"
+    },
+    {
+      "id": "piano-giorno",
+      "task": "pictogram_disambiguation",
+      "text": "Suono il piano ogni giorno.",
+      "target": {
+        "text": "piano",
+        "start": 9,
+        "end": 14
+      },
+      "candidates": [
+        {
+          "id": "pianoforte",
+          "label": "pianoforte (strumento musicale)"
+        },
+        {
+          "id": "avverbio",
+          "label": "piano (lentamente)"
+        }
+      ],
+      "expected": "pianoforte"
+    }
+  ]
+}

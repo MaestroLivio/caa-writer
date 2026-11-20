@@ -903,3 +903,29 @@ caa-cli template build-all --sources templates/sources --out resources/library
   **Modalità Creator** (con PIN se configurato). Non entra più automaticamente nell'ultimo profilo.
 - Al primo avvio la procedura guidata permette anche di entrare come Creator senza creare subito un
   profilo.
+
+### 13.7 Motore decisionale semantico
+
+- Modello unico: `Horizon-Labs/multilingual-zeroshot-small` (Apache-2.0, 141M, ONNX
+  quantizzato 268 MB), revisione bloccata e hash verificati.
+- Metodi condivisi da CLI, MCP e GUI: `decision.status`, `decision.classify`,
+  `decision.audit`, `decision.validate`, `decision.calibrate`,
+  `decision.model.status`, `decision.model.verify`, `decision.model.install`,
+  `decision.model.remove`.
+- La CLI richiede la feature ONNX: `cargo build --features onnx --bin caa-cli`.
+  Senza la feature, o senza pesi installati, il motore usa solo regole
+  deterministiche e lo dichiara (`status: unavailable`, `method: rules`).
+- Il modello non modifica documenti, non esegue comandi e non prende decisioni
+  pedagogiche vincolanti. Le scelte bloccate dall'utente prevalgono sempre.
+- Corpus di regressione/calibrazione: `tests/decision_corpus_500.json` (649
+  casi, split 453/196). `decision.calibrate` restituisce margini globali e per
+  task; `decision.validate` misura accuratezza, copertura, astensioni e latenza.
+- Reranking durante la digitazione: attivo se `neural_context` è acceso e il
+  modello è installato. Dopo 1,2 s di pausa rilavora fino a 6 token incerti;
+  non tocca scelte manuali, token bloccati o nascosti.
+- Integrazione frontend: `src/lib/decision/client.ts` e `ranking.ts`; il
+  pannello delle alternative, la ricerca, il comunicatore (intenzione,
+  tabella, emozione), Story Studio, il Resource Studio, l'ispettore elemento,
+  il browser della libreria (categoria, obiettivo, esercizio) e la console CLI
+  usano il motore in modo asincrono. Tutti i 15 task hanno un hook UI.
+- Dettagli, limiti e risultati reali: `docs/DECISION_ENGINE.md`.

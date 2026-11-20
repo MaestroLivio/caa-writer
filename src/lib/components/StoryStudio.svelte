@@ -1,5 +1,7 @@
 <script lang="ts">
   import { api } from "../api";
+  import { classify } from "../decision/client";
+  import { isNeuralMethod } from "../decision/ranking";
   import type { OpenedUniversalDocument } from "../types";
 
   interface Props {
@@ -19,6 +21,59 @@
   let subject = $state("una situazione da capire insieme");
   let busy = $state(false);
   let error = $state("");
+  let topicSuggestion = $state<string | null>(null);
+  let kindSuggestion = $state<{ kind: string; label: string } | null>(null);
+  let suggestBusy = $state(false);
+
+  const layoutKinds: Record<string, string> = {
+    storia_sociale: "social",
+    storia_caa: "narrative",
+    agenda_visiva: "routine",
+    sequenza_temporale: "routine",
+    scheda_esercizi: "educational",
+    tabella_scelta: "educational",
+    tabella_comunicativa: "educational",
+    documento_narrativo: "narrative",
+  };
+
+  async function suggestStory() {
+    if (suggestBusy) return;
+    const text = `${title} ${subject}`.trim();
+    if (!text) return;
+    suggestBusy = true;
+    try {
+      const topic = await classify({
+        task: "social_story_topic",
+        input: { text },
+        options: { mode: "suggest" },
+      });
+      topicSuggestion =
+        topic &&
+        topic.status === "completed" &&
+        isNeuralMethod(topic.metadata.method)
+          ? topic.ranked_candidates[0]?.label ?? null
+          : null;
+      const layout = await classify({
+        task: "layout_template",
+        input: { text },
+        options: { mode: "suggest" },
+      });
+      if (
+        layout &&
+        layout.status === "completed" &&
+        isNeuralMethod(layout.metadata.method) &&
+        layout.selected_candidate_id
+      ) {
+        const kind = layoutKinds[layout.selected_candidate_id];
+        const label = layout.ranked_candidates[0]?.label ?? layout.selected_candidate_id;
+        kindSuggestion = kind ? { kind, label } : null;
+      } else {
+        kindSuggestion = null;
+      }
+    } finally {
+      suggestBusy = false;
+    }
+  }
 
   async function generate() {
     if (busy) return;
@@ -85,6 +140,23 @@
       <label class="field"><span>Ambientazione</span><input bind:value={setting} placeholder="scuola, casa, parco…" /></label>
       <label class="field field--full"><span>Personaggi (separati da virgola)</span><input bind:value={characters} placeholder="bambino, maestra" /></label>
       <label class="field field--full"><span>Argomento / obiettivo</span><textarea rows="2" bind:value={subject}></textarea></label>
+      <div class="story-suggest field--full">
+        <button class="btn" onclick={() => void suggestStory()} disabled={suggestBusy}>
+          {suggestBusy ? "Analisi…" : "Suggerisci tema e tipo"}
+        </button>
+        {#if topicSuggestion}
+          <span class="hint">
+            Tema: <strong>{topicSuggestion}</strong>
+            <button class="btn btn--ghost btn--tiny" onclick={() => (subject = topicSuggestion ?? subject)}>Usa</button>
+          </span>
+        {/if}
+        {#if kindSuggestion}
+          <span class="hint">
+            Tipo: <strong>{kindSuggestion.label}</strong>
+            <button class="btn btn--ghost btn--tiny" onclick={() => (kind = kindSuggestion!.kind)}>Usa</button>
+          </span>
+        {/if}
+      </div>
     </div>
 
     <p class="story-note">
@@ -114,6 +186,8 @@
   .field input, .field select, .field textarea { width: 100%; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 10px; font: inherit; color: #0f172a; background: #f8fafc; }
   .story-note { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: #ecfdf5; color: #115e59; font-size: 12px; }
   .story-error { margin: 0 0 12px; color: #b91c1c; font-size: 12px; font-weight: 600; }
+  .story-suggest { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .btn--tiny { padding: 3px 7px; font-size: 11px; }
   .story-actions { display: flex; justify-content: flex-end; gap: 8px; }
   .btn { border: 1px solid #cbd5e1; background: #fff; color: #1e293b; border-radius: 9px; padding: 8px 13px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
   .btn--solid { background: #0f766e; border-color: #0f766e; color: #fff; }

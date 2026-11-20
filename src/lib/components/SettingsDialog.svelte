@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { api, isTauri } from "../api";
+import { resetDecisionStatus } from "../decision/client";
   import ModelManager from "./ModelManager.svelte";
   import { updateTypography, workspace } from "../workspace/layout";
   import { documentFontGroups, interfaceFontGroups } from "../workspace/fonts";
@@ -10,6 +11,8 @@
     AiProviderStatus,
     AiProviderTest,
     AiStatus,
+    DecisionStatus,
+    DecisionVerifyReport,
     OnlineProviderInfo,
     OnlineCustomProvider,
     AppInfo,
@@ -94,6 +97,84 @@
   let providerBusy = $state(false);
   let onlineProviders = $state<OnlineProviderInfo[]>([]);
   let imageRecommendation = $state<ImageRecommendation | null>(null);
+  let decisionStatus = $state<DecisionStatus | null>(null);
+  let decisionVerify = $state<DecisionVerifyReport | null>(null);
+  let decisionBusy = $state(false);
+  let decisionError = $state("");
+  let decisionConfirmRemove = $state(false);
+
+  function decisionErrorText(err: unknown): string {
+    return err instanceof Error ? err.message : String(err);
+  }
+
+  function notifyDecisionChanged() {
+    resetDecisionStatus();
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("caa-decision-changed"));
+    }
+  }
+
+  async function refreshDecision() {
+    if (!isTauri()) return;
+    try {
+      decisionStatus = await api.decisionStatus();
+      decisionError = "";
+    } catch (err) {
+      decisionError = decisionErrorText(err);
+    }
+  }
+
+  async function installDecision(force: boolean) {
+    if (decisionBusy) return;
+    decisionBusy = true;
+    decisionError = "";
+    try {
+      await api.decisionModelInstall(force);
+      notifyDecisionChanged();
+      await refreshDecision();
+      onToast("Modello Horizon installato e verificato.", "info");
+    } catch (err) {
+      decisionError = decisionErrorText(err);
+      onToast(`Installazione non riuscita: ${decisionError}`, "error");
+    } finally {
+      decisionBusy = false;
+    }
+  }
+
+  async function verifyDecision() {
+    if (decisionBusy) return;
+    decisionBusy = true;
+    decisionError = "";
+    try {
+      decisionVerify = await api.decisionModelVerify();
+      onToast(
+        decisionVerify.ok ? "File del modello verificati." : "Verifica fallita: file mancanti o alterati.",
+        decisionVerify.ok ? "info" : "error"
+      );
+    } catch (err) {
+      decisionError = decisionErrorText(err);
+    } finally {
+      decisionBusy = false;
+    }
+  }
+
+  async function removeDecision() {
+    if (decisionBusy) return;
+    decisionBusy = true;
+    decisionError = "";
+    try {
+      await api.decisionModelRemove(true);
+      decisionConfirmRemove = false;
+      decisionVerify = null;
+      notifyDecisionChanged();
+      await refreshDecision();
+      onToast("Modello Horizon rimosso. Le funzioni deterministiche restano attive.", "info");
+    } catch (err) {
+      decisionError = decisionErrorText(err);
+    } finally {
+      decisionBusy = false;
+    }
+  }
   let customProvider = $state<OnlineCustomProvider>({
     id: "",
     name: "",
@@ -188,6 +269,7 @@
     dialog?.focus();
     if (isTauri()) {
       void api.imageRecommendation().then((value) => (imageRecommendation = value)).catch(() => {});
+      void refreshDecision();
       void api.listOnlineProviders().then((items) => (onlineProviders = items)).catch(() => {});
       void api.aiProviderStatus().then((status) => {
         providerStatus = status;
@@ -370,6 +452,10 @@
             onchange={(event) => onUpdateSettings({ neural_context: (event.currentTarget as HTMLInputElement).checked })}
           />
         </div>
+        <p class="hint">
+          L'analisi neurale include il reranking Horizon durante la digitazione, quando il
+          modello è installato. I token con scelta manuale o confidenza alta non vengono toccati.
+        </p>
         <div class="row">
           <label for="dlg-explicit">Mostra contenuti espliciti (adulti)</label>
           <input
@@ -978,6 +1064,77 @@
           <input id="dlg-ai-timeout" type="number" min="1000" max="60000" step="500" bind:value={aiDraft.timeout_ms} style="width:90px" />
         </div>
         <button class="btn btn--solid" onclick={() => void saveAi()}>Salva configurazione</button>
+      </section>
+
+      <section class="block">
+        <h3>Motore decisionale semantico</h3>
+        <p class="hint">
+          Horizon multilingual-zeroshot-small · Apache-2.0 · 141M parametri · ONNX locale.
+          Il modello sceglie fra alternative già esistenti; non genera contenuti, non esegue
+          comandi e non modifica i documenti.
+        </p>
+        {#if decisionStatus}
+          <dl class="facts">
+            <dt>Stato</dt>
+            <dd>{decisionStatus.model.installed ? "installato" : "non installato"}</dd>
+            <dt>Motore</dt>
+            <dd>{decisionStatus.neural ? "Horizon (ONNX)" : "regole deterministiche (modello assente)"}</dd>
+            <dt>Revisione</dt>
+            <dd>{decisionStatus.model.revision.slice(0, 12)}</dd>
+            <dt>Licenza</dt>
+            <dd>{decisionStatus.model.license}</dd>
+            <dt>Pesi</dt>
+            <dd>{Math.round(decisionStatus.model.quantized_bytes / 1_048_576)} MB</dd>
+            <dt>Cache</dt>
+            <dd>{decisionStatus.cache.hits} hit · {decisionStatus.cache.misses} miss</dd>
+          </dl>
+          {#if !decisionStatus.model.installed}
+            <p class="warn">
+              Mancano {decisionStatus.model.missing.length} file. Le funzioni deterministiche
+              restano attive; installa il modello per la classificazione semantica.
+            </p>
+          {/if}
+          {#if !decisionStatus.runtime_feature}
+            <p class="warn">
+              Questa build non include il runtime ONNX: ricompila con
+              <code>cargo build --features onnx</code> per usare il modello.
+            </p>
+          {/if}
+        {:else}
+          <p class="hint">Stato del motore non disponibile in anteprima browser.</p>
+        {/if}
+        {#if decisionError}
+          <p class="warn">{decisionError}</p>
+        {/if}
+        {#if decisionVerify}
+          <p class={decisionVerify.ok ? "hint" : "warn"}>
+            Verifica: {decisionVerify.ok ? "tutti i file corrispondono" : "file mancanti o alterati"}.
+          </p>
+        {/if}
+        <div class="row">
+          <button
+            class="btn btn--solid"
+            disabled={decisionBusy || !isTauri()}
+            onclick={() => void installDecision(Boolean(decisionStatus?.model.installed))}
+          >{decisionStatus?.model.installed ? "Reinstalla modello" : "Installa modello"}</button>
+          <button
+            class="btn"
+            disabled={decisionBusy || !isTauri() || !decisionStatus?.model.installed}
+            onclick={() => void verifyDecision()}
+          >Verifica integrità</button>
+          {#if decisionStatus?.model.installed}
+            {#if decisionConfirmRemove}
+              <button class="btn" disabled={decisionBusy} onclick={() => (decisionConfirmRemove = false)}>Annulla</button>
+              <button class="btn btn--solid" disabled={decisionBusy} onclick={() => void removeDecision()}>Conferma rimozione</button>
+            {:else}
+              <button class="btn" disabled={decisionBusy} onclick={() => (decisionConfirmRemove = true)}>Rimuovi modello</button>
+            {/if}
+          {/if}
+        </div>
+        <p class="hint">
+          Dopo l'installazione il modello funziona senza connessione. La rimozione non tocca
+          documenti, simboli o preferenze.
+        </p>
       </section>
 
       <section class="block">

@@ -726,25 +726,32 @@ impl Database {
     }
 
 
-    /// Stato dell'unità indipendente dalla scelta del simbolo: visibilità e
-    /// modificatori restano validi anche quando il simbolo viene ricalcolato.
+    /// Stato dell'unità indipendente dalla scelta del simbolo: visibilità,
+    /// blocco e modificatori restano validi anche quando il simbolo viene
+    /// ricalcolato.
     pub fn unit_state(
         &self,
         doc_key: &str,
         unit_key: &str,
-    ) -> DbResult<Option<(bool, UnitModifiers)>> {
+    ) -> DbResult<Option<(bool, bool, UnitModifiers)>> {
         let record = self
             .conn
             .query_row(
-                "SELECT hidden, modifiers FROM document_overrides
+                "SELECT locked, hidden, modifiers FROM document_overrides
                  WHERE doc_key = ?1 AND unit_key = ?2",
                 params![doc_key, unit_key],
-                |row| Ok((row.get::<_, i64>(0)? != 0, row.get::<_, String>(1)?)),
+                |row| {
+                    Ok((
+                        row.get::<_, i64>(0)? != 0,
+                        row.get::<_, i64>(1)? != 0,
+                        row.get::<_, String>(2)?,
+                    ))
+                },
             )
             .optional()?;
-        Ok(record.map(|(hidden, modifiers)| {
+        Ok(record.map(|(locked, hidden, modifiers)| {
             let parsed = serde_json::from_str::<UnitModifiers>(&modifiers).unwrap_or_default();
-            (hidden, parsed)
+            (locked, hidden, parsed)
         }))
     }
 
@@ -1030,7 +1037,8 @@ mod tests {
         };
         db.set_unit_state("doc.caadoc", "p1:2", true, true, &modifiers)
             .unwrap();
-        let (hidden, stored) = db.unit_state("doc.caadoc", "p1:2").unwrap().unwrap();
+        let (locked, hidden, stored) = db.unit_state("doc.caadoc", "p1:2").unwrap().unwrap();
+        assert!(locked);
         assert!(hidden);
         assert!(stored.plural && stored.manual);
         // Il simbolo scelto resta: cambiare visibilità non annulla la scelta.
@@ -1051,6 +1059,63 @@ mod tests {
         // La versione attesa è l'ultima migrazione registrata.
         let latest = migrations::MIGRATIONS.last().map(|item| item.version).unwrap();
         assert_eq!(db.schema_version().unwrap(), latest);
+    }
+
+    #[test]
+    fn cleanup_hides_online_imports_that_extend_the_label() {
+        let mut db = Database::open_memory().unwrap();
+        db.conn
+            .execute_batch(
+                "CREATE TABLE IF NOT EXISTS schema_migrations (
+                    version INTEGER PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    applied_at TEXT NOT NULL
+                );",
+            )
+            .unwrap();
+        for migration in migrations::MIGRATIONS.iter().filter(|item| item.version < 5) {
+            db.conn.execute_batch(migration.sql).unwrap();
+        }
+        db.conn
+            .execute(
+                "INSERT INTO symbol_packs(id, name, version, license, installed_at)
+                 VALUES ('personal', 'Personale', '1', 'CC BY-NC-SA 4.0', '2026-01-01')",
+                [],
+            )
+            .unwrap();
+        let insert = "INSERT INTO symbols(id, pack_id, label, original_name, category, license, created_at, hide)
+                      VALUES (?1, 'personal', ?2, ?3, ?4, 'CC BY-NC-SA 4.0', '2026-01-01', 0)";
+        for (id, label, original, category) in [
+            ("bad.pap", "pap", "pap test", "online"),
+            ("bad.casa", "casa", "casa-grotta", "online"),
+            ("good.cane", "cane", "cane", "online"),
+            ("good.article", "cane", "Il cane", "online"),
+            ("good.manual", "pap", "pap test", "personalizzato"),
+        ] {
+            db.conn
+                .execute(insert, rusqlite::params![id, label, original, category])
+                .unwrap();
+        }
+        let cleanup = migrations::MIGRATIONS
+            .iter()
+            .find(|item| item.version == 5)
+            .unwrap();
+        db.conn.execute_batch(cleanup.sql).unwrap();
+        let hidden = |id: &str| -> i64 {
+            db.conn
+                .query_row(
+                    "SELECT hide FROM symbols WHERE id = ?1",
+                    rusqlite::params![id],
+                    |row| row.get(0),
+                )
+                .unwrap()
+        };
+        assert_eq!(hidden("bad.pap"), 1);
+        assert_eq!(hidden("bad.casa"), 1);
+        assert_eq!(hidden("good.cane"), 0);
+        assert_eq!(hidden("good.article"), 0);
+        // Un import manuale con la stessa estensione non viene toccato.
+        assert_eq!(hidden("good.manual"), 0);
     }
 
     #[test]

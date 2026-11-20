@@ -1,15 +1,20 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { listen } from "@tauri-apps/api/event";
   import { api } from "../api";
+  import { classify } from "../decision/client";
+  import { isNeuralMethod } from "../decision/ranking";
   import PackageManager from "./PackageManager.svelte";
   import type { CatalogItem, CatalogOverview, CatalogPage } from "../types";
 
   interface Props {
     onOpen: (id: string, sourceType: string, readOnly: boolean) => void;
     onClose: () => void;
+    developerMode?: boolean;
+    onOpenDeveloperLibrary?: () => void;
   }
 
-  let { onOpen, onClose }: Props = $props();
+  let { onOpen, onClose, developerMode = false, onOpenDeveloperLibrary }: Props = $props();
 
   const FAVORITES_KEY = "caa.library.favorites.v2";
   const RECENTS_KEY = "caa.library.recents.v2";
@@ -55,6 +60,14 @@
   let offset = $state(0);
   let timer: ReturnType<typeof setTimeout> | null = null;
   let packagesOpen = $state(false);
+  let devReloadTimer: ReturnType<typeof setTimeout> | null = null;
+  let unlistenDevChanges: (() => void) | null = null;
+  let catalogSuggestions = $state<Record<string, { id: string; label: string }>>({});
+  let catalogBusyId = $state<string | null>(null);
+  let objectiveSuggestions = $state<Record<string, string>>({});
+  let objectiveBusyId = $state<string | null>(null);
+  let exerciseSuggestions = $state<Record<string, string>>({});
+  let exerciseBusyId = $state<string | null>(null);
 
   const selectedCategory = $derived(
     overview?.categories.find((item) => item.id === category) ?? null
@@ -75,6 +88,28 @@
       }
       await runSearch(true);
     })();
+  });
+
+  /// In modalità sviluppatore il bridge avvisa quando un coding agent cambia
+  /// la libreria: il browser per categorie si aggiorna senza riavviare l'app.
+  onMount(() => {
+    if (!developerMode) return;
+    void listen("developer-library-changed", () => {
+      if (devReloadTimer) clearTimeout(devReloadTimer);
+      devReloadTimer = setTimeout(() => {
+        void reloadAfterPackages();
+      }, 250);
+    })
+      .then((unlisten) => {
+        unlistenDevChanges = unlisten;
+      })
+      .catch(() => {
+        /* anteprima browser: nessun evento Tauri */
+      });
+    return () => {
+      if (devReloadTimer) clearTimeout(devReloadTimer);
+      if (unlistenDevChanges) unlistenDevChanges();
+    };
   });
 
   /// Dopo aver attivato o sospeso un pacchetto i conteggi e i risultati
@@ -188,6 +223,96 @@
     }
   }
 
+  async function suggestCatalogCategory(item: CatalogItem) {
+    if (catalogBusyId) return;
+    const categories = (overview?.categories ?? []).filter((entry) => entry.id !== "personali");
+    if (categories.length < 2) return;
+    catalogBusyId = item.id;
+    try {
+      const response = await classify({
+        task: "content_cataloguing",
+        input: {
+          text: `${item.title}. ${item.description}. ${item.classification.objective}`,
+        },
+        candidates: categories.map((entry) => ({ id: entry.id, label: entry.name })),
+        options: { mode: "suggest", multi_label: false },
+      });
+      if (
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method) &&
+        response.selected_candidate_id
+      ) {
+        const top = response.ranked_candidates[0];
+        catalogSuggestions = {
+          ...catalogSuggestions,
+          [item.id]: {
+            id: response.selected_candidate_id,
+            label: top?.label ?? response.selected_candidate_id,
+          },
+        };
+      }
+    } finally {
+      catalogBusyId = null;
+    }
+  }
+
+  async function suggestObjective(item: CatalogItem) {
+    if (objectiveBusyId) return;
+    objectiveBusyId = item.id;
+    try {
+      const response = await classify({
+        task: "learning_objective",
+        input: {
+          text: `${item.title}. ${item.description}. ${item.classification.objective}`,
+        },
+        options: { mode: "suggest" },
+      });
+      if (
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method) &&
+        response.selected_candidate_id
+      ) {
+        const top = response.ranked_candidates[0];
+        objectiveSuggestions = {
+          ...objectiveSuggestions,
+          [item.id]: top?.label ?? response.selected_candidate_id,
+        };
+      }
+    } finally {
+      objectiveBusyId = null;
+    }
+  }
+
+  async function suggestExercise(item: CatalogItem) {
+    if (exerciseBusyId) return;
+    exerciseBusyId = item.id;
+    try {
+      const response = await classify({
+        task: "exercise_type",
+        input: {
+          text: `${item.title}. ${item.description}. ${item.classification.objective}`,
+        },
+        options: { mode: "suggest" },
+      });
+      if (
+        response &&
+        response.status === "completed" &&
+        isNeuralMethod(response.metadata.method) &&
+        response.selected_candidate_id
+      ) {
+        const top = response.ranked_candidates[0];
+        exerciseSuggestions = {
+          ...exerciseSuggestions,
+          [item.id]: top?.label ?? response.selected_candidate_id,
+        };
+      }
+    } finally {
+      exerciseBusyId = null;
+    }
+  }
+
   function open(item: CatalogItem, readOnly: boolean) {
     remember(item, "recent");
     onOpen(item.id, item.source_type, readOnly);
@@ -226,6 +351,11 @@
       onclick={() => (compact = !compact)}
       title="Passa dalla griglia visiva all'elenco compatto"
     >{compact ? "Griglia" : "Elenco"}</button>
+    {#if developerMode && onOpenDeveloperLibrary}
+      <button class="btn btn--dev" onclick={onOpenDeveloperLibrary} title="Solo versione di sviluppo">
+        Libreria DEV
+      </button>
+    {/if}
     <button class="btn btn--solid" onclick={() => (packagesOpen = true)}>Pacchetti</button>
   </header>
 
@@ -421,9 +551,40 @@
         {#if item.classification.needs_symbols}<span>pittogrammi</span>{/if}
         {#if item.missing_symbols}<span class="badge badge--warn">{item.missing_symbols} simboli mancanti</span>{/if}
       </div>
+      {#if catalogSuggestions[item.id]}
+        <p class="hint">
+          Categoria suggerita: <strong>{catalogSuggestions[item.id].label}</strong>
+          <button class="btn" onclick={() => selectCategory(catalogSuggestions[item.id].id)}>Filtra</button>
+        </p>
+      {/if}
+      {#if objectiveSuggestions[item.id]}
+        <p class="hint">
+          Obiettivo suggerito: <strong>{objectiveSuggestions[item.id]}</strong>
+        </p>
+      {/if}
+      {#if exerciseSuggestions[item.id]}
+        <p class="hint">
+          Esercizio suggerito: <strong>{exerciseSuggestions[item.id]}</strong>
+        </p>
+      {/if}
       <div class="card__actions">
         <button class="btn btn--solid" onclick={() => open(item, false)}>Apri</button>
         <button class="btn" onclick={() => open(item, true)}>Anteprima</button>
+        <button
+          class="btn"
+          onclick={() => void suggestCatalogCategory(item)}
+          disabled={catalogBusyId === item.id}
+        >{catalogBusyId === item.id ? "…" : "Classifica"}</button>
+        <button
+          class="btn"
+          onclick={() => void suggestObjective(item)}
+          disabled={objectiveBusyId === item.id}
+        >{objectiveBusyId === item.id ? "…" : "Obiettivo"}</button>
+        <button
+          class="btn"
+          onclick={() => void suggestExercise(item)}
+          disabled={exerciseBusyId === item.id}
+        >{exerciseBusyId === item.id ? "…" : "Esercizio"}</button>
         <button
           class="star"
           aria-pressed={favoriteIds.has(item.id)}
@@ -560,6 +721,7 @@
   .btn--solid { background: #0f766e; border-color: #0f766e; color: #fff; font-weight: 700; }
   .btn--solid:hover { background: #115e59; }
   .btn--ghost { border-color: transparent; background: transparent; }
+  .btn--dev { border-color: #0f766e; color: #0f766e; font-weight: 700; }
   .btn:disabled { opacity: 0.45; cursor: not-allowed; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   @media (max-width: 900px) {

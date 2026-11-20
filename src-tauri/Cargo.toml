@@ -1,6 +1,6 @@
 [package]
 name = "caa-writer"
-version = "0.15.20"
+version = "0.15.21"
 description = "Word processor CAA offline con motore semantico locale"
 authors = ["CAA Writer contributors"]
 edition = "2021"
@@ -38,6 +38,12 @@ flate2 = "1.1.11"
 tar = "0.4"
 keyring = { version = "3.6.3", features = ["apple-native", "windows-native", "linux-native"] }
 
+# Motore decisionale semantico: ONNX Runtime + tokenizer Hugging Face.
+# Opzionali per non appesantire le build che non includono il modello.
+ort = { version = "=2.0.0-rc.9", optional = true }
+ort-sys = { version = "=2.0.0-rc.9", optional = true }
+tokenizers = { version = "0.21", optional = true, default-features = false, features = ["fancy-regex"] }
+
 # AVIF decodificabile solo dove è disponibile dav1d: su macOS arm64 (Homebrew).
 # Gli altri target compilano il supporto AVIF in sola codifica e dichiarano il
 # formato non supportato in importazione, invece di fallire in decoding.
@@ -54,6 +60,9 @@ tempfile = "3"
 # The AI engine (llama.cpp CLI bridge) is always compiled, but stays inert
 # until the user configures a binary + GGUF model path in Impostazioni.
 default = []
+# Motore decisionale Horizon (ONNX). Richiede i pesi installati dal Gestore
+# pacchetti; la build scarica il runtime ONNX Runtime per la piattaforma.
+onnx = ["dep:ort", "dep:ort-sys", "dep:tokenizers"]
 # Incluso dalle build di release: incorpora il frontend invece di usare devUrl.
 custom-protocol = ["tauri/custom-protocol"]
 

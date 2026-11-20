@@ -12,8 +12,10 @@ pub mod asset_manager;
 pub mod automation;
 pub mod commands;
 pub mod database;
+pub mod decision;
 pub mod downloads;
 pub mod diagnostics;
+pub mod dev_library;
 pub mod document_edit;
 pub mod engine;
 pub mod image_engine;
@@ -53,6 +55,18 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
+            let dev_library = std::env::var("CAA_WRITER_DEV_LIBRARY")
+                .map(|value| value == "1" || value.eq_ignore_ascii_case("true"))
+                .unwrap_or(false)
+                || std::env::args().any(|argument| argument == "--dev-library");
+            if dev_library {
+                if cfg!(debug_assertions) {
+                    dev_library::set_enabled(true);
+                    eprintln!("[caa-writer] modalità sviluppatore della libreria attiva");
+                } else {
+                    eprintln!("[caa-writer] modalità sviluppatore ignorata: build di release");
+                }
+            }
             let pending = PendingOpen::default();
             if let Ok(mut slot) = pending.0.lock() {
                 for argument in std::env::args().skip(1) {
@@ -111,6 +125,11 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::app_info,
             commands::print_window,
+            commands::decision_status,
+            commands::decision_classify,
+            commands::decision_model_install,
+            commands::decision_model_remove,
+            commands::decision_model_verify,
             commands::symbolize_paragraph,
             commands::refine_paragraph,
             commands::cancel_refine,
@@ -169,6 +188,14 @@ pub fn run() {
             commands::library_by_ids,
             commands::library_preview,
             commands::library_validate,
+            commands::developer_library_status,
+            commands::developer_library_packages,
+            commands::developer_library_open,
+            commands::developer_library_preview,
+            commands::developer_library_save,
+            commands::developer_library_replace,
+            commands::developer_library_add,
+            commands::developer_library_delete,
             commands::universal_open,
             commands::set_ai_config,
             commands::ai_models,

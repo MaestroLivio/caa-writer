@@ -1140,6 +1140,39 @@ pub fn automatic_word(raw: &str) -> Option<String> {
     Some(word)
 }
 
+/// Vero se il titolo restituito dal provider indica davvero la parola cercata.
+///
+/// ARASAAC risponde a una ricerca parziale con il primo risultato disponibile:
+/// «pap» trova «pap test». Importare quel pittogramma sotto la parola «pap»
+/// mostra un contenuto esplicito mentre l'utente sta ancora scrivendo «papà».
+/// Si accetta solo il titolo uguale alla parola, eventualmente preceduto da un
+/// articolo italiano («Il cane» → «cane»). Le estensioni («pap test»,
+/// «casa-grotta») restano nel pannello, dove l'utente può sceglierle.
+pub fn title_matches_word(word: &str, title: &str) -> bool {
+    let wanted = crate::linguistics::normalize::normalize_word(word);
+    if wanted.is_empty() {
+        return false;
+    }
+    let mut candidate = crate::linguistics::normalize::normalize_word(title);
+    candidate = candidate.trim().to_string();
+    let mut stripped = None;
+    for article in [
+        "il ", "lo ", "la ", "i ", "gli ", "le ", "l'", "un ", "uno ", "una ", "un'",
+    ] {
+        if let Some(rest) = candidate.strip_prefix(article) {
+            let rest = rest.trim();
+            if !rest.is_empty() {
+                stripped = Some(rest.to_string());
+                break;
+            }
+        }
+    }
+    if let Some(value) = stripped {
+        candidate = value;
+    }
+    !candidate.is_empty() && candidate == wanted
+}
+
 /// Scarica e memorizza nella cartella dati dell'utente i PNG ARASAAC
 /// mancanti (pacchetto locale rimosso o percorso non più valido). Aggiorna
 /// `symbol_assets` al nuovo file e restituisce id → data URL PNG. I
@@ -1288,7 +1321,7 @@ pub fn autofill_arasaac(
         let Some(result) = response
             .results
             .into_iter()
-            .find(|item| item.kind == "pittogramma")
+            .find(|item| item.kind == "pittogramma" && title_matches_word(&word, &item.title))
         else {
             continue;
         };
@@ -1337,14 +1370,14 @@ pub fn ensure_arasaac_symbols(
         let Ok(response) = fetch_arasaac(&word) else {
             continue;
         };
-        // Solo un'etichetta esattamente uguale: un pittogramma sbagliato è
-        // peggio di nessun pittogramma. Le corrispondenze vaghe restano nel
+        // Solo un titolo che indica davvero la parola: un pittogramma sbagliato
+        // è peggio di nessun pittogramma. Le corrispondenze vaghe restano nel
         // pannello, dove l'utente può sceglierle.
-        let wanted = crate::linguistics::normalize::normalize_word(&word);
-        let Some(result) = response.results.into_iter().find(|result| {
-            result.kind == "pittogramma"
-                && crate::linguistics::normalize::normalize_word(&result.title) == wanted
-        }) else {
+        let Some(result) = response
+            .results
+            .into_iter()
+            .find(|result| result.kind == "pittogramma" && title_matches_word(&word, &result.title))
+        else {
             continue;
         };
         if save_result(db, assets_dir, &result, &word, "ARASAAC automatico").is_ok() {
@@ -1706,6 +1739,25 @@ mod tests {
         assert_eq!(automatic_word("https://example.com"), None);
         assert_eq!(automatic_word("12345"), None);
         assert_eq!(automatic_word("due parole"), None);
+    }
+
+    #[test]
+    fn provider_titles_must_match_the_word_not_just_start_with_it() {
+        // Il caso segnalato: «pap» non deve importare il pittogramma «pap test».
+        assert!(!title_matches_word("pap", "pap test"));
+        assert!(!title_matches_word("casa", "casa-grotta"));
+        assert!(!title_matches_word("dire", "dire ciao"));
+        assert!(!title_matches_word("prova", "prova allergica"));
+        assert!(!title_matches_word("pane", "Il pane tostato"));
+        // Corrispondenza esatta, anche con l'articolo italiano davanti.
+        assert!(title_matches_word("pap", "Pap"));
+        assert!(title_matches_word("cane", "cane"));
+        assert!(title_matches_word("cane", "Il cane"));
+        assert!(title_matches_word("amico", "L'amico"));
+        assert!(title_matches_word("amica", "un'amica"));
+        // Una parola che è già un articolo resta valida.
+        assert!(title_matches_word("la", "la"));
+        assert!(!title_matches_word("", "cane"));
     }
 
     #[test]

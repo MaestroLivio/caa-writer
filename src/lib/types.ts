@@ -462,6 +462,135 @@ export interface AiStatus {
   active_model_bundled?: boolean;
 }
 
+export type DecisionTask =
+  | "pictogram_disambiguation"
+  | "communication_intent"
+  | "semantic_category"
+  | "board_category"
+  | "semantic_search_ranking"
+  | "didactic_template_selection"
+  | "learning_objective"
+  | "exercise_type"
+  | "social_story_topic"
+  | "expressed_emotion"
+  | "interactive_action"
+  | "layout_template"
+  | "caa_semantic_coherence"
+  | "content_cataloguing"
+  | "command_routing";
+
+export interface DecisionModelStatus {
+  model_id: string;
+  repository: string;
+  revision: string;
+  license: string;
+  runtime: string;
+  runtime_version: string;
+  parameters: number;
+  quantized_bytes: number;
+  model_dir: string;
+  installed: boolean;
+  missing: string[];
+}
+
+export interface DecisionStatus {
+  engine: string;
+  method: string;
+  neural: boolean;
+  hypothesis_version: string;
+  taxonomy_version: string;
+  cache: { hits: number; misses: number };
+  audit_entries: number;
+  model: DecisionModelStatus;
+  runtime_feature: boolean;
+}
+
+export interface DecisionCandidate {
+  id: string;
+  label: string;
+  hypothesis?: string | null;
+  locked?: boolean;
+  blocked?: boolean;
+  metadata?: Record<string, unknown>;
+}
+
+export interface DecisionRequest {
+  request_id?: string;
+  task: DecisionTask;
+  language?: string;
+  input: {
+    text: string;
+    target?: { text: string; start: number; end: number } | null;
+  };
+  candidates?: DecisionCandidate[];
+  context?: {
+    document_revision?: number;
+    element_id?: string;
+    cancel_key?: string;
+  };
+  options?: {
+    mode?: "suggest" | "automatic";
+    multi_label?: boolean;
+    apply_threshold?: number;
+    suggest_threshold?: number;
+    timeout_ms?: number;
+    priority?: "high" | "medium" | "low";
+    taxonomy_version?: string;
+  };
+}
+
+export interface DecisionRankedCandidate {
+  id: string;
+  label: string;
+  score: number;
+  rank: number;
+  score_kind: string;
+  locked: boolean;
+}
+
+export interface DecisionResponse {
+  request_id: string;
+  status:
+    | "queued"
+    | "running"
+    | "completed"
+    | "cancelled"
+    | "timed_out"
+    | "invalid"
+    | "unavailable"
+    | "failed";
+  selected_candidate_id: string | null;
+  ranked_candidates: DecisionRankedCandidate[];
+  decision: {
+    action: "apply" | "suggest" | "abstain";
+    requires_confirmation: boolean;
+    reason: string;
+  };
+  metadata: {
+    model: string;
+    model_revision: string;
+    method: string;
+    cached: boolean;
+    latency_ms: number;
+    hypothesis_version: string;
+    taxonomy_version: string;
+    truncated: boolean;
+    candidates_considered: number;
+  };
+  message?: string | null;
+}
+
+export interface DecisionVerifyReport {
+  ok: boolean;
+  files: Array<{
+    path: string;
+    expected_sha256: string;
+    actual_sha256: string | null;
+    ok: boolean;
+    bytes: number;
+  }>;
+}
+
 export interface ProcessSample {
   pid: number;
   resident_mb: number;
@@ -1202,6 +1331,44 @@ export interface LibraryManifest {
 
 export interface OpenedUniversalDocument {
   document: UniversalDocument;
+  path: string;
+}
+
+export interface DeveloperStatus {
+  enabled: boolean;
+  resources_dir: string;
+  manifest_path: string;
+}
+
+export interface DeveloperDocument {
+  id: string;
+  title: string;
+  path: string;
+  source_type: string;
+  kind: string;
+  pages: number;
+  elements: number;
+  missing_symbols: number;
+  category_id: string;
+  subcategory_id: string;
+  subcategory: string;
+}
+
+export interface DeveloperPackage {
+  id: string;
+  name: string;
+  description: string;
+  count: number;
+  documents: DeveloperDocument[];
+}
+
+export interface DeveloperSaveResult {
+  path: string;
+  entry: LibraryEntry;
+}
+
+export interface DeveloperDeleteResult {
+  removed: boolean;
   path: string;
 }
 

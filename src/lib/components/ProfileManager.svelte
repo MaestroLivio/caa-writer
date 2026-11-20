@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { language, strings } from "../i18n";
   import { api } from "../api";
   import type { LibraryEntry, Profile } from "../types";
 
@@ -28,23 +29,6 @@
     "online",
     "ai",
   ];
-  const labels: Record<string, string> = {
-    boards: "Tabelle comunicative",
-    editor: "Editor libero",
-    speech: "Sintesi vocale",
-    compose: "Componi frase",
-    search: "Ricerca pittogrammi",
-    edit_symbols: "Modifica pittogrammi",
-    save: "Salvataggio personale",
-    export: "Esportazione",
-    print: "Stampa",
-    agenda: "Agenda",
-    calendar: "Calendario",
-    social: "Storie sociali",
-    didactic: "Attività didattiche",
-    online: "Ricerca online",
-    ai: "Strumenti IA",
-  };
 
   let materials = $state<LibraryEntry[]>([]);
   let materialQuery = $state("");
@@ -58,6 +42,20 @@
   let error = $state("");
   let notice = $state("");
 
+  // Modal di conferma per eliminazione profilo
+  let confirmDeleteOpen = $state(false);
+  let confirmDeleteProfileId = $state("");
+
+  function closeHandler(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      if (confirmDeleteOpen) {
+        confirmDeleteOpen = false;
+      } else {
+        onClose();
+      }
+    }
+  }
+
   $effect(() => {
     void (async () => {
       try {
@@ -70,6 +68,10 @@
         error = err instanceof Error ? err.message : String(err);
       }
     })();
+    window.addEventListener("keydown", closeHandler);
+    return () => {
+      window.removeEventListener("keydown", closeHandler);
+    };
   });
 
   const filteredMaterials = $derived.by(() => {
@@ -116,7 +118,7 @@
         0,
         creatorPin || null
       );
-      notice = `«${material.title}» rimosso dal profilo.`;
+      notice = strings[$language].profileManager.materialRemoved(material.title);
     } catch (err) {
       assigned = { ...assigned, [material.id]: true };
       error = err instanceof Error ? err.message : String(err);
@@ -125,7 +127,7 @@
 
   function addAssigned(material: LibraryEntry) {
     assigned = { ...assigned, [material.id]: true };
-    notice = `«${material.title}» aggiunto: salva il profilo per confermare.`;
+    notice = strings[$language].profileManager.materialAdded(material.title);
   }
 
   async function select(id: string) {
@@ -187,7 +189,7 @@
         await api.profileSetActive(draft.id);
       }
       await onChanged();
-      notice = "Profilo salvato.";
+      notice = strings[$language].profileManager.profileSaved;
     } catch (err) {
       error = err instanceof Error ? err.message : String(err);
     } finally {
@@ -195,17 +197,24 @@
     }
   }
 
-  async function remove() {
+  function confirmRemoveProfile() {
     if (!draft || !profiles.some((profile) => profile.id === draft!.id)) return;
-    if (!window.confirm(`Eliminare il profilo «${draft.name}»? I materiali originali restano.`)) return;
+    confirmDeleteProfileId = draft.id;
+    confirmDeleteOpen = true;
+  }
+
+  async function executeRemoveProfile() {
+    const id = confirmDeleteProfileId;
+    confirmDeleteOpen = false;
+    if (!id) return;
     busy = true;
     try {
-      await api.profileDelete(draft.id, creatorPin || null);
+      await api.profileDelete(id, creatorPin || null);
       await onChanged();
-      const next = profiles.find((profile) => profile.id !== draft!.id);
+      const next = profiles.find((profile) => profile.id !== id);
       if (next) await select(next.id);
       else newProfile();
-      notice = "Profilo eliminato.";
+      notice = strings[$language].profileManager.profileDeleted;
     } catch (err) {
       error = err instanceof Error ? err.message : String(err);
     } finally {
@@ -216,18 +225,18 @@
   async function setPin() {
     if (savingPin) return;
     if (pin && pin.length < 4) {
-      error = "Il PIN deve avere almeno 4 caratteri.";
+      error = strings[$language].profileManager.pinTooShort;
       return;
     }
     if (pin !== pinConfirm) {
-      error = "I due PIN non coincidono.";
+      error = strings[$language].profileManager.pinsMismatch;
       return;
     }
     savingPin = true;
     error = "";
     try {
       await api.creatorSetPin(pin.trim() ? pin.trim() : null, creatorPin || null);
-      notice = pin.trim() ? "PIN aggiornato." : "PIN rimosso.";
+      notice = pin.trim() ? strings[$language].profileManager.pinUpdated : strings[$language].profileManager.pinRemoved;
       pin = "";
       pinConfirm = "";
     } catch (err) {
@@ -236,17 +245,19 @@
       savingPin = false;
     }
   }
+
+  const pm = $derived.by(() => strings[$language].profileManager);
 </script>
 
 <div class="dialog-backdrop">
-  <div class="report-dialog profile-manager" role="dialog" aria-modal="true" aria-label="Gestione utenti">
+  <div class="report-dialog profile-manager" role="dialog" aria-modal="true" aria-label={pm.title}>
     <header class="report-dialog__head">
-      <h2>Gestione utenti</h2>
-      <button class="btn btn--ghost" onclick={onClose} aria-label="Chiudi">×</button>
+      <h2>{pm.title}</h2>
+      <button class="btn btn--ghost" onclick={onClose} aria-label={pm.close}>×</button>
     </header>
 
     <div class="profile-manager__body">
-      <aside class="profile-list">
+      <aside class="profile-list" aria-label={pm.profileListLabel}>
         {#each profiles as profile (profile.id)}
           <button
             class="profile-list__item"
@@ -254,39 +265,39 @@
             onclick={() => void select(profile.id)}
           >{profile.name}</button>
         {/each}
-        <button class="btn btn--ghost" onclick={newProfile}>+ Nuovo profilo</button>
+        <button class="btn btn--ghost" onclick={newProfile}>{pm.newProfile}</button>
       </aside>
 
       {#if draft}
         <section class="profile-editor">
           <div class="profile-row">
             <label class="profile-field">
-              Nome o pseudonimo
+              {pm.name}
               <input bind:value={draft.name} />
             </label>
             <label class="profile-field">
-              Tema
+              {pm.theme}
               <select bind:value={draft.age_theme}>
-                <option value="infanzia">Infanzia</option>
-                <option value="primaria">Scuola primaria</option>
-                <option value="secondaria">Scuola secondaria</option>
-                <option value="adulto">Adulto</option>
-                <option value="contrasto">Alto contrasto</option>
-                <option value="minimal">Minimalista</option>
+                <option value="infanzia">{pm.themes.infanzia}</option>
+                <option value="primaria">{pm.themes.primaria}</option>
+                <option value="secondaria">{pm.themes.secondaria}</option>
+                <option value="adulto">{pm.themes.adulto}</option>
+                <option value="contrasto">{pm.themes.contrasto}</option>
+                <option value="minimal">{pm.themes.minimal}</option>
               </select>
             </label>
             <label class="profile-field">
-              Livello editor
+              {pm.editorLevel}
               <select bind:value={draft.editor_level}>
-                <option value={1}>1 · Essenziale</option>
-                <option value={2}>2 · Guidato</option>
-                <option value={3}>3 · Avanzato</option>
+                <option value={1}>{pm.editorLevels[1]}</option>
+                <option value={2}>{pm.editorLevels[2]}</option>
+                <option value={3}>{pm.editorLevels[3]}</option>
               </select>
             </label>
           </div>
 
           <fieldset class="profile-features">
-            <legend>Funzionalità abilitate</legend>
+            <legend>{pm.enabledFeatures}</legend>
             {#each allFeatures as feature (feature)}
               <label>
                 <input
@@ -294,19 +305,18 @@
                   checked={draft.features.includes(feature)}
                   onchange={() => toggleFeature(feature)}
                 />
-                {labels[feature] ?? feature}
+                {pm.features[feature as keyof typeof pm.features] ?? feature}
               </label>
             {/each}
           </fieldset>
 
           <fieldset class="profile-boards">
-            <legend>Materiali assegnati ({assignedCount})</legend>
+            <legend>{pm.assignedMaterials(String(assignedCount))}</legend>
             <p class="hint">
-              Il profilo vede nella propria schermata solo questi documenti. Puoi rimuoverli
-              dall'elenco in qualsiasi momento; gli originali restano nella libreria.
+              {pm.assignedHint}
             </p>
             {#if assignedMaterials.length === 0}
-              <p class="hint">Nessun materiale assegnato a questo profilo.</p>
+              <p class="hint">{pm.noAssignedMaterials}</p>
             {:else}
               <div class="profile-materials">
                 {#each assignedMaterials as material (material.id)}
@@ -318,66 +328,107 @@
                       disabled={busy}
                       onclick={() => void removeAssigned(material)}
                       aria-label={`Rimuovi ${material.title} dal profilo`}
-                    >Rimuovi</button>
+                    >{pm.removeFromProfile}</button>
                   </div>
                 {/each}
               </div>
             {/if}
             <button class="btn btn--ghost" onclick={() => (addOpen = !addOpen)}>
-              {addOpen ? "Chiudi l'elenco dei materiali" : "Aggiungi materiali"}
+              {addOpen ? pm.closeMaterialsList : pm.addMaterials}
             </button>
             {#if addOpen}
               <input
                 class="profile-search"
                 bind:value={materialQuery}
-                placeholder="Cerca nella libreria…"
-                aria-label="Cerca materiali da aggiungere"
+                placeholder={pm.searchLibrary}
+                aria-label={pm.searchLibrary}
               />
               <div class="profile-materials">
                 {#each addableMaterials as material (material.id)}
                   <div class="profile-material">
                     <span>{material.title}</span>
                     <span class="hint">{material.category || material.kind} · {material.pages} pagine</span>
-                    <button class="btn" onclick={() => addAssigned(material)}>Aggiungi</button>
+                    <button class="btn" onclick={() => addAssigned(material)}>{pm.addToProfile}</button>
                   </div>
                 {/each}
                 {#if addableMaterials.length === 0}
-                  <p class="hint">Tutti i materiali trovati sono già assegnati.</p>
+                  <p class="hint">{pm.allAssigned}</p>
                 {/if}
               </div>
             {/if}
           </fieldset>
 
           <div class="profile-actions">
-            <button class="btn btn--solid" onclick={() => void save()} disabled={busy}>Salva profilo</button>
-            <button class="btn btn--ghost" onclick={() => void remove()} disabled={busy || !selectedId}>Elimina</button>
+            <button class="btn btn--solid" onclick={() => void save()} disabled={busy}>{pm.saveProfile}</button>
+            <button class="btn btn--ghost" onclick={confirmRemoveProfile} disabled={busy || !selectedId}>{pm.deleteProfile}</button>
             <button
               class="btn btn--ghost"
               onclick={() => void api.profileSetActive(draft!.id).then(onChanged)}
               disabled={busy || !selectedId}
-            >Imposta come predefinito</button>
+            >{pm.setAsDefault}</button>
           </div>
         </section>
       {/if}
     </div>
 
     <section class="profile-pin">
-      <h3>Protezione Area Creator</h3>
-      <p class="hint">Il PIN protegge le operazioni amministrative e l'accesso all'Area Creator.</p>
+      <h3>{pm.creatorPinTitle}</h3>
+      <p class="hint">{pm.creatorPinHint}</p>
       <div class="profile-row">
         <label class="profile-field">
-          Nuovo PIN (vuoto = rimuovi)
+          {pm.newPin}
           <input type="password" bind:value={pin} />
         </label>
         <label class="profile-field">
-          Conferma PIN
+          {pm.confirmPin}
           <input type="password" bind:value={pinConfirm} />
         </label>
-        <button class="btn" onclick={() => void setPin()} disabled={savingPin}>Aggiorna PIN</button>
+        <button class="btn" onclick={() => void setPin()} disabled={savingPin}>{pm.updatePin}</button>
       </div>
     </section>
 
-    {#if error}<p class="import-error">{error}</p>{/if}
+    {#if error}<p class="import-error">{pm.errorPrefix}{error}</p>{/if}
     {#if notice}<p class="hint">{notice}</p>{/if}
+
+    {#if confirmDeleteOpen}
+      <div class="confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+        <div class="confirm-modal__card">
+          <h3 id="confirm-title">{pm.confirmDelete(draft?.name ?? "")}</h3>
+          <div class="confirm-modal__actions">
+            <button class="btn" onclick={() => (confirmDeleteOpen = false)}>{pm.cancel}</button>
+            <button class="btn btn--solid" onclick={executeRemoveProfile}>{pm.delete}</button>
+          </div>
+        </div>
+      </div>
+    {/if}
   </div>
 </div>
+
+<style>
+  .confirm-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    background: rgba(15, 23, 42, 0.5);
+  }
+  .confirm-modal__card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    min-width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+  }
+  .confirm-modal__card h3 {
+    margin: 0 0 16px;
+    font-size: 1rem;
+    color: #0f172a;
+  }
+  .confirm-modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+</style>

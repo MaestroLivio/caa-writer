@@ -42,9 +42,76 @@ pub async fn print_window(window: tauri::WebviewWindow) -> Result<(), String> {
     window.print().map_err(|e| format!("stampa non disponibile: {e}"))
 }
 
+/// Stato del motore decisionale semantico condiviso (nessuna inferenza).
 #[tauri::command]
-pub fn app_info(state: State<'_, Engine>) -> Result<AppInfo, String> {
-    let schema_version = state.db()?.schema_version().map_err(|e| e.to_string())?;
+pub async fn decision_status(state: State<'_, Engine>) -> Result<serde_json::Value, String> {
+    let engine = crate::decision::engine::cached_engine(&state.paths);
+    let model = serde_json::to_value(crate::decision::model::status(&state.paths))
+        .map_err(|error| error.to_string())?;
+    let mut value = engine.status(model);
+    value["runtime_feature"] = serde_json::json!(cfg!(feature = "onnx"));
+    Ok(value)
+}
+
+/// Classifica un testo fra alternative predefinite. Il frontend deve chiamare
+/// questo comando fuori dal ciclo di digitazione e scartare risposte obsolete
+/// tramite `context.cancel_key`.
+#[tauri::command]
+pub async fn decision_classify(
+    state: State<'_, Engine>,
+    request: serde_json::Value,
+) -> Result<serde_json::Value, String> {
+    let request: crate::decision::DecisionRequest = serde_json::from_value(request)
+        .map_err(|error| format!("richiesta decisionale: {error}"))?;
+    let engine = crate::decision::engine::cached_engine(&state.paths);
+    let response = engine.classify(request);
+    serde_json::to_value(response).map_err(|error| error.to_string())
+}
+
+/// Installa i pesi Horizon nel Gestore pacchetti (cartella modelli utente).
+#[tauri::command]
+pub async fn decision_model_install(
+    state: State<'_, Engine>,
+    force: bool,
+) -> Result<serde_json::Value, String> {
+    let paths = state.paths.clone();
+    let report = tauri::async_runtime::spawn_blocking(move || {
+        crate::decision::model::install(&paths, force)
+    })
+    .await
+    .map_err(|error| format!("installazione interrotta: {error}"))??;
+    crate::decision::engine::invalidate_cached_engines();
+    serde_json::to_value(report).map_err(|error| error.to_string())
+}
+
+#[tauri::command]
+pub async fn decision_model_remove(
+    state: State<'_, Engine>,
+    confirm: bool,
+) -> Result<serde_json::Value, String> {
+    if !confirm {
+        return Err("rimozione non confermata".to_string());
+    }
+    let paths = state.paths.clone();
+    let removed = tauri::async_runtime::spawn_blocking(move || {
+        crate::decision::model::remove(&paths)
+    })
+    .await
+    .map_err(|error| format!("rimozione interrotta: {error}"))??;
+    crate::decision::engine::invalidate_cached_engines();
+    Ok(serde_json::json!({"ok": true, "removed": removed}))
+}
+
+#[tauri::command]
+pub fn decision_model_verify(
+    state: State<'_, Engine>,
+) -> Result<serde_json::Value, String> {
+    serde_json::to_value(crate::decision::model::verify(&state.paths))
+        .map_err(|error| error.to_string())
+}
+
+#[tauri::command]
+pub fn app_info(state: State<'_, Engine>) -> Result<AppInfo, String> {    let schema_version = state.db()?.schema_version().map_err(|e| e.to_string())?;
     Ok(AppInfo {
         version: env!("CARGO_PKG_VERSION").to_string(),
         schema_version,
@@ -246,6 +313,15 @@ pub fn save_document(
     path: String,
     payload: DocumentPayload,
 ) -> Result<ExportResult, String> {
+    let target = Path::new(&path);
+    let inside_library = crate::dev_library::is_inside_library(&state.paths.resources_dir, target);
+    if inside_library && !crate::dev_library::enabled() {
+        return Err(
+            "La libreria è protetta: avvia la modalità sviluppatore con `npm run dev:library` \
+             per modificare i documenti dei pacchetti."
+                .to_string(),
+        );
+    }
     let db = state.db()?;
     let all = db.attributions().map_err(|e| e.to_string())?;
     let used: std::collections::HashSet<&str> = payload
@@ -257,7 +333,11 @@ pub fn save_document(
         .into_iter()
         .filter(|a| used.contains(a.symbol_id.as_str()))
         .collect();
-    caadoc::save(Path::new(&path), &payload, &attributions)
+    let result = caadoc::save(target, &payload, &attributions)?;
+    if inside_library && crate::dev_library::enabled() {
+        crate::dev_library::refresh_entry_for_path(&state, target)?;
+    }
+    Ok(result)
 }
 
 /// Elimina la bozza automatica. Non accetta un percorso arbitrario: agisce
@@ -907,6 +987,83 @@ pub fn library_validate(
 ) -> crate::library_quality::LibraryQualityReport {
     let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
     crate::library_quality::validate_manifest(&state.paths.resources_dir, &manifest)
+}
+
+#[tauri::command]
+pub fn developer_library_status(
+    state: State<'_, Engine>,
+) -> crate::dev_library::DevStatus {
+    crate::dev_library::status(&state.paths.resources_dir)
+}
+
+#[tauri::command]
+pub fn developer_library_packages(
+    state: State<'_, Engine>,
+) -> Result<Vec<crate::dev_library::DevPackage>, String> {
+    crate::dev_library::packages(&state)
+}
+
+#[tauri::command]
+pub fn developer_library_open(
+    state: State<'_, Engine>,
+    path: String,
+) -> Result<OpenedUniversalDocument, String> {
+    crate::dev_library::open_document(&state, &path)
+}
+
+#[tauri::command]
+pub fn developer_library_preview(
+    state: State<'_, Engine>,
+    path: String,
+) -> Result<String, String> {
+    crate::dev_library::preview(&state, &path)
+}
+
+#[tauri::command]
+pub fn developer_library_save(
+    state: State<'_, Engine>,
+    document: crate::universal::UniversalDocument,
+    path: String,
+) -> Result<crate::dev_library::DevSaveResult, String> {
+    crate::dev_library::save_document(&state, &document, &path)
+}
+
+#[tauri::command]
+pub fn developer_library_replace(
+    state: State<'_, Engine>,
+    path: String,
+    source: String,
+) -> Result<crate::dev_library::DevSaveResult, String> {
+    crate::dev_library::replace_document(&state, &path, Path::new(&source))
+}
+
+#[tauri::command]
+pub fn developer_library_add(
+    state: State<'_, Engine>,
+    source: String,
+    folder: String,
+    category_id: String,
+    subcategory_id: String,
+    category_name: String,
+    subcategory_name: String,
+) -> Result<crate::dev_library::DevSaveResult, String> {
+    crate::dev_library::add_document(
+        &state,
+        Path::new(&source),
+        &folder,
+        &category_id,
+        &subcategory_id,
+        &category_name,
+        &subcategory_name,
+    )
+}
+
+#[tauri::command]
+pub fn developer_library_delete(
+    state: State<'_, Engine>,
+    path: String,
+) -> Result<crate::dev_library::DevDeleteResult, String> {
+    crate::dev_library::delete_document(&state, &path)
 }
 
 #[derive(Serialize)]

@@ -40,7 +40,7 @@ jobs:
 
       - name: Test Rust
         working-directory: src-tauri
-        run: cargo test --all-targets -- --nocapture
+        run: cargo test --all-targets --features onnx -- --nocapture
 
       - name: Report semantico
         if: always()
@@ -60,16 +60,16 @@ jobs:
         include:
           - os: macos-latest
             target: aarch64-apple-darwin
-            args: --target aarch64-apple-darwin
+            args: --target aarch64-apple-darwin --features onnx
           - os: macos-latest
             target: x86_64-apple-darwin
-            args: --target x86_64-apple-darwin
+            args: --target x86_64-apple-darwin --features onnx
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            args: ""
+            args: --features onnx
           - os: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
-            args: ""
+            args: --features onnx
     steps:
       - uses: actions/checkout@v4
 

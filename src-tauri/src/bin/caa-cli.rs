@@ -611,6 +611,7 @@ fn output(result: Result<Value, String>, compact: bool) {
 }
 
 fn main() {
+    caa_writer_lib::dev_library::configure_from_process();
     let cli = Cli::parse();
     let access = match AccessMode::parse(&cli.access) {
         Ok(access) => access,

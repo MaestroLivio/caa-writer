@@ -309,4 +309,29 @@ CREATE TABLE IF NOT EXISTS profile_boards (
     PRIMARY KEY(profile_id, board_id)
 );
 "#,
+}, Migration {
+    version: 5,
+    name: "hide_mismatched_online_imports",
+    sql: r#"
+-- Pulizia degli import online sbagliati. Il provider veniva interrogato con la
+-- parola intera ma rispondeva con il primo risultato per una ricerca parziale:
+-- «pap» importava il pittogramma «pap test», «casa» importava «casa-grotta».
+-- Il simbolo finiva nel lessico personale sotto la parola cercata e veniva
+-- mostrato anche quando i contenuti espliciti sono disattivati.
+--
+-- Si nascondono solo le copie automatiche il cui titolo originale è
+-- un'estensione dell'etichetta (parola + spazio o trattino). Non si cancella
+-- nulla: gli asset restano e l'utente può riattivarli dalla libreria.
+UPDATE symbols
+   SET hide = 1
+ WHERE pack_id = 'personal'
+   AND category = 'online'
+   AND hide = 0
+   AND original_name IS NOT NULL
+   AND trim(original_name) <> ''
+   AND (
+        lower(trim(original_name)) LIKE lower(trim(label)) || ' %'
+     OR lower(trim(original_name)) LIKE lower(trim(label)) || '-%'
+   );
+"#,
 }];
