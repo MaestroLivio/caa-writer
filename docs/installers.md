@@ -1,5 +1,31 @@
 # Release e installer
 
+## Stato reale 0.15.24 (22 novembre 2026)
+
+Patch di manutenzione sulla 0.15.23, con tre correzioni emerse dai test su
+Windows nella CI:
+
+- i percorsi degli asset riparati usano il separatore nativo (niente più
+  `assets\arasaac/picto.png` misti) e `..` viene ignorato;
+- il fixture della voce crea `piper.exe` su Windows;
+- il test del runtime llama.cpp si salta, dichiarandolo, quando
+  `resources/ai/runtime` non è presente (la cartella non è in Git).
+- macOS arm64: `.dmg` 214.329.266 byte (204,4 MiB), `.app.zip` 208.208.183 byte,
+  `.app` 278,25 MiB, firmato ad-hoc e verificato dal DMG montato; CLI macOS
+  arm64 22.040.352 byte.
+- Windows x64: installer NSIS cross-compilato 145.057.925 byte (138,3 MiB),
+  `caa-writer.exe` PE32+ GUI; non eseguito su hardware Windows.
+
+Verifiche reali (macOS arm64):
+
+```text
+cargo test --lib                                     313/313
+cargo test --lib --features onnx                     318/318
+npm run build / npm run check                          ok, 0 errori
+npm run test:frontend                                 75/75
+cargo test --test semantic_corpus --features onnx     FALLITO (senza catalogo ARASAAC)
+```
+
 ## Stato reale 0.15.23 (22 novembre 2026)
 
 - Modello semantico Horizon e voce neurale italiana installati e verificati al

@@ -10,7 +10,7 @@
 pub mod migrations;
 pub mod seed;
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use rusqlite::{params, Connection, OptionalExtension, Row};
 use thiserror::Error;
@@ -85,6 +85,23 @@ pub struct DocumentOverride {
     pub concept_id: Option<String>,
     pub surface: Option<String>,
     pub symbol_label: Option<String>,
+}
+
+/// Compone un percorso relativo separato da `/` usando il separatore nativo.
+///
+/// `Path::join` con una stringa che contiene `/` produce percorsi misti su
+/// Windows (`assets\arasaac/picto.png`): il file si trova, ma il percorso
+/// salvato nel database non è più confrontabile. `..` viene ignorato per non
+/// uscire dalla cartella di base.
+fn join_relative(base: &Path, relative: &str) -> PathBuf {
+    let mut out = base.to_path_buf();
+    for part in relative.split('/') {
+        if part.is_empty() || part == "." || part == ".." {
+            continue;
+        }
+        out.push(part);
+    }
+    out
 }
 
 pub struct Database {
@@ -296,9 +313,9 @@ impl Database {
             }
             let normalized = path.replace('\\', "/");
             let candidate = if let Some(index) = normalized.find("symbol-packs/") {
-                resources_dir.join(&normalized[index..])
+                join_relative(resources_dir, &normalized[index..])
             } else if let Some(index) = normalized.find("assets/") {
-                assets_dir.join(&normalized[index + "assets/".len()..])
+                join_relative(assets_dir, &normalized[index + "assets/".len()..])
             } else if Path::new(&path).is_relative() {
                 resources_dir.join(&path)
             } else {

@@ -4015,6 +4015,13 @@ mod tests {
         // GGUF non è più incluso: l'utente deve sceglierne uno dal catalogo.
         let engine = test_engine();
         let status = engine.ai_status();
+        // `resources/ai/runtime` è escluso da Git (lo scarica
+        // `scripts/fetch_llama.py`): senza runtime il test non può verificare
+        // nulla, quindi lo dichiara e si salta invece di fallire.
+        if !engine.paths.resources_dir.join("ai").join("runtime").is_dir() {
+            eprintln!("runtime llama.cpp assente: test saltato (scripts/fetch_llama.py)");
+            return;
+        }
         assert!(status.binary_present, "runtime incluso assente");
         assert!(!status.model_present, "nessun modello deve essere incluso");
         assert!(!status.enabled, "il motore non parte senza un modello");

@@ -412,7 +412,10 @@ mod tests {
         let resources = dir.path().join("resources");
         let voice_dir = resources.join("voice");
         fs::create_dir_all(voice_dir.join("bin")).unwrap();
-        fs::write(voice_dir.join("bin").join("piper"), b"#!/bin/sh\n").unwrap();
+        // Su Windows il motore si chiama `piper.exe`: il fixture deve usare lo
+        // stesso nome che `resolve` cerca, altrimenti il test fallisce solo lì.
+        let engine_name = if cfg!(windows) { "piper.exe" } else { "piper" };
+        fs::write(voice_dir.join("bin").join(engine_name), b"#!/bin/sh\n").unwrap();
         for voice in language_models {
             fs::write(voice_dir.join(format!("{}.onnx", voice.name)), b"model").unwrap();
             fs::write(

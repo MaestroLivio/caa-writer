@@ -4,6 +4,17 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.24 — 2026-11-22
+
+### Correzioni
+
+- Percorsi degli asset riparati con il separatore nativo: su Windows non
+  restano più percorsi misti (`assets\arasaac/picto.png`) dopo un import da
+  un altro sistema operativo; `..` viene ignorato.
+- Test della voce con `piper.exe` su Windows e test del runtime llama.cpp
+  saltato (dichiarandolo) quando `resources/ai/runtime` è assente: la CI
+  Windows non fallisce più per due assunzioni solo macOS.
+
 ## 0.15.23 — 2026-11-22
 
 ### Novità
