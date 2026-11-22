@@ -50,6 +50,12 @@ jobs:
         with:
           workspaces: src-tauri
 
+      - name: Dipendenze macOS (decodifica AVIF con dav1d)
+        if: runner.os == 'macOS'
+        run: |
+          brew install dav1d
+          echo "PKG_CONFIG_PATH=$(brew --prefix)/lib/pkgconfig" >> "$GITHUB_ENV"
+
       - name: Dipendenze di sistema (Linux)
         if: matrix.os == 'ubuntu-22.04'
         run: |
@@ -139,6 +145,12 @@ jobs:
         with:
           workspaces: src-tauri
           key: ${{ matrix.target }}
+
+      - name: Dipendenze macOS (decodifica AVIF con dav1d)
+        if: runner.os == 'macOS'
+        run: |
+          brew install dav1d
+          echo "PKG_CONFIG_PATH=$(brew --prefix)/lib/pkgconfig" >> "$GITHUB_ENV"
 
       - name: Dipendenze di sistema (Linux)
         if: matrix.os == 'ubuntu-22.04'

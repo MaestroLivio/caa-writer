@@ -4015,10 +4015,22 @@ mod tests {
         // GGUF non è più incluso: l'utente deve sceglierne uno dal catalogo.
         let engine = test_engine();
         let status = engine.ai_status();
-        // `resources/ai/runtime` è escluso da Git (lo scarica
-        // `scripts/fetch_llama.py`): senza runtime il test non può verificare
-        // nulla, quindi lo dichiara e si salta invece di fallire.
-        if !engine.paths.resources_dir.join("ai").join("runtime").is_dir() {
+        // La cartella `resources/ai/runtime` esiste anche senza binari (contiene
+        // un README versionato): il runtime vero lo scarica
+        // `scripts/fetch_llama.py`. Senza binario il test non può verificare
+        // nulla, quindi lo dichiara e si salta invece di fallire in CI.
+        let runtime = engine.paths.resources_dir.join("ai").join("runtime");
+        let has_binary = std::fs::read_dir(&runtime)
+            .map(|entries| {
+                entries.filter_map(Result::ok).any(|entry| {
+                    matches!(
+                        entry.file_name().to_string_lossy().as_ref(),
+                        "llama-cli" | "llama-cli.exe"
+                    )
+                })
+            })
+            .unwrap_or(false);
+        if !has_binary {
             eprintln!("runtime llama.cpp assente: test saltato (scripts/fetch_llama.py)");
             return;
         }

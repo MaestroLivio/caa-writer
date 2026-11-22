@@ -32,6 +32,12 @@ jobs:
         with:
           workspaces: src-tauri
 
+      - name: Dipendenze macOS (decodifica AVIF con dav1d)
+        if: runner.os == 'macOS'
+        run: |
+          brew install dav1d
+          echo "PKG_CONFIG_PATH=$(brew --prefix)/lib/pkgconfig" >> "$GITHUB_ENV"
+
       - name: Installa dipendenze frontend
         run: npm ci
 
@@ -85,6 +91,12 @@ jobs:
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+
+      - name: Dipendenze macOS (decodifica AVIF con dav1d)
+        if: runner.os == 'macOS'
+        run: |
+          brew install dav1d
+          echo "PKG_CONFIG_PATH=$(brew --prefix)/lib/pkgconfig" >> "$GITHUB_ENV"
 
       # Tauri su Linux richiede WebKitGTK 4.1 e le librerie di sistema.
       - name: Dipendenze di sistema (Linux)
