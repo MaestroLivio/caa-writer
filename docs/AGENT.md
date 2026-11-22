@@ -874,9 +874,12 @@ caa-cli template build-all --sources templates/sources --out resources/library
   esplicite restano visibili.
 - Il vecchio significato «nascondi i simboli applicati a mano» è stato rimosso: non confondere
   l'interruttore con la visibilità delle scelte manuali.
-- In modalità touch compare in basso a sinistra il pulsante **Controlli**: apre una barra compatta
-  con tastiera a schermo, spazio, cancellazione, invio, annulla/ripeti e ascolto. La tastiera si
-  apre solo su richiesta e non riduce stabilmente l'area di lavoro.
+- Il pulsante **Controlli** è sempre visibile in basso a sinistra durante l'esecuzione: apre una
+  barra compatta con tastiera a schermo, spazio, cancellazione, invio, annulla/ripeti, ascolto,
+  ridimensionamento del testo (10–32 px) e interruttore **TUTTO MAIUSCOLE**. La tastiera si apre
+  solo su richiesta e non riduce stabilmente l'area di lavoro.
+- La modalità touch è attiva per impostazione predefinita e non è più un'opzione nelle
+  impostazioni: l'interfaccia usa dimensioni e spaziature pensate per il touchscreen.
 - **Layout predefiniti → Pittogrammi sulla parola** (`settings.symbol_layout = "parola"`): ogni
   pittogramma viene centrato sul range DOM della parola a cui si riferisce, invece di stare in una
   striscia unica sopra il paragrafo. Il testo non viene modificato; la scelta si salva con le

@@ -27,8 +27,7 @@ questo documento non la modifica, la segnala.
 | Pittogrammi ARASAAC (intero catalogo italiano: 13.906) | CC BY-NC-SA 4.0, Sergio Palao / ARASAAC | `resources/symbol-packs/arasaac/svg/` |
 | Icone dell'applicazione | CC BY-NC-SA 4.0, generate da `scripts/generate_icons.py` | `src-tauri/icons/` |
 | Dizionario italiano originale | CC BY-NC-SA 4.0 | `resources/dictionaries/it-core.json` |
-| Modello linguistico incluso (Qwen2.5-0.5B-Instruct GGUF) | **Apache-2.0** (licenza del modello, invariata) | `resources/ai/model.gguf` |
-| Modelli facoltativi scaricabili (Qwen2.5-1.5B, Qwen2.5-3B, SmolLM2-1.7B) | **Apache-2.0**; non sono inclusi nel repository | cartella `models/` dei dati utente |
+| Modelli linguistici (Qwen2.5-1.5B, Qwen2.5-3B, SmolLM2-1.7B) | **Apache-2.0**; non sono inclusi nel repository | cartella `models/` dei dati utente |
 | Runtime llama.cpp | MIT (software di terzi) | `resources/ai/` |
 | Dipendenze software | licenze dei rispettivi progetti (MIT/Apache-2.0) | vedi `LICENSES/dependencies.md` |
 | libreria dav1d (decodifica AVIF) | **BSD-2-Clause** (software di terzi, invariata) | `CAA Writer.app/Contents/Frameworks/libdav1d.7.dylib` nel bundle macOS |
@@ -91,10 +90,8 @@ Registro completo in `LICENSES/dependencies.md`.
 
 ## 6. Modelli linguistici
 
-Il pacchetto include **Qwen2.5-0.5B-Instruct GGUF Q4_K_M** (`resources/ai/model.gguf`) e il runtime
-llama.cpp, entrambi con licenza del progetto di origine (Apache-2.0 il modello, MIT il runtime).
-
-Il catalogo dell'applicazione propone altri modelli **Apache-2.0** (Qwen2.5-1.5B-Instruct,
+Il pacchetto include il runtime **llama.cpp** (`resources/ai/runtime`, licenza MIT) ma **nessun
+modello linguistico**. Il catalogo dell'applicazione propone modelli **Apache-2.0** (Qwen2.5-1.5B-Instruct,
 Qwen2.5-3B-Instruct, SmolLM2-1.7B-Instruct) che l'utente può scaricare esplicitamente. CAA Writer
 **non li ridistribuisce**: il download avviene dal repository ufficiale indicato nel catalogo e il
 file viene verificato con l'impronta sha256 pubblicata. L'utente può anche importare un GGUF già

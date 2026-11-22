@@ -107,40 +107,6 @@ fn qwen(
 /// scaricato viene rifiutato se l'impronta ricalcolata è diversa.
 pub fn catalog() -> Vec<ModelEntry> {
     vec![
-        ModelEntry {
-            id: "qwen2.5-0.5b-instruct-q4_k_m".to_string(),
-            name: "Qwen2.5-0.5B-Instruct".to_string(),
-            parameters: "0.5B".to_string(),
-            quantization: "Q4_K_M".to_string(),
-            format: "GGUF".to_string(),
-            file_name: "model.gguf".to_string(),
-            size_bytes: 491_400_032,
-            minimum_ram_mb: 1500,
-            recommended_ram_mb: 3000,
-            context_length: 2048,
-            supported_backends: vec!["cpu".to_string(), "metal".to_string()],
-            languages: vec!["it".to_string(), "en".to_string()],
-            capabilities: vec![
-                "semantic_disambiguation".to_string(),
-                "instruction_following".to_string(),
-                "structured_output".to_string(),
-                "related_words".to_string(),
-            ],
-            license: "Apache-2.0".to_string(),
-            download_url: None,
-            sha256: Some(
-                "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db".to_string(),
-            ),
-            verified: true,
-            bundled: true,
-            estimated_italian_quality: None,
-            notes: "Incluso nel pacchetto: nessun download necessario. È il modello più leggero \
-                    (circa 0,5 GB in RAM): adatto a computer da 4 GB, meno preciso sulla \
-                    disambiguazione fine. Qualità non ancora misurata sul corpus di CAA Writer."
-                .to_string(),
-            installed: true,
-            local_path: None,
-        },
         qwen(
             "qwen2.5-1.5b-instruct-q4_k_m",
             "Qwen2.5-1.5B-Instruct",
@@ -304,9 +270,9 @@ mod tests {
     }
 
     #[test]
-    fn bundled_model_is_always_recommendable() {
-        let choice = recommend(&hardware(4096)).expect("modello incluso");
-        assert!(choice.bundled);
+    fn smallest_model_is_recommended_on_low_memory() {
+        let choice = recommend(&hardware(4096)).expect("modello scaricabile");
+        assert!(!choice.bundled);
         assert_eq!(choice.license, "Apache-2.0");
     }
 
@@ -325,7 +291,7 @@ mod tests {
     #[test]
     fn catalog_has_several_models_with_distinct_files() {
         let entries = catalog();
-        assert!(entries.len() >= 4, "il catalogo deve offrire più di un modello");
+        assert!(entries.len() >= 3, "il catalogo deve offrire più di un modello");
         let mut names: Vec<&str> = entries.iter().map(|entry| entry.file_name.as_str()).collect();
         names.sort_unstable();
         names.dedup();
@@ -334,9 +300,11 @@ mod tests {
 
     #[test]
     fn low_memory_penalizes_large_model() {
-        let small = catalog().into_iter().find(|m| m.bundled).unwrap();
-        let large = catalog().into_iter().find(|m| !m.bundled).unwrap();
-        assert!(score(&small, &hardware(2048)) > score(&large, &hardware(2048)));
+        let mut entries = catalog();
+        entries.sort_by_key(|entry| entry.minimum_ram_mb);
+        let small = entries.first().expect("almeno un modello");
+        let large = entries.last().expect("almeno un modello");
+        assert!(score(small, &hardware(4096)) > score(large, &hardware(4096)));
     }
 
     #[test]
@@ -344,9 +312,5 @@ mod tests {
         let modest = best_fitting(&hardware(4096)).unwrap();
         let generous = best_fitting(&hardware(16_384)).unwrap();
         assert!(generous.parameters_rank() >= modest.parameters_rank());
-        assert!(
-            best_fitting(&hardware(2048)).map(|entry| entry.bundled).unwrap_or(false),
-            "con 2 GB resta disponibile il modello incluso"
-        );
     }
 }

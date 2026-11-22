@@ -517,15 +517,6 @@ import { resetDecisionStatus } from "../decision/client";
           </select>
         </div>
         <div class="row">
-          <label for="dlg-uppercase">Mostra in maiuscolo (TUTTO MAIUSCOLE)</label>
-          <input
-            id="dlg-uppercase"
-            type="checkbox"
-            checked={settings.uppercase}
-            onchange={(event) => onUpdateSettings({ uppercase: (event.currentTarget as HTMLInputElement).checked })}
-          />
-        </div>
-        <div class="row">
           <label for="dlg-border">Bordo del pittogramma</label>
           <select
             id="dlg-border"
@@ -760,24 +751,6 @@ import { resetDecisionStatus } from "../decision/client";
                 })}
             >Stile pastello</button>
           </div>
-        </div>
-        <div class="row">
-          <label for="dlg-touch">Modalità tocco (smartboard)</label>
-          <input
-            id="dlg-touch"
-            type="checkbox"
-            checked={settings.touch_mode}
-            onchange={(event) => onUpdateSettings({ touch_mode: (event.currentTarget as HTMLInputElement).checked })}
-          />
-        </div>
-        <div class="row">
-          <label for="dlg-smartboard">Controlli smartboard e tastiera a schermo</label>
-          <input
-            id="dlg-smartboard"
-            type="checkbox"
-            checked={settings.smartboard_controls}
-            onchange={(event) => onUpdateSettings({ smartboard_controls: (event.currentTarget as HTMLInputElement).checked })}
-          />
         </div>
         <div class="row">
           <label for="dlg-online">Ricerca online</label>

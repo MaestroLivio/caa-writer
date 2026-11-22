@@ -214,8 +214,8 @@ ma funzionante. All'uscita dell'app il processo del modello viene fermato esplic
 (`RunEvent::Exit` → `Engine::shutdown`), perché Tauri non esegue i distruttori dello stato gestito.
 Il modello riceve solo candidati già presenti nel database: non inventa identificativi.
 
-Il pacchetto include `resources/ai/` (runtime llama.cpp e Qwen2.5-0.5B-Instruct Q4_K_M). Gli altri
-modelli del catalogo (`ai_engine::catalog`) si scaricano su richiesta con
+Il pacchetto include `resources/ai/runtime` (runtime llama.cpp). Nessun modello GGUF è incluso:
+i modelli del catalogo (`ai_engine::catalog`) si scaricano su richiesta con
 `ai_install_model` → `ai_engine::installer`: il download usa il `curl` di sistema, riprende un file
 parziale `.part`, **ricalcola lo sha256** e rifiuta il file se l'impronta non coincide con quella
 pubblicata. `ai_import_model` accetta un GGUF già presente sul disco dopo averne verificato la firma

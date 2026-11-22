@@ -284,13 +284,15 @@ export const api = {
     documentKey: string,
     unitKey: string,
     symbolId: string | null,
-    conceptId: string | null
+    conceptId: string | null,
+    surface?: string | null
   ) =>
     call<void>("set_document_override", {
       documentKey,
       unitKey,
       symbolId,
       conceptId,
+      surface: surface ?? null,
     }),
   clearDocumentOverride: (documentKey: string, unitKey: string) =>
     call<void>("clear_document_override", { documentKey, unitKey }),

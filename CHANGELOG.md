@@ -4,6 +4,36 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.22 — 2026-11-22
+
+### Correzioni
+
+- **Pittogramma bloccato sulla parola sbagliata.** Scrivendo «casa è bella» e
+  poi sostituendo la frase con «famiglia felice», il primo pittogramma resta
+  ora legato alla parola e non più alla posizione. Le scelte memorizzate
+  registrano la superficie della parola; i suggerimenti automatici Horizon non
+  creano più override bloccati. Le scelte manuali restano valide per la stessa
+  parola e non vengono applicate a una parola diversa.
+- **Modello di diffusione su Windows.** Il runtime immagini cerca anche
+  `py -3`, `python` e `python3`, non solo `python3`: l'installazione non
+  dichiara più Python assente quando il comando è `python`.
+
+### Interfaccia touch
+
+- La modalità touch è attiva per impostazione predefinita; rimosse le opzioni
+  «Modalità tocco» e «Controlli smartboard e tastiera a schermo».
+- Il pulsante **Controlli** resta sempre in sovraimpressione durante l'uso.
+  Dal pannello si regola la dimensione del testo (10–32 px) e si attiva
+  **TUTTO MAIUSCOLE**; il controllo duplicato è stato tolto dalle impostazioni.
+- Il pannello continua a offrire tastiera a schermo, spazio, cancellazione,
+  invio, annulla/ripeti e ascolto. Non compare in stampa.
+
+### Modelli
+
+- Rimosso il modello Qwen2.5-0.5B-Instruct dal pacchetto e dal catalogo. Il
+  runtime llama.cpp resta incluso; i modelli 1.5B, 3B e SmolLM2 1.7B si
+  scaricano o si importano su richiesta.
+
 ## 0.15.21 — 2026-11-20
 
 Le versioni 0.15.11–0.15.20 sono documentate nei file

@@ -1,5 +1,37 @@
 # Release e installer
 
+## Stato reale 0.15.22 (22 novembre 2026)
+
+- Pittogrammi legati alla parola: la migrazione 6 aggiunge `surface` a
+  `document_overrides`; una scelta fatta per «casa» non viene applicata a
+  «famiglia». I suggerimenti automatici Horizon non creano più override
+  bloccati.
+- Runtime immagini Windows: `python_path` e `install_runtime` cercano anche
+  `py -3`, `python` e `python3`, non solo `python3`.
+- Modalità touch predefinita e pulsante **Controlli** sempre visibile, con
+  dimensione testo (10–32 px) e TUTTO MAIUSCOLE. Rimosse le due opzioni dalle
+  impostazioni.
+- Rimosso Qwen2.5-0.5B-Instruct dal pacchetto e dal catalogo; resta il runtime
+  llama.cpp e i modelli 1.5B, 3B e SmolLM2 1.7B scaricabili.
+- macOS arm64: `.dmg` 263.755.492 byte, `.app.zip` 257.104.599 byte, firmato
+  ad-hoc sull'intero bundle e verificato dal DMG.
+- Windows x64: installer NSIS cross-compilato (169.889.985 byte), controllato
+  staticamente con 7-Zip; non eseguito su hardware Windows.
+- CLI macOS arm64: 22.219.984 byte.
+
+Verifiche reali:
+
+```text
+codesign --verify --deep --strict dal DMG montato   valido
+otool -L caa-writer                                  solo @rpath/libdav1d.7.dylib
+caa-cli call decision.status                         runtime_feature: true
+avvio dell'app dal bundle                            processo attivo, chiuso correttamente
+npm run build                                        ok
+npm run test:frontend                                75/75
+cargo test --lib                                     315/315
+cargo test --lib --features onnx                     320/320
+```
+
 ## Stato reale 0.15.21 (20 novembre 2026)
 
 - Correzione dei pittogrammi espliciti: scrivendo «pap» non compare più «pap
@@ -170,17 +202,18 @@ primo avvio macOS può richiedere «Apri comunque» dal menu contestuale del Fin
 
 ## Asset non versionati
 
-Il repository non contiene `resources/ai/` (491 MB di modello, oltre i limiti GitHub) né
+Il repository non contiene alcun modello linguistico GGUF né
 `resources/symbol-packs/arasaac/` (439 MB, solo asset di sviluppo). Prima di una build di release:
 
 ```bash
 python3 scripts/fetch_release_assets.py
 ```
 
-Lo script scarica il modello Qwen2.5-0.5B-Instruct, ne verifica lo sha256, scarica il runtime
-llama.cpp per il sistema corrente. `--skip-arasaac` limita la build ai soli simboli originali;
-`--llama-asset bin-macos-x64` serve a costruire l'app Intel da un host ARM. Il catalogo ARASAAC
-completo non viene incluso nell'installer: resta come asset di sviluppo per la ricerca locale.
+Lo script scarica il runtime llama.cpp per il sistema corrente e non scarica più alcun modello
+linguistico: i modelli si scelgono dal catalogo dell'app. `--skip-arasaac` limita la build ai soli
+simboli originali; `--llama-asset bin-macos-x64` serve a costruire l'app Intel da un host ARM. Il
+catalogo ARASAAC completo non viene incluso nell'installer: resta come asset di sviluppo per la
+ricerca locale.
 
 ## Comandi per piattaforma
 

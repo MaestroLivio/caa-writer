@@ -33,7 +33,6 @@
   } from "../types";
   import { classify, decisionUsable } from "../../lib/decision/client";
   import { charLength, isNeuralMethod } from "../../lib/decision/ranking";
-  const phraseUnitKey = (pid: string, index: number) => `${pid}:${index}`;
 
   interface Props {
     document: UniversalDocument;
@@ -2435,20 +2434,17 @@
       );
       if (!alternative) continue;
 
-      // Applica l'override direttamente al documento
-      await api.setDocumentOverride(
-        documentKey,
-        phraseUnitKey(paragraphId, token.index),
-        alternative.symbol_id,
-        alternative.concept_id ?? token.concept_id ?? null
-      );
-
-      // Aggiorna il token locale
+      // Suggerimento automatico: si applica al token della frase senza
+      // creare un override bloccato. Se la frase viene ricomposta, il motore
+      // riparte dalla parola nuova invece di trascinare il pittogramma vecchio.
       token.symbol_id = alternative.symbol_id;
       token.meaning = alternative.meaning ?? token.meaning;
       token.concept_id = alternative.concept_id ?? token.concept_id;
       token.concept_label = alternative.label ?? token.concept_label;
-      token.locked = true; // L'override blocca il simbolo
+      token.symbol_label = alternative.label ?? token.symbol_label;
+      token.strategy = "neural";
+      token.approximate = true;
+      token.locked = false;
     }
     return tokens;
   }

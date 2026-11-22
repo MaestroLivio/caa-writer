@@ -6,14 +6,27 @@
     onUndo: () => void;
     onRedo: () => void;
     onSpeak: () => void;
+    settings: { font_size: number; uppercase: boolean };
+    onUpdateSettings: (patch: { font_size?: number; uppercase?: boolean }) => void;
   }
 
-  let { onInsert, onBackspace, onEnter, onUndo, onRedo, onSpeak }: Props = $props();
+  let { onInsert, onBackspace, onEnter, onUndo, onRedo, onSpeak, settings, onUpdateSettings }: Props =
+    $props();
 
   let open = $state(false);
   let keyboard = $state(false);
   let numbers = $state(false);
   let shift = $state(false);
+
+  function adjustFont(delta: number) {
+    const next = Math.min(32, Math.max(10, Math.round(settings.font_size + delta)));
+    if (next !== settings.font_size) onUpdateSettings({ font_size: next });
+  }
+
+  function setFont(value: number) {
+    const next = Math.min(32, Math.max(10, Math.round(value)));
+    if (next !== settings.font_size) onUpdateSettings({ font_size: next });
+  }
 
   const letterRows = [
     ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -42,7 +55,7 @@
 
 <div class="smartboard" aria-label="Controlli per smartboard">
   {#if !open}
-    <button class="smartboard__fab" onclick={() => (open = true)} title="Aggiungi controlli smartboard">
+    <button class="smartboard__fab" onclick={() => (open = true)} title="Apri i controlli">
       <span aria-hidden="true">⌨</span>
       <span>Controlli</span>
     </button>
@@ -62,7 +75,33 @@
         <button class="sb-btn" onclick={onUndo} title="Annulla">↶</button>
         <button class="sb-btn" onclick={onRedo} title="Ripeti">↷</button>
         <button class="sb-btn" onclick={onSpeak} title="Ascolta la frase corrente">Ascolta</button>
-        <button class="sb-btn sb-btn--close" onclick={() => { open = false; keyboard = false; }} title="Rimuovi i controlli">×</button>
+        <button class="sb-btn sb-btn--close" onclick={() => { open = false; keyboard = false; }} title="Chiudi i controlli">×</button>
+      </div>
+
+      <div class="smartboard__text" aria-label="Dimensione del testo">
+        <span class="smartboard__label">Testo</span>
+        <button class="sb-btn sb-btn--font" onclick={() => adjustFont(-1)} title="Riduci il carattere" aria-label="Riduci il carattere">A−</button>
+        <span class="smartboard__value">{settings.font_size} px</span>
+        <button class="sb-btn sb-btn--font" onclick={() => adjustFont(1)} title="Ingrandisci il carattere" aria-label="Ingrandisci il carattere">A+</button>
+        <input
+          class="smartboard__range"
+          type="range"
+          min="10"
+          max="32"
+          step="1"
+          value={settings.font_size}
+          oninput={(event) => setFont(Number((event.currentTarget as HTMLInputElement).value))}
+          aria-label="Dimensione del carattere"
+        />
+        <label class="smartboard__check">
+          <input
+            type="checkbox"
+            checked={settings.uppercase}
+            onchange={(event) =>
+              onUpdateSettings({ uppercase: (event.currentTarget as HTMLInputElement).checked })}
+          />
+          TUTTO MAIUSCOLE
+        </label>
       </div>
 
       {#if keyboard}
@@ -188,6 +227,30 @@
   }
   .sb-btn:hover, .sb-btn--active { background: #ccfbf1; border-color: #0f766e; color: #115e59; }
   .sb-btn--close { margin-left: auto; font-size: 17px; padding: 2px 10px; }
+  .sb-btn--font { min-width: 42px; font-size: 15px; }
+  .smartboard__text {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+  }
+  .smartboard__label { font-size: 12px; font-weight: 700; color: #334155; }
+  .smartboard__value { min-width: 52px; text-align: center; font-size: 12px; font-weight: 700; color: #0f766e; }
+  .smartboard__range { flex: 1 1 160px; min-width: 120px; accent-color: #0f766e; }
+  .smartboard__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+  }
+  .smartboard__check input { width: 17px; height: 17px; accent-color: #0f766e; }
   .smartboard__keyboard { display: grid; gap: 4px; }
   .sb-row { display: flex; gap: 4px; justify-content: center; }
   .sb-key {
@@ -214,5 +277,8 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .smartboard * { scroll-behavior: auto; }
+  }
+  @media print {
+    .smartboard { display: none !important; }
   }
 </style>

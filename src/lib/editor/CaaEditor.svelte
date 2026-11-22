@@ -783,7 +783,8 @@
                   documentKey,
                   key,
                   alternative.symbol_id,
-                  alternative.concept_id
+                  alternative.concept_id,
+                  applied.surface
                 )
                 .catch(() => undefined);
               // L'attribuzione automatica (anche Global Symbols) non deve
@@ -991,21 +992,7 @@
     token: CaaToken,
     alternative: Alternative
   ): Promise<boolean> {
-    if (!view) return false;
-    const conceptId = alternative.concept_id ?? token.concept_id ?? null;
-    try {
-      await api.setDocumentOverride(
-        documentKey,
-        unitKey(pid, token.index),
-        alternative.symbol_id,
-        conceptId
-      );
-    } catch {
-      return false;
-    }
-    // Trigger a re-analysis to get the updated token with the new symbol
-    schedule(60);
-    return true;
+    return applyAutomaticSymbols([{ pid, index: token.index, alternative }]) > 0;
   }
 
   async function runHorizonRerank() {
@@ -1353,7 +1340,7 @@
     // Mantiene il pittogramma e lo blocca: la rianalisi non deve sostituirlo.
     const key = `${pid}:${index}`;
     await api
-      .setDocumentOverride(documentKey, key, symbolId, conceptId ?? null)
+      .setDocumentOverride(documentKey, key, symbolId, conceptId ?? null, text)
       .catch(() => undefined);
     await api
       .setUnitState(documentKey, key, true, hidden, modifiers)
@@ -1520,6 +1507,57 @@
       refreshDecorations();
       onAnalyzed(new Map(tokensByPid));
       if (selectedUpdate) onSelectToken(selectedUpdate.pid, selectedUpdate.token);
+    }
+    return count;
+  }
+
+  /// Applica un suggerimento automatico (Horizon) senza bloccare il token e
+  /// senza salvarlo come override: al prossimo cambio di testo il motore
+  /// riparte dalla parola nuova, invece di trascinare il pittogramma vecchio.
+  export function applyAutomaticSymbols(
+    entries: {
+      pid: string;
+      index: number;
+      alternative: {
+        symbol_id: string;
+        svg: string | null;
+        image?: string | null;
+        label: string;
+        meaning: string;
+        concept_id: string | null;
+        approximate: boolean;
+      };
+    }[]
+  ): number {
+    let count = 0;
+    for (const entry of entries) {
+      const tokens = tokensByPid.get(entry.pid);
+      if (!tokens) continue;
+      const current = tokens.find((token) => token.index === entry.index);
+      if (!current) continue;
+      const updated: CaaToken = {
+        ...current,
+        symbol_id: entry.alternative.symbol_id,
+        svg: entry.alternative.svg,
+        image: entry.alternative.image ?? null,
+        caption: current.surface,
+        symbol_label: entry.alternative.label,
+        concept_id: entry.alternative.concept_id ?? current.concept_id,
+        concept_label: entry.alternative.label,
+        meaning: entry.alternative.meaning,
+        strategy: "neural",
+        approximate: true,
+        locked: false,
+      };
+      tokensByPid.set(
+        entry.pid,
+        tokens.map((token) => (token.index === entry.index ? updated : token))
+      );
+      count += 1;
+    }
+    if (count > 0) {
+      refreshDecorations();
+      onAnalyzed(new Map(tokensByPid));
     }
     return count;
   }

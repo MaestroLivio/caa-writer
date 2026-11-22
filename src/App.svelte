@@ -606,6 +606,7 @@
     pid: string;
     index: number;
     unitKey: string;
+    surface: string;
     previousSymbol: string | null;
     previousConcept: string | null;
     previousLocked: boolean;
@@ -891,6 +892,10 @@
     // parole. I componenti della libreria possono avere un proprio layout,
     // ma l'impostazione globale non offre più varianti.
     if (merged.auto_caa) merged.mode = "sopra";
+    // L'interfaccia è ottimizzata per il touchscreen: le vecchie preferenze
+    // che disattivavano la modalità tocco non sono più offerte.
+    merged.touch_mode = true;
+    merged.smartboard_controls = true;
     return merged;
   }
 
@@ -906,7 +911,7 @@
   $effect(() => {
     const root = document.documentElement;
     root.dataset.theme = settings.theme;
-    root.dataset.touch = String(settings.touch_mode);
+    root.dataset.touch = "true";
     root.dataset.mono = String(settings.mono);
     root.dataset.animations = settings.animations;
     // Tipografia globale: l'interfaccia segue la scala scelta, il documento
@@ -931,9 +936,7 @@
     const baseSymbol = typography.symbolSize * typography.symbolTextRatio;
     root.style.setProperty(
       "--symbol-size",
-      settings.touch_mode
-        ? `${Math.round(Math.max(64, baseSymbol + 16))}px`
-        : `${Math.round(baseSymbol)}px`
+      `${Math.round(Math.max(64, baseSymbol + 16))}px`
     );
     root.style.setProperty("--symbol-gap", `${settings.symbol_gap}px`);
     root.style.setProperty("--chip-border-color", settings.chip_border_color || "var(--border)");
@@ -1981,25 +1984,13 @@
     alternative: Alternative
   ): Promise<boolean> {
     if (!editor) return false;
-    const conceptId = alternative.concept_id ?? token.concept_id ?? null;
-    try {
-      await api.setDocumentOverride(
-        docKey,
-        unitKey(pid, token.index),
-        alternative.symbol_id,
-        conceptId
-      );
-    } catch {
-      return false;
-    }
     const entries = [{ pid, index: token.index, alternative }];
-    let applied = editor.applyTokenSymbols(entries);
+    let applied = editor.applyAutomaticSymbols(entries);
     if (applied === 0) {
       const fallback = tokensByParagraph.get(pid) ?? [token];
       editor.setTokensForPid(pid, fallback);
-      applied = editor.applyTokenSymbols(entries);
+      applied = editor.applyAutomaticSymbols(entries);
     }
-    if (applied > 0) editor.refreshParagraph(pid);
     return applied > 0;
   }
 
@@ -2435,6 +2426,7 @@
       pid: target.pid,
       index: target.token.index,
       unitKey: unitKey(target.pid, target.token.index),
+      surface: target.token.surface,
       previousSymbol: target.token.symbol_id ?? null,
       previousConcept: target.token.concept_id ?? null,
       previousLocked: target.token.locked,
@@ -2464,7 +2456,8 @@
             docKey,
             unitKey(target.pid, target.token.index),
             alternative.symbol_id,
-            conceptId
+            conceptId,
+            target.token.surface
           )
         )
       );
@@ -2622,7 +2615,8 @@
               docKey,
               item.unitKey,
               item.previousSymbol,
-              item.previousConcept
+              item.previousConcept,
+              item.surface
             )
           : api.clearDocumentOverride(docKey, item.unitKey)
       )
@@ -2669,7 +2663,7 @@
     try {
       await Promise.all(
         action.items.map((item) =>
-          api.setDocumentOverride(docKey, item.unitKey, item.newSymbol, item.newConcept)
+          api.setDocumentOverride(docKey, item.unitKey, item.newSymbol, item.newConcept, item.surface)
         )
       );
       if (action.remembered) {
@@ -2908,7 +2902,13 @@
             selected.token.lemma ?? selected.token.surface.toLowerCase(),
             selected.token.meaning
           );
-      await api.setDocumentOverride(docKey, unitKey(selected.pid, selected.token.index), symbolId, conceptId);
+      await api.setDocumentOverride(
+        docKey,
+        unitKey(selected.pid, selected.token.index),
+        symbolId,
+        conceptId,
+        selected.token.surface
+      );
       preferences = await api.listPreferences();
       editor?.refreshParagraph(selected.pid);
       toast("Pittogramma importato e applicato.", "info");
@@ -3560,9 +3560,6 @@
       cmd("find-replace", "Trova e sostituisci", "replace", openFind),
       cmd("word-count", "Conteggio parole", "calculator", showWordCount),
       cmd("panel", "Pannello laterale", "panel-right", () => (panelClosed ? openSidebar() : closeSidebar())),
-      cmd("touch", "Modalità touch", "touchpad", () => patchSettings({ touch_mode: !settings.touch_mode }), {
-        active: settings.touch_mode,
-      }),
       cmd("zoom-in", "Zoom avanti", "zoom-in", () => zoomBy(0.1)),
       cmd("zoom-out", "Zoom indietro", "zoom-out", () => zoomBy(-0.1)),
       cmd("fullscreen", "Schermo intero", "fullscreen", () => void toggleFullscreen()),
@@ -3587,7 +3584,6 @@
       { id: "find-replace", label: "Trova e sostituisci" },
       { id: "word-count", label: "Conteggio parole" },
       { id: "panel", label: "Pannello laterale" },
-      { id: "touch", label: "Modalità touch" },
       { id: "zoom-in", label: "Zoom avanti" },
       { id: "zoom-out", label: "Zoom indietro" },
       { id: "fullscreen", label: "Schermo intero" },
@@ -4505,7 +4501,7 @@
                 lines: [
                   `Dimensione attuale: ${settings.symbol_size} px`,
                   `Spaziatura: ${settings.symbol_gap} px`,
-                  settings.touch_mode ? "Modalità touch attiva." : "Modalità touch disattivata.",
+                  "Modalità touch attiva (predefinita).",
                 ],
               }
             ),
@@ -4666,9 +4662,6 @@
             ),
           ]),
           group("modes", "Modalità", [
-            toggle("touch-mode", "Modalità touch", "touchpad", settings.touch_mode, () =>
-              patchSettings({ touch_mode: !settings.touch_mode })
-            ),
             toggle("fullscreen", "Schermo intero", "fullscreen", fullscreen, () =>
               void toggleFullscreen()
             ),
@@ -5395,20 +5388,20 @@
 </div>
 {/if}
 
-{#if settings.touch_mode && settings.smartboard_controls && view === "editor" && !userMode}
-  <SmartboardControls
-    onInsert={(text) => editor?.insertTextAtSelection(text)}
-    onBackspace={() => editor?.backspace()}
-    onEnter={() => editor?.insertParagraph()}
-    onUndo={() => editor?.undoAction()}
-    onRedo={() => editor?.redoAction()}
-    onSpeak={() => {
-      const text = editor?.currentSentenceText() || editor?.currentBlockText() || "";
-      if (text.trim()) void speak(text);
-      else toast("Nessun testo da ascoltare nella posizione corrente.", "warn");
-    }}
-  />
-{/if}
+<SmartboardControls
+  settings={settings}
+  onUpdateSettings={(patch) => patchSettings(patch)}
+  onInsert={(text) => editor?.insertTextAtSelection(text)}
+  onBackspace={() => editor?.backspace()}
+  onEnter={() => editor?.insertParagraph()}
+  onUndo={() => editor?.undoAction()}
+  onRedo={() => editor?.redoAction()}
+  onSpeak={() => {
+    const text = editor?.currentSentenceText() || editor?.currentBlockText() || "";
+    if (text.trim()) void speak(text);
+    else toast("Nessun testo da ascoltare nella posizione corrente.", "warn");
+  }}
+/>
 
 {#if textChangeOpen && selected}
   <div

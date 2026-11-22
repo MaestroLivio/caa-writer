@@ -12,7 +12,7 @@
 use std::collections::{BinaryHeap, HashMap};
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::process::{Child, Stdio};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{mpsc, Arc, Mutex};
@@ -593,12 +593,6 @@ impl Service {
             executor: self.executor.describe(),
         }
     }
-}
-
-/// Comodità: percorso del modello incluso, usato come default.
-pub fn bundled_model(ai_dir: &Path) -> Option<PathBuf> {
-    let candidate = ai_dir.join("model.gguf");
-    candidate.exists().then_some(candidate)
 }
 
 #[cfg(test)]

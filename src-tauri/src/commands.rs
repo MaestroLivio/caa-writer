@@ -262,6 +262,7 @@ pub fn set_document_override(
     unit_key: String,
     symbol_id: Option<String>,
     concept_id: Option<String>,
+    surface: Option<String>,
 ) -> Result<(), String> {
     let db = state.db()?;
     db.set_document_override(
@@ -269,6 +270,7 @@ pub fn set_document_override(
         &unit_key,
         symbol_id.as_deref(),
         concept_id.as_deref(),
+        surface.as_deref(),
     )
     .map_err(|e| e.to_string())?;
     state.clear_caches();
@@ -366,6 +368,7 @@ pub fn load_document(state: State<'_, Engine>, path: String) -> Result<LoadedDoc
                     &pref.unit_key,
                     pref.symbol_id.as_deref(),
                     pref.concept_id.as_deref(),
+                    None,
                 );
             }
             // Visibilità e modificatori si ripristinano sempre.

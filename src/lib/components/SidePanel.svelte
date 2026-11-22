@@ -3212,25 +3212,6 @@
             </select>
           </div>
           <div class="settings-row">
-            <label for="touch-toggle">Modalità tocco (smartboard)</label>
-            <input
-              id="touch-toggle"
-              type="checkbox"
-              checked={settings.touch_mode}
-              onchange={(event) => onUpdateSettings({ touch_mode: (event.currentTarget as HTMLInputElement).checked })}
-            />
-          </div>
-          <div class="settings-row">
-            <label for="smartboard-toggle">Controlli smartboard e tastiera</label>
-            <input
-              id="smartboard-toggle"
-              type="checkbox"
-              checked={settings.smartboard_controls}
-              onchange={(event) =>
-                onUpdateSettings({ smartboard_controls: (event.currentTarget as HTMLInputElement).checked })}
-            />
-          </div>
-          <div class="settings-row">
             <label for="online-search-select">Ricerca online</label>
             <select
               id="online-search-select"
@@ -3292,17 +3273,6 @@
               type="checkbox"
               checked={settings.speak_sentences}
               onchange={(event) => onUpdateSettings({ speak_sentences: (event.currentTarget as HTMLInputElement).checked })}
-            />
-          </div>
-          <div class="settings-row">
-            <label for="font-range">Dimensione testo</label>
-            <input
-              id="font-range"
-              type="range"
-              min="12"
-              max="28"
-              value={settings.font_size}
-              oninput={(event) => onUpdateSettings({ font_size: Number((event.currentTarget as HTMLInputElement).value) })}
             />
           </div>
           <div class="settings-row">

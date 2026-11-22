@@ -199,6 +199,52 @@ fn venv_python(data_dir: &Path) -> PathBuf {
     }
 }
 
+/// Interpreti Python candidati, con gli argomenti da anteporre. Su Windows il
+/// launcher `py -3` è il più affidabile; su Unix si cerca prima la versione
+/// numerica e poi `python3`.
+fn system_python_candidates() -> Vec<(String, Vec<String>)> {
+    if cfg!(windows) {
+        vec![
+            ("py".to_string(), vec!["-3".to_string()]),
+            ("python".to_string(), Vec::new()),
+            ("python3".to_string(), Vec::new()),
+            ("python3.12".to_string(), Vec::new()),
+            ("python3.13".to_string(), Vec::new()),
+        ]
+    } else {
+        vec![
+            ("python3.12".to_string(), Vec::new()),
+            ("python3.13".to_string(), Vec::new()),
+            ("python3.14".to_string(), Vec::new()),
+            ("python3".to_string(), Vec::new()),
+            ("python".to_string(), Vec::new()),
+        ]
+    }
+}
+
+/// Interprete Python di sistema. Su Windows il comando è spesso `py` o
+/// `python`, non `python3`: cercare solo `python3` faceva credere all'app che
+/// Python non fosse installato.
+fn system_python() -> Option<(String, Vec<String>)> {
+    for (program, args) in system_python_candidates() {
+        let mut command = Command::new(&program);
+        command.args(&args).arg("--version");
+        if command
+            .output()
+            .map(|output| output.status.success())
+            .unwrap_or(false)
+        {
+            return Some((program, args));
+        }
+    }
+    None
+}
+
+/// Percorso del Python di sistema, senza gli argomenti aggiuntivi (`py -3`).
+pub fn system_python_path() -> Option<PathBuf> {
+    system_python().map(|(program, _)| PathBuf::from(program))
+}
+
 /// Interprete del runtime immagini: venv utente, variabile d'ambiente, venv di
 /// sviluppo accanto al repository, poi i Python di sistema.
 pub fn python_path(paths: &AppPaths) -> Option<PathBuf> {
@@ -213,19 +259,16 @@ pub fn python_path(paths: &AppPaths) -> Option<PathBuf> {
         return Some(user);
     }
     if let Some(root) = paths.resources_dir.parent() {
-        let dev = root.join(".image-venv").join("bin").join("python");
+        let dev = if cfg!(windows) {
+            root.join(".image-venv").join("Scripts").join("python.exe")
+        } else {
+            root.join(".image-venv").join("bin").join("python")
+        };
         if dev.exists() {
             return Some(dev);
         }
     }
-    for candidate in ["python3.12", "python3.13", "python3.14", "python3"] {
-        if let Ok(output) = Command::new(candidate).arg("--version").output() {
-            if output.status.success() {
-                return Some(PathBuf::from(candidate));
-            }
-        }
-    }
-    None
+    system_python_path()
 }
 
 fn runtime_json(python: &Path, script: &Path) -> Option<serde_json::Value> {
@@ -633,22 +676,15 @@ pub fn generate(
 /// Crea il venv utente e installa il runtime Python. Operazione lunga:
 /// l'interfaccia deve mostrarla come in corso e non bloccare l'editor.
 pub fn install_runtime(paths: &AppPaths) -> Result<String, String> {
-    let python = ["python3.12", "python3.13", "python3.14", "python3"]
-        .iter()
-        .find(|candidate| {
-            Command::new(candidate)
-                .arg("--version")
-                .output()
-                .map(|out| out.status.success())
-                .unwrap_or(false)
-        })
-        .ok_or_else(|| "Python 3 non trovato sul sistema".to_string())?;
+    let (python, python_args) = system_python().ok_or_else(|| {
+        "Python 3 non trovato. Su Windows installa Python da python.org (selezionando «Add python.exe to PATH») oppure dal Microsoft Store; su macOS installa Python 3.12 o successivo."
+            .to_string()
+    })?;
     let venv = paths.data_dir.join("image-venv");
     if !venv_python(&paths.data_dir).exists() {
-        let output = Command::new(python)
-            .arg("-m")
-            .arg("venv")
-            .arg(&venv)
+        let mut command = Command::new(&python);
+        command.args(&python_args).arg("-m").arg("venv").arg(&venv);
+        let output = command
             .output()
             .map_err(|e| format!("creazione ambiente immagini: {e}"))?;
         if !output.status.success() {
@@ -711,6 +747,20 @@ pub fn download_model(paths: &AppPaths, model: &str) -> Result<String, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn python_candidates_include_the_names_used_on_the_platform() {
+        let names: Vec<String> = system_python_candidates()
+            .into_iter()
+            .map(|(program, _)| program)
+            .collect();
+        assert!(names.iter().any(|name| name == "python"));
+        if cfg!(windows) {
+            assert!(names.iter().any(|name| name == "py"));
+        } else {
+            assert!(names.iter().any(|name| name == "python3"));
+        }
+    }
 
     #[test]
     fn default_config_uses_auto_backend_and_a_real_model() {

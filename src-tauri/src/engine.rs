@@ -558,65 +558,43 @@ impl Engine {
             .and_then(|raw| serde_json::from_str::<AiConfig>(&raw).ok())
             .unwrap_or_default();
 
-        // Il motore neurale è incluso nell'applicazione: se l'utente non ha
-        // scelto altri percorsi, si usano binario e modello del pacchetto.
+        // Il runtime neurale è incluso nell'applicazione; il modello GGUF non
+        // è più nel pacchetto e va scelto o scaricato dall'utente.
         let ai_dir = paths.ai_dir();
-        let mut bundled = false;
         if ai_config.binary_path.trim().is_empty() {
-            for name in ["llama-cli", "llama-cli.exe"] {
-                for directory in [ai_dir.clone(), ai_dir.join("runtime")] {
+            'runtime: for name in ["llama-cli", "llama-cli.exe"] {
+                for directory in [ai_dir.join("runtime"), ai_dir.clone()] {
                     let candidate = directory.join(name);
                     if candidate.exists() {
                         ai_config.binary_path = candidate.display().to_string();
-                        bundled = true;
-                        break;
+                        break 'runtime;
                     }
                 }
-                if bundled {
-                    break;
-                }
-            }
-        }
-        if ai_config.model_path.trim().is_empty() {
-            let candidate = ai_dir.join("model.gguf");
-            if candidate.exists() {
-                ai_config.model_path = candidate.display().to_string();
-                bundled = true;
             }
         }
         // Il progetto è stato spostato (o l'app è stata reinstallata): i
         // percorsi salvati possono puntare a una cartella non più esistente.
-        // Si riallineano al runtime incluso, senza toccare un percorso
+        // Si riallinea solo il runtime incluso, senza toccare un percorso
         // personalizzato ancora valido.
         let mut repaired_ai = false;
         if !ai_config.binary_path.trim().is_empty()
             && !std::path::Path::new(&ai_config.binary_path).exists()
         {
-            for name in ["llama-cli", "llama-cli.exe"] {
-                let candidate = ai_dir.join(name);
-                if candidate.exists() {
-                    ai_config.binary_path = candidate.display().to_string();
-                    repaired_ai = true;
-                    break;
+            'repair: for name in ["llama-cli", "llama-cli.exe"] {
+                for directory in [ai_dir.join("runtime"), ai_dir.clone()] {
+                    let candidate = directory.join(name);
+                    if candidate.exists() {
+                        ai_config.binary_path = candidate.display().to_string();
+                        repaired_ai = true;
+                        break 'repair;
+                    }
                 }
-            }
-        }
-        if !ai_config.model_path.trim().is_empty()
-            && !std::path::Path::new(&ai_config.model_path).exists()
-        {
-            let candidate = ai_dir.join("model.gguf");
-            if candidate.exists() {
-                ai_config.model_path = candidate.display().to_string();
-                repaired_ai = true;
             }
         }
         if repaired_ai {
             if let Ok(raw) = serde_json::to_string(&ai_config) {
                 let _ = db.set_setting("ai.config", &raw);
             }
-        }
-        if bundled && !ai_config.enabled {
-            ai_config.enabled = true;
         }
 
         let hardware = ai_engine::hardware::detect();
@@ -2158,19 +2136,42 @@ impl Engine {
             .unwrap_or_else(|| token.normalized.clone());
 
         if !opts.document_key.is_empty() {
-            if let Some((symbol_id, concept_id)) = db
+            if let Some(record) = db
                 .document_override(&opts.document_key, unit_key)
                 .map_err(|e| e.to_string())?
             {
-                return Ok(Some(Preference {
-                    scope: "document".to_string(),
-                    lemma,
-                    context_key: None,
-                    symbol_id: symbol_id.unwrap_or_default(),
-                    concept_id,
-                    locked: true,
-                    created_at: now_iso(),
-                }));
+                // La scelta vale solo per la parola su cui è stata fatta. Le
+                // righe precedenti alla migrazione 6 non hanno `surface`: in
+                // quel caso si usa l'etichetta del simbolo.
+                let wanted = token.normalized.clone();
+                let token_lemma = token
+                    .lemma
+                    .as_deref()
+                    .map(crate::linguistics::normalize::normalize_word);
+                let matches = match record.surface.as_deref() {
+                    Some(surface) => {
+                        crate::linguistics::normalize::normalize_word(surface) == wanted
+                    }
+                    None => record
+                        .symbol_label
+                        .as_deref()
+                        .map(|label| {
+                            let label = crate::linguistics::normalize::normalize_word(label);
+                            label == wanted || token_lemma.as_deref() == Some(label.as_str())
+                        })
+                        .unwrap_or(false),
+                };
+                if matches {
+                    return Ok(Some(Preference {
+                        scope: "document".to_string(),
+                        lemma,
+                        context_key: None,
+                        symbol_id: record.symbol_id.unwrap_or_default(),
+                        concept_id: record.concept_id,
+                        locked: true,
+                        created_at: now_iso(),
+                    }));
+                }
             }
         }
 
@@ -3758,7 +3759,7 @@ mod tests {
         engine
             .db()
             .unwrap()
-            .set_document_override(doc, "p1:0", Some("arasaac.picto.27504"), None)
+            .set_document_override(doc, "p1:0", Some("arasaac.picto.27504"), None, Some("mondo"))
             .unwrap();
         engine.clear_caches();
         let result = engine
@@ -3778,6 +3779,49 @@ mod tests {
     }
 
     #[test]
+    fn document_override_does_not_leak_to_a_different_word() {
+        let engine = test_engine();
+        let doc = "/tmp/override-casa-famiglia.caadoc";
+        engine
+            .db()
+            .unwrap()
+            .set_document_override(
+                doc,
+                "p1:0",
+                Some("core.place.house"),
+                Some("place.house"),
+                Some("casa"),
+            )
+            .unwrap();
+        engine.clear_caches();
+        let opts = |paragraph: &str| SymbolizeOptions {
+            intensity: Intensity::Completa,
+            mode: CaaMode::Sopra,
+            document_key: doc.to_string(),
+            paragraph_id: paragraph.to_string(),
+            ..Default::default()
+        };
+        let first = engine.symbolize("casa", &opts("p1")).unwrap();
+        assert_eq!(
+            first.tokens[0].symbol_id.as_deref(),
+            Some("core.place.house")
+        );
+        // La stessa posizione ora contiene «famiglia»: la scelta fatta per
+        // «casa» non deve restare attaccata al primo pittogramma.
+        let second = engine.symbolize("famiglia", &opts("p1")).unwrap();
+        assert_ne!(
+            second.tokens[0].symbol_id.as_deref(),
+            Some("core.place.house")
+        );
+        // Tornando a «casa» la scelta manuale è ancora valida.
+        let again = engine.symbolize("casa", &opts("p1")).unwrap();
+        assert_eq!(
+            again.tokens[0].symbol_id.as_deref(),
+            Some("core.place.house")
+        );
+    }
+
+    #[test]
     fn manual_override_applies_to_word_the_engine_would_skip() {
         if !arasaac_pack_available() {
             eprintln!("catalogo ARASAAC assente: test saltato (scripts/fetch_arasaac.py)");
@@ -3790,7 +3834,7 @@ mod tests {
         engine
             .db()
             .unwrap()
-            .set_document_override(doc, "p1:0", Some("arasaac.picto.27504"), None)
+            .set_document_override(doc, "p1:0", Some("arasaac.picto.27504"), None, Some("blorbare"))
             .unwrap();
         engine.clear_caches();
         let result = engine
@@ -3844,7 +3888,13 @@ mod tests {
         engine
             .db()
             .unwrap()
-            .set_document_override(doc, &unit, Some(&chosen.symbol_id), chosen.concept_id.as_deref())
+            .set_document_override(
+                doc,
+                &unit,
+                Some(&chosen.symbol_id),
+                chosen.concept_id.as_deref(),
+                Some(&token.surface),
+            )
             .unwrap();
         engine
             .db()
@@ -3967,14 +4017,14 @@ mod tests {
     }
 
     #[test]
-    fn bundled_neural_engine_is_configured() {
-        // Runtime e modello sono nel pacchetto `resources/ai`: il motore deve
-        // risultare pronto senza che l'utente configuri percorsi.
+    fn bundled_runtime_is_configured_without_a_bundled_model() {
+        // Il runtime llama.cpp è nel pacchetto `resources/ai`, ma il modello
+        // GGUF non è più incluso: l'utente deve sceglierne uno dal catalogo.
         let engine = test_engine();
         let status = engine.ai_status();
-        assert!(status.binary_present, "binario incluso assente");
-        assert!(status.model_present, "modello incluso assente");
-        assert!(status.enabled, "motore incluso non attivato");
+        assert!(status.binary_present, "runtime incluso assente");
+        assert!(!status.model_present, "nessun modello deve essere incluso");
+        assert!(!status.enabled, "il motore non parte senza un modello");
     }
 
     #[test]
@@ -4119,6 +4169,7 @@ mod tests {
                 &unit_key,
                 Some(&alternative.symbol_id),
                 Some("activity.fishing"),
+                Some("pesca"),
             )
             .unwrap();
         // La cache dei paragrafi non conosce le preferenze: va svuotata.

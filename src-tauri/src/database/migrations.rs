@@ -334,4 +334,15 @@ UPDATE symbols
      OR lower(trim(original_name)) LIKE lower(trim(label)) || '-%'
    );
 "#,
+}, Migration {
+    version: 6,
+    name: "document_override_surface",
+    sql: r#"
+-- La scelta di un pittogramma è legata all'occorrenza (pid:indice), ma quando
+-- il testo cambia la stessa posizione può contenere un'altra parola. Senza la
+-- superficie, un pittogramma scelto per «casa» restava sulla parola successiva
+-- «famiglia». Le scelte nuove memorizzano la parola; quelle vecchie restano
+-- NULL e vengono validate dall'etichetta del simbolo.
+ALTER TABLE document_overrides ADD COLUMN surface TEXT;
+"#,
 }];

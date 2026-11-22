@@ -1,4 +1,4 @@
-# CAA Writer — capacità (API 1.0, versione 0.15.21)
+# CAA Writer — capacità (API 1.0, versione 0.15.22)
 
 ## `app.capabilities` — Catalogo delle capacità
 

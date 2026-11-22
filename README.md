@@ -44,7 +44,7 @@ Sintesi onesta di ciò che esiste nel codice:
 | Export HTML, PDF, PNG, DOCX e PPTX modificabili per elemento | implementato |
 | Visual Resource Studio (modelli + prompt → specifica JSON → layout) | implementato (layout essenziale) |
 | Sintesi vocale di sistema (macOS `say`, Windows SAPI) | implementato |
-| IA locale via llama.cpp + GGUF | **inclusa**: runtime e Qwen2.5-0.5B-Instruct nel pacchetto; 1.5B, 3B e SmolLM2 1.7B scaricabili da un catalogo con URL e sha256 verificati, oppure importabili come file GGUF locali |
+| IA locale via llama.cpp + GGUF | **inclusa come runtime**: nessun modello è nel pacchetto; 1.5B, 3B e SmolLM2 1.7B scaricabili da un catalogo con URL e sha256 verificati, oppure importabili come file GGUF locali |
 | Installer firmati/notarizzati | **non disponibili**: mancano certificati |
 | Test su Windows con 4 GB di RAM | **non eseguiti** in questo ambiente |
 | Pittogrammi ARASAAC (pacchetto `arasaac`) | **inclusi**: intero catalogo italiano, 13.906 pittogrammi, CC BY-NC-SA 4.0, autore Sergio Palao / ARASAAC |

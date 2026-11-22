@@ -76,6 +76,17 @@ pub struct ConceptRecord {
     pub broader: Option<String>,
 }
 
+/// Scelta di un pittogramma per una singola occorrenza. `surface` è la parola
+/// per cui la scelta è stata fatta; `symbol_label` serve alle righe create
+/// prima della migrazione 6, che non hanno la superficie.
+#[derive(Debug, Clone)]
+pub struct DocumentOverride {
+    pub symbol_id: Option<String>,
+    pub concept_id: Option<String>,
+    pub surface: Option<String>,
+    pub symbol_label: Option<String>,
+}
+
 pub struct Database {
     conn: Connection,
 }
@@ -692,14 +703,23 @@ impl Database {
         &self,
         doc_key: &str,
         unit_key: &str,
-    ) -> DbResult<Option<(Option<String>, Option<String>)>> {
+    ) -> DbResult<Option<DocumentOverride>> {
         let record = self
             .conn
             .query_row(
-                "SELECT symbol_id, concept_id FROM document_overrides
-                 WHERE doc_key = ?1 AND unit_key = ?2 AND locked = 1",
+                "SELECT o.symbol_id, o.concept_id, o.surface, s.label
+                 FROM document_overrides o
+                 LEFT JOIN symbols s ON s.id = o.symbol_id
+                 WHERE o.doc_key = ?1 AND o.unit_key = ?2 AND o.locked = 1",
                 params![doc_key, unit_key],
-                |row| Ok((row.get(0)?, row.get(1)?)),
+                |row| {
+                    Ok(DocumentOverride {
+                        symbol_id: row.get(0)?,
+                        concept_id: row.get(1)?,
+                        surface: row.get(2)?,
+                        symbol_label: row.get(3)?,
+                    })
+                },
             )
             .optional()?;
         Ok(record)
@@ -711,16 +731,18 @@ impl Database {
         unit_key: &str,
         symbol_id: Option<&str>,
         concept_id: Option<&str>,
+        surface: Option<&str>,
     ) -> DbResult<()> {
         self.conn.execute(
-            "INSERT INTO document_overrides(doc_key, unit_key, symbol_id, concept_id, locked, updated_at)
-             VALUES (?1, ?2, ?3, ?4, 1, ?5)
+            "INSERT INTO document_overrides(doc_key, unit_key, symbol_id, concept_id, surface, locked, updated_at)
+             VALUES (?1, ?2, ?3, ?4, ?5, 1, ?6)
              ON CONFLICT(doc_key, unit_key) DO UPDATE SET
                 symbol_id = excluded.symbol_id,
                 concept_id = excluded.concept_id,
+                surface = COALESCE(excluded.surface, document_overrides.surface),
                 locked = 1,
                 updated_at = excluded.updated_at",
-            params![doc_key, unit_key, symbol_id, concept_id, now_iso()],
+            params![doc_key, unit_key, symbol_id, concept_id, surface, now_iso()],
         )?;
         Ok(())
     }
@@ -1026,7 +1048,7 @@ mod tests {
     fn unit_state_roundtrip_keeps_symbol_and_flags() {
         let mut db = Database::open_memory().unwrap();
         db.migrate().unwrap();
-        db.set_document_override("doc.caadoc", "p1:2", Some("core.a"), Some("a"))
+        db.set_document_override("doc.caadoc", "p1:2", Some("core.a"), Some("a"), Some("a"))
             .unwrap();
         let modifiers = UnitModifiers {
             plural: true,
@@ -1042,9 +1064,10 @@ mod tests {
         assert!(hidden);
         assert!(stored.plural && stored.manual);
         // Il simbolo scelto resta: cambiare visibilità non annulla la scelta.
-        let (symbol, concept) = db.document_override("doc.caadoc", "p1:2").unwrap().unwrap();
-        assert_eq!(symbol.as_deref(), Some("core.a"));
-        assert_eq!(concept.as_deref(), Some("a"));
+        let record = db.document_override("doc.caadoc", "p1:2").unwrap().unwrap();
+        assert_eq!(record.symbol_id.as_deref(), Some("core.a"));
+        assert_eq!(record.concept_id.as_deref(), Some("a"));
+        assert_eq!(record.surface.as_deref(), Some("a"));
         // Sbloccare rende l'unità di nuovo automatica.
         db.set_unit_state("doc.caadoc", "p1:2", false, true, &modifiers)
             .unwrap();

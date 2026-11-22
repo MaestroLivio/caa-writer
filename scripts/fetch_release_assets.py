@@ -3,12 +3,11 @@
 
 Il repository versiona codice, lessico, SVG originali e template. Non versiona:
 
-- il modello Qwen2.5-0.5B-Instruct GGUF (491 MB, oltre i limiti di GitHub);
 - il runtime llama.cpp, specifico per sistema operativo e architettura;
 - il catalogo ARASAAC completo (439 MB, ricostruibile dall'API pubblica).
 
-Questo script li scarica e verifica il modello con lo sha256. Va eseguito prima
-di `npm run tauri build` su una macchina pulita o in CI.
+Il modello linguistico GGUF non è più incluso: l'utente lo sceglie dal
+catalogo dell'app e lo scarica separatamente.
 
 Uso:
     python3 scripts/fetch_release_assets.py
@@ -18,60 +17,13 @@ Uso:
 from __future__ import annotations
 
 import argparse
-import hashlib
 import subprocess
 import sys
-import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 AI_DIR = ROOT / "resources" / "ai"
-MODEL = AI_DIR / "model.gguf"
 ARASAAC = ROOT / "resources" / "symbol-packs" / "arasaac"
-
-MODEL_URL = (
-    "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/"
-    "qwen2.5-0.5b-instruct-q4_k_m.gguf"
-)
-MODEL_SHA256 = "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db"
-MODEL_SIZE = 491_400_032
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
-
-
-def download_model() -> None:
-    AI_DIR.mkdir(parents=True, exist_ok=True)
-    if MODEL.exists() and MODEL.stat().st_size == MODEL_SIZE and sha256(MODEL) == MODEL_SHA256:
-        print(f"modello già presente e verificato: {MODEL}")
-        return
-    partial = MODEL.with_suffix(".gguf.part")
-    print(f"scarico il modello ({MODEL_SIZE / 1e9:.2f} GB)…")
-    request = urllib.request.Request(MODEL_URL, headers={"User-Agent": "CAAWriter/0.2"})
-    with urllib.request.urlopen(request, timeout=600) as response, partial.open("wb") as out:
-        total = int(response.headers.get("Content-Length") or MODEL_SIZE)
-        done = 0
-        while True:
-            block = response.read(1024 * 1024)
-            if not block:
-                break
-            out.write(block)
-            done += len(block)
-            if done % (32 * 1024 * 1024) < 1024 * 1024:
-                print(f"  {done / total * 100:5.1f}% · {done / 1e6:.0f} MB", flush=True)
-    if partial.stat().st_size != MODEL_SIZE:
-        raise SystemExit(f"dimensione inattesa: {partial.stat().st_size} byte")
-    actual = sha256(partial)
-    if actual != MODEL_SHA256:
-        partial.unlink(missing_ok=True)
-        raise SystemExit(f"sha256 errato: {actual}")
-    partial.replace(MODEL)
-    print(f"modello verificato: {MODEL}")
 
 
 def run(script: str, *args: str) -> None:
@@ -99,7 +51,6 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    download_model()
     runtime_present = (AI_DIR / "llama-server").exists() or (AI_DIR / "llama-server.exe").exists()
     if runtime_present and not args.force_llama:
         print(f"runtime llama.cpp già presente: {AI_DIR}")

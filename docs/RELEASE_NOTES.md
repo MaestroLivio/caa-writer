@@ -1,46 +1,54 @@
-# CAA Writer 0.15.21 — correzione dei pittogrammi espliciti
+# CAA Writer 0.15.22 — pittogrammi legati alla parola e controlli touch
 
-Data: 20 novembre 2026
+Data: 22 novembre 2026
 
 ## Correzione principale
 
-Scrivendo «pap» (prima di «papà») non compare più il pittogramma «pap test»
-quando i contenuti espliciti sono disattivati.
+Scrivendo «casa è bella» e poi sostituendo la frase con «famiglia felice», il
+primo pittogramma non resta più «casa». Ogni scelta memorizzata registra ora la
+parola a cui si riferisce: una scelta fatta per «casa» non viene applicata a
+«famiglia». I suggerimenti automatici Horizon non creano più override bloccati,
+quindi il motore riparte dalla parola nuova a ogni modifica del testo.
 
-La causa era nell'import automatico ARASAAC: una ricerca parziale accettava il
-primo risultato senza verificare il titolo, quindi «pap» importava «pap test»
-come copia personale con etichetta «pap». La correzione agisce su quattro
-livelli:
+Le scelte manuali restano valide per la stessa parola e non vengono applicate
+a una parola diversa.
 
-- l'import automatico accetta solo un titolo che corrisponde davvero alla
-  parola (con eventuale articolo italiano);
-- una migrazione nasconde gli import automatici già sbagliati, senza
-  cancellare gli asset;
-- i ripieghi automatici di `resolveMissingSymbols` rispettano il filtro dei
-  contenuti espliciti;
-- l'editor universale applica lo stesso filtro anche ai pittogrammi già
-  salvati nelle caselle.
+## Modello di diffusione su Windows
 
-Nello stesso aggiornamento la rianalisi non sostituisce più un pittogramma
-bloccato dall'utente.
+Il runtime immagini cerca ora `py -3`, `python`, `python3` e le versioni
+numeriche. Prima veniva interrogato solo `python3`, quindi su Windows
+l'installazione poteva dichiarare Python assente anche quando `python` era
+disponibile. Se Python non è installato, il messaggio indica di installarlo da
+python.org o dal Microsoft Store.
 
-## Novità incluse
+## Interfaccia touch
 
-- Motore decisionale locale per disambiguazione, intenzione, categoria, board,
-  emozione, azione, layout e obiettivo, con runtime ONNX incluso nella build.
-- Suggerimenti Horizon applicati direttamente nell'editor principale, in
-  CaaEditor e nel compositore di frasi dell'editor universale.
-- Modalità sviluppatore della libreria con anteprima, modifica,
-  sostituzione, aggiunta ed eliminazione dei documenti.
+- La modalità touch è attiva per impostazione predefinita: rimosse le opzioni
+  «Modalità tocco» e «Controlli smartboard e tastiera a schermo».
+- Il pulsante **Controlli** resta sempre visibile in basso a sinistra. Dal
+  pannello si regola la dimensione del testo (10–32 px) e si attiva
+  **TUTTO MAIUSCOLE**; il controllo duplicato è stato tolto dalle impostazioni.
+- Il pannello mantiene tastiera a schermo, spazio, cancellazione, invio,
+  annulla/ripeti e ascolto. Non compare in stampa.
+
+## Modelli
+
+Il modello Qwen2.5-0.5B-Instruct è stato rimosso dal pacchetto e dal catalogo.
+Il runtime llama.cpp resta incluso; i modelli Qwen2.5-1.5B, Qwen2.5-3B e
+SmolLM2-1.7B si scaricano dal catalogo o si importano come file GGUF.
+
+## Novità della 0.15.21 mantenute
+
+- Runtime ONNX incluso e collegato staticamente per il motore decisionale.
+- Correzione del pittogramma esplicito «pap test».
+- Modalità sviluppatore della libreria.
 - Libreria arricchita con materiale v2, dizionario v8 e catalogo
   pre-indicizzato.
 
 ## Limiti
 
-- I pesi del modello neuronale ONNX (268 MB) non sono inclusi nel bundle: si
-  installano separatamente dal Gestore pacchetti. Il runtime ONNX è incluso
-  nella build e collegato staticamente, quindi non serve installare librerie
-  esterne.
+- Il modello neurale ONNX (268 MB) non è incluso: si installa dal Gestore
+  pacchetti. Il runtime è incluso.
 - Windows e Linux sono compilati dal workflow di release ma non sono stati
   eseguiti su hardware reale in questa sessione.
 - La stampa usa il dialogo nativo; l'apertura reale del dialogo non è
@@ -55,7 +63,7 @@ bloccato dall'utente.
 
 ## Installazione
 
-- **Windows**: usare `CAA-Writer_0.15.21_windows-x64-setup.exe` (NSIS). Il
+- **Windows**: usare `CAA-Writer_0.15.22_windows-x64-setup.exe` (NSIS). Il
   pacchetto non è firmato: verificare il checksum SHA-256 e scegliere
   «Ulteriori informazioni» → «Esegui comunque» se SmartScreen avvisa.
 - **macOS**: aprire il `.dmg`, trascinare `CAA Writer.app` in Applicazioni.
@@ -63,6 +71,15 @@ bloccato dall'utente.
   notarizzata). In alternativa usare il file `.app.zip`.
 - **Linux**: usare il pacchetto `.deb`, `.rpm` o `.AppImage` prodotto dal
   workflow.
+
+## Artefatti di questa release
+
+| File | Dimensione |
+|---|---|
+| `CAA-Writer_0.15.22_macos-arm64.dmg` | 263.755.492 byte |
+| `CAA-Writer_0.15.22_macos-arm64.app.zip` | 257.104.599 byte |
+| `CAA-Writer_0.15.22_cli-macos-arm64` | 22.219.984 byte |
+| `CAA-Writer_0.15.22_windows-x64-setup.exe` | 169.889.985 byte |
 
 ## Verifica dei file
 
@@ -78,9 +95,8 @@ shasum -a 256 -c SHA256SUMS-macos-arm64.txt   # macOS
 ```text
 npm run build                      ok, 0 errori TypeScript
 npm run test:frontend              75/75
-cargo test --lib                   313/313
-cargo test --lib --features onnx   318/318 (modello Horizon reale)
-cargo build --features onnx --bin caa-cli   ok (runtime ONNX statico)
+cargo test --lib                   315/315
+cargo test --lib --features onnx   320/320 (modello Horizon reale)
 python3 scripts/check_context.py   21/21 sezioni
 ```
 
