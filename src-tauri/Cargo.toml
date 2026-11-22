@@ -1,6 +1,6 @@
 [package]
 name = "caa-writer"
-version = "0.15.22"
+version = "0.15.23"
 description = "Word processor CAA offline con motore semantico locale"
 authors = ["CAA Writer contributors"]
 edition = "2021"
@@ -8,6 +8,22 @@ rust-version = "1.77"
 license = "CC-BY-NC-SA-4.0"
 publish = false
 default-run = "caa-writer"
+# Su volumi exFAT macOS crea file AppleDouble `._nome.rs`: con la scoperta
+# automatica Cargo li trattava come binari e il bundler Tauri falliva.
+# I target sono quindi dichiarati esplicitamente.
+autobins = false
+
+[[bin]]
+name = "caa-writer"
+path = "src/main.rs"
+
+[[bin]]
+name = "caa-cli"
+path = "src/bin/caa-cli.rs"
+
+[[bin]]
+name = "caa-mcp"
+path = "src/bin/caa-mcp.rs"
 
 [lib]
 name = "caa_writer_lib"
@@ -36,7 +52,6 @@ clap = { version = "4", features = ["derive"] }
 resvg = "0.45.1"
 flate2 = "1.1.11"
 tar = "0.4"
-keyring = { version = "3.6.3", features = ["apple-native", "windows-native", "linux-native"] }
 
 # Motore decisionale semantico: ONNX Runtime + tokenizer Hugging Face.
 # Opzionali per non appesantire le build che non includono il modello.

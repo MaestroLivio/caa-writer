@@ -1,11 +1,11 @@
 {
-  "templates_expected": 505,
+  "templates_expected": 320,
   "boards_expected": 30,
-  "templates_built": 505,
+  "templates_built": 320,
   "boards_built": 30,
-  "built": 535,
-  "valid": 535,
-  "modifiable": 535,
+  "built": 350,
+  "valid": 350,
+  "modifiable": 350,
   "failed": 0,
   "missing_symbols": 866,
   "missing_examples": [

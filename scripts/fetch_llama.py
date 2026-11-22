@@ -42,14 +42,23 @@ def request_headers() -> dict[str, str]:
     return headers
 
 
-def asset_pattern() -> str:
+def asset_patterns() -> list[str]:
+    """Pattern in ordine di preferenza.
+
+    Il nome degli asset Windows è cambiato: le release recenti pubblicano
+    `bin-win-cpu-x64` (che contiene le varianti CPU con dispatch a runtime)
+    al posto di `bin-win-avx2-x64`. Il secondo resta come ripiego per le
+    release più vecchie.
+    """
     system = platform.system().lower()
     machine = platform.machine().lower()
     if system == "darwin":
-        return "bin-macos-arm64" if machine in {"arm64", "aarch64"} else "bin-macos-x64"
+        return ["bin-macos-arm64" if machine in {"arm64", "aarch64"} else "bin-macos-x64"]
     if system == "windows":
-        return "bin-win-avx2-x64" if machine in {"amd64", "x86_64"} else f"bin-win-{machine}"
-    return "bin-ubuntu-x64" if machine in {"x86_64", "amd64"} else "bin-ubuntu-arm64"
+        if machine in {"amd64", "x86_64"}:
+            return ["bin-win-cpu-x64", "bin-win-avx2-x64"]
+        return [f"bin-win-{machine}"]
+    return ["bin-ubuntu-x64" if machine in {"x86_64", "amd64"} else "bin-ubuntu-arm64"]
 
 
 def get_json(url: str) -> dict | list:
@@ -83,11 +92,20 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    pattern = args.asset or asset_pattern()
-    release, match = release_with_assets(pattern, args.tag)
+    pattern = args.asset or asset_patterns()
+    if isinstance(pattern, str):
+        pattern = [pattern]
+    release, match = {}, {}
+    pattern_used = ""
+    for candidate in pattern:
+        release, match = release_with_assets(candidate, args.tag)
+        if match:
+            pattern_used = candidate
+            break
     if not match:
-        print(f"nessun asset «{pattern}» nelle ultime release", file=sys.stderr)
+        print(f"nessun asset «{', '.join(pattern)}» nelle ultime release", file=sys.stderr)
         return 1
+    pattern = pattern_used
 
     print(f"release {release.get('tag_name')} → {match['name']} ({match['size'] / 1e6:.1f} MB)")
     if args.check:

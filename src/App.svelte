@@ -626,15 +626,14 @@
   const ribbonMode = $derived($workspace.ribbonMode);
   const panelClosed = $derived($workspace.sidebarMode === "collapsed");
   let windowWidth = $state(typeof window === "undefined" ? 1440 : window.innerWidth);
-  // Su finestre medie il pannello ancorato diventa temporaneamente sovrapposto,
-  // senza modificare la preferenza salvata.
-  // Il pannello resta ancorato per impostazione predefinita. La modalità
-  // sovrapposta si attiva solo con il pulsante del pannello o con un preset
-  // scelto dall'utente; su finestre molto strette si riduce a icona.
+  // Il pannello resta ancorato per impostazione predefinita e non si
+  // sovrappone mai al documento. Su finestre molto strette si riduce a icona.
   const effectiveSidebarMode = $derived(
     windowWidth < 720 && $workspace.sidebarMode !== "collapsed"
       ? "collapsed"
-      : $workspace.sidebarMode
+      : $workspace.sidebarMode === "overlay"
+        ? "docked"
+        : $workspace.sidebarMode
   );
   // Se la scheda contestuale non è più pertinente, si torna a Home.
   $effect(() => {
@@ -663,6 +662,7 @@
     selectedUnit: selected ? { pid: selected.pid, index: selected.token.index } : null,
     autoEnabled: settings.auto_caa,
     neural: neuralReady,
+    horizon: settings.neural_context,
     onlineAutoInsert: settings.online_auto_insert && settings.online_search !== "off",
     symbolizeArticles: settings.symbolize_articles,
     symbolizePrepositions: settings.symbolize_prepositions,
@@ -792,17 +792,31 @@
     if (horizonTimer) window.clearTimeout(horizonTimer);
   });
 
-  /// Primo avvio con installer snello: propone i pacchetti opzionali una
-  /// volta sola. «Più tardi» non salva nulla, quindi la finestra ricompare.
-  const FIRST_RUN_KEY = "caa.firstrun.packages.v2";
+  /// Primo avvio e primo avvio dopo un aggiornamento: il motore semantico e
+  /// la voce neurale devono essere presenti e funzionanti da subito.
+  const FIRST_RUN_KEY = "caa.firstrun.packages.v3";
   onMount(() => {
     if (!native) return;
-    try {
-      if (localStorage.getItem(FIRST_RUN_KEY) === "done") return;
-    } catch {
-      /* spazio locale non disponibile: la finestra si mostra comunque */
+    const keyDone = (() => {
+      try {
+        return localStorage.getItem(FIRST_RUN_KEY) === "done";
+      } catch {
+        return false;
+      }
+    })();
+    if (!keyDone) {
+      firstRunOpen = true;
+      return;
     }
-    firstRunOpen = true;
+    // Dopo un aggiornamento i pesi possono mancare: in quel caso si riapre la
+    // finestra invece di lasciare il motore in modalità solo regole.
+    void Promise.allSettled([api.decisionStatus(), api.voiceStatus()]).then(([decision, voice]) => {
+      const modelMissing =
+        decision.status === "fulfilled" && !decision.value.model?.installed;
+      const voiceMissing =
+        voice.status === "fulfilled" && !voice.value.installed;
+      if (modelMissing || voiceMissing) firstRunOpen = true;
+    });
   });
 
   /// Controllo aggiornamenti all'avvio, dopo che la finestra è pronta. Non
@@ -836,11 +850,17 @@
     const jobs = ids.filter(
       (id) =>
         id === "voice" ||
-        id === "diffusion" ||
+        id === "semantic" ||
         id === "update" ||
         id.startsWith("symbols:")
     );
     if (mandatory) markFirstRunDone();
+    // La voce è attiva per impostazione predefinita insieme ai suoni dell'app.
+    if (native) {
+      void api.setSetting("speech.enabled", "true");
+      settings = { ...settings, speech_enabled: true, typing_sound: true };
+      void persistSettings();
+    }
     firstRunOpen = false;
     for (const id of jobs) {
       try {
@@ -2528,81 +2548,6 @@
     }
   }
 
-  /// Genera un'immagine con il motore neurale. `apply` la applica alla parola
-  /// selezionata come pittogramma personale; `insert` la aggiunge come elemento
-  /// immagine al documento universale aperto.
-  async function generateImage(prompt: string, mode: "apply" | "insert") {
-    const clean = prompt.trim();
-    if (!clean) {
-      toast("Scrivi un prompt per l'immagine.", "warn");
-      return;
-    }
-    if (mode === "apply" && !selected) {
-      toast("Seleziona prima una parola nel documento.", "warn");
-      return;
-    }
-    if (mode === "insert" && !universalEditorRef) {
-      toast("Apri un documento universale per inserire l'immagine.", "warn");
-      return;
-    }
-    try {
-      toast("Generazione dell'immagine in corso…", "info");
-      const image = await api.imageGenerate(clean);
-      if (!image.png_base64) {
-        throw new Error("Il motore non ha restituito un'immagine.");
-      }
-      const width = image.width || 512;
-      const height = image.height || 512;
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><image width="${width}" height="${height}" href="data:image/png;base64,${image.png_base64}"/></svg>`;
-      if (mode === "insert") {
-        await universalEditorRef!.insertImageElement(svg, clean);
-        toast(
-          `Immagine generata con ${image.backend} (${(image.elapsed_ms / 1000).toFixed(1)} s) e inserita.`,
-          "info"
-        );
-        return;
-      }
-      const lemma = selected!.token.lemma ?? selected!.token.surface;
-      const label = clean.length > 60 ? `${clean.slice(0, 57)}…` : clean;
-      // Concetto separato: l'immagine resta una scelta manuale e non viene
-      // applicata automaticamente ad altre occorrenze della stessa parola.
-      const slug = lemma
-        .toLocaleLowerCase("it")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-      const symbolId = await api.importSvgSymbol(
-        `IA — ${label}`,
-        svg,
-        lemma,
-        `Immagine generata: ${clean}`,
-        slug ? `custom.ai.${slug}` : null
-      );
-      const alternative: Alternative = {
-        symbol_id: symbolId,
-        concept_id: null,
-        label,
-        meaning: clean,
-        pack_id: "personal",
-        pack_name: "Generato dall'IA",
-        format: "svg",
-        svg,
-        approximate: false,
-        license: "CC BY-NC-SA 4.0",
-        source_url: null,
-        author: "CAA Writer — modello neurale",
-      };
-      await applyAlternative(alternative);
-      toast(
-        `Immagine generata con ${image.backend} (${(image.elapsed_ms / 1000).toFixed(1)} s) e applicata.`,
-        "info"
-      );
-    } catch (error) {
-      toast(error instanceof Error ? error.message : String(error), "error");
-    }
-  }
-
   async function chatWithAi(messages: AiChatMessage[]): Promise<AiChatReply> {
     return api.aiChat(messages);
   }
@@ -3512,7 +3457,7 @@
     withStageScroll(() =>
       updateWorkspace({
         activeSidebarPanel: tab,
-        sidebarMode: $workspace.sidebarMode === "collapsed" ? "overlay" : $workspace.sidebarMode,
+        sidebarMode: $workspace.sidebarMode === "collapsed" ? "docked" : $workspace.sidebarMode,
       })
     );
     sideIntent = { tab, nonce: ++intentSeq };
@@ -3524,10 +3469,10 @@
   }
 
   function toggleSidebarDock() {
+    // Un solo comportamento: il pannello è ancorato oppure chiuso.
     withStageScroll(() =>
       updateWorkspace({
-        sidebarMode: $workspace.sidebarMode === "docked" ? "overlay" : "docked",
-        sidebarOverlayChoice: true,
+        sidebarMode: $workspace.sidebarMode === "collapsed" ? "docked" : "collapsed",
       })
     );
   }
@@ -3681,7 +3626,7 @@
     }
     updateWorkspace({
       activeSidebarPanel: tab,
-      sidebarMode: $workspace.sidebarMode === "collapsed" ? "overlay" : $workspace.sidebarMode,
+      sidebarMode: $workspace.sidebarMode === "collapsed" ? "docked" : $workspace.sidebarMode,
     });
     sideIntent = { tab, nonce: ++intentSeq };
   }
@@ -5113,6 +5058,7 @@
           mode={effectiveMode}
           autoEnabled={settings.auto_caa}
           neural={neuralReady}
+          horizon={settings.neural_context}
           onlineAutoInsert={settings.online_auto_insert && settings.online_search !== "off"}
           symbolizeArticles={settings.symbolize_articles}
           symbolizePrepositions={settings.symbolize_prepositions}
@@ -5281,12 +5227,8 @@
         onOpen={(panel) => openSidebar(panel)}
       />
     {:else}
-      {#if effectiveSidebarMode === "overlay"}
-        <button class="panel-backdrop" aria-label="Chiudi pannello laterale" onclick={closeSidebar}></button>
-      {/if}
       <div
         class="panel-wrap"
-        class:panel-wrap--overlay={effectiveSidebarMode === "overlay"}
         style={`width:${$workspace.sidebarWidth}px`}
       >
         <button
@@ -5372,7 +5314,6 @@
           onSetAiConfig={setAiConfig}
           onStatusChange={refreshAiStatus}
           onGenerateResource={generateResource}
-          onGenerateImage={generateImage}
           onAiChat={chatWithAi}
           onOpenInEditor={openPlanInEditor}
           onOpenUniversalTemplate={(id) => openTemplate(id)}
@@ -5603,7 +5544,6 @@
     {editorMetrics}
     {diagnostics}
     onRefreshDiagnostics={refreshDiagnostics}
-    onStartDownload={(ids) => void startDownloads(ids, false)}
   />
 {/if}
 

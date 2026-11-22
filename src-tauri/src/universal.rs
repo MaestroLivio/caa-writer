@@ -3583,10 +3583,16 @@ pub fn resolve_library_path(
 
 pub fn load_library_manifest(resources: &std::path::Path) -> LibraryManifest {
     let path = resources.join("library/manifest.json");
-    std::fs::read_to_string(path)
+    let mut manifest: LibraryManifest = crate::text_io::read_lossy(&path)
         .ok()
         .and_then(|raw| serde_json::from_str(&raw).ok())
-        .unwrap_or_default()
+        .unwrap_or_default();
+    // Un solo punto di normalizzazione: tutti i consumatori (GUI, CLI, MCP)
+    // vedono gli stessi identificativi di categoria.
+    for entry in &mut manifest.entries {
+        crate::template_catalog::normalize_entry(entry);
+    }
+    manifest
 }
 
 // -------------------------------------------------------------------- test

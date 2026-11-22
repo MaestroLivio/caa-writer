@@ -1226,6 +1226,7 @@ textarea {
 
 /* Maiuscole e carattere: cambiano solo la visualizzazione. Il testo nel
    documento resta quello scritto, con la sua semantica e i suoi pittogrammi. */
+.paper[data-uppercase="true"] .editor,
 .paper[data-uppercase="true"] .caa-text {
   text-transform: uppercase;
 }

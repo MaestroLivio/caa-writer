@@ -1211,7 +1211,9 @@ fn collect_specs(dir: &Path, out: &mut Vec<(PathBuf, Value)>) -> Result<(), Stri
         {
             continue;
         }
-        let raw = std::fs::read_to_string(path)
+        // Le specifiche possono arrivare da editor Windows in ANSI/UTF-16:
+        // una codifica diversa non deve interrompere la costruzione.
+        let raw = crate::text_io::read_lossy(path)
             .map_err(|e| format!("{}: {e}", path.display()))?;
         let value: Value = serde_json::from_str(&raw)
             .map_err(|e| format!("{}: specifica non valida: {e}", path.display()))?;

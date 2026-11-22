@@ -1,5 +1,49 @@
 # Release e installer
 
+## Stato reale 0.15.23 (22 novembre 2026)
+
+- Modello semantico Horizon e voce neurale italiana installati e verificati al
+  primo avvio, senza rinvio; voce e suoni attivi per impostazione predefinita.
+  Le build di release usano `--features onnx`, quindi Horizon funziona davvero
+  fuori dalle build di sviluppo.
+- Motore di generazione immagini (diffusione, runtime Python, provider online) e
+  provider IA online rimossi: il registro espone **106 operazioni**, nessuna
+  `image.*`; la chat usa solo un GGUF locale opzionale e non simula risposte.
+- Lettura tollerante alla codifica (BOM, UTF-16, byte non validi) per documenti,
+  manifest, specifiche e file importati.
+- Libreria curata: **350 materiali** su 9 categorie canoniche, 0 errori di
+  validazione, 1600 avvisi di pittogrammi ARASAAC assenti dal repository
+  (risolti a runtime dal catalogo installato). Le anteprime non sono nel bundle.
+- `Cargo.toml` dichiara i binari con `autobins = false`: su un volume exFAT
+  macOS creava `src/bin/._caa-cli.rs`, che Cargo trattava come un binario e il
+  bundler Tauri cercava come `._caa-cli`, facendo fallire il bundle.
+- macOS arm64: `.app` 292.427.627 byte (278,88 MiB), `.dmg` 214.440.765 byte
+  (204,5 MiB), `.app.zip` 208.207.987 byte, firmato ad-hoc sull'intero bundle e
+  verificato dal DMG montato.
+- Windows x64: installer NSIS cross-compilato con `cargo-xwin` e `makensis`
+  (145.061.121 byte, 138,3 MiB); `caa-writer.exe` è PE32+ **GUI** (nessuna
+  finestra console), non eseguito su hardware Windows.
+- CLI macOS arm64: 22.040.336 byte.
+
+Verifiche reali:
+
+```text
+codesign --verify --deep --strict (app dal DMG)      valido
+caa-cli info (binario e risorse del bundle)          lessico 127 concetti / 192 lemmi
+caa-cli call library.validate (dal bundle)           350 documenti, 0 errori, 1600 avvisi, 301 validi
+caa-cli methods (dal bundle)                         106 operazioni, nessuna image.*
+agent-skill/tests/check_skill.py                     coerente 106/106
+python3 scripts/check_context.py                     conforme, 21/21 sezioni
+npm run build                                        ok
+npm run check                                        0 errori, 59 avvisi
+npm run test:frontend                                75/75
+cargo test --lib --features onnx                     318/318
+cargo test --lib (feature predefinite)               313/313
+cargo test --test semantic_corpus --features onnx    FALLITO: 95,2% prima scelta,
+                                                     15 approssimazioni fuorvianti
+                                                     (soglia 5), senza catalogo ARASAAC
+```
+
 ## Stato reale 0.15.22 (22 novembre 2026)
 
 - Pittogrammi legati alla parola: la migrazione 6 aggiunge `surface` a
@@ -112,8 +156,8 @@ caa-cli call decision.status                         runtime_feature: true
   varianti di modalità; Gestione utenti con soli materiali assegnati.
 - Aggiornamento automatico all'avvio: scelta dell'asset per piattaforma,
   download con avanzamento e apertura dell'installatore.
-- Pacchetto di diffusione scaricabile da Gestore pacchetti, Impostazioni e
-  primo avvio, con modello scelto in base alla memoria.
+- Modello semantico Horizon e voce neurale italiana installati e verificati al
+  primo avvio, senza rinvio; le immagini si importano dai file.
 - macOS arm64: `.app` 225,44 MiB, `.dmg` 191.722.725 byte, firmato ad-hoc
   sull'intero bundle e verificato dal DMG.
 - Windows x64: installer NSIS cross-compilato (145.806.097 byte), controllato
@@ -188,8 +232,8 @@ I due bundle macOS sono stati aperti: Apple Silicon nativamente, Intel tramite R
 L'installer Windows è stato controllato staticamente con 7-Zip e provato sotto Wine 8 (installazione
 e disinstallazione): contiene `caa-writer.exe` (PE32+ x86-64), le risorse offline della libreria,
 i 30 sistemi comunicativi, il runtime **llama.cpp Windows CPU** (`llama-cli.exe`,
-`llama-server.exe`, DLL) e il modello `model.gguf` in `resources/ai`. Il runtime immagini Python
-(torch/diffusers) non è incluso e si installa dalla scheda IA. Il bundle contiene il repertorio
+`llama-server.exe`, DLL) e il modello `model.gguf` in `resources/ai`. Il motore di diffusione non esiste più:
+le immagini si importano dai file e nessun runtime Python/torch è richiesto. Il bundle contiene il repertorio
 offline `core`; i pittogrammi ARASAAC si scaricano on demand come PNG nella cartella dati
 dell'utente e restano incorporati nei documenti.
 Non è stato eseguito su Windows: la compilazione incrociata e i flag `CREATE_NO_WINDOW` sono

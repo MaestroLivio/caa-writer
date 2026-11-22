@@ -45,7 +45,8 @@ caa-cli --data-dir "$TMP/data" --resources /percorso/risorse info
 - Il database, gli asset importati e i progetti stanno nella cartella dati
   dell'utente; `Contesto.md` e i segreti non entrano nel repository.
 - Le operazioni di rete inviano solo lemmi/termini necessari, non il documento.
-- Le chiavi dei provider online restano locali (keyring o impostazioni locali).
+- Non esistono provider IA online né chiavi API: la chat usa solo un modello
+  locale opzionale e nessun testo lascia il computer.
 - Non inserire dati personali o sanitari nei prompt destinati a servizi remoti.
 
 ## Licenze dei simboli

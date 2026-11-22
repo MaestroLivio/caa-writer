@@ -21,6 +21,21 @@ use serde::{Deserialize, Serialize};
 
 use crate::model::AiConfig;
 
+/// Messaggio della chat locale. Il tipo resta qui perché il provider online è
+/// stato rimosso: l'unico backend è il modello GGUF scelto dall'utente.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ChatMessage {
+    pub role: String,
+    pub content: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct ChatReply {
+    pub reply: String,
+    pub backend: String,
+    pub elapsed_ms: u64,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Candidate {
     pub concept_id: String,

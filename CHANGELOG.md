@@ -4,6 +4,35 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.15.23 — 2026-11-22
+
+### Novità
+
+- Modello semantico Horizon e voce neurale italiana installati e verificati al
+  primo avvio, senza rinvio; voce e suoni attivi per impostazione predefinita.
+  Le build di release usano la feature `onnx`.
+- Libreria curata: 350 materiali senza duplicati, categorie allineate alla
+  tassonomia, 185 specifiche conservate in `templates/archive/` fuori dal
+  bundle. Anteprime non incluse: l'editor le ricava dal documento.
+
+### Rimozioni
+
+- Motore di generazione immagini, runtime Python e modelli di diffusione:
+  le immagini si importano dai file.
+- Provider IA online, chiavi API e dipendenza `keyring`: la chat usa solo un
+  modello GGUF locale opzionale e non simula risposte.
+
+### Correzioni
+
+- Lettura tollerante alla codifica (BOM, UTF-16, byte non validi) per documenti,
+  manifest, specifiche e file importati: niente più «stream did not contain
+  valid UTF-8» su Windows.
+- Download e installazione senza finestre console su Windows.
+- Miniature delle pagine ricavate dagli elementi locali, senza riquadri vuoti.
+- TUTTO MAIUSCOLE esteso all'editor universale.
+- Pannello laterale sempre ancorato; preferenze «overlay» migrate in «docked».
+- Reranking Horizon indipendente dal modello GGUF facoltativo.
+
 ## 0.15.22 — 2026-11-22
 
 ### Correzioni

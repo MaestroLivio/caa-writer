@@ -1,5 +1,12 @@
 # Analisi Comparativa della Libreria CAA Writer
 
+> **Nota (0.15.23).** Questo documento analizza la libreria 0.15.12 (535
+> risorse). La libreria pubblicata dalla 0.15.23 è stata curata a **350
+> materiali** senza duplicati, con le 185 specifiche escluse conservate in
+> `templates/archive/` fuori dal bundle. I confronti e i criteri restano validi;
+> i totali assoluti vanno letti come riferiti alla versione analizzata.
+
+
 **Data:** 2026-11-14  
 **Versione analizzata:** 0.15.20  
 **Autore:** Agente di sviluppo CAA Writer

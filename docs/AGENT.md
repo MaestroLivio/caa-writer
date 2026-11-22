@@ -627,11 +627,11 @@ motore semantico, applica i comandi, valida, rende, scrive anteprime SVG,
 - All'avvio `repair_asset_paths` riallinea i file dei simboli alla cartella
   risorse corrente. Senza questo, un database creato da un'altra installazione
   può bloccare `svg_for` (doppio lock della cache) e lasciare l'analisi appesa.
-- Default: `speech.enabled=false` nel database e `speech_enabled=false` nelle
-  impostazioni UI; profilo `risparmio`, debounce 420/1200 ms; AI 1 thread,
-  contesto 512, timeout 4 s.
-- Provider IA online: `ai_provider_*`, chiave nel portachiavi di sistema, mai in
-  `.caadoc`, log o errori; consenso e privacy obbligatori.
+- Default: `speech.enabled=true` e voce neurale installata al primo avvio,
+  suoni dell'app attivi; profilo `risparmio`, debounce 420/1200 ms; AI locale
+  1 thread, contesto 512, timeout 4 s.
+- Provider IA online: rimosso. La chat usa esclusivamente il modello locale e
+  nessuna chiave API viene conservata.
 - Griglie: `set_grid_sizes`, `merge_grid_cell`, `split_grid_cell`.
 - Export universale: `pdf`, `png`, `docx`, `pptx`, `html`, `svg`.
 - Stampa dell'interfaccia: comando Tauri `print_window` (`WebviewWindow::print`).
@@ -807,32 +807,23 @@ caa-cli template build-all --sources templates/sources --out resources/library
 - Se la traduzione inglese non risponde, il pannello cerca comunque il termine originale e mostra
   un avviso; il glossario copre il vocabolario CAA di base.
 
-### 13.4 IA: chat, immagini e modelli diffusion
+### 13.4 IA locale e importazione delle immagini
 
-- Pannello → scheda **IA**: chat, generazione immagini, modelli di diffusione e stato del runtime.
-  Gli stessi comandi sono raggiungibili da **Strumenti IA → Immagini e chat** nel Ribbon.
-- Backend immagini `auto` | `mlx` | `gpu` | `online` | `off`.
-  - Su Apple Silicon il motore locale usa **MPS** (GPU Apple); se è presente un runtime **MLX
-    Stable Diffusion** completo (`mlx` + `stable_diffusion`) lo preferisce.
-  - Il runtime Python (`torch`, `diffusers`, `transformers`, …) e i modelli **non sono nel
-    bundle**: si installano da Impostazioni con «Installa runtime immagini» e «Scarica modello»;
-    restano nei dati dell'utente (`image-venv`, `models/image`).
-  - Il provider **online** è compatibile con `POST {endpoint}/images/generations` (OpenAI e
-    compatibili). Endpoint, modello e chiave si configurano nel pannello; la chiave va nel
-    portachiavi di sistema, mai nel database o nei documenti.
-- Nell'editor, con una parola selezionata, il pannello Simbolo offre **«Genera un pittogramma con
-  l'IA»**: il prompt viene inviato solo al motore configurato, l'immagine viene importata come
-  simbolo personale e applicata alla parola. Resta una scelta manuale (concept `custom.ai.*`), non
-  viene applicata automaticamente ad altre occorrenze.
-- Le immagini generate si possono **applicare alla parola selezionata** (pittogramma personale) oppure
-  **inserire nel documento universale** aperto come elemento `image` con SVG incorporato.
-- **Chat**: la scheda IA usa il modello locale se attivo, altrimenti il provider online
-  configurato. Metodo CLI `ai.chat` con
+- La scheda **IA** del pannello offre solo la chat con il **modello GGUF locale**
+  scelto dall'utente. Non esiste alcun provider online: nessun messaggio o dato
+  viene inviato fuori dal computer, e senza modello la chat dichiara di non
+  essere disponibile invece di simulare una risposta.
+- **Le immagini non si generano**: si importano da file (SVG, PNG, JPEG, WebP,
+  GIF, BMP, TIFF) come pittogrammi personali o come elementi del documento
+  universale. Il motore di diffusione, il runtime Python e i provider online
+  sono stati rimossi; i metodi `image.status`, `image.generate`,
+  `image.install` e `image.download` non esistono più.
+- L'importazione conserva autore, licenza, URL della fonte e i vincoli
+  dichiarati; l'immagine resta una scelta manuale e non viene applicata
+  automaticamente ad altre occorrenze della stessa parola.
+- **Chat**: metodo CLI `ai.chat` con
   `{"messages":[{"role":"user","content":"..."}]}` → `{"reply":...,"backend":...,"elapsed_ms":...}`.
-- Metodi CLI immagini: `image.status`, `image.generate` (parametri `prompt`, `negative?`, `out?`,
-  `include_base64?`), `image.install`, `image.download` (`model`).
-- Nessun modello viene dichiarato disponibile se il runtime o i pesi non ci sono: `image.status`
-  riporta `mlx`, `torch`, `mps`, `diffusers` e la nota reale.
+  Funziona solo con un modello locale attivo; il backend riporta il modello usato.
 
 ### 13.5 Editor completo e modelli di documento
 
@@ -847,7 +838,7 @@ caa-cli template build-all --sources templates/sources --out resources/library
 - Il Ribbon **Strumenti IA → Creazione** contiene **Storia dal testo** e **Materiale dal testo**:
   usano il testo selezionato (o tutto il documento) e aprono il risultato nello stesso editor
   completo, con pagine, testi e pittogrammi modificabili.
-- Nell'editor completo la barra offre **IA** (chat/immagini) e **Genera** (Studio), così generazione
+- Nell'editor completo la barra offre **IA** (chat locale) e **Genera** (Studio), così assistenza
   e modifica avvengono nello stesso posto.
 - **Miniature delle pagine**: il pannello Pagine a sinistra disegna il contenuto reale di ogni
   pagina (testi, pittogrammi SVG, celle di griglia, forme, sfondi) in scala, non più blocchi grigi.
@@ -897,8 +888,8 @@ caa-cli template build-all --sources templates/sources --out resources/library
   stesso formato `.caadoc` dell'editor.
 - Nella GUI: schermata iniziale → **Crea una storia illustrata in CAA** → Story Studio. Il documento
   generato si apre nell'editor universale.
-- Il backend immagini disponibile è **vettoriale offline**. I modelli diffusion locali/online non
-  sono attivi e non vengono proposti come compatibili senza download, caricamento e benchmark reali.
+- Le immagini delle storie sono **vettoriali offline** o importate dall'utente. Il motore di
+  diffusione è stato rimosso: non esistono modelli locali o online da scaricare.
 
 ### 13.6 Avvio
 

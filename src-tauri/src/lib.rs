@@ -7,7 +7,6 @@
 //! 4. registrazione dei comandi.
 
 pub mod ai_engine;
-pub mod ai_provider;
 pub mod asset_manager;
 pub mod automation;
 pub mod commands;
@@ -18,7 +17,6 @@ pub mod diagnostics;
 pub mod dev_library;
 pub mod document_edit;
 pub mod engine;
-pub mod image_engine;
 pub mod export;
 pub mod layout;
 pub mod layout_edit;
@@ -35,6 +33,7 @@ pub mod speech;
 pub mod story;
 pub mod studio;
 pub mod template_catalog;
+pub mod text_io;
 pub mod tts_normalize;
 pub mod trace;
 pub mod universal;
@@ -156,16 +155,8 @@ pub fn run() {
             commands::voice_status,
             commands::ai_status,
             commands::ai_chat,
-            commands::image_status,
             commands::online_autofill,
             commands::hydrate_symbols,
-            commands::image_set_config,
-            commands::image_set_key,
-            commands::image_clear_key,
-            commands::image_generate,
-            commands::image_recommendation,
-            commands::image_install_runtime,
-            commands::image_download_model,
             commands::runtime_diagnostics,
             commands::document_validate,
             commands::document_render,
@@ -175,10 +166,6 @@ pub fn run() {
             commands::universal_from_plan,
             commands::document_html,
             commands::print_universal,
-            commands::ai_provider_status,
-            commands::ai_provider_save,
-            commands::ai_provider_test,
-            commands::ai_provider_clear_key,
             commands::take_pending_open,
             commands::universal_import,
             commands::document_export,

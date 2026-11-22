@@ -444,7 +444,7 @@ fn print_json(value: &Value, compact: bool) -> Result<(), String> {
 }
 
 fn read_json_file(path: &Path) -> Result<Value, String> {
-    let raw = std::fs::read_to_string(path)
+    let raw = caa_writer_lib::text_io::read_lossy(path)
         .map_err(|error| format!("{}: {error}", path.display()))?;
     serde_json::from_str(&raw).map_err(|error| format!("{}: JSON non valido: {error}", path.display()))
 }

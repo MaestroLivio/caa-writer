@@ -56,6 +56,9 @@
     autoEnabled: boolean;
     /// Reranking contestuale con il modello locale (già verificato come disponibile).
     neural: boolean;
+    /// Reranking Horizon con il modello semantico: indipendente dal modello GGUF
+    /// facoltativo, resta attivo anche quando quello non è installato.
+    horizon?: boolean;
     /// Inserisce automaticamente i pittogrammi ARASAAC per le parole fuori
     /// lessico, dopo l'analisi e senza bloccare la digitazione.
     onlineAutoInsert?: boolean;
@@ -111,6 +114,7 @@
     selectedUnit,
     autoEnabled,
     neural,
+    horizon = true,
     onlineAutoInsert = false,
     symbolizeArticles,
     symbolizePrepositions,
@@ -982,7 +986,7 @@
 
   // Horizon reranking functions (mirroring App.svelte)
   function scheduleHorizonRerank(delay = 1200) {
-    if (!neural || !isTauri()) return;
+    if (!horizon || !isTauri()) return;
     if (horizonTimer) clearTimeout(horizonTimer);
     horizonTimer = setTimeout(() => void runHorizonRerank(), delay);
   }
@@ -997,7 +1001,7 @@
 
   async function runHorizonRerank() {
     horizonTimer = null;
-    if (horizonRunning || !neural || !isTauri()) return;
+    if (horizonRunning || !horizon || !isTauri()) return;
     const usable = await decisionUsable();
     if (!usable) return;
     horizonRunning = true;

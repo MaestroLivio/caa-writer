@@ -85,7 +85,7 @@ fn settings_path(data_dir: &Path) -> PathBuf {
 }
 
 fn load_local(data_dir: &Path) -> LocalPackages {
-    std::fs::read_to_string(settings_path(data_dir))
+    crate::text_io::read_lossy(&settings_path(data_dir))
         .ok()
         .and_then(|raw| serde_json::from_str(&raw).ok())
         .unwrap_or_default()
@@ -832,13 +832,13 @@ pub fn open_external(url: &str) -> Result<(), String> {
         return Err("Link non consentito: si aprono solo pagine del repository CAA Writer.".to_string());
     }
     #[cfg(target_os = "macos")]
-    let command = std::process::Command::new("open").arg(url).spawn();
+    let command = crate::process::command("open").arg(url).spawn();
     #[cfg(target_os = "windows")]
-    let command = std::process::Command::new("cmd")
+    let command = crate::process::command("cmd")
         .args(["/C", "start", "", url])
         .spawn();
     #[cfg(all(unix, not(target_os = "macos")))]
-    let command = std::process::Command::new("xdg-open").arg(url).spawn();
+    let command = crate::process::command("xdg-open").arg(url).spawn();
     command
         .map(|_| ())
         .map_err(|e| format!("impossibile aprire il browser: {e}"))

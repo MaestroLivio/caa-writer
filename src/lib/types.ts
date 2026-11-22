@@ -98,58 +98,6 @@ export interface AiChatReply {
   elapsed_ms: number;
 }
 
-/// Configurazione del motore immagini neurale (locale o online).
-export interface ImageConfig {
-  /// `auto` | `mlx` | `gpu` | `online` | `off`
-  backend: string;
-  model: string;
-  endpoint: string;
-  online_model: string;
-  size: number;
-  steps: number;
-  guidance: number;
-  timeout_ms: number;
-}
-
-export interface ImageRuntime {
-  python: string | null;
-  script: boolean;
-  mlx: boolean;
-  mlx_diffusion: boolean;
-  torch: boolean;
-  mps: boolean;
-  diffusers: boolean;
-}
-
-export interface ImageStatus {
-  config: ImageConfig;
-  runtime: ImageRuntime;
-  online_ready: boolean;
-  has_key: boolean;
-  available: boolean;
-  note: string;
-}
-
-/** Modello di diffusione consigliato in base al computer. Non implica alcun download. */
-export interface ImageRecommendation {
-  model: string;
-  reason: string;
-  memoryMb: number;
-  platform: string;
-  runtimeReady: boolean;
-  alternatives: string[];
-}
-
-export interface GeneratedImage {
-  png_base64: string;
-  backend: string;
-  model: string;
-  width: number;
-  height: number;
-  elapsed_ms: number;
-  path: string;
-}
-
 /// Alternative aggiunte dalla ricerca in inglese (termine tradotto dal modello
 /// locale o dal glossario, pittogrammi ARASAAC importati come copie offline).
 export interface EnglishAlternatives {
@@ -392,32 +340,6 @@ export interface AiConfig {
   timeout_ms: number;
   backend: string;
   extra_args: string[];
-}
-
-export interface AiProviderConfig {
-  kind: "local" | "openai-compatible" | string;
-  endpoint: string;
-  model: string;
-  timeout_ms: number;
-  max_tokens: number;
-  allow_online: boolean;
-  privacy_ack: boolean;
-}
-
-export interface AiProviderStatus {
-  config: AiProviderConfig;
-  has_key: boolean;
-  key_storage: string;
-  usable: boolean;
-  note: string;
-}
-
-export interface AiProviderTest {
-  ok: boolean;
-  status: number;
-  elapsed_ms: number;
-  reply: string;
-  note: string;
 }
 
 export interface AiStatus {

@@ -70,7 +70,7 @@ test("i preset incorporati applicano modalità coerenti", () => {
   assert.equal(get(workspace).ribbonMode, "compact");
   assert.equal(get(workspace).sidebarMode, "collapsed");
   assert.equal(applyPreset("Ricerca pittogrammi"), true);
-  assert.equal(get(workspace).sidebarMode, "overlay");
+  assert.equal(get(workspace).sidebarMode, "docked");
   assert.equal(get(workspace).activeSidebarPanel, "simbolo");
   assert.equal(applyPreset("Concentrazione"), true);
   assert.equal(get(workspace).focusMode, true);

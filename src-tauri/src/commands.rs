@@ -522,8 +522,8 @@ pub fn ai_status(state: State<'_, Engine>) -> AiStatus {
 #[tauri::command]
 pub async fn ai_chat(
     app: tauri::AppHandle,
-    messages: Vec<crate::ai_provider::ChatMessage>,
-) -> Result<crate::ai_provider::ChatReply, String> {
+    messages: Vec<crate::ai_engine::ChatMessage>,
+) -> Result<crate::ai_engine::ChatReply, String> {
     on_blocking(move || {
         let state = app.state::<Engine>();
         state.chat(messages)
@@ -576,126 +576,6 @@ pub async fn online_autofill(
         Ok(saved)
     })
     .await
-}
-
-#[tauri::command]
-pub fn image_status(
-    state: State<'_, Engine>,
-) -> Result<crate::image_engine::ImageStatus, String> {
-    let db = state.db()?;
-    Ok(crate::image_engine::status(&state.paths, &db))
-}
-
-/// Modello di diffusione consigliato in base alla memoria del computer.
-/// Non scarica nulla: la scelta e il download restano espliciti.
-#[tauri::command]
-pub fn image_recommendation(
-    state: State<'_, Engine>,
-) -> Result<crate::image_engine::ImageRecommendation, String> {
-    Ok(crate::image_engine::recommendation(&state.paths))
-}
-
-#[tauri::command]
-pub fn image_set_config(
-    state: State<'_, Engine>,
-    config: crate::image_engine::ImageConfig,
-) -> Result<crate::image_engine::ImageStatus, String> {
-    let db = state.db()?;
-    crate::image_engine::save(&db, &config)?;
-    Ok(crate::image_engine::status(&state.paths, &db))
-}
-
-#[tauri::command]
-pub fn image_set_key(state: State<'_, Engine>, key: String) -> Result<crate::image_engine::ImageStatus, String> {
-    crate::image_engine::set_key(&key)?;
-    let db = state.db()?;
-    Ok(crate::image_engine::status(&state.paths, &db))
-}
-
-#[tauri::command]
-pub fn image_clear_key(state: State<'_, Engine>) -> Result<crate::image_engine::ImageStatus, String> {
-    crate::image_engine::clear_key()?;
-    let db = state.db()?;
-    Ok(crate::image_engine::status(&state.paths, &db))
-}
-
-#[tauri::command]
-pub async fn image_generate(
-    app: tauri::AppHandle,
-    prompt: String,
-    negative: Option<String>,
-) -> Result<crate::image_engine::GeneratedImage, String> {
-    on_blocking(move || {
-        let state = app.state::<Engine>();
-        let db = state.db()?;
-        crate::image_engine::generate(
-            &state.paths,
-            &db,
-            &prompt,
-            negative.as_deref().unwrap_or(""),
-        )
-    })
-    .await
-}
-
-#[tauri::command]
-pub async fn image_install_runtime(app: tauri::AppHandle) -> Result<String, String> {
-    on_blocking(move || {
-        let state = app.state::<Engine>();
-        crate::image_engine::install_runtime(&state.paths)
-    })
-    .await
-}
-
-#[tauri::command]
-pub async fn image_download_model(
-    app: tauri::AppHandle,
-    model: String,
-) -> Result<String, String> {
-    on_blocking(move || {
-        let state = app.state::<Engine>();
-        crate::image_engine::download_model(&state.paths, &model)
-    })
-    .await
-}
-
-/// Diagnostica misurata: CPU/RAM dei processi, coda neurale, tempi reali e
-/// richieste obsolete. Nessun valore è stimato o inventato.
-#[tauri::command]
-pub fn ai_provider_status(state: State<'_, Engine>) -> Result<crate::ai_provider::ProviderStatus, String> {
-    let db = state.db()?;
-    Ok(crate::ai_provider::status(&db))
-}
-
-#[tauri::command]
-pub fn ai_provider_save(
-    state: State<'_, Engine>,
-    config: crate::ai_provider::ProviderConfig,
-    api_key: Option<String>,
-) -> Result<crate::ai_provider::ProviderStatus, String> {
-    let db = state.db()?;
-    crate::ai_provider::save(&db, &config)?;
-    if let Some(key) = api_key.filter(|value| !value.trim().is_empty()) {
-        crate::ai_provider::set_key(&key)?;
-    }
-    Ok(crate::ai_provider::status(&db))
-}
-
-#[tauri::command]
-pub fn ai_provider_test(
-    state: State<'_, Engine>,
-) -> Result<crate::ai_provider::ProviderTest, String> {
-    let db = state.db()?;
-    crate::ai_provider::test(&db)
-}
-
-#[tauri::command]
-pub fn ai_provider_clear_key(
-    state: State<'_, Engine>,
-) -> Result<crate::ai_provider::ProviderStatus, String> {
-    crate::ai_provider::clear_key()?;
-    let db = state.db()?;
-    Ok(crate::ai_provider::status(&db))
 }
 
 #[tauri::command]
@@ -1117,6 +997,8 @@ pub fn story_create(
     })
 }
 
+/// Diagnostica misurata: CPU/RAM dei processi, coda neurale, tempi reali e
+/// richieste obsolete. Nessun valore è stimato o inventato.
 #[tauri::command]
 pub fn runtime_diagnostics(state: State<'_, Engine>) -> crate::engine::RuntimeDiagnostics {
     state.diagnostics()
@@ -2307,24 +2189,26 @@ pub fn import_document_text(path: String) -> Result<String, String> {
         .unwrap_or("")
         .to_lowercase();
     match ext.as_str() {
-        "txt" | "md" => std::fs::read_to_string(p).map_err(|e| format!("lettura: {e}")),
+        "txt" | "md" => {
+            crate::text_io::read_lossy(p).map_err(|e| format!("lettura: {e}"))
+        }
         "docx" => {
             let file = std::fs::File::open(p).map_err(|e| format!("apertura DOCX: {e}"))?;
             let mut archive =
                 zip::ZipArchive::new(file).map_err(|e| format!("DOCX non valido: {e}"))?;
-            let mut xml = String::new();
+            let mut bytes = Vec::new();
             {
                 use std::io::Read;
                 archive
                     .by_name("word/document.xml")
                     .map_err(|_| "DOCX senza word/document.xml".to_string())?
-                    .read_to_string(&mut xml)
+                    .read_to_end(&mut bytes)
                     .map_err(|e| e.to_string())?;
             }
-            Ok(docx_xml_to_text(&xml))
+            Ok(docx_xml_to_text(&crate::text_io::decode_lossy(&bytes)))
         }
         "html" | "htm" => {
-            let raw = std::fs::read_to_string(p).map_err(|e| format!("lettura: {e}"))?;
+            let raw = crate::text_io::read_lossy(p).map_err(|e| format!("lettura: {e}"))?;
             Ok(html_to_text(&raw))
         }
         _ => Err(format!(

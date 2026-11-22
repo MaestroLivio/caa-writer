@@ -139,7 +139,7 @@ pub fn is_inside_library(resources: &Path, path: &Path) -> bool {
 
 fn read_manifest(resources: &Path) -> Result<LibraryManifest, String> {
     let path = manifest_path(resources);
-    let raw = std::fs::read_to_string(&path)
+    let raw = crate::text_io::read_lossy(&path)
         .map_err(|e| format!("lettura catalogo libreria {}: {e}", path.display()))?;
     serde_json::from_str(&raw).map_err(|e| format!("catalogo libreria non valido: {e}"))
 }

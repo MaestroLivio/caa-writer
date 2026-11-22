@@ -156,10 +156,9 @@ function loadWorkspace(): WorkspaceLayout {
       zoom: Math.min(1.8, Math.max(0.5, Number(raw.zoom) || 1)),
       typography: clampTypography(raw.typography),
     };
-    // Migrazione: il vecchio default sovrapposto non è una scelta esplicita.
-    if (!loaded.sidebarOverlayChoice && loaded.sidebarMode === "overlay") {
-      loaded.sidebarMode = "docked";
-    }
+    // Il pannello laterale è sempre ancorato: la modalità sovrapposta copriva
+    // l'editor (soprattutto su Windows) e non è più offerta.
+    if (loaded.sidebarMode === "overlay") loaded.sidebarMode = "docked";
     return loaded;
   } catch {
     return { ...defaultWorkspace };
@@ -185,6 +184,8 @@ export function updateWorkspace(patch: Partial<WorkspaceLayout>) {
   internal.update((current) => {
     const next: WorkspaceLayout = { ...current, ...patch, version: 1 };
     next.sidebarWidth = clampSidebarWidth(next.sidebarWidth);
+    // Il pannello non si sovrappone mai al documento: o è ancorato o è chiuso.
+    if (next.sidebarMode === "overlay") next.sidebarMode = "docked";
     if (patch.sidebarMode && patch.sidebarMode !== "collapsed") {
       next.sidebarLastWidth = next.sidebarWidth;
     }
@@ -222,7 +223,7 @@ const builtinPresets: Record<string, Partial<WorkspaceLayout>> = {
   },
   "Ricerca pittogrammi": {
     ribbonMode: "compact",
-    sidebarMode: "overlay",
+    sidebarMode: "docked",
     activeSidebarPanel: "simbolo",
     focusMode: false,
     zoom: 1,

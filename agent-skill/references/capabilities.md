@@ -1,4 +1,4 @@
-# CAA Writer — capacità (API 1.0, versione 0.15.22)
+# CAA Writer — capacità (API 1.0, versione 0.15.23)
 
 ## `app.capabilities` — Catalogo delle capacità
 
@@ -712,7 +712,7 @@ Catalogo dei modelli con stato installato e compatibilità hardware.
 
 ## `ai.chat` — Chat IA
 
-Invia messaggi al modello locale o al provider online configurato. Può essere lento.
+Invia messaggi al modello locale attivo. Senza modello dichiara l'indisponibilità; può essere lento.
 
 - Categoria: ia
 - Tool MCP: `ai_chat`
@@ -745,40 +745,6 @@ Parole grezze proposte dal modello (diagnostica).
 - Tool MCP: `ai_words`
 - Accesso: lettura
 - Parametri: `word` (obbligatorio)
-
-## `image.status` — Stato motore immagini
-
-Runtime, backend, modelli disponibili e note reali.
-
-- Categoria: ia
-- Tool MCP: `image_get_status`
-- Accesso: lettura
-
-## `image.generate` — Genera immagine
-
-Genera un'immagine con il motore configurato; può richiedere decine di secondi e disco. Preferisci un job.
-
-- Categoria: ia
-- Tool MCP: `image_generate`
-- Accesso: scrittura
-- Parametri: `prompt` (obbligatorio), `negative`, `out`, `include_base64`
-
-## `image.install` — Installa runtime immagini
-
-Installa il runtime Python/torch tramite pip. Richiede rete e molto spazio; operazione lunga.
-
-- Categoria: ia
-- Tool MCP: `image_install`
-- Accesso: scrittura
-
-## `image.download` — Scarica modello immagini
-
-Scarica un modello diffusion. Richiede rete e spazio; operazione lunga.
-
-- Categoria: ia
-- Tool MCP: `image_download`
-- Accesso: scrittura
-- Parametri: `model` (obbligatorio)
 
 ## `voice.status` — Stato voce
 

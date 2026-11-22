@@ -481,7 +481,7 @@ impl Engine {
         // La versione del lessico è versionata come il pacchetto: se il file
         // delle risorse è più recente del seed, i concetti e i lemmi nuovi
         // devono entrare anche nel database già esistente.
-        let lexicon_version = std::fs::read_to_string(paths.dictionary_path())
+        let lexicon_version = crate::text_io::read_lossy(&paths.dictionary_path())
             .ok()
             .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok())
             .and_then(|value| value.get("version").and_then(|v| v.as_u64()));
@@ -510,7 +510,7 @@ impl Engine {
             // Un pacchetto già importato si salta, ma se il manifest dichiara
             // una versione diversa (per esempio ARASAAC esteso all'intero
             // catalogo) i suoi simboli vengono reimportati.
-            let manifest_version = std::fs::read_to_string(dir.join("manifest.json"))
+            let manifest_version = crate::text_io::read_lossy(&dir.join("manifest.json"))
                 .ok()
                 .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok())
                 .and_then(|value| {
@@ -3091,22 +3091,15 @@ impl Engine {
         Ok(cleaned.to_string())
     }
 
-    /// Chat: usa il provider online configurato se presente, altrimenti il
-    /// modello locale. Nessun messaggio viene inviato se non c'è un modello:
-    /// non si simula una risposta.
+    /// Chat con il modello locale. Nessun messaggio lascia il computer e
+    /// nessuna risposta viene simulata quando il modello non è disponibile.
     pub fn chat(
         &self,
-        messages: Vec<crate::ai_provider::ChatMessage>,
-    ) -> Result<crate::ai_provider::ChatReply, String> {
+        messages: Vec<crate::ai_engine::ChatMessage>,
+    ) -> Result<crate::ai_engine::ChatReply, String> {
         if messages.is_empty() {
             return Err("scrivi un messaggio".to_string());
         }
-        let db = self.db()?;
-        let provider = crate::ai_provider::load(&db);
-        if provider.kind != "local" {
-            return crate::ai_provider::chat(&db, &messages);
-        }
-        drop(db);
         let config = self.ai_config();
         if !ai_engine::is_available(&config) {
             return Err(
@@ -3127,7 +3120,7 @@ impl Engine {
         prompt.push_str("Assistente:");
         let cancel = self.ai_service.cancel_handle();
         let reply = self.ai_service.complete(prompt, 384, 6, cancel)?;
-        Ok(crate::ai_provider::ChatReply {
+        Ok(crate::ai_engine::ChatReply {
             reply: reply.trim().to_string(),
             backend: format!("locale · {}", self.active_model_label(&config)),
             elapsed_ms: started.elapsed().as_millis() as u64,

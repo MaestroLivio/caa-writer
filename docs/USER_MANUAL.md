@@ -161,7 +161,7 @@ pittogramma.
 | molta parola senza simbolo | Il repertorio incluso è volutamente essenziale: importa SVG o crea un pacchetto con `scripts/import_symbols.py`. |
 | PDF diverso dall'anteprima | Il PDF usa il motore di stampa del sistema: imposta margini e formato nel dialogo di stampa. |
 | L'applicazione non parte su Windows | Verifica WebView2; l'installer tenta di scaricarlo se assente. |
-| L'IA non risponde | In Impostazioni indica il percorso di `llama-cli` e del modello GGUF; senza modello l'app funziona comunque. |
+| L'IA non risponde | In Impostazioni indica il percorso di `llama-cli` e del modello GGUF; senza modello l'app funziona comunque e la chat lo dichiara. |
 
 ## Prestazioni e diagnostica (0.7.0)
 
@@ -283,10 +283,10 @@ Nell'**Area Creator → Utenti** puoi creare profili, assegnare a ciascuno i
 documenti della biblioteca che deve vedere e impostare il profilo predefinito.
 «Torna all'Utilizzatore» riporta alla schermata del profilo attivo.
 
-La **sintesi vocale è disattivata** per default: attivala in Impostazioni →
-Accessibilità. Il profilo prestazionale predefinito è **Risparmio risorse**, adatto
-anche a computer con 4 GB di RAM.
+Al primo avvio il programma installa la **voce neurale italiana** e la attiva,
+insieme ai suoni dell'app. La sintesi resta modificabile in Impostazioni →
+Accessibilità. Il profilo prestazionale predefinito è **Risparmio risorse**,
+adatto anche a computer con 4 GB di RAM.
 
-In **Provider IA** puoi scegliere il modello locale o un endpoint online
-compatibile OpenAI. La chiave API viene conservata nel portachiavi del sistema,
-non nel documento e non nei log; servono consenso esplicito e conferma privacy.
+La chat IA usa esclusivamente un modello locale: non esistono provider online né
+chiavi API. Le immagini si **importano** dai file e non vengono generate.

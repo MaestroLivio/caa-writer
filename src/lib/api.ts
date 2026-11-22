@@ -8,13 +8,10 @@
 import { invoke } from "@tauri-apps/api/core";
 import { noModifiers } from "./types";
 import type {
-  AiProviderConfig,
   DecisionRequest,
   DecisionResponse,
   DecisionStatus,
   DecisionVerifyReport,
-  AiProviderStatus,
-  AiProviderTest,
   CatalogItem,
   CatalogOverview,
   CatalogPage,
@@ -78,12 +75,8 @@ import type {
   OnlineCustomProvider,
   DocumentEditPlan,
   EnglishAlternatives,
-  ImageConfig,
   AiChatMessage,
   AiChatReply,
-  ImageStatus,
-  ImageRecommendation,
-  GeneratedImage,
   CliRunResult,
   Profile,
   ProfileBoard,
@@ -337,11 +330,6 @@ export const api = {
   runtimeDiagnostics: () => call<RuntimeDiagnostics>("runtime_diagnostics"),
 
   aiStatus: () => call<AiStatus>("ai_status"),
-  aiProviderStatus: () => call<AiProviderStatus>("ai_provider_status"),
-  aiProviderSave: (config: AiProviderConfig, apiKey: string | null = null) =>
-    call<AiProviderStatus>("ai_provider_save", { config, apiKey }),
-  aiProviderTest: () => call<AiProviderTest>("ai_provider_test"),
-  aiProviderClearKey: () => call<AiProviderStatus>("ai_provider_clear_key"),
   setAiConfig: (config: AiConfig) => call<AiStatus>("set_ai_config", { config }),
   aiModels: () => call<ModelEntry[]>("ai_models"),
   aiInstallModel: (modelId: string) => call<InstallStatus>("ai_install_model", { modelId }),
@@ -357,15 +345,6 @@ export const api = {
   aiRunTool: (tool: string, input: unknown) => call<ToolOutcome>("ai_run_tool", { tool, input }),
   translateSearchTerm: (text: string) => call<string>("translate_search_term", { text }),
   aiChat: (messages: AiChatMessage[]) => call<AiChatReply>("ai_chat", { messages }),
-  imageStatus: () => call<ImageStatus>("image_status"),
-  imageRecommendation: () => call<ImageRecommendation>("image_recommendation"),
-  imageSetConfig: (config: ImageConfig) => call<ImageStatus>("image_set_config", { config }),
-  imageSetKey: (key: string) => call<ImageStatus>("image_set_key", { key }),
-  imageClearKey: () => call<ImageStatus>("image_clear_key"),
-  imageGenerate: (prompt: string, negative: string | null = null) =>
-    call<GeneratedImage>("image_generate", { prompt, negative }),
-  imageInstallRuntime: () => call<string>("image_install_runtime"),
-  imageDownloadModel: (model: string) => call<string>("image_download_model", { model }),
   resolveMissingSymbols: (words: string[]) =>
     call<ResolvedSymbol[]>("resolve_missing_symbols", { words }),
   englishAlternatives: (word: string, limit = 4) =>

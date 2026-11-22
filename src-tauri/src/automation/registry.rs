@@ -798,35 +798,7 @@ pub const OPERATIONS: &[Operation] = &[
         mutating: false, destructive: false, idempotent: true,
         params: [p("word", "string", true, "Parola")]
     ),
-    op!(
-        "image.status", "Stato motore immagini", "ia", Some("image_get_status"),
-        "Runtime, backend, modelli disponibili e note reali.",
-        "Stato immagini.",
-        mutating: false, destructive: false, idempotent: true,
-        params: []
-    ),
-    op!(
-        "image.generate", "Genera immagine", "ia", Some("image_generate"),
-        "Genera un'immagine con il motore configurato; può richiedere decine di secondi e disco. Preferisci un job.",
-        "Percorso e metadati dell'immagine.",
-        mutating: true, destructive: false, idempotent: false,
-        params: [p("prompt", "string", true, "Descrizione"), p("negative", "string", false, "Prompt negativo"), p("out", "string", false, "Copia in questo percorso"), p("include_base64", "boolean", false, "Includi PNG base64")]
-    ),
-    op!(
-        "image.install", "Installa runtime immagini", "ia", Some("image_install"),
-        "Installa il runtime Python/torch tramite pip. Richiede rete e molto spazio; operazione lunga.",
-        "Messaggio reale.",
-        mutating: true, destructive: false, idempotent: true,
-        params: []
-    ),
-    op!(
-        "image.download", "Scarica modello immagini", "ia", Some("image_download"),
-        "Scarica un modello diffusion. Richiede rete e spazio; operazione lunga.",
-        "Messaggio reale.",
-        mutating: true, destructive: false, idempotent: true,
-        params: [p("model", "string", true, "ID modello")]
-    ),
-    op!(
+                    op!(
         "voice.status", "Stato voce", "voce", Some("voice_get_status"),
         "Motore vocale (neurale o di sistema), modello, licenza e cache.",
         "Stato voce.",

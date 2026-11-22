@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { api } from "../api";
   import ModelManager from "./ModelManager.svelte";
-  import type { AiStatus, ImageRecommendation, PackageInfo, PackageCatalog, UpdateInfo, VoiceStatus } from "../types";
+  import type { AiStatus, PackageInfo, PackageCatalog, UpdateInfo, VoiceStatus } from "../types";
 
   interface Props {
     onClose: () => void;
@@ -41,16 +41,10 @@
   let pendingRemove = $state<string | null>(null);
   let voiceStatus = $state<VoiceStatus | null>(null);
   let voiceError = $state("");
-  let imageRecommendation = $state<ImageRecommendation | null>(null);
-  let imageError = $state("");
 
   onMount(() => {
     void load();
     void loadVoice();
-    void api
-      .imageRecommendation()
-      .then((value) => (imageRecommendation = value))
-      .catch((err) => (imageError = err instanceof Error ? err.message : String(err)));
   });
 
   async function loadVoice() {
@@ -178,7 +172,7 @@
   {/if}
   {#if requested.length}
     <p class="notice notice--ok" role="status">
-      Scelti al primo avvio: {requested.map((id) => id === "ai-model" ? "modello neurale locale" : id === "library" ? "libreria materiali" : id === "voice" ? "voce neurale" : id === "diffusion" ? "modello di diffusione" : id === "arasaac" ? "pittogrammi ARASAAC" : "Global Symbols").join(", ")}.
+      Scelti al primo avvio: {requested.map((id) => id === "ai-model" ? "modello neurale locale" : id === "library" ? "libreria materiali" : id === "voice" ? "voce neurale" :id === "arasaac" ? "pittogrammi ARASAAC" : "Global Symbols").join(", ")}.
       Nessun download è partito: usa i pulsanti delle singole sezioni.
     </p>
   {/if}
@@ -378,57 +372,6 @@
       </div>
     {:else if !loading}
       <p class="notice">Catalogo dei pacchetti non disponibile.</p>
-    {/if}
-  </section>
-
-  <section class="packages__section" aria-labelledby="image-packages-title">
-    <div class="packages__heading">
-      <div>
-        <h3 id="image-packages-title">Modello di diffusione per le immagini</h3>
-        <p>
-          Genera immagini sul computer per i pittogrammi personali. Richiede Python 3:
-          il programma installa il runtime PyTorch/diffusers e scarica il modello adatto
-          alla memoria disponibile. Senza questo pacchetto l'app resta utilizzabile e usa
-          i pittogrammi della libreria.
-        </p>
-      </div>
-    </div>
-    {#if imageError}
-      <p class="notice notice--error" role="alert">{imageError}</p>
-    {:else if imageRecommendation}
-      <div class="updates">
-        <div class="updates__row">
-          <strong>Modello consigliato</strong>
-          <span>{imageRecommendation.model}</span>
-          <span class="badge">{Math.round(imageRecommendation.memoryMb / 1024)} GB di memoria</span>
-          <span class="badge">{imageRecommendation.platform}</span>
-          {#if imageRecommendation.runtimeReady}
-            <span class="badge badge--accent">Python disponibile</span>
-          {:else}
-            <span class="badge">Runtime da installare</span>
-          {/if}
-        </div>
-        <p class="hint">{imageRecommendation.reason}</p>
-        <div class="updates__row">
-          <strong>Installa il pacchetto</strong>
-          <span>Runtime Python e modello «{imageRecommendation.model}» nella cartella dati dell'utente.</span>
-          <button
-            class="btn btn--solid"
-            onclick={() => {
-              if (onStartDownload) onStartDownload(["diffusion"]);
-              else onToast?.("Il download automatico richiede l'app desktop.", "warn");
-            }}
-          >Scarica il pacchetto di diffusione</button>
-        </div>
-        {#if imageRecommendation.alternatives.length > 1}
-          <p class="hint">
-            Modelli disponibili per questo computer: {imageRecommendation.alternatives.join(", ")}.
-            La scelta manuale resta nelle Impostazioni.
-          </p>
-        {/if}
-      </div>
-    {:else}
-      <p class="notice">Lettura delle caratteristiche del computer non disponibile.</p>
     {/if}
   </section>
 

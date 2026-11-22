@@ -118,17 +118,23 @@ pub fn save(
     })
 }
 
+/// Legge una voce di testo dall'archivio senza dipendere dalla codifica: i
+/// documenti creati da altre versioni o da strumenti esterni possono non essere
+/// UTF-8 e non devono impedire l'apertura.
+fn entry_text(archive: &mut ZipArchive<File>, name: &str) -> Result<String, String> {
+    let mut entry = archive.by_name(name).map_err(|e| e.to_string())?;
+    let mut bytes = Vec::new();
+    entry.read_to_end(&mut bytes).map_err(|e| e.to_string())?;
+    Ok(crate::text_io::decode_lossy(&bytes))
+}
+
 pub fn load(path: &Path) -> Result<LoadedDocument, String> {
     let file = File::open(path).map_err(|e| format!("documento non leggibile: {e}"))?;
     let mut archive = ZipArchive::new(file).map_err(|e| format!("archivio non valido: {e}"))?;
     let mut warnings: Vec<String> = Vec::new();
 
-    let mut manifest_raw = String::new();
-    archive
-        .by_name("manifest.json")
-        .map_err(|_| "manca manifest.json: non è un documento CAA Writer".to_string())?
-        .read_to_string(&mut manifest_raw)
-        .map_err(|e| e.to_string())?;
+    let manifest_raw = entry_text(&mut archive, "manifest.json")
+        .map_err(|_| "manca manifest.json: non è un documento CAA Writer".to_string())?;
     let manifest: serde_json::Value =
         serde_json::from_str(&manifest_raw).map_err(|e| format!("manifest non valido: {e}"))?;
 
@@ -145,12 +151,8 @@ pub fn load(path: &Path) -> Result<LoadedDocument, String> {
         ));
     }
 
-    let mut document_raw = String::new();
-    archive
-        .by_name("document.json")
-        .map_err(|_| "manca document.json".to_string())?
-        .read_to_string(&mut document_raw)
-        .map_err(|e| e.to_string())?;
+    let document_raw = entry_text(&mut archive, "document.json")
+        .map_err(|_| "manca document.json".to_string())?;
     let document: serde_json::Value =
         serde_json::from_str(&document_raw).map_err(|e| format!("documento non valido: {e}"))?;
 
@@ -190,9 +192,10 @@ pub fn load(path: &Path) -> Result<LoadedDocument, String> {
     for name in names {
         if let Some(rest) = name.strip_prefix("assets/symbols/") {
             if let Some(symbol_id) = rest.strip_suffix(".svg") {
-                let mut content = String::new();
+                let mut bytes = Vec::new();
                 if let Ok(mut entry) = archive.by_name(&name) {
-                    if entry.read_to_string(&mut content).is_ok() {
+                    if entry.read_to_end(&mut bytes).is_ok() {
+                        let content = crate::text_io::decode_lossy(&bytes);
                         assets.push(DocumentAsset {
                             symbol_id: symbol_id.to_string(),
                             svg: Some(content),
@@ -201,9 +204,10 @@ pub fn load(path: &Path) -> Result<LoadedDocument, String> {
                     }
                 }
             } else if let Some(symbol_id) = rest.strip_suffix(".png.b64") {
-                let mut content = String::new();
+                let mut bytes = Vec::new();
                 if let Ok(mut entry) = archive.by_name(&name) {
-                    if entry.read_to_string(&mut content).is_ok() {
+                    if entry.read_to_end(&mut bytes).is_ok() {
+                        let content = crate::text_io::decode_lossy(&bytes);
                         assets.push(DocumentAsset {
                             symbol_id: symbol_id.to_string(),
                             svg: None,
@@ -234,9 +238,9 @@ fn read_json_entry<T: serde::de::DeserializeOwned>(
     archive: &mut ZipArchive<File>,
     name: &str,
 ) -> Option<T> {
-    let mut raw = String::new();
-    archive.by_name(name).ok()?.read_to_string(&mut raw).ok()?;
-    serde_json::from_str(&raw).ok()
+    let mut bytes = Vec::new();
+    archive.by_name(name).ok()?.read_to_end(&mut bytes).ok()?;
+    serde_json::from_str(&crate::text_io::decode_lossy(&bytes)).ok()
 }
 
 fn write_entry(

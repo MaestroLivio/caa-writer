@@ -8,7 +8,6 @@
 use std::collections::BTreeMap;
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
-use std::process::Command;
 use std::sync::{Mutex, OnceLock};
 
 use serde::Serialize;
@@ -86,7 +85,7 @@ pub fn start(app: AppHandle, id: String) -> Result<(), String> {
         "symbols:arasaac" => ("ARASAAC — catalogo completo", "Preparazione…"),
         "symbols:globalsymbols" => ("Global Symbols — catalogo del lessico", "Preparazione…"),
         "voice" => ("Voce neurale italiana", "Preparazione…"),
-        "diffusion" => ("Modello di diffusione per le immagini", "Preparazione…"),
+        "semantic" => ("Motore semantico Horizon", "Preparazione…"),
         "update" => ("Aggiornamento di CAA Writer", "Preparazione…"),
         "library" => ("Libreria materiali", "Preparazione…"),
         other => return Err(format!("Pacchetto sconosciuto: {other}")),
@@ -114,7 +113,7 @@ pub fn start(app: AppHandle, id: String) -> Result<(), String> {
             "symbols:arasaac" => run_symbols(&app, &id, true),
             "symbols:globalsymbols" => run_symbols(&app, &id, false),
             "voice" => run_voice(&app, &id),
-            "diffusion" => run_diffusion(&app, &id),
+            "semantic" => run_semantic(&app, &id),
             "update" => run_update(&app, &id),
             "library" => run_library(&app, &id),
             _ => Err("Pacchetto sconosciuto".to_string()),
@@ -170,27 +169,21 @@ fn run_library(_app: &AppHandle, _id: &str) -> Result<String, String> {
 /// Installa il runtime immagini e scarica il modello consigliato per questo
 /// computer. Le due operazioni sono lunghe e non espongono byte parziali:
 /// il job mostra la fase reale invece di una percentuale inventata.
-fn run_diffusion(app: &AppHandle, id: &str) -> Result<String, String> {
+/// Installa i pesi del motore semantico deterministico. Il download avviene
+/// nel primo avvio obbligatorio: senza pesi il motore usa solo le regole e lo
+/// dichiara, quindi l'app resta utilizzabile anche se la rete manca.
+fn run_semantic(app: &AppHandle, id: &str) -> Result<String, String> {
     let engine = app.state::<Engine>();
-    let recommendation = crate::image_engine::recommendation(&engine.paths);
     update(id, |task| {
-        task.phase = format!(
-            "Installo il runtime Python per il modello {}…",
-            recommendation.model
-        )
+        task.phase = "Scarico il modello semantico Horizon (302 MB)…".to_string();
     });
-    crate::image_engine::install_runtime(&engine.paths)?;
-
-    update(id, |task| {
-        task.phase = format!("Scarico il modello {}…", recommendation.model)
-    });
-    crate::image_engine::download_model(&engine.paths, &recommendation.model)?;
-
-    let db = engine.db()?;
-    crate::image_engine::set_model(&db, &recommendation.model)?;
+    let report = crate::decision::model::install(&engine.paths, false)?;
+    crate::decision::engine::invalidate_cached_engines();
     Ok(format!(
-        "Pacchetto di diffusione pronto: modello «{}». La generazione resta offline.",
-        recommendation.model
+        "Motore semantico installato in {}: {} file verificati, {:.1} MB.",
+        report.model_dir,
+        report.files.len(),
+        report.bytes as f64 / 1_048_576.0
     ))
 }
 
@@ -237,7 +230,7 @@ fn run_update(app: &AppHandle, id: &str) -> Result<String, String> {
 fn open_installer(path: &Path) -> Result<(), String> {
     #[cfg(target_os = "macos")]
     {
-        Command::new("open")
+        crate::process::command("open")
             .arg(path)
             .spawn()
             .map_err(|error| format!("apertura del DMG: {error}"))?;
@@ -245,7 +238,7 @@ fn open_installer(path: &Path) -> Result<(), String> {
     }
     #[cfg(target_os = "windows")]
     {
-        Command::new("cmd")
+        crate::process::command("cmd")
             .arg("/C")
             .arg("start")
             .arg("")

@@ -496,6 +496,40 @@ fn infer_subcategory(category_id: &str, haystack: &str) -> &'static str {
     }
 }
 
+/// Gli identificativi scritti dai generatori storici non coincidono sempre con
+/// la tassonomia della UI: senza questa normalizzazione finivano tutti nella
+/// prima categoria («aac»). La mappa è esplicita e non tocca i contenuti.
+fn canonical_category_id(category: &str) -> (&'static str, &'static str) {
+    match category {
+        "didattica" => ("schede", ""),
+        "agenda" => ("agende", ""),
+        "sequenze" => ("agende", "sequenze"),
+        "storie" => ("storie-sociali", "sociali"),
+        "aba" => ("comportamentali", ""),
+        "emozioni" => ("comportamentali", "autoregolazione"),
+        "autonomia" => ("agende", "routine"),
+        other => (canonical_static(other), ""),
+    }
+}
+
+/// Restituisce un identificativo con vita statica, così la mappa può usare
+/// `&'static str` senza allocare a ogni classificazione.
+fn canonical_static(category: &str) -> &'static str {
+    match category {
+        "aac" => "aac",
+        "schede" => "schede",
+        "teacch" => "teacch",
+        "stampabili" => "stampabili",
+        "giochi" => "giochi",
+        "comportamentali" => "comportamentali",
+        "storie-caa" => "storie-caa",
+        "storie-sociali" => "storie-sociali",
+        "agende" => "agende",
+        "personali" => "personali",
+        _ => "schede",
+    }
+}
+
 fn legacy_category(category: &str) -> (&'static str, &'static str) {
     match category {
         "Sistemi comunicativi" => ("aac", "quaderni"),
@@ -537,17 +571,51 @@ fn tag_words(text: &str, limit: usize) -> Vec<String> {
 /// Classifica una voce della biblioteca. I metadati espliciti della specifica
 /// hanno la precedenza; per i materiali storici si ricava la categoria dal
 /// nome e dalla descrizione, senza inventare contenuti.
+/// Allinea una voce del manifest alla tassonomia corrente, riscrivendo gli
+/// identificativi storici. Senza questo passaggio la libreria mostrava
+/// categorie come «didattica» o «emozioni» accanto a quelle ufficiali.
+pub fn normalize_entry(entry: &mut LibraryEntry) {
+    if entry.category_id.is_empty() {
+        return;
+    }
+    let class = classify(entry);
+    entry.category_id = class.category_id;
+    entry.category = class.category;
+    entry.subcategory_id = class.subcategory_id;
+    entry.subcategory = class.subcategory;
+}
+
 pub fn classify(entry: &LibraryEntry) -> Classification {
     let haystack = normalized(&format!(
         "{} {} {}",
         entry.title, entry.category, entry.description
     ));
-    let (mut category_id, mut subcategory_id) = if !entry.category_id.is_empty() {
-        (entry.category_id.clone(), entry.subcategory_id.clone())
+    let (mut category_id, mut subcategory_id, canonical_sub) = if !entry.category_id.is_empty() {
+        let (category, sub) = canonical_category_id(&entry.category_id);
+        (category.to_string(), entry.subcategory_id.clone(), sub.to_string())
     } else {
         let (category, sub) = legacy_category(&entry.category);
-        (category.to_string(), sub.to_string())
+        (category.to_string(), sub.to_string(), sub.to_string())
     };
+    // I generatori storici usano identificativi di sottocategoria che non
+    // esistono nella tassonomia attuale (per esempio «regolazione» invece di
+    // «autoregolazione»). Senza questo controllo la voce ricadeva sulla prima
+    // sottocategoria, spesso «token», con errori di qualità inventati.
+    if !subcategory_id.is_empty() {
+        let exists = taxonomy()
+            .iter()
+            .find(|category| category.id == category_id)
+            .map(|category| {
+                category
+                    .subcategories
+                    .iter()
+                    .any(|sub| sub.id == subcategory_id)
+            })
+            .unwrap_or(false);
+        if !exists {
+            subcategory_id = canonical_sub;
+        }
+    }
     if category_id == "schede" || category_id == "giochi" || category_id == "stampabili" {
         // Le discipline si ricavano dal contenuto, non solo dalla vecchia
         // etichetta «Materiali didattici».
@@ -1007,7 +1075,24 @@ pub fn preview_svg(resources: &Path, entry: &LibraryEntry) -> Option<String> {
         entry.preview.clone()
     };
     let path = resources.join(relative.strip_prefix("resources/").unwrap_or(&relative));
-    std::fs::read_to_string(path).ok()
+    if let Ok(svg) = std::fs::read_to_string(&path) {
+        return Some(svg);
+    }
+    // Le anteprime precalcolate non sono incluse nel bundle: in quel caso si
+    // ricava la prima pagina dal documento stesso, invece di lasciare il
+    // riquadro vuoto o dichiarare l'anteprima non disponibile.
+    let document_path = resources.join(
+        entry
+            .path
+            .strip_prefix("resources/")
+            .unwrap_or(&entry.path),
+    );
+    let document = crate::universal::load_from_caadoc(&document_path).ok()?;
+    let rendered = document.render().ok()?;
+    rendered
+        .pages
+        .first()
+        .map(crate::universal::render_page_svg)
 }
 
 pub fn load_manifest(resources: &Path) -> LibraryManifest {

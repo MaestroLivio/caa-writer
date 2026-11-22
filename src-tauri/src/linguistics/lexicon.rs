@@ -198,7 +198,7 @@ impl Lexicon {
     }
 
     pub fn load(path: &std::path::Path) -> Result<Self, String> {
-        let raw = std::fs::read_to_string(path)
+        let raw = crate::text_io::read_lossy(path)
             .map_err(|e| format!("lessico non leggibile ({}): {e}", path.display()))?;
         let file: LexiconFile =
             serde_json::from_str(&raw).map_err(|e| format!("lessico non valido: {e}"))?;

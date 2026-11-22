@@ -7,9 +7,6 @@ import { resetDecisionStatus } from "../decision/client";
   import { documentFontGroups, interfaceFontGroups } from "../workspace/fonts";
   import type {
     AiConfig,
-    AiProviderConfig,
-    AiProviderStatus,
-    AiProviderTest,
     AiStatus,
     DecisionStatus,
     DecisionVerifyReport,
@@ -23,7 +20,6 @@ import { resetDecisionStatus } from "../decision/client";
     ToolOutcome,
     EditorMetrics,
     RuntimeDiagnostics,
-    ImageRecommendation,
   } from "../types";
 
   interface Props {
@@ -42,8 +38,6 @@ import { resetDecisionStatus } from "../decision/client";
     editorMetrics: EditorMetrics;
     diagnostics: RuntimeDiagnostics | null;
     onRefreshDiagnostics: () => Promise<void>;
-    /// Avvia il download del pacchetto diffusion nel gestore globale.
-    onStartDownload?: (ids: string[]) => void;
   }
 
   let {
@@ -62,7 +56,6 @@ import { resetDecisionStatus } from "../decision/client";
     editorMetrics,
     diagnostics,
     onRefreshDiagnostics,
-    onStartDownload,
   }: Props = $props();
 
   let dialog = $state<HTMLDivElement | null>(null);
@@ -82,21 +75,7 @@ import { resetDecisionStatus } from "../decision/client";
   let toolOutcome = $state<ToolOutcome | null>(null);
   let toolBusy = $state(false);
   let diagnosticsBusy = $state(false);
-  let provider = $state<AiProviderConfig>({
-    kind: "local",
-    endpoint: "",
-    model: "",
-    timeout_ms: 20000,
-    max_tokens: 512,
-    allow_online: false,
-    privacy_ack: false,
-  });
-  let providerStatus = $state<AiProviderStatus | null>(null);
-  let providerKey = $state("");
-  let providerTest = $state<AiProviderTest | null>(null);
-  let providerBusy = $state(false);
   let onlineProviders = $state<OnlineProviderInfo[]>([]);
-  let imageRecommendation = $state<ImageRecommendation | null>(null);
   let decisionStatus = $state<DecisionStatus | null>(null);
   let decisionVerify = $state<DecisionVerifyReport | null>(null);
   let decisionBusy = $state(false);
@@ -268,13 +247,8 @@ import { resetDecisionStatus } from "../decision/client";
   onMount(() => {
     dialog?.focus();
     if (isTauri()) {
-      void api.imageRecommendation().then((value) => (imageRecommendation = value)).catch(() => {});
       void refreshDecision();
       void api.listOnlineProviders().then((items) => (onlineProviders = items)).catch(() => {});
-      void api.aiProviderStatus().then((status) => {
-        providerStatus = status;
-        provider = { ...status.config };
-      }).catch(() => {});
     }
     if (aiStatus) {
       aiDraft = {
@@ -320,50 +294,6 @@ import { resetDecisionStatus } from "../decision/client";
       onToast(error instanceof Error ? error.message : String(error), "error");
     } finally {
       customProviderBusy = false;
-    }
-  }
-
-  async function saveProvider() {
-    providerBusy = true;
-    try {
-      providerStatus = await api.aiProviderSave(provider, providerKey || null);
-      provider = { ...providerStatus.config };
-      providerKey = "";
-      onToast(
-        providerStatus.usable
-          ? "Provider IA salvato. La chiave è nel portachiavi di sistema."
-          : "Provider salvato, ma non ancora utilizzabile: controlla i campi.",
-        providerStatus.usable ? "info" : "warn"
-      );
-    } catch (error) {
-      onToast(error instanceof Error ? error.message : String(error), "error");
-    } finally {
-      providerBusy = false;
-    }
-  }
-
-  async function testProvider() {
-    providerBusy = true;
-    providerTest = null;
-    try {
-      providerTest = await api.aiProviderTest();
-    } catch (error) {
-      onToast(error instanceof Error ? error.message : String(error), "error");
-    } finally {
-      providerBusy = false;
-    }
-  }
-
-  async function clearProviderKey() {
-    providerBusy = true;
-    try {
-      providerStatus = await api.aiProviderClearKey();
-      providerKey = "";
-      onToast("Chiave rimossa dal portachiavi.", "info");
-    } catch (error) {
-      onToast(error instanceof Error ? error.message : String(error), "error");
-    } finally {
-      providerBusy = false;
     }
   }
 
@@ -444,7 +374,7 @@ import { resetDecisionStatus } from "../decision/client";
           />
         </div>
         <div class="row">
-          <label for="dlg-neural">Analisi neurale</label>
+          <label for="dlg-neural">Reranking Horizon</label>
           <input
             id="dlg-neural"
             type="checkbox"
@@ -453,8 +383,9 @@ import { resetDecisionStatus } from "../decision/client";
           />
         </div>
         <p class="hint">
-          L'analisi neurale include il reranking Horizon durante la digitazione, quando il
-          modello è installato. I token con scelta manuale o confidenza alta non vengono toccati.
+          Il reranking Horizon usa il modello semantico installato al primo avvio e lavora
+          durante la digitazione, offline. I token con scelta manuale o confidenza alta non
+          vengono toccati.
         </p>
         <div class="row">
           <label for="dlg-explicit">Mostra contenuti espliciti (adulti)</label>
@@ -960,54 +891,6 @@ import { resetDecisionStatus } from "../decision/client";
       </section>
 
       <section class="block">
-        <h3>Provider IA</h3>
-        <p class="hint">
-          Il provider locale resta il default e funziona offline. Un provider online viene
-          contattato solo dopo consenso esplicito. La chiave API è conservata nel portachiavi
-          del sistema operativo, mai nei documenti o nei log.
-        </p>
-        <div class="row">
-          <label for="dlg-provider-kind">Provider</label>
-          <select id="dlg-provider-kind" bind:value={provider.kind}>
-            <option value="local">Modello locale</option>
-            <option value="openai-compatible">Online compatibile OpenAI</option>
-          </select>
-        </div>
-        {#if provider.kind === "openai-compatible"}
-          <label class="hint" for="dlg-provider-endpoint">Endpoint</label>
-          <input id="dlg-provider-endpoint" type="text" bind:value={provider.endpoint} placeholder="https://api.example.com/v1" style="width:100%" />
-          <label class="hint" for="dlg-provider-model">Modello</label>
-          <input id="dlg-provider-model" type="text" bind:value={provider.model} placeholder="nome del modello" style="width:100%" />
-          <label class="hint" for="dlg-provider-key">Chiave API (salvata nel portachiavi, non nel documento)</label>
-          <input id="dlg-provider-key" type="password" bind:value={providerKey} autocomplete="off" style="width:100%" />
-          <div class="row">
-            <label><input type="checkbox" bind:checked={provider.allow_online} /> Consento l'invio online per azioni esplicite</label>
-          </div>
-          <div class="row">
-            <label><input type="checkbox" bind:checked={provider.privacy_ack} /> Ho letto l'informativa: non inviare dati personali degli alunni</label>
-          </div>
-        {/if}
-        <div class="row" style="flex-wrap:wrap;gap:6px">
-          <button class="btn btn--solid" disabled={providerBusy} onclick={() => void saveProvider()}>
-            {providerBusy ? "Salvo…" : "Salva provider"}
-          </button>
-          <button class="btn" disabled={providerBusy} onclick={() => void testProvider()}>Test connessione</button>
-          {#if providerStatus?.has_key}
-            <button class="btn" disabled={providerBusy} onclick={() => void clearProviderKey()}>Rimuovi chiave</button>
-          {/if}
-        </div>
-        {#if providerStatus}
-          <p class="hint">{providerStatus.note} · chiave: {providerStatus.has_key ? "presente" : "assente"} · {providerStatus.key_storage}</p>
-        {/if}
-        {#if providerTest}
-          <p class:ok={providerTest.ok} class:warn={!providerTest.ok}>
-            Test: {providerTest.ok ? "riuscito" : "fallito"} · HTTP {providerTest.status} · {providerTest.elapsed_ms} ms
-            {#if providerTest.reply}· «{providerTest.reply}»{/if}
-          </p>
-        {/if}
-      </section>
-
-      <section class="block">
         <h3>Intelligenza artificiale locale</h3>
         {#if aiStatus}
           <p class="hint">{aiStatus.note}</p>
@@ -1108,33 +991,6 @@ import { resetDecisionStatus } from "../decision/client";
           Dopo l'installazione il modello funziona senza connessione. La rimozione non tocca
           documenti, simboli o preferenze.
         </p>
-      </section>
-
-      <section class="block">
-        <h3>Modello di diffusione per le immagini</h3>
-        <p class="hint">
-          Genera immagini e pittogrammi sul computer. Richiede Python 3 e un runtime
-          PyTorch/diffusers: il programma propone il modello adatto alla memoria disponibile e
-          lo scarica nella cartella dati dell'utente. Senza questo pacchetto l'app resta
-          utilizzabile e continua a usare i pittogrammi della libreria.
-        </p>
-        {#if imageRecommendation}
-          <dl class="facts">
-            <dt>Modello consigliato</dt><dd>{imageRecommendation.model}</dd>
-            <dt>Motivo</dt><dd>{imageRecommendation.reason}</dd>
-            <dt>Memoria rilevata</dt><dd>{Math.round(imageRecommendation.memoryMb / 1024)} GB</dd>
-            <dt>Runtime</dt><dd>{imageRecommendation.runtimeReady ? "già installato" : "da installare"}</dd>
-          </dl>
-        {:else}
-          <p class="hint">Lettura delle caratteristiche del computer non disponibile in anteprima.</p>
-        {/if}
-        <button
-          class="btn btn--solid"
-          onclick={() => {
-            if (onStartDownload) onStartDownload(["diffusion"]);
-            else onToast("Il download automatico richiede l'app desktop.", "warn");
-          }}
-        >Scarica il pacchetto di diffusione</button>
       </section>
 
       <ModelManager {aiStatus} {onToast} {onStatusChange} />

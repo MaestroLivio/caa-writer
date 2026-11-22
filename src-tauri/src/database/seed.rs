@@ -84,14 +84,14 @@ struct ManifestSymbol {
 pub fn seed_core_pack(db: &mut Database, dictionary: &Path, pack_dir: &Path) -> DbResult<SeedStats> {
     let mut stats = SeedStats::default();
 
-    let raw = std::fs::read_to_string(dictionary).map_err(|e| {
+    let raw = crate::text_io::read_lossy(dictionary).map_err(|e| {
         super::DbError::Other(format!("lessico non leggibile ({}): {e}", dictionary.display()))
     })?;
     let lexicon: LexiconFile = serde_json::from_str(&raw)
         .map_err(|e| super::DbError::Other(format!("lessico non valido: {e}")))?;
 
     let manifest_path = pack_dir.join("manifest.json");
-    let manifest_raw = std::fs::read_to_string(&manifest_path).map_err(|e| {
+    let manifest_raw = crate::text_io::read_lossy(&manifest_path).map_err(|e| {
         super::DbError::Other(format!(
             "manifest dei simboli non leggibile ({}): {e}",
             manifest_path.display()
@@ -261,7 +261,7 @@ pub fn seed_core_pack(db: &mut Database, dictionary: &Path, pack_dir: &Path) -> 
             continue;
         };
         let path = pack_dir.join(file);
-        let raw_svg = match std::fs::read_to_string(&path) {
+        let raw_svg = match crate::text_io::read_lossy(&path) {
             Ok(content) => content,
             Err(e) => {
                 stats

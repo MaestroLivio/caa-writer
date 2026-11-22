@@ -73,3 +73,13 @@ resources/symbol-packs/downloaded/
 
 # File AppleDouble creati da macOS su volumi ExFAT
 ._*
+
+
+# Materiale video del tutorial: i file sorgente (riprese, clip, audio, file
+# temporanei) restano locali; nel repository vanno solo script e copione.
+/tutorial/takes/
+/tutorial/clips/
+/tutorial/captures/
+/tutorial/audio/
+/tutorial/tmp/
+/tutorial/*.log

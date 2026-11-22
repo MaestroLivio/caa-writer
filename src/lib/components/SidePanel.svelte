@@ -16,8 +16,6 @@
     AppInfo,
     CaaToken,
     DocumentSettings,
-    ImageConfig,
-    ImageStatus,
     LibraryStats,
     UniversalDocument,
     UniversalElementSelection,
@@ -76,7 +74,6 @@
     onSetAiConfig: (config: AiConfig) => Promise<void>;
     onStatusChange: () => Promise<void>;
     onGenerateResource: (prompt: string, templateId: string | null) => Promise<ResourcePlan | null>;
-    onGenerateImage: (prompt: string, mode: "apply" | "insert") => Promise<void>;
     onAiChat: (messages: AiChatMessage[]) => Promise<AiChatReply>;
     universalDoc: UniversalDocument | null;
     /// Ispettore dell'elemento selezionato nell'editor universale. Prima
@@ -152,7 +149,6 @@
     onSetAiConfig,
     onStatusChange,
     onGenerateResource,
-    onGenerateImage,
     onAiChat,
     universalDoc,
     universalSelection,
@@ -944,16 +940,6 @@
       });
   });
 
-  // Motore immagini neurale: stato reale, configurazione e download. Il
-  // runtime e i modelli restano nei dati dell'app, mai nel repository.
-  let imageStatus = $state<ImageStatus | null>(null);
-  let imagePrompt = $state("");
-  let imageBusy = $state(false);
-  let imageActionBusy = $state(false);
-  let imageActionNote = $state("");
-  let imageKey = $state("");
-  let imageKeyBusy = $state(false);
-
   let chatMessages = $state<AiChatMessage[]>([]);
   let chatInput = $state("");
   let chatBusy = $state(false);
@@ -975,115 +961,6 @@
       chatError = error instanceof Error ? error.message : String(error);
     } finally {
       chatBusy = false;
-    }
-  }
-
-  async function refreshImageStatus() {
-    if (!isTauri()) return;
-    try {
-      imageStatus = await api.imageStatus();
-    } catch (error) {
-      imageActionNote = error instanceof Error ? error.message : String(error);
-    }
-  }
-
-  $effect(() => {
-    void refreshImageStatus();
-  });
-
-  $effect(() => {
-    if (tab === "documento" && !universalDoc) tab = "simbolo";
-  });
-
-  async function updateImageConfig(patch: Partial<ImageConfig>) {
-    if (!imageStatus) return;
-    try {
-      imageStatus = await api.imageSetConfig({ ...imageStatus.config, ...patch });
-    } catch (error) {
-      onToast(error instanceof Error ? error.message : String(error), "error");
-    }
-  }
-
-  async function installImageRuntime() {
-    imageActionBusy = true;
-    imageActionNote = "Installazione del runtime: può richiedere molti minuti.";
-    try {
-      imageActionNote = await api.imageInstallRuntime();
-    } catch (error) {
-      imageActionNote = error instanceof Error ? error.message : String(error);
-    } finally {
-      imageActionBusy = false;
-      await refreshImageStatus();
-    }
-  }
-
-  async function downloadImageModel() {
-    if (!imageStatus) return;
-    imageActionBusy = true;
-    imageActionNote = `Scarico «${imageStatus.config.model}»…`;
-    try {
-      imageActionNote = await api.imageDownloadModel(imageStatus.config.model);
-    } catch (error) {
-      imageActionNote = error instanceof Error ? error.message : String(error);
-    } finally {
-      imageActionBusy = false;
-      await refreshImageStatus();
-    }
-  }
-
-  async function saveImageKey() {
-    if (!imageKey.trim()) {
-      onToast("Incolla prima la chiave API.", "warn");
-      return;
-    }
-    imageKeyBusy = true;
-    try {
-      imageStatus = await api.imageSetKey(imageKey.trim());
-      imageKey = "";
-      onToast("Chiave salvata nel portachiavi di sistema.", "info");
-    } catch (error) {
-      onToast(error instanceof Error ? error.message : String(error), "error");
-    } finally {
-      imageKeyBusy = false;
-    }
-  }
-
-  async function clearImageKey() {
-    try {
-      imageStatus = await api.imageClearKey();
-      onToast("Chiave API rimossa.", "info");
-    } catch (error) {
-      onToast(error instanceof Error ? error.message : String(error), "error");
-    }
-  }
-
-  async function generateWithAI() {
-    if (!selected) {
-      onToast("Seleziona prima una parola nel documento.", "warn");
-      return;
-    }
-    if (!imagePrompt.trim()) {
-      onToast("Scrivi un prompt per l'immagine.", "warn");
-      return;
-    }
-    imageBusy = true;
-    try {
-      await onGenerateImage(imagePrompt, "apply");
-    } finally {
-      imageBusy = false;
-    }
-  }
-
-  async function generateAndInsert() {
-    if (!imagePrompt.trim()) {
-      onToast("Scrivi un prompt per l'immagine.", "warn");
-      return;
-    }
-    imageBusy = true;
-    try {
-      await onGenerateImage(imagePrompt, "insert");
-    } finally {
-      imageBusy = false;
     }
   }
 
@@ -2219,162 +2096,6 @@
           {#if chatError}<p class="import-error">{chatError}</p>{/if}
         </section>
 
-        <section class="panel-section">
-          <h3>Genera un'immagine</h3>
-          <p class="hint">
-            Il prompt viene inviato solo al motore configurato. Puoi applicare l'immagine alla
-            parola selezionata come pittogramma oppure inserirla nel documento universale aperto.
-          </p>
-          <textarea
-            class="image-prompt"
-            bind:value={imagePrompt}
-            rows="2"
-            placeholder="es. pittogramma semplice di un gatto seduto, contorno nero, sfondo bianco"
-            aria-label="Prompt per l'immagine"
-          ></textarea>
-          <div class="image-actions">
-            <button
-              class="btn btn--solid"
-              onclick={() => void generateWithAI()}
-              disabled={imageBusy || !imageStatus?.available || !selected}
-              title={!selected
-                ? "Seleziona una parola nel documento"
-                : imageStatus?.available
-                  ? "Genera e applica alla parola selezionata"
-                  : "Motore immagini non disponibile"}
-            >{imageBusy ? "Genero…" : "Genera e applica alla parola"}</button>
-            <button
-              class="btn"
-              onclick={() => void generateAndInsert()}
-              disabled={imageBusy || !imageStatus?.available}
-              title="Inserisce l'immagine nel documento universale aperto"
-            >Inserisci nel documento</button>
-          </div>
-          {#if imageStatus}<p class="hint">{imageStatus.note}</p>{/if}
-          {#if imageActionNote}<p class="hint">{imageActionNote}</p>{/if}
-        </section>
-
-        <section class="panel-section">
-          <h3>Modelli di diffusione</h3>
-          <p class="hint">
-            Motore per generare pittogrammi e immagini dal prompt. Su Apple Silicon usa la GPU
-            (MPS) e MLX quando il runtime MLX Stable Diffusion è presente. Il runtime Python e i
-            modelli non sono inclusi nell'installer: si scaricano qui, restano nei dati dell'app.
-          </p>
-          {#if imageStatus}
-            <div class="settings-row">
-              <label for="image-backend">Motore</label>
-              <select
-                id="image-backend"
-                value={imageStatus.config.backend}
-                onchange={(event) =>
-                  void updateImageConfig({ backend: (event.currentTarget as HTMLSelectElement).value })}
-              >
-                <option value="auto">Automatico (MLX se disponibile, altrimenti GPU)</option>
-                <option value="mlx">MLX (Apple Silicon)</option>
-                <option value="gpu">GPU MPS</option>
-                <option value="online">Provider online</option>
-                <option value="off">Disattivato</option>
-              </select>
-            </div>
-            {#if imageStatus.config.backend === "online"}
-              <div class="settings-row">
-                <label for="image-endpoint">Endpoint</label>
-                <input
-                  id="image-endpoint"
-                  value={imageStatus.config.endpoint}
-                  placeholder="https://api.openai.com/v1"
-                  onchange={(event) =>
-                    void updateImageConfig({ endpoint: (event.currentTarget as HTMLInputElement).value })}
-                />
-              </div>
-              <div class="settings-row">
-                <label for="image-online-model">Modello online</label>
-                <input
-                  id="image-online-model"
-                  value={imageStatus.config.online_model}
-                  placeholder="gpt-image-1"
-                  onchange={(event) =>
-                    void updateImageConfig({ online_model: (event.currentTarget as HTMLInputElement).value })}
-                />
-              </div>
-              <div class="settings-row">
-                <label for="image-key">Chiave API</label>
-                <input
-                  id="image-key"
-                  type="password"
-                  bind:value={imageKey}
-                  placeholder={imageStatus.has_key ? "chiave salvata nel portachiavi" : "incolla la chiave"}
-                />
-                <button class="btn" onclick={() => void saveImageKey()} disabled={imageKeyBusy}>
-                  {imageKeyBusy ? "Salvo…" : "Salva"}
-                </button>
-                {#if imageStatus.has_key}
-                  <button class="btn btn--ghost" onclick={() => void clearImageKey()}>Rimuovi</button>
-                {/if}
-              </div>
-            {:else if imageStatus.config.backend !== "off"}
-              <div class="settings-row">
-                <label for="image-model">Modello locale</label>
-                <input
-                  id="image-model"
-                  value={imageStatus.config.model}
-                  placeholder="stabilityai/sd-turbo"
-                  onchange={(event) =>
-                    void updateImageConfig({ model: (event.currentTarget as HTMLInputElement).value })}
-                />
-              </div>
-              <div class="settings-row">
-                <label for="image-size">Dimensione</label>
-                <input
-                  id="image-size"
-                  type="number"
-                  min="256"
-                  max="1024"
-                  step="64"
-                  value={imageStatus.config.size}
-                  onchange={(event) =>
-                    void updateImageConfig({ size: Number((event.currentTarget as HTMLInputElement).value) || 512 })}
-                />
-                <label for="image-steps">Passi</label>
-                <input
-                  id="image-steps"
-                  type="number"
-                  min="4"
-                  max="60"
-                  value={imageStatus.config.steps}
-                  onchange={(event) =>
-                    void updateImageConfig({ steps: Number((event.currentTarget as HTMLInputElement).value) || 16 })}
-                />
-              </div>
-              <div class="image-actions">
-                <button class="btn" onclick={() => void installImageRuntime()} disabled={imageActionBusy}>
-                  {imageActionBusy ? "Operazione in corso…" : "Installa runtime immagini"}
-                </button>
-                <button
-                  class="btn btn--ghost"
-                  onclick={() => void downloadImageModel()}
-                  disabled={imageActionBusy || !imageStatus.config.model.trim()}
-                >Scarica modello</button>
-              </div>
-            {/if}
-            <p class="hint">{imageStatus.note}</p>
-            {#if imageStatus.runtime.torch || imageStatus.runtime.mlx}
-              <p class="hint">
-                Runtime:
-                {imageStatus.runtime.mlx ? "MLX" : "torch"}
-                {#if imageStatus.runtime.mps} · GPU MPS{/if}
-                {#if !imageStatus.runtime.diffusers} · diffusers assente{/if}
-              </p>
-            {/if}
-            {#if imageActionNote}
-              <p class="hint">{imageActionNote}</p>
-            {/if}
-          {:else}
-            <p class="hint">Stato del motore immagini non disponibile.</p>
-          {/if}
-        </section>
-
       {/if}
 
       {#if tab === "documento" && universalDoc}
@@ -3346,7 +3067,6 @@
         <section class="panel-section">
           <h3>Immagini neurali</h3>
           <p class="hint">
-            I modelli di diffusione, il runtime e il provider online si gestiscono nella scheda
             <strong>IA</strong>.
           </p>
           <button class="btn" onclick={() => selectTab("ia")}>Apri la scheda IA</button>

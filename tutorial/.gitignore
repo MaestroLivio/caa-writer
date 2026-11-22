@@ -1,0 +1,7 @@
+# media prodotti localmente: si rigenerano con gli script della cartella
+audio/
+clips/
+takes/
+captures/
+tmp/
+*.log

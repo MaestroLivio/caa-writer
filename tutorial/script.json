@@ -1,0 +1,87 @@
+{
+  "project": "CAA Writer — Tutorial per docenti",
+  "voice": { "profile_id": "46910475", "name": "Italian Explainer", "language": "it" },
+  "format": { "width": 1920, "height": 1080, "fps": 30 },
+  "chapters": [
+    {
+      "id": "01",
+      "title": "Che cos'è CAA Writer",
+      "subtitle": "Il videoscrittore CAA che lavora offline",
+      "bullets": ["Profilo dell'alunno o Area Creator", "Nessun servizio cloud obbligatorio"],
+      "visuals": ["captures/01-home.png"],
+      "narration": "Ciao, e benvenuto in CAA Writer, il videoscrittore italiano per la Comunicazione Aumentativa e Alternativa. In questo tutorial seguiamo il lavoro concreto di un docente: dalla scelta del profilo dell'alunno alla creazione di un materiale da stampare, fino all'esportazione nei formati che servono a scuola. CAA Writer funziona offline: il testo resta sul tuo computer e nessuna frase viene inviata a servizi esterni. Nella schermata iniziale scegli il profilo dell'alunno oppure entri nell'Area Creator, lo spazio di lavoro di insegnanti, logopedisti ed educatori. Tutto quello che vedremo è disponibile nella versione installata: nessuna funzione è una simulazione."
+    },
+    {
+      "id": "02",
+      "title": "Aree di lavoro e profili",
+      "subtitle": "Il Creator progetta, l'Utilizzatore comunica",
+      "bullets": ["Materiali, Studio, Utenti, Impostazioni", "Cosa vede ogni alunno"],
+      "visuals": ["captures/01-home.png"],
+      "narration": "Nell'Area Creator trovi gli strumenti per progettare: il documento con i pittogrammi, la libreria dei materiali, lo Studio per generare risorse, i profili degli alunni e le impostazioni. La regola è semplice: il Creator progetta, l'Utilizzatore comunica. Dal profilo dell'alunno scegli cosa vede: i materiali assegnati, il livello di scrittura, la voce. Un caso reale: prepari la giornata per Luca, alunno di primaria, con un'agenda visiva e una tabella per chiedere aiuto. Quando ha finito, torni all'Utilizzatore e il percorso resta lo stesso, senza che lui veda i comandi di costruzione."
+    },
+    {
+      "id": "03",
+      "title": "Scrivere e simbolizzare",
+      "subtitle": "Analisi incrementale, modalità e intensità",
+      "bullets": ["Cinque modalità di rappresentazione", "Intensità minima, media, completa"],
+      "visuals": ["assets/board-scuola.jpg"],
+      "narration": "La scrittura è la parte centrale. Scrivi la frase nel documento e, dopo una breve pausa, sopra le parole compaiono i pittogrammi: l'analisi è incrementale, quindi solo il paragrafo modificato viene rianalizzato e la digitazione non viene mai bloccata. Con la modalità CAA scegli come rappresentare il testo: solo testo, simboli sopra le parole, didascalia sotto, solo simboli oppure CAA semplificata. L'intensità decide quante parole ricevono un simbolo: minima per le parole chiave, media per tutte le unità utili, completa per la copertura massima. Le espressioni come sintesi vocale restano un'unica unità: un solo pittogramma, come in questa tabella."
+    },
+    {
+      "id": "04",
+      "title": "Correggere e bloccare un pittogramma",
+      "subtitle": "Il sistema propone, il docente decide",
+      "bullets": ["Alternativa valida per una occorrenza", "Blocco per parola, contesto o profilo"],
+      "visuals": ["assets/primapoi.jpg"],
+      "narration": "Il sistema propone, il docente decide. Facendo clic su un pittogramma si apre il pannello Alternative: vedi il simbolo attuale, il significato attribuito, la strategia usata e le alternative disponibili. Scegliendo un'alternativa la sostituzione è immediata e vale solo per quell'occorrenza; puoi però renderla stabile con usa sempre per questa parola, oppure legarla a un contesto, come scuola o casa. Le scelte manuali non vengono mai sovrascritte dall'analisi automatica, nemmeno quando modifichi la frase. Dalla versione zero punto quindici punto ventidue ogni scelta è legata alla parola: se scrivi famiglia al posto di casa, il pittogramma di casa non resta."
+    },
+    {
+      "id": "05",
+      "title": "Quando un pittogramma manca",
+      "subtitle": "La scala di fallback, dichiarata e visibile",
+      "bullets": ["Sinonimo, forma base, concetto generale", "Bordo tratteggiato e didascalia con circa"],
+      "visuals": ["assets/storia.jpg"],
+      "narration": "Quando un pittogramma manca, l'applicazione non inventa: segue una scala e te la dichiara. Prova prima un sinonimo equivalente, poi la forma base della parola, poi un concetto più generale: per bassotto usa il cane, e lo segnala con bordo tratteggiato e didascalia con il segno di approssimazione. Se serve, compone o scompone il termine. Se nessuna rappresentazione è corretta, la parola resta senza simbolo: meglio nessun pittogramma che un pittogramma sbagliato. Con la ricerca simboli cerchi per parola o per categoria, usi il repertorio locale e, se attivi la ricerca online, importi una copia ARASAAC: ogni simbolo conserva autore, licenza e fonte."
+    },
+    {
+      "id": "06",
+      "title": "Materiali: Studio, libreria, editor universale",
+      "subtitle": "Dalla descrizione al foglio stampabile",
+      "bullets": ["Oltre cinquecento materiali nativi", "Pagine, griglie, celle e collegamenti"],
+      "visuals": ["assets/agenda.jpg", "assets/board-scuola.jpg"],
+      "narration": "Per i materiali c'è lo Studio. Descrivi la risorsa in italiano, per esempio un'agenda settimanale per la primaria con entrata, intervallo, pranzo e gioco, scegli un modello e premi Genera: ottieni un'anteprima con pittogrammi ed etichette modificabili, che puoi stampare o esportare in PDF. La libreria contiene oltre cinquecento materiali nativi: tabelle comunicative, agende, token board, storie, schede. Sono documenti veri, non immagini: si aprono nell'editor universale, dove sposti, ridimensioni, raggruppi, blocchi elementi, aggiungi pagine e colleghi le celle alle pagine."
+    },
+    {
+      "id": "07",
+      "title": "Comunicatore e modalità Utilizzatore",
+      "subtitle": "Tre livelli, due gesti: toccare e comporre",
+      "bullets": ["Tocca per parlare, componi frase", "Solo azioni previste: niente codice"],
+      "visuals": ["assets/board-scuola.jpg"],
+      "narration": "Due modi di usare lo stesso materiale. In modalità Utilizzatore l'alunno vede solo ciò che gli serve: al livello uno un grande vocabolario di simboli per costruire la frase, al livello due la tastiera visuale con le parole frequenti, al livello tre la scrittura completa con la formattazione. Il Comunicatore aggiunge tocca per parlare e componi frase: ogni cella pronuncia o accumula parole, e le azioni ammesse sono solo quelle previste, cioè parlare, aggiungere, navigare e tornare alla home. Nessun file può eseguire codice o aprire indirizzi."
+    },
+    {
+      "id": "08",
+      "title": "Voce e accessibilità",
+      "subtitle": "Ascoltare il testo originale, con controlli sempre visibili",
+      "bullets": ["Voce di sistema, testo e non didascalia", "Pannello Controlli, 10-32 px, maiuscole"],
+      "visuals": ["assets/storia.jpg"],
+      "narration": "La voce è parte della didattica. Il pulsante Ascolta legge il paragrafo selezionato o tutto il documento con la voce di sistema: legge il testo originale, non la descrizione del pittogramma. Per l'accessibilità, il pulsante Controlli resta sempre in basso a sinistra: apre la tastiera a schermo, lo spazio, l'invio, annulla e ripeti, l'ascolto, la dimensione del testo da dieci a trentadue pixel e l'interruttore tutto maiuscole. Il pannello non compare in stampa. Ci sono temi chiaro, scuro e ad alto contrasto, e l'interfaccia è pensata per il touchscreen."
+    },
+    {
+      "id": "09",
+      "title": "Salvare, esportare, stampare",
+      "subtitle": "Un file, molti formati, licenze sempre tracciate",
+      "bullets": [".caadoc atomico e bozza di recupero", "PDF, PNG, HTML, DOCX, PPTX modificabili"],
+      "visuals": ["assets/token.jpg", "assets/primapoi.jpg"],
+      "narration": "Il salvataggio è un file unico: il formato caadoc è un archivio con manifest versionato che contiene testo, formattazione, pittogrammi, scelte manuali e i simboli usati, scritto in modo atomico, così un salvataggio interrotto non rovina il file precedente. Ogni venti secondi, se ci sono modifiche non salvate, viene scritta una bozza di recupero. Esporti in PDF multipagina, PNG, HTML autonomo, DOCX e PPTX: in Word e PowerPoint immagini e griglie restano elementi modificabili singolarmente. Il registro delle licenze elenca autori e attribuzioni dei simboli usati. Infine la stampa passa dal dialogo di sistema."
+    },
+    {
+      "id": "10",
+      "title": "Automazione per docenti",
+      "subtitle": "La CLI caa-cli con lo stesso motore dell'interfaccia",
+      "bullets": ["Simbolizza, genera, esporta senza finestra", "Accesso in lettura, conferme, percorsi confinati"],
+      "visuals": ["assets/agenda.jpg"],
+      "narration": "Per chi vuole lavorare in serie c'è l'automazione. La CLI caa-cli usa lo stesso motore dell'interfaccia: simbolizza un testo, cerca simboli, genera materiali ed esporta documenti senza aprire la finestra. Un docente può preparare dieci schede in un colpo solo, oppure far controllare a un assistente virtuale la coerenza di una tabella; il server MCP espone gli stessi metodi. Le regole di sicurezza sono esplicite: modalità di accesso in sola lettura, conferme per le operazioni distruttive, percorsi confinati. E poiché tutto è locale, anche l'automazione funziona senza connessione."
+    }
+  ]
+}

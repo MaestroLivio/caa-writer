@@ -1,11 +1,10 @@
 <script lang="ts">
-  // Scelta dei pacchetti al primo avvio.
+  // Installazione obbligatoria al primo avvio e dopo un aggiornamento.
   //
-  // L'installer è snello: i repertori grandi (libreria materiali, modello
-  // neurale, voci) non sono inclusi. Qui l'utente vede cosa manca e sceglie
-  // cosa vuole configurare. Nessun download parte da questa finestra: le
-  // scelte vengono passate al Gestore pacchetti, dove ogni operazione è
-  // esplicita. «Più tardi» lascia la finestra per il prossimo avvio.
+  // I cataloghi di pittogrammi, il motore semantico Horizon e la voce neurale
+  // vengono scaricati e verificati prima di aprire l'editor: senza pesi il
+  // motore userebbe solo le regole e la voce cadrebbe su quella di sistema.
+  // Non esiste un rinvio: la finestra si chiude quando i download sono finiti.
 
   interface Props {
     /// Avvia i download scelti e blocca l'uso finché non sono terminati.
@@ -41,16 +40,18 @@
       required: true,
     },
     {
-      id: "voice",
-      name: "Voce neurale italiana",
-      note: "Lettura offline con Piper. In assenza della voce, la sintesi usa la voce di sistema.",
-      size: "circa 60 MB per voce",
+      id: "semantic",
+      name: "Motore semantico Horizon",
+      note: "Rende immediata e accurata la scelta dei pittogrammi e dei suggerimenti. Senza questo modello il programma usa le sole regole deterministiche e lo dichiara.",
+      size: "circa 302 MB",
+      required: true,
     },
     {
-      id: "diffusion",
-      name: "Modello di diffusione per le immagini",
-      note: "Generazione di immagini e pittogrammi personali sul computer. Il modello viene scelto in base alla memoria disponibile. Richiede Python 3.",
-      size: "runtime e modello, alcuni GB",
+      id: "voice",
+      name: "Voce neurale italiana",
+      note: "Lettura offline con Piper, attiva subito. In assenza della voce, la sintesi usa la voce di sistema.",
+      size: "circa 60 MB",
+      required: true,
     },
   ];
 
@@ -71,16 +72,17 @@
   <div class="firstrun__card">
     <header class="firstrun__head">
       <div>
-        <h1 id="firstrun-title">Cosa vuoi installare?</h1>
+        <h1 id="firstrun-title">Installazione dei componenti</h1>
         <p>
-          Il programma funziona offline. I due cataloghi di pittogrammi sono richiesti al primo avvio;
-          voce neurale e modello di diffusione si possono aggiungere ora o in seguito.
+          Il programma funziona offline. Al primo avvio scarica i cataloghi di pittogrammi,
+          il motore semantico e la voce neurale: servono tutti, quindi non sono
+          deselezionabili e l'editor si apre a installazione completata.
         </p>
       </div>
     </header>
 
     <fieldset class="firstrun__list">
-      <legend class="sr-only">Pacchetti opzionali</legend>
+      <legend class="sr-only">Pacchetti richiesti</legend>
       {#each optionalPackages as item (item.id)}
         <label class="firstrun__item" class:firstrun__item--on={selected.includes(item.id)}>
           <input
@@ -101,9 +103,10 @@
     </fieldset>
 
     <p class="firstrun__hint">
-      I due cataloghi di pittogrammi sono richiesti: il programma li scarica prima di aprire
-      l'editor. Puoi aggiungere la voce neurale ora oppure dal Gestore pacchetti. Il modello linguistico
-      si installa dal Gestore pacchetti quando serve. Una volta terminati, tutto funziona offline.
+      I pacchetti sono richiesti: il programma li scarica e li verifica prima di aprire
+      l'editor, così il motore semantico e la voce neurale funzionano subito, non in un
+      secondo momento. Le immagini si importano dai file, non si generano. Una volta
+      terminati, tutto funziona offline.
     </p>
 
     <footer class="firstrun__actions">

@@ -1279,23 +1279,6 @@ pub fn dispatch_with_options(
                     let layout = engine.layout_document(spec)?;
                     Ok(json!({"ok": true, "kind": "layout", "layout": layout}))
                 }
-                "image" => {
-                    let prompt = as_string(params, "prompt")
-                        .ok_or_else(|| "serve prompt per l'immagine".to_string())?;
-                    let negative = as_string(params, "negative").unwrap_or_default();
-                    let db = engine.db()?;
-                    let image = crate::image_engine::generate(&engine.paths, &db, &prompt, &negative)?;
-                    let mut value = serde_json::to_value(&image).map_err(|e| e.to_string())?;
-                    if let Some(out) = out {
-                        let out_path = resolve_output_path(&engine.paths.data_dir, &out, true)?;
-                        std::fs::copy(&image.path, &out_path)
-                            .map_err(|error| format!("copia immagine in {out}: {error}"))?;
-                        value["saved_to"] = json!(out_path);
-                    }
-                    value["ok"] = json!(true);
-                    value["kind"] = json!("image");
-                    Ok(value)
-                }
                 other => Err(format!("tipo di contenuto non supportato: {other}")),
             }
         }
@@ -1964,7 +1947,7 @@ pub fn dispatch_with_options(
             Ok(json!({ "engine": "system" }))
         }
         "ai.chat" => {
-            let messages: Vec<crate::ai_provider::ChatMessage> = params
+            let messages: Vec<crate::ai_engine::ChatMessage> = params
                 .get("messages")
                 .cloned()
                 .ok_or_else(|| "serve messages".to_string())
@@ -2134,41 +2117,6 @@ pub fn dispatch_with_options(
                 engine.clear_caches();
             }
             Ok(json!({ "saved": saved }))
-        }
-        "image.status" => {
-            let db = engine.db()?;
-            let status = crate::image_engine::status(&engine.paths, &db);
-            Ok(serde_json::to_value(&status).map_err(|e| e.to_string())?)
-        }
-        "image.generate" => {
-            let prompt = as_string(params, "prompt").ok_or_else(|| "serve prompt".to_string())?;
-            let negative = as_string(params, "negative").unwrap_or_default();
-            let db = engine.db()?;
-            let image = crate::image_engine::generate(
-                &engine.paths,
-                &db,
-                &prompt,
-                &negative,
-            )?;
-            let mut value = serde_json::to_value(&image).map_err(|e| e.to_string())?;
-            if let Some(out) = as_string(params, "out") {
-                std::fs::copy(&image.path, &out)
-                    .map_err(|e| format!("copia immagine in {out}: {e}"))?;
-                value["saved_to"] = serde_json::Value::String(out);
-            }
-            if !as_bool(params, "include_base64", false) {
-                value["png_base64"] = serde_json::Value::String(String::new());
-            }
-            Ok(value)
-        }
-        "image.install" => {
-            let message = crate::image_engine::install_runtime(&engine.paths)?;
-            Ok(json!({ "ok": true, "message": message }))
-        }
-        "image.download" => {
-            let model = as_string(params, "model").ok_or_else(|| "serve model".to_string())?;
-            let message = crate::image_engine::download_model(&engine.paths, &model)?;
-            Ok(json!({ "ok": true, "message": message }))
         }
         "translate.english" => {
             let text = as_string(params, "text").ok_or_else(|| "serve text".to_string())?;
