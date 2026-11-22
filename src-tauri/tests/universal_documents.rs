@@ -20,10 +20,14 @@ fn manifest() -> universal::LibraryManifest {
 }
 
 #[test]
-fn library_contains_at_least_500_templates_and_30_systems() {
+fn library_contains_at_least_300_templates_and_30_systems() {
+    // La libreria pubblicata dalla 0.15.23 è curata a 350 materiali (320
+    // template + 30 sistemi) senza duplicati: le altre specifiche sono in
+    // `templates/archive/`. Il minimo resta quello richiesto da
+    // `template build-all`, così la curatela non può svuotare la libreria.
     let manifest = manifest();
     let (templates, boards) = manifest.counts();
-    assert!(templates >= 500, "template universali: {templates}");
+    assert!(templates >= 300, "template universali: {templates}");
     assert_eq!(boards, 30, "sistemi comunicativi: {boards}");
     assert_eq!(manifest.report.get("failed").and_then(|v| v.as_u64()), Some(0));
 }
