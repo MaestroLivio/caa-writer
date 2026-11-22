@@ -23,7 +23,7 @@ cargo test --lib                                     313/313
 cargo test --lib --features onnx                     318/318
 npm run build / npm run check                          ok, 0 errori
 npm run test:frontend                                 75/75
-cargo test --test semantic_corpus --features onnx     FALLITO (senza catalogo ARASAAC)
+cargo test --test semantic_corpus --features onnx     saltato: catalogo ARASAAC assente
 ```
 
 ## Stato reale 0.15.23 (22 novembre 2026)

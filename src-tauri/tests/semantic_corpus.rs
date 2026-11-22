@@ -89,6 +89,19 @@ fn semantic_corpus_accuracy() {
         corpus.sentences.len()
     );
 
+    // Le soglie in fondo sono calibrate con il catalogo ARASAAC installato:
+    // senza i pittogrammi il motore ricade su concetti più generici e le
+    // misure non sono confrontabili. Il catalogo non è nel repository (si
+    // scarica con `scripts/fetch_arasaac.py`), quindi il test si salta
+    // dichiarandolo invece di fallire per un dato mancante.
+    if !resources_dir().join("symbol-packs").join("arasaac").exists() {
+        eprintln!(
+            "catalogo ARASAAC assente: corpus semantico saltato (scripts/fetch_arasaac.py). \
+             Senza i pittogrammi le soglie di regressione non sono valutabili."
+        );
+        return;
+    }
+
     let engine = build_engine();
     let mut overall = Tally::default();
     let mut by_category: BTreeMap<String, Tally> = BTreeMap::new();
