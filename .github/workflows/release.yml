@@ -197,12 +197,24 @@ jobs:
           fi
 
       # `linuxdeploy` è distribuito come AppImage: sul runner senza FUSE va
-      # eseguito estratto, altrimenti il bundle AppImage fallisce.
+      # eseguito estratto, altrimenti il bundle AppImage fallisce. In più il
+      # suo `strip` (binutils 2.35) muore sulle sezioni `.relr.dyn` delle
+      # librerie di sistema recenti, e Tauri riporta il guasto come un generico
+      # «failed to run linuxdeploy»: `NO_STRIP` salta quel passo. Su Linux la
+      # build è verbosa per avere l'output di linuxdeploy nei log di CI.
       - name: Build bundle non firmato
         shell: bash
         env:
           APPIMAGE_EXTRACT_AND_RUN: 1
-        run: npm run tauri -- build --target "${{ matrix.target }}" --bundles "${{ matrix.bundles }}" --features onnx
+          NO_STRIP: "true"
+        run: |
+          set -euo pipefail
+          VERBOSE=""
+          if [ "${{ matrix.name }}" = "linux-x64" ]; then
+            VERBOSE="--verbose"
+          fi
+          npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
+            --bundles "${{ matrix.bundles }}" --features onnx
 
       - name: Raccogli artefatti e checksum
         shell: bash
