@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-11-09T15:54:15Z",
+  "generated_at": "2026-11-23T07:02:18Z",
   "entries": [
     {
       "id": "boards.agenda-tempo",
@@ -32,7 +32,10 @@
         "organizzare",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -71,7 +74,10 @@
         "segnalare",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -109,7 +115,10 @@
         "confini",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -146,7 +155,10 @@
         "quotidiana",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -184,7 +196,10 @@
         "medico",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -223,7 +238,10 @@
         "livello",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -261,7 +279,10 @@
         "aiuto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -300,7 +321,10 @@
         "costruire",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -339,7 +363,10 @@
         "alla",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -378,7 +405,10 @@
         "ripetere",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -417,7 +447,10 @@
         "emotivi",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -454,7 +487,10 @@
         "contatto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -493,7 +529,10 @@
         "allergie",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -530,7 +569,10 @@
         "altri",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -569,7 +611,10 @@
         "richieste",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -608,7 +653,10 @@
         "aiuto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -647,7 +695,10 @@
         "volume",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -686,7 +737,10 @@
         "respirazione",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -725,7 +779,10 @@
         "conto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -763,7 +820,10 @@
         "scrittura",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -801,7 +861,10 @@
         "dedicato",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -839,7 +902,10 @@
         "campo",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -878,7 +944,10 @@
         "obiettivi",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -917,7 +986,10 @@
         "aiuto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -955,7 +1027,10 @@
         "aiuto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -992,7 +1067,10 @@
         "compagnia",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -1030,7 +1108,10 @@
         "fuori",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -1069,7 +1150,10 @@
         "aiuto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -1107,7 +1191,10 @@
         "viaggio",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -1146,7 +1233,10 @@
         "partecipare",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -3499,7 +3589,10 @@
         "bere",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3538,7 +3631,10 @@
         "mangiare",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3577,7 +3673,10 @@
         "formaggio",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3616,7 +3715,10 @@
         "caldo",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3655,7 +3757,10 @@
         "riposo",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3694,7 +3799,10 @@
         "fuori",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3733,7 +3841,10 @@
         "pranzo",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3772,7 +3883,10 @@
         "nuvola",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3811,7 +3925,10 @@
         "salire",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -3850,7 +3967,10 @@
         "aprire",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -5098,7 +5218,10 @@
         "correre",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -5137,7 +5260,10 @@
         "pieno",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -5176,7 +5302,10 @@
         "pettine",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -5215,7 +5344,10 @@
         "stazione",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -5254,7 +5386,10 @@
         "dottore",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -5293,7 +5428,10 @@
         "pausa",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -10288,7 +10426,10 @@
         "corpo",
         "aiuto",
         "vocabolario essenziale",
-        "core vocabulary"
+        "core vocabulary",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "intermedio",
       "needs_symbols": true,
@@ -10404,7 +10545,10 @@
         "aiuto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11386,7 +11530,10 @@
         "accarezzare",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11425,7 +11572,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11464,7 +11614,10 @@
         "felice",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11503,7 +11656,10 @@
         "felice",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11542,7 +11698,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11581,7 +11740,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11620,7 +11782,10 @@
         "felice",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11659,7 +11824,10 @@
         "felice",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11698,7 +11866,10 @@
         "felice",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "articolato",
       "needs_symbols": true,
@@ -11737,7 +11908,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11776,7 +11950,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11815,7 +11992,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11854,7 +12034,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11893,7 +12076,10 @@
         "sì",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11932,7 +12118,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -11971,7 +12160,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12010,7 +12202,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12049,7 +12244,10 @@
         "finire",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12088,7 +12286,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12127,7 +12328,10 @@
         "chiedere aiuto",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12166,7 +12370,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12205,7 +12412,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12244,7 +12454,10 @@
         "felice",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12283,7 +12496,10 @@
         "la mia frase: ________________________________________________",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12322,7 +12538,10 @@
         "bere",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12361,7 +12580,10 @@
         "musica",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12400,7 +12622,10 @@
         "scrivere",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,
@@ -12439,7 +12664,10 @@
         "finire",
         "vocabolario essenziale",
         "core vocabulary",
-        "navigazione"
+        "navigazione",
+        "accessibilità",
+        "chiave fitzgerald",
+        "design 2026"
       ],
       "complexity": "base",
       "needs_symbols": true,

@@ -4,6 +4,40 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## Libreria AAC 2026.11 — 2026-11-23
+
+Versione aggiornata del pacchetto «Comunicazione aumentativa e alternativa»
+(76 documenti, 5.141 elementi). Non cambia il codice dell'applicazione: cambia
+il materiale della biblioteca incluso nel bundle.
+
+### Novità
+
+- Sistema grafico unico per tutte le tavole: angoli arrotondati (2,4 mm), bordi
+  più leggeri (0,7–0,9 mm), spaziatura interna 1,4–2,6 mm, margine pagina
+  10 mm e gap di griglia 2,4 mm. Le tavole smettono di sembrare una griglia di
+  rettangoli grigi.
+- Colore per classe di parola su liste esplicite (chiave Fitzgerald): persone,
+  azioni, descrittori, nomi, parole sociali, negazione e urgenza, navigazione.
+  Le parole non elencate restano neutre. Celle di navigazione e titoli usano il
+  teal del marchio.
+- Riquadri senza pittogramma con bordo tratteggiato: si vede che il simbolo
+  manca, senza inventarlo.
+- `accessibility.label` compilata su tutti i 5.141 elementi (prima era vuota su
+  tutti) e `large_text` sui comandi di navigazione, i titoli e il vocabolario
+  essenziale: chi usa lettori di schermo o ingranditori ha un nome per ogni
+  cella.
+
+### Verifiche
+
+- `library.validate`: 350 documenti, 0 errori, 1.600 avvisi (tutti pittogrammi
+  ARASAAC assenti, già presenti prima).
+- `dev.library.open` 76/76, `dev.library.preview` 76/76 con SVG rigenerato.
+- Contrasto calcolato: testo su tinta 15,46:1–17,24:1, bianco su teal 5,47:1,
+  bordi 4,51:1–5,49:1.
+- Non verificato: resa a schermo e su stampa (controllo visivo non eseguito).
+
+La versione è identificata dal tag Git `library-aac-2026.11`.
+
 ## 0.15.24 — 2026-11-22
 
 ### Correzioni
