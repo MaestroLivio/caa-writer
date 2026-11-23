@@ -260,6 +260,70 @@ export interface PackageReport {
   message: string;
 }
 
+export interface LibraryPackageState {
+  id: string;
+  name: string;
+  documents: number;
+  installed_version: string | null;
+  bundled_version: string;
+  remote_version: string | null;
+  status: "aggiornato" | "aggiornabile";
+  action: "nessuna" | "inclusa" | "repository";
+  updated_at: string | null;
+  bytes: number;
+}
+
+export interface PackageOutlineDocument {
+  id: string;
+  title: string;
+  subcategory: string;
+  pages: number;
+  elements: number;
+  audience: string;
+  objective: string;
+  tags: string[];
+}
+
+export interface PackageOutline {
+  id: string;
+  name: string;
+  description: string;
+  version: string;
+  documents: number;
+  pages: number;
+  elements: number;
+  objectives: string[];
+  audiences: string[];
+  subcategories: [string, number][];
+  documents_detail: PackageOutlineDocument[];
+}
+
+export interface LibraryPackagesStatus {
+  packages: LibraryPackageState[];
+  library_dir: string;
+  outdated: number;
+  checked_remote: boolean;
+  warnings: string[];
+}
+
+export interface LibraryPackageUpdate {
+  id: string;
+  version: string;
+  source: string;
+  copied: number;
+  bytes: number;
+  updated: boolean;
+  message: string;
+}
+
+export interface LibraryPackagesUpdateReport {
+  source: string;
+  packages: LibraryPackageUpdate[];
+  updated: number;
+  failed: number;
+  warnings: string[];
+}
+
 export interface UpdateInfo {
   current_version: string;
   latest_version: string | null;

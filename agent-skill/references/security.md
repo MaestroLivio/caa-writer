@@ -59,6 +59,22 @@ caa-cli --data-dir "$TMP/data" --resources /percorso/risorse info
 
 Non eliminare le informazioni di licenza durante trasformazioni o esportazioni.
 
+## Aggiornamenti della libreria
+
+- `library.update_package` e `library.packages.update_all` scrivono solo in
+  `<data-dir>/library`: non modificano i file dell'app e non toccano gli altri
+  pacchetti. Restano comunque scritture: con `--access read` il dispatch le
+  rifiuta.
+- Sostituire un pacchetto già installato in una versione diversa richiede
+  `confirm: true`. La conferma è una decisione dell'utente: spiega versione
+  attuale e versione nuova prima di chiederla, e non usarla per aggirare un
+  rifiuto.
+- `source: repository` scarica dal branch `main` del repository pubblico. Senza
+  rete l'operazione ripiega sulla copia inclusa oppure dichiara l'errore: non
+  presentare come aggiornato un pacchetto che non è stato scritto.
+- Dopo un aggiornamento rileggi `library.packages.status`: la versione
+  installata è l'unica prova che la copia è avvenuta.
+
 ## Cosa non fare
 
 - Non aggirare `confirm: true` con un default dell'agente.

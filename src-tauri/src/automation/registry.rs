@@ -546,6 +546,43 @@ pub const OPERATIONS: &[Operation] = &[
         params: [p("only_pilots", "boolean", false, "Solo i piloti"), p("max_issues", "integer", false, "Default 80")]
     ),
     op!(
+        "library.packages.status", "Stato dei pacchetti della libreria", "materiali", Some("library_packages_status"),
+        "Per ogni pacchetto della libreria: versione installata, versione inclusa, versione pubblicata nel repository e stato (aggiornato o aggiornabile). Con check_remote il repository viene letto una volta; senza rete l'operazione riesce comunque e dichiara l'avviso.",
+        "Elenco dei pacchetti con versioni, stato, azione consigliata e avvisi.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [p("check_remote", "boolean", false, "Legge il manifest pubblicato (richiede rete)")],
+        example: "caa-cli call library.packages.status '{}'"
+    ),
+    op!(
+        "library.update_package", "Aggiorna un pacchetto", "materiali", Some("library_update_package"),
+        "Aggiorna un solo pacchetto della libreria copiandolo nella cartella dati dell'utente: dalla copia inclusa (funziona offline) oppure dal repository. Gli altri pacchetti non vengono toccati. Sostituire una versione già installata richiede confirm: true.",
+        "Pacchetto aggiornato con versione, documenti copiati e byte.",
+        mutating: true, destructive: false, idempotent: true,
+        params: [
+            p("id", "string", true, "ID della categoria, es. aac, schede, agende"),
+            p("source", "string", false, "auto (predefinito), inclusa o repository"),
+            CONFIRM,
+        ],
+        example: "caa-cli call library.update_package '{\"id\":\"schede\",\"source\":\"inclusa\",\"confirm\":true}'"
+    ),
+    op!(
+        "library.packages.update_all", "Aggiorna tutti i pacchetti", "materiali", Some("library_packages_update_all"),
+        "Aggiorna tutti i pacchetti che hanno una versione più recente rispetto alla copia installata, con lo stesso criterio di library.update_package.",
+        "Report con pacchetti aggiornati, fallimenti e avvisi.",
+        mutating: true, destructive: false, idempotent: true,
+        params: [
+            p("source", "string", false, "auto (predefinito), inclusa o repository"),
+            CONFIRM,
+        ]
+    ),
+    op!(
+        "library.package.outline", "Scheda didattica del pacchetto", "materiali", Some("library_package_outline"),
+        "Obiettivi dichiarati, pubblico, sottocategorie e documenti di un pacchetto: serve a insegnanti e agenti per scegliere i materiali pertinenti senza inventare contenuti.",
+        "Sintesi del pacchetto con elenco documenti, pagine ed elementi.",
+        mutating: false, destructive: false, idempotent: true,
+        params: [p("id", "string", true, "ID della categoria, es. aac, schede, agende")]
+    ),
+    op!(
         "dev.library.packages", "Pacchetti libreria (dev)", "sviluppo", Some("dev_library_packages"),
         "Elenca i pacchetti e i documenti della libreria. Richiede la modalità sviluppatore attiva (CAA_WRITER_DEV_LIBRARY=1 o --dev-library, solo build debug).",
         "Pacchetti con documenti, percorsi e conteggi.",

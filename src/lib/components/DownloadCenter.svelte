@@ -94,10 +94,17 @@
     {/if}
 
     <div class="dl__global">
-      <div class="dl__bar" aria-hidden="true">
+      <div
+        class="dl__bar"
+        role="progressbar"
+        aria-label="Avanzamento complessivo dei download"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={Math.round(snapshot?.percent ?? 0)}
+      >
         <span style={`width:${snapshot?.percent ?? 0}%`}></span>
       </div>
-      <p>
+      <p aria-live="polite" aria-atomic="true">
         {#if snapshot}
           <strong>{Math.round(snapshot.percent)}%</strong>
           {dc.doneOfTotal(mb(snapshot.done), mb(snapshot.total))}
@@ -115,7 +122,14 @@
             <strong>{task.label}</strong>
             <span>{task.error ? "Errore" : task.finished ? "Completato" : `${Math.round(task.percent)}%`}</span>
           </div>
-          <div class="dl__bar dl__bar--task" aria-hidden="true">
+          <div
+            class="dl__bar dl__bar--task"
+            role="progressbar"
+            aria-label={`Avanzamento di ${task.label}`}
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow={Math.round(task.percent)}
+          >
             <span style={`width:${task.error ? 100 : task.percent}%`}></span>
           </div>
           <p>{task.error ?? task.phase}</p>

@@ -109,6 +109,41 @@ caa-cli call symbolize '{"text":"Il gatto dorme."}'
 7. Se un pittogramma manca: `search`, `affinities`, poi eventualmente
    `online.search`. **Non inventare simboli** e riporta i warning.
 
+## Libreria: aggiornamenti per pacchetto
+
+La libreria è divisa in pacchetti (categorie) con una versione propria. Prima di
+aggiornare qualcosa, leggi lo stato reale: non dedurre che un pacchetto sia
+vecchio perché l'app lo dice una volta.
+
+```bash
+# stato offline di tutti i pacchetti
+caa-cli call library.packages.status '{}'
+# stato con confronto sul repository (richiede rete; se manca, arriva un avviso)
+caa-cli call library.packages.status '{"check_remote":true}'
+# scheda didattica: obiettivi, pubblico, sottocategorie, documenti
+caa-cli call library.package.outline '{"id":"teacch"}'
+# aggiorna un solo pacchetto dalla copia inclusa
+caa-cli call library.update_package '{"id":"schede","source":"inclusa","confirm":true}'
+```
+
+Tre versioni per pacchetto: `installed_version` (profilo dell'utente),
+`bundled_version` (inclusa nell'app), `remote_version` (repository). `status` è
+`aggiornato` o `aggiornabile`; `action` è `inclusa`, `repository` o `nessuna`.
+
+Regole:
+
+- `source`: `inclusa` funziona sempre offline; `repository` scarica dal branch
+  `main`; `auto` prova il repository e ripiega sulla copia inclusa.
+- L'aggiornamento scrive solo nella cartella dati dell'utente: non tocca i file
+  dell'app e non modifica gli altri pacchetti.
+- Se il pacchetto è già installato in una versione **diversa**, il dispatch
+  rifiuta senza `confirm: true`. Chiedere all'utente prima di confermare un
+  downgrade: `confirm` è una decisione umana, non un default.
+- `library.update_package` non è distruttivo per gli altri materiali, ma
+  sostituisce i documenti del pacchetto scelto: dichiaralo prima di eseguirlo.
+- Non esiste un aggiornamento della libreria intera come singola operazione:
+  `library.packages.update_all` aggiorna solo i pacchetti indietro.
+
 ## Regole non negoziabili
 
 - Non dichiarare un test eseguito se non lo hai eseguito.

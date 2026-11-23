@@ -168,3 +168,47 @@ Sequenza:
 
 `tools/call` restituisce `content` con testo JSON e `structuredContent` con lo
 stesso oggetto. `isError: true` indica un errore applicativo reale.
+
+## 10. Aggiornare la libreria un pacchetto alla volta
+
+La libreria è fatta di pacchetti con versione propria. Non serve reinstallare
+l'app e non esiste un «aggiorna tutto» che riscriva la libreria intera: si
+aggiornano solo i pacchetti che risultano indietro.
+
+```bash
+# 1. stato reale, offline
+caa-cli --data-dir "$DATA" --resources "$RES" call library.packages.status '{}'
+
+# 2. confronto con il repository (se la rete manca arriva un avviso, non un errore)
+caa-cli --data-dir "$DATA" --resources "$RES" call library.packages.status '{"check_remote":true}'
+
+# 3. scheda didattica del pacchetto: obiettivi, pubblico, sottocategorie, documenti
+caa-cli --data-dir "$DATA" --resources "$RES" call library.package.outline '{"id":"comportamentali"}'
+
+# 4. aggiornamento di un singolo pacchetto dalla copia inclusa (offline)
+caa-cli --data-dir "$DATA" --resources "$RES" call library.update_package '{"id":"comportamentali","source":"inclusa","confirm":true}'
+
+# 5. tutti i pacchetti indietro, con fallback offline automatico
+caa-cli --data-dir "$DATA" --resources "$RES" call library.packages.update_all '{"source":"auto"}'
+
+# 6. verifica: lo stato dice aggiornato e i documenti si aprono dalla copia utente
+caa-cli --data-dir "$DATA" --resources "$RES" call library.packages.status '{}'
+caa-cli --data-dir "$DATA" --resources "$RES" library search --category comportamentali --query token
+```
+
+Da MCP:
+
+```json
+{"jsonrpc":"2.0","id":10,"method":"tools/call","params":{"name":"library_packages_status","arguments":{"check_remote":false}}}
+{"jsonrpc":"2.0","id":11,"method":"tools/call","params":{"name":"library_package_outline","arguments":{"id":"aac"}}}
+{"jsonrpc":"2.0","id":12,"method":"tools/call","params":{"name":"library_update_package","arguments":{"id":"aac","source":"inclusa","confirm":true}}}
+```
+
+Note operative:
+
+- `confirm: true` serve quando il pacchetto è già installato in una versione
+  diversa: chiedilo all'utente, non impostarlo per abitudine.
+- `library.packages.update_all` accetta `confirm` una volta sola per tutti i
+  pacchetti da sostituire: dichiara quanti sono prima di eseguirlo.
+- Se `check_remote` è vero e la rete manca, lo stato resta valido e
+  `warnings` spiega che il repository non è stato letto.

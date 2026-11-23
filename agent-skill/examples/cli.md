@@ -69,3 +69,10 @@ printf '%s\n' \
 | `0` | successo |
 | `1` | errore applicativo o di ambiente (JSON su stderr) |
 | `2` | uso non valido, flag o modalità di accesso errata |
+
+# Aggiornamenti della libreria, per singolo pacchetto (0.16.0)
+caa-cli --resources ../../resources call library.packages.status '{}'
+caa-cli --resources ../../resources call library.packages.status '{"check_remote":true}'
+caa-cli --resources ../../resources call library.package.outline '{"id":"teacch"}'
+caa-cli --resources ../../resources call library.update_package '{"id":"storie-caa","source":"inclusa","confirm":true}'
+caa-cli --resources ../../resources call library.packages.update_all '{"source":"auto"}'

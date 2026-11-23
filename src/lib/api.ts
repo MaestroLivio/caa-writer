@@ -53,6 +53,10 @@ import type {
   LoadedDocument,
   PackInfo,
   PackageCatalog,
+  PackageOutline,
+  LibraryPackagesStatus,
+  LibraryPackagesUpdateReport,
+  LibraryPackageUpdate,
   PackageReport,
   UpdateInfo,
   ParagraphResult,
@@ -111,6 +115,18 @@ export const api = {
   libraryStats: () => call<LibraryStats>("library_stats"),
   listPacks: () => call<PackInfo[]>("list_packs"),
   packageCatalog: () => call<PackageCatalog>("package_catalog"),
+  libraryPackagesStatus: (checkRemote = false) =>
+    call<LibraryPackagesStatus>("library_packages_status", { checkRemote }),
+  libraryPackageUpdate: (
+    id: string,
+    source: "auto" | "inclusa" | "repository" = "auto",
+    confirm = true
+  ) =>
+    call<LibraryPackageUpdate>("library_package_update", { id, source, confirm }),
+  libraryPackagesUpdateAll: (source: "auto" | "inclusa" | "repository" = "auto", confirm = true) =>
+    call<LibraryPackagesUpdateReport>("library_packages_update_all", { source, confirm }),
+  libraryPackageOutline: (id: string) =>
+    call<PackageOutline>("library_package_outline", { id }),
   packageSetLibrary: (id: string, enabled: boolean) =>
     call<void>("package_set_library", { id, enabled }),
   packageDownload: (id: string) => call<PackageReport>("package_download", { id }),

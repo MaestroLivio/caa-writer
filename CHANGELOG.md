@@ -4,6 +4,87 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.16.0 — 2026-11-23
+
+### La libreria si aggiorna per singolo pacchetto
+
+L'app vedeva che nel repository esisteva una versione più recente della
+libreria, ma non offriva alcun modo per applicarla. Ora ogni categoria è un
+pacchetto con una versione propria e si aggiorna da sola.
+
+- `resources/library/manifest.json` dichiara `packages`: `id`, `name`,
+  `version`, `updated_at`, `documents`. La versione è indipendente per
+  pacchetto (oggi `2026.11` per tutti i nove).
+- Per ogni pacchetto si confrontano tre versioni: **installata** nel profilo,
+  **inclusa** nell'app, **pubblicata** nel repository. Lo stato dichiara
+  `aggiornato` oppure `aggiornabile` e l'azione consigliata (`inclusa`,
+  `repository`, `nessuna`).
+- L'aggiornamento copia solo i documenti del pacchetto scelto in
+  `<data-dir>/library`: la copia dell'utente prevale su quella inclusa e i
+  materiali degli altri pacchetti non vengono toccati. Non si duplicano i
+  150 MB della libreria completa.
+- Funziona anche offline: la sorgente `inclusa` legge i file dell'app, la
+  sorgente `repository` scarica dal branch `main`, `auto` prova il repository e,
+  se la rete manca, usa la copia inclusa dichiarandolo.
+- Sostituire una versione già installata e diversa richiede `confirm: true`:
+  niente downgrade o sovrascritture silenziose.
+- Nuova scheda didattica del pacchetto (`library.package.outline`): obiettivi
+  dichiarati, pubblico, sottocategorie, documenti, pagine ed elementi.
+
+### Interfaccia
+
+- Gestore pacchetti: sezione «Pacchetti della libreria» riscritta con versione
+  inclusa, installata e del repository per ogni categoria, avviso visibile sui
+  pacchetti da aggiornare, pulsante «Aggiorna pacchetto» per ciascuno,
+  «Aggiorna tutti», stato letto con `aria-live`, bersagli ≥ 44 px.
+- Scheda didattica espandibile per pacchetto (obiettivi, sottocategorie,
+  pubblico) senza aprire i documenti.
+- Libreria: il pulsante «Pacchetti» mostra il numero di aggiornamenti
+  disponibili e una fascia in cima permette di aggiornare subito o di scegliere
+  il singolo pacchetto.
+- Riga «Libreria materiali» negli aggiornamenti: non rimanda più a una
+  prossima release, aggiorna i pacchetti.
+- Centro download: barre con `role="progressbar"` e valori accessibili,
+  percentuale annunciata con `aria-live`.
+
+### Design e accessibilità
+
+- Passaggio di coerenza su `src/app.css`: indicatori di focus da 3 px con
+  offset su link, pulsanti, campi e elementi con `tabindex`, raggi e spaziature
+  da token, testo secondario con contrasto ≥ 4.5:1, bersagli da 44 px con
+  puntatore grossolano, supporto a `prefers-contrast: more` e a
+  `prefers-reduced-motion`.
+- Componenti dei pacchetti riscritti sui token (`--surface`, `--border`,
+  `--accent`, `--warn`, `--radius`) invece di colori fissi.
+
+### CLI, MCP e Agent Skill
+
+- Nuovi metodi: `library.packages.status`, `library.update_package`,
+  `library.packages.update_all`, `library.package.outline`; tool MCP
+  `library_packages_status`, `library_update_package`,
+  `library_packages_update_all`, `library_package_outline` (108 tool totali).
+- Il catalogo `library.*`, `library.validate` e le anteprime leggono il manifest
+  effettivo (incluso + copia utente), quindi un pacchetto aggiornato si vede
+  subito da CLI, MCP e GUI.
+- Skill aggiornata: nuova sezione sugli aggiornamenti per pacchetto, ricetta in
+  `references/workflows.md`, regola di conferma in `references/security.md`,
+  catalogo `references/capabilities.md` rigenerato a mano sulle operazioni
+  reali.
+
+### Verifiche eseguite
+
+- `cargo test --lib`: 318 test superati, 0 falliti (5 nuovi sui pacchetti).
+- `npm run build`: controllo tipi e build Vite superati.
+- CLI: `library.packages.status` su data-dir vuota (9 pacchetti, 0 da
+  aggiornare); `library.update_package` su `storie-caa` (10 documenti,
+  3,5 MB); versione installata abbassata a mano a `2026.09` → stato
+  `aggiornabile` con azione `inclusa`, rifiuto senza `confirm`, successo con
+  `confirm: true`; `library.search` ha riletto il pacchetto dalla copia
+  dell'utente; `library.package.outline` su `teacch` (30 documenti, 31 pagine).
+- MCP: `tools/list` espone i quattro nuovi tool.
+- Non verificato: aggiornamento dal repository con rete reale, resa grafica
+  delle nuove schermate (non aperte in un browser durante il lavoro).
+
 ## Libreria 2026.11 — 2026-11-23
 
 Versione aggiornata di **tutti i pacchetti** della biblioteca: 350 documenti,

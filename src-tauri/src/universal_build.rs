@@ -1181,10 +1181,45 @@ pub fn build_all(
         failures: failures.clone(),
         generated_at: generated_at.clone(),
     };
+    // Versioni per pacchetto: se il manifest precedente ne dichiarava una, la
+    // si conserva (la versione si incrementa a mano quando il pacchetto
+    // cambia); altrimenti si usa l'anno-mese di generazione.
+    let previous: Vec<crate::universal::LibraryPackage> =
+        crate::text_io::read_lossy(&out_root.join("manifest.json"))
+            .ok()
+            .and_then(|raw| serde_json::from_str::<LibraryManifest>(&raw).ok())
+            .map(|manifest| manifest.packages)
+            .unwrap_or_default();
+    let fallback_version: String = generated_at.chars().take(7).collect();
+    let mut packages: Vec<crate::universal::LibraryPackage> = Vec::new();
+    for entry in &entries {
+        if entry.category_id.is_empty() {
+            continue;
+        }
+        let index = packages
+            .iter()
+            .position(|package| package.id == entry.category_id);
+        match index {
+            Some(index) => packages[index].documents += 1,
+            None => packages.push(crate::universal::LibraryPackage {
+                id: entry.category_id.clone(),
+                name: entry.category.clone(),
+                version: previous
+                    .iter()
+                    .find(|package| package.id == entry.category_id)
+                    .map(|package| package.version.clone())
+                    .unwrap_or_else(|| fallback_version.clone()),
+                updated_at: generated_at.clone(),
+                documents: 1,
+            }),
+        }
+    }
+    packages.sort_by(|a, b| a.id.cmp(&b.id));
     let manifest = LibraryManifest {
-        version: 1,
+        version: 2,
         generated_at,
         entries,
+        packages,
         report: serde_json::to_value(&report).unwrap_or(Value::Null),
     };
     std::fs::write(

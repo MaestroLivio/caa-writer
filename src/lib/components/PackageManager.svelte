@@ -2,7 +2,16 @@
   import { onMount } from "svelte";
   import { api } from "../api";
   import ModelManager from "./ModelManager.svelte";
-  import type { AiStatus, PackageInfo, PackageCatalog, UpdateInfo, VoiceStatus } from "../types";
+  import type {
+    AiStatus,
+    LibraryPackageState,
+    LibraryPackagesStatus,
+    PackageCatalog,
+    PackageInfo,
+    PackageOutline,
+    UpdateInfo,
+    VoiceStatus,
+  } from "../types";
 
   interface Props {
     onClose: () => void;
@@ -41,11 +50,107 @@
   let pendingRemove = $state<string | null>(null);
   let voiceStatus = $state<VoiceStatus | null>(null);
   let voiceError = $state("");
+  // Stato dei pacchetti della libreria: versione installata, inclusa e
+  // pubblicata nel repository. L'aggiornamento è per singolo pacchetto.
+  let libraryStatus = $state<LibraryPackagesStatus | null>(null);
+  let libraryError = $state("");
+  let libraryBusy = $state("");
+  let libraryReport = $state("");
+  let outlines = $state<Record<string, PackageOutline | "loading" | "error">>({});
 
   onMount(() => {
     void load();
     void loadVoice();
+    void loadLibraryStatus(false);
   });
+
+  async function loadLibraryStatus(checkRemote: boolean) {
+    libraryError = "";
+    try {
+      libraryStatus = await api.libraryPackagesStatus(checkRemote);
+    } catch (err) {
+      libraryError = err instanceof Error ? err.message : String(err);
+    }
+  }
+
+  async function updatePackage(item: LibraryPackageState) {
+    libraryBusy = item.id;
+    libraryError = "";
+    libraryReport = "";
+    try {
+      const source = item.action === "repository" ? "repository" : "inclusa";
+      const result = await api.libraryPackageUpdate(item.id, source, true);
+      libraryReport = result.message;
+      await loadLibraryStatus(false);
+      onChanged?.();
+    } catch (err) {
+      libraryError = err instanceof Error ? err.message : String(err);
+    } finally {
+      libraryBusy = "";
+    }
+  }
+
+  async function updateAllPackages() {
+    libraryBusy = "*";
+    libraryError = "";
+    libraryReport = "";
+    try {
+      const report = await api.libraryPackagesUpdateAll("auto", true);
+      libraryReport =
+        report.updated === 0
+          ? "Nessun pacchetto da aggiornare."
+          : `${report.updated} pacchetti aggiornati${report.failed ? `, ${report.failed} non riusciti` : ""}.`;
+      for (const warning of report.warnings) {
+        libraryError = libraryError ? `${libraryError} ${warning}` : warning;
+      }
+      await loadLibraryStatus(false);
+      onChanged?.();
+    } catch (err) {
+      libraryError = err instanceof Error ? err.message : String(err);
+    } finally {
+      libraryBusy = "";
+    }
+  }
+
+  async function toggleOutline(id: string) {
+    if (outlines[id] && outlines[id] !== "error") {
+      const next = { ...outlines };
+      delete next[id];
+      outlines = next;
+      return;
+    }
+    outlines = { ...outlines, [id]: "loading" };
+    try {
+      const outline = await api.libraryPackageOutline(id);
+      outlines = { ...outlines, [id]: outline };
+    } catch {
+      outlines = { ...outlines, [id]: "error" };
+    }
+  }
+
+  function packageId(item: PackageInfo): string {
+    return item.id.replace(/^library:/, "");
+  }
+
+  function statusFor(item: PackageInfo): LibraryPackageState | undefined {
+    return libraryStatus?.packages.find((pkg) => pkg.id === packageId(item));
+  }
+
+  function outlineFor(item: PackageInfo): PackageOutline | null {
+    const value = outlines[packageId(item)];
+    return value && value !== "loading" && value !== "error" ? value : null;
+  }
+
+  function formatDate(value: string | null | undefined): string {
+    if (!value) return "data non disponibile";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString("it-IT");
+  }
+
+  function formatMb(bytes: number): string {
+    return bytes > 0 ? `${(bytes / 1_048_576).toFixed(1)} MB` : "";
+  }
 
   async function loadVoice() {
     try {
@@ -148,11 +253,6 @@
     }
   }
 
-  function formatDate(value: string | null | undefined): string {
-    if (!value) return "data non disponibile";
-    const parsed = new Date(value);
-    return Number.isNaN(parsed.getTime()) ? value : parsed.toLocaleDateString("it-IT");
-  }
 </script>
 
 <div class="packages" role="dialog" aria-modal="true" aria-labelledby="packages-title">
@@ -219,30 +319,32 @@
         </div>
         <div class="updates__row">
           <strong>Libreria materiali</strong>
-          <span>Versione locale: {formatDate(updates.library_current)}</span>
-          {#if updates.library_available && updates.library_latest && updates.software_available}
-            <span class="badge badge--accent">Aggiornamento disponibile ({formatDate(updates.library_latest)})</span>
+          <span>
+            {#if libraryStatus}
+              {libraryStatus.packages.length} pacchetti ·
+              {libraryStatus.outdated === 0
+                ? "tutti aggiornati"
+                : `${libraryStatus.outdated} da aggiornare`}
+            {:else}
+              stato dei pacchetti non letto
+            {/if}
+          </span>
+          {#if libraryStatus && libraryStatus.outdated > 0}
+            <span class="badge badge--accent">
+              {libraryStatus.outdated} aggiornamenti disponibili
+            </span>
             <button
               class="btn btn--solid"
-              disabled={!onStartDownload}
-              title={onStartDownload ? undefined : "Il download automatico richiede l'app desktop."}
-              onclick={() => onStartDownload?.(["update"])}
-            >Aggiorna ora</button>
-            <span class="hint">
-              La libreria è inclusa nell'app: l'aggiornamento scarica la versione
-              {updates.latest_version ?? "più recente"} per questo computer e apre l'installatore.
-            </span>
-          {:else if updates.library_available && updates.library_latest}
-            <span class="badge">Libreria più recente sul repository ({formatDate(updates.library_latest)})</span>
-            <span class="hint">
-              L'ultima versione dell'app installata contiene già una libreria precedente: la
-              nuova arriverà con la prossima release. Non serve scaricare nulla a mano.
-            </span>
-          {:else if updates.library_latest}
+              disabled={libraryBusy === "*"}
+              onclick={() => void updateAllPackages()}
+            >{libraryBusy === "*" ? "Aggiornamento…" : "Aggiorna tutti i pacchetti"}</button>
+          {:else if libraryStatus}
             <span class="badge">Libreria aggiornata</span>
-          {:else}
-            <span class="badge">Controllo libreria non disponibile</span>
           {/if}
+          <span class="hint">
+            La libreria si aggiorna per singolo pacchetto, senza reinstallare l'app: si apre la
+            sezione «Pacchetti della libreria» e si sceglie il pacchetto da aggiornare.
+          </span>
         </div>
         {#if updates.release_notes}
           <details class="updates__notes">
@@ -262,42 +364,85 @@
       <div>
         <h3 id="library-packages-title">Pacchetti della libreria</h3>
         <p>
-          I materiali di base sono inclusi nell'app e funzionano offline. Le categorie opzionali
-          possono essere aggiunte o nascoste; in un'installazione snella la libreria completa si
-          scarica a parte.
+          Ogni categoria è un pacchetto con la sua versione: l'app dice quale versione è inclusa,
+          quale è installata nel tuo profilo e quale è pubblicata nel repository. L'aggiornamento
+          riguarda un pacchetto alla volta, funziona anche offline (dalla copia inclusa) e non tocca
+          gli altri materiali.
         </p>
       </div>
+      {#if libraryStatus && libraryStatus.outdated > 0}
+        <button
+          class="btn btn--solid"
+          disabled={libraryBusy === "*"}
+          onclick={() => void updateAllPackages()}
+        >{libraryBusy === "*" ? "Aggiornamento…" : `Aggiorna tutti (${libraryStatus.outdated})`}</button>
+      {/if}
     </div>
+    {#if libraryError}
+      <p class="notice notice--error" role="alert">{libraryError}</p>
+    {/if}
+    {#if libraryReport}
+      <p class="notice notice--ok" role="status" aria-live="polite">{libraryReport}</p>
+    {/if}
+    {#if libraryStatus?.warnings.length}
+      {#each libraryStatus.warnings as warning}
+        <p class="updates__warn">{warning}</p>
+      {/each}
+    {/if}
     {#if loading && !catalog}
       <p class="notice">Caricamento dei pacchetti…</p>
     {:else if catalog}
       <div class="grid">
         {#each catalog.library as item (item.id)}
-          <article class="card">
+          {@const state = statusFor(item)}
+          {@const outline = outlineFor(item)}
+          {@const outdated = state?.status === "aggiornabile"}
+          <article class="card" class:card--outdated={outdated}>
             <div class="card__head">
               <h4>{item.name}</h4>
-              <span class:badge--accent={item.installed} class="badge">{item.installed ? "In libreria" : "Rimosso"}</span>
+              <span
+                class="badge"
+                class:badge--accent={!outdated && item.installed}
+                class:badge--warn={outdated}
+              >
+                {outdated ? "Aggiornamento disponibile" : item.installed ? "In libreria" : "Rimosso"}
+              </span>
             </div>
             <p>{item.description || "Materiali pronti da aprire e modificare."}</p>
             <div class="card__meta">
               <span>{item.count} materiali</span>
-              <span>{item.bundled ? "incluso nell'app" : "pacchetto opzionale"}</span>
-              <span>offline</span>
+              {#if state}<span>inclusa {state.bundled_version}</span>{/if}
+              {#if state?.installed_version}
+                <span>installata {state.installed_version}</span>
+              {:else if state}
+                <span>copia inclusa</span>
+              {/if}
+              {#if state?.remote_version}<span>repository {state.remote_version}</span>{/if}
+              {#if state && state.bytes > 0}<span>{formatMb(state.bytes)}</span>{/if}
               {#if item.license}<span>{item.license}</span>{/if}
             </div>
             <div class="card__actions">
-              {#if !item.bundled && !item.installed}
+              {#if outdated && state}
                 <button
                   class="btn btn--solid"
-                  onclick={() => void openLink(item.source_url)}
+                  disabled={libraryBusy === item.id}
+                  aria-label={`Aggiorna il pacchetto ${item.name} alla versione ${state.action === "repository" ? state.remote_version ?? "" : state.bundled_version}`}
+                  onclick={() => void updatePackage(state)}
                 >
-                  Apri la pagina della release
+                  {libraryBusy === item.id
+                    ? "Aggiornamento…"
+                    : state.action === "repository"
+                      ? "Aggiorna dal repository"
+                      : "Aggiorna pacchetto"}
                 </button>
-                <p class="hint">
-                  Il download automatico della libreria non è ancora disponibile: la pagina della
-                  release indica il pacchetto da scaricare e dove copiarlo.
-                </p>
-              {:else if item.installed}
+              {/if}
+              <button
+                class="btn"
+                aria-expanded={Boolean(outline) || outlines[packageId(item)] === "loading"}
+                aria-label={`Scheda didattica di ${item.name}`}
+                onclick={() => void toggleOutline(packageId(item))}
+              >{outline ? "Chiudi scheda" : "Scheda didattica"}</button>
+              {#if item.installed}
                 <button class="btn btn--danger" disabled={busy === item.id} onclick={() => void toggleLibrary(item, false)}>
                   Rimuovi dalla libreria
                 </button>
@@ -307,6 +452,41 @@
                 </button>
               {/if}
             </div>
+            {#if outlines[packageId(item)] === "loading"}
+              <p class="hint" role="status">Lettura della scheda…</p>
+            {:else if outlines[packageId(item)] === "error"}
+              <p class="hint">Scheda didattica non disponibile per questo pacchetto.</p>
+            {:else if outline}
+              <div class="outline">
+                <p class="outline__meta">
+                  {outline.documents} documenti · {outline.pages} pagine · versione {outline.version}
+                </p>
+                {#if outline.objectives.length}
+                  <p class="outline__label">Obiettivi dichiarati</p>
+                  <ul>
+                    {#each outline.objectives.slice(0, 6) as objective}
+                      <li>{objective}</li>
+                    {/each}
+                  </ul>
+                {/if}
+                {#if outline.subcategories.length}
+                  <p class="outline__label">Sottocategorie</p>
+                  <p class="outline__chips">
+                    {#each outline.subcategories as [name, count]}
+                      <span class="chip">{name} ({count})</span>
+                    {/each}
+                  </p>
+                {/if}
+                {#if outline.audiences.length}
+                  <p class="outline__label">Pubblico</p>
+                  <p class="outline__chips">
+                    {#each outline.audiences as audience}
+                      <span class="chip">{audience}</span>
+                    {/each}
+                  </p>
+                {/if}
+              </div>
+            {/if}
           </article>
         {/each}
       </div>
@@ -492,33 +672,106 @@
   .packages__heading { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
   .packages__heading h3 { margin: 0; font-size: 18px; }
   .packages__heading p { margin: 4px 0 0; max-width: 820px; color: #64748b; font-size: 12.5px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
-  .card { background: #fff; border: 1px solid #dbe3ee; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: var(--space-3, 12px); }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-4, 14px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+  }
+  .card--outdated { border-color: var(--warn); box-shadow: inset 3px 0 0 var(--warn); }
   .card__head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
-  .card h4 { margin: 0; font-size: 15px; }
-  .card p { margin: 0; color: #475569; font-size: 12.5px; line-height: 1.45; }
-  .card__meta { display: flex; flex-wrap: wrap; gap: 6px; color: #64748b; font-size: 11px; }
-  .card__meta > span::after { content: "·"; margin-left: 6px; color: #cbd5e1; }
+  .card h4 { margin: 0; font-size: 15px; color: var(--ink); }
+  .card p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+  .card__meta { display: flex; flex-wrap: wrap; gap: 6px; color: var(--muted); font-size: 11.5px; }
+  .card__meta > span::after { content: "·"; margin-left: 6px; color: var(--border); }
   .card__meta > span:last-child::after { content: ""; }
-  .card__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-  .badge { display: inline-flex; align-items: center; border-radius: 999px; background: #e2e8f0; color: #334155; padding: 2px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
-  .badge--accent { background: #ccfbf1; color: #115e59; }
-  .switch { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: #475569; white-space: nowrap; }
-  .updates { display: grid; gap: 8px; }
-  .updates__row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: #fff; border: 1px solid #dbe3ee; border-radius: 10px; padding: 10px 12px; font-size: 12.5px; }
+  .card__actions { display: flex; flex-wrap: wrap; gap: var(--space-2, 8px); margin-top: auto; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--ink);
+    padding: 3px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge--accent { background: var(--accent-soft); color: #103a8f; }
+  .badge--warn { background: var(--warn-soft); color: var(--warn); }
+  .switch { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .updates { display: grid; gap: var(--space-2, 8px); }
+  .updates__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px var(--space-3, 12px);
+    font-size: 12.5px;
+    color: var(--ink);
+  }
   .updates__row strong { min-width: 140px; }
-  .updates__notes { background: #fff; border: 1px solid #dbe3ee; border-radius: 10px; padding: 8px 12px; font-size: 12px; }
-  .updates__notes pre { white-space: pre-wrap; font: inherit; color: #334155; }
-  .updates__warn { margin: 6px 0 0; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 8px 10px; font-size: 12px; }
-  .notice { padding: 12px; border-radius: 9px; background: #fff; border: 1px solid #dbe3ee; color: #475569; font-size: 13px; }
-  .notice--error { border-color: #fecaca; background: #fef2f2; color: #991b1b; }
-  .notice--ok { border-color: #bbf7d0; background: #f0fdf4; color: #166534; }
-  .hint { font-size: 11.5px; color: #64748b; }
-  .btn { border: 1px solid #cbd5e1; background: #fff; color: #1e293b; border-radius: 8px; padding: 7px 11px; font: inherit; font-size: 12px; cursor: pointer; }
-  .btn:hover { background: #f1f5f9; }
-  .btn--solid { background: #0f766e; border-color: #0f766e; color: #fff; font-weight: 700; }
-  .btn--solid:hover { background: #115e59; }
-  .btn--danger { color: #991b1b; border-color: #fecaca; background: #fef2f2; }
-  .btn--ghost { border-color: transparent; background: transparent; font-size: 20px; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .updates__notes { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; font-size: 12px; }
+  .updates__notes pre { white-space: pre-wrap; font: inherit; color: var(--ink); }
+  .updates__warn {
+    margin: 6px 0 0;
+    color: var(--warn);
+    background: var(--warn-soft);
+    border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
+    border-radius: var(--radius);
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .notice {
+    padding: var(--space-3, 12px);
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .notice--error { border-color: var(--danger); color: var(--danger); background: #fdf3f2; }
+  .notice--ok { border-color: var(--ok); color: var(--ok); background: #f1faf4; }
+  .hint { font-size: 12px; color: var(--muted); }
+  .outline {
+    border-top: 1px dashed var(--border);
+    padding-top: var(--space-2, 8px);
+    display: grid;
+    gap: 4px;
+  }
+  .outline__meta { font-size: 11.5px; color: var(--muted); }
+  .outline__label { margin-top: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+  .outline ul { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
+  .outline li { font-size: 12px; color: var(--ink); line-height: 1.4; }
+  .outline__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border-radius: 999px; background: var(--surface-2); color: var(--ink); padding: 3px 9px; font-size: 11px; }
+  .btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 10px;
+    min-height: var(--touch-target, 44px);
+    padding: 8px 12px;
+    font: inherit;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background var(--anim-hover, 120ms), border-color var(--anim-hover, 120ms);
+  }
+  .btn:hover { background: var(--surface-2); }
+  .btn--solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .btn--solid:hover { background: #1749b8; }
+  .btn--danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, transparent); background: #fdf3f2; }
+  .btn--ghost { border-color: transparent; background: transparent; font-size: 20px; min-height: 0; }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
 </style>

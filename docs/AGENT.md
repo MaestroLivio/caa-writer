@@ -923,3 +923,68 @@ caa-cli template build-all --sources templates/sources --out resources/library
   il browser della libreria (categoria, obiettivo, esercizio) e la console CLI
   usano il motore in modo asincrono. Tutti i 15 task hanno un hook UI.
 - Dettagli, limiti e risultati reali: `docs/DECISION_ENGINE.md`.
+## 14. Pacchetti della libreria e aggiornamento per singolo pacchetto (0.16.0)
+
+### 14.1 Perché
+
+`packages.rs` confrontava la sola data `generated_at` della libreria con il
+manifest del repository e la esponeva in `check_updates`: l'interfaccia diceva
+«aggiornamento disponibile» ma non esisteva alcun comando per applicarlo, e non
+si poteva sapere quale categoria fosse cambiata. Il risultato era un avviso
+senza azione.
+
+### 14.2 Modello
+
+- `resources/library/manifest.json` contiene `packages`:
+  `[{id, name, version, updated_at, documents}]`. La versione è per pacchetto
+  (`2026.11` per tutti i nove attuali) e va incrementata quando il pacchetto
+  cambia. `scripts/redesign_library_packages.py` la scrive con la costante
+  `PACKAGE_VERSION`; `universal_build` conserva la versione precedente letta dal
+  manifest esistente, così una ricostruzione non la perde.
+- `src-tauri/src/library_packages.rs` è il cuore: `status`, `update`,
+  `update_all`, `outline`, `safe_target`, `install_entries`, `is_newer`.
+- Installazione: `<data-dir>/library/installed.json` (indice con versione, data,
+  byte, documenti) più la copia dei soli file dei pacchetti aggiornati in
+  `<data-dir>/library/templates` e `previews`. Nessuna copia dei 150 MB.
+- `universal::resolve_library_path(..., data_dir)` preferisce la copia
+  dell'utente e ricade sul bundle; `load_effective_manifest(resources,
+  data_dir)` unisce manifest incluso e overlay. `library.catalog`,
+  `library.search`, `library.validate`, `library_preview`, `universal_open` e le
+  anteprime usano il manifest effettivo, quindi CLI, MCP e GUI vedono subito un
+  pacchetto aggiornato.
+- Sorgenti: `inclusa` (offline, dal bundle), `repository` (raw GitHub su `main`),
+  `auto` (repository con fallback incluso). `status(check_remote)` legge il
+  manifest pubblicato una volta sola e, se la rete manca, aggiunge un avviso
+  senza fallire.
+- Sicurezza: `safe_target` rifiuta percorsi assoluti e `..`; sostituire una
+  versione installata diversa richiede `confirm: true` (protezione dal
+  downgrade).
+
+### 14.3 Superfici
+
+- Metodi: `library.packages.status`, `library.update_package`,
+  `library.packages.update_all`, `library.package.outline`.
+- Tool MCP: `library_packages_status`, `library_update_package`,
+  `library_packages_update_all`, `library_package_outline` (108 tool totali).
+- Comandi Tauri: `library_packages_status`, `library_package_update`,
+  `library_packages_update_all`, `library_package_outline` (eseguiti con
+  `on_blocking` perché possono usare la rete).
+- GUI: `PackageManager.svelte` mostra per ogni categoria versione inclusa,
+  installata e del repository, stato `aggiornabile`, pulsanti «Aggiorna
+  pacchetto» e «Aggiorna tutti», scheda didattica espandibile;
+  `LibraryBrowser.svelte` mostra il numero di aggiornamenti sul pulsante
+  «Pacchetti» e una fascia con «Aggiorna ora» e «Scegli pacchetto».
+
+### 14.4 Verifiche eseguite
+
+- `cargo test --lib`: 318 test, 0 falliti (5 nuovi in `library_packages`).
+- `npm run build`: tipi e build Vite superati.
+- Prova su `/private/tmp/caa-new`: 9 pacchetti, 0 indietro; aggiornato
+  `storie-caa` (10 documenti, 3.538.406 byte); versione installata portata a
+  `2026.09` e poi `aggiornabile` con azione `inclusa`; senza `confirm` il
+  dispatch rifiuta, con `confirm: true` completa; `library.search` rilegge dalla
+  copia utente; `library.package.outline '{"id":"teacch"}'` restituisce 30
+  documenti e 31 pagine.
+- MCP `tools/list`: presenti i quattro tool nuovi.
+- Non verificato: `source: repository` con rete reale e resa grafica delle nuove
+  schermate (nessun controllo visivo in browser).

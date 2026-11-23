@@ -115,7 +115,7 @@ pub fn filtered_manifest(
     resources_dir: &Path,
     data_dir: &Path,
 ) -> crate::universal::LibraryManifest {
-    let mut manifest = crate::universal::load_library_manifest(resources_dir);
+    let mut manifest = crate::universal::load_effective_manifest(resources_dir, data_dir);
     let disabled = disabled_library(data_dir);
     if !disabled.is_empty() {
         manifest
@@ -126,7 +126,10 @@ pub fn filtered_manifest(
 }
 
 pub fn catalog(engine: &Engine) -> Result<PackageCatalog, String> {
-    let manifest = crate::universal::load_library_manifest(&engine.paths.resources_dir);
+    let manifest = crate::universal::load_effective_manifest(
+        &engine.paths.resources_dir,
+        &engine.paths.data_dir,
+    );
     let disabled = disabled_library(&engine.paths.data_dir);
     let overview = template_catalog::overview(&manifest);
     let mut library: Vec<PackageInfo> = overview
@@ -705,7 +708,10 @@ pub fn update_asset() -> Result<UpdateAsset, String> {
 pub fn check_updates(engine: &Engine) -> UpdateInfo {
     let mut warnings = Vec::new();
     let current = env!("CARGO_PKG_VERSION").to_string();
-    let local = crate::universal::load_library_manifest(&engine.paths.resources_dir);
+    let local = crate::universal::load_effective_manifest(
+        &engine.paths.resources_dir,
+        &engine.paths.data_dir,
+    );
     let mut latest_version = None;
     let mut release_url = None;
     let mut published_at = None;

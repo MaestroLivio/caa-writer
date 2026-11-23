@@ -310,7 +310,11 @@ pub fn check_document(
     issues
 }
 
-pub fn validate_manifest(resources: &Path, manifest: &LibraryManifest) -> LibraryQualityReport {
+pub fn validate_manifest(
+    resources: &Path,
+    data_dir: &Path,
+    manifest: &LibraryManifest,
+) -> LibraryQualityReport {
     let mut issues = Vec::new();
     let mut valid = 0usize;
     let mut by_category: std::collections::BTreeMap<String, (usize, usize, usize)> =
@@ -326,6 +330,7 @@ pub fn validate_manifest(resources: &Path, manifest: &LibraryManifest) -> Librar
             &entry.id,
             Some(&entry.source_type),
             resources,
+            data_dir,
         ) {
             Ok(path) => path,
             Err(error) => {

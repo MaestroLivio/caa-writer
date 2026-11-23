@@ -3499,6 +3499,23 @@ pub struct LibraryEntry {
     pub featured: bool,
 }
 
+/// Pacchetto della libreria: una categoria con la propria versione, così
+/// l'app può dire quale versione è inclusa, quale è installata e quale è
+/// pubblicata nel repository, e aggiornare un pacchetto alla volta.
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct LibraryPackage {
+    #[serde(default)]
+    pub id: String,
+    #[serde(default)]
+    pub name: String,
+    #[serde(default)]
+    pub version: String,
+    #[serde(default)]
+    pub updated_at: String,
+    #[serde(default)]
+    pub documents: usize,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct LibraryManifest {
     #[serde(default)]
@@ -3507,6 +3524,8 @@ pub struct LibraryManifest {
     pub generated_at: String,
     #[serde(default)]
     pub entries: Vec<LibraryEntry>,
+    #[serde(default)]
+    pub packages: Vec<LibraryPackage>,
     #[serde(default)]
     pub report: Value,
 }
@@ -3547,12 +3566,24 @@ pub fn load_from_caadoc(path: &std::path::Path) -> Result<UniversalDocument, Str
     Err("il file non contiene un documento universale né un layout migrabile".to_string())
 }
 
+/// Cerca un documento sotto `<radice>/library`, rifiutando percorsi che
+/// escono dalla biblioteca (canonicalize risolve `..` e i link simbolici).
+fn resolve_under(root: &std::path::Path, relative: &std::path::Path) -> Option<PathBuf> {
+    let canonical = std::fs::canonicalize(root.join(relative)).ok()?;
+    let library_root = std::fs::canonicalize(root.join("library")).ok()?;
+    canonical.starts_with(&library_root).then_some(canonical)
+}
+
 /// Risolve un documento della biblioteca con protezione dal path traversal.
+/// La copia dell'utente in `<data-dir>/library` vince su quella inclusa: è
+/// così che un pacchetto aggiornato sostituisce il documento senza toccare
+/// l'installazione.
 pub fn resolve_library_path(
     manifest: &LibraryManifest,
     id: &str,
     source_type: Option<&str>,
     resources_root: &std::path::Path,
+    data_dir: &std::path::Path,
 ) -> Result<PathBuf, String> {
     let entry = manifest
         .entries
@@ -3562,17 +3593,25 @@ pub fn resolve_library_path(
         })
         .ok_or_else(|| format!("documento «{id}» non trovato nella biblioteca universale"))?;
     let raw = std::path::Path::new(&entry.path);
-    let path = if raw.is_absolute() {
-        raw.to_path_buf()
-    } else {
+    if !raw.is_absolute() {
         let relative = entry.path.strip_prefix("resources/").unwrap_or(&entry.path);
-        resources_root.join(relative)
-    };
+        let relative = std::path::Path::new(relative);
+        if let Some(path) = resolve_under(data_dir, relative) {
+            return Ok(path);
+        }
+        if let Some(path) = resolve_under(resources_root, relative) {
+            return Ok(path);
+        }
+        return Err(format!(
+            "documento non trovato: {}",
+            resources_root.join(relative).display()
+        ));
+    }
     let library_root = resources_root.join("library");
     // canonicalize risolve `..` e i collegamenti simbolici: un manifest
     // manomesso non può uscire dalla biblioteca.
-    let canonical = std::fs::canonicalize(&path)
-        .map_err(|_| format!("documento non trovato: {}", path.display()))?;
+    let canonical = std::fs::canonicalize(raw)
+        .map_err(|_| format!("documento non trovato: {}", raw.display()))?;
     let root = std::fs::canonicalize(&library_root)
         .map_err(|_| format!("biblioteca non trovata: {}", library_root.display()))?;
     if !canonical.starts_with(&root) {
@@ -3593,6 +3632,25 @@ pub fn load_library_manifest(resources: &std::path::Path) -> LibraryManifest {
         crate::template_catalog::normalize_entry(entry);
     }
     manifest
+}
+
+/// Catalogo effettivo: quello incluso più i pacchetti aggiornati nella copia
+/// dell'utente. La GUI, la CLI e il server MCP leggono sempre questo.
+pub fn load_effective_manifest(
+    resources: &std::path::Path,
+    data_dir: &std::path::Path,
+) -> LibraryManifest {
+    let bundled = load_library_manifest(resources);
+    match crate::library_packages::overlay_manifest(data_dir) {
+        Some(overlay) => {
+            let mut merged = crate::library_packages::merge(&bundled, &overlay);
+            for entry in &mut merged.entries {
+                crate::template_catalog::normalize_entry(entry);
+            }
+            merged
+        }
+        None => bundled,
+    }
 }
 
 // -------------------------------------------------------------------- test

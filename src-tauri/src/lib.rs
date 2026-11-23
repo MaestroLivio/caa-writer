@@ -20,6 +20,7 @@ pub mod engine;
 pub mod export;
 pub mod layout;
 pub mod layout_edit;
+pub mod library_packages;
 pub mod library_quality;
 pub mod linguistics;
 pub mod model;
@@ -175,6 +176,10 @@ pub fn run() {
             commands::library_by_ids,
             commands::library_preview,
             commands::library_validate,
+            commands::library_packages_status,
+            commands::library_package_update,
+            commands::library_packages_update_all,
+            commands::library_package_outline,
             commands::developer_library_status,
             commands::developer_library_packages,
             commands::developer_library_open,

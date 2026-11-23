@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "generated_at": "2026-11-23T07:18:37Z",
   "entries": [
     {
@@ -13964,5 +13964,70 @@
     "templates_built": 320,
     "templates_expected": 505,
     "valid": 350
-  }
+  },
+  "packages": [
+    {
+      "id": "aac",
+      "name": "Comunicazione aumentativa e alternativa",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 76
+    },
+    {
+      "id": "agende",
+      "name": "Agende e organizzazione visiva",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 61
+    },
+    {
+      "id": "comportamentali",
+      "name": "Supporti comportamentali",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 40
+    },
+    {
+      "id": "giochi",
+      "name": "Giochi e attività interattive",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 22
+    },
+    {
+      "id": "schede",
+      "name": "Schede didattiche",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 70
+    },
+    {
+      "id": "stampabili",
+      "name": "Materiali stampabili",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 16
+    },
+    {
+      "id": "storie-caa",
+      "name": "Storie in CAA",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 10
+    },
+    {
+      "id": "storie-sociali",
+      "name": "Storie sociali e anticipazione",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 25
+    },
+    {
+      "id": "teacch",
+      "name": "Materiali TEACCH",
+      "version": "2026.11",
+      "updated_at": "2026-11-23T07:30:00Z",
+      "documents": 30
+    }
+  ]
 }

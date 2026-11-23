@@ -780,7 +780,10 @@ pub fn universal_import(
 
 #[tauri::command]
 pub fn universal_library(state: State<'_, Engine>) -> crate::universal::LibraryManifest {
-    crate::universal::load_library_manifest(&state.paths.resources_dir)
+    crate::universal::load_effective_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    )
 }
 
 #[tauri::command]
@@ -805,8 +808,11 @@ pub fn library_search(
     );
     let mut page = crate::template_catalog::search(&manifest, &query);
     for item in &mut page.items {
-        item.preview_svg =
-            crate::template_catalog::preview_svg(&state.paths.resources_dir, &item.entry);
+        item.preview_svg = crate::template_catalog::preview_svg(
+            &state.paths.resources_dir,
+            &state.paths.data_dir,
+            &item.entry,
+        );
     }
     page
 }
@@ -822,8 +828,11 @@ pub fn library_by_ids(
     );
     let mut items = crate::template_catalog::by_ids(&manifest, &ids);
     for item in &mut items {
-        item.preview_svg =
-            crate::template_catalog::preview_svg(&state.paths.resources_dir, &item.entry);
+        item.preview_svg = crate::template_catalog::preview_svg(
+            &state.paths.resources_dir,
+            &state.paths.data_dir,
+            &item.entry,
+        );
     }
     items
 }
@@ -834,7 +843,10 @@ pub fn library_preview(
     id: String,
     source_type: Option<String>,
 ) -> Result<String, String> {
-    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let manifest = crate::universal::load_effective_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
     let entry = manifest
         .entries
         .iter()
@@ -846,7 +858,11 @@ pub fn library_preview(
                     .unwrap_or(true)
         })
         .ok_or_else(|| format!("documento «{id}» non trovato nella biblioteca"))?;
-    if let Some(svg) = crate::template_catalog::preview_svg(&state.paths.resources_dir, entry) {
+    if let Some(svg) = crate::template_catalog::preview_svg(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+        entry,
+    ) {
         return Ok(svg);
     }
     let path = crate::universal::resolve_library_path(
@@ -854,6 +870,7 @@ pub fn library_preview(
         &id,
         source_type.as_deref(),
         &state.paths.resources_dir,
+        &state.paths.data_dir,
     )?;
     let document = crate::universal::load_from_caadoc(&path)?;
     let rendered = document.render()?;
@@ -868,8 +885,95 @@ pub fn library_preview(
 pub fn library_validate(
     state: State<'_, Engine>,
 ) -> crate::library_quality::LibraryQualityReport {
-    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
-    crate::library_quality::validate_manifest(&state.paths.resources_dir, &manifest)
+    let manifest = crate::universal::load_effective_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
+    crate::library_quality::validate_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+        &manifest,
+    )
+}
+
+#[tauri::command]
+pub async fn library_packages_status(
+    app: tauri::AppHandle,
+    check_remote: Option<bool>,
+) -> Result<crate::library_packages::LibraryPackagesStatus, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        let check = check_remote.unwrap_or(false);
+        let bundled = crate::universal::load_library_manifest(&state.paths.resources_dir);
+        let remote = if check {
+            crate::library_packages::fetch_remote_manifest().ok()
+        } else {
+            None
+        };
+        let mut status = crate::library_packages::status(
+            &bundled,
+            &state.paths.data_dir,
+            remote.as_ref(),
+        );
+        if check && remote.is_none() {
+            status.warnings.push(
+                "Nessuna connessione: il repository non è stato letto. La libreria installata resta utilizzabile."
+                    .to_string(),
+            );
+        }
+        Ok(status)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn library_package_update(
+    app: tauri::AppHandle,
+    id: String,
+    source: Option<String>,
+    confirm: Option<bool>,
+) -> Result<crate::library_packages::LibraryPackageUpdate, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        crate::library_packages::update(
+            &state.paths.resources_dir,
+            &state.paths.data_dir,
+            &id,
+            source.as_deref().unwrap_or("auto"),
+            confirm.unwrap_or(false),
+        )
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn library_packages_update_all(
+    app: tauri::AppHandle,
+    source: Option<String>,
+    confirm: Option<bool>,
+) -> Result<crate::library_packages::LibraryPackagesUpdateReport, String> {
+    on_blocking(move || {
+        let state = app.state::<Engine>();
+        Ok(crate::library_packages::update_all(
+            &state.paths.resources_dir,
+            &state.paths.data_dir,
+            source.as_deref().unwrap_or("auto"),
+            confirm.unwrap_or(false),
+        ))
+    })
+    .await
+}
+
+#[tauri::command]
+pub fn library_package_outline(
+    state: State<'_, Engine>,
+    id: String,
+) -> Result<crate::library_packages::PackageOutline, String> {
+    let manifest = crate::universal::load_effective_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
+    crate::library_packages::outline(&manifest, &id)
 }
 
 #[tauri::command]
@@ -961,12 +1065,16 @@ pub fn universal_open(
     id: String,
     source_type: Option<String>,
 ) -> Result<OpenedUniversalDocument, String> {
-    let manifest = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let manifest = crate::universal::load_effective_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
     let path = crate::universal::resolve_library_path(
         &manifest,
         &id,
         source_type.as_deref(),
         &state.paths.resources_dir,
+        &state.paths.data_dir,
     )?;
     let document = crate::universal::load_from_caadoc(&path)?;
     Ok(OpenedUniversalDocument {
@@ -1600,7 +1708,10 @@ pub fn profile_boards(
     let meta = profiles::list_boards(&state.paths.boards_dir()).unwrap_or_default();
     // Oltre ai 30 sistemi in resources/boards si possono assegnare i 330
     // documenti della biblioteca universale (template e materiali didattici).
-    let library = crate::universal::load_library_manifest(&state.paths.resources_dir);
+    let library = crate::universal::load_effective_manifest(
+        &state.paths.resources_dir,
+        &state.paths.data_dir,
+    );
     for board in &mut boards {
         if let Some(found) = meta.iter().find(|item| item.id == board.board_id) {
             board.title = found.title.clone();

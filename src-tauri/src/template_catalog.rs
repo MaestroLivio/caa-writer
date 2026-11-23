@@ -1068,25 +1068,33 @@ pub fn by_ids(manifest: &LibraryManifest, ids: &[String]) -> Vec<CatalogItem> {
     items
 }
 
-pub fn preview_svg(resources: &Path, entry: &LibraryEntry) -> Option<String> {
+pub fn preview_svg(resources: &Path, data_dir: &Path, entry: &LibraryEntry) -> Option<String> {
     let relative = if entry.preview.is_empty() {
         format!("library/previews/{}.svg", entry.id)
     } else {
         entry.preview.clone()
     };
-    let path = resources.join(relative.strip_prefix("resources/").unwrap_or(&relative));
-    if let Ok(svg) = std::fs::read_to_string(&path) {
-        return Some(svg);
+    let relative = relative
+        .strip_prefix("resources/")
+        .unwrap_or(&relative)
+        .to_string();
+    // La copia dell'utente (pacchetto aggiornato) vince su quella inclusa.
+    for root in [data_dir, resources] {
+        if let Ok(svg) = std::fs::read_to_string(root.join(&relative)) {
+            return Some(svg);
+        }
     }
     // Le anteprime precalcolate non sono incluse nel bundle: in quel caso si
     // ricava la prima pagina dal documento stesso, invece di lasciare il
     // riquadro vuoto o dichiarare l'anteprima non disponibile.
-    let document_path = resources.join(
-        entry
-            .path
-            .strip_prefix("resources/")
-            .unwrap_or(&entry.path),
-    );
+    let relative_document = entry
+        .path
+        .strip_prefix("resources/")
+        .unwrap_or(&entry.path)
+        .to_string();
+    let document_path = [data_dir.join(&relative_document), resources.join(&relative_document)]
+        .into_iter()
+        .find(|path| path.exists())?;
     let document = crate::universal::load_from_caadoc(&document_path).ok()?;
     let rendered = document.render().ok()?;
     rendered

@@ -44,6 +44,11 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
+# Versione dei pacchetti scritta nel manifest. Va incrementata quando i
+# documenti di una categoria cambiano: è il valore che l'app confronta con la
+# copia installata e con il repository per proporre l'aggiornamento.
+PACKAGE_VERSION = "2026.11"
+
 ROOT = Path(__file__).resolve().parent.parent
 RESOURCES = ROOT / "resources"
 CATALOG = RESOURCES / "library" / "manifest.json"
@@ -479,6 +484,30 @@ def redesign_document(document: dict, genre: dict) -> Counter:
     return stats
 
 
+def package_versions(catalog: dict) -> list[dict]:
+    """Un pacchetto per categoria, con la versione corrente: è il dato che
+    l'app confronta con la copia installata e con il repository."""
+    counts: dict[str, int] = {}
+    names: dict[str, str] = {}
+    for entry in catalog.get("entries", []):
+        category_id = entry.get("category_id") or ""
+        if not category_id:
+            continue
+        counts[category_id] = counts.get(category_id, 0) + 1
+        names.setdefault(category_id, entry.get("category") or category_id)
+    updated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return [
+        {
+            "id": category_id,
+            "name": names[category_id],
+            "version": PACKAGE_VERSION,
+            "updated_at": updated_at,
+            "documents": counts[category_id],
+        }
+        for category_id in sorted(counts)
+    ]
+
+
 def load_catalog() -> dict:
     return json.loads(CATALOG.read_text(encoding="utf-8"))
 
@@ -651,8 +680,10 @@ def main() -> int:
                 tags.append(tag)
                 updated += 1
     catalog["generated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    catalog["packages"] = package_versions(catalog)
+    catalog["version"] = max(2, int(catalog.get("version") or 1))
     CATALOG.write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Catalogo: {updated} etichette aggiunte.")
+    print(f"Catalogo: {updated} etichette aggiunte, {len(catalog['packages'])} pacchetti versionati.")
 
     for document_id, error in failed[:10]:
         print(f"  ! {document_id}: {error}", file=sys.stderr)

@@ -77,6 +77,47 @@
     new Set([...favorites.map((item) => item.id), ...recents.map((item) => item.id)]).size
   );
 
+  // Aggiornamenti della libreria: il conteggio è per pacchetto, così il
+  // pulsante «Pacchetti» dice subito quante categorie hanno una versione
+  // più recente invece di lasciare l'utente a cercarla.
+  let libraryUpdates = $state(0);
+  let libraryDir = $state("");
+  let packageBusy = $state(false);
+  let packageMessage = $state("");
+
+  async function refreshPackageUpdates() {
+    try {
+      const status = await api.libraryPackagesStatus(false);
+      libraryUpdates = status.outdated;
+      libraryDir = status.library_dir;
+    } catch {
+      libraryUpdates = 0;
+    }
+  }
+
+  async function applyPackageUpdates() {
+    packageBusy = true;
+    packageMessage = "";
+    try {
+      const report = await api.libraryPackagesUpdateAll("auto", true);
+      packageMessage =
+        report.updated === 0
+          ? "Nessun pacchetto da aggiornare."
+          : `${report.updated} pacchetti aggiornati${report.failed ? `, ${report.failed} non riusciti` : ""}.`;
+      await refreshPackageUpdates();
+      overview = await api.libraryCatalog();
+      await runSearch(true);
+    } catch (err) {
+      packageMessage = err instanceof Error ? err.message : String(err);
+    } finally {
+      packageBusy = false;
+    }
+  }
+
+  onMount(() => {
+    void refreshPackageUpdates();
+  });
+
   onMount(() => {
     favorites = readStored(FAVORITES_KEY);
     recents = readStored(RECENTS_KEY);
@@ -356,8 +397,31 @@
         Libreria DEV
       </button>
     {/if}
-    <button class="btn btn--solid" onclick={() => (packagesOpen = true)}>Pacchetti</button>
+    <button
+      class="btn btn--solid"
+      aria-label={libraryUpdates > 0
+        ? `Gestisci i pacchetti: ${libraryUpdates} aggiornamenti disponibili`
+        : "Gestisci i pacchetti della libreria"}
+      onclick={() => (packagesOpen = true)}
+    >Pacchetti{libraryUpdates > 0 ? ` (${libraryUpdates})` : ""}</button>
   </header>
+
+  {#if libraryUpdates > 0}
+    <div class="library__update" role="status">
+      <span>
+        <strong>{libraryUpdates}</strong>
+        {libraryUpdates === 1 ? "pacchetto ha" : "pacchetti hanno"} una versione più recente.
+        {#if libraryDir}<span class="library__dir">Cartella: {libraryDir}</span>{/if}
+      </span>
+      <button class="btn btn--solid" disabled={packageBusy} onclick={() => void applyPackageUpdates()}>
+        {packageBusy ? "Aggiornamento…" : "Aggiorna ora"}
+      </button>
+      <button class="btn" onclick={() => (packagesOpen = true)}>Scegli pacchetto</button>
+    </div>
+  {/if}
+  {#if packageMessage}
+    <p class="library__notice" role="status" aria-live="polite">{packageMessage}</p>
+  {/if}
 
   <div class="library__body">
     <aside class="library__side" aria-label="Categorie">
@@ -521,7 +585,10 @@
 
 {#if packagesOpen}
   <PackageManager
-    onClose={() => (packagesOpen = false)}
+    onClose={() => {
+      packagesOpen = false;
+      void refreshPackageUpdates();
+    }}
     onChanged={() => void reloadAfterPackages()}
   />
 {/if}
@@ -668,6 +735,30 @@
   .library__main { padding: 18px clamp(14px, 3vw, 32px) 30px; min-width: 0; }
   .breadcrumb { display: flex; gap: 6px; align-items: center; font-size: 12px; color: #64748b; flex-wrap: wrap; }
   .breadcrumb button { border: 0; background: none; color: #0f766e; font: inherit; cursor: pointer; padding: 0; }
+  .library__update {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--warn, #a15c00);
+    border-left-width: 4px;
+    border-radius: var(--radius, 12px);
+    background: var(--warn-soft, #fff3d6);
+    color: var(--ink, #17202a);
+    font-size: 13px;
+  }
+  .library__update > span:first-child { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .library__dir { color: var(--muted, #4b5763); font-size: 11.5px; }
+  .library__notice {
+    margin: 0 0 10px;
+    padding: 8px 12px;
+    border-radius: var(--radius, 12px);
+    background: var(--surface-2, #eef2f8);
+    color: var(--ink, #17202a);
+    font-size: 12.5px;
+  }
   .library__heading { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin: 8px 0 14px; }
   .library__heading h2 { margin: 0; font-size: 24px; }
   .library__heading p { margin: 4px 0 0; color: #64748b; font-size: 13px; max-width: 760px; }
@@ -716,7 +807,19 @@
   .empty { background: #fff; border: 1px dashed #cbd5e1; border-radius: 14px; padding: 34px; text-align: center; color: #475569; }
   .empty h3 { margin: 0 0 6px; color: #0f172a; }
   .empty p { margin: 0 0 14px; }
-  .btn { border: 1px solid #cbd5e1; background: #fff; color: #1e293b; border-radius: 8px; padding: 7px 11px; font: inherit; font-size: 12px; cursor: pointer; }
+  .btn {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #1e293b;
+    border-radius: 10px;
+    min-height: 36px;
+    padding: 7px 11px;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .btn:focus-visible { outline: 3px solid var(--accent, #1f5bd8); outline-offset: 2px; }
+  .library__update .btn { min-height: var(--touch-target, 44px); }
   .btn:hover { background: #f1f5f9; }
   .btn--solid { background: #0f766e; border-color: #0f766e; color: #fff; font-weight: 700; }
   .btn--solid:hover { background: #115e59; }

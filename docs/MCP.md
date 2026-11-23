@@ -204,3 +204,30 @@ e senza dipendenze da servizi esterni. ARASAAC non è nel repository: le copie
 si scaricano online nella cartella dati dell'utente, con licenza CC BY-NC-SA
 4.0 e attribuzione a Sergio Palao. Questo mantiene il repository distribuibile
 e l'app utilizzabile offline dopo il primo download esplicito.
+## Aggiornamenti della libreria per pacchetto (0.16.0)
+
+Quattro tool lavorano sulla libreria intesa come insieme di pacchetti con
+versione propria. Chiamano lo stesso dispatch della CLI, quindi errori e regole
+di accesso coincidono.
+
+| Tool | Metodo | Effetto |
+|---|---|---|
+| `library_packages_status` | `library.packages.status` | versioni installata/inclusa/repository per pacchetto, stato e azione |
+| `library_update_package` | `library.update_package` | aggiorna un solo pacchetto nella cartella dati |
+| `library_packages_update_all` | `library.packages.update_all` | aggiorna i pacchetti indietro |
+| `library_package_outline` | `library.package.outline` | obiettivi, pubblico, sottocategorie, documenti |
+
+```json
+{"jsonrpc":"2.0","id":20,"method":"tools/call","params":{"name":"library_packages_status","arguments":{"check_remote":false}}}
+{"jsonrpc":"2.0","id":21,"method":"tools/call","params":{"name":"library_update_package","arguments":{"id":"schede","source":"inclusa","confirm":true}}}
+```
+
+Note:
+
+- `check_remote: true` richiede rete; se manca, la risposta resta valida e
+  `warnings` lo dichiara. Nessun tool simula un aggiornamento.
+- Con `--access read` le due operazioni di scrittura sono rifiutate dal dispatch.
+- `confirm: true` serve solo quando il pacchetto è già installato in una
+  versione diversa.
+- I tool di aggiornamento scrivono in `<data-dir>/library`; non modificano i file
+  dell'app né gli altri pacchetti.

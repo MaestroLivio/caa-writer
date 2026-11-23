@@ -1820,18 +1820,83 @@ pub fn dispatch_with_options(
             };
             let mut page = crate::template_catalog::search(&manifest, &query);
             for item in &mut page.items {
-                item.preview_svg =
-                    crate::template_catalog::preview_svg(&engine.paths.resources_dir, &item.entry);
+                item.preview_svg = crate::template_catalog::preview_svg(
+                    &engine.paths.resources_dir,
+                    &engine.paths.data_dir,
+                    &item.entry,
+                );
             }
             Ok(serde_json::to_value(page).map_err(|e| e.to_string())?)
         }
         "library.validate" => {
-            let manifest = crate::universal::load_library_manifest(&engine.paths.resources_dir);
+            let manifest = crate::universal::load_effective_manifest(
+                &engine.paths.resources_dir,
+                &engine.paths.data_dir,
+            );
             let report = crate::library_quality::validate_manifest(
                 &engine.paths.resources_dir,
+                &engine.paths.data_dir,
                 &manifest,
             );
             Ok(serde_json::to_value(report).map_err(|e| e.to_string())?)
+        }
+        "library.packages.status" => {
+            let check_remote = as_bool(params, "check_remote", false);
+            let bundled = crate::universal::load_library_manifest(&engine.paths.resources_dir);
+            let remote = if check_remote {
+                crate::library_packages::fetch_remote_manifest().ok()
+            } else {
+                None
+            };
+            let mut status = crate::library_packages::status(
+                &bundled,
+                &engine.paths.data_dir,
+                remote.as_ref(),
+            );
+            if check_remote && remote.is_none() {
+                status.warnings.push(
+                    "Nessuna connessione: il repository non è stato letto. La libreria installata resta utilizzabile."
+                        .to_string(),
+                );
+            }
+            Ok(serde_json::to_value(status).map_err(|e| e.to_string())?)
+        }
+        "library.update_package" => {
+            let id = as_string(params, "id")
+                .or_else(|| as_string(params, "package"))
+                .ok_or_else(|| "serve id del pacchetto".to_string())?;
+            let source = as_string(params, "source").unwrap_or_else(|| "auto".to_string());
+            let confirm = as_bool(params, "confirm", false);
+            let result = crate::library_packages::update(
+                &engine.paths.resources_dir,
+                &engine.paths.data_dir,
+                &id,
+                &source,
+                confirm,
+            )?;
+            Ok(serde_json::to_value(result).map_err(|e| e.to_string())?)
+        }
+        "library.packages.update_all" => {
+            let source = as_string(params, "source").unwrap_or_else(|| "auto".to_string());
+            let confirm = as_bool(params, "confirm", false);
+            let report = crate::library_packages::update_all(
+                &engine.paths.resources_dir,
+                &engine.paths.data_dir,
+                &source,
+                confirm,
+            );
+            Ok(serde_json::to_value(report).map_err(|e| e.to_string())?)
+        }
+        "library.package.outline" => {
+            let id = as_string(params, "id")
+                .or_else(|| as_string(params, "package"))
+                .ok_or_else(|| "serve id del pacchetto".to_string())?;
+            let manifest = crate::universal::load_effective_manifest(
+                &engine.paths.resources_dir,
+                &engine.paths.data_dir,
+            );
+            let outline = crate::library_packages::outline(&manifest, &id)?;
+            Ok(serde_json::to_value(outline).map_err(|e| e.to_string())?)
         }
         "dev.library.packages" => {
             let packages = crate::dev_library::packages(engine)?;

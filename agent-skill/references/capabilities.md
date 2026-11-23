@@ -1,4 +1,4 @@
-# CAA Writer — capacità (API 1.0, versione 0.15.24)
+# CAA Writer — capacità (API 1.0, versione 0.16.0)
 
 ## `app.capabilities` — Catalogo delle capacità
 
@@ -446,6 +446,44 @@ Controlli strutturali ed editoriali su tutti i documenti. Operazione lunga: pref
 - Tool MCP: `library_validate`
 - Accesso: lettura
 - Parametri: `only_pilots`, `max_issues`
+
+## `library.packages.status` — Stato dei pacchetti della libreria
+
+Per ogni pacchetto della libreria riporta versione installata, inclusa e pubblicata nel repository, con stato (`aggiornato` o `aggiornabile`) e azione consigliata. Con `check_remote` legge il manifest pubblicato; senza rete l'operazione riesce comunque e aggiunge un avviso in `warnings`.
+
+- Categoria: materiali
+- Tool MCP: `library_packages_status`
+- Accesso: lettura
+- Parametri: `check_remote`
+- Esempio: `caa-cli call library.packages.status '{}'`
+
+## `library.update_package` — Aggiorna un pacchetto
+
+Aggiorna un solo pacchetto copiandolo nella cartella dati dell'utente: dalla copia inclusa (offline) o dal repository. Gli altri pacchetti non vengono toccati. Se il pacchetto è già installato in una versione diversa serve `confirm: true`.
+
+- Categoria: materiali
+- Tool MCP: `library_update_package`
+- Accesso: scrittura (confirm per sostituire una versione installata)
+- Parametri: `id` (obbligatorio), `source`, `confirm`
+- Esempio: `caa-cli call library.update_package '{"id":"schede","source":"inclusa","confirm":true}'`
+
+## `library.packages.update_all` — Aggiorna tutti i pacchetti
+
+Aggiorna tutti i pacchetti che hanno una versione più recente rispetto alla copia installata, con lo stesso criterio di `library.update_package`. Restituisce un report con aggiornati, falliti e avvisi.
+
+- Categoria: materiali
+- Tool MCP: `library_packages_update_all`
+- Accesso: scrittura (confirm per sostituire versioni installate)
+- Parametri: `source`, `confirm`
+
+## `library.package.outline` — Scheda didattica del pacchetto
+
+Obiettivi dichiarati, pubblico, sottocategorie e documenti di un pacchetto con pagine ed elementi reali: serve a scegliere i materiali pertinenti senza inventare contenuti.
+
+- Categoria: materiali
+- Tool MCP: `library_package_outline`
+- Accesso: lettura
+- Parametri: `id` (obbligatorio)
 
 ## `dev.library.packages` — Pacchetti libreria (dev)
 

@@ -941,8 +941,9 @@ fn main() {
             (|| -> Result<Value, String> {
                 match action {
                     LibraryAction::Catalog => {
-                        let manifest = caa_writer_lib::universal::load_library_manifest(
+                        let manifest = caa_writer_lib::universal::load_effective_manifest(
                             &engine.paths.resources_dir,
+                            &engine.paths.data_dir,
                         );
                         serde_json::to_value(caa_writer_lib::template_catalog::overview(&manifest))
                             .map_err(|e| e.to_string())
@@ -957,8 +958,9 @@ fn main() {
                         limit,
                         offset,
                     } => {
-                        let manifest = caa_writer_lib::universal::load_library_manifest(
+                        let manifest = caa_writer_lib::universal::load_effective_manifest(
                             &engine.paths.resources_dir,
+                            &engine.paths.data_dir,
                         );
                         let request = caa_writer_lib::template_catalog::CatalogQuery {
                             query: Some(query),
@@ -978,6 +980,7 @@ fn main() {
                         for item in &mut page.items {
                             item.preview_svg = caa_writer_lib::template_catalog::preview_svg(
                                 &engine.paths.resources_dir,
+                                &engine.paths.data_dir,
                                 &item.entry,
                             );
                         }
@@ -987,11 +990,13 @@ fn main() {
                         only_pilots,
                         max_issues,
                     } => {
-                        let manifest = caa_writer_lib::universal::load_library_manifest(
+                        let manifest = caa_writer_lib::universal::load_effective_manifest(
                             &engine.paths.resources_dir,
+                            &engine.paths.data_dir,
                         );
                         let mut report = caa_writer_lib::library_quality::validate_manifest(
                             &engine.paths.resources_dir,
+                            &engine.paths.data_dir,
                             &manifest,
                         );
                         if only_pilots {
