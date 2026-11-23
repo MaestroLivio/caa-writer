@@ -173,7 +173,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev \
-            librsvg2-dev patchelf libgtk-3-dev libssl-dev rpm
+            librsvg2-dev patchelf libgtk-3-dev libssl-dev rpm libfuse2
 
       - uses: actions/cache@v4
         with:
@@ -196,8 +196,12 @@ jobs:
               --llama-asset "${{ matrix.llama_asset }}" --force-llama
           fi
 
+      # `linuxdeploy` è distribuito come AppImage: sul runner senza FUSE va
+      # eseguito estratto, altrimenti il bundle AppImage fallisce.
       - name: Build bundle non firmato
         shell: bash
+        env:
+          APPIMAGE_EXTRACT_AND_RUN: 1
         run: npm run tauri -- build --target "${{ matrix.target }}" --bundles "${{ matrix.bundles }}" --features onnx
 
       - name: Raccogli artefatti e checksum
