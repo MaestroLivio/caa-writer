@@ -75,8 +75,24 @@ jobs:
 
       # I test di affinità usano il catalogo ARASAAC completo; il modello
       # serve alla prova live, che altrimenti si dichiara non eseguita.
+      # `fetch_llama.py` interroga api.github.com: senza token gli indirizzi
+      # condivisi dei runner prendono 403 «rate limit exceeded».
       - name: Asset di test (modello, runtime, catalogo)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ${{ matrix.python }} scripts/fetch_release_assets.py
+
+      # Il salvataggio automatico di actions/cache avviene solo a job riuscito:
+      # senza questo passo ogni tentativo riscaricherebbe runtime e catalogo.
+      - name: Salva gli asset in cache anche se i test falliscono
+        if: always()
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            resources/ai
+            resources/symbol-packs/arasaac
+          key: caa-assets-${{ runner.os }}-native-v1
 
       - name: Controllo tipi e build frontend
         run: npm run build
@@ -170,6 +186,8 @@ jobs:
 
       - name: Asset di release
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "${{ matrix.llama_asset }}" = "native" ]; then
             ${{ matrix.python }} scripts/fetch_release_assets.py
