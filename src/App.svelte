@@ -5565,6 +5565,12 @@
     {aiStatus}
     onStatusChange={refreshAiStatus}
     onToast={toast}
+    onChanged={() => {
+      // Un pacchetto aggiornato cambia i materiali disponibili: la schermata
+      // iniziale deve rileggere i conteggi invece di mostrare quelli vecchi.
+      libraryRefreshKey += 1;
+      void refreshLibraryStats();
+    }}
     onStartDownload={(ids) => {
       // Il download ha una finestra propria: chiudendo il Gestore pacchetti
       // l'avanzamento resta visibile invece di finire dietro alla finestra.
