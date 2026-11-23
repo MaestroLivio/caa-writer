@@ -1,7 +1,7 @@
 {
   "version": 1,
   "language": "it",
-  "description": "Corpus semantico annotato manualmente per CAA Writer. Ogni frase indica il concetto atteso per una parola: 'concepts' elenca le interpretazioni accettabili (la prima è la preferita). 'strategy' fissa la strategia di fallback attesa. 'no_symbol' indica che nessun pittogramma adeguato deve essere proposto. 'composition' elenca i concetti attesi nella composizione. Le annotazioni sono state scritte a mano; il motore non è stato usato per generarli.",
+  "description": "Corpus semantico annotato manualmente per CAA Writer. Ogni frase indica il concetto atteso per una parola: 'concepts' elenca le interpretazioni accettabili (la prima è la preferita). 'strategy' fissa la strategia di fallback attesa. 'no_symbol' indica che nessun pittogramma adeguato deve essere proposto. 'composition' elenca i concetti attesi nella composizione. Le annotazioni sono state scritte a mano; il motore non è stato usato per generarli. 'requires_symbol' indica una parola che il catalogo ARASAAC completo copre e che deve ricevere un simbolo reale, senza inventarlo.",
   "sentences": [
     {
       "id": "001",
@@ -1126,7 +1126,7 @@
       "targets": [
         {
           "surface": "amicizia",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
@@ -1137,7 +1137,7 @@
       "targets": [
         {
           "surface": "libertà",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
@@ -1382,67 +1382,57 @@
     },
     {
       "id": "108",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "L'oboe è uno strumento a fiato.",
-      "targets": [
-        {
-          "surface": "oboe",
-          "no_symbol": true
-        }
-      ]
+      "targets": []
     },
     {
       "id": "109",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Il tartufo profuma molto.",
-      "targets": [
-        {
-          "surface": "tartufo",
-          "no_symbol": true
-        }
-      ]
+      "targets": []
     },
     {
       "id": "110",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Aggiungo l'origano alla pasta.",
       "targets": [
         {
           "surface": "origano",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
     {
       "id": "111",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Il cammello attraversa il deserto.",
       "targets": [
         {
           "surface": "cammello",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
     {
       "id": "112",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Il pinguino nuota nel mare.",
       "targets": [
         {
           "surface": "pinguino",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
     {
       "id": "113",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Il vulcano è spento.",
       "targets": [
         {
           "surface": "vulcano",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
@@ -1459,45 +1449,45 @@
     },
     {
       "id": "115",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Il microscopio ingrandisce le cose.",
       "targets": [
         {
           "surface": "microscopio",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
     {
       "id": "116",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Suona il trombone.",
       "targets": [
         {
           "surface": "trombone",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
     {
       "id": "117",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "Il canguro salta nel prato.",
       "targets": [
         {
           "surface": "canguro",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
     {
       "id": "118",
-      "category": "non_presenti",
+      "category": "concreto",
       "text": "La zanzara mi ha punto.",
       "targets": [
         {
           "surface": "zanzara",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },
@@ -2627,7 +2617,7 @@
       "targets": [
         {
           "surface": "neve",
-          "no_symbol": true
+          "requires_symbol": true
         }
       ]
     },

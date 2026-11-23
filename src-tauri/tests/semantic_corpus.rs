@@ -39,6 +39,11 @@ struct Target {
     strategy: Option<String>,
     #[serde(default)]
     no_symbol: bool,
+    // Parola che il catalogo completo copre: deve ricevere un simbolo reale.
+    // È distinta da `no_symbol` perché il catalogo ARASAAC si scarica online e
+    // la sua ampiezza cambia con il repertorio disponibile.
+    #[serde(default)]
+    requires_symbol: bool,
     #[serde(default)]
     composition: Vec<String>,
 }
@@ -52,6 +57,8 @@ struct Tally {
     misleading: usize,
     missing_expected: usize,
     missing_detected: usize,
+    present_expected: usize,
+    present_detected: usize,
 }
 
 fn corpus_path() -> PathBuf {
@@ -137,8 +144,13 @@ fn semantic_corpus_accuracy() {
 
         for target in &sentence.targets {
             let tally = by_category.entry(sentence.category.clone()).or_default();
-            tally.targets += 1;
-            overall.targets += 1;
+            // Le parole presenti nel catalogo non entrano nella percentuale di
+            // prima scelta: rispondono a una domanda diversa (il simbolo esiste
+            // o è stato inventato) e hanno un contatore proprio.
+            if !target.requires_symbol {
+                tally.targets += 1;
+                overall.targets += 1;
+            }
 
             // Accoppiamento prudente: prima l'uguaglianza esatta, poi un token
             // che *contiene* la parola cercata (le espressioni multiword hanno
@@ -178,6 +190,23 @@ fn semantic_corpus_accuracy() {
             if token.approximate {
                 tally.approximate += 1;
                 overall.approximate += 1;
+            }
+
+            if target.requires_symbol {
+                tally.present_expected += 1;
+                overall.present_expected += 1;
+                if has_symbol {
+                    tally.present_detected += 1;
+                    overall.present_detected += 1;
+                } else {
+                    failures.push(json!({
+                        "id": sentence.id,
+                        "surface": target.surface,
+                        "reason": "parola del catalogo senza simbolo",
+                        "text": sentence.text,
+                    }));
+                }
+                continue;
             }
 
             if target.no_symbol {
@@ -288,6 +317,10 @@ fn semantic_corpus_accuracy() {
         overall.missing_detected, overall.missing_expected
     );
     println!(
+        "parole del catalogo simbolizzate: {}/{}",
+        overall.present_detected, overall.present_expected
+    );
+    println!(
         "tempo medio per paragrafo: {:.2} ms · peggiore: {} ms",
         if corpus.sentences.is_empty() {
             0.0
@@ -324,6 +357,8 @@ fn semantic_corpus_accuracy() {
         "misleading_approximations": overall.misleading,
         "missing_expected": overall.missing_expected,
         "missing_detected": overall.missing_detected,
+        "present_expected": overall.present_expected,
+        "present_detected": overall.present_detected,
         "avg_ms_per_paragraph": if corpus.sentences.is_empty() { 0.0 } else { total_ms as f64 / corpus.sentences.len() as f64 },
         "worst_ms": worst_ms,
         "hybrid_llm": "non misurato: richiede llama.cpp e un modello GGUF configurati",
@@ -368,6 +403,12 @@ fn semantic_corpus_accuracy() {
         "assenze non rilevate: {}/{} rilevate",
         overall.missing_detected,
         overall.missing_expected
+    );
+    assert!(
+        overall.present_detected == overall.present_expected,
+        "parole del catalogo rimaste senza simbolo: {}/{} simbolizzate",
+        overall.present_detected,
+        overall.present_expected
     );
     assert!(
         errors.is_empty(),
