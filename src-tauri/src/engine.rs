@@ -3502,10 +3502,12 @@ mod tests {
     }
 
     fn arasaac_pack_available() -> bool {
-        test_resources()
-            .join("symbol-packs")
-            .join("arasaac")
-            .exists()
+        // Serve il manifest, non solo la cartella: un download interrotto lascia
+        // gli SVG senza indice e i test fallirebbero per un catalogo incompleto
+        // invece di dichiarare che il repertorio non è disponibile.
+        let pack = test_resources().join("symbol-packs").join("arasaac");
+        pack.join("manifest.json").is_file()
+            && pack.join("svg").is_dir()
     }
 
     fn test_engine() -> Engine {
