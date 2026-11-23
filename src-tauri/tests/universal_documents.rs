@@ -174,11 +174,14 @@ fn library_paths_are_resolved_inside_the_library() {
     let resources = std::fs::canonicalize(resources()).unwrap();
     let manifest = manifest();
     let entry = manifest.entries.first().expect("una voce");
+    // Cartella dati senza copia dell'utente: si risolve dalla libreria inclusa.
+    let data_dir = std::env::temp_dir().join("caa-test-data-resolve");
     let path = universal::resolve_library_path(
         &manifest,
         &entry.id,
         Some(&entry.source_type),
         &resources,
+        &data_dir,
     )
     .unwrap();
     assert!(path.starts_with(resources.join("library")));
@@ -190,7 +193,8 @@ fn library_paths_are_resolved_inside_the_library() {
         &tampered,
         &tampered.entries[0].id,
         None,
-        &resources
+        &resources,
+        &data_dir
     )
     .is_err());
 }
