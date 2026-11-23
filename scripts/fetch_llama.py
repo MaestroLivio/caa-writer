@@ -18,6 +18,7 @@ import argparse
 import json
 import os
 import platform
+import re
 import shutil
 import stat
 import sys
@@ -81,6 +82,35 @@ def release_with_assets(pattern: str, tag: str | None) -> tuple[dict, dict]:
     return {}, {}
 
 
+def create_version_links(directory: Path) -> None:
+    """Ricrea i nomi «major» delle librerie versionate.
+
+    Gli archivi di llama.cpp contengono collegamenti simbolici
+    (`libggml-base.so.0` → `libggml-base.so.0.9.7`), ma l'estrazione copia
+    solo i file regolari: senza questi nomi il caricatore dinamico non trova
+    le dipendenze. macOS nomina `libmtmd.0.8.0.dylib` → `libmtmd.0.dylib`,
+    Linux `libggml-base.so.0.9.7` → `libggml-base.so.0`.
+    """
+    macos_pattern = re.compile(r"^(lib.+?)\.(\d+)(?:\.\d+)+\.dylib$")
+    linux_pattern = re.compile(r"^(lib.+\.so)\.(\d+)(?:\.\d+)+$")
+    for library in sorted(directory.iterdir()):
+        match = macos_pattern.match(library.name)
+        if match:
+            short = directory / f"{match.group(1)}.{match.group(2)}.dylib"
+        else:
+            match = linux_pattern.match(library.name)
+            if not match:
+                continue
+            short = directory / f"{match.group(1)}.{match.group(2)}"
+        if short.exists() or short.is_symlink():
+            continue
+        try:
+            short.symlink_to(library.name)
+            print("collegamento:", short.name, "→", library.name)
+        except OSError as error:
+            print(f"collegamento non creato per {short.name}: {error}", file=sys.stderr)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="mostra l'asset scelto senza scaricare")
@@ -121,8 +151,15 @@ def main() -> int:
     def wanted(base: str) -> bool:
         # `llama-server` serve per l'istanza condivisa: il modello viene caricato
         # una volta sola e tutte le funzionalità lo interrogano via HTTP locale.
-        return base in {"llama-cli", "llama-cli.exe", "llama-server", "llama-server.exe"} or base.endswith(
-            (".dylib", ".so", ".dll")
+        if base in {"llama-cli", "llama-cli.exe", "llama-server", "llama-server.exe"}:
+            return True
+        # Su Linux le librerie sono versionate *dopo* l'estensione
+        # (`libggml-base.so.0.9.7`), quindi il solo suffisso `.so` non basta:
+        # senza questi file il bundle AppImage non risolve le dipendenze di
+        # `libggml-cpu-*.so` e `llama-server` non parte.
+        return (
+            base.endswith((".so", ".dylib", ".dll"))
+            or re.search(r"\.so(\.\d+)+$", base) is not None
         )
 
     if suffix == ".zip":
@@ -145,24 +182,7 @@ def main() -> int:
                 with src, (AI_RUNTIME / base).open("wb") as dst:
                     shutil.copyfileobj(src, dst)
 
-    # Le librerie sono nominate con la versione completa (libmtmd.0.8.0.dylib)
-    # ma il binario le cerca con la sola major (libmtmd.0.dylib): i collegamenti
-    # simbolici dell'archivio non vengono copiati e vanno ricreati.
-    import re
-
-    pattern = re.compile(r"^(lib.+)\.(\d+)\.\d+\.\d+\.(dylib|so)$")
-    for library in AI_RUNTIME.iterdir():
-        match = pattern.match(library.name)
-        if not match:
-            continue
-        short = AI_RUNTIME / f"{match.group(1)}.{match.group(2)}.{match.group(3)}"
-        if short.exists() or short.is_symlink():
-            continue
-        try:
-            short.symlink_to(library.name)
-            print("collegamento:", short.name, "→", library.name)
-        except OSError as error:
-            print(f"collegamento non creato per {short.name}: {error}", file=sys.stderr)
+    create_version_links(AI_RUNTIME)
 
     for name in ("llama-cli", "llama-server"):
         binary = AI_RUNTIME / (f"{name}.exe" if platform.system() == "Windows" else name)

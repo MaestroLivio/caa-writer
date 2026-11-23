@@ -68,7 +68,7 @@ jobs:
           path: |
             resources/ai
             resources/symbol-packs/arasaac
-          key: caa-assets-${{ runner.os }}-native-v1
+          key: caa-assets-${{ runner.os }}-native-v2
 
       - name: Dipendenze frontend
         run: npm ci
@@ -92,7 +92,7 @@ jobs:
           path: |
             resources/ai
             resources/symbol-packs/arasaac
-          key: caa-assets-${{ runner.os }}-native-v1
+          key: caa-assets-${{ runner.os }}-native-v2
 
       - name: Controllo tipi e build frontend
         run: npm run build
@@ -180,7 +180,7 @@ jobs:
           path: |
             resources/ai
             resources/symbol-packs/arasaac
-          key: caa-assets-${{ runner.os }}-${{ matrix.llama_asset }}-v1
+          key: caa-assets-${{ runner.os }}-${{ matrix.llama_asset }}-v2
 
       - run: npm ci
 
@@ -212,6 +212,11 @@ jobs:
           VERBOSE=""
           if [ "${{ matrix.name }}" = "linux-x64" ]; then
             VERBOSE="--verbose"
+            # `linuxdeploy` risolve le dipendenze con `ldd`: le librerie ggml
+            # impacchettate in `resources/ai/runtime` non hanno un RUNPATH e
+            # senza questo percorso il bundle AppImage si ferma su
+            # «Could not find dependency: libggml-base.so.1».
+            export LD_LIBRARY_PATH="$PWD/resources/ai/runtime${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
           fi
           npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
             --bundles "${{ matrix.bundles }}" --features onnx
