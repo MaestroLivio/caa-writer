@@ -4,39 +4,65 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
-## Libreria AAC 2026.11 — 2026-11-23
+## Libreria 2026.11 — 2026-11-23
 
-Versione aggiornata del pacchetto «Comunicazione aumentativa e alternativa»
-(76 documenti, 5.141 elementi). Non cambia il codice dell'applicazione: cambia
-il materiale della biblioteca incluso nel bundle.
+Versione aggiornata di **tutti i pacchetti** della biblioteca: 350 documenti,
+973 pagine, 11.763 elementi in nove categorie. Non cambia il codice
+dell'applicazione: cambia il materiale incluso nel bundle.
 
 ### Novità
 
-- Sistema grafico unico per tutte le tavole: angoli arrotondati (2,4 mm), bordi
-  più leggeri (0,7–0,9 mm), spaziatura interna 1,4–2,6 mm, margine pagina
-  10 mm e gap di griglia 2,4 mm. Le tavole smettono di sembrare una griglia di
-  rettangoli grigi.
+- Sistema grafico unico su tutto il catalogo: angoli arrotondati (2,4 mm),
+bordi leggeri (0,6–0,9 mm), spaziatura interna 1,4–2,8 mm, margine pagina
+  10 mm, gap di griglia 2,4 mm. Spariscono i riquadri squadrati con bordo grigio
+  uguale per tutto.
+- Un accento per genere, così il tipo di materiale si riconosce a colpo
+  d'occhio: comunicazione aumentativa (teal), agende (ciano), supporti
+  comportamentali (viola), giochi (ambra), schede didattiche (blu), storie
+  sociali (magenta), storie in CAA (indaco), TEACCH (verde), stampabili
+  (ardesia).
+- Gerarchia didattica costante: intestazione di pagina (fascia piena) →
+  sottotitolo → obiettivo (badge) → istruzione (riquadro tinto con bordo
+  d'accento) → attività (domanda in grassetto, righe di risposta, caselle) →
+  nota per l'adulto (testo attenuato). Nelle pagine con più titoli il primo
+  resta intestazione e gli altri diventano titoli di sezione: niente seconde
+  fasce piene che appiattivano la gerarchia.
 - Colore per classe di parola su liste esplicite (chiave Fitzgerald): persone,
   azioni, descrittori, nomi, parole sociali, negazione e urgenza, navigazione.
-  Le parole non elencate restano neutre. Celle di navigazione e titoli usano il
-  teal del marchio.
+  Numeri, lettere e date restano neutri, perché nelle agende e nelle schede di
+  matematica il colore di classe non comunica nulla.
 - Riquadri senza pittogramma con bordo tratteggiato: si vede che il simbolo
   manca, senza inventarlo.
-- `accessibility.label` compilata su tutti i 5.141 elementi (prima era vuota su
-  tutti) e `large_text` sui comandi di navigazione, i titoli e il vocabolario
-  essenziale: chi usa lettori di schermo o ingranditori ha un nome per ogni
-  cella.
+- Ingrandimento tipografico solo dove il testo entra davvero nello spazio
+  (verifica sulle stesse regole di ritorno a capo del renderer): i minimi di
+  3,2–4,2 mm si applicano senza spingere testo fuori cornice.
+- `accessibility.label` su 11.732 dei 11.763 elementi, prima vuota su tutto il
+  catalogo; restano senza nome 31 forme puramente decorative. Le etichette
+  derivano da testo → testo parlato → lemma → descrizione del componente
+  («Riga per scrivere», «Casella da spuntare», «Dieci caselle per contare»),
+  senza contenuti inventati; `large_text` su titoli, obiettivi, istruzioni,
+  domande e navigazione.
 
 ### Verifiche
 
 - `library.validate`: 350 documenti, 0 errori, 1.600 avvisi (tutti pittogrammi
-  ARASAAC assenti, già presenti prima).
-- `dev.library.open` 76/76, `dev.library.preview` 76/76 con SVG rigenerato.
-- Contrasto calcolato: testo su tinta 15,46:1–17,24:1, bianco su teal 5,47:1,
-  bordi 4,51:1–5,49:1.
-- Non verificato: resa a schermo e su stampa (controllo visivo non eseguito).
+  ARASAAC assenti dal repository, già presenti prima).
+- `dev.library.open` 350/350, `dev.library.preview` 350/350 con SVG rigenerato.
+- MCP (`caa-mcp` stdio, accesso in lettura): `library_validate` restituisce lo
+  stesso report della CLI.
+- Contrasto calcolato: bianco sugli accenti 5,02:1–10,35:1, accenti sui riquadri
+  tinti 4,79:1–9,90:1, testo #111111 sulle tinte di classe 15,46:1–17,24:1.
+- Controllo visivo su export PNG della prima pagina di otto documenti
+  rappresentativi (scheda di italiano, matematica, agenda, storia sociale,
+  storia CAA, materiale velcro, tavola AAC): ha portato a correggere la
+  classificazione dei numeri e la doppia fascia dei titoli.
+- Non verificato: stampa fisica su carta, resa su touchscreen, Windows e Linux.
 
-La versione è identificata dal tag Git `library-aac-2026.11`.
+Lo script `scripts/redesign_library_packages.py` sostituisce
+`scripts/redesign_aac_package.py` (rimosso): copre tutte le categorie con
+`--category`, `--limit`, `--only`, dry-run predefinito e `--no-preview`.
+
+La versione è identificata dal tag Git `library-2026.11`.
 
 ## 0.15.24 — 2026-11-22
 
