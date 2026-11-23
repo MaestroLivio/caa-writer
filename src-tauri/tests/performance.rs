@@ -116,5 +116,17 @@ fn paragraph_latency_and_cache() {
         long_total.as_millis(),
         long_total.as_millis() as f64 / long_document.len() as f64
     );
-    assert!(long_total.as_secs() < 120, "documento lungo troppo lento");
+
+    // Confronto relativo, non un limite assoluto in secondi: i runner CI sono
+    // da due a tre volte più lenti di questa macchina, e un tetto fisso
+    // misurerebbe l'hardware ospite invece del motore. La regressione da
+    // intercettare è il costo per paragrafo che cresce con la lunghezza del
+    // documento (indici o cache ricostruiti a ogni paragrafo).
+    let cold_per_paragraph_ms = cold_total.as_secs_f64() * 1000.0 / corpus.len() as f64;
+    let long_per_paragraph_ms = long_total.as_secs_f64() * 1000.0 / long_document.len() as f64;
+    assert!(
+        long_per_paragraph_ms <= cold_per_paragraph_ms * 2.0,
+        "documento lungo troppo lento: {long_per_paragraph_ms:.2} ms/paragrafo \
+         contro {cold_per_paragraph_ms:.2} ms/paragrafo a freddo"
+    );
 }
