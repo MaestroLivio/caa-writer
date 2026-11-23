@@ -17,11 +17,20 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# Anche i messaggi di questo script devono essere scrivibili su una console
+# Windows non UTF-8.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):  # pragma: no cover - dipende dall'ambiente
+    pass
 AI_DIR = ROOT / "resources" / "ai"
 ARASAAC = ROOT / "resources" / "symbol-packs" / "arasaac"
 
@@ -29,7 +38,11 @@ ARASAAC = ROOT / "resources" / "symbol-packs" / "arasaac"
 def run(script: str, *args: str) -> None:
     command = [sys.executable, str(ROOT / "scripts" / script), *args]
     print("eseguo:", " ".join(command))
-    subprocess.run(command, check=True)
+    # Su Windows la console usa cp1252: senza UTF-8 forzato i messaggi dei
+    # sottoprocessi con caratteri come «→» fanno fallire la build con
+    # UnicodeEncodeError. L'ambiente vale per tutti i figli.
+    env = dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUTF8="1")
+    subprocess.run(command, check=True, env=env)
 
 
 def main() -> int:
