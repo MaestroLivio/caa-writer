@@ -271,9 +271,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Solo i bundle: senza `pattern` finirebbe nella release anche il report
+      # semantico caricato dai job di test.
       - uses: actions/download-artifact@v4
         with:
           path: release
+          pattern: caa-writer-*
           merge-multiple: true
 
       - name: Verifica tag e versione
