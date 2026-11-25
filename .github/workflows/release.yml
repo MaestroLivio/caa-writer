@@ -119,31 +119,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # La release pubblica solo macOS Apple Silicon e Windows x64: le build
+        # macOS Intel e Linux non vengono generate.
         include:
           - os: macos-latest
             name: macos-arm64
             target: aarch64-apple-darwin
-            bundles: app,dmg
             python: python3
             llama_asset: native
-          - os: macos-latest
-            name: macos-x64
-            target: x86_64-apple-darwin
-            bundles: app,dmg
-            python: python3
-            # Il runner è arm64: per la build Intel serve il runtime x64.
-            llama_asset: bin-macos-x64
           - os: windows-latest
             name: windows-x64
             target: x86_64-pc-windows-msvc
             bundles: nsis,msi
             python: python
-            llama_asset: native
-          - os: ubuntu-22.04
-            name: linux-x64
-            target: x86_64-unknown-linux-gnu
-            bundles: deb,appimage,rpm
-            python: python3
             llama_asset: native
     steps:
       - uses: actions/checkout@v4
@@ -167,13 +155,6 @@ jobs:
         run: |
           brew install dav1d
           echo "PKG_CONFIG_PATH=$(brew --prefix)/lib/pkgconfig" >> "$GITHUB_ENV"
-
-      - name: Dipendenze di sistema (Linux)
-        if: matrix.os == 'ubuntu-22.04'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev \
-            librsvg2-dev patchelf libgtk-3-dev libssl-dev rpm libfuse2
 
       - uses: actions/cache@v4
         with:
@@ -204,47 +185,46 @@ jobs:
       # build è verbosa per avere l'output di linuxdeploy nei log di CI.
       - name: Build bundle
         shell: bash
-        env:
-          APPIMAGE_EXTRACT_AND_RUN: 1
-          NO_STRIP: "true"
         run: |
           set -euo pipefail
           VERBOSE=""
-          if [ "${{ matrix.name }}" = "linux-x64" ]; then
-            VERBOSE="--verbose"
-            # `linuxdeploy` risolve le dipendenze con `ldd`: le librerie ggml
-            # impacchettate in `resources/ai/runtime` non hanno un RUNPATH e
-            # senza questo percorso il bundle AppImage si ferma su
-            # «Could not find dependency: libggml-base.so.1».
-            export LD_LIBRARY_PATH="$PWD/resources/ai/runtime${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-          fi
           if [ "${{ runner.os }}" = "macOS" ]; then
-            # Firma ad-hoc dell'intero bundle: macOS su Apple Silicon rifiuta
-            # un'app con la sola firma del linker («code has no resources but
-            # signature indicates they must be present»), che l'utente vede
-            # come «CAA Writer è danneggiata». Senza un certificato Developer
-            # ID la firma ad-hoc è l'unica possibile, ma rende il bundle
-            # coerente: l'app si apre con «Apri comunque».
-            export APPLE_SIGNING_IDENTITY="-"
-            # Su x86_64 i binari non hanno la firma del linker e il bundler
-            # firma solo l'eseguibile principale e il `.app`: copiare
-            # `caa-cli` e `caa-mcp` non firmati fa fallire `codesign` sul
-            # bundle. Si compilano prima i binari, si firmano ad-hoc, poi si
-            # crea il bundle (che ricopia i binari già firmati).
+            # macOS su Apple Silicon rifiuta un'app con la sola firma del
+            # linker («code has no resources but signature indicates they must
+            # be present»), che l'utente vede come «CAA Writer è danneggiata».
+            # Senza un certificato Developer ID la firma ad-hoc è l'unica
+            # possibile, ma rende il bundle coerente: l'app si apre con
+            # «Apri comunque».
             #
-            # `beforeBuildCommand` è vuoto in entrambe le invocazioni: se il
-            # frontend venisse ricostruito fra le due, `tauri-build`
-            # ricompilerebbe l'eseguibile e la firma appena apposta andrebbe
-            # persa. Il frontend si costruisce una volta sola, prima.
+            # La firma non si delega al bundler: su x86_64 i sidecar
+            # `caa-cli` e `caa-mcp` finiscono in `Contents/MacOS` senza firma
+            # e `codesign` del bundle fallisce («code object is not signed at
+            # all») — pre-firmarli prima del bundle non serve, il bundler li
+            # ricopia. Si costruisce quindi la sola `.app` senza identità
+            # (il bundler non firma), si firma l'intero bundle con `--deep` e
+            # si crea il DMG con `hdiutil`.
+            unset APPLE_SIGNING_IDENTITY
+            # `beforeBuildCommand` vuoto: il frontend è già costruito qui
+            # sopra e non va ricostruito (farebbe ripartire `tauri-build`).
             NO_HOOK='{"build":{"beforeBuildCommand":""}}'
-            RELEASE_DIR="src-tauri/target/${{ matrix.target }}/release"
+            VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+            BUNDLES_DIR="src-tauri/target/${{ matrix.target }}/release/bundle"
+            APP="$BUNDLES_DIR/macos/CAA Writer.app"
             npm run build
             npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
-              --no-bundle --features onnx --config "$NO_HOOK"
-            codesign --force --sign - --timestamp=none \
-              "$RELEASE_DIR/caa-writer" "$RELEASE_DIR/caa-cli" "$RELEASE_DIR/caa-mcp"
-            npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
-              --bundles "${{ matrix.bundles }}" --features onnx --config "$NO_HOOK"
+              --bundles app --features onnx --config "$NO_HOOK"
+            codesign --force --deep --sign - --timestamp=none "$APP"
+            codesign --verify --deep --strict --verbose=2 "$APP"
+            # DMG con la stessa struttura del bundler (app + collegamento ad
+            # /Applications per il trascinamento).
+            STAGE=$(mktemp -d)
+            ditto "$APP" "$STAGE/CAA Writer.app"
+            ln -s /Applications "$STAGE/Applications"
+            mkdir -p "$BUNDLES_DIR/dmg"
+            hdiutil create -volname "CAA Writer" -srcfolder "$STAGE" -ov \
+              -format UDZO \
+              "$BUNDLES_DIR/dmg/CAA-Writer_${VERSION}_${{ matrix.name }}.dmg"
+            rm -rf "$STAGE"
           else
             npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
               --bundles "${{ matrix.bundles }}" --features onnx

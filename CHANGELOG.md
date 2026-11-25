@@ -15,20 +15,21 @@ versione nuova ma il download si fermava su «Non esiste un pacchetto di
 aggiornamento per macos-aarch64». Inoltre il bundle macOS era firmato solo dal
 linker, e Gatekeeper lo segnalava come danneggiato.
 
-- Il workflow pubblica di nuovo `CAA-Writer_<versione>_macos-arm64.dmg`,
-  `CAA-Writer_<versione>_macos-x64.dmg` e
+- Il workflow pubblica di nuovo `CAA-Writer_<versione>_macos-arm64.dmg` e
   `CAA-Writer_<versione>_windows-x64-setup.exe`; l'app installata 0.16.0
   riconosce questi nomi, quindi vede l'aggiornamento e lo scarica dal
-  programma.
+  programma. La release genera solo macOS Apple Silicon e Windows x64: le
+  build macOS Intel e Linux non vengono più prodotte.
 - `packages::update_asset` accetta sia i nomi stabili sia quelli del bundler,
   con test sui nomi reali della release e sul rifiuto di indirizzi fuori dal
   repository.
-- macOS: il bundle viene firmato ad-hoc per intero durante la build
-  (`APPLE_SIGNING_IDENTITY="-"`), così la firma include `Info.plist` e le
-  risorse; una verifica in CI fallisce se Gatekeeper risponde ancora «code has
-  no resources but signature indicates they must be present». Senza
-  certificato Developer ID resta l'avviso «Apri comunque» al primo avvio, ma
-  il DMG non è più dichiarato danneggiato.
+- macOS: la `.app` viene costruita senza firma del bundler e poi firmata
+  ad-hoc per intero con `codesign --force --deep --sign -`, così la firma
+  include `Info.plist`, i sidecar e le risorse; il DMG è creato con `hdiutil`
+  dall'app già firmata. Una verifica in CI fallisce se Gatekeeper risponde
+  ancora «code has no resources but signature indicates they must be present».
+  Senza certificato Developer ID resta l'avviso «Apri comunque» al primo
+  avvio, ma il DMG non è più dichiarato danneggiato.
 - Impostazioni → Informazioni: pulsante «Controlla aggiornamenti» con esito
   esplicito e «Scarica <versione>» che avvia il download del pacchetto giusto.
 

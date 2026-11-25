@@ -18,10 +18,12 @@ Due difetti della 0.16.0, entrambi su macOS:
 ## La soluzione
 
 - La release pubblica di nuovo i nomi stabili degli asset (`macos-arm64.dmg`,
-  `macos-x64.dmg`, `windows-x64-setup.exe`). Il controllo aggiornamenti della
+  `windows-x64-setup.exe`) e contiene solo macOS Apple Silicon e Windows x64.
+  Il controllo aggiornamenti della
   0.16.0 installata riconosce questi nomi: dalla 0.16.1 la fascia «Aggiorna
   ora» scarica davvero il pacchetto giusto e apre l'installatore.
-- Il bundle macOS è firmato ad-hoc per intero durante la build. Senza
+- Il bundle macOS è firmato ad-hoc per intero dopo la creazione della `.app`
+  (`codesign --force --deep --sign -`), e il DMG viene creato da quell'app. Senza
   certificato Developer ID la notarizzazione resta impossibile, ma la firma
   coerente elimina l'errore «danneggiata»: al primo avvio macOS chiede di
   confermare con «Apri comunque» (Impostazioni di Sistema → Privacy e
