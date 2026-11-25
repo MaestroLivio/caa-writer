@@ -45,7 +45,7 @@ Sintesi onesta di ciò che esiste nel codice:
 | Visual Resource Studio (modelli + prompt → specifica JSON → layout) | implementato (layout essenziale) |
 | Sintesi vocale di sistema (macOS `say`, Windows SAPI) | implementato |
 | IA locale via llama.cpp + GGUF | **inclusa come runtime**: nessun modello è nel pacchetto; 1.5B, 3B e SmolLM2 1.7B scaricabili da un catalogo con URL e sha256 verificati, oppure importabili come file GGUF locali |
-| Installer firmati/notarizzati | **non disponibili**: mancano certificati |
+| Installer firmati/notarizzati | **solo firma ad-hoc**: mancano i certificati Developer ID. Il bundle è firmato in modo coerente (macOS non lo segnala più come danneggiato) e al primo avvio chiede «Apri comunque»; gli aggiornamenti successivi si scaricano dall'app e non passano da Gatekeeper |
 | Test su Windows con 4 GB di RAM | **non eseguiti** in questo ambiente |
 | Pittogrammi ARASAAC (pacchetto `arasaac`) | **inclusi**: intero catalogo italiano, 13.906 pittogrammi, CC BY-NC-SA 4.0, autore Sergio Palao / ARASAAC |
 
@@ -87,8 +87,20 @@ npm run tauri:build:mac-intel                        # macOS Intel
 npx tauri build --target x86_64-pc-windows-msvc      # Windows (da Windows)
 ```
 
-Gli installer prodotti localmente non sono firmati. Prima di una build di release servono gli asset
-non versionati (modello GGUF, runtime llama.cpp, catalogo ARASAAC):
+Gli installer prodotti localmente non sono firmati. Su macOS una build usata per la distribuzione va
+firmata almeno ad-hoc, altrimenti il bundle contiene solo la firma del linker e macOS lo mostra come
+«danneggiato»:
+
+```bash
+APPLE_SIGNING_IDENTITY="-" npm run tauri:build:mac-arm
+```
+
+La firma ad-hoc non sostituisce la notarizzazione: al primo avvio macOS chiede di confermare con
+«Apri comunque» (Impostazioni di Sistema → Privacy e sicurezza). Gli aggiornamenti successivi si
+scaricano dal programma e non hanno l'attributo di quarantena, quindi si aprono senza avvisi.
+
+Prima di una build di release servono gli asset non versionati (modello GGUF, runtime llama.cpp,
+catalogo ARASAAC):
 
 ```bash
 python3 scripts/fetch_release_assets.py

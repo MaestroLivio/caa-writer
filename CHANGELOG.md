@@ -4,6 +4,34 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.16.1 — 2026-11-25
+
+### L'aggiornamento dall'app funziona di nuovo, il bundle macOS non è più «danneggiato»
+
+La 0.16.0 ha rinominato gli asset della release con lo schema del bundler
+(`CAA.Writer_0.16.0_aarch64.dmg`), mentre il controllo aggiornamenti cerca i
+nomi stabili (`CAA-Writer_0.16.0_macos-arm64.dmg`): il programma vedeva la
+versione nuova ma il download si fermava su «Non esiste un pacchetto di
+aggiornamento per macos-aarch64». Inoltre il bundle macOS era firmato solo dal
+linker, e Gatekeeper lo segnalava come danneggiato.
+
+- Il workflow pubblica di nuovo `CAA-Writer_<versione>_macos-arm64.dmg`,
+  `CAA-Writer_<versione>_macos-x64.dmg` e
+  `CAA-Writer_<versione>_windows-x64-setup.exe`; l'app installata 0.16.0
+  riconosce questi nomi, quindi vede l'aggiornamento e lo scarica dal
+  programma.
+- `packages::update_asset` accetta sia i nomi stabili sia quelli del bundler,
+  con test sui nomi reali della release e sul rifiuto di indirizzi fuori dal
+  repository.
+- macOS: il bundle viene firmato ad-hoc per intero durante la build
+  (`APPLE_SIGNING_IDENTITY="-"`), così la firma include `Info.plist` e le
+  risorse; una verifica in CI fallisce se Gatekeeper risponde ancora «code has
+  no resources but signature indicates they must be present». Senza
+  certificato Developer ID resta l'avviso «Apri comunque» al primo avvio, ma
+  il DMG non è più dichiarato danneggiato.
+- Impostazioni → Informazioni: pulsante «Controlla aggiornamenti» con esito
+  esplicito e «Scarica <versione>» che avvia il download del pacchetto giusto.
+
 ## 0.16.0 — 2026-11-23
 
 ### La libreria si aggiorna per singolo pacchetto

@@ -621,19 +621,81 @@ pub struct UpdateAsset {
     pub size: u64,
 }
 
-/// Cerca nella release più recente l'asset giusto per macOS arm64 o Windows
-/// x64. Non ripiega su architetture diverse: un pacchetto sbagliato sarebbe
-/// inutilizzabile.
+/// Suffissi con cui si riconosce il bundle di aggiornamento di una
+/// piattaforma. L'ordine conta: vince il primo suffisso trovato, così i nomi
+/// stabili pubblicati dal workflow (`CAA-Writer_<versione>_macos-arm64.dmg`)
+/// hanno la precedenza su quelli generati da Tauri
+/// (`CAA.Writer_<versione>_aarch64.dmg`), che cambiano con il bundler.
+fn update_suffixes(os: &str, arch: &str) -> &'static [&'static str] {
+    match (os, arch) {
+        ("macos", "aarch64") => &["_macos-arm64.dmg", "_aarch64.dmg"],
+        ("macos", _) => &["_macos-x64.dmg", "_macos-intel.dmg", "_x64.dmg"],
+        ("windows", "x86_64") => &["_windows-x64-setup.exe", "_x64-setup.exe"],
+        _ => &[],
+    }
+}
+
+/// Sceglie l'asset della release per la piattaforma indicata. Non ripiega su
+/// architetture diverse: un pacchetto sbagliato sarebbe inutilizzabile.
+fn pick_update_asset(
+    value: &serde_json::Value,
+    os: &str,
+    arch: &str,
+    current: &str,
+) -> Result<UpdateAsset, String> {
+    let suffixes = update_suffixes(os, arch);
+    if suffixes.is_empty() {
+        return Err(format!(
+            "Non esiste un pacchetto di aggiornamento per {os}-{arch}: usa la pagina della release."
+        ));
+    }
+    let version = value
+        .get("tag_name")
+        .and_then(|item| item.as_str())
+        .map(|item| item.trim_start_matches('v').to_string())
+        .ok_or_else(|| "la release non indica una versione".to_string())?;
+    if !is_newer(&version, current) {
+        return Err(format!(
+            "La versione installata ({current}) è già aggiornata."
+        ));
+    }
+    let assets = value
+        .get("assets")
+        .and_then(|item| item.as_array())
+        .ok_or_else(|| "la release non contiene file scaricabili".to_string())?;
+    for suffix in suffixes {
+        for asset in assets {
+            let name = asset.get("name").and_then(|item| item.as_str()).unwrap_or("");
+            if !name.ends_with(suffix) {
+                continue;
+            }
+            let url = asset
+                .get("browser_download_url")
+                .and_then(|item| item.as_str())
+                .unwrap_or("");
+            if !url.starts_with("https://github.com/MaestroLivio/caa-writer/releases/download/")
+            {
+                return Err(
+                    "L'indirizzo dell'aggiornamento non appartiene al repository ufficiale."
+                        .to_string(),
+                );
+            }
+            return Ok(UpdateAsset {
+                version: version.clone(),
+                file_name: name.to_string(),
+                url: url.to_string(),
+                size: asset.get("size").and_then(|item| item.as_u64()).unwrap_or(0),
+            });
+        }
+    }
+    Err(format!(
+        "La release {version} non contiene un pacchetto per questo computer ({os}-{arch})."
+    ))
+}
+
+/// Cerca nella release più recente l'asset giusto per questo computer.
 pub fn update_asset() -> Result<UpdateAsset, String> {
-    let suffixes: &[&str] = if cfg!(target_os = "macos") && cfg!(target_arch = "aarch64") {
-        &["_macos-arm64.dmg"]
-    } else if cfg!(target_os = "macos") {
-        &["_macos-x64.dmg", "_macos-intel.dmg"]
-    } else if cfg!(target_os = "windows") && cfg!(target_arch = "x86_64") {
-        &["_windows-x64-setup.exe"]
-    } else {
-        &[]
-    };
+    let suffixes = update_suffixes(std::env::consts::OS, std::env::consts::ARCH);
     if suffixes.is_empty() {
         return Err(format!(
             "Non esiste un pacchetto di aggiornamento per {}-{}: usa la pagina della release.",
@@ -660,46 +722,12 @@ pub fn update_asset() -> Result<UpdateAsset, String> {
     let value: serde_json::Value = response
         .json()
         .map_err(|error| format!("risposta della release non valida: {error}"))?;
-    let version = value
-        .get("tag_name")
-        .and_then(|item| item.as_str())
-        .map(|item| item.trim_start_matches('v').to_string())
-        .ok_or_else(|| "la release non indica una versione".to_string())?;
-    if !is_newer(&version, env!("CARGO_PKG_VERSION")) {
-        return Err(format!(
-            "La versione installata ({}) è già aggiornata.",
-            env!("CARGO_PKG_VERSION")
-        ));
-    }
-
-    let assets = value
-        .get("assets")
-        .and_then(|item| item.as_array())
-        .ok_or_else(|| "la release non contiene file scaricabili".to_string())?;
-    for asset in assets {
-        let name = asset.get("name").and_then(|item| item.as_str()).unwrap_or("");
-        if !suffixes.iter().any(|suffix| name.ends_with(suffix)) {
-            continue;
-        }
-        let url = asset
-            .get("browser_download_url")
-            .and_then(|item| item.as_str())
-            .unwrap_or("");
-        if !url.starts_with("https://github.com/MaestroLivio/caa-writer/releases/download/") {
-            return Err("L'indirizzo dell'aggiornamento non appartiene al repository ufficiale.".to_string());
-        }
-        return Ok(UpdateAsset {
-            version,
-            file_name: name.to_string(),
-            url: url.to_string(),
-            size: asset.get("size").and_then(|item| item.as_u64()).unwrap_or(0),
-        });
-    }
-    Err(format!(
-        "La release {} non contiene un pacchetto per questo computer ({}).",
-        version,
-        std::env::consts::OS
-    ))
+    pick_update_asset(
+        &value,
+        std::env::consts::OS,
+        std::env::consts::ARCH,
+        env!("CARGO_PKG_VERSION"),
+    )
 }
 
 /// Confronta la versione dell'app e la libreria con il repository pubblico.
@@ -861,6 +889,71 @@ mod tests {
         assert!(!is_newer("0.15.13", "0.15.13"));
         assert!(!is_newer("v0.15.12", "0.15.13"));
         assert!(is_newer("v0.15.10", "0.15.9"));
+    }
+
+    /// I nomi degli asset della release devono restare quelli attesi dal
+    /// controllo aggiornamenti, anche quando Tauri li produce con lo schema
+    /// `CAA.Writer_<versione>_aarch64.dmg`. Un'installazione 0.16.0 deve
+    /// riconoscere il pacchetto della release successiva.
+    #[test]
+    fn update_asset_matches_published_names() {
+        let asset = |name: &str, size: u64| {
+            serde_json::json!({
+                "name": name,
+                "browser_download_url": format!(
+                    "https://github.com/MaestroLivio/caa-writer/releases/download/v0.16.1/{name}"
+                ),
+                "size": size,
+            })
+        };
+        let release = serde_json::json!({
+            "tag_name": "v0.16.1",
+            "assets": [
+                asset("CAA-Writer_0.16.1_macos-arm64.dmg", 111),
+                asset("CAA-Writer_0.16.1_macos-x64.dmg", 222),
+                asset("CAA-Writer_0.16.1_windows-x64-setup.exe", 333),
+                asset("CAA.Writer_0.16.1_aarch64.dmg", 444),
+            ],
+        });
+        let arm = pick_update_asset(&release, "macos", "aarch64", "0.16.0")
+            .expect("macOS arm64 riconosce il DMG della release");
+        assert_eq!(arm.file_name, "CAA-Writer_0.16.1_macos-arm64.dmg");
+        assert_eq!(arm.version, "0.16.1");
+        assert_eq!(arm.size, 111);
+        let intel = pick_update_asset(&release, "macos", "x86_64", "0.16.0")
+            .expect("macOS Intel riconosce il DMG della release");
+        assert_eq!(intel.file_name, "CAA-Writer_0.16.1_macos-x64.dmg");
+        let windows = pick_update_asset(&release, "windows", "x86_64", "0.16.0")
+            .expect("Windows riconosce l'installer della release");
+        assert_eq!(windows.file_name, "CAA-Writer_0.16.1_windows-x64-setup.exe");
+        // Ripiego sui nomi prodotti da Tauri, se il nome stabile manca.
+        let fallback = serde_json::json!({
+            "tag_name": "v0.16.1",
+            "assets": [asset("CAA.Writer_0.16.1_aarch64.dmg", 444)],
+        });
+        assert_eq!(
+            pick_update_asset(&fallback, "macos", "aarch64", "0.16.0")
+                .expect("il nome di Tauri resta accettato com'è")
+                .file_name,
+            "CAA.Writer_0.16.1_aarch64.dmg"
+        );
+        // Nessun aggiornamento quando la versione installata è la più recente.
+        assert!(pick_update_asset(&release, "macos", "aarch64", "0.16.1").is_err());
+        // Piattaforme senza bundle dichiarato: nessun download casuale.
+        assert!(pick_update_asset(&release, "linux", "x86_64", "0.16.0").is_err());
+    }
+
+    #[test]
+    fn update_urls_must_belong_to_the_repository() {
+        let release = serde_json::json!({
+            "tag_name": "v0.16.1",
+            "assets": [{
+                "name": "CAA-Writer_0.16.1_macos-arm64.dmg",
+                "browser_download_url": "https://evil.example/CAA-Writer_0.16.1_macos-arm64.dmg",
+                "size": 1,
+            }],
+        });
+        assert!(pick_update_asset(&release, "macos", "aarch64", "0.16.0").is_err());
     }
 
     #[test]

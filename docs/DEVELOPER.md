@@ -291,8 +291,17 @@ npm run tauri:build:mac-intel
 ```
 
 La pipeline `.github/workflows/build.yml` esegue test e build su macOS e Windows e carica gli
-artefatti. Non produce installer firmati né notarizzati: servono certificati e credenziali che il
-repository non contiene.
+artefatti. Non produce installer notarizzati: servono certificati e credenziali che il repository
+non contiene. I bundle macOS della release sono però **firmati ad-hoc per intero** (il workflow
+esporta `APPLE_SIGNING_IDENTITY="-"`): senza firma coerente il bundle conserva solo quella del
+linker e Gatekeeper lo mostra come «danneggiato». Il passo «Verifica della firma del bundle»
+fallisce se `spctl` risponde «code has no resources but signature indicates they must be present».
+
+I nomi degli asset che l'aggiornamento interno cerca per suffisso sono stabili e indipendenti dal
+bundler: `CAA-Writer_<versione>_macos-arm64.dmg`, `..._macos-x64.dmg`,
+`..._windows-x64-setup.exe`. Il passo «Raccogli artefatti» copia i file prodotti da Tauri con questi
+nomi; se cambia lo schema del bundler, `packages::update_asset` accetta anche i nomi nativi
+(`CAA.Writer_<versione>_aarch64.dmg`). I test `packages::tests` coprono entrambi i casi.
 
 Su macOS, Tauri 2 colloca `bundle.resources` in `Contents/Resources/_up_/resources` (non in
 `Contents/Resources`). `AppPaths::resolve_resources` prova entrambe le posizioni e le varianti

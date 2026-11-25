@@ -202,13 +202,22 @@ jobs:
       # librerie di sistema recenti, e Tauri riporta il guasto come un generico
       # «failed to run linuxdeploy»: `NO_STRIP` salta quel passo. Su Linux la
       # build è verbosa per avere l'output di linuxdeploy nei log di CI.
-      - name: Build bundle non firmato
+      - name: Build bundle
         shell: bash
         env:
           APPIMAGE_EXTRACT_AND_RUN: 1
           NO_STRIP: "true"
         run: |
           set -euo pipefail
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            # Firma ad-hoc dell'intero bundle: macOS su Apple Silicon rifiuta
+            # un'app con la sola firma del linker («code has no resources but
+            # signature indicates they must be present»), che l'utente vede
+            # come «CAA Writer è danneggiata». Senza un certificato Developer
+            # ID la firma ad-hoc è l'unica possibile, ma rende il bundle
+            # coerente: l'app si apre con «Apri comunque».
+            export APPLE_SIGNING_IDENTITY="-"
+          fi
           VERBOSE=""
           if [ "${{ matrix.name }}" = "linux-x64" ]; then
             VERBOSE="--verbose"
@@ -220,6 +229,23 @@ jobs:
           fi
           npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
             --bundles "${{ matrix.bundles }}" --features onnx
+
+      # Controllo che il bundle macOS sia firmato in modo coerente, così il
+      # DMG scaricato non viene segnalato come danneggiato.
+      - name: Verifica della firma del bundle (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP="src-tauri/target/${{ matrix.target }}/release/bundle/macos/CAA Writer.app"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          codesign -dv "$APP" 2>&1 | grep -E "^Identifier=|^Signature=" || true
+          ASSESSMENT=$(spctl -a -vvv -t exec "$APP" 2>&1 || true)
+          echo "$ASSESSMENT"
+          if echo "$ASSESSMENT" | grep -q "code has no resources"; then
+            echo "Firma del bundle incoerente: macOS lo mostrerebbe come danneggiato." >&2
+            exit 1
+          fi
 
       - name: Raccogli artefatti e checksum
         shell: bash
@@ -233,11 +259,33 @@ jobs:
           if [ -d "$BUNDLE/macos/CAA Writer.app" ]; then
             ditto -c -k --sequesterRsrc --keepParent \
               "$BUNDLE/macos/CAA Writer.app" \
-              "artifacts/CAA-Writer-${VERSION}-${ASSET_NAME}.app.zip"
+              "artifacts/CAA-Writer_${VERSION}_${ASSET_NAME}.app.zip"
           fi
+          # Nomi stabili degli asset che l'aggiornamento interno cerca per
+          # suffisso (`packages::update_asset`): `_macos-arm64.dmg`,
+          # `_macos-x64.dmg`, `_windows-x64-setup.exe`. Tauri li produce con il
+          # proprio schema (`CAA.Writer_<versione>_aarch64.dmg`), che cambia con
+          # la versione del bundler: senza questa copia l'app installata non
+          # trova il pacchetto e l'aggiornamento si ferma subito.
+          rename_asset() {
+            local pattern="$1" name="$2"
+            local source
+            source=$(find "$BUNDLE" -type f -name "$pattern" -print -quit)
+            if [ -z "$source" ]; then
+              echo "asset mancante: $pattern" >&2
+              exit 1
+            fi
+            cp "$source" "artifacts/$name"
+          }
+          case "$ASSET_NAME" in
+            macos-arm64) rename_asset '*.dmg' "CAA-Writer_${VERSION}_macos-arm64.dmg" ;;
+            macos-x64) rename_asset '*.dmg' "CAA-Writer_${VERSION}_macos-x64.dmg" ;;
+            windows-x64) rename_asset '*x64-setup.exe' "CAA-Writer_${VERSION}_windows-x64-setup.exe" ;;
+          esac
+          # Gli altri bundle (MSI, DEB, RPM, AppImage) restano col nome del
+          # bundler: non servono all'aggiornamento interno.
           find "$BUNDLE" -type f \
-            \( -name '*.dmg' -o -name '*.exe' -o -name '*.msi' \
-               -o -name '*.deb' -o -name '*.AppImage' -o -name '*.rpm' \) \
+            \( -name '*.msi' -o -name '*.deb' -o -name '*.AppImage' -o -name '*.rpm' \) \
             -exec cp {} artifacts/ \;
           if [ -z "$(find artifacts -type f -print -quit)" ]; then
             echo "nessun artefatto prodotto" >&2

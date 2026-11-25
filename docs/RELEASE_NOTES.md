@@ -1,3 +1,46 @@
+# CAA Writer 0.16.1 — aggiornamento dall'app e bundle macOS corretto
+
+Data: 25 novembre 2026
+
+## Il problema
+
+Due difetti della 0.16.0, entrambi su macOS:
+
+1. il programma vedeva la versione nuova nel repository ma, premendo «Aggiorna
+   ora», il download si fermava su «Non esiste un pacchetto di aggiornamento per
+   macos-aarch64». Gli asset della release erano stati rinominati con lo schema
+   del bundler (`CAA.Writer_0.16.0_aarch64.dmg`), mentre il controllo
+   aggiornamenti cerca i nomi stabili `CAA-Writer_<versione>_macos-arm64.dmg`;
+2. scaricando il DMG a mano e copiando l'app in Applicazioni, macOS diceva
+   **«CAA Writer è danneggiata e non può essere aperta»**: il bundle aveva solo
+   la firma del linker, senza firma coerente dell'intero pacchetto.
+
+## La soluzione
+
+- La release pubblica di nuovo i nomi stabili degli asset (`macos-arm64.dmg`,
+  `macos-x64.dmg`, `windows-x64-setup.exe`). Il controllo aggiornamenti della
+  0.16.0 installata riconosce questi nomi: dalla 0.16.1 la fascia «Aggiorna
+  ora» scarica davvero il pacchetto giusto e apre l'installatore.
+- Il bundle macOS è firmato ad-hoc per intero durante la build. Senza
+  certificato Developer ID la notarizzazione resta impossibile, ma la firma
+  coerente elimina l'errore «danneggiata»: al primo avvio macOS chiede di
+  confermare con «Apri comunque» (Impostazioni di Sistema → Privacy e
+  sicurezza). Gli aggiornamenti scaricati dall'app non hanno l'attributo di
+  quarantena e si aprono senza avvisi.
+- La CI verifica la firma e fallisce se Gatekeeper risponde «code has no
+  resources but signature indicates they must be present».
+- Impostazioni → Informazioni: «Controlla aggiornamenti» con esito esplicito e
+  il pulsante per scaricare la versione disponibile.
+
+## Nota per chi ha la 0.16.0
+
+Questa correzione va installata una volta a mano (DMG della 0.16.1): la 0.16.0
+non contiene il codice corretto. Dalla 0.16.1 in poi l'aggiornamento si avvia
+dall'app. Su Apple Silicon, al primo avvio della 0.16.1, confermare con «Apri
+comunque».
+
+---
+
 # CAA Writer 0.16.0 — aggiornamenti della libreria per singolo pacchetto
 
 Data: 23 novembre 2026

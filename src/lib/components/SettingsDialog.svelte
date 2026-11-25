@@ -20,6 +20,7 @@ import { resetDecisionStatus } from "../decision/client";
     ToolOutcome,
     EditorMetrics,
     RuntimeDiagnostics,
+    UpdateInfo,
   } from "../types";
 
   interface Props {
@@ -232,6 +233,38 @@ import { resetDecisionStatus } from "../decision/client";
       onToast(error instanceof Error ? error.message : String(error), "error");
     } finally {
       diagnosticsBusy = false;
+    }
+  }
+
+  let updateInfo = $state<UpdateInfo | null>(null);
+  let updateBusy = $state(false);
+
+  /// Controllo esplicito: la fascia all'avvio può essere chiusa in fretta o
+  /// non comparire se la rete era assente. Qui l'esito è sempre dichiarato.
+  async function checkSoftwareUpdates() {
+    if (updateBusy || !isTauri()) return;
+    updateBusy = true;
+    try {
+      updateInfo = await api.checkUpdates();
+      for (const warning of updateInfo.warnings) onToast(warning, "warn");
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
+    } finally {
+      updateBusy = false;
+    }
+  }
+
+  /// Scarica il pacchetto della versione nuova e apre l'installatore del
+  /// sistema: nessun file viene sostituito senza che l'utente lo confermi.
+  async function downloadSoftwareUpdate() {
+    try {
+      await api.downloadStart("update");
+      onToast(
+        "Download dell'aggiornamento avviato: al termine si apre l'installatore.",
+        "info"
+      );
+    } catch (error) {
+      onToast(error instanceof Error ? error.message : String(error), "error");
     }
   }
 
@@ -1092,6 +1125,37 @@ import { resetDecisionStatus } from "../decision/client";
           {#each appInfo.warnings as warning}
             <p class="warn">{warning}</p>
           {/each}
+          {#if isTauri()}
+            <div class="update-check">
+              <div>
+                <strong>Aggiornamenti dell'applicazione</strong>
+                {#if updateInfo?.software_available && updateInfo.latest_version}
+                  <p class="hint">
+                    Versione {updateInfo.latest_version} disponibile: il download sceglie il
+                    pacchetto per questo computer e apre l'installatore.
+                  </p>
+                {:else if updateInfo}
+                  <p class="hint">
+                    Nessuna versione più recente di {updateInfo.current_version}.
+                  </p>
+                {:else}
+                  <p class="hint">Controlla se nel repository c'è una versione più recente.</p>
+                {/if}
+              </div>
+              <div class="update-check__actions">
+                <button
+                  class="btn"
+                  disabled={updateBusy}
+                  onclick={() => void checkSoftwareUpdates()}
+                >{updateBusy ? "Controllo…" : "Controlla aggiornamenti"}</button>
+                {#if updateInfo?.software_available}
+                  <button class="btn btn--solid" onclick={() => void downloadSoftwareUpdate()}>
+                    Scarica {updateInfo.latest_version}
+                  </button>
+                {/if}
+              </div>
+            </div>
+          {/if}
         </section>
       {/if}
     </div>
@@ -1168,6 +1232,23 @@ import { resetDecisionStatus } from "../decision/client";
     font-size: 0.8rem;
     color: #b45309;
     margin: 4px 0;
+  }
+  .update-check {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px solid var(--border, rgba(100, 116, 139, 0.35));
+    border-radius: var(--radius, 10px);
+    background: var(--surface-alt, rgba(148, 163, 184, 0.08));
+  }
+  .update-check__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
   .facts {
     display: grid;
