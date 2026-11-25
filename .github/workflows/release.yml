@@ -209,15 +209,6 @@ jobs:
           NO_STRIP: "true"
         run: |
           set -euo pipefail
-          if [ "${{ runner.os }}" = "macOS" ]; then
-            # Firma ad-hoc dell'intero bundle: macOS su Apple Silicon rifiuta
-            # un'app con la sola firma del linker («code has no resources but
-            # signature indicates they must be present»), che l'utente vede
-            # come «CAA Writer è danneggiata». Senza un certificato Developer
-            # ID la firma ad-hoc è l'unica possibile, ma rende il bundle
-            # coerente: l'app si apre con «Apri comunque».
-            export APPLE_SIGNING_IDENTITY="-"
-          fi
           VERBOSE=""
           if [ "${{ matrix.name }}" = "linux-x64" ]; then
             VERBOSE="--verbose"
@@ -227,8 +218,30 @@ jobs:
             # «Could not find dependency: libggml-base.so.1».
             export LD_LIBRARY_PATH="$PWD/resources/ai/runtime${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
           fi
-          npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
-            --bundles "${{ matrix.bundles }}" --features onnx
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            # Firma ad-hoc dell'intero bundle: macOS su Apple Silicon rifiuta
+            # un'app con la sola firma del linker («code has no resources but
+            # signature indicates they must be present»), che l'utente vede
+            # come «CAA Writer è danneggiata». Senza un certificato Developer
+            # ID la firma ad-hoc è l'unica possibile, ma rende il bundle
+            # coerente: l'app si apre con «Apri comunque».
+            export APPLE_SIGNING_IDENTITY="-"
+            # Su x86_64 i binari non hanno la firma del linker e il bundler
+            # firma solo l'eseguibile principale e il `.app`: copiare
+            # `caa-cli` e `caa-mcp` non firmati fa fallire `codesign` sul
+            # bundle. Si compilano prima i binari, si firmano ad-hoc, poi si
+            # crea il bundle (che ricopia i binari già firmati).
+            RELEASE_DIR="src-tauri/target/${{ matrix.target }}/release"
+            npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
+              --no-bundle --features onnx
+            codesign --force --sign - --timestamp=none \
+              "$RELEASE_DIR/caa-writer" "$RELEASE_DIR/caa-cli" "$RELEASE_DIR/caa-mcp"
+            npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
+              --bundles "${{ matrix.bundles }}" --features onnx
+          else
+            npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
+              --bundles "${{ matrix.bundles }}" --features onnx
+          fi
 
       # Controllo che il bundle macOS sia firmato in modo coerente, così il
       # DMG scaricato non viene segnalato come danneggiato.
