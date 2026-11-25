@@ -231,13 +231,20 @@ jobs:
             # `caa-cli` e `caa-mcp` non firmati fa fallire `codesign` sul
             # bundle. Si compilano prima i binari, si firmano ad-hoc, poi si
             # crea il bundle (che ricopia i binari già firmati).
+            #
+            # `beforeBuildCommand` è vuoto in entrambe le invocazioni: se il
+            # frontend venisse ricostruito fra le due, `tauri-build`
+            # ricompilerebbe l'eseguibile e la firma appena apposta andrebbe
+            # persa. Il frontend si costruisce una volta sola, prima.
+            NO_HOOK='{"build":{"beforeBuildCommand":""}}'
             RELEASE_DIR="src-tauri/target/${{ matrix.target }}/release"
+            npm run build
             npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
-              --no-bundle --features onnx
+              --no-bundle --features onnx --config "$NO_HOOK"
             codesign --force --sign - --timestamp=none \
               "$RELEASE_DIR/caa-writer" "$RELEASE_DIR/caa-cli" "$RELEASE_DIR/caa-mcp"
             npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
-              --bundles "${{ matrix.bundles }}" --features onnx
+              --bundles "${{ matrix.bundles }}" --features onnx --config "$NO_HOOK"
           else
             npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
               --bundles "${{ matrix.bundles }}" --features onnx
