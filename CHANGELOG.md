@@ -4,6 +4,40 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.16.2 — 2026-11-26
+
+### Windows: la lettura non apre più la finestra «piper.exe — Errore di sistema»
+
+A ogni frase da pronunciare compariva una finestra di sistema che chiedeva di
+chiudere il programma:
+
+```text
+piper.exe - Errore di sistema
+L'esecuzione del codice non può proseguire perché piper_phonemize.dll
+non è stato trovato. Per risolvere il problema, prova a reinstallare il
+programma.
+```
+
+(al posto di `piper_phonemize.dll` anche `espeak-ng.dll`). La causa non era il
+download: `piper_windows_amd64.zip` veniva estratto correttamente in
+`<dati>/voice/piper/piper/` con DLL, `espeak-ng-data` e modello ONNX. Era il
+passaggio successivo, `link_engine`, a copiare **solo** `piper.exe` in
+`<dati>/voice/bin/`: il loader di Windows cerca le DLL nella cartella
+dell'eseguibile, non le trovava e apriva il dialogo a ogni lettura.
+
+- Su Windows il motore si esegue dal runtime estratto, con DLL ed
+  `espeak-ng-data` accanto; la copia incompleta lasciata dalle versioni
+  precedenti viene rimossa.
+- `voice::runtime_is_complete` scarta un `piper.exe` isolato: le installazioni
+  già rotte passano al runtime integro **senza riscaricare nulla**, e
+  `voice_status` dichiara `system` finché il motore non è completo.
+- `SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX)` all'avvio e
+  prima di ogni processo figlio: se una DLL manca davvero, l'errore resta un
+  errore di avvio e la lettura ricade sulla voce di sistema, senza finestre di
+  sistema da chiudere.
+- Il download della voce verifica il runtime dopo l'estrazione e fallisce con
+  un messaggio esplicito invece di dichiarare installato un motore inutilizzabile.
+
 ## 0.16.1 — 2026-11-25
 
 ### L'aggiornamento dall'app funziona di nuovo, il bundle macOS non è più «danneggiato»

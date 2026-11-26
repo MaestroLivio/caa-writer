@@ -257,7 +257,7 @@ fn open_installer(path: &Path) -> Result<(), String> {
 fn run_voice(app: &AppHandle, id: &str) -> Result<String, String> {
     let engine = app.state::<Engine>();
     let voice_dir = engine.paths.data_dir.join("voice");
-    std::fs::create_dir_all(voice_dir.join("bin"))
+    std::fs::create_dir_all(&voice_dir)
         .map_err(|error| format!("cartella voce: {error}"))?;
 
     let progress = progress_for(id);
@@ -318,8 +318,16 @@ fn run_voice(app: &AppHandle, id: &str) -> Result<String, String> {
         },
     )?;
 
-    // 3. Collega il motore nella posizione attesa da `voice::resolve`.
-    link_engine(&voice_dir)?;
+    // 3. Collega il motore nella posizione attesa da `voice::resolve` e
+    // verifica che sia davvero avviabile: un runtime senza DLL non deve
+    // risultare installato.
+    let installed = link_engine(&voice_dir)?;
+    if !crate::voice::runtime_is_complete(&installed) {
+        return Err(format!(
+            "il motore Piper in {} è incompleto: mancano le librerie accanto all'eseguibile",
+            installed.display()
+        ));
+    }
     Ok("Voce neurale italiana installata: lettura offline con Piper.".to_string())
 }
 
@@ -417,7 +425,14 @@ fn extract_piper(archive: &Path, voice_dir: &Path) -> Result<(), String> {
     Ok(())
 }
 
-fn link_engine(voice_dir: &Path) -> Result<(), String> {
+/// Rende il runtime estratto raggiungibile da `voice::resolve`.
+///
+/// Su Windows non si copia nulla: il loader cerca le DLL nella cartella
+/// dell'eseguibile e un `piper.exe` isolato in `bin/` faceva comparire la
+/// finestra «piper_phonemize.dll non è stato trovato» a ogni lettura. Si usa
+/// il runtime estratto, che tiene DLL ed `espeak-ng-data` accanto al motore;
+/// la copia incompleta lasciata dalle versioni precedenti viene rimossa.
+fn link_engine(voice_dir: &Path) -> Result<PathBuf, String> {
     let candidates: Vec<PathBuf> = if cfg!(windows) {
         vec![
             voice_dir.join("piper").join("piper").join("piper.exe"),
@@ -431,7 +446,8 @@ fn link_engine(voice_dir: &Path) -> Result<(), String> {
     };
     let engine = candidates
         .iter()
-        .find(|path| path.is_file())
+        .find(|path| path.is_file() && crate::voice::runtime_is_complete(path))
+        .or_else(|| candidates.iter().find(|path| path.is_file()))
         .cloned()
         .ok_or_else(|| {
             format!(
@@ -440,20 +456,32 @@ fn link_engine(voice_dir: &Path) -> Result<(), String> {
             )
         })?;
     let bin = voice_dir.join("bin");
-    std::fs::create_dir_all(&bin).map_err(|error| error.to_string())?;
     let target = bin.join(if cfg!(windows) { "piper.exe" } else { "piper" });
-    if !target.exists() {
-        #[cfg(unix)]
-        {
-            std::os::unix::fs::symlink(&engine, &target)
-                .map_err(|error| format!("collegamento Piper: {error}"))?;
+
+    #[cfg(windows)]
+    {
+        // La cartella `bin` serviva solo al collegamento: qui il motore si
+        // esegue dalla sua cartella, dove stanno le DLL. Si toglie solo la
+        // copia che non potrebbe comunque partire.
+        if !crate::voice::runtime_is_complete(&target) {
+            let _ = std::fs::remove_file(&target);
         }
-        #[cfg(not(unix))]
-        {
-            std::fs::copy(&engine, &target).map_err(|error| format!("copia Piper: {error}"))?;
-        }
+        let _ = std::fs::remove_dir(&bin);
     }
-    Ok(())
+    #[cfg(unix)]
+    {
+        std::fs::create_dir_all(&bin).map_err(|error| error.to_string())?;
+        // Un collegamento stantio (motore spostato o reinstallato) si rifà.
+        let _ = std::fs::remove_file(&target);
+        std::os::unix::fs::symlink(&engine, &target)
+            .map_err(|error| format!("collegamento Piper: {error}"))?;
+    }
+    #[cfg(all(not(windows), not(unix)))]
+    {
+        std::fs::create_dir_all(&bin).map_err(|error| error.to_string())?;
+        std::fs::copy(&engine, &target).map_err(|error| format!("copia Piper: {error}"))?;
+    }
+    Ok(engine)
 }
 
 /// Percorso del modello scaricato, utile al frontend per lo stato.
@@ -478,6 +506,31 @@ mod tests {
             assert!(url.contains("macos"));
             assert!(archive.ends_with(".tar.gz"));
         }
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn link_engine_does_not_leave_a_lone_executable_in_bin() {
+        let dir = tempfile::tempdir().unwrap();
+        let voice_dir = dir.path().join("voice");
+        let full = voice_dir.join("piper").join("piper");
+        std::fs::create_dir_all(&full).unwrap();
+        std::fs::write(full.join("piper.exe"), b"exe").unwrap();
+        for name in ["piper_phonemize.dll", "espeak-ng.dll", "onnxruntime.dll"] {
+            std::fs::write(full.join(name), b"dll").unwrap();
+        }
+        std::fs::create_dir_all(full.join("espeak-ng-data")).unwrap();
+        // Copia incompleta lasciata dalle versioni precedenti.
+        std::fs::create_dir_all(voice_dir.join("bin")).unwrap();
+        std::fs::write(voice_dir.join("bin").join("piper.exe"), b"exe").unwrap();
+
+        let engine = link_engine(&voice_dir).unwrap();
+        assert_eq!(engine, full.join("piper.exe"));
+        assert!(
+            !voice_dir.join("bin").join("piper.exe").exists(),
+            "il piper.exe isolato deve sparire"
+        );
+        assert!(crate::voice::runtime_is_complete(&engine));
     }
 
     #[test]

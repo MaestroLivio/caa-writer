@@ -52,6 +52,12 @@ pub struct PendingOpen(pub std::sync::Mutex<Option<String>>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Su Windows le finestre di errore di sistema (DLL mancante in un processo
+    // figlio) vanno spente subito: l'app deve degradare alla voce di sistema,
+    // non chiedere all'utente di chiudere un dialogo.
+    #[cfg(windows)]
+    crate::process::suppress_system_error_dialogs();
+
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {

@@ -76,6 +76,40 @@ pub struct InstalledVoice {
     pub model: String,
 }
 
+/// File che il runtime Piper su Windows deve avere accanto a `piper.exe`.
+///
+/// Il loader di Windows cerca le DLL nella cartella dell'eseguibile: se il
+/// motore viene copiato altrove da solo, la lettura fallisce con
+/// «piper_phonemize.dll non è stato trovato» invece di usare la voce di
+/// sistema.
+#[cfg_attr(not(windows), allow(dead_code))]
+const WINDOWS_RUNTIME_FILES: [&str; 3] = ["piper_phonemize.dll", "espeak-ng.dll", "onnxruntime.dll"];
+
+/// Vero se il motore è utilizzabile davvero: il file esiste e, su Windows,
+/// accanto ci sono le DLL e `espeak-ng-data`.
+///
+/// Serve a scartare un `piper.exe` copiato senza il resto del runtime, che
+/// altrimenti verrebbe scelto perché il file esiste ed è il primo candidato.
+pub fn runtime_is_complete(engine: &Path) -> bool {
+    if !engine.is_file() {
+        return false;
+    }
+    #[cfg(windows)]
+    {
+        let Some(directory) = engine.parent() else {
+            return false;
+        };
+        WINDOWS_RUNTIME_FILES
+            .iter()
+            .all(|name| directory.join(name).is_file())
+            && directory.join("espeak-ng-data").is_dir()
+    }
+    #[cfg(not(windows))]
+    {
+        true
+    }
+}
+
 /// Cerca motore e modello nelle posizioni note. Ordine: variabili d'ambiente,
 /// runtime incluso nelle risorse, ambiente di sviluppo del repository.
 pub fn resolve(
@@ -108,9 +142,13 @@ pub fn resolve(
     if let Some(parent) = resources_dir.parent() {
         candidates.push(parent.join(".voice-venv").join("bin").join(engine_name));
     }
+    // Un runtime incompleto non deve essere scelto: su Windows il solo
+    // `piper.exe` in `bin/` (installazioni fino alla 0.15.24) non carica le
+    // DLL e mostra un errore di sistema. Si prosegue con il runtime integro
+    // estratto in `voice/piper/`.
     let engine = candidates
         .into_iter()
-        .find(|path| path.is_file())?;
+        .find(|path| runtime_is_complete(path))?;
 
     let base = std::env::var("CAA_VOICE_MODEL")
         .ok()
@@ -191,7 +229,7 @@ pub fn status(resources_dir: &Path, data_dir: &Path, language: Option<&str>) -> 
                     "Voce neurale per «{}» non installata: uso la voce di sistema.",
                     selected.name
                 ),
-                "Esegui scripts/setup_voice.sh per installare le voci.".to_string(),
+                "Installa la voce da Impostazioni → Pacchetti e aggiornamenti → Voci.".to_string(),
             ],
             voices,
         },
@@ -416,6 +454,15 @@ mod tests {
         // stesso nome che `resolve` cerca, altrimenti il test fallisce solo lì.
         let engine_name = if cfg!(windows) { "piper.exe" } else { "piper" };
         fs::write(voice_dir.join("bin").join(engine_name), b"#!/bin/sh\n").unwrap();
+        // Su Windows il motore si considera utilizzabile solo con le DLL e
+        // `espeak-ng-data` accanto: il fixture deve riprodurre un runtime
+        // completo, altrimenti `resolve` lo scarta (ed è giusto che lo faccia).
+        if cfg!(windows) {
+            for name in WINDOWS_RUNTIME_FILES {
+                fs::write(voice_dir.join("bin").join(name), b"dll").unwrap();
+            }
+            fs::create_dir_all(voice_dir.join("bin").join("espeak-ng-data")).unwrap();
+        }
         for voice in language_models {
             fs::write(voice_dir.join(format!("{}.onnx", voice.name)), b"model").unwrap();
             fs::write(
@@ -447,6 +494,49 @@ mod tests {
         assert_eq!(status.backend, "system");
         assert_eq!(status.voices.len(), 1);
         assert_eq!(status.voices[0].name, "it_IT-serena-medium");
+    }
+
+    #[test]
+    fn incomplete_runtime_is_not_a_usable_engine() {
+        let dir = tempfile::tempdir().unwrap();
+        assert!(!runtime_is_complete(&dir.path().join("piper-assente")));
+        let engine_name = if cfg!(windows) { "piper.exe" } else { "piper" };
+        let engine = dir.path().join(engine_name);
+        fs::write(&engine, b"#!/bin/sh\n").unwrap();
+        if cfg!(windows) {
+            // Solo l'eseguibile: è la situazione che produceva l'errore
+            // «piper_phonemize.dll non è stato trovato».
+            assert!(!runtime_is_complete(&engine));
+            for name in WINDOWS_RUNTIME_FILES {
+                fs::write(dir.path().join(name), b"dll").unwrap();
+            }
+            fs::create_dir_all(dir.path().join("espeak-ng-data")).unwrap();
+        }
+        assert!(runtime_is_complete(&engine));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn resolve_skips_the_lone_executable_and_uses_the_full_runtime() {
+        // Installazione fino alla 0.15.24: `bin/piper.exe` copiato senza DLL e
+        // runtime integro in `piper/piper/`.
+        let (dir, resources) = resources_with(&[ITALIAN_VOICE]);
+        let voice_dir = resources.join("voice");
+        let full = voice_dir.join("piper").join("piper");
+        fs::create_dir_all(&full).unwrap();
+        fs::write(full.join("piper.exe"), b"#!/bin/sh\n").unwrap();
+        for name in WINDOWS_RUNTIME_FILES {
+            fs::write(full.join(name), b"dll").unwrap();
+        }
+        fs::create_dir_all(full.join("espeak-ng-data")).unwrap();
+        // Il fixture di `resources_with` crea un `bin/piper.exe` completo: qui
+        // si toglie il runtime per riprodurre il caso rotto.
+        for name in WINDOWS_RUNTIME_FILES {
+            fs::remove_file(voice_dir.join("bin").join(name)).unwrap();
+        }
+        fs::remove_dir_all(voice_dir.join("bin").join("espeak-ng-data")).unwrap();
+        let paths = resolve(&resources, dir.path(), Some("it")).unwrap();
+        assert_eq!(paths.engine, full.join("piper.exe"));
     }
 
     #[test]

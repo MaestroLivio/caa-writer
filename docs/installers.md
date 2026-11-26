@@ -1,5 +1,34 @@
 # Release e installer
 
+## Stato reale 0.16.2 (26 novembre 2026)
+
+Correzione della voce neurale su Windows. `link_engine` copiava soltanto
+`piper.exe` in `<dati>/voice/bin/`, lasciando DLL ed `espeak-ng-data` in
+`<dati>/voice/piper/piper/`: il loader di Windows non li trovava e a ogni
+lettura compariva la finestra «piper.exe — L'esecuzione del codice non può
+proseguire perché piper_phonemize.dll non è stato trovato» (o `espeak-ng.dll`).
+
+- Il motore si esegue dal runtime estratto, con DLL ed `espeak-ng-data` accanto;
+  la copia incompleta delle versioni precedenti viene rimossa.
+- `voice::runtime_is_complete` scarta un `piper.exe` isolato: le installazioni
+  già rotte passano al runtime integro senza riscaricare nulla.
+- `SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX)` spegne le
+  finestre di errore del loader; se una DLL manca davvero, la lettura ricade
+  sulla voce di sistema.
+
+Verifiche reali (macOS arm64):
+
+```text
+cargo test --all-targets --features onnx    326 lib + integrazione, 0 falliti
+npm run build / npm run check                 ok, 0 errori
+npm run test:frontend                         75/75
+cargo xwin check --all-targets --target x86_64-pc-windows-msvc   compila
+```
+
+Il comportamento Windows è coperto dai test `runtime_is_complete`,
+`resolve` che scarta l'eseguibile isolato, `link_engine` senza copia sola e
+maschera di `SetErrorMode`; l'esecuzione reale è nella CI del tag `v0.16.2`.
+
 ## Stato reale 0.15.24 (22 novembre 2026)
 
 Patch di manutenzione sulla 0.15.23, con tre correzioni emerse dai test su
@@ -353,19 +382,43 @@ Per macOS x64 il workflow forza `bin-macos-x64`, perché il runner `macos-latest
 è arm64. I pacchetti restano non firmati. **Il workflow non è stato eseguito in
 questa sessione**: richiede un repository GitHub e il push del tag.
 
-## Voce neurale nell'installer
+## Voce neurale: download al primo avvio, non nell'installer
 
-Il runtime vocale neurale è **incluso nell’installer Windows**: voci `it_IT-serena-medium` e
-`en_GB-cori-high` in `resources/voice/*.onnx`, motore `resources/voice/piper-win/piper.exe` con
-DLL ed `espeak-ng-data`. `voice::resolve` cerca `piper-win/piper.exe`; il processo parte dalla
-cartella del runtime per caricare le DLL. Su macOS il runtime Piper arm64 non è incluso e la
-lettura usa la voce di sistema (in sviluppo è possibile usare `.voice-venv/bin/piper`). Se il
-motore manca, `voice_status` lo dichiara con `backend: "system"`.
+Il runtime vocale **non è dentro gli installer**: `resources/voice` pesa circa
+250 MB e resterebbe inutilizzato su chi non usa la sintesi. Al primo avvio il
+pacchetto `voice` scarica da solo:
 
-Per avere la voce neurale in una installazione confezionata serve impacchettare Piper con le sue
-dylib (il pacchetto macOS ufficiale è incompleto) oppure distribuire un runtime Python dedicato.
-Questo è il limite 35 di `Contesto.md`: la voce locale è operativa in sviluppo tramite
-`scripts/setup_voice.sh`, non nell'installer.
+- `piper_windows_amd64.zip` (Windows), `piper_macos_aarch64.tar.gz` (macOS
+  arm64) o `piper_linux_x86_64.tar.gz` dai rilasci `rhasspy/piper`
+  `2023.11.14-2`, estratto in `<dati>/voice/piper/`;
+- `it_IT-serena-medium.onnx` e il suo `.json` da
+  `rhasspy/piper-voices` (Hugging Face).
+
+`voice::resolve` cerca il motore nelle risorse (`voice/piper-win`,
+`voice/piper`) e poi in `<dati>/voice/{bin,piper/piper,piper}`. Il processo
+parte dalla cartella dell'eseguibile, dove stanno DLL ed `espeak-ng-data`.
+
+**Correzione 0.16.2.** Fino alla 0.16.1 su Windows `link_engine` copiava
+soltanto `piper.exe` in `<dati>/voice/bin/`, lasciando DLL e `espeak-ng-data` in
+`<dati>/voice/piper/piper/`. Il loader di Windows non le trovava e a ogni
+lettura compariva la finestra di sistema «piper.exe — L'esecuzione del codice
+non può proseguire perché piper_phonemize.dll non è stato trovato» (oppure
+`espeak-ng.dll`). Ora:
+
+- su Windows non si copia nulla: si usa il runtime estratto, con DLL ed
+  `espeak-ng-data` accanto al motore; la copia incompleta delle versioni
+  precedenti viene rimossa;
+- `voice::runtime_is_complete` scarta un `piper.exe` isolato, quindi anche le
+  installazioni già rotte passano al runtime integro senza riscaricare nulla;
+- `SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX)` spegne le
+  finestre di errore del loader per l'app e i suoi processi figli: se una DLL
+  manca davvero, la lettura ricade sulla voce di sistema senza dialoghi.
+
+Su macOS il runtime Piper arm64 incluso nel pacchetto ufficiale è incompleto e
+la voce neurale si installa con lo stesso download; in sviluppo resta
+`.voice-venv/bin/piper`. Se il motore manca o è incompleto, `voice_status` lo
+dichiara con `backend: "system"` e il pulsante «Scarica e installa la voce» in
+Impostazioni → Pacchetti e aggiornamenti → Voci.
 
 La licenza della voce inglese (`en_GB-cori-high`, dataset LibriVox di pubblico dominio) e quella
 della voce italiana (`it_IT-serena-medium`, CC BY 4.0 con attribuzione) vanno riportate nel
