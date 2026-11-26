@@ -214,6 +214,10 @@ jobs:
             VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
             BUNDLES_DIR="src-tauri/target/${{ matrix.target }}/release/bundle"
             APP="$BUNDLES_DIR/macos/CAA Writer.app"
+            # La cache Rust può contenere build script con path Homebrew/ORT
+            # assoluti non validi sul runner del bundle; rigenerarli qui come
+            # nel job test prima di linkare dav1d-sys e ort-sys.
+            (cd src-tauri && cargo clean -p dav1d-sys -p ort-sys)
             npm run build
             npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
               --bundles app --features onnx --config "$NO_HOOK"
