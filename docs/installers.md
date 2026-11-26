@@ -1,13 +1,34 @@
 # Release e installer
 
-## Preparazione 0.16.4
+## Stato reale 0.16.4 (26 novembre 2026)
 
-La versione è in preparazione: non è ancora stata pubblicata. Il bundle
-esclude `resources/symbol-packs/core`; all'avvio, il database migra gli
-override verso ARASAAC/Global Symbols dello stesso concetto se disponibili e
-rimuove il repertorio interno residuo. Il filtro dei contenuti espliciti è
-esteso alle etichette inglesi. Gli esiti di build, test e release saranno
-aggiunti qui solo dopo averli verificati.
+La release GitHub [`v0.16.4`](https://github.com/MaestroLivio/caa-writer/releases/tag/v0.16.4)
+è pubblicata ed è la release più recente. Il bundle esclude
+`resources/symbol-packs/core`; all'avvio, il database migra gli override verso
+ARASAAC/Global Symbols dello stesso concetto se disponibili e rimuove il
+repertorio interno residuo. Il filtro dei contenuti espliciti include le
+etichette inglesi.
+
+Il workflow release 45884258896 ha completato con successo test Rust e
+frontend su macOS, Windows e Linux, e i bundle Windows x64 e macOS arm64.
+Verifiche automatiche macOS: firma ad-hoc dell'app e controllo della firma
+completati. Non è stata eseguita un'installazione manuale su hardware Windows.
+I pacchetti non sono firmati con certificato di distribuzione né notarizzati.
+
+Asset pubblicati (dimensioni e SHA-256 riportati da GitHub):
+
+| Asset | Byte | SHA-256 |
+|---|---:|---|
+| `CAA-Writer_0.16.4_macos-arm64.dmg` | 210.479.550 | `3d723af7565d0e8d989b4cc14c4624d60f36a337dabe487360659853666641eb` |
+| `CAA-Writer_0.16.4_macos-arm64.app.zip` | 204.236.978 | `e31085abf27922de413a1fc691e0b56878d592e86b7a3fbba7feb4ab288bb53f` |
+| `CAA-Writer_0.16.4_windows-x64-setup.exe` | 159.633.176 | `9faadf21fc610c6fe2f91da10dd932b22767d7fe2e87e82923c3bb52ee1a8605` |
+| `CAA.Writer_0.16.4_x64_en-US.msi` | 208.989.010 | `61d2d3cebb85efc7198e97dc435ae2d562e097816cb6c7331455e261303bd1b4` |
+| `CAA.Writer_0.16.4_x64_it-IT.msi` | 208.991.131 | `8e4178c58df51c72ed665d3bece25d3915efc6da9392822347d90f132562a8a3` |
+
+I file `SHA256SUMS-macos-arm64.txt` e `SHA256SUMS-windows-x64.txt` sono
+pubblicati nella release. I nomi delle MSI nel secondo checksum sono stati
+corretti dopo la pubblicazione per corrispondere ai nomi effettivi degli asset;
+gli hash coincidono con i digest SHA-256 esposti da GitHub.
 
 ## Stato reale 0.16.3 (26 novembre 2026)
 
@@ -402,15 +423,15 @@ Il workflow `.github/workflows/release.yml` parte da un tag `v*` e:
 1. esegue test su macOS, Windows e Linux;
 2. scarica modello, runtime e catalogo ARASAAC con
    `scripts/fetch_release_assets.py`;
-3. compila bundle nativi con una matrice: macOS arm64, macOS x64, Windows x64,
-   Linux x64;
+3. compila i bundle nativi previsti dalla matrice del workflow;
 4. calcola gli SHA-256 e raccoglie gli artefatti;
-5. crea una GitHub Release **solo se il tag corrisponde alla versione** in
+5. crea una GitHub Release solo se il tag corrisponde alla versione in
    `tauri.conf.json` e la release non esiste già.
 
-Per macOS x64 il workflow forza `bin-macos-x64`, perché il runner `macos-latest`
-è arm64. I pacchetti restano non firmati. **Il workflow non è stato eseguito in
-questa sessione**: richiede un repository GitHub e il push del tag.
+Per la release `v0.16.4` il workflow ha prodotto macOS arm64 e Windows x64.
+La firma macOS è ad-hoc; non vengono usati certificati di distribuzione o
+notarizzazione. La matrice va consultata nel workflow per sapere quali target
+sono inclusi in ciascuna release.
 
 ## Voce neurale: download al primo avvio, non nell'installer
 
