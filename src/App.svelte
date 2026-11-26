@@ -2339,12 +2339,8 @@
       return;
     }
     if (!settings.speech_enabled) {
-      if (!silent) {
-        toast(
-          "Sintesi vocale disattivata. Attivala in Impostazioni → Accessibilità.",
-          "warn"
-        );
-      }
+      // La disattivazione è una preferenza esplicita: non riproporre inviti
+      // ad attivarla, né durante la scrittura né dopo un comando manuale.
       return;
     }
     if (!native) {

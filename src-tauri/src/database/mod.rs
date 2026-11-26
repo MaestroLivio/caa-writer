@@ -175,6 +175,82 @@ fn svg_from_file(path: &str) -> Option<String> {
 }
 
 impl Database {
+    /// Rimuove il vecchio repertorio interno, sostituendo le associazioni
+    /// salvate con ARASAAC/Global Symbols dello stesso concetto quando esistono.
+    pub fn remove_legacy_core_symbols(&mut self) -> DbResult<usize> {
+        let tx = self.conn_mut().transaction()?;
+        tx.execute(
+            "UPDATE document_overrides
+             SET symbol_id = (
+                 SELECT replacement.id FROM symbols old
+                 JOIN symbols replacement ON replacement.concept_id = old.concept_id
+                 WHERE old.id = document_overrides.symbol_id
+                   AND old.pack_id = 'core'
+                   AND replacement.pack_id IN ('arasaac', 'globalsymbols')
+                   AND replacement.hide = 0
+                 ORDER BY CASE replacement.pack_id WHEN 'arasaac' THEN 0 ELSE 1 END, replacement.id
+                 LIMIT 1
+             ),
+             locked = CASE WHEN EXISTS (
+                 SELECT 1 FROM symbols old
+                 JOIN symbols replacement ON replacement.concept_id = old.concept_id
+                 WHERE old.id = document_overrides.symbol_id
+                   AND old.pack_id = 'core'
+                   AND replacement.pack_id IN ('arasaac', 'globalsymbols')
+                   AND replacement.hide = 0
+             ) THEN locked ELSE 0 END
+             WHERE symbol_id IN (SELECT id FROM symbols WHERE pack_id = 'core')",
+            [],
+        )?;
+        tx.execute(
+            "UPDATE symbol_preferences
+             SET symbol_id = (
+                 SELECT replacement.id FROM symbols old
+                 JOIN symbols replacement ON replacement.concept_id = old.concept_id
+                 WHERE old.id = symbol_preferences.symbol_id
+                   AND old.pack_id = 'core'
+                   AND replacement.pack_id IN ('arasaac', 'globalsymbols')
+                   AND replacement.hide = 0
+                 ORDER BY CASE replacement.pack_id WHEN 'arasaac' THEN 0 ELSE 1 END, replacement.id
+                 LIMIT 1
+             )
+             WHERE symbol_id IN (SELECT id FROM symbols WHERE pack_id = 'core')
+               AND EXISTS (
+                 SELECT 1 FROM symbols old
+                 JOIN symbols replacement ON replacement.concept_id = old.concept_id
+                 WHERE old.id = symbol_preferences.symbol_id
+                   AND old.pack_id = 'core'
+                   AND replacement.pack_id IN ('arasaac', 'globalsymbols')
+                   AND replacement.hide = 0
+               )",
+            [],
+        )?;
+        tx.execute(
+            "DELETE FROM symbol_preferences
+             WHERE symbol_id IN (SELECT id FROM symbols WHERE pack_id = 'core')",
+            [],
+        )?;
+        let removed = tx.execute(
+            "DELETE FROM symbol_fts
+             WHERE symbol_id IN (SELECT id FROM symbols WHERE pack_id = 'core')",
+            [],
+        )?;
+        tx.execute(
+            "DELETE FROM symbol_assets
+             WHERE symbol_id IN (SELECT id FROM symbols WHERE pack_id = 'core')",
+            [],
+        )?;
+        tx.execute(
+            "DELETE FROM symbol_licenses
+             WHERE symbol_id IN (SELECT id FROM symbols WHERE pack_id = 'core')",
+            [],
+        )?;
+        tx.execute("DELETE FROM symbols WHERE pack_id = 'core'", [])?;
+        tx.execute("DELETE FROM symbol_packs WHERE id = 'core'", [])?;
+        tx.commit()?;
+        Ok(removed)
+    }
+
     pub fn open(path: &Path) -> DbResult<Self> {
         if let Some(parent) = path.parent() {
             let _ = std::fs::create_dir_all(parent);
@@ -353,7 +429,7 @@ impl Database {
              WHERE s.concept_id = ?1 AND s.hide = 0
                AND (?2 IS NULL OR s.pack_id = ?2)
                AND (?3 = 0 OR p.commercial_ok = 1)
-             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
+             ORDER BY CASE s.pack_id WHEN 'arasaac' THEN 0 WHEN 'globalsymbols' THEN 1 WHEN 'personal' THEN 2 WHEN 'core' THEN 3 ELSE 4 END,
                       CASE s.status WHEN 'approved' THEN 0 ELSE 1 END, s.id
              LIMIT 24"
         );
@@ -389,7 +465,7 @@ impl Database {
                                WHERE k.symbol_id = s.id AND lower(trim(k.term)) = ?1))
                AND (?2 IS NULL OR s.pack_id = ?2)
                AND (?3 = 0 OR p.commercial_ok = 1)
-             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
+             ORDER BY CASE s.pack_id WHEN 'arasaac' THEN 0 WHEN 'globalsymbols' THEN 1 WHEN 'personal' THEN 2 WHEN 'core' THEN 3 ELSE 4 END,
                       CASE s.status WHEN 'approved' THEN 0 ELSE 1 END, s.id
              LIMIT 1"
         );
@@ -441,7 +517,7 @@ impl Database {
                 "{SYMBOL_SELECT} WHERE s.hide = 0 AND (?1 IS NULL OR s.pack_id = ?1)
                  AND (?2 = 0 OR p.commercial_ok = 1)
                  AND (?3 IS NULL OR s.collection_id = ?3)
-                 ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
+                 ORDER BY CASE s.pack_id WHEN 'arasaac' THEN 0 WHEN 'globalsymbols' THEN 1 WHEN 'personal' THEN 2 WHEN 'core' THEN 3 ELSE 4 END,
                           s.concept_id, s.id LIMIT ?4 OFFSET ?5"
             );
             let mut stmt = self.conn.prepare(&sql)?;
@@ -476,7 +552,7 @@ impl Database {
                    AND (?3 = 0 OR p.commercial_ok = 1)
                    AND (?4 IS NULL OR s.collection_id = ?4)
                  ORDER BY CASE WHEN lower(trim(s.label)) = ?7 THEN 0 ELSE 1 END,
-                          CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
+                          CASE s.pack_id WHEN 'arasaac' THEN 0 WHEN 'globalsymbols' THEN 1 WHEN 'personal' THEN 2 WHEN 'core' THEN 3 ELSE 4 END,
                           bm25(symbol_fts), s.id LIMIT ?5 OFFSET ?6"
             );
             if let Ok(mut stmt) = self.conn.prepare(&sql) {
@@ -523,7 +599,7 @@ impl Database {
             "{SYMBOL_SELECT} WHERE s.hide = 0 AND (lower(s.label) LIKE ?1 OR lower(IFNULL(s.meaning,'')) LIKE ?1)
              AND (?2 IS NULL OR s.pack_id = ?2) AND (?3 = 0 OR p.commercial_ok = 1)
              AND (?4 IS NULL OR s.collection_id = ?4)
-             ORDER BY CASE s.pack_id WHEN 'personal' THEN 0 WHEN 'arasaac' THEN 1 WHEN 'core' THEN 2 ELSE 3 END,
+             ORDER BY CASE s.pack_id WHEN 'arasaac' THEN 0 WHEN 'globalsymbols' THEN 1 WHEN 'personal' THEN 2 WHEN 'core' THEN 3 ELSE 4 END,
                       length(s.label), s.id LIMIT ?5 OFFSET ?6"
         );
         let mut stmt = self.conn.prepare(&sql)?;
@@ -1059,6 +1135,55 @@ mod tests {
         let q = fts_query("pesca \"frutto\" OR *");
         assert_eq!(q, "\"pesca\"* AND \"frutto\"* AND \"or\"*");
         assert!(!q.contains('('));
+    }
+
+    #[test]
+    fn legacy_core_override_migrates_to_external_symbol_before_deletion() {
+        let mut db = Database::open_memory().unwrap();
+        db.migrate().unwrap();
+        for (id, name) in [("core", "Core"), ("arasaac", "ARASAAC")] {
+            db.conn()
+                .execute(
+                    "INSERT INTO symbol_packs
+                     (id, name, version, commercial_ok, license, installed_at)
+                     VALUES (?1, ?2, '1', 0, 'CC BY-NC-SA 4.0', '2026-11-26')",
+                    params![id, name],
+                )
+                .unwrap();
+        }
+        for (id, pack) in [("core.dog", "core"), ("arasaac.dog", "arasaac")] {
+            db.conn()
+                .execute(
+                    "INSERT INTO symbols
+                     (id, concept_id, pack_id, label, format, license, created_at)
+                     VALUES (?1, 'animal.dog', ?2, 'cane', 'svg', 'CC BY-NC-SA 4.0', '2026-11-26')",
+                    params![id, pack],
+                )
+                .unwrap();
+        }
+        db.set_document_override(
+            "doc",
+            "p1:0",
+            Some("core.dog"),
+            Some("animal.dog"),
+            Some("cane"),
+        )
+        .unwrap();
+
+        db.remove_legacy_core_symbols().unwrap();
+
+        let override_record = db.document_override("doc", "p1:0").unwrap().unwrap();
+        assert_eq!(override_record.symbol_id.as_deref(), Some("arasaac.dog"));
+        assert_eq!(
+            db.conn()
+                .query_row(
+                    "SELECT COUNT(*) FROM symbols WHERE pack_id = 'core'",
+                    [],
+                    |row| row.get::<_, i64>(0),
+                )
+                .unwrap(),
+            0
+        );
     }
 
     #[test]

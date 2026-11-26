@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 
 const directory = fileURLToPath(new URL("../tests/frontend/", import.meta.url));
 const files = readdirSync(directory)
-  .filter((name) => name.endsWith(".test.mjs"))
+  .filter((name) => name.endsWith(".test.mjs") && !name.startsWith("._"))
   .sort()
   .map((name) => `${directory}${name}`);
 

@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "language": "it",
   "description": "Lessico italiano per CAA Writer. Un concetto = un significato; un lemma può avere più concetti. Le 'cues' guidano la disambiguazione deterministica (Livello 3) e servono da contesto per il reranking LLM opzionale.",
   "domains": {
@@ -3180,6 +3180,14 @@
     },
     {
       "lemma": "cane",
+      "pos": "noun",
+      "gender": "m",
+      "concepts": [
+        "animal.dog"
+      ]
+    },
+    {
+      "lemma": "cagnolino",
       "pos": "noun",
       "gender": "m",
       "concepts": [

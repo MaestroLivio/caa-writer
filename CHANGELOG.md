@@ -4,6 +4,18 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.16.4 — 2026-11-26
+
+### Scelte manuali stabili e repertori esterni prioritari
+
+- La sintesi vocale disattivata non mostra più inviti a riattivarla.
+- Gli override manuali per occorrenza vengono marcati come bloccati anche dopo
+  la rianalisi, impedendo al reranking automatico di sostituirli.
+- ARASAAC precede Global Symbols nei risultati; il pacchetto interno CAA Writer
+  non viene più distribuito e, in aggiornamento, le associazioni salvate vengono
+  migrate verso un simbolo esterno dello stesso concetto quando disponibile.
+- «Cagnolino» è riconosciuto come forma del concetto «cane».
+
 ## 0.16.3 — 2026-11-26
 
 ### macOS: bundle autosufficiente, senza dipendenze da Homebrew o dalla cartella di sviluppo

@@ -210,13 +210,6 @@ fn merge_symbol_packages(packs: &[PackInfo]) -> Vec<PackageInfo> {
             "https://globalsymbols.com/",
             true,
         ),
-        (
-            "core",
-            "CAA Writer — pittogrammi originali",
-            "CC BY-NC-SA 4.0",
-            "https://github.com/MaestroLivio/caa-writer",
-            false,
-        ),
     ];
     let by_id: std::collections::HashMap<&str, &PackInfo> =
         packs.iter().map(|pack| (pack.id.as_str(), pack)).collect();
@@ -254,7 +247,7 @@ fn merge_symbol_packages(packs: &[PackInfo]) -> Vec<PackageInfo> {
     }
     // Collezioni personali o repertori importati: restano quelle del database.
     for pack in packs {
-        if KNOWN_PACKS.iter().any(|(id, ..)| *id == pack.id) {
+        if pack.id == "core" || KNOWN_PACKS.iter().any(|(id, ..)| *id == pack.id) {
             continue;
         }
         symbols.push(PackageInfo {
@@ -975,11 +968,7 @@ mod tests {
         assert!(!arasaac.installed);
         assert!(arasaac.removable);
         assert!(symbols.iter().any(|item| item.id == "symbols:globalsymbols"));
-        let core = symbols
-            .iter()
-            .find(|item| item.id == "symbols:core")
-            .expect("il repertorio core resta incluso");
-        assert!(core.installed && core.bundled);
+        assert!(!symbols.iter().any(|item| item.id == "symbols:core"));
     }
 }
 

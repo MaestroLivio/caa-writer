@@ -542,6 +542,13 @@ impl Engine {
             }
         }
 
+        // La nuova versione non distribuisce più il pacchetto CAA Writer Core.
+        // Migra eventuali scelte già salvate verso repertori esterni equivalenti,
+        // poi elimina i simboli interni dai database aggiornati.
+        #[cfg(not(test))]
+        db.remove_legacy_core_symbols()
+            .map_err(|e| format!("rimozione del vecchio pacchetto core non riuscita: {e}"))?;
+
         // Il database può essere stato creato da una copia dell'app in un
         // percorso diverso: riallinea i file dei simboli alla cartella risorse
         // corrente prima di usarli.
@@ -1060,6 +1067,9 @@ impl Engine {
                     &mut out,
                 )?
             {
+                // Un override per occorrenza è una scelta manuale: il reranking
+                // automatico non deve sostituirlo mentre si continua a scrivere.
+                out.locked = true;
                 return Ok(out);
             }
         }
@@ -3936,6 +3946,46 @@ mod tests {
             .find(|token| token.surface == "bambino")
             .unwrap();
         assert!(!same.locked);
+    }
+
+    #[test]
+    fn document_override_is_reported_as_locked_without_unit_state() {
+        let engine = test_engine();
+        let doc = "/tmp/override-manuale.caadoc";
+        let opts = SymbolizeOptions {
+            intensity: Intensity::Media,
+            mode: CaaMode::Sopra,
+            document_key: doc.to_string(),
+            paragraph_id: "p1".to_string(),
+            ..Default::default()
+        };
+        let first = engine.symbolize("Il cane corre.", &opts).unwrap();
+        let token = first.tokens.iter().find(|t| t.surface == "cane").unwrap();
+        let choice = token.alternatives.first().expect("alternativa simbolica");
+        engine
+            .db()
+            .unwrap()
+            .set_document_override(
+                doc,
+                &format!("p1:{}", token.index),
+                Some(&choice.symbol_id),
+                choice.concept_id.as_deref(),
+                Some("cane"),
+            )
+            .unwrap();
+        engine.clear_caches();
+
+        let analyzed = engine.symbolize("Il cane corre.", &opts).unwrap();
+        let selected = analyzed.tokens.iter().find(|t| t.surface == "cane").unwrap();
+        assert_eq!(selected.symbol_id.as_deref(), Some(choice.symbol_id.as_str()));
+        assert!(selected.locked, "un override manuale deve bloccare il reranking");
+    }
+
+    #[test]
+    fn cagnolino_resolves_to_the_dog_concept() {
+        let engine = test_engine();
+        let result = symbolize(&engine, "Il cagnolino corre.");
+        assert_eq!(concept_of(&result, "cagnolino"), Some("animal.dog"));
     }
 
     /// Il pittogramma nascosto resta un'unità dell'editor, con il testo intatto.

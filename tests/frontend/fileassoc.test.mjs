@@ -11,7 +11,7 @@ test("il bundle associa i documenti CAA Writer al player", () => {
   assert.equal(new Set(extensions).size, extensions.length);
 });
 
-test("l'installer include i modelli ma non anteprime, libreria completa e modello neurale", () => {
+test("l'installer include i modelli ma non anteprime, libreria completa, core e modello neurale", () => {
   const resources = config.bundle.resources ?? [];
   assert.ok(resources.length > 0);
   assert.ok(!resources.some((pattern) => pattern.endsWith("library/**/*")));
@@ -19,6 +19,6 @@ test("l'installer include i modelli ma non anteprime, libreria completa e modell
   assert.ok(resources.some((pattern) => pattern.includes("library/templates")));
   assert.ok(resources.some((pattern) => pattern.includes("library/boards")));
   assert.ok(!resources.some((pattern) => pattern.endsWith("model.gguf")));
-  assert.ok(resources.some((pattern) => pattern.includes("resources/symbol-packs/core")));
+  assert.ok(!resources.some((pattern) => pattern.includes("resources/symbol-packs/core")));
   assert.ok(resources.some((pattern) => pattern.includes("resources/ai/runtime")));
 });
