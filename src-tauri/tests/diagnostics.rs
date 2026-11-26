@@ -56,5 +56,25 @@ fn first_start_diagnostics() {
         );
     }
 
-    assert!(stats.symbols > 0, "nessun simbolo importato dal pacchetto core");
+    // The bundled Core pack was removed in 0.16.4. External packs may already
+    // be available in the local resources tree, so check pack identity rather
+    // than requiring the database to contain no symbols.
+    assert!(stats.concepts > 0, "lessico iniziale non importato");
+    assert!(
+        engine
+            .db()
+            .expect("db")
+            .list_packs()
+            .expect("packs")
+            .iter()
+            .all(|pack| pack.id != "core"),
+        "il pacchetto Core interno non deve essere importato"
+    );
+    assert!(
+        result
+            .tokens
+            .iter()
+            .any(|token| token.concept_id.as_deref() == Some("fruit.peach")),
+        "la diagnostica deve comunque riconoscere il concetto «pesca»"
+    );
 }
