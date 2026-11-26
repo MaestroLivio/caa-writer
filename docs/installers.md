@@ -9,8 +9,17 @@ Il bundle macOS 0.16.2 aveva una dipendenza esterna: i tre eseguibili
 `scripts/sign_macos.sh`, che controlla che non restino dipendenze verso
 Homebrew, `/Volumes` o directory utente. Il test sulla copia scaricata del
 bundle 0.16.2 ha verificato la firma, il riferimento `@rpath` in tutti e tre i
-binari e la presenza della dylib nel bundle; il nuovo bundle va verificato
-anche nella CI della release 0.16.3.
+binari e la presenza della dylib nel bundle. Il bundle 0.16.3 scaricato dalla
+release è stato montato e verificato: firma valida, tutti i Mach-O senza
+dipendenze da Homebrew/volumi/cartelle utente, CLI avviata con risorse dal
+bundle.
+
+La release `v0.16.3` è pubblicata come Latest. Asset macOS arm64:
+`CAA-Writer_0.16.3_macos-arm64.dmg` (210.525.053 byte) e
+`CAA-Writer_0.16.3_macos-arm64.app.zip` (204.291.611 byte).
+SHA-256 verificati sui file scaricati: DMG
+`5f821a2ccbd41c5f6006607303e461362e810a14a47259364a7ed9ad26cc78b8`,
+ZIP `df9d20d9da33241b10752f3813ea9348922cb52cb9e9f04cf7789007fd0c4fe3`.
 
 ## Stato reale 0.16.2 (26 novembre 2026)
 
