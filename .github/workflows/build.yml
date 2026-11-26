@@ -46,7 +46,11 @@ jobs:
 
       - name: Test Rust
         working-directory: src-tauri
-        run: cargo test --all-targets --features onnx -- --nocapture
+        run: |
+          # I build script nativi memorizzano i path assoluti della versione
+          # Homebrew di dav1d/ORT; invalidali dopo il ripristino della cache.
+          cargo clean -p dav1d-sys -p ort-sys
+          cargo test --all-targets --features onnx -- --nocapture
 
       - name: Report semantico
         if: always()
