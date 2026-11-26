@@ -102,7 +102,11 @@ jobs:
 
       - name: Test Rust
         working-directory: src-tauri
-        run: cargo test --all-targets --features onnx -- --nocapture
+        run: |
+          # La cache Cargo conserva path assoluti ai Cellar Homebrew e alla
+          # cache ONNX: rigenerare i build script evita riferimenti rimossi.
+          cargo clean -p dav1d-sys -p ort-sys
+          cargo test --all-targets --features onnx -- --nocapture
 
       - name: Report semantico
         if: always()
