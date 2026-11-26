@@ -213,8 +213,7 @@ jobs:
             npm run build
             npm run tauri -- build $VERBOSE --target "${{ matrix.target }}" \
               --bundles app --features onnx --config "$NO_HOOK"
-            codesign --force --deep --sign - --timestamp=none "$APP"
-            codesign --verify --deep --strict --verbose=2 "$APP"
+            bash scripts/sign_macos.sh "$APP"
             # DMG con la stessa struttura del bundler (app + collegamento ad
             # /Applications per il trascinamento).
             STAGE=$(mktemp -d)

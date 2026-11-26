@@ -4,6 +4,21 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.16.3 — 2026-11-26
+
+### macOS: bundle autosufficiente, senza dipendenze da Homebrew o dalla cartella di sviluppo
+
+Nel bundle macOS 0.16.2 `caa-writer`, `caa-cli` e `caa-mcp` caricavano
+`libdav1d.7.dylib` da `/opt/homebrew/opt/dav1d/lib/`, un percorso esterno
+all'applicazione. L'app non era quindi autosufficiente e poteva richiedere
+accesso a volumi esterni o non avviarsi su un Mac senza quella libreria.
+
+- `libdav1d.7.dylib` viene copiata in `Contents/Frameworks` e tutti e tre i
+  binari la caricano da `@rpath`.
+- Il workflow macOS usa `scripts/sign_macos.sh` prima di creare gli artefatti.
+- La firma fallisce se gli eseguibili mantengono dipendenze verso Homebrew,
+  `/Volumes` o cartelle utente, o se `libdav1d` non è presente nel bundle.
+
 ## 0.16.2 — 2026-11-26
 
 ### Windows: la lettura non apre più la finestra «piper.exe — Errore di sistema»

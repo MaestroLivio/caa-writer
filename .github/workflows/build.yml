@@ -120,6 +120,13 @@ jobs:
         with:
           args: ${{ matrix.args }}
 
+      - name: Incorpora le dipendenze nel bundle macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          APP="src-tauri/target/${{ matrix.target }}/release/bundle/macos/CAA Writer.app"
+          bash scripts/sign_macos.sh "$APP"
+
       - name: Carica artefatti
         uses: actions/upload-artifact@v4
         with:

@@ -1,5 +1,17 @@
 # Release e installer
 
+## Stato reale 0.16.3 (26 novembre 2026)
+
+Il bundle macOS 0.16.2 aveva una dipendenza esterna: i tre eseguibili
+(`caa-writer`, `caa-cli`, `caa-mcp`) caricavano `libdav1d.7.dylib` da
+`/opt/homebrew/opt/dav1d/lib/`. La libreria è ora inclusa in
+`Contents/Frameworks` e i binari la caricano con `@rpath`. Il packaging usa
+`scripts/sign_macos.sh`, che controlla che non restino dipendenze verso
+Homebrew, `/Volumes` o directory utente. Il test sulla copia scaricata del
+bundle 0.16.2 ha verificato la firma, il riferimento `@rpath` in tutti e tre i
+binari e la presenza della dylib nel bundle; il nuovo bundle va verificato
+anche nella CI della release 0.16.3.
+
 ## Stato reale 0.16.2 (26 novembre 2026)
 
 Correzione della voce neurale su Windows. `link_engine` copiava soltanto
