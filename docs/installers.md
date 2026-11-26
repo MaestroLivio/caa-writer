@@ -5,8 +5,9 @@
 La versione è in preparazione: non è ancora stata pubblicata. Il bundle
 esclude `resources/symbol-packs/core`; all'avvio, il database migra gli
 override verso ARASAAC/Global Symbols dello stesso concetto se disponibili e
-rimuove il repertorio interno residuo. Gli esiti di build, test e release
-saranno aggiunti qui solo dopo averli verificati.
+rimuove il repertorio interno residuo. Il filtro dei contenuti espliciti è
+esteso alle etichette inglesi. Gli esiti di build, test e release saranno
+aggiunti qui solo dopo averli verificati.
 
 ## Stato reale 0.16.3 (26 novembre 2026)
 

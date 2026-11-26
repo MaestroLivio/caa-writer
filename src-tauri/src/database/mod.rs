@@ -1151,6 +1151,12 @@ mod tests {
                 )
                 .unwrap();
         }
+        db.conn()
+            .execute(
+                "INSERT INTO concepts(id, label, meaning, category) VALUES ('animal.dog', 'cane', 'animale domestico', 'animali')",
+                [],
+            )
+            .unwrap();
         for (id, pack) in [("core.dog", "core"), ("arasaac.dog", "arasaac")] {
             db.conn()
                 .execute(

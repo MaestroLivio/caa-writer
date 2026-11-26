@@ -15,6 +15,8 @@ funzionalità compatibili, `PATCH` per correzioni compatibili.
   non viene più distribuito e, in aggiornamento, le associazioni salvate vengono
   migrate verso un simbolo esterno dello stesso concetto quando disponibile.
 - «Cagnolino» è riconosciuto come forma del concetto «cane».
+- Il filtro dei contenuti espliciti riconosce anche etichette e significati in
+  inglese, con corrispondenza a parola intera per limitare i falsi positivi.
 
 ## 0.16.3 — 2026-11-26
 

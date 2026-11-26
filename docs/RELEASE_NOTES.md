@@ -15,6 +15,8 @@ Data: 26 novembre 2026
   concetto, se disponibile.
 - Il lemma «cagnolino» è associato al concetto «cane» e include le sue forme
   flesse generate dal lessico.
+- Il filtro dei contenuti espliciti copre anche termini inglesi e le relative
+  forme flessive; il controllo a parola intera evita corrispondenze accidentali.
 
 ## Verifiche
 
