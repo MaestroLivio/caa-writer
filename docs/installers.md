@@ -457,8 +457,12 @@ npm run tauri android build -- --apk
 ```
 
 Prerequisiti: JDK 17, Android SDK, NDK, target Rust `aarch64-linux-android`. Il job `android` del
-workflow è predisposto (solo `workflow_dispatch`) e non è mai stato eseguito. L'APK è di debug/non
-firmato: per la distribuzione serve una chiave di firma.
+workflow è disponibile solo via `workflow_dispatch`. La prima esecuzione è stata bloccata dal
+pacchetto SDK legacy `tools`; la seconda ha inizializzato il progetto ma la compilazione Rust si è
+fermata perché `WebviewWindow::print()` non è disponibile su Android. È stato aggiunto un ramo
+Android che restituisce esplicitamente “stampa non disponibile su Android”; la nuova build va ancora
+verificata. L'APK, quando compilato, è di debug/non firmato: per la distribuzione serve una chiave
+di firma.
 
 ### Release GitHub (`release.yml`)
 

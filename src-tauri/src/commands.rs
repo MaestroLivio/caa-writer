@@ -37,9 +37,20 @@ pub struct AppInfo {
 /// Apre il dialogo di stampa nativo della finestra. `window.print()` nel
 /// WebView non è affidabile su tutte le piattaforme: questo comando usa
 /// direttamente l'API del webview.
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 pub async fn print_window(window: tauri::WebviewWindow) -> Result<(), String> {
-    window.print().map_err(|e| format!("stampa non disponibile: {e}"))
+    window
+        .print()
+        .map_err(|e| format!("stampa non disponibile: {e}"))
+}
+
+/// La stampa nativa Tauri non è disponibile su Android: segnala il limite
+/// esplicitamente invece di simulare un'operazione riuscita.
+#[cfg(target_os = "android")]
+#[tauri::command]
+pub async fn print_window() -> Result<(), String> {
+    Err("stampa non disponibile su Android".to_string())
 }
 
 /// Stato del motore decisionale semantico condiviso (nessuna inferenza).
