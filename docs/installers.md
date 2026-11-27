@@ -1,5 +1,27 @@
 # Release e installer
 
+## Stato reale 0.16.5 (27 novembre 2026)
+
+La release GitHub [`v0.16.5`](https://github.com/MaestroLivio/caa-writer/releases/tag/v0.16.5)
+è pubblicata. Il workflow `45973362234` è terminato con successo: test Rust,
+frontend e report semantico su macOS, Windows e Linux; bundle Windows x64 e
+macOS arm64. La verifica automatica della firma ad-hoc macOS è riuscita.
+Non è stata eseguita un'installazione manuale su hardware Windows. I pacchetti
+non sono firmati con certificato di distribuzione né notarizzati.
+
+Asset pubblicati (dimensioni e SHA-256 esposti da GitHub):
+
+| Asset | Byte | SHA-256 |
+|---|---:|---|
+| `CAA-Writer_0.16.5_macos-arm64.dmg` | 210.401.469 | `f09b1c1021fd25d423770b087c518d5b6477ef7ca4eeabd1a4da1de3ba30b56e` |
+| `CAA-Writer_0.16.5_macos-arm64.app.zip` | 204.245.628 | `244a21a397fe15b3c6535e2ec23268040a08250ed2ae11b6c053945ae74001bc` |
+| `CAA-Writer_0.16.5_windows-x64-setup.exe` | 159.647.400 | `9bad86d42dc296786e63c7f85f98e23579cb2097567e858fdb91645f8d1b3462` |
+| `CAA.Writer_0.16.5_x64_en-US.msi` | 209.001.298 | `fadf257059108d7ce5b6fd474ed663b2d7cff6a7c1dcdf101c5915856e6cc5ff` |
+| `CAA.Writer_0.16.5_x64_it-IT.msi` | 209.003.419 | `f09662c6d8f2951373d3b65019e8695ae1affd167635a4a8ab3f957f263d726a` |
+
+La release include anche `SHA256SUMS-macos-arm64.txt` e
+`SHA256SUMS-windows-x64.txt`.
+
 ## Stato reale 0.16.4 (26 novembre 2026)
 
 La release GitHub [`v0.16.4`](https://github.com/MaestroLivio/caa-writer/releases/tag/v0.16.4)
@@ -428,7 +450,7 @@ Il workflow `.github/workflows/release.yml` parte da un tag `v*` e:
 5. crea una GitHub Release solo se il tag corrisponde alla versione in
    `tauri.conf.json` e la release non esiste già.
 
-Per la release `v0.16.4` il workflow ha prodotto macOS arm64 e Windows x64.
+Per le release `v0.16.4` e `v0.16.5` il workflow ha prodotto macOS arm64 e Windows x64.
 La firma macOS è ad-hoc; non vengono usati certificati di distribuzione o
 notarizzazione. La matrice va consultata nel workflow per sapere quali target
 sono inclusi in ciascuna release.
