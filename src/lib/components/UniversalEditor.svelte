@@ -195,8 +195,12 @@
   let doc = $state<UniversalDocument>(clone(initial));
   let rendered = $state<RenderedDocument>(localRender(doc));
   let pageSvgs = $state<string[]>([]);
+  let pageSnapshots = $state<Record<string, string>>({});
   let pageSvgTimer: number | undefined;
   let pageSvgRequest = 0;
+  let pageSnapshotTimer: number | undefined;
+  let pageSnapshotInterval: number | undefined;
+  let pageSnapshotRequest = 0;
   /// SVG delle pagine prodotti dal renderer Rust: sono gli stessi fogli di
   /// stampa ed esportazione, quindi le miniature non mostrano più una
   /// approssimazione diversa dal risultato finale.
@@ -258,6 +262,87 @@
       }
     }, delay);
   }
+
+  /// Miniatura fotografica della pagina effettivamente mostrata nell'editor.
+  /// Il foreignObject conserva il DOM e gli stili calcolati del foglio; se il
+  /// WebView non supporta la rasterizzazione, resta visibile l'SVG di stampa.
+  async function captureCurrentPageSnapshot() {
+    if (typeof window === "undefined") return;
+    const request = ++pageSnapshotRequest;
+    await tick();
+    const snapshotPageId = docPage?.id;
+    if (!snapshotPageId) return;
+    const pageElement = document.querySelector<HTMLElement>(
+      ".ueditor__stage .ueditor__page, .ueditor__stage .paper"
+    );
+    if (!pageElement) return;
+    const computed = getComputedStyle(pageElement);
+    const width = Math.max(1, Math.ceil(Number.parseFloat(computed.width)));
+    const height = Math.max(1, Math.ceil(Number.parseFloat(computed.height)));
+    if (!Number.isFinite(width) || !Number.isFinite(height)) return;
+
+    const clone = pageElement.cloneNode(true) as HTMLElement;
+    const originals = [pageElement, ...pageElement.querySelectorAll<HTMLElement>("*")];
+    const copies = [clone, ...clone.querySelectorAll<HTMLElement>("*")];
+    for (let i = 0; i < Math.min(originals.length, copies.length); i += 1) {
+      const source = originals[i];
+      const target = copies[i];
+      const style = getComputedStyle(source);
+      for (let property = 0; property < style.length; property += 1) {
+        const name = style.item(property);
+        target.style.setProperty(name, style.getPropertyValue(name), style.getPropertyPriority(name));
+      }
+    }
+    clone.style.setProperty("width", `${width}px`, "important");
+    clone.style.setProperty("height", `${height}px`, "important");
+    clone.style.setProperty("zoom", "1", "important");
+    clone.style.setProperty("box-shadow", "none", "important");
+    const markup = new XMLSerializer().serializeToString(clone);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">${markup}</div></foreignObject></svg>`;
+    const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
+    try {
+      const image = new Image();
+      image.src = url;
+      await image.decode();
+      const scale = Math.min(2, 900 / Math.max(width, height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(width * scale));
+      canvas.height = Math.max(1, Math.round(height * scale));
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      context.fillStyle = computed.backgroundColor || "#fff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      if (request === pageSnapshotRequest) {
+        pageSnapshots = { ...pageSnapshots, [snapshotPageId]: canvas.toDataURL("image/png") };
+      }
+    } catch {
+      // Il rendering SVG della pagina resta il fallback fedele alla stampa.
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  function schedulePageSnapshot(delay = 350) {
+    if (pageSnapshotTimer) window.clearTimeout(pageSnapshotTimer);
+    pageSnapshotTimer = window.setTimeout(() => {
+      pageSnapshotTimer = undefined;
+      void captureCurrentPageSnapshot();
+    }, delay);
+  }
+
+  $effect(() => {
+    void doc;
+    pageSnapshots = {};
+    pageSnapshotRequest += 1;
+    schedulePageSnapshot();
+  });
+
+  $effect(() => {
+    void rendered;
+    void pageIndex;
+    schedulePageSnapshot();
+  });
 
   let textEditor = $state<CaaEditor | undefined>(undefined);
   let textTokens = new Map<string, CaaToken[]>();
@@ -2180,10 +2265,16 @@
       void api.documentRender(doc).then((value) => { if (value) rendered = value; }).catch(() => {});
       schedulePageSvgs(doc, 0);
     }
+    pageSnapshotInterval = window.setInterval(() => {
+      void captureCurrentPageSnapshot();
+    }, 10_000);
   });
 
   onDestroy(() => {
     if (pageSvgTimer) window.clearTimeout(pageSvgTimer);
+    if (pageSnapshotTimer) window.clearTimeout(pageSnapshotTimer);
+    if (pageSnapshotInterval) window.clearInterval(pageSnapshotInterval);
+    pageSnapshotRequest += 1;
     pageSvgRequest += 1;
   });
 
@@ -2977,7 +3068,9 @@
             class="thumb__paper"
             style={`aspect-ratio:${item.width_mm}/${item.height_mm};background:${item.background || "#ffffff"}`}
           >
-            {#if pageSvgs[item.index]}
+            {#if pageSnapshots[item.id]}
+              <img class="thumb__snapshot" src={pageSnapshots[item.id]} alt="" />
+            {:else if pageSvgs[item.index]}
               <span class="thumb__svg">{@html pageSvgs[item.index]}</span>
             {:else}
             {#each item.elements as element (element.id)}
@@ -3531,6 +3624,7 @@
   .thumb { display: block; width: 100%; border: 2px solid transparent; border-radius: 6px; padding: 3px; margin-bottom: 6px; background: transparent; cursor: pointer; color: inherit; }
   .thumb--active { border-color: #2463eb; background: #eef4ff; }
   .thumb__paper { position: relative; display: block; width: 100%; min-height: 28px; background: #fff; border: 1px solid #cfd6e2; overflow: hidden; }
+  .thumb__snapshot { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: fill; }
   .thumb__svg { position: absolute; inset: 0; display: block; }
   .thumb__svg :global(svg) { width: 100%; height: 100%; display: block; }
   .thumb__el { position: absolute; overflow: hidden; display: block; }

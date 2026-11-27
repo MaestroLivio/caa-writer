@@ -3583,6 +3583,50 @@ mod tests {
         engine.symbolize(text, &opts).unwrap()
     }
 
+    #[test]
+    fn vorrei_is_symbolized_as_volere_and_remains_editable() {
+        let engine = test_engine();
+        for form in [
+            "voglio", "vuoi", "vuole", "vogliamo", "volete", "vogliono",
+            "volevo", "volevi", "voleva", "volevamo", "volevate", "volevano",
+            "volli", "volesti", "volle", "volemmo", "voleste", "vollero",
+            "vorrò", "vorrai", "vorrà", "vorremo", "vorrete", "vorranno",
+            "vorrei", "vorresti", "vorrebbe", "vorremmo", "vorreste", "vorrebbero",
+            "voglia", "vogliate", "volessi", "volesse", "volessimo", "volessero",
+            "volendo", "voluto", "voluta", "voluti", "volute",
+        ] {
+            assert!(
+                engine.lexicon.lookup(form).iter().any(|matched| {
+                    matched.lemma == "volere" && matched.concepts.contains(&"action.want".to_string())
+                }),
+                "la forma «{form}» deve essere ricondotta a volere"
+            );
+        }
+        let affinity = engine.word_affinities("vorrei", None, false).unwrap();
+        assert!(
+            affinity.groups.iter().flat_map(|group| &group.candidates).any(|candidate| {
+                candidate.symbol.concept_id.as_deref() == Some("action.want")
+            }),
+            "la ricerca per affinità di «vorrei» deve usare il concetto di volere"
+        );
+        let result = symbolize(&engine, "Io vorrei.");
+        let token = result
+            .tokens
+            .iter()
+            .find(|token| token.surface.eq_ignore_ascii_case("vorrei"))
+            .expect("token vorrei");
+        assert_eq!(token.lemma.as_deref(), Some("volere"));
+        assert_eq!(token.concept_id.as_deref(), Some("action.want"));
+        assert!(
+            token.symbol_id.is_some(),
+            "la forma flessa deve ricevere automaticamente il pittogramma del lemma"
+        );
+        assert!(
+            !token.locked,
+            "il pittogramma automatico deve restare modificabile dall'utente"
+        );
+    }
+
     fn concept_of<'a>(result: &'a ParagraphResult, surface: &str) -> Option<&'a str> {
         result
             .tokens

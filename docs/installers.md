@@ -25,7 +25,7 @@ La release include anche `SHA256SUMS-macos-arm64.txt` e
 ## Stato reale 0.16.4 (26 novembre 2026)
 
 La release GitHub [`v0.16.4`](https://github.com/MaestroLivio/caa-writer/releases/tag/v0.16.4)
-è pubblicata ed è la release più recente. Il bundle esclude
+è stata pubblicata il 26 novembre 2026. Il bundle esclude
 `resources/symbol-packs/core`; all'avvio, il database migra gli override verso
 ARASAAC/Global Symbols dello stesso concetto se disponibili e rimuove il
 repertorio interno residuo. Il filtro dei contenuti espliciti include le

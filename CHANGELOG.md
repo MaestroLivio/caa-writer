@@ -4,6 +4,18 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.16.6 — 2026-11-27
+
+### Forme di «volere» e miniature fedeli
+
+- Le forme flesse di «volere», incluso «vorrei», vengono ricondotte al lemma e
+  al concetto `action.want`; il pittogramma viene inserito automaticamente e
+  resta modificabile dall'utente.
+- La ricerca per affinità usa il lemma per tutte le forme irregolari elencate
+  nel paradigma.
+- La miniatura della pagina attiva viene catturata dal rendering effettivo,
+  aggiornata dopo le modifiche e ogni 10 secondi; l'SVG resta il ripiego.
+
 ## 0.16.5 — 2026-11-27
 
 ### Correzioni editor, miniature e pittogrammi
