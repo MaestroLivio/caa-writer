@@ -767,42 +767,19 @@
                 concept_label: alternative.label,
                 meaning: alternative.meaning,
                 strategy: "related",
+                locked: false,
                 confidence: 0.35,
                 approximate: true,
               };
             });
             if (!pidTouched) continue;
             tokensByPid.set(pid, next);
-            analyzedSignature.delete(pid);
             refreshDecorations();
-            const applied = next.find(
-              (token) =>
-                normalize(token.surface) === entry.word &&
-                token.symbol_id === alternative.symbol_id
-            );
-            if (applied) {
-              const key = `${pid}:${applied.index}`;
-              await api
-                .setDocumentOverride(
-                  documentKey,
-                  key,
-                  alternative.symbol_id,
-                  alternative.concept_id,
-                  applied.surface
-                )
-                .catch(() => undefined);
-              // L'attribuzione automatica (anche Global Symbols) non deve
-              // bloccare il pittogramma: l'utente deve poterlo cambiare.
-              await api
-                .setUnitState(documentKey, key, false, applied.hidden, applied.modifiers)
-                .catch(() => undefined);
-            }
             touched = true;
           }
         }
         if (touched) {
           onAnalyzed(new Map(tokensByPid));
-          window.setTimeout(() => schedule(60), 0);
         }
       }
     } catch {

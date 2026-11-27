@@ -2,7 +2,6 @@
   import { onDestroy, onMount } from "svelte";
   import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
   import CaaEditor from "../editor/CaaEditor.svelte";
-  import FloatingKeyboard from "./FloatingKeyboard.svelte";
   import { api, isTauri } from "../api";
   import { recordRecent } from "../recent";
   import { canChooseAlternatives, symbolChoices } from "../user-symbols";
@@ -55,6 +54,9 @@
   /// Parola selezionata nel testo: il pannello Simboli in basso mostra le sue
   /// alternative con lo stesso ordine del word processor.
   let selectedToken = $state<{ pid: string; token: CaaToken } | null>(null);
+  let tokenMenu = $state<{ x: number; y: number } | null>(null);
+  let textEditOpen = $state(false);
+  let textEditValue = $state("");
   let symbolQuery = $state("");
   let symbolResults = $state<Alternative[]>([]);
   let symbolBusy = $state(false);
@@ -65,6 +67,8 @@
   const assistKey = `caa.user.assist.${profile.id}`;
   let assistOpen = $state(true);
   let assistWidth = $state(320);
+  let assistFloating = $state(false);
+  let assistPosition = $state({ x: 0, y: 76 });
   let resizingAssist = false;
   let imageInput: HTMLInputElement | undefined = $state();
 
@@ -120,11 +124,19 @@
     return Math.min(520, Math.max(220, Math.round(value)));
   }
 
+  function clampAssistPosition(position: { x: number; y: number }) {
+    const width = clampAssist(assistWidth);
+    return {
+      x: Math.max(8, Math.min(window.innerWidth - width - 8, Math.round(position.x))),
+      y: Math.max(8, Math.min(window.innerHeight - 160, Math.round(position.y))),
+    };
+  }
+
   function persistAssist() {
     try {
       localStorage.setItem(
         assistKey,
-        JSON.stringify({ open: assistOpen, width: assistWidth })
+        JSON.stringify({ open: assistOpen, width: assistWidth, floating: assistFloating, position: assistPosition })
       );
     } catch {
       /* la preferenza vale per questa sessione */
@@ -133,6 +145,14 @@
 
   function toggleAssist() {
     assistOpen = !assistOpen;
+    persistAssist();
+  }
+
+  function toggleAssistFloating() {
+    assistFloating = !assistFloating;
+    if (assistFloating && assistPosition.x === 0) {
+      assistPosition = clampAssistPosition({ x: window.innerWidth - assistWidth - 20, y: 76 });
+    }
     persistAssist();
   }
 
@@ -229,9 +249,33 @@
 
   function closeTokenSelection() {
     selectedToken = null;
+    tokenMenu = null;
     symbolResults = [];
     symbolQuery = "";
     symbolError = "";
+  }
+
+  function editSelectedTokenText() {
+    const token = liveToken;
+    if (!selectedToken || !token?.symbol_id) return;
+    textEditValue = token.surface;
+    textEditOpen = true;
+    tokenMenu = null;
+  }
+
+  async function applySelectedTokenText() {
+    if (!selectedToken || !textEditValue.trim()) return;
+    const changed = await editor?.changeTokenText(
+      selectedToken.pid,
+      liveToken?.index ?? selectedToken.token.index,
+      textEditValue.trim()
+    );
+    if (changed) {
+      textEditOpen = false;
+      onToast("Testo aggiornato; il pittogramma resta associato.", "info");
+    } else {
+      onToast("Non è stato possibile aggiornare il testo.", "warn");
+    }
   }
 
   async function searchPanelSymbols() {
@@ -384,9 +428,19 @@
     try {
       const raw = localStorage.getItem(assistKey);
       if (raw) {
-        const parsed = JSON.parse(raw) as { open?: boolean; width?: number };
+        const parsed = JSON.parse(raw) as {
+          open?: boolean;
+          width?: number;
+          floating?: boolean;
+          position?: { x?: number; y?: number };
+        };
         assistOpen = parsed.open !== false;
         assistWidth = clampAssist(Number(parsed.width) || 320);
+        assistFloating = parsed.floating === true;
+        assistPosition = clampAssistPosition({
+          x: Number(parsed.position?.x) || window.innerWidth - assistWidth - 20,
+          y: Number(parsed.position?.y) || 76,
+        });
       }
     } catch {
       /* preferenza non disponibile */
@@ -402,6 +456,7 @@
       /* preferenza non disponibile */
     }
     window.addEventListener("keydown", onTypingKey, true);
+    window.addEventListener("pointerdown", dismissTokenMenu);
     if (!isTauri()) {
       vocabularyBusy = false;
       vocabularyError = "Vocabolario disponibile solo nell'app desktop.";
@@ -424,7 +479,34 @@
 
   onDestroy(() => {
     window.removeEventListener("keydown", onTypingKey, true);
+    window.removeEventListener("pointerdown", dismissTokenMenu);
   });
+
+  function startAssistMove(event: PointerEvent) {
+    if (!assistFloating || (event.target as HTMLElement).closest("button")) return;
+    event.preventDefault();
+    const startX = event.clientX;
+    const startY = event.clientY;
+    const start = { ...assistPosition };
+    const move = (next: PointerEvent) => {
+      assistPosition = clampAssistPosition({
+        x: start.x + next.clientX - startX,
+        y: start.y + next.clientY - startY,
+      });
+    };
+    const up = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      persistAssist();
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+  }
+
+  function dismissTokenMenu(event: PointerEvent) {
+    const target = event.target as Element | null;
+    if (tokenMenu && !target?.closest?.(".unit-menu")) tokenMenu = null;
+  }
 
   function addUnit(alternative: Alternative) {
     unitSeq += 1;
@@ -739,6 +821,7 @@
     <main
       class="user-editor__writing"
       class:user-editor__writing--collapsed={!assistOpen}
+      class:user-editor__writing--floating={assistFloating}
       style={`--assist-width:${assistWidth}px`}
     >
       <section class="user-paper" aria-label="Area di scrittura">
@@ -765,24 +848,61 @@
           analysisDebounceMs={settings.analysis_debounce_ms}
           refineDebounceMs={settings.refine_debounce_ms}
           onSelectToken={(pid, token) => selectToken(pid, token)}
-          onTokenMenu={(pid, token) => selectToken(pid, token)}
+          onTokenMenu={(pid, token, at) => {
+            selectedToken = { pid, token };
+            tokenMenu = at;
+          }}
           onError={(error) => onToast(error, "error")}
           onAnalyzed={(map) => (tokensByParagraph = map)}
           onAnalysisState={(active) => (analysisActive = active)}
         />
       </section>
 
+      {#if tokenMenu && selectedToken}
+        <div
+          class="unit-menu"
+          style={`left:${Math.max(8, Math.min(tokenMenu.x, window.innerWidth - 220))}px;top:${Math.max(8, Math.min(tokenMenu.y, window.innerHeight - 180))}px`}
+          role="menu"
+          aria-label={`Azioni per ${liveToken?.surface ?? selectedToken.token.surface}`}
+        >
+          <p class="unit-menu__title">«{liveToken?.surface ?? selectedToken.token.surface}»</p>
+          <button class="unit-menu__item" role="menuitem" onclick={editSelectedTokenText}>Cambia testo…</button>
+          {#if canAlternatives}
+            <button class="unit-menu__item" role="menuitem" onclick={() => {
+              const token = liveToken ?? selectedToken?.token;
+              const target = selectedToken;
+              tokenMenu = null;
+              if (target && token) void openAlternatives({ kind: "token", pid: target.pid, index: token.index, surface: token.surface }, token.surface);
+            }}>Apri alternative</button>
+          {/if}
+          {#if canSpeak}
+            <button class="unit-menu__item" role="menuitem" onclick={() => {
+              const text = liveToken?.surface ?? selectedToken?.token.surface;
+              tokenMenu = null;
+              if (text) onSpeak(text);
+            }}>Ascolta parola</button>
+          {/if}
+          <button class="unit-menu__item unit-menu__item--close" role="menuitem" onclick={() => (tokenMenu = null)}>Chiudi</button>
+        </div>
+      {/if}
+
       {#if !assistOpen}
         <button class="user-assist__restore" onclick={toggleAssist} title="Mostra i suggerimenti">
           <span aria-hidden="true">‹</span> Suggerimenti
         </button>
       {:else}
-      <aside class="user-assist" aria-label="Strumenti di scrittura">
+      <aside
+        class="user-assist"
+        class:user-assist--floating={assistFloating}
+        style={assistFloating ? `left:${assistPosition.x}px;top:${assistPosition.y}px;width:${assistWidth}px` : undefined}
+        aria-label="Strumenti di scrittura"
+      >
         <div class="user-assist__resize" role="separator" aria-orientation="vertical" aria-label="Ridimensiona i suggerimenti" onpointerdown={startAssistResize}></div>
-        <header class="user-assist__head">
-          <strong>Suggerimenti</strong>
+        <div class="user-assist__head" role="group" aria-label="Spostamento e comandi suggerimenti" onpointerdown={startAssistMove}>
+          <strong class:drag-handle={assistFloating} title={assistFloating ? "Trascina per spostare" : undefined}>Suggerimenti e comandi</strong>
+          <button class="btn btn--ghost" onclick={toggleAssistFloating} aria-label={assistFloating ? "Ancora il menu comandi" : "Rendi spostabile il menu comandi"} title={assistFloating ? "Ancora" : "Sposta"}>{assistFloating ? "▣" : "↗"}</button>
           <button class="btn btn--ghost" onclick={toggleAssist} aria-label="Minimizza i suggerimenti" title="Minimizza">×</button>
-        </header>
+        </div>
         <div class="user-assist__body">
         {#if canFormat}
           <div class="user-assist__group">
@@ -983,17 +1103,7 @@
     {/if}
   {/if}
 
-  {#if canType}
-    <FloatingKeyboard
-      profileId={profile.id}
-      onInsert={(text) => editor?.insertTextAtSelection(text)}
-      onSpace={() => editor?.insertTextAtSelection(" ")}
-      onEnter={() => editor?.insertParagraph()}
-      onBackspace={() => editor?.backspace()}
-    />
-  {/if}
-
-  {#if altTarget}
+{#if altTarget}
     <section class="user-alt" role="dialog" aria-label="Alternative del pittogramma">
       <header class="user-alt__bar">
         <strong>Cambia pittogramma</strong>
@@ -1011,7 +1121,8 @@
                 <span class="user-alt__media"><img src={alternative.image} alt="" /></span>
               {:else if alternative.svg}
                 <span class="user-alt__media">{@html alternative.svg}</span>
-              {/if}
+{/if}
+
               <span class="user-alt__label">{alternative.label}</span>
               <span class="user-alt__license">{alternative.license}</span>
             </button>
@@ -1019,6 +1130,30 @@
         </div>
       {/if}
     </section>
+  {/if}
+
+  {#if textEditOpen}
+    <div class="user-text-edit-backdrop" role="presentation" onclick={(event) => {
+      if (event.target === event.currentTarget) textEditOpen = false;
+    }}>
+      <div class="user-text-edit" role="dialog" aria-modal="true" aria-label="Cambia il testo mantenendo il pittogramma">
+        <h2>Cambia testo</h2>
+        <label>
+          <span>Nuovo testo (il pittogramma resta associato)</span>
+          <input
+            bind:value={textEditValue}
+            onkeydown={(event) => {
+              if (event.key === "Enter") { event.preventDefault(); void applySelectedTokenText(); }
+              if (event.key === "Escape") textEditOpen = false;
+            }}
+          />
+        </label>
+        <div class="user-text-edit__actions">
+          <button class="btn" onclick={() => (textEditOpen = false)}>Annulla</button>
+          <button class="btn btn--solid" disabled={!textEditValue.trim()} onclick={() => void applySelectedTokenText()}>Applica</button>
+        </div>
+      </div>
+    </div>
   {/if}
 </div>
 
@@ -1092,6 +1227,11 @@
     grid-template-columns: minmax(0, 1fr) 44px;
   }
 
+  .user-editor__writing--floating,
+  .user-editor__writing--floating.user-editor__writing--collapsed {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .user-assist {
     position: relative;
     display: flex;
@@ -1103,6 +1243,14 @@
     border: 1px solid var(--border, #d3d6e0);
     border-radius: 14px;
     background: #fff;
+  }
+
+  .user-assist--floating {
+    position: fixed;
+    z-index: 120;
+    height: min(78vh, 760px);
+    max-height: calc(100vh - 16px);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.24);
   }
 
   .user-assist__body {
@@ -1123,6 +1271,29 @@
   }
 
   .user-assist__head strong { font-size: 0.95rem; }
+  .user-assist__head .drag-handle { cursor: move; touch-action: none; }
+
+  .user-text-edit-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 160;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgba(15, 23, 42, 0.42);
+  }
+  .user-text-edit {
+    width: min(440px, 100%);
+    display: grid;
+    gap: 14px;
+    padding: 20px;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.28);
+  }
+  .user-text-edit h2 { margin: 0; font-size: 1.1rem; }
+  .user-text-edit label { display: grid; gap: 6px; }
+  .user-text-edit__actions { display: flex; justify-content: flex-end; gap: 8px; }
 
   .user-assist__resize {
     position: absolute;
@@ -1377,33 +1548,6 @@
   .user-word__media :global(img) {
     width: 26px;
     height: 26px;
-  }
-
-  .user-keyboard {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .user-keyboard__row {
-    display: flex;
-    gap: 4px;
-    justify-content: center;
-  }
-
-  .user-key {
-    min-width: 34px;
-    min-height: 36px;
-    border: 1px solid #cdd3df;
-    border-radius: 8px;
-    background: #f8fafc;
-    color: #16161a;
-    font-size: 0.9rem;
-    cursor: pointer;
-  }
-
-  .user-key--wide {
-    min-width: 76px;
   }
 
   @media (max-width: 980px) {

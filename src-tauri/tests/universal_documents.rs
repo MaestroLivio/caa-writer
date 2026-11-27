@@ -400,11 +400,12 @@ fn grid_cell_caa_sentence_survives_caadoc_roundtrip() {
         "caa": {
             "plain_text": "La bambina mangia una mela.",
             "tokens": [
-                { "surface": "bambina", "start": 3, "end": 10, "symbol_id": "arasaac-10" },
-                { "surface": "mela", "start": 22, "end": 26, "symbol_id": "arasaac-11" }
+                { "surface": "bambina", "start": 3, "end": 10, "symbol_id": "arasaac-10", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10 10\"><circle cx=\"5\" cy=\"5\" r=\"4\"/></svg>", "locked": true },
+                { "surface": "mela", "start": 22, "end": 26, "symbol_id": "arasaac-11", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10 10\"><rect x=\"1\" y=\"1\" width=\"8\" height=\"8\"/></svg>", "locked": true }
             ]
         }
     });
+    let before_svg = universal::render_page_svg(&document.render().unwrap().pages[0]);
 
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("cell-caa.caadoc");
@@ -414,4 +415,14 @@ fn grid_cell_caa_sentence_survives_caadoc_roundtrip() {
     let cell = &reopened.pages[0].elements[0].grid.as_ref().unwrap().cells[0];
     assert_eq!(cell.text, "La bambina mangia una mela.");
     assert_eq!(cell.metadata["caa"]["tokens"][1]["symbol_id"], "arasaac-11");
+    assert_eq!(
+        universal::render_page_svg(&reopened.render().unwrap().pages[0]),
+        before_svg,
+        "SVG di pagina invariato dopo salvataggio e riapertura"
+    );
+    let pdf = dir.path().join("cell-caa.pdf");
+    caa_writer_lib::export::universal_pdf::export_pdf(&reopened, &pdf).unwrap();
+    let pdf_bytes = std::fs::read(pdf).unwrap();
+    assert!(pdf_bytes.starts_with(b"%PDF-1.4"));
+    assert!(pdf_bytes.ends_with(b"%%EOF\n"));
 }

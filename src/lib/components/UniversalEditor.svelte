@@ -194,6 +194,9 @@
 
   let doc = $state<UniversalDocument>(clone(initial));
   let rendered = $state<RenderedDocument>(localRender(doc));
+  let pageSvgs = $state<string[]>([]);
+  let pageSvgTimer: number | undefined;
+  let pageSvgRequest = 0;
   /// SVG delle pagine prodotti dal renderer Rust: sono gli stessi fogli di
   /// stampa ed esportazione, quindi le miniature non mostrano più una
   /// approssimazione diversa dal risultato finale.
@@ -237,6 +240,24 @@
   let rulerStartMargin = 0;
   let snapGuides = $state<{ x: number | null; y: number | null }>({ x: null, y: null });
   let paginating = false;
+
+  /// Le miniature desktop usano lo stesso SVG di stampa/PDF. Il debounce
+  /// evita rendering ripetuti durante trascinamenti e modifiche ravvicinate.
+  function schedulePageSvgs(document: UniversalDocument, delay = 180) {
+    if (!isTauri()) return;
+    if (pageSvgTimer) window.clearTimeout(pageSvgTimer);
+    const request = ++pageSvgRequest;
+    const snapshot = clone(document);
+    pageSvgTimer = window.setTimeout(async () => {
+      pageSvgTimer = undefined;
+      try {
+        const svgs = await api.documentPageSvgs(snapshot);
+        if (request === pageSvgRequest) pageSvgs = svgs;
+      } catch {
+        // Il rendering locale resta disponibile come ripiego.
+      }
+    }, delay);
+  }
 
   let textEditor = $state<CaaEditor | undefined>(undefined);
   let textTokens = new Map<string, CaaToken[]>();
@@ -404,6 +425,10 @@
       const unique: CaaToken[] = [];
       for (const token of tokens.get(paragraph.pid) ?? []) {
         if ((!token.svg && !token.image) || !token.symbol_id || token.is_punct || token.hidden) continue;
+        if (
+          !(caa?.showExplicitSymbols ?? true) &&
+          isExplicitContent(token.surface, token.symbol_label, token.concept_label, token.meaning)
+        ) continue;
         if (!unique.some((item) => item.symbol_id === token.symbol_id)) unique.push(token);
       }
       const shown = unique.slice(0, 8);
@@ -456,6 +481,7 @@
     );
     doc.metadata = { ...metadata, text_pages: pages };
     rendered = localRender(doc);
+    schedulePageSvgs(doc);
     onDocumentChange?.(doc);
   }
 
@@ -771,6 +797,7 @@
   async function refresh(document: UniversalDocument) {
     doc = clone(document);
     rendered = localRender(doc);
+    schedulePageSvgs(doc, 0);
     if (isTauri()) {
       try {
         rendered = await api.documentRender(doc);
@@ -844,6 +871,7 @@
       redoStack = [];
       doc = result.document;
       rendered = result.rendered ?? localRender(result.document);
+      schedulePageSvgs(doc);
       onDocumentChange?.(doc);
       dirty = true;
       onDirtyChange?.(true);
@@ -930,6 +958,7 @@
     redoStack = [...redoStack, clone(doc)];
     doc = previous;
     rendered = localRender(doc);
+    schedulePageSvgs(doc);
     dirty = true;
     selectedId = null;
     selectedCellId = null;
@@ -942,6 +971,7 @@
     history = [...history, clone(doc)];
     doc = next;
     rendered = localRender(doc);
+    schedulePageSvgs(doc);
     dirty = true;
     selectedId = null;
     selectedCellId = null;
@@ -2148,7 +2178,13 @@
   onMount(() => {
     if (isTauri()) {
       void api.documentRender(doc).then((value) => { if (value) rendered = value; }).catch(() => {});
+      schedulePageSvgs(doc, 0);
     }
+  });
+
+  onDestroy(() => {
+    if (pageSvgTimer) window.clearTimeout(pageSvgTimer);
+    pageSvgRequest += 1;
   });
 
   async function printDocument() {
@@ -2941,6 +2977,9 @@
             class="thumb__paper"
             style={`aspect-ratio:${item.width_mm}/${item.height_mm};background:${item.background || "#ffffff"}`}
           >
+            {#if pageSvgs[item.index]}
+              <span class="thumb__svg">{@html pageSvgs[item.index]}</span>
+            {:else}
             {#each item.elements as element (element.id)}
               {#if element.visible}
                 <span
@@ -2981,6 +3020,7 @@
                 </span>
               {/if}
             {/each}
+            {/if}
           </span>
           <span class="thumb__title">{item.title}{item.is_home ? " · home" : ""}</span>
         </button>

@@ -4,6 +4,20 @@ Tutte le date sono in formato ISO (AAAA-MM-GG). Il progetto segue SemVer:
 `MAJOR` per cambi incompatibili del formato o delle preferenze, `MINOR` per
 funzionalità compatibili, `PATCH` per correzioni compatibili.
 
+## 0.16.5 — 2026-11-27
+
+### Correzioni editor, miniature e pittogrammi
+
+- Le miniature dell’editor universale usano il renderer SVG condiviso con
+  stampa/PDF e rispettano il filtro dei contenuti espliciti.
+- Nel menu contestuale dell’editor utente è possibile cambiare il testo
+  mantenendo il pittogramma, aprire le alternative e ascoltare la parola.
+- Il pannello Suggerimenti e comandi può essere trasformato in una palette
+  flottante trascinabile; posizione e larghezza sono ricordate per profilo.
+- Rimossa la tastiera flottante dall’editor utente.
+- I pittogrammi inseriti automaticamente come ripiego non vengono salvati come
+  override bloccati, così restano sostituibili e non si trascinano al testo nuovo.
+
 ## 0.16.4 — 2026-11-26
 
 ### Scelte manuali stabili e repertori esterni prioritari
