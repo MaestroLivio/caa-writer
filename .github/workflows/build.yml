@@ -162,6 +162,9 @@ jobs:
           java-version: "17"
 
       - uses: android-actions/setup-android@v3
+        with:
+          # Il pacchetto legacy "tools" non è più presente nei repository SDK.
+          packages: platform-tools
 
       - name: Installa NDK
         run: sdkmanager "ndk;27.0.12077973" > /dev/null
