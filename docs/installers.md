@@ -446,7 +446,7 @@ npm run tauri build -- --bundles deb,appimage
 Il job `ubuntu-22.04` è stato aggiunto al workflow, con le dipendenze di sistema; anche questo non è
 stato eseguito.
 
-### Android e ChromeOS (non eseguito)
+### Android e ChromeOS
 
 ChromeOS non ha un formato installer dedicato: le app Tauri girano come APK Android (ARC) o come
 applicazione Linux in Crostini. Non esiste un pacchetto «ChromeOS» separato e non va inventato.
@@ -460,9 +460,17 @@ Prerequisiti: JDK 17, Android SDK, NDK, target Rust `aarch64-linux-android`. Il 
 workflow è disponibile solo via `workflow_dispatch`. La prima esecuzione è stata bloccata dal
 pacchetto SDK legacy `tools`; la seconda ha inizializzato il progetto ma la compilazione Rust si è
 fermata perché `WebviewWindow::print()` non è disponibile su Android. È stato aggiunto un ramo
-Android che restituisce esplicitamente “stampa non disponibile su Android”; la nuova build va ancora
-verificata. L'APK, quando compilato, è di debug/non firmato: per la distribuzione serve una chiave
-di firma.
+Android che restituisce esplicitamente “stampa non disponibile su Android”.
+
+La build CI `45999020741` è terminata con successo. Ha prodotto
+[`app-universal-release-unsigned.apk`](https://github.com/MaestroLivio/caa-writer/actions/runs/45999020741)
+(61.189.386 byte; SHA-256
+`d32896c24dab6ab1a1dfe1a53cae876c8cfa6fd9a7e6286c153e354893e95cc9`).
+L'analisi dell'APK conferma package `org.caawriter.desktop`, versione `0.16.6`
+(version code `16006`). È un artefatto CI non firmato, non allegato alla release
+desktop e non ancora provato su dispositivo; per la distribuzione serve una chiave
+di firma. L'artefatto CI scade il 25 febbraio 2027. Su ChromeOS l'installazione
+richiede un dispositivo compatibile con ARC e il permesso di installare APK.
 
 ### Release GitHub (`release.yml`)
 
