@@ -1,5 +1,27 @@
 # Release e installer
 
+## Stato reale 0.16.6 (27 novembre 2026)
+
+La release GitHub [`v0.16.6`](https://github.com/MaestroLivio/caa-writer/releases/tag/v0.16.6)
+è pubblicata. Il workflow `45993268727` è terminato con successo: test Rust,
+frontend e report semantico su macOS, Windows e Linux; bundle Windows x64 e
+macOS arm64. La verifica automatica della firma ad-hoc macOS è riuscita.
+I pacchetti non sono firmati con certificato di distribuzione né notarizzati.
+La build Android/ChromeOS non è inclusa in questa release.
+
+Asset pubblicati (dimensioni e SHA-256 esposti da GitHub):
+
+| Asset | Byte | SHA-256 |
+|---|---:|---|
+| `CAA-Writer_0.16.6_macos-arm64.dmg` | 210.415.390 | `468e7da9f15c09abfb0eca105e054c1c83d0494e3d0dfc106c063403b35139c0` |
+| `CAA-Writer_0.16.6_macos-arm64.app.zip` | 204.268.729 | `732591afee15e2a6fd278eda5e735dd8103466051e79c7dc14babb9c6ba6ffd7` |
+| `CAA-Writer_0.16.6_windows-x64-setup.exe` | 159.669.696 | `669a71a641dfafcae6e9d0b7a5838664f5c912fe5e54d1ec57f1a718499bf47b` |
+| `CAA.Writer_0.16.6_x64_en-US.msi` | 209.025.874 | `3fac03d51563b29984120a28a08bef05b3c1c9772b92c1af632725953e8e02ef` |
+| `CAA.Writer_0.16.6_x64_it-IT.msi` | 209.027.995 | `72bd68eeb1df3ae41b22073fee58796ce484d9ddafea897d31cc99c9b4ad27aa` |
+
+La release include anche `SHA256SUMS-macos-arm64.txt` e
+`SHA256SUMS-windows-x64.txt`.
+
 ## Stato reale 0.16.5 (27 novembre 2026)
 
 La release GitHub [`v0.16.5`](https://github.com/MaestroLivio/caa-writer/releases/tag/v0.16.5)
